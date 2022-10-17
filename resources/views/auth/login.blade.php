@@ -14,15 +14,18 @@
     <link rel="stylesheet" href="{{ asset('assets') }}/plugins/datatables-bs4/css/dataTables.bootstrap4.css">
     <!-- Main css -->
     <link rel="stylesheet" href="{{ asset('templates') }}/css/style.css">
+    {{-- Toastr --}}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css" integrity="sha512-3pIirOrwegjM6erE5gPSwkUzO+3cTjpnV9lexlNZqvupR64iZBnOOTiiLPb9M36zpMScbmUNIcHUqKD47M719g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
 </head>
 <body>
-    @if(session('success'))
+    {{-- @if(session('success'))
         <div class="alert alert-success" role="alert" id="success-alert">
             {{ session('success') }}
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </div>
-    @endif
+    @endif --}}
 
     <div class="main">
         <!-- Sing in  Form -->
@@ -67,5 +70,17 @@
     <script src="{{ asset('assets') }}/plugins/datatables/jquery.dataTables.js"></script>
     <script src="{{ asset('assets') }}/plugins/datatables-bs4/js/dataTables.bootstrap4.js"></script>
     <script src="{{ asset('js') }}/sweetalert2.all.min.js"></script>
+    {{-- Toastr --}}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+    <script>
+        @if(session()->has('success'))
+            toastr.success('{{ session('success') }}', 'TERIMA KASIH!'); 
+
+        @elseif(session()->has('error'))
+
+            toastr.error('{{ session('error') }}', 'GAGAL!'); 
+        @endif
+    </script>
 </body><!-- This templates was made by Colorlib (https://colorlib.com) -->
 </html>
