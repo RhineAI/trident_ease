@@ -14,11 +14,16 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('penjualan', function (Blueprint $table) {
+        Schema::create('t_transaksi_penjualan', function (Blueprint $table) {
             $table->integer('id')->autoIncrement();
             $table->date('tgl');
             $table->integer('id_pelanggan');
+            $table->integer('total_harga');
+            $table->float('diskon')->default(0);
+            $table->integer('total_bayar');
+            $table->integer('kembalian');
             $table->integer('id_user');
+            $table->foreign('id_pelanggan')->references('id')->on('t_pelanggan')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('id_user')->references('id')->on('t_users')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
@@ -32,6 +37,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('penjualan');
+        Schema::dropIfExists('t_transaksi_penjualan');
     }
 };

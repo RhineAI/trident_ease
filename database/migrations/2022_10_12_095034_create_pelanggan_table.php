@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('nama', 50);
             $table->text('alamat');
             $table->string('tlp', 50);
+            $table->enum('jenis_kelamin', ['L', 'P', 'Other']);
             $table->integer('id_perusahaan');
             $table->foreign('id_perusahaan')->references('id')->on('t_perusahaan')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
