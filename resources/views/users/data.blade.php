@@ -18,7 +18,7 @@
                 <td>{{ $item->tlp }}</td>
                 <td>{{ $item->hak_akses }}</td>
                 <td>
-                    <button class="btn" type="button" style="color: green;" title="Edit" data-mode="edit" data-toggle="modal" data-target="#formModalPegawai" data-id_pegawai="{{ $item->id }}" data-nama="{{ $item->nama }}" data-alamat="{{ $item->alamat }}" data-tlp="{{ $item->tlp }}" data-username="{{ $item->username }}" data-password="{{ $item->password }}">
+                    <button class="btn" type="button" style="color: green;" title="Edit" data-mode="edit" data-toggle="modal" data-target="#formModalPegawai" data-id_pegawai="{{ $item->id }}" data-nama="{{ $item->nama }}" data-alamat="{{ $item->alamat }}" data-tlp="{{ $item->tlp }}" data-jenis_kelamin="{{ $item->jenis_kelamin }}" data-hak_akses="{{ $item->hak_akses }}" data-username="{{ $item->username }}" data-password="{{ $item->password }}">
                         <i class="fas fa-edit"></i>
                     </button>
                     <form action="{{ route('users.destroy', $item->id) }}" style="display: inline;" method="post">

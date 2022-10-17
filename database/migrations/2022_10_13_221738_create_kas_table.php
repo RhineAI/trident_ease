@@ -14,9 +14,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('kas_masuk', function (Blueprint $table) {
+        Schema::create('t_kas_keluar', function (Blueprint $table) {
             $table->integer('id')->autoIncrement();
             $table->date('tgl');
+            $table->text('keperluan');
             $table->double('jumlah');
             $table->integer('id_user');
             $table->foreign('id_user')->references('id')->on('t_users')->onDelete('cascade')->onUpdate('cascade');
@@ -24,10 +25,9 @@ return new class extends Migration
             $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
         });
 
-        Schema::create('kas_keluar', function (Blueprint $table) {
+        Schema::create('t_kas_masuk', function (Blueprint $table) {
             $table->integer('id')->autoIncrement();
             $table->date('tgl');
-            $table->text('keperluan');
             $table->double('jumlah');
             $table->integer('id_user');
             $table->foreign('id_user')->references('id')->on('t_users')->onDelete('cascade')->onUpdate('cascade');

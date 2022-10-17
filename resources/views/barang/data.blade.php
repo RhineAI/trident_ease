@@ -5,8 +5,6 @@
             <td>Kode Barang</td>
             <td>Nama Barang</td>
             <td>Barcode Barang</td>
-            <td>Tebal Barang</td>
-            <td>Panjang Barang</td>
             <td>Kategori Barang</td>
             <td>Supplier</td>
             <td>Satuan</td>
@@ -28,8 +26,6 @@
                 <td>{{ $item->kode }}</td>
                 <td>{{ $item->nama }}</td>
                 <td>{{ $item->barcode }}</td>
-                <td>{{ $item->tebal }}</td>
-                <td>{{ $item->panjang }}</td>
                 <td>{{ $item->nama_kategori }}</td>
                 <td>{{ $item->nama_supplier }}</td>
                 <td>{{ $item->nama_satuan }}</td>

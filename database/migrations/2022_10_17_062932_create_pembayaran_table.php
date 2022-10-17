@@ -14,18 +14,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('t_users', function (Blueprint $table) {
+        Schema::create('t_pembayaran', function (Blueprint $table) {
             $table->integer('id')->autoIncrement();
-            $table->string('nama', 50);
-            $table->text('alamat')->nullable();
-            $table->string('tlp', 20);
-            $table->enum('jenis_kelamin', ['L', 'P', 'Other']);
-            $table->string('username', 100);
-            $table->string('password');
-            $table->enum('hak_akses', ['admin', 'kasir']);
-            $table->integer('id_perusahaan');
-            $table->foreign('id_perusahaan')->references('id')->on('t_perusahaan')->onDelete('cascade')->onUpdate('cascade');
-            $table->rememberToken();
+            $table->integer('id_penjualan');
+            $table->date('tgl');
+            $table->double('total_bayar');
+            $table->integer('id_user');
+            $table->foreign('id_penjualan')->references('id')->on('t_transaksi_penjualan')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('id_user')->references('id')->on('t_users')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
         });
@@ -38,6 +34,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('t_users');
+        Schema::dropIfExists('pembayarans');
     }
 };
