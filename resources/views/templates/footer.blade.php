@@ -10,7 +10,6 @@
     <!-- Control sidebar content goes here -->
   </aside>
   <!-- /.control-sidebar -->
-</div>
 <!-- ./wrapper -->
 
 <!-- jQuery -->
@@ -21,6 +20,21 @@
 <script src="{{ asset('assets') }}/plugins/datatables/jquery.dataTables.js"></script>
 <script src="{{ asset('assets') }}/plugins/datatables-bs4/js/dataTables.bootstrap4.js"></script>
 <script src="{{ asset('js') }}/sweetalert2.all.min.js"></script>
+
+{{-- Toastr --}}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+
+<script src="{{ asset('assets') }}/vendor/chart.js/Chart.min.js"></script>
+<script src="{{ asset('assets') }}/js/chart-area-demo.js"></script> 
+
+<script>
+  @if(session()->has('success'))
+      toastr.success('{{ session('success') }}', 'TERIMA KASIH!'); 
+
+      @elseif(session()->has('error'))
+
+      toastr.error('{{ session('error') }}', 'GAGAL!'); 
+  @endif
+</script>
 @stack('scripts')
-</body>
-</html>

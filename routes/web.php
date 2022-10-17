@@ -23,26 +23,26 @@ Route::middleware('auth')->group(function(){
 
         Route::resource('/barang', BarangController::class);
         Route::get('/barang-tambah', [BarangController::class, 'index2'])->name('barang2');
-        Route::post('/barang-tambah', [BarangController::class, 'store'])->name('barang2');
+        Route::post('/barang-tambah', [BarangController::class, 'store']);
 
         Route::resource('/supplier', SupplierController::class);
         Route::get('/supplier-tambah', [SupplierController::class, 'index2'])->name('supplier2');
-        Route::post('/supplier-tambah', [SupplierController::class, 'store'])->name('supplier2');
+        Route::post('/supplier-tambah', [SupplierController::class, 'store']);
 
         Route::resource('/pelanggan', PelangganController::class);
         Route::get('/pelanggan-tambah', [PelangganController::class, 'index2'])->name('pelanggan2');
-        Route::post('/pelanggan-tambah', [PelangganController::class, 'store'])->name('pelanggan2');
+        Route::post('/pelanggan-tambah', [PelangganController::class, 'store']);
 
         Route::resource('/users', UsersController::class);
         Route::get('/users-tambah', [UsersController::class, 'index2'])->name('pegawai2');
-        Route::post('/users-tambah', [UsersController::class, 'store'])->name('pegawai2');
+        Route::post('/users-tambah', [UsersController::class, 'store']);
         Route::get('/profile', [UsersController::class, 'profile'])->name('profile');
         Route::post('/profile', [UsersController::class, 'profileUpdate']);
         Route::get('/changePW', [UsersController::class, 'changePW'])->name('changePW');
         Route::post('/changePW', [UsersController::class, 'changePWUpdate']);
 
         Route::get('/keuntungan', [KeuntunganController::class, 'index'])->name('keuntungan');
-        Route::post('/keuntungan', [KeuntunganController::class, 'store'])->name('keuntungan');
+        Route::post('/keuntungan', [KeuntunganController::class, 'store']);
 
         Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
     
