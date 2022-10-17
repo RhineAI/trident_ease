@@ -76,8 +76,6 @@ return new class extends Migration
             $table->string('kode', 50);
             $table->string('nama', 50);
             $table->string('barcode', 50);
-            $table->string('tebal', 50);
-            $table->string('panjang', 50);
             $table->integer('id_kategori');
             $table->integer('id_supplier');
             $table->integer('id_satuan');

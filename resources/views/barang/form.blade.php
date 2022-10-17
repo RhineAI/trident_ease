@@ -30,18 +30,6 @@
                     <input type="text" class="form-control" id="barcode" placeholder="Barcode Barang" name="barcode">
                 </div>
             </div>
-            <div class="form-group row">
-                <div class="form-group" style="width: 95%; margin: auto;">
-                    <label for="tebal">Tebal Barang</label>
-                    <input type="text" class="form-control" id="tebal" placeholder="Tebal Barang" name="tebal">
-                </div>
-            </div>
-            <div class="form-group row">
-                <div class="form-group" style="width: 95%; margin: auto;">
-                    <label for="panjang">Panjang Barang</label>
-                    <input type="text" class="form-control" id="panjang" placeholder="Panjang Barang" name="panjang">
-                </div>
-            </div>
             <div class="form-group" style="width: 97%; margin: 5 auto;">
                 <label for="id_kategori">Kategori Barang</label>
                 <select class="form-control" name="id_kategori" id="id_kategori">
