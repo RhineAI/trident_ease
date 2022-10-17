@@ -1,33 +1,19 @@
-
-
-
 @extends('templates.layout')
+
+@section('title')
+    Satuan | {{ $cPerusahaan->nama }}
+@endsection
+
+@section('breadcrumb')
+@parent
+    Satuan
+@endsection
 
 @push('styles')
     
 @endpush
 
-@section('title')
-  <title>Satuan Page | {{ $cPerusahaan->nama }}</title>
-@endsection
-
 @section('contents')
-    <!-- Content Header (Page header) -->
-    <section class="content-header">
-        <div class="container-fluid">
-          <div class="row mb-2">
-            <div class="col-sm-6">
-              <h1>Satuan Page</h1>
-            </div>
-            <div class="col-sm-6">
-              <ol class="breadcrumb float-sm-right">
-                <li class="breadcrumb-item"><a href="{{ url('/') }}">Home</a></li>
-                <li class="breadcrumb-item active">Satuan Page</li>
-              </ol>
-            </div>
-          </div>
-        </div><!-- /.container-fluid -->
-      </section>
   
       <!-- Main content -->
       <section class="content">
@@ -47,7 +33,7 @@
             </div>
           </div>
           <div class="card-body">
-                <!-- Button trigger modal -->
+                {{-- <!-- Button trigger modal -->
                 @if(session('success'))
                     <div class="alert alert-success" role="alert" id="success-alert">
                     {{ session('success') }}
@@ -61,7 +47,7 @@
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                     </div>
-                @endif
+                @endif --}}
                 @if($errors->any())
                     <div class="alert alert-danger alert-dismissible fade show" role="alert">
                         <ul>

@@ -39,7 +39,8 @@ class MerekController extends Controller
     public function store(Request $request)
     {
         $input = Merek::create($request->all());
-        return redirect('/merek')->with('success', 'Input data Merek berhasil!');
+        // return redirect('/merek')->with('success', 'Input data Merek berhasil!');
+        return redirect()->route('merek.index')->with(['success' => 'Input data Merek berhasil!']);
     }
 
     /**
@@ -74,7 +75,9 @@ class MerekController extends Controller
     public function update(Request $request, Merek $merek)
     {
         $merek->update($request->all());
-        return redirect('/merek')->with('success', 'Update Data berhasil');
+        // return redirect('/merek')->with('success', 'Update Data berhasil');
+        return redirect()->route('merek.index')->with(['success' => 'Update data Merek berhasil!']);
+
     }
 
     /**
@@ -86,6 +89,7 @@ class MerekController extends Controller
     public function destroy(Merek $merek)
     {
         $merek->delete();
-        return redirect('/merek')->with('delete', 'Delete Data berhasil');
+        // return redirect('/merek')->with('delete', 'Delete Data berhasil');
+        return redirect()->route('merek.index')->with(['success' => 'Delete data Merek berhasil!']);
     }
 }

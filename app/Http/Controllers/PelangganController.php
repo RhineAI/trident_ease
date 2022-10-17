@@ -50,7 +50,8 @@ class PelangganController extends Controller
     public function store(StorePelangganRequest $request)
     {
         $input = Pelanggan::create($request->all());
-        return redirect('/pelanggan')->with('success', 'Input data Supplier berhasil!');
+        // return redirect('/pelanggan')->with('success', 'Input data Supplier berhasil!');
+        return redirect()->route('pelanggan.index')->with(['success' => 'Input data Supplier berhasil!']);
     }
 
     /**
@@ -85,7 +86,8 @@ class PelangganController extends Controller
     public function update(UpdatePelangganRequest $request, Pelanggan $pelanggan)
     {
         $pelanggan->update($request->all());
-        return redirect('/pelanggan')->with('success', 'Update Data berhasil');
+        // return redirect('/pelanggan')->with('success', 'Update Data berhasil');
+        return redirect()->route('pelanggan.index')->with(['success' => 'Update data Supplier berhasil!']);
     }
 
     /**
@@ -97,6 +99,7 @@ class PelangganController extends Controller
     public function destroy(Pelanggan $pelanggan)
     {
         $pelanggan->delete();
-        return redirect('/pelanggan')->with('delete', 'Delete Data berhasil');
+        // return redirect('/pelanggan')->with('delete', 'Delete Data berhasil');
+        return redirect()->route('pelanggan.index')->with(['success' => 'Delete data Supplier berhasil!']);
     }
 }
