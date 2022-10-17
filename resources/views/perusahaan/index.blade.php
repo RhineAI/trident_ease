@@ -1,7 +1,11 @@
 @extends('templates.layout')
 
 @section('title')
-    Perusahaan | {{ $cPerusahaan->nama }}
+    <title>Perusahaan | {{ $cPerusahaan->nama }}</title>
+@endsection
+
+@section('page')
+    Perusahaan
 @endsection
 
 @section('breadcrumb')

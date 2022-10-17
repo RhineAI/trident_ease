@@ -39,7 +39,7 @@ Route::middleware('auth')->group(function(){
         Route::get('/profile', [UsersController::class, 'profile'])->name('profile');
         Route::post('/profile', [UsersController::class, 'profileUpdate']);
         Route::get('/changePW', [UsersController::class, 'changePW'])->name('changePW');
-        Route::post('/changePW', [UsersController::class, 'changePWUpdate']);
+        Route::post('/changePW', [UsersController::class, 'chawngePWUpdate']);
 
         Route::get('/keuntungan', [KeuntunganController::class, 'index'])->name('keuntungan');
         Route::post('/keuntungan', [KeuntunganController::class, 'store']);
@@ -51,4 +51,6 @@ Route::middleware('auth')->group(function(){
 Route::middleware('guest')->group(function(){
     Route::get('/login', [LoginController::class, 'index'])->name('login');
     Route::post('/login', [LoginController::class, 'login']);
+    Route::get('/register', [LoginController::class, 'reg'])->name('reg');
+    Route::post('/register', [LoginController::class, 'register'])->name('register');
 });

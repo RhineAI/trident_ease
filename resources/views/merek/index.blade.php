@@ -4,7 +4,11 @@
 @extends('templates.layout')
 
 @section('title')
-    Merek | {{ $cPerusahaan->nama }}
+    <title>Merek | {{ $cPerusahaan->nama }}</title>
+@endsection
+
+@section('page')
+    Merek
 @endsection
 
 @section('breadcrumb')

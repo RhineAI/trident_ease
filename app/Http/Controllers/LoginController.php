@@ -37,4 +37,14 @@ class LoginController extends Controller
 
         return redirect('/login')->with('success', 'Logout Berhasil');
    }
+
+
+    // Register
+    public function reg() {
+        return view('login.register');
+    }
+
+    public function register(Request $request) {
+        
+    }
 }
