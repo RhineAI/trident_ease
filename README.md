@@ -1,0 +1,3 @@
+# 12 - 13 Oktober : Membuat tampilan aplikasi pos dengan template admin lte 3, dan membuat beberapa migrasi dari tabel yang akan dibutuhkan, dan membuat crud kategori, satuan, merek, barang, dan juga supplier, mengubah tema menjadi biru, dan merapihkan tampilan form
+# 14 - 15 Oktober : Membuat crud pelanggan, Membuat crud pegawai (belum sepenuhnya beres), fitur login dan menampilkan nama user yang sedang online serta nama perusahaan dari user yang login, set perusahaan (belum sepenuhnya beres masih ada error)
+# Untuk menjalankan aplikasi : https://stackoverflow.com/questions/38437072/setup-laravel-project-after-cloning
