@@ -93,6 +93,8 @@
             const nama = btn.data('nama')
             const alamat = btn.data('alamat')
             const tlp = btn.data('tlp')
+            const hak_akses = btn.data('hak_akses')
+            const jenis_kelamin = btn.data('jenis_kelamin')
             const username = btn.data('username')
             const password = btn.data('password')
             const mode = btn.data('mode')
@@ -103,6 +105,8 @@
                 modal.find('.modal-body #nama').val(nama)
                 modal.find('.modal-body #alamat').val(alamat)
                 modal.find('.modal-body #tlp').val(tlp)
+                modal.find('.modal-body #hak_akses').val(hak_akses)
+                modal.find('.modal-body #jenis_kelamin').val(jenis_kelamin)
                 modal.find('.modal-body #username').val(username)
                 modal.find('.modal-body #password').val(password)
                 document.getElementById('hpsUsername').style.display = "none"

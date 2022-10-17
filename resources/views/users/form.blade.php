@@ -30,6 +30,17 @@
                     <input type="text" class="form-control" id="tlp" placeholder="Telepon" name="tlp">
                 </div>
             </div>
+            <div class="form-group row">
+                <div class="form-group" style="width: 95%; margin: auto;">
+                    <label for="jenis_kelamin">Jenis Kelamin</label>
+                    <select class="form-control" name="jenis_kelamin" id="jenis_kelamin">
+                        <option value="" disabled="disabled" selected="true">Pilih Jenis Kelamin</option>
+                        <option value="L">Laki-Laki</option>
+                        <option value="P">Perempuan</option>
+                        <option value="Other">Lainnya</option>
+                    </select>
+                </div>
+            </div>
             <div class="form-group row" id="hpsUsername">
                 <div class="form-group" style="width: 95%; margin: auto;">
                     <label for="username">Username</label>
@@ -56,17 +67,6 @@
                         <option value="admin">Administrator</option>
                         <option value="kasir">Kasir</option>
                         {{-- <option value="owner">Owner</option> --}}
-                    </select>
-                </div>
-            </div>
-            <div class="form-group row">
-                <div class="form-group" style="width: 95%; margin: auto;">
-                    <label for="jenis_kelamin">Jenis Kelamin</label>
-                    <select class="form-control" name="jenis_kelamin" id="jenis_kelamin">
-                        <option value="" disabled="disabled" selected="true">Pilih Jenis Kelamin</option>
-                        <option value="L">Laki-Laki</option>
-                        <option value="P">Perempuan</option>
-                        <option value="Other">Lainnya</option>
                     </select>
                 </div>
             </div>

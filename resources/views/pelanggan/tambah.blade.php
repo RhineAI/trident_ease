@@ -66,6 +66,17 @@
                         <input type="text" class="form-control" id="tlp" placeholder="Telepon" name="tlp">
                     </div>
                 </div>
+                <div class="form-group row">
+                    <div class="form-group" style="width: 95%; margin: auto;">
+                        <label for="jenis_kelamin">Jenis Kelamin</label>
+                        <select class="form-control" name="jenis_kelamin" id="jenis_kelamin">
+                            <option value="" disabled="disabled" selected="true">Pilih Jenis Kelamin</option>
+                            <option value="L">Laki-Laki</option>
+                            <option value="P">Perempuan</option>
+                            <option value="Other">Lainnya</option>
+                        </select>
+                    </div>
+                </div>
                 <input type="text" name="id_perusahaan" value="{{ $cPerusahaan->id }}" style="display: none;">
                 <button type="submit" class="btn btn-primary" id="btn-submit" style="margin-left: 0.25rem;">Simpan Data</button>
             </form>
