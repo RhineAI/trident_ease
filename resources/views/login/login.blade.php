@@ -7,7 +7,7 @@
     <title>Login | Aplikasi POS</title>
 
     <!-- Font Icon -->
-    <link rel="stylesheet" href="fonts/material-icon/css/material-design-iconic-font.min.css">
+    <link rel="stylesheet" href="{{ asset('templates') }}/fonts/material-icon/css/material-design-iconic-font.min.css">
     <link rel="stylesheet" href="{{ asset('assets') }}/plugins/fontawesome-free/css/all.min.css">
     <!-- Theme style -->
     <link rel="stylesheet" href="{{ asset('assets') }}/dist/css/adminlte.min.css">
@@ -31,7 +31,7 @@
                 <div class="signin-content">
                     <div class="signin-image">
                         <figure><img src="{{ asset('templates') }}/images/signin-image.jpg" alt="sing up image"></figure>
-                        <a href="#" class="signup-image-link">Create an account</a>
+                        <a href="{{ route('reg') }}" class="signup-image-link">Create an account</a>
                     </div>
 
                     <div class="signin-form">
