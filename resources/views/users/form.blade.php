@@ -21,7 +21,7 @@
             <div class="form-group row">
                 <div class="form-group" style="width: 95%; margin: auto;">
                     <label for="alamat">Alamat Pegawai</label>
-                    <textarea class="form-control" name="alamat" id="alamat" cols="30" rows="10"></textarea>
+                    <textarea class="form-control" name="alamat" id="alamat" cols="10" rows="4"></textarea>
                 </div>
             </div>
             <div class="form-group row">

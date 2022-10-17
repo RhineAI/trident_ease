@@ -33,7 +33,7 @@
             </div>
           </div>
           <div class="card-body">
-                <!-- Button trigger modal -->
+                {{-- <!-- Button trigger modal -->
                 @if(session('success'))
                     <div class="alert alert-success" role="alert" id="success-alert">
                     {{ session('success') }}
@@ -47,7 +47,7 @@
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                     </div>
-                @endif
+                @endif --}}
                 @if($errors->any())
                     <div class="alert alert-danger alert-dismissible fade show" role="alert">
                         <ul>

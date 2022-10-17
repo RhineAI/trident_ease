@@ -39,7 +39,8 @@ class SatuanController extends Controller
     public function store(Request $request)
     {
         $input = Satuan::create($request->all());
-        return redirect('/satuan')->with('success', 'Input data Satuan berhasil!');
+        // return redirect('/satuan')->with('success', 'Input data Satuan berhasil!');
+        return redirect()->route('satuan.index')->with(['success' => 'Input data Satuan berhasil!']);
     }
 
     /**
@@ -74,7 +75,8 @@ class SatuanController extends Controller
     public function update(Request $request, Satuan $satuan)
     {
         $satuan->update($request->all());
-        return redirect('/satuan')->with('success', 'Update Data berhasil');
+        // return redirect('/satuan')->with('success', 'Update Data berhasil');
+        return redirect()->route('satuan.index')->with(['success' => 'Update data Satuan berhasil!']);
     }
 
     /**
@@ -86,6 +88,7 @@ class SatuanController extends Controller
     public function destroy(Satuan $satuan)
     {
         $satuan->delete();
-        return redirect('/satuan')->with('delete', 'Delete Data berhasil');
+        // return redirect('/satuan')->with('delete', 'Delete Data berhasil');
+        return redirect()->route('satuan.index')->with(['success' => 'Delete data Satuan berhasil!']);
     }
 }

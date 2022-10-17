@@ -39,7 +39,8 @@ class KategoriController extends Controller
     public function store(Request $request)
     {
         $input = Kategori::create($request->all());
-        return redirect('/kategori')->with('success', 'Input data Kategori berhasil!');
+        // return redirect('/kategori')->with('success', 'Input data Kategori berhasil!');
+        return redirect()->route('kategori.index')->with(['success' => 'Input data Kategori berhasil!']);
     }
 
     /**
@@ -74,7 +75,8 @@ class KategoriController extends Controller
     public function update(Request $request, Kategori $kategori)
     {
         $kategori->update($request->all());
-        return redirect('/kategori')->with('success', 'Update Data berhasil');
+        // return redirect('/kategori')->with('success', 'Update Data berhasil');
+        return redirect()->route('kategori.index')->with(['success' => 'Update data Kategori berhasil!']);
     }
 
     /**
@@ -86,6 +88,7 @@ class KategoriController extends Controller
     public function destroy(Kategori $kategori)
     {
         $kategori->delete();
-        return redirect('/kategori')->with('delete', 'Delete Data berhasil');
+        // return redirect('/kategori')->with('delete', 'Delete Data berhasil');
+        return redirect()->route('kategori.index')->with(['success' => 'Delete data Kategori berhasil!']);
     }
 }
