@@ -71,31 +71,35 @@
                             <form class="form-supplier">
                                 @csrf
                                 <div class="form-group row">
-                                    <label for="kode_supplier" class="col-lg-2">Tambah Supplier</label>
+                                    <label for="nama" class="col-lg-2">Supplier</label>
                                     <div class="col-lg-3">
                                         <div class="input-group">
-                                            <input type="hidden" name="id_pembelian" id="id_pembelian">
-                                            <input type="hidden" name="id_Supplier" id="id_supplier">
-                                            <input type="hidden" class="form-control" name="kode_Supplier" id="kode_supplier">
-                                            <input type="text" name="barcode" id="barcode" class="form-control" required autofocus readonly>
+                                            <input type="hidden" name="id_supplier" id="id_supplier">
+                                            <input type="text" name="nama" id="nama" class="form-control" required autofocus readonly>
                                             <span class="input-group-btn tampil-Supplier">
-                                                <button onclick="tambahSupplier()" class="btn btn-info btn-flat" type="button"><i class="fa fa-arrow-right"></i></button>
                                                 <button onclick="tampilSupplier()" class="btn btn-info btn-flat" type="button"><i class="fa-solid fa-magnifying-glass"></i></i></button>
                                             </span>
                                         </div>
                                     </div>
                                 </div>
+                                <div class="form-group row">
+                                    <label for="kode_supplier" class="col-lg-2">Telepon Supplier</label>
+                                    <div class="col-lg-3">
+                                        <div class="input-group">
+                                            <input type="hidden" name="id_Supplier" id="id_supplier">
+                                            <input type="text" name="tlp" id="tlp" class="form-control" required  readonly>
+                                        </div>
+                                    </div>
+                                </div>
                             </form>
-
+                            <br>
                             <form class="form-produk">
                                 @csrf
                                 <div class="form-group row">
-                                    <label for="kode_produk" class="col-lg-2">Tambah Produk</label>
+                                    <label for="kode_produk" class="col-lg-2">Produk</label>
                                     <div class="col-lg-3">
                                         <div class="input-group">
-                                            <input type="hidden" name="id_pembelian" id="id_pembelian">
                                             <input type="hidden" name="id_produk" id="id_produk">
-                                            <input type="hidden" class="form-control" name="kode_produk" id="kode_produk">
                                             <input type="text" name="barcode" id="barcode" class="form-control" required autofocus readonly>
                                             <span class="input-group-btn tampil-produk">
                                                 <button onclick="tambahProduk()" class="btn btn-info btn-flat" type="button"><i class="fa fa-arrow-right"></i></button>
@@ -141,7 +145,7 @@
                                         <div class="form-group row ">
                                             <label for="diskon" class="control-label col-lg-3">Diskon</label>
                                             <div class="col-lg-3">
-                                                    <input type="number" name="diskon" id="diskon" class="form-control" placeholder="" value="0" aria-label="Recipient's username" aria-describedby="basic-addon2">
+                                                    <input type="number" name="diskon" id="diskon" class="form-control" placeholder="" value="0" min="0" max="100" aria-label="Recipient's username" aria-describedby="basic-addon2">
                                             </div>
                                             <span class="input-group-text" id="basic-addon2">%</span>
                                         </div>
@@ -184,84 +188,186 @@
         <!-- /.card -->
   
       </section>
+      @include('pembelian.formSupplier')
+      @include('pembelian.formBarang')
       <!-- /.content -->
 @endsection
 
 @push('scripts')
-    <script>
-        $('#tbl-data-barang').DataTable({
-          scrollX: true,
-        });
-    </script>
-    <script>
-        $(document).ready(function(){
-          $('#formModalBarang').on("show.bs.modal", function(e){
-            const btn = $(e.relatedTarget)
-            const id_barang = btn.data('id_barang')
-            const kode = btn.data('kode')
-            const nama_barang = btn.data('nama_barang')
-            const barcode = btn.data('barcode')
-            const id_kategori = btn.data('id_kategori')
-            const id_supplier = btn.data('id_supplier')
-            const id_satuan = btn.data('id_satuan')
-            const id_merek = btn.data('id_merek')
-            const id_perusahaan = btn.data('id_perusahaan')
-            const stock = btn.data('stock')
-            const stock_minimal = btn.data('stock_minimal')
-            const harga_beli = btn.data('harga_beli')
-            const keuntungan = btn.data('keuntungan')
-            const keterangan = btn.data('keterangan')
-            const status = btn.data('status')
-            const mode = btn.data('mode')
-            const modal = $(this)
-        
-            if(mode === 'edit'){
-                modal.find('#modal-title').text("Edit Data barang")
-                modal.find('.modal-body #kode').val(kode)
-                modal.find('.modal-body #nama').val(nama_barang)
-                modal.find('.modal-body #barcode').val(barcode)
-                modal.find('.modal-body #id_kategori').val(id_kategori)
-                modal.find('.modal-body #id_supplier').val(id_supplier)
-                modal.find('.modal-body #id_satuan').val(id_satuan)
-                modal.find('.modal-body #id_merek').val(id_merek)
-                modal.find('.modal-body #id_perusahaan').val(id_perusahaan)
-                modal.find('.modal-body #stock').val(stock)
-                modal.find('.modal-body #stock_minimal').val(stock_minimal)
-                modal.find('.modal-body #harga_beli').val(harga_beli)
-                modal.find('.modal-body #keuntungan').val(keuntungan)
-                modal.find('.modal-body #keterangan').val(keterangan)
-                modal.find('.modal-body #status').val(status)
-                modal.find('.modal-footer #btn-submit').text('Update')
-                modal.find('.modal-body form').attr('action', '/barang/' + id_barang)
-                modal.find('.modal-body #method').html('{{ method_field('PATCH') }}')
-            } else {
-                modal.find('#modal-title').text("Tambah Data barang")
-                modal.find('.modal-body #id_barang').val('')
-                modal.find('.modal-body #nama_barang').val('')
-                modal.find('.modal-footer #btn-submit').text('Submit')
-                modal.find('.modal-body #method').html('')
-            }
-          });
-        });
-      </script>
-      <script>
-          $('.delete-data').on('click', function(e){
-            e.preventDefault();
-            Swal.fire({
-            title: 'Apakah Kamu Yakin Menghapus Data Ini?',
-            text: "Data tidak akan bisa dikembalikan!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Ya, Hapus data ini!'
-            }).then((result) => {
-            if (result.isConfirmed) {
-                $(e.target).closest('form').submit()
-            } else {
-                swal.close()
-            }
+<script>
+    $('.tbl-data-supplier').DataTable();
+    
+    function tampilSupplier() {
+        $('#formModalSupplier').modal('show');
+    }
+
+    function pilihSupplier(id_supplier, nama, tlp) {
+        $('#id_supplier').val(id_supplier);
+        $('#nama').val(nama);
+        $('#tlp').val(tlp);
+        hideSupplier();
+    }
+
+    function hideSupplier() {
+        $('#formModalSupplier').modal('hide');
+    }
+</script>
+<script>
+    $('.tbl-data-barang-pembelian').DataTable();
+    
+    function tampilProduk() {
+        $('#formModalBarangPembelian').modal('show');
+    }
+
+    function pilihProduk(id_produk, barcode) {
+        $('#id_produk').val(id_produk);
+        $('#barcode').val(barcode);
+        hideProduk();
+    }
+
+    function tambahProduk() {
+        $.post('{{ route('pembelian.store') }}', $('.form-produk').serialize())
+            .done(response => {
+                $('#barcode').focus();
+                table.ajax.reload(() => loadForm($('#diskon').val()));
+                $('#barcode').val('');
             })
-          });
-      </script>
+            .fail(errors => {
+                Swal.fire({
+                    title: 'Gagal!',
+                    text: 'Input Produk terlebih dahulu!',
+                    icon: 'warning',
+                    iconColor:'#DC3545',
+                    confirmButtonText: 'Oke',
+                    confirmButtonColor: '#DC3545'
+                })
+                return;
+            });
+    }
+
+    function hideProduk() {
+        $('#formModalBarangPembelian').modal('hide');
+    }
+</script>
+<script>
+    $(function () {
+        $('body').addClass('sidebar-collapse');
+
+        table = $('.table-pembelian').DataTable({
+            responsive: true,
+            processing: true,
+            serverSide: true,
+            autoWidth: false,
+            ajax: {
+                url: '{{ route('pembelian.data', $id_pembelian) }}',
+            },
+            columns: [
+                {data: 'DT_RowIndex', searchable: false, sortable: false},
+                {data: 'barcode'},
+                {data: 'nama_produk'},
+                {data: 'harga_beli'},
+                {data: 'jumlah'},
+                {data: 'subtotal'},
+                {data: 'aksi', searchable: false, sortable: false},
+            ],
+            bSort: false,
+            paginate: false,
+            paginate: false,
+            searching: false,
+            info: false
+        })
+        .on('draw.dt', function () {
+            loadForm($('#diskon').val());
+        });
+
+        table.buttons('.buttonsToHide').nodes().addClass('hidden');
+
+        table2 = $('.table-produk').DataTable();
+
+        $(document).on('input', '.quantity', function () {
+            let id = $(this).data('id');
+            let jumlah = parseInt($(this).val());
+
+            // if (jumlah < 1) {
+            //     $(this).val(1);
+            //     Swal.fire({
+            //         title: 'Gagal!',
+            //         text: 'Jumlah tidak boleh kurang dari 1',
+            //         icon: 'error',
+            //         confirmButtonText: 'Kembali',
+            //         confirmButtonColor: '#e80c29'
+            //     })    
+            //     return;
+            // }
+            if (jumlah > 10000) {
+                $(this).val(10000);
+                Swal.fire({
+                    title: 'Gagal!',
+                    text: 'Jumlah tidak boleh lebih dari 10K',
+                    icon: 'error',
+                    confirmButtonText: 'Kembali',
+                    confirmButtonColor: '#e80c29'
+                })            
+                return;
+            }
+
+            $.post(`{{ url('/pembelian_detail') }}/${id}`, {
+                    '_token': $('[name=csrf-token]').attr('content'),
+                    '_method': 'put',
+                    'jumlah': jumlah
+                })
+                .done(response => {
+                    $(this).on('mouseout', function () {
+                        table.ajax.reload(() => loadForm($('#diskon').val()));
+                    });
+                })
+                .fail(errors => {
+                    alert('Tidak dapat menyimpan data');
+                    return;
+                });
+        });
+
+        $(document).on('input', '#diskon', function () {
+            if ($(this).val() == "") {
+                $(this).val(0).select();
+            }
+
+            loadForm($(this).val());
+        });
+
+
+        // Fitur Buat Bayar + Kembalian
+
+        // $('#diterima').on('input', function() {
+        //     if ($(this).val() == "") {
+        //         $(this).val(0).select();
+        //     }
+
+        //     loadForm($('#diskon').val(), $(this).val());
+        // }).focus(function () {
+        //     $(this).select();
+        // });
+
+        $('.btn-simpan').on('click', function () {
+            $('.form-pembelian').submit();
+        });
+
+    });
+
+    function formatRupiah(angka, prefix){
+        var number_string   = angka.replace(/[^,\d]/g, '').toString(),
+        split               = number_string.split(','),
+        sisa                = split[0].length % 3,
+        rupiah              = split[0].substr(0, sisa),
+        ribuan              = split[0].substr(sisa).match(/\d{3}/gi);
+
+        if(ribuan){
+            separator = sisa ? '.' : '';
+            rupiah += separator + ribuan.join('.');
+        }
+
+        rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
+        return prefix == undefined ? rupiah : (rupiah ? '' + rupiah : '');
+    }
+</script>
 @endpush

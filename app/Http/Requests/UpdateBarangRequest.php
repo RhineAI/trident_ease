@@ -26,8 +26,6 @@ class UpdateBarangRequest extends FormRequest
         return [
             'kode' => 'string|max:50',
             'nama' => 'string|max:50',
-            'tebal' => 'string|max:50',
-            'panjang' => 'string|max:50',
             'stock' => 'numeric|max:11',
             'stock_minimal' => 'numeric|max:11',
             'harga_beli' => 'numeric|max:11',

@@ -21,7 +21,6 @@ return new class extends Migration
             $table->integer('id_barang');
             $table->double('harga_beli');
             $table->integer('qty');
-            $table->double('sub_total');
             $table->foreign('id_pembelian')->references('id')->on('t_transaksi_pembelian')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('id_barang')->references('id')->on('t_barang')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
