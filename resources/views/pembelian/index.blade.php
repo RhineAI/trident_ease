@@ -65,17 +65,10 @@
                         </button>
                     </div>
                 @endif
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#formModalPembelian">
+                <a href="{{ route('pembelian.create') }}" class="btn btn-primary">
                     <i class="fas fa-plus"></i>&nbsp; Tambah Data
-                </button>
+                </a>
                 <br><br>
-                <div>
-                    @include('pembelian.form')
-                </div>
-                {{-- <div style="width: 100%;">
-                    @include('pembelian.data')
-                </div> --}}
-          </div>
           <!-- /.card-footer-->
         </div>
         <!-- /.card -->

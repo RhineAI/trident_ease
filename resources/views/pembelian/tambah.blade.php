@@ -67,24 +67,26 @@
                 @endif
                 <div class="col-lg-12 mb-3" style="background-color: white;">
                     <div class="box">
-                        <div class="box-header with-border p-2">
-                            <table>
-                                <tr>
-                                    <td>Supplier</td>
-                                    {{-- <td>: {{ $findSupplier->nama }}</td> --}}
-                                </tr>
-                                <tr>
-                                    <td>Telepon</td>
-                                    {{-- <td>: {{ $findSupplier->telepon }}</td> --}}
-                                </tr>
-                                <tr>
-                                    <td>Alamat</td>
-                                    {{-- <td>: {{ $findSupplier->alamat }}</td> --}}
-                                </tr>
-                            </table>
-                        </div>
                         <div class="box-body mx-2 my-2">
-                                
+                            <form class="form-supplier">
+                                @csrf
+                                <div class="form-group row">
+                                    <label for="kode_supplier" class="col-lg-2">Tambah Supplier</label>
+                                    <div class="col-lg-3">
+                                        <div class="input-group">
+                                            <input type="hidden" name="id_pembelian" id="id_pembelian">
+                                            <input type="hidden" name="id_Supplier" id="id_supplier">
+                                            <input type="hidden" class="form-control" name="kode_Supplier" id="kode_supplier">
+                                            <input type="text" name="barcode" id="barcode" class="form-control" required autofocus readonly>
+                                            <span class="input-group-btn tampil-Supplier">
+                                                <button onclick="tambahSupplier()" class="btn btn-info btn-flat" type="button"><i class="fa fa-arrow-right"></i></button>
+                                                <button onclick="tampilSupplier()" class="btn btn-info btn-flat" type="button"><i class="fa-solid fa-magnifying-glass"></i></i></button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+
                             <form class="form-produk">
                                 @csrf
                                 <div class="form-group row">

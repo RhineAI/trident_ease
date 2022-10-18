@@ -46,8 +46,7 @@ Route::middleware('auth')->group(function(){
         Route::get('/keuntungan', [KeuntunganController::class, 'index'])->name('keuntungan');
         Route::post('/keuntungan', [KeuntunganController::class, 'store']);
 
-        Route::resource('/pembelian', PembelianController::class)->except('create');
-        Route::get('/pembelian/{id}/create', [PembelianController::class, 'create'])->name('pembelian.create');
+        Route::resource('/pembelian', PembelianController::class);
 
         Route::resource('/pembelian_detail', DetailPembelianController::class);
         Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
