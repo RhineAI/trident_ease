@@ -26,7 +26,8 @@ class DatabaseSeeder extends Seeder
             'npwp' => '21312312312',
             'slogan' => '213123',
             'email' => 'asdsakdjkasjdsakh',
-            'logo' => '213123'
+            'logo' => '213123',
+            'level' => '1'
         ]);
 
         // DB::table('t_perusahaan')->insert([

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\DetailPembelian;
 use App\Http\Requests\StoreDetailPembelianRequest;
 use App\Http\Requests\UpdateDetailPembelianRequest;
+use App\Models\Perusahaan;
 
 class DetailPembelianController extends Controller
 {
@@ -15,7 +16,8 @@ class DetailPembelianController extends Controller
      */
     public function index()
     {
-        //
+        $data['cPerusahaan'] = Perusahaan::select('*')->where('id', auth()->user()->id_perusahaan)->first();
+        return view('pembelian.tambah', $data);
     }
 
     /**

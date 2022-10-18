@@ -17,10 +17,10 @@ return new class extends Migration
         Schema::create('t_transaksi_pembelian', function (Blueprint $table) {
             $table->integer('id')->autoIncrement();
             $table->date('tgl');
+            $table->string('kode_invoice');
             $table->integer('id_supplier');
             $table->double('total_pembelian');
             $table->integer('jenis_pembayaran');
-            $table->integer('kembalian');
             $table->integer('id_user');
             $table->foreign('id_supplier')->references('id')->on('t_supplier')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('id_user')->references('id')->on('t_users')->onDelete('cascade')->onUpdate('cascade');

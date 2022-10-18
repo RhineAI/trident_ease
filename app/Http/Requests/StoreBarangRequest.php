@@ -27,8 +27,6 @@ class StoreBarangRequest extends FormRequest
             'kode' => 'required|string|max:50',
             'nama' => 'required|string|max:50',
             'barcode' => 'required',
-            'tebal' => 'required|string|max:50',
-            'panjang' => 'required|string|max:50',
             'id_kategori' => 'required',
             'id_supplier' => 'required',
             'id_satuan' => 'required',

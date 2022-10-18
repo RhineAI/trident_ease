@@ -139,13 +139,13 @@
                           <li class="nav-item">
                               <a href="#" class="nav-link">
                                   <i class="far fa-circle nav-icon"></i>
-                                  <p>Tambah Produk</p>
+                                  <p>Tambah Pembelian</p>
                               </a>
                           </li>
                           <li class="nav-item">
-                              <a href="#" class="nav-link">
+                              <a href="{{ url('pembelian') }}" class="nav-link">
                                   <i class="far fa-circle nav-icon"></i>
-                                  <p>Lihat Data Produk</p>
+                                  <p>Lihat Data Pembelian</p>
                               </a>
                           </li>
                       </ul>
@@ -252,13 +252,13 @@
                           <li class="nav-item">
                               <a href="#" class="nav-link">
                                   <i class="far fa-circle nav-icon"></i>
-                                  <p>Tambah Produk</p>
+                                  <p>Tambah Pembelian</p>
                               </a>
                           </li>
                           <li class="nav-item">
-                              <a href="#" class="nav-link">
+                              <a href="{{ url('pembelian') }}" class="nav-link">
                                   <i class="far fa-circle nav-icon"></i>
-                                  <p>Lihat Data Produk</p>
+                                  <p>Lihat Data Pembelian</p>
                               </a>
                           </li>
                       </ul>
