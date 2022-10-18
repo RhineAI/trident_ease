@@ -45,6 +45,9 @@ Route::middleware('auth')->group(function(){
         Route::post('/keuntungan', [KeuntunganController::class, 'store']);
 
         Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+
+
+        Route::resource('/penjualan', PenjualanController::class);
     
 });
 

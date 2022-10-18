@@ -89,7 +89,7 @@
                         </select>
                     </div>
                 </div>
-                <button type="submit" class="btn btn-primary" id="btn-submit" style="margin-left: 0.25rem;">Simpan Data</button>
+                <button type="submit" class="btn btn-primary mt-4" id="btn-submit" style="margin-left: 0.25rem;">Simpan Data</button>
             </form>
           </div>
           <!-- /.card-footer-->
