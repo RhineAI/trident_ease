@@ -34,18 +34,7 @@
             </div>
           </div>
           <div class="card-body">
-            @if($errors->any())
-                <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-              @endif
+
             <form action="" method="POST">
                 @csrf
                 <div id="method"></div>
@@ -101,8 +90,8 @@
                       <label for="hak_akses">Hak Akses User</label>
                       <select class="form-control" name="hak_akses" id="hak_akses">
                           <option value="" disabled="disabled" selected="true">Choose Hak Akses User</option>
-                          <option value="admin">Administrator</option>
-                          <option value="kasir">Kasir</option>
+                          <option value="1">Admnistrator</option>
+                          <option value="2">Kasir</option>
                           {{-- <option value="owner">Owner</option> --}}
                       </select>
                   </div>

@@ -5,6 +5,7 @@ namespace Database\Seeders;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use App\Models\Perusahaan;
 
 class DatabaseSeeder extends Seeder
 {
@@ -28,7 +29,21 @@ class DatabaseSeeder extends Seeder
             'logo' => '213123'
         ]);
 
-        DB::table('t_perusahaan')->insert([
+        // DB::table('t_perusahaan')->insert([
+        //     'nama' => 'Nur',
+        //     'alamat' => 'asdsadsadf',
+        //     'tlp' => '012893219',
+        //     'pemilik' => 'Nur Kumalasari',
+        //     'bank' => 'Syariah',
+        //     'no_rekening' => '213123',
+        //     'npwp' => '23321321321',
+        //     'slogan' => '213123',
+        //     'email' => 'asdsakdjkasjdsakh@gmail.com',
+        //     'level' => 1,
+        //     'logo' => '/assets/img/buildings.png'
+        // ]);
+
+        Perusahaan::Create([
             'nama' => 'Nur',
             'alamat' => 'asdsadsadf',
             'tlp' => '012893219',
@@ -38,6 +53,7 @@ class DatabaseSeeder extends Seeder
             'npwp' => '23321321321',
             'slogan' => '213123',
             'email' => 'asdsakdjkasjdsakh@gmail.com',
+            'level' => 1,
             'logo' => '/assets/img/buildings.png'
         ]);
 
@@ -87,7 +103,7 @@ class DatabaseSeeder extends Seeder
             'tlp' => '01293912',
             'username' => 'SuperAdmin',
             'password' => bcrypt('SuperAdmin123'),
-            'hak_akses' => 'admin',
+            'hak_akses' => 1,
             'id_perusahaan' => '1'
         ]);
     }

@@ -23,9 +23,10 @@ return new class extends Migration
             $table->string('bank', 50);
             $table->string('no_rekening', 50);
             $table->string('npwp', 50);
-            $table->string('slogan', 50);
+            $table->string('slogan', 50)->nullable();
             $table->string('email', 50);
             $table->string('logo', 50);
+            $table->integer('level')->default('1');
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
         });

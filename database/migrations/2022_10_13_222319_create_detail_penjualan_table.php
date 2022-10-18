@@ -16,14 +16,14 @@ return new class extends Migration
     {
         Schema::create('t_detail_penjualan', function (Blueprint $table) {
             $table->integer('id')->autoIncrement();
-            $table->date('tgl');
             $table->integer('id_penjualan');
-            $table->integer('id_barang');
-            $table->integer('qty');
-            $table->double('harga_beli');
-            $table->double('harga_jual');
-            $table->double('sub_total');
-            $table->double('keuntungan');
+            $table->integer('id_barang')->nullable();
+            $table->integer('qty')->nullable();
+            $table->float('diskon')->default(0);
+            $table->double('harga_beli')->nullable();
+            $table->double('harga_jual')->nullable();
+            $table->integer('id_perusahaan');
+            $table->foreign('id_perusahaan')->references('id')->on('t_perusahaan')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('id_penjualan')->references('id')->on('t_transaksi_penjualan')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('id_barang')->references('id')->on('t_barang')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));

@@ -3,7 +3,7 @@
       <!-- Brand Logo -->
       <a href="{{ asset('assets') }}/index3.html" class="brand-link">
           <img src="{{ $cPerusahaan->logo }}" alt="AdminLTE Logo"
-              class="brand-image img-circle elevation-3 border border-white" style="opacity: .8">
+              class="brand-image img-circle  elevation-3 border border-white" style="opacity: .8">
           <span class="brand-text">{{ $cPerusahaan->nama }}</span>
       </a>
 
@@ -24,11 +24,10 @@
           <nav class="mt-2">
               <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
                   data-accordion="false">
-                  <!-- Add icons to the links using the .nav-icon class
-               with font-awesome or any other icon font library -->
-                  @if (auth()->user()->hak_akses === "admin")
+
+                  @if (auth()->user()->hak_akses == 1)
                   <li class="nav-item">
-                      <a href="{{ url('/') }}" class="nav-link">
+                      <a href="{{ route('dashboard') }}" class="nav-link">
                           <i class="nav-icon fas fa-solid fa-home"></i>
                           <p>
                               Dashboard
@@ -51,7 +50,7 @@
                               </a>
                           </li>
                           <li class="nav-item">
-                              <a href="{{ url('barang') }}" class="nav-link">
+                              <a href="{{ route('barang.index') }}" class="nav-link">
                                   <i class="far fa-circle nav-icon"></i>
                                   <p>Lihat Data Produk</p>
                               </a>
@@ -74,7 +73,7 @@
                               </a>
                           </li>
                           <li class="nav-item">
-                              <a href="{{ url('users') }}" class="nav-link">
+                              <a href="{{ route('users.index') }}" class="nav-link">
                                   <i class="far fa-circle nav-icon"></i>
                                   <p>Lihat Data Pegawai</p>
                               </a>
@@ -98,7 +97,7 @@
                               </a>
                           </li>
                           <li class="nav-item">
-                              <a href="{{ url('supplier') }}" class="nav-link">
+                              <a href="{{ route('supplier.index') }}" class="nav-link">
                                   <i class="far fa-circle nav-icon"></i>
                                   <p>Lihat Data Supplier</p>
                               </a>
@@ -121,7 +120,7 @@
                               </a>
                           </li>
                           <li class="nav-item">
-                              <a href="{{ url('pelanggan') }}" class="nav-link">
+                              <a href="{{ route('pelanggan.index') }}" class="nav-link">
                                   <i class="far fa-circle nav-icon"></i>
                                   <p>Lihat Data Pelanggan</p>
                               </a>
@@ -184,15 +183,9 @@
                       </a>
                       <ul class="nav nav-treeview">
                           <li class="nav-item">
-                              <a href="#" class="nav-link">
+                              <a href="{{ route('transaksi-penjualan.index') }}" class="nav-link">
                                   <i class="far fa-circle nav-icon"></i>
-                                  <p>Tambah Produk</p>
-                              </a>
-                          </li>
-                          <li class="nav-item">
-                              <a href="#" class="nav-link">
-                                  <i class="far fa-circle nav-icon"></i>
-                                  <p>Lihat Data Produk</p>
+                                  <p>Transaksi Baru</p>
                               </a>
                           </li>
                       </ul>
@@ -207,40 +200,40 @@
                       </a>
                       <ul class="nav nav-treeview">
                           <li class="nav-item">
-                              <a href="{{ url('keuntungan') }}" class="nav-link">
+                              <a href="{{ route('keuntungan') }}" class="nav-link">
                                   <i class="far fa-circle nav-icon"></i>
                                   <p>Set Keuntungan</p>
                               </a>
                           </li>
                           <li class="nav-item">
-                              <a href="{{ url('kategori') }}" class="nav-link">
+                              <a href="{{ route('kategori.index') }}" class="nav-link">
                                   <i class="far fa-circle nav-icon"></i>
                                   <p>Set Kategori</p>
                               </a>
                           </li>
                           <li class="nav-item">
-                              <a href="{{ url('perusahaan') }}" class="nav-link">
+                              <a href="{{ route('perusahaan.index') }}" class="nav-link">
                                   <i class="far fa-circle nav-icon"></i>
                                   <p>Set Perusahaan</p>
                               </a>
                           </li>
                           <li class="nav-item">
-                              <a href="{{ url('merek') }}" class="nav-link">
+                              <a href="{{ route('merek.index') }}" class="nav-link">
                                   <i class="far fa-circle nav-icon"></i>
                                   <p>Set Merek</p>
                               </a>
                           </li>
                           <li class="nav-item">
-                              <a href="{{ url('satuan') }}" class="nav-link">
+                              <a href="{{ route('satuan.index') }}" class="nav-link">
                                   <i class="far fa-circle nav-icon"></i>
                                   <p>Set Satuan</p>
                               </a>
                           </li>
                       </ul>
                   </li>
-                  @elseif (auth()->user()->hak_akses === "kasir")
+                  @else
                   <li class="nav-item">
-                      <a href="{{ url('/') }}" class="nav-link">
+                      <a href="{{ route('dashboard') }}" class="nav-link">
                           <i class="nav-icon fas fa-solid fa-home"></i>
                           <p>
                               Dashboard
@@ -316,76 +309,8 @@
                           </li>
                       </ul>
                   </li>
-                  @elseif(auth()->user()->hak_akses === "owner")
-                  <li class="nav-item">
-                      <a href="#" class="nav-link">
-                          <i class="nav-icon fas fa-solid fa-cart-plus"></i>
-                          <p>
-                              Laporan Pembelian
-                              <i class="right fas fa-angle-right"></i>
-                          </p>
-                      </a>
-                      <ul class="nav nav-treeview">
-                          <li class="nav-item">
-                              <a href="#" class="nav-link">
-                                  <i class="far fa-circle nav-icon"></i>
-                                  <p>Tambah Produk</p>
-                              </a>
-                          </li>
-                          <li class="nav-item">
-                              <a href="#" class="nav-link">
-                                  <i class="far fa-circle nav-icon"></i>
-                                  <p>Lihat Data Produk</p>
-                              </a>
-                          </li>
-                      </ul>
-                  </li>
-                  {{-- <li class="nav-item">
-              <a href="#" class="nav-link">
-                <i class="nav-icon fas fa-solid fa-calculator"></i>
-                <p>
-                  Laporan Pembayaran
-                  <i class="right fas fa-angle-right"></i>
-                </p>
-              </a>
-              <ul class="nav nav-treeview">
-                  <li class="nav-item">
-                      <a href="#" class="nav-link">
-                      <i class="far fa-circle nav-icon"></i>
-                      <p>Tambah Produk</p>
-                      </a>
-                  </li>
-                  <li class="nav-item">
-                      <a href="#" class="nav-link">
-                      <i class="far fa-circle nav-icon"></i>
-                      <p>Lihat Data Produk</p>
-                      </a>
-                  </li>
-              </ul>
-            </li> --}}
-                  <li class="nav-item">
-                      <a href="#" class="nav-link">
-                          <i class="nav-icon fas fa-solid fa-cart-plus"></i>
-                          <p>
-                              Laporan Penjualan
-                              <i class="right fas fa-angle-right"></i>
-                          </p>
-                      </a>
-                      <ul class="nav nav-treeview">
-                          <li class="nav-item">
-                              <a href="#" class="nav-link">
-                                  <i class="far fa-circle nav-icon"></i>
-                                  <p>Tambah Produk</p>
-                              </a>
-                          </li>
-                          <li class="nav-item">
-                              <a href="#" class="nav-link">
-                                  <i class="far fa-circle nav-icon"></i>
-                                  <p>Lihat Data Produk</p>
-                              </a>
-                          </li>
-                      </ul>
-                  </li>
+
+
                   @endif
               </ul>
           </nav>
