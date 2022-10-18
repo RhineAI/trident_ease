@@ -14,10 +14,15 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SatuanController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\UsersController;
+
+// Transaksi
+use App\Http\Controllers\TransaksiPenjualanController;
+use App\Http\Controllers\DetailPenjualanController;
+
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth')->group(function(){
-        Route::get('/', [DashboardController::class, 'index']);
+        Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
         Route::resource('/kategori', KategoriController::class);
         Route::resource('/merek', MerekController::class);
         Route::resource('/satuan', SatuanController::class);
@@ -50,6 +55,18 @@ Route::middleware('auth')->group(function(){
 
         Route::resource('/pembelian_detail', DetailPembelianController::class);
         Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+        
+        Route::resource('/transaksi-penjualan', TransaksiPenjualanController::class);
+        Route::get('/transaksi-penjualan/data', [TransaksiPenjualanController::class, 'data'])->name('transaksi.data');
+
+
+        Route::resource('/detail-penjualan', DetailPenjualanController::class);
+    
+});
+
+Route::group(['middleware' => 'auth'], function () {
+        Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+        Route::resource('/transaksi-penjualan', TransaksiPenjualanController::class);
 });
 
 Route::middleware('guest')->group(function(){
@@ -57,4 +74,5 @@ Route::middleware('guest')->group(function(){
     Route::post('/login', [LoginController::class, 'login']);
     Route::get('/register', [LoginController::class, 'reg'])->name('reg');
     Route::post('/register', [LoginController::class, 'register'])->name('register');
+    Route::get('/success', [LoginController::class, 'regSuccess'])->name('regSuccess');
 });

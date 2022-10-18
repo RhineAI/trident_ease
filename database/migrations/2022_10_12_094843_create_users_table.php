@@ -17,12 +17,12 @@ return new class extends Migration
         Schema::create('t_users', function (Blueprint $table) {
             $table->integer('id')->autoIncrement();
             $table->string('nama', 50);
-            $table->text('alamat');
+            $table->text('alamat')->nullable();
             $table->string('tlp', 20);
             $table->enum('jenis_kelamin', ['L', 'P', 'Other']);
             $table->string('username', 100);
             $table->string('password');
-            $table->enum('hak_akses', ['admin', 'kasir']);
+            $table->integer('hak_akses');
             $table->integer('id_perusahaan');
             $table->foreign('id_perusahaan')->references('id')->on('t_perusahaan')->onDelete('cascade')->onUpdate('cascade');
             $table->rememberToken();

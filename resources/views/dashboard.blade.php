@@ -1,7 +1,11 @@
 @extends('templates.layout')
 
 @section('title')
-    Dashboard Page | {{ $cPerusahaan->nama }}
+    <title>Dashboard | {{ $cPerusahaan->nama }}</title>
+@endsection
+
+@section('page')
+    Dashboard
 @endsection
 
 @section('breadcrumb')
