@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
+use App\Models\Perusahaan;
+use Illuminate\Support\Str;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Validation\ValidationException;
-
-use App\Models\Perusahaan;
-use App\Models\User;
 
 use App\Mail\NotifikasiRegisterPerusahaan;
+use Illuminate\Validation\ValidationException;
 
 class LoginController extends Controller
 {
@@ -19,7 +20,7 @@ class LoginController extends Controller
 
     public function login(Request $request){
         $user = $request->validate([
-            'password' => ['required'],
+            'username' => ['required'],
             'password' => ['required'],
         ]);
         
@@ -56,16 +57,26 @@ class LoginController extends Controller
     public function register(Request $request) {
         $validate = $request->validate([
             'email' => 'required|max:50|email:dns',
-            'logo' => 'required|max:5040'
         ]);
 
-        if ($request->file('logo')) {
-            $validate['logo'] = $request->file('logo')->store('logo');
+        $perusahaan = new Perusahaan();
+
+        if($request->logo){
+            $request->validate([
+                'logo' => 'image|mimes:jpg,png,jpeg,gif,svg',
+            ]);
+
+            $getMime = $request->file('logo')->getMimeType(); 
+            $explodedMime = explode('/' ,$getMime);
+            $mime = end($explodedMime);
+            $name = Str::random(25) . '.' . $mime;
+            $request->logo->move('assets/img', $name);
+
+            $perusahaan->logo = ('/assets/img/' . $name);
+        } else {
+            $perusahaan->logo = $perusahaan->logo;
         }
 
-        $logo = $validate['logo'];
-
-        $perusahaan = new Perusahaan();
         $perusahaan->nama = $request->nama;
         $perusahaan->alamat = $request->alamat;
         $perusahaan->email = $request->email;
@@ -75,7 +86,6 @@ class LoginController extends Controller
         $perusahaan->bank = $request->bank;
         $perusahaan->no_rekening = $request->no_rekening;
         $perusahaan->slogan = $request->slogan;
-        $perusahaan->logo = $logo;
         $perusahaan->level = 1;
         $perusahaan->save();
         
@@ -85,12 +95,11 @@ class LoginController extends Controller
         $user->id_perusahaan = $id->id;
         $user->nama = $id->pemilik;
         $user->username = $id->nama;
-        $user->password = bcrypt($id->nama . '123');
+        $user->password = bcrypt('12345');
         $user->tlp = $id->tlp;
         $user->hak_akses = 'admin';
         $user->save();
-        
-        
+         
         // return $user;
         \Mail::to($id->email)->send(new NotifikasiRegisterPerusahaan);
 

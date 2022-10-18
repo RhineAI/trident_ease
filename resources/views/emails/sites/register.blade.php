@@ -9,7 +9,9 @@ Terima Kasih Sudah Mendaftar, Silahkan Login Menggunakan Username dan Password d
 
 Username = {{ str_replace(' ', '', $user->username) }}
 <br>
-Password = {{ $user->nama . '123' }}
+Password = 12345
+
+Pastikan username dan password default untuk segera diganti!
 
 @component('mail::button', ['url' => 'http://youtube.com' ])
 Silahkan Klik Disini 

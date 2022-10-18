@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <!-- Required meta tags-->
+    <!--  meta tags-->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="Colorlib Templates">
@@ -10,7 +10,7 @@
     <meta name="keywords" content="Colorlib Templates">
 
     <!-- Title Page-->
-    <title>Au Register Forms by Colorlib</title>
+    <title>Register | Aplikasi POS</title>
 
     <!-- Icons font CSS-->
     <link href="{{ asset('templates') }}/vendor/mdi-font/css/material-design-iconic-font.min.css" rel="stylesheet" media="all">
@@ -41,27 +41,27 @@
                         @csrf
                         @method('post')
                         <div class="input-group">
-                            <input class="input--style-1" required type="text" placeholder="NAMA PERUSAHAAN" name="nama">
+                            <input class="input--style-1"  type="text" placeholder="NAMA PERUSAHAAN" name="nama">
                         </div>
                         <div class="input-group">
-                            <input class="input--style-1" required type="text" placeholder="ALAMAT PERUSAHAAN" name="alamat">
+                            <input class="input--style-1"  type="text" placeholder="ALAMAT PERUSAHAAN" name="alamat">
                         </div>
                         <div class="input-group">
-                            <input class="input--style-1" required type="email" placeholder="EMAIL PERUSAHAAN" name="email">
+                            <input class="input--style-1"  type="email" placeholder="EMAIL PERUSAHAAN" name="email">
                         </div>
                         <div class="input-group">
-                            <input class="input--style-1" required type="number" placeholder="NPWP" name="npwp">
+                            <input class="input--style-1"  type="number" placeholder="NPWP" name="npwp">
                         </div>
              
                         <div class="row row-space">
                             <div class="col-2">
                                 <div class="input-group">
-                                    <input class="input--style-1" required type="text" placeholder="NAMA PEMILIK" name="pemilik">
+                                    <input class="input--style-1"  type="text" placeholder="NAMA PEMILIK" name="pemilik">
                                 </div>
                             </div>
                             <div class="col-2">
                                 <div class="input-group">
-                                    <input class="input--style-1" required maxlength="13" type="text" placeholder="TELEPON" name="telepon">
+                                    <input class="input--style-1"  maxlength="13" type="text" placeholder="TELEPON" name="telepon">
                                 </div>
                             </div>
                         </div>
@@ -70,7 +70,7 @@
                             <div class="col-2">
                                 <div class="input-group">
                                     <div class="rs-select2 js-select-simple select--no-search">
-                                        <select name="bank" required>
+                                        <select name="bank" >
                                             <option disabled="disabled" selected="selected">BANK</option>
                                             <option>Bank BRI</option>
                                             <option>Bank BNI</option>
@@ -86,7 +86,7 @@
                             </div>
                             <div class="col-2">
                                 <div class="input-group">
-                                    <input class="input--style-1" required type="number" placeholder="NO. REKENING" name="no_rekening">
+                                    <input class="input--style-1"  type="number" placeholder="NO. REKENING" name="no_rekening">
                                 </div>
                             </div>
                         </div>
