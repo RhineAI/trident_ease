@@ -2,11 +2,13 @@
 
 use App\Http\Controllers\BarangController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DetailPembelianController;
 use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\KeuntunganController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\MerekController;
 use App\Http\Controllers\PelangganController;
+use App\Http\Controllers\PembelianController;
 use App\Http\Controllers\PerusahaanController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SatuanController;
@@ -44,8 +46,11 @@ Route::middleware('auth')->group(function(){
         Route::get('/keuntungan', [KeuntunganController::class, 'index'])->name('keuntungan');
         Route::post('/keuntungan', [KeuntunganController::class, 'store']);
 
+        Route::resource('/pembelian', PembelianController::class)->except('create');
+        Route::get('/pembelian/{id}/create', [PembelianController::class, 'create'])->name('pembelian.create');
+
+        Route::resource('/pembelian_detail', DetailPembelianController::class);
         Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
-    
 });
 
 Route::middleware('guest')->group(function(){

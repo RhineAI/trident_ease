@@ -14,16 +14,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('t_transaksi_pembelian', function (Blueprint $table) {
+        Schema::create('t_product_supplier', function (Blueprint $table) {
             $table->integer('id')->autoIncrement();
-            $table->date('tgl');
-            $table->string('kode_invoice');
+            $table->integer('id_barang');
             $table->integer('id_supplier');
-            $table->double('total_pembelian');
-            $table->integer('jenis_pembayaran');
-            $table->integer('id_user');
             $table->foreign('id_supplier')->references('id')->on('t_supplier')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('id_user')->references('id')->on('t_users')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('id_barang')->references('id')->on('t_barang')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
         });
@@ -36,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('t_transaksi_pembelian');
+        Schema::dropIfExists('t_product_supplier');
     }
 };
