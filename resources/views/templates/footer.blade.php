@@ -21,12 +21,12 @@
 <script src="{{ asset('assets') }}/plugins/datatables-bs4/js/dataTables.bootstrap4.js"></script>
 <script src="{{ asset('js') }}/sweetalert2.all.min.js"></script>
 
+<script src="{{ asset('assets') }}/vendor/chart.js/Chart.min.js"></script>
+<script src="{{ asset('assets') }}/js/chart-area-demo.js"></script> 
+
 {{-- Toastr --}}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
-
-<script src="{{ asset('assets') }}/vendor/chart.js/Chart.min.js"></script>
-<script src="{{ asset('assets') }}/js/chart-area-demo.js"></script> 
 
 <script>
   @if(session()->has('success'))
