@@ -240,6 +240,8 @@
         @include('transaksi-penjualan.formPelanggan')
       </section>
       <!-- /.content -->
+
+      @includeIf('transaksi-pembelian.barang')
 @endsection
 
 @push('scripts') 
