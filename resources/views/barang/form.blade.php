@@ -13,9 +13,14 @@
             @csrf
             <div id="method"></div>
             <div class="form-group row">
-                <div class="form-group" style="width: 95%; margin: auto;">
+                <div class="form-group col-md-6" style="width: 95%; margin: auto;">
                     <label for="kode">Kode Barang</label>
                     <input type="text" class="form-control" id="kode" placeholder="Kode Barang" name="kode">
+                </div>
+
+                <div class="form-group col-md-6" style="width: 95%; margin: auto;">
+                    <label for="barcode">Barcode Barang</label>
+                    <input type="text" class="form-control" id="barcode" placeholder="Barcode Barang" name="barcode">
                 </div>
             </div>
             <div class="form-group row">
@@ -24,12 +29,7 @@
                     <input type="text" class="form-control" id="nama" placeholder="Nama Barang" name="nama">
                 </div>
             </div>
-            <div class="form-group row">
-                <div class="form-group" style="width: 95%; margin: auto;">
-                    <label for="barcode">Barcode Barang</label>
-                    <input type="text" class="form-control" id="barcode" placeholder="Barcode Barang" name="barcode">
-                </div>
-            </div>
+    
             <div class="form-group" style="width: 97%; margin: 5 auto;">
                 <label for="id_kategori">Kategori Barang</label>
                 <select class="form-control" name="id_kategori" id="id_kategori">

@@ -1,98 +1,93 @@
 @extends('templates.layout')
 
 @section('title')
-    <title>Barang | {{ $cPerusahaan->nama }}</title>
+<title>Barang | {{ $cPerusahaan->nama }}</title>
 @endsection
 
 @section('page')
-    Barang
+Barang
 @endsection
 
 @section('breadcrumb')
 @parent
-    Barang
+Barang
 @endsection
 
 @push('styles')
-    
+
 @endpush
 
 
 @section('contents')
-  
-      <!-- Main content -->
-      <section class="content">
-  
-        <!-- Default box -->
-        <div class="card">
-          <div class="card-header">
-            <h3 class="card-title">Data Barang</h3>
-  
-            <div class="card-tools">
-              <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
-                <i class="fas fa-minus"></i>
-              </button>
-              <button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
-                <i class="fas fa-times"></i>
-              </button>
-            </div>
-          </div>
-          <div class="card-body">
-                <!-- Button trigger modal -->
-                @if(session('success'))
-                    <div class="alert alert-success" role="alert" id="success-alert">
-                    {{ session('success') }}
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                    </div>
-                @endif
-                @if(session('delete'))
-                    <div class="alert alert-danger" role="alert" id="success-danger">
-                    {{ session('delete') }}
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                    </div>
-                @endif
-                @if($errors->any())
-                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                        <ul>
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                @endif
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#formModalBarang">
-                    <i class="fas fa-plus"></i>&nbsp; Tambah Data
-                </button>
-                <br><br>
-                <div>
-                    @include('barang.form')
+
+<section class="content">
+    <div class="row mx-3">
+        <div class="col-md-12 p-2 mb-3" style="background-color: white">
+            <div class="box">
+                <div class="box-header with-border">
+                    <button type="button" class="btn btn-primary mb-4" data-toggle="modal" data-target="#formModalBarang">
+                        <i class="fas fa-plus"></i>&nbsp; Tambah Data
+                    </button>
                 </div>
-                <div style="width: 100%;">
+
+                <div class="box-body table-responsive">
                     @include('barang.data')
                 </div>
-          </div>
-          <!-- /.card-footer-->
+            </div>
         </div>
-        <!-- /.card -->
-  
-      </section>
-      <!-- /.content -->
+    </div>
+
+</section>
+@include('barang.form')
 @endsection
 
 @push('scripts')
-    <script>
-        $('#tbl-data-barang').DataTable({
-          scrollX: true,
-        });
-    </script>
-    <script>
-        $(document).ready(function(){
-          $('#formModalBarang').on("show.bs.modal", function(e){
+<script>
+    $('#tbl-data-barang').DataTable({
+        scrollX: true,
+    });
+
+    // $(document).on('click', '.edit', function (event) {
+    //         let kode = $(this).data('kode')
+    //         let nama_barang = $(this).data('nama_barang')
+    //         let barcode = $(this).data('barcode')
+    //         let id_kategori = $(this).data('id_kategori')
+    //         let url = $(this).data('route')
+
+    //         let data = {
+    //             product_name : product_name,
+    //             category_id : category_id,
+    //             purchase : purchase,
+    //             sell : sell,
+    //             stock : stock,
+    //             url: url
+    //         }
+
+    //         editForm(data)
+    //     })
+        
+    //     function editForm(data) {
+    //         $('#modal-form').modal('show')
+    //         $('#modal-form .modal-title').text('Edit Produk');
+
+    //         $('#modal-form form')[0].reset();
+    //         $('#modal-form form').attr('action', data.url);
+    //         $('#modal-form [name=_method]').val('put');
+            
+    //         $('#modal-form [name=product_name]').val(data.product_name);
+    //         $('#modal-form [name=category_id]').val(data.category_id);
+    //         $('#modal-form [name=purchase]').val(data.purchase);
+    //         $('#modal-form [name=sell]').val(data.sell);
+    //         $('#modal-form [name=stock]').val(data.stock);
+    //     }
+
+</script>
+<script>
+
+    
+
+    $(document).ready(function () {
+        $('#formModalBarang').on("show.bs.modal", function (e) {
             const btn = $(e.relatedTarget)
             const id_barang = btn.data('id_barang')
             const kode = btn.data('kode')
@@ -110,9 +105,10 @@
             const keterangan = btn.data('keterangan')
             const status = btn.data('status')
             const mode = btn.data('mode')
+            const route = btn.data('route')
             const modal = $(this)
-        
-            if(mode === 'edit'){
+
+            if (mode === 'edit') {
                 modal.find('#modal-title').text("Edit Data barang")
                 modal.find('.modal-body #kode').val(kode)
                 modal.find('.modal-body #nama').val(nama_barang)
@@ -131,20 +127,23 @@
                 modal.find('.modal-footer #btn-submit').text('Update')
                 modal.find('.modal-body form').attr('action', '/barang/' + id_barang)
                 modal.find('.modal-body #method').html('{{ method_field('PATCH') }}')
+                // $('#modal-form form')[0].reset();
+                // $('#modal-form form').attr('action', data.route);
+                // $('#modal-form [name=_method]').val('put');
             } else {
-                modal.find('#modal-title').text("Tambah Data barang")
+                modal.find('.modal-title').text("Tambah Data barang")
                 modal.find('.modal-body #id_barang').val('')
                 modal.find('.modal-body #nama_barang').val('')
                 modal.find('.modal-footer #btn-submit').text('Submit')
                 modal.find('.modal-body #method').html('')
             }
-          });
         });
-      </script>
-      <script>
-          $('.delete-data').on('click', function(e){
-            e.preventDefault();
-            Swal.fire({
+    });
+</script>
+<script>
+    $('.delete-data').on('click', function (e) {
+        e.preventDefault();
+        Swal.fire({
             title: 'Apakah Kamu Yakin Menghapus Data Ini?',
             text: "Data tidak akan bisa dikembalikan!",
             icon: 'warning',
@@ -152,13 +151,13 @@
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
             confirmButtonText: 'Ya, Hapus data ini!'
-            }).then((result) => {
+        }).then((result) => {
             if (result.isConfirmed) {
                 $(e.target).closest('form').submit()
             } else {
                 swal.close()
             }
-            })
-          });
-      </script>
+        })
+    });
+</script>
 @endpush

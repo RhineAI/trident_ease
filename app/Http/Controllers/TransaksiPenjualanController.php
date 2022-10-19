@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\TransaksiPenjualan;
 use App\Models\Barang;
+use App\Models\Pelanggan;
 use App\Models\Perusahaan;
 use App\Http\Requests\StorePenjualanRequest;
 use App\Http\Requests\UpdatePenjualanRequest;
@@ -17,11 +18,13 @@ class TransaksiPenjualanController extends Controller
      */
     public function index()
     {
-         $barang = Barang::orderBy('nama')->get();
-         $diskon = TransaksiPenjualan::first()->diskon ?? 0;
+        //  $barang = Barang::orderBy('nama')->get();
+        //  $diskon = TransaksiPenjualan::first()->diskon ?? 0;
  
         //  $detail = DetailPenjualan::orderBy('id_penjualan_detail', 'DESC');
 
+        $data['pelanggan'] = Pelanggan::get();    
+        $data['produk'] = Barang::get()->where('stock', '>', 0);    
         $data['cPerusahaan'] = Perusahaan::select('*')->where('id', auth()->user()->id_perusahaan)->first();
    
        if ($data['cPerusahaan']) {

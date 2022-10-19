@@ -9,7 +9,7 @@
             </button>
         </div>
         <div class="modal-body">
-            <table id="tbl-data-supplier" class="table table-bordered table-hover table-compact" style="width: 100%;">
+            <table id="tbl-data-supplier" class="table table-striped table-bordered table-hover table-compact" style="width: 100%;">
                 <thead>
                     <tr>
                         <td>No</td>

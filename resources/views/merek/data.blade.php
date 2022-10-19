@@ -1,18 +1,21 @@
-<table id="tbl-data-merek" class="table table-bordered table-hover table-compact" style="width: 100%;">
-    <thead>
-        <tr>
-            <td>No</td>
-            <td>Nama Merek</td>
-            <td>Action</td>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach ($merek as $item)
+<div class="box-body table-responsive">
+    <table class="table table-striped table-bordered" id="tbl-data-merek">
+        <thead>
+            <tr>
+                <td>No</td>
+                <td>Nama Merek</td>
+                <td>Action</td>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach ($merek as $item)
             <tr>
                 <td>{{ $item->id }}</td>
                 <td>{{ $item->nama }}</td>
                 <td>
-                    <button class="btn" type="button" style="color: green;" title="Edit" data-mode="edit" data-toggle="modal" data-target="#formModalMerek" data-id_merek="{{ $item->id }}" data-nama_merek="{{ $item->nama }}">
+                    <button class="btn" type="button" style="color: green;" title="Edit" data-mode="edit"
+                        data-toggle="modal" data-target="#formModalMerek" data-id_merek="{{ $item->id }}"
+                        data-nama_merek="{{ $item->nama }}">
                         <i class="fas fa-edit"></i>
                     </button>
                     <form action="{{ route('merek.destroy', $item->id) }}" style="display: inline;" method="post">
@@ -24,6 +27,7 @@
                     </form>
                 </td>
             </tr>
-        @endforeach
-    </tbody>
-</table>
+            @endforeach
+        </tbody>
+    </table>
+</div>
