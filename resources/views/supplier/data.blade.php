@@ -1,4 +1,5 @@
-<table id="tbl-data-supplier" class="table table-bordered table-hover table-compact" style="width: 100%;">
+<div class="box-body table-responsive">
+    <table class="table table-striped table-bordered" id="tbl-data-supplier">
     <thead>
         <tr>
             <td>No</td>
