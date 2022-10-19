@@ -8,6 +8,8 @@ use App\Models\Pelanggan;
 use App\Models\Perusahaan;
 use App\Http\Requests\StorePenjualanRequest;
 use App\Http\Requests\UpdatePenjualanRequest;
+use App\Models\DetailPenjualan;
+use Illuminate\Support\Facades\DB;
 
 class TransaksiPenjualanController extends Controller
 {
@@ -27,60 +29,24 @@ class TransaksiPenjualanController extends Controller
         $data['produk'] = Barang::get()->where('stock', '>', 0);    
         $data['cPerusahaan'] = Perusahaan::select('*')->where('id', auth()->user()->id_perusahaan)->first();
    
-       if ($data['cPerusahaan']) {
-            if(auth()->user()->level == 1) {
-                return view('transaksi-penjualan.index', $data);
-            }elseif(auth()->user()->level == 0) {
-                return view('transaksi-penjualan.index', $data);
-            } else {
-                return redirect()->route('login');
-            }
-       }
+        return view('transaksi-penjualan.index', $data);
          
     }
 
-    public function data($id)
+    public function listTransaksi()
     {
-        $detail = PenjualanDetail::with('produk')
-            ->where('id_penjualan', $id)
-            ->get();
-        $data = array();
-        $total = 0;
-        $total_item = 0;
+        //  $barang = Barang::orderBy('nama')->get();
+        //  $diskon = TransaksiPenjualan::first()->diskon ?? 0;
+ 
+        //  $detail = DetailPenjualan::orderBy('id_penjualan_detail', 'DESC');
 
-        foreach ($detail as $item) {
-            $row = array();
-            $row['barcode']     = '<span class="badge badge-info">'. $item->produk->barcode .'</span>';
-            $row['nama_produk'] = $item->produk['nama_produk'];
-            $row['harga_jual']  = 'Rp. '. format_uang($item->produk->harga_jual);
-            $row['jumlah']      = '<input type="number" class="form-control input-sm quantity" data-id="'. $item->id_penjualan_detail .'" value="'. $item->jumlah .'">';
-                
-            $row['subtotal']    = 'Rp. '. format_uang($item->subtotal);
-            $row['aksi']        = '<div class="btn-group">
-                                    <button onclick="deleteData(`'. route('transaksi.destroy', $item->id_penjualan_detail) .'`)" class="btn btn-xs btn-danger btn-flat"><i class="fa fa-trash"></i> Hapus</button>
-                                </div>';
-            $data[] = $row;
-
-            $total += $item->harga_jual * $item->jumlah;
-            $total_item += $item->jumlah;
-        }
-        $data[] = [
-            'barcode' => '
-                <div class="total hide" style="visibility: hidden">'. $total .'</div>
-                <div class="total_item hide" style="visibility: hidden">'. $total_item .'</div>',
-            'nama_produk' => '',
-            'harga_jual'  => '',
-            'jumlah'      => '',
-            'subtotal'    => '',
-            'aksi'        => '',
-        ];
-
-        return datatables()
-            ->of($data)
-            ->addIndexColumn()
-            ->rawColumns(['aksi', 'barcode', 'jumlah'])
-            ->make(true);
-    }   
+        $data['pelanggan'] = Pelanggan::get();    
+        $data['produk'] = Barang::get()->where('stock', '>', 0);    
+        $data['cPerusahaan'] = Perusahaan::select('*')->where('id', auth()->user()->id_perusahaan)->first();
+        $data['transaksi'] = TransaksiPenjualan::select('*')->where('id', auth()->user()->id_perusahaan)->get();
+   
+       return view('transaksi-penjualan.listTransaksi', $data);
+    }
 
     /**
      * Show the form for creating a new resource.
@@ -100,7 +66,51 @@ class TransaksiPenjualanController extends Controller
      */
     public function store(StorePenjualanRequest $request)
     {
-        //
+        $penjualanBaru = new TransaksiPenjualan();
+        // "select max(id)+1 as nextid from t_pembayaran where id like '".$tgl."%'"
+        // dd(TransaksiPenjualan::select("id")->where('id', 'like', '%'. date('Ymd') . '%')->first()); die;
+        if(TransaksiPenjualan::select("id")->where('id', 'like', '%'. date('Ymd') . '%')->first() == null){
+            $indexTransaksi = sprintf("%05d", 1);
+            $penjualanBaru->tgl = date('Ymd'). $indexTransaksi;
+        }
+
+        $penjualanBaru->tgl = date('Y-m-d');
+        $penjualanBaru->id_pelanggan = $request->id_pelanggan;
+        $penjualanBaru->total_harga = $request->total_bayar;
+        if($request->jenis_pembayaran == '1') {
+            $penjualanBaru->total_bayar = $request->bayar;
+        } else {
+            $penjualanBaru->total_bayar = $request->dp;
+        }
+        $penjualanBaru->kembalian = $request->kembali;
+        $penjualanBaru->id_user = auth()->user()->id;
+        $penjualanBaru->id_perusahaan = auth()->user()->id_perusahaan;
+        $penjualanBaru->save();
+        // dd($penjualanBaru->id); die;
+        foreach($request->item as $barang){
+            // dd($barang['discount']); die;
+            $detPenjualanBaru = new DetailPenjualan(); 
+            $detPenjualanBaru->id_penjualan = $penjualanBaru->id;
+            $detPenjualanBaru->id_barang = $barang['id_barang'];
+            $detPenjualanBaru->qty = $barang['qty'];
+            $detPenjualanBaru->diskon = $barang['discount'];
+            $detPenjualanBaru->harga_beli = $barang['harga_beli'];
+            $detPenjualanBaru->harga_jual = $barang['harga_jual'];
+            $detPenjualanBaru->id_perusahaan = auth()->user()->id_perusahaan;
+            $detPenjualanBaru->save();
+
+            $barangUpdate = Barang::find($barang['id_barang']);
+            $barangUpdate->stock -= $barang['qty'];
+            $barangUpdate->update();
+            // $barangUpdate = Barang::select('stock')->where('id', $barang->id_barang)->first();
+            // $kurangiStok = $barangUpdate - $barang->qty;
+            // Barang::update([
+            //     'stock' => $kurangiStok
+            // ]);
+        }
+
+        return redirect('/list-transaksi')->with(['success' => 'Input data Transaksi Berhasil!']);
+        
     }
 
     /**
@@ -109,7 +119,7 @@ class TransaksiPenjualanController extends Controller
      * @param  \App\Models\Penjualan  $penjualan
      * @return \Illuminate\Http\Response
      */
-    public function show(Penjualan $penjualan)
+    public function show(TransaksiPenjualan $penjualan)
     {
         //
     }
@@ -120,7 +130,7 @@ class TransaksiPenjualanController extends Controller
      * @param  \App\Models\Penjualan  $penjualan
      * @return \Illuminate\Http\Response
      */
-    public function edit(Penjualan $penjualan)
+    public function edit(TransaksiPenjualan $penjualan)
     {
         //
     }
@@ -132,7 +142,7 @@ class TransaksiPenjualanController extends Controller
      * @param  \App\Models\Penjualan  $penjualan
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdatePenjualanRequest $request, Penjualan $penjualan)
+    public function update(UpdatePenjualanRequest $request, TransaksiPenjualan $penjualan)
     {
         //
     }
@@ -143,7 +153,7 @@ class TransaksiPenjualanController extends Controller
      * @param  \App\Models\Penjualan  $penjualan
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Penjualan $penjualan)
+    public function destroy(TransaksiPenjualan $penjualan)
     {
         //
     }

@@ -15,14 +15,16 @@ return new class extends Migration
     public function up()
     {
         Schema::create('t_transaksi_penjualan', function (Blueprint $table) {
-            $table->integer('id')->autoIncrement();
+            $table->bigInteger('id')->autoIncrement();
             $table->date('tgl');
             $table->integer('id_pelanggan');
             $table->integer('total_harga');
-            $table->float('diskon')->default(0);
+            // $table->float('diskon')->default(0);
             $table->integer('total_bayar');
             $table->integer('kembalian');
             $table->integer('id_user');
+            $table->integer('id_perusahaan');
+            $table->foreign('id_perusahaan')->references('id')->on('t_perusahaan')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('id_pelanggan')->references('id')->on('t_pelanggan')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('id_user')->references('id')->on('t_users')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));

@@ -69,7 +69,6 @@ class BarangController extends Controller
      */
     public function store(StoreBarangRequest $request)
     {
-        return $request;
         // dd($request); die;
         $input = Barang::create($request->all());
         return redirect('/barang')->with('success', 'Input data Barang berhasil!');
@@ -106,7 +105,6 @@ class BarangController extends Controller
      */
     public function update(UpdateBarangRequest $request, Barang $barang)
     {
-        return $request;
         $barang->update($request->all());
         return redirect('/barang')->with('success', 'Update Data berhasil');
     }

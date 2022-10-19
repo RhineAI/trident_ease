@@ -59,7 +59,7 @@
         
                     <div class="box-body mx-2 my-2">
 
-                        <form class="form-pelanggan">
+                        <form class="form-pelanggan" method="post">
                             @csrf
                             <div class="form-group row">
                                 <label for="nama_pelanggan" class="col-lg-2">Pelanggan</label>
@@ -81,11 +81,8 @@
                                     </div>
                                 </div>
                             </div>
-                        </form>
                         <br>
                             
-                        <form class="form-produk">
-                            @csrf
                             <div class="form-group row">
                                 <label for="kode_produk" class="col-lg-2">Tambah Produk</label>
                                 <div class="col-lg-3">
@@ -100,7 +97,6 @@
                                     </div>
                                 </div>
                             </div>
-                        </form>
         
                         <table cellpaddong="0" cellspacing="0" class="table table-striped table-bordered" id="buffer_table">
                             <thead>
@@ -132,8 +128,6 @@
                                 <div class="tampil-terbilang">Nol Rupiah</div>
                             </div>
                             <div class="col-lg-5">
-                                <form action="" class="form-pembelian" method="post">
-                                    @csrf
                                        	<!-- TOTAL PENJUALAN  -->
                                     <input class="form-control" type="hidden" name="total_penjualan" value="" data-bv-trigger="blur"
                                     id="total_penjualan" readonly="true">
@@ -217,7 +211,6 @@
                                             </div>
                                         </div>
                                     </div> --}}
-                                </form>
                             </div>
                         </div>
                     </div>
@@ -228,6 +221,7 @@
                 </div>
             </div>
         </div>
+    </form>
   
         @include('transaksi-penjualan.formBarang')
         @include('transaksi-penjualan.formPelanggan')
