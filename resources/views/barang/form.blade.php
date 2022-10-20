@@ -149,7 +149,7 @@
                             <h5 class="my-2">Keuntungan</h5>
                         </label>
                         <div class="input-group mb-3 col-md-3">
-                            <input type="text" name="keuntungan" id="keuntungan" class="form-control" aria-label="Username" aria-describedby="basic-addon1">
+                            <input max="100" maxlength="3" type="text" name="keuntungan" id="keuntungan" class="form-control" aria-label="Username" aria-describedby="basic-addon1">
                             <div class="input-group-prepend">
                               <span class="input-group-text" id="basic-addon1">%<span>
                             </div>

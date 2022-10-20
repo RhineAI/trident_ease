@@ -60,7 +60,8 @@ Route::middleware('auth')->group(function(){
         
         Route::resource('/transaksi-penjualan', TransaksiPenjualanController::class);
         Route::get('/transaksi-penjualan/data', [TransaksiPenjualanController::class, 'data'])->name('transaksi.data');
-        Route::get('/list-transaksi', [TransaksiPenjualanController::class, 'listTransaksi'])->name('listTransaksi');
+        Route::get('/list-transaksi', [TransaksiPenjualanController::class, 'listTransaksi'])->name('list-transaksi');
+        Route::post('/list-transaksi/data', [TransaksiPenjualanController::class, 'dataTransaksi'])->name('list-transaksi.data');
 
         Route::resource('/detail-penjualan', DetailPenjualanController::class);
     
