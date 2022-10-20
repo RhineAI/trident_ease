@@ -244,14 +244,6 @@
       @includeIf('transaksi-pembelian.barang')
 @endsection
 
-<<<<<<< HEAD
-@push('scripts')
-<script>
-    
-
-</script>
-@endpush
-=======
 @push('scripts') 
     <script>
         $('body').addClass('sidebar-collapse');
@@ -566,4 +558,3 @@
 
     </script>
 @endpush
->>>>>>> a2032a036737e32bc55e22691bfd05c846c4ae33

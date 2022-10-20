@@ -52,7 +52,10 @@ Route::middleware('auth')->group(function(){
         Route::get('/keuntungan', [KeuntunganController::class, 'index'])->name('keuntungan');
         Route::post('/keuntungan', [KeuntunganController::class, 'store']);
 
-        Route::resource('/transaksi-pembelian', PembelianController::class);
+        Route::resource('/transaksi-pembelian', PembelianController::class);    
+        Route::get('/list-pembelian', [PembelianController::class, 'listPembelian'])->name('list-pembelian');
+        Route::post('/list-pembelian/data', [PembelianController::class, 'dataPembelian'])->name('list-pembelian.data');
+
 
         // Route::resource('/pembelian_detail', DetailPembelianController::class);
         // Route::get('/show-transaksi-pembelian', [PembelianController::class, 'showTPembelian'])
