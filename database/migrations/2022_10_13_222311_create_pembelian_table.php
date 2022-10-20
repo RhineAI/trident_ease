@@ -15,7 +15,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('t_transaksi_pembelian', function (Blueprint $table) {
-            $table->integer('id')->autoIncrement();
+            $table->bigInteger('id')->autoIncrement();
             $table->date('tgl');
             $table->string('kode_invoice');
             $table->integer('id_supplier');

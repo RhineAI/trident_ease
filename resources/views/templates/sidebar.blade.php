@@ -160,15 +160,9 @@
                       </a>
                       <ul class="nav nav-treeview">
                           <li class="nav-item">
-                              <a href="#" class="nav-link">
+                              <a href="{{ route('pembayaran.index') }}" class="nav-link">
                                   <i class="far fa-circle nav-icon"></i>
-                                  <p>Tambah Produk</p>
-                              </a>
-                          </li>
-                          <li class="nav-item">
-                              <a href="#" class="nav-link">
-                                  <i class="far fa-circle nav-icon"></i>
-                                  <p>Lihat Data Produk</p>
+                                  <p>Data Tunggakan</p>
                               </a>
                           </li>
                       </ul>

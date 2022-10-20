@@ -21,7 +21,11 @@ return new class extends Migration
             $table->integer('total_harga');
             // $table->float('diskon')->default(0);
             $table->integer('total_bayar');
+            $table->double('keuntungan');
             $table->integer('kembalian');
+            $table->integer('jenis_pembayaran');
+            $table->double('dp');
+            $table->double('sisa');
             $table->integer('id_user');
             $table->integer('id_perusahaan');
             $table->foreign('id_perusahaan')->references('id')->on('t_perusahaan')->onDelete('cascade')->onUpdate('cascade');

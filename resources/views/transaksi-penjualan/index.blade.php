@@ -171,7 +171,7 @@
                                         <div class="col-lg-8 ">
                                             <div class="input-group-prepend input-primary"> 
                                                 <span class="input-group-text">RP.</span> 
-                                                <input type="text" data-bv-trigger="blur" id="bayar" name="bayar" class="form-control" >
+                                                <input type="text" data-bv-trigger="blur" id="bayar" name="bayar" class="form-control" value="0">
                                             </div>
                                         </div>
                                     </div>
@@ -180,7 +180,7 @@
                                         <div class="col-lg-8 ">
                                             <div class="input-group-prepend input-primary"> 
                                                 <span class="input-group-text">RP.</span> 
-                                                <input type="text" data-bv-trigger="blur" id="kembali" readonly name="kembali" class="form-control" >
+                                                <input type="number" data-bv-trigger="blur" id="kembali" readonly name="kembali" class="form-control" value="0">
                                             </div>
                                         </div>
                                     </div>
@@ -190,7 +190,7 @@
                                         <div class="col-lg-8 ">
                                             <div class="input-group-prepend input-primary"> 
                                                 <span class="input-group-text">RP.</span> 
-                                                <input type="text" data-bv-trigger="blur" id="dp" name="dp" class="form-control">
+                                                <input type="number" data-bv-trigger="blur" id="dp" name="dp" class="form-control" value="0">
                                             </div>
                                         </div>
                                     </div>
@@ -200,7 +200,7 @@
                                         <div class="col-lg-8 ">
                                             <div class="input-group-prepend input-primary"> 
                                                 <span class="input-group-text">RP.</span> 
-                                                <input type="text" data-bv-trigger="blur" id="sisa" name="sisa" class="form-control" readonly>
+                                                <input type="number" data-bv-trigger="blur" id="sisa" name="sisa" class="form-control" readonly value="0">
                                             </div>
                                         </div>
                                     </div>
@@ -244,14 +244,6 @@
       @includeIf('transaksi-pembelian.barang')
 @endsection
 
-<<<<<<< HEAD
-@push('scripts')
-<script>
-    
-
-</script>
-@endpush
-=======
 @push('scripts') 
     <script>
         $('body').addClass('sidebar-collapse');
@@ -383,10 +375,11 @@
                     var harga_beli = $(this).data("harga_beli");
                     var harga_jual = $(this).data("harga_jual");
                     var stock = $(this).data("stock");
+                    var keuntungan = $(this).data("harga_jual") - $(this).data("harga_beli");
                     // function getStock(){
                     //     return stock;
                     // }
-                    TambahDataPenjualan(id,kode,nama,harga_beli,harga_jual, stock);
+                    TambahDataPenjualan(id,kode,nama,harga_beli,harga_jual, stock, keuntungan);
                 });
 
                 $(document).on('click','.add_pelanggan',function(){
@@ -399,13 +392,14 @@
                     $('#tlp').val(tlp);
                 });
 
-                function TambahDataPenjualan(id,kode,nama,harga_beli,harga_jual,stock){
+                function TambahDataPenjualan(id,kode,nama,harga_beli,harga_jual,stock, keuntungan){
                     var id_barang=id;
                     var kode_barang=kode;
                     var nama_barang=nama;
                     var harga_beli=harga_beli;
                     var harga_jual=harga_jual;
                     var stock=stock;
+                    var keuntungan=keuntungan;
 
                     var barang=CariIdBarang(id_barang);
 
@@ -421,6 +415,7 @@
                         rowBarang+="<td style='text-align:center'><input type='number' class='form-control qty_penjualan' name='item["+count+"][qty]' max='"+stock+"' value='1' id='qty"+count+"' data-idbuffer='"+count+"' onchange='cekQty(this)' ></td>";
                         rowBarang+="<td style='text-align:center'><div class='input-group-prepend input-primary'><input onchange='cekDiscount(this)' max='100' style='text-align:right' type='number' class='form-control discount' name='item["+count+"][discount]' value='0' id='discount"+count+"' onkeypress='cek_number()' data-idbuffer='"+count+"'><span class='input-group-text'>%</span></div></td>";
                         rowBarang+="<td style='text-align:center'><input style='text-align:right' type='number' class='form-control' name='item["+count+"][subtotal]' value='"+harga_jual+"' readonly='true' id='subtotal"+count+"'></td>";
+                        rowBarang+="<input style='text-align:right' type='hidden' class='form-control' name='item["+count+"][keuntungan]' value='"+keuntungan+"' readonly='true' id='keuntungan"+count+"'>";
                         rowBarang+="<td style='text-align:center;'><button type='button' class='btn btn-danger hapus_penjualan' data-idbuffer='"+count+"' ><i class='fa fa-trash'></i></button></td>";
                         rowBarang+="</tr>";
                         $('#t_penjualan').append(rowBarang);
@@ -566,4 +561,3 @@
 
     </script>
 @endpush
->>>>>>> a2032a036737e32bc55e22691bfd05c846c4ae33
