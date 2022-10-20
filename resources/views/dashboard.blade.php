@@ -16,9 +16,10 @@
 @push('styles')
     
 @endpush
-
 @section('contents')
-
+    
+<!-- Main content -->
+<section class="content">
     <div class="row mb-3">
         <!-- New User Card Example -->
         <div class="col-xl-3 col-md-6 mb-4">
@@ -210,7 +211,7 @@
                     class="btn btn-primary btn-sm" target="_blank"><i class="fab fa-fw fa-github"></i>&nbsp;GitHub</a></p>
         </div>
     </div>
-
+</section>
 @endsection
 
 @push('scripts')

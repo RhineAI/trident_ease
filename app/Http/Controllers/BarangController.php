@@ -10,6 +10,8 @@ use App\Models\Merek;
 use App\Models\Perusahaan;
 use App\Models\Satuan;
 use App\Models\Supplier;
+use Illuminate\Http\Request;
+
 
 class BarangController extends Controller
 {
@@ -25,7 +27,7 @@ class BarangController extends Controller
         $data['merek'] = Merek::get();
         $data['satuan'] = Satuan::get();
         $data['perusahaan'] = Perusahaan::get();
-        // $data['barang'] = Barang::get();
+        // $data['produk'] = Barang::get();
         $data['cPerusahaan'] = Perusahaan::select('*')->where('id', auth()->user()->id_perusahaan)->first();
         $data['barang'] = Barang::leftJoin('t_kategori AS K', 'K.id', 't_barang.id_kategori')
         ->leftJoin('t_supplier AS SP', 'SP.id', 't_barang.id_supplier')
@@ -36,6 +38,11 @@ class BarangController extends Controller
         ->where('t_barang.id_perusahaan', auth()->user()->id_perusahaan)     
         ->orderBy('t_barang.id', 'desc')
         ->get();
+
+        // $brg = Barang::all();
+        // return $brg;
+        // $cek = Merek::where('id', $brg->id_merek)->get();
+        // return $cek;
         
         // dd($data['barang']); die;
         return view('barang.index', $data);
@@ -51,6 +58,86 @@ class BarangController extends Controller
         return view('barang.tambah', $data);
     }
 
+
+    public function checkPrice($value)
+    {
+        if (gettype($value) == "string") {
+            $temp = 0;
+            for ($i = 0; $i < strlen($value); $i++) {
+                if ((isset($value[$i]) == true && $value[$i] != ".") && $value[$i] != ",") {
+                    $temp = ($temp * 10) + (int)$value[$i];
+                }
+            }
+            return $temp;
+        } else {
+            return $value;
+        }
+    }
+
+    public function data()
+    {
+        $barang = Barang::leftJoin('t_kategori AS K', 'K.id', 't_barang.id_kategori')
+                    ->leftJoin('t_supplier AS SP', 'SP.id', 't_barang.id_supplier')
+                    ->leftJoin('t_satuan AS ST', 'ST.id', 't_barang.id_satuan')
+                    ->leftJoin('t_merek AS M', 'M.id', 't_barang.id_merek')
+                    ->select('t_barang.*', 'K.nama AS nama_kategori', 'SP.nama AS nama_supplier', 'ST.nama AS nama_satuan', 'M.nama AS nama_merek')     
+                    ->where('t_barang.id_perusahaan', auth()->user()->id_perusahaan)     
+                    ->orderBy('id', 'desc')
+                    ->get();
+
+        return datatables()
+            ->of($barang)
+            ->addIndexColumn()
+            ->addColumn('kode', function ($barang) {
+                return '<span class="badge badge-info">'. $barang->barcode .'</span>';
+            })
+            ->addColumn('harga_beli', function ($barang) {
+                return format_uang($barang->harga_beli);
+            })
+            ->addColumn('stock', function ($barang) {
+                if($barang->stock == 0)
+                {
+                    return '<span class="badge badge-danger">Habis</span>';
+                }
+                else{
+                    return format_uang($barang->stock);
+                }
+            })
+            ->addColumn('status', function ($barang) {
+                if($barang->status == 1) {
+                    return '<span class="badge badge-info">Aktif</span>';
+                } else {
+                    return '<span class="badge badge-danger">Tidak Aktif</span>';
+                }
+            })
+            ->addColumn('action', function($barang) { 
+                return '
+                        <button data-nama="'.$barang->nama.'"
+                        data-kode="'.$barang->kode.'"
+                        data-barcode="'.$barang->barcode.'"
+                        data-id_kategori="'.$barang->id_kategori.'"
+                        data-id_supplier="'.$barang->id_supplier.'"
+                        data-id_satuan="'.$barang->id_satuan.'"
+                        data-id_merek="'.$barang->id_merek.'"
+                        data-id_perusahaan="'.$barang->id_perusahaan.'"
+                        data-satuan="'.$barang->id_satuan.'"
+                        data-stock="'.$barang->stock.'"
+                        data-stock_minimal="'.$barang->stock_minimal.'"
+                        data-harga_beli="'.$barang->harga_beli.'"
+                        data-keuntungan="'.$barang->keuntungan.'"
+                        data-keterangan="'.$barang->keterangan.'"
+                        data-status="'.$barang->status.'"
+                        data-route="'. route('barang.update', $barang->id) .'" 
+                        class="edit btn btn-xs btn-success"><i class="fa fa-pencil"></i></button>     
+                        <button onclick="deleteForm(`'. route('barang.destroy', $barang->id) .'`)" class="btn btn-xs btn-danger"><i class="fa fa-trash"></i></button>
+                    '; 
+                })
+            ->rawColumns(['action', 'kode', 'stock', 'status'])
+            ->make(true);
+    }
+
+    // <button onclick="editData(`'. route('barang.update', $barang->id).'`)" class="btn btn-xs btn-success"><i class="fa fa-edit"></i></button>
+   
     /**
      * Show the form for creating a new resource.
      *
@@ -67,11 +154,33 @@ class BarangController extends Controller
      * @param  \App\Http\Requests\StoreBarangRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreBarangRequest $request)
+    public function store(Request $request)
     {
-        return $request;
+        // return $request;
         // dd($request); die;
-        $input = Barang::create($request->all());
+        // $input['harga_beli'] = $this->checkPrice($request->harga_beli);
+        // $input['id_perusahaan'] =  auth()->user()->id_perusahaan;
+        // $input = $request->all();
+
+        // $input = Barang::create($request->all());
+        $barang = new Barang();
+        $barang->kode = $request->kode;
+        $barang->nama = $request->nama;
+        $barang->barcode = $request->barcode;
+        $barang->id_kategori = $request->id_kategori;
+        $barang->id_satuan = $request->id_satuan;
+        $barang->id_supplier = $request->id_supplier;
+        $barang->id_merek = $request->id_merek;
+        $barang->id_perusahaan = auth()->user()->id_perusahaan;
+        $barang->stock = $request->stock;
+        $barang->stock_minimal = $request->stock_minimal;
+        $barang->harga_beli = $this->checkPrice($request->harga_beli);
+        $barang->keuntungan = $request->keuntungan;
+        $barang->status = $request->status;
+        $barang->keterangan = $request->keterangan;
+        // return $barang;
+        $barang->save();
+
         return redirect('/barang')->with('success', 'Input data Barang berhasil!');
     }
 
@@ -104,10 +213,27 @@ class BarangController extends Controller
      * @param  \App\Models\Barang  $barang
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateBarangRequest $request, Barang $barang)
+    public function update(Request $request, $id)
     {
-        return $request;
-        $barang->update($request->all());
+        // return $request;
+        $barang = Barang::find($id);
+        $barang->kode = $request->kode;
+        $barang->nama = $request->nama;
+        $barang->barcode = $request->barcode;
+        $barang->id_kategori = $request->id_kategori;
+        $barang->id_satuan = $request->id_satuan;
+        $barang->id_supplier = $request->id_supplier;
+        $barang->id_merek = $request->id_merek;
+        $barang->id_perusahaan = auth()->user()->id_perusahaan;
+        $barang->stock = $request->stock;
+        $barang->stock_minimal = $request->stock_minimal;
+        $barang->harga_beli = $this->checkPrice($request->harga_beli);
+        $barang->keuntungan = $request->keuntungan;
+        $barang->status = $request->status;
+        $barang->keterangan = $request->keterangan;
+        $barang->update();
+        // return $barang;
+
         return redirect('/barang')->with('success', 'Update Data berhasil');
     }
 

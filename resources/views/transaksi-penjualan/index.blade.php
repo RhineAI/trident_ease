@@ -310,7 +310,7 @@
             });
 
             	//UBAH DISCOUNT
-                $(document).on('change', '.discount', function () {
+                $(document).on('keyup', '.discount', function () {
 
                     var id = $(this).data("idbuffer");
                     var harga_jual = $('#harga_jual' + id).val();
@@ -336,7 +336,7 @@
                 });
 
                 //UBAH QTY
-                $(document).on('change', '.qty_penjualan', function () {
+                $(document).on('keyup', '.qty_penjualan', function () {
 
                     var id = $(this).data("idbuffer");
                     var harga_jual = $('#harga_jual' + id).val();
@@ -461,47 +461,40 @@
                     return $(elemValue).val(formatRupiah($(elemValue).val(), 'Rp. '))
                 }
 
-            $(document).on('keyup', '#ayar', function(e){
+            $(document).on('keyup', '#bayar', function(e){
                 generateRupiah(this);
             })
 
-
-            //DP
-            $(document).on('keyup', '#p', function (e) {
+           //DP
+            $(document).on('keyup', '#dp', function (e) {
                 generateRupiah(this);
                    
 		    });
 
-                //UBAH DP
-            $(document).on('keypress', '#dp', function (e) {
-                if (e.keyCode === 13) {
-                    var tb = $("#total_bayar").val();
-                    var dp = $(this).val();
-                    $('#sisa').val(tb - dp);
-                }
-            });
-
-            // $(document).on('change', '#dp', function(e) {
-            //     var tb = $("#total_bayar").val();
-            //     var dp = $(this).val();
-            //     var harga = String(dp).replace(".", '');
-            //     console.log(harga)
-            //     $('#sisa').val(tb - parseInt(harga) );
-            // })
+            $(document).on('change', '#dp', function(e) {
+                var tb = $("#total_bayar").val();
+                var dp = $(this).val();
+                var harga = String(dp).replaceAll(".", '');
+                console.log(harga)
+                $('#sisa').val(tb - parseInt(harga) );
+            })
 
             //KEMBALIAN
             $(document).on('change', '#bayar', function (e) {
-                // var angka = $('#bayar').val();
-                // var number = String(angka).replace(".", ''); 
-                // console.log(number)
-                GetKembali();
-            });
-            
-         
-            function GetKembali() {
-                // var harga = number;
+                // if(e.keyCode === 13) {
+                    var angka = $('#bayar').val();
+                    // console.log(angka)
+                    var number = String(angka).replaceAll('.', ''); 
+                    // console.log(number)
 
-                var kembali = $('#bayar').val() - $("#total_bayar").val();
+                    GetKembali(number);
+                // }
+            });
+              
+            function GetKembali(number) {
+                var harga = number;
+                console.log(parseInt(harga))
+                var kembali = parseInt(harga) - $("#total_bayar").val();
                 // console.log(kembali)
                 if (kembali >= 0) {
                     $("#kembali").val(kembali);
