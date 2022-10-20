@@ -476,32 +476,41 @@
                 generateRupiah(this);
             })
 
+            // $('#tampil-bayar-gede').formatRupiah(this);
+
+            //TOTAL
+            $(document).on('change', '#tampil-bayar-gede', function(e){
+                formatRupiah(this);
+            })
+
            //DP
             $(document).on('keyup', '#dp', function (e) {
                 generateRupiah(this);
                    
 		    });
 
-                //UBAH DP
-            $(document).on('keyup', '#dp', function (e) {
-                var tb = $("#total_bayar").val();
-                var dp = $(this).val();
-                $('#sisa').val(tb - dp);
-            });
-
-            // $(document).on('change', '#dp', function(e) {
+            //     //UBAH DP
+            // $(document).on('keyup', '#dp', function (e) {
             //     var tb = $("#total_bayar").val();
             //     var dp = $(this).val();
-            //     var harga = String(dp).replace(".", '');
-            //     console.log(harga)
-            //     $('#sisa').val(tb - parseInt(harga) );
-            // })
+            //     $('#sisa').val(tb - dp);
+            // });
+
+            $(document).on('keyup', '#dp', function(e) {
+                var tb = $("#total_bayar").val();
+                var dp = $(this).val();
+                var harga = String(dp).replaceAll(".", '');
+                console.log(harga)
+                $('#sisa').val(tb - parseInt(harga) );
+            })
 
             //KEMBALIAN
             $(document).on('keyup', '#bayar', function (e) {
                 var tb = $("#total_bayar").val();
                 var bayar = $(this).val();
-                $('#kembali').val(bayar - tb);
+                var harga = String(bayar).replaceAll(".", '');
+                
+                $('#kembali').val( parseInt(harga) - tb );
             });
             
          
