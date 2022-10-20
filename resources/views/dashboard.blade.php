@@ -215,5 +215,7 @@
 @endsection
 
 @push('scripts')
-    
+    <script>
+        $('body').addClass('sidebar-collapse');
+    </script>
 @endpush

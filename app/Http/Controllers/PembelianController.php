@@ -212,4 +212,47 @@ class PembelianController extends Controller
     {
         //
     }
+
+    public function listPembelian()
+    {
+        //  $barang = Barang::orderBy('nama')->get();
+        //  $diskon = TransaksiPenjualan::first()->diskon ?? 0;
+ 
+        //  $detail = DetailPenjualan::orderBy('id_penjualan_detail', 'DESC');
+
+        $data['supplier'] = Supplier::where('id_perusahaan', auth()->user()->id_perusahaan)->get();    
+        // $data['produk'] = Barang::where('stock', '>', 0)->where('status', '==', '1')->get();    
+        $data['produk'] = Barang::where('stock', '>', 0)->where('status', '=', '1')->where('id_perusahaan', auth()->user()->id_perusahaan)->get();    
+        $data['cPerusahaan'] = Perusahaan::select('*')->where('id', auth()->user()->id_perusahaan)->first();
+        $data['transaksi'] = Pembelian::select('*')->where('id', auth()->user()->id_perusahaan)->get();
+   
+       return view('transaksi-pembelian.listTransaksi', $data);
+    }
+
+
+    
+    public function dataPembelian()
+    {
+        $pembelian = Pembelian::leftJoin('t_supplier AS P', 'P.id', 't_transaksi_pembelian.id_supplier')
+                                        ->select('t_transaksi_pembelian.*', 'P.nama AS nama_supplier')
+                                        ->orderBy('id', 'desc')->get();
+
+        return datatables()
+        ->of($pembelian)
+        ->addIndexColumn()
+        ->addColumn('invoice', function($pembelian) {
+            return '<span class="badge badge-info">'. $pembelian->id .'</span>';
+        })
+        ->addColumn('total_pembelian', function($pembelian) {
+            return 'RP. '. format_uang($pembelian->total_pembelian);
+        })
+        ->addColumn('action', function ($pembelian) {
+            return '
+                <button class="btn btn-xs btn-danger rounded delete"><i class="fa-solid fa-file-pdf"></i></button>
+            ';
+        })
+        ->rawColumns(['action', 'invoice'])
+        ->make(true);
+    }
+
 }
