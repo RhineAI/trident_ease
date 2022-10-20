@@ -16,7 +16,7 @@ return new class extends Migration
     {
         Schema::create('t_pembayaran', function (Blueprint $table) {
             $table->integer('id')->autoIncrement();
-            $table->integer('id_penjualan');
+            $table->bigInteger('id_penjualan');
             $table->date('tgl');
             $table->double('total_bayar');
             $table->integer('id_user');
