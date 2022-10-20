@@ -255,6 +255,10 @@
             }
         }
 
+        $('#buffer-table').DataTable({
+            scrollX: true,
+        });
+
         function hideProduk() {
             $('#formModalBarangPenjualan').modal('hide');
         }

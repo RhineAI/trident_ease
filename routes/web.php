@@ -54,7 +54,7 @@ Route::middleware('auth')->group(function(){
         Route::resource('/pembelian', PembelianController::class);
 
         Route::resource('/pembelian_detail', DetailPembelianController::class);
-        Route::get('/transaksi-pembelian', Transak)
+        // Route::get('/transaksi-pembelian', Transak)
         Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
         
         Route::resource('/transaksi-penjualan', TransaksiPenjualanController::class);
