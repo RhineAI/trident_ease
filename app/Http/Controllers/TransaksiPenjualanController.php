@@ -51,6 +51,30 @@ class TransaksiPenjualanController extends Controller
        return view('transaksi-penjualan.listTransaksi', $data);
     }
 
+    public function dataTransaksi()
+    {
+        $penjualan = TransaksiPenjualan::leftJoin('t_pelanggan AS P', 'P.id', 't_transaksi_penjualan.id_pelanggan')
+                                        ->select('t_transaksi_penjualan.*', 'P.nama AS nama_pelanggan')
+                                        ->orderBy('id', 'desc')->get();
+
+        return datatables()
+        ->of($penjualan)
+        ->addIndexColumn()
+        ->addColumn('invoice', function($penjualan) {
+            return '<span class="badge badge-info">'. $penjualan->id .'</span>';
+        })
+        ->addColumn('total_bayar', function($penjualan) {
+            return 'RP. '. format_uang($penjualan->total_harga);
+        })
+        ->addColumn('action', function ($penjualan) {
+            return '
+                <button class="btn btn-xs btn-danger rounded delete"><i class="fa-solid fa-file-pdf"></i></button>
+            ';
+        })
+        ->rawColumns(['action', 'invoice'])
+        ->make(true);
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -69,7 +93,7 @@ class TransaksiPenjualanController extends Controller
      */
     public function store(StorePenjualanRequest $request)
     {
-        dd($request); die;
+        // dd($request); die;
         if($request->kembali < 0){
             return back()->with('error', 'Uang bayar kurang');
         } else {
