@@ -98,18 +98,12 @@ class PembelianController extends Controller
             $pembelianBaru->id_user = auth()->user()->id;
             $pembelianBaru->id_perusahaan = auth()->user()->id_perusahaan;
             $pembelianBaru->save();
-
-            // $pembayaranBaru = new Pembayaran();
-            // $pembayaranBaru->id_penjualan = $pembelianBaru->id;
-            // $pembayaranBaru->tgl = date('Ymd');
-            // $pembayaranBaru->total_bayar = $request->total_bayar;
-            // $pembayaranBaru->id_user = auth()->user()->id;
-            // $pembayaranBaru->save();
-            // dd($pembelianBaru->id); die;
+            
             foreach($request->item as $barang){
                 // dd($barang['discount']); die;
                 $detPembelianBaru = new DetailPembelian(); 
                 $detPembelianBaru->id_pembelian = $pembelianBaru->id;
+                $detPembelianBaru->tgl = date('Ymd');
                 $detPembelianBaru->id_barang = $barang['id_barang'];
                 $detPembelianBaru->harga_beli = $barang['harga_beli'];
                 $detPembelianBaru->qty = $barang['qty'];
@@ -119,6 +113,7 @@ class PembelianController extends Controller
                 
                 $barangUpdate = Barang::find($barang['id_barang']);
                 $barangUpdate->stock += $barang['qty'];
+                $barangUpdate->harga_beli += $barang['harga_beli'];
                 $barangUpdate->update();
                 
                 // $barangUpdate = Barang::select('stock')->where('id', $barang->id_barang)->first();

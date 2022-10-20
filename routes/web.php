@@ -18,7 +18,7 @@ use App\Http\Controllers\UsersController;
 // Transaksi
 use App\Http\Controllers\TransaksiPenjualanController;
 use App\Http\Controllers\DetailPenjualanController;
-
+use App\Http\Controllers\PembayaranController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth')->group(function(){
@@ -66,7 +66,8 @@ Route::middleware('auth')->group(function(){
         Route::get('/list-transaksi', [TransaksiPenjualanController::class, 'listTransaksi'])->name('list-transaksi');
         Route::post('/list-transaksi/data', [TransaksiPenjualanController::class, 'dataTransaksi'])->name('list-transaksi.data');
 
-        Route::resource('/detail-penjualan', DetailPenjualanController::class);
+        // Route::resource('/detail-penjualan', DetailPenjualanController::class);
+        Route::resource('/pembayaran', PembayaranController::class);
     
 });
 

@@ -114,19 +114,16 @@ class TransaksiPenjualanController extends Controller
                 $penjualanBaru->total_bayar = $request->dp;
             }
             $penjualanBaru->kembalian = $request->kembali;
+            $penjualanBaru->dp = $request->dp;
+            $penjualanBaru->sisa = $request->sisa;
+            $penjualanBaru->jenis_pembayaran = $request->jenis_pembayaran;
             $penjualanBaru->id_user = auth()->user()->id;
             $penjualanBaru->id_perusahaan = auth()->user()->id_perusahaan;
-            $penjualanBaru->save();
-
-            $pembayaranBaru = new Pembayaran();
-            $pembayaranBaru->id_penjualan = $penjualanBaru->id;
-            $pembayaranBaru->tgl = date('Ymd');
-            $pembayaranBaru->total_bayar = $request->total_bayar;
-            $pembayaranBaru->id_user = auth()->user()->id;
-            $pembayaranBaru->save();
-            // dd($penjualanBaru->id); die;
+            
             foreach($request->item as $barang){
                 // dd($barang['discount']); die;
+                $penjualanBaru->keuntungan += $barang['keuntungan'];
+                $penjualanBaru->save();
                 $detPenjualanBaru = new DetailPenjualan(); 
                 $detPenjualanBaru->id_penjualan = $penjualanBaru->id;
                 $detPenjualanBaru->id_barang = $barang['id_barang'];
@@ -147,6 +144,16 @@ class TransaksiPenjualanController extends Controller
                 //     'stock' => $kurangiStok
                 // ]);
             }
+
+            $pembayaranBaru = new Pembayaran();
+            $pembayaranBaru->id_penjualan = $penjualanBaru->id;
+            $pembayaranBaru->tgl = date('Ymd');
+            $pembayaranBaru->total_bayar = $request->total_bayar;
+            $pembayaranBaru->id_user = auth()->user()->id;
+            $pembayaranBaru->id_perusahaan = auth()->user()->id_perusahaan;
+            $pembayaranBaru->save();
+            // dd($penjualanBaru->id); die;
+            
 
             return redirect('/list-transaksi')->with(['success' => 'Input data Transaksi Berhasil!']);
         }
