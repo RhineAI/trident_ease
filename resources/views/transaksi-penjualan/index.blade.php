@@ -476,13 +476,12 @@
                     return $(elemValue).val(formatRupiah($(elemValue).val(), 'Rp. '))
                 }
 
-            $(document).on('keyup', '#ayar', function(e){
+            $(document).on('keyup', '#bayar', function(e){
                 generateRupiah(this);
             })
 
-
-            //DP
-            $(document).on('keyup', '#p', function (e) {
+           //DP
+            $(document).on('keyup', '#dp', function (e) {
                 generateRupiah(this);
                    
 		    });

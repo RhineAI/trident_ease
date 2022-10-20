@@ -89,8 +89,8 @@ class LoginController extends Controller
         $perusahaan->level = 1;
         $perusahaan->save();
         
-        $id = Perusahaan::latest()->take(1);
-        return $id;
+        $id = Perusahaan::latest()->first();
+        // return $id;
 
         $user = new User();
         $user->id_perusahaan = $id->id;
@@ -101,10 +101,9 @@ class LoginController extends Controller
         $user->hak_akses = 1;
         $user->save();
 
-        $email = Perusahaan::latest();
+        \Mail::to($id->email)->send(new NotifikasiRegisterPerusahaan);
          
         // return $user;
-        \Mail::to($email->email)->send(new NotifikasiRegisterPerusahaan);
 
         return redirect()->route('regSuccess')->with(['success' => 'Registrasi Berhasil!']);
 

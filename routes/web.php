@@ -31,6 +31,7 @@ Route::middleware('auth')->group(function(){
         Route::resource('/barang', BarangController::class);
         Route::get('/barang-tambah', [BarangController::class, 'index2'])->name('barang2');
         Route::post('/barang-tambah', [BarangController::class, 'store']);
+        Route::post('/barang/data', [BarangController::class, 'data'])->name('barang.data');
 
         Route::resource('/supplier', SupplierController::class);
         Route::get('/supplier-tambah', [SupplierController::class, 'index2'])->name('supplier2');
