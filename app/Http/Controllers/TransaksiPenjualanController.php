@@ -26,9 +26,9 @@ class TransaksiPenjualanController extends Controller
  
         //  $detail = DetailPenjualan::orderBy('id_penjualan_detail', 'DESC');
 
-        $data['pelanggan'] = Pelanggan::get();    
+        $data['pelanggan'] = Pelanggan::where('id_perusahaan', auth()->user()->id_perusahaan)->get();    
         // $data['produk'] = Barang::where('stock', '>', 0)->where('status', '==', '1')->get();    
-        $data['produk'] = Barang::where('stock', '>', 0)->where('status', '=', '1')->get();    
+        $data['produk'] = Barang::where('stock', '>', 0)->where('status', '=', '1')->where('id_perusahaan', auth()->user()->id_perusahaan)->get();    
         $data['cPerusahaan'] = Perusahaan::select('*')->where('id', auth()->user()->id_perusahaan)->first();
    
         return view('transaksi-penjualan.index', $data);
@@ -42,8 +42,9 @@ class TransaksiPenjualanController extends Controller
  
         //  $detail = DetailPenjualan::orderBy('id_penjualan_detail', 'DESC');
 
-        $data['pelanggan'] = Pelanggan::get();    
-        $data['produk'] = Barang::where('stock', '>', 0, 'AND', 'status' === 1)->get();    
+        $data['pelanggan'] = Pelanggan::where('id_perusahaan', auth()->user()->id_perusahaan)->get();    
+        // $data['produk'] = Barang::where('stock', '>', 0)->where('status', '==', '1')->get();    
+        $data['produk'] = Barang::where('stock', '>', 0)->where('status', '=', '1')->where('id_perusahaan', auth()->user()->id_perusahaan)->get();    
         $data['cPerusahaan'] = Perusahaan::select('*')->where('id', auth()->user()->id_perusahaan)->first();
         $data['transaksi'] = TransaksiPenjualan::select('*')->where('id', auth()->user()->id_perusahaan)->get();
    
@@ -77,7 +78,7 @@ class TransaksiPenjualanController extends Controller
             // dd(TransaksiPenjualan::select("id")->where('id', 'like', '%'. date('Ymd') . '%')->first()); die;
             if(TransaksiPenjualan::select("id")->where('id', 'like', '%'. date('Ymd') . '%')->first() == null){
                 $indexTransaksi = sprintf("%05d", 1);
-                $penjualanBaru->tgl = date('Ymd'). $indexTransaksi;
+                $penjualanBaru->id = date('Ymd'). $indexTransaksi;
             }
 
             $penjualanBaru->tgl = date('Y-m-d');

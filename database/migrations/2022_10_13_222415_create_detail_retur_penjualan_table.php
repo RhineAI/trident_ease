@@ -15,6 +15,8 @@ return new class extends Migration
     {
         Schema::create('detail_retur_penjualans', function (Blueprint $table) {
             $table->id();
+            $table->integer('id_perusahaan');
+            $table->foreign('id_perusahaan')->references('id')->on('t_perusahaan')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
     }
