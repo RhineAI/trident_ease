@@ -30,7 +30,8 @@
 
 {{-- Toastr --}}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-
+<!-- FlatPickr -->
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
 <script>
   @if(session()->has('success'))

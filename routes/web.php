@@ -55,8 +55,7 @@ Route::middleware('auth')->group(function(){
         Route::resource('/transaksi-pembelian', PembelianController::class);    
         Route::get('/list-pembelian', [PembelianController::class, 'listPembelian'])->name('list-pembelian');
         Route::post('/list-pembelian/data', [PembelianController::class, 'dataPembelian'])->name('list-pembelian.data');
-
-
+       
         // Route::resource('/pembelian_detail', DetailPembelianController::class);
         // Route::get('/show-transaksi-pembelian', [PembelianController::class, 'showTPembelian'])
         Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
@@ -65,6 +64,9 @@ Route::middleware('auth')->group(function(){
         Route::get('/transaksi-penjualan/data', [TransaksiPenjualanController::class, 'data'])->name('transaksi.data');
         Route::get('/list-transaksi', [TransaksiPenjualanController::class, 'listTransaksi'])->name('list-transaksi');
         Route::post('/list-transaksi/data', [TransaksiPenjualanController::class, 'dataTransaksi'])->name('list-transaksi.data');
+        Route::get('/list-penjualan/data/{awal}/{akhir}', [TransaksiPenjualanController::class, 'data'])->name('list-transaksi.data');
+        Route::get('/list-penjualan/pdf/{awal}/{akhir}', [TransaksiPenjualanController::class, 'exportPDF'])->name('list-transaksi.export_pdf');
+
 
         Route::resource('/detail-penjualan', DetailPenjualanController::class);
     
