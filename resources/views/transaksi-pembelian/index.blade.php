@@ -1,16 +1,16 @@
 @extends('templates.layout')
 
 @section('title')
-    <title>Penjualan | {{ $cPerusahaan->nama }}</title>
+    <title>Pembelian | {{ $cPerusahaan->nama }}</title>
 @endsection
 
 @section('page')
-    Penjualan
+    Pembelian
 @endsection
 
 @section('breadcrumb')
 @parent
-    Penjualan
+    Pembelian
 @endsection
 
 @push('styles')
@@ -27,7 +27,7 @@
         background: #615d5d;
     }
 
-    .table-penjualan tbody tr:last-child {
+    .table-pembelian tbody tr:last-child {
         display: none;
     }
 
@@ -121,7 +121,7 @@
                                     <th class="text-center">Aksi</th>
                                </tr>
                             </thead>
-                            <tbody id="t_penjualan">
+                            <tbody id="t_pembelian">
                                 <tr id="buffer100" height="50px">
                                     <td></td>
                                     <td></td>
@@ -139,9 +139,9 @@
                                 <div class="tampil-terbilang">Nol Rupiah</div>
                             </div>
                             <div class="col-lg-5">
-                                       	<!-- TOTAL PENJUALAN  -->
-                                    <input class="form-control" type="hidden" name="total_penjualan" value="" data-bv-trigger="blur"
-                                    id="total_penjualan" readonly="true">
+                                       	<!-- TOTAL pembelian  -->
+                                    <input class="form-control" type="hidden" name="total_pembelian" value="" data-bv-trigger="blur"
+                                    id="total_pembelian" readonly="true">
 
                                     <input type="hidden" data-bv-trigger="blur" id="total_bayar" name="total_bayar" class="form-control" readonly>
 
@@ -234,12 +234,10 @@
         </div>
     </form>
   
-        @include('transaksi-penjualan.formBarang')
-        @include('transaksi-penjualan.formPelanggan')
+        @include('transaksi-pembelian.formBarang')
+        @include('transaksi-pembelian.formPelanggan')
       </section>
       <!-- /.content -->
-
-      @includeIf('transaksi-pembelian.barang')
 @endsection
 
 @push('scripts') 
@@ -247,8 +245,8 @@
         $('body').addClass('sidebar-collapse');
 
         function tampilProduk() {
-            $('#formModalBarangPenjualan').modal('show');
-            $('#tbl-data-barang-penjualan').DataTable();
+            $('#formModalBarangPembelian').modal('show');
+            $('#tbl-data-barang-pembelian').DataTable();
         }
 
         function preventEnter(e){
@@ -258,16 +256,16 @@
         }
 
         function hideProduk() {
-            $('#formModalBarangPenjualan').modal('hide');
+            $('#formModalBarangPembelian').modal('hide');
         }
 
         function tampilPelanggan() {
-            $('#formModalPelangganPenjualan').modal('show');
-            $('#tbl-data-pelanggan-penjualan').DataTable();
+            $('#formModalPelangganPembelian').modal('show');
+            $('#tbl-data-pelanggan-pembelian').DataTable();
         }
 
         function hidePelanggan() {
-            $('#formModalPelangganPenjualan').modal('hide');
+            $('#formModalPelangganPembelian').modal('hide');
         }
 
             function cekDiscount(qty) {
@@ -337,7 +335,7 @@
                     });
                     
                 //UBAH QTY
-                // $(document).on('keyup', '.qty_penjualan', function (e) {
+                // $(document).on('keyup', '.qty_pembelian', function (e) {
                 //     // if (e.keyCode === 13) {
                 //         var id = $(this).data("idbuffer");
                 //         var harga_jual = $('#harga_jual' + id).val();
@@ -349,7 +347,7 @@
                 // });
 
                 //UBAH QTY
-                $(document).on('keyup', '.qty_penjualan', function () {
+                $(document).on('keyup', '.qty_pembelian', function () {
 
                     var id = $(this).data("idbuffer");
                     var harga_jual = $('#harga_jual' + id).val();
@@ -376,7 +374,7 @@
                     // function getStock(){
                     //     return stock;
                     // }
-                    TambahDataPenjualan(id,kode,nama,harga_beli,harga_jual, stock);
+                    TambahDataPembelian(id,kode,nama,harga_beli,harga_jual, stock);
                 });
 
                 $(document).on('click','.add_pelanggan',function(){
@@ -389,7 +387,7 @@
                     $('#tlp').val(tlp);
                 });
 
-                function TambahDataPenjualan(id,kode,nama,harga_beli,harga_jual,stock){
+                function TambahDataPembelian(id,kode,nama,harga_beli,harga_jual,stock){
                     var id_barang=id;
                     var kode_barang=kode;
                     var nama_barang=nama;
@@ -408,12 +406,12 @@
                         rowBarang+="<td style='text-align:center'><input type='hidden' name='item["+count+"][id_barang]' value='"+id_barang+"'> <input class='form-control' type='text' name='item["+count+"][kode]' value='"+kode_barang+"' readonly='true'></td>";
                         rowBarang+="<td style='text-align:center'><input class='form-control' type='text' name='item["+count+"][nama_barang]' value='"+nama_barang+"' readonly='true'></td>";
                         rowBarang+="<td><input class='form-control' style='text-align:right' type='text' name='item["+count+"][harga_jual]' value='"+harga_jual+"' id='harga_jual"+count+"' readonly='true'><input type='hidden' name='item["+count+"][harga_beli]' value='"+harga_beli+"'></td>";
-                        rowBarang+="<td style='text-align:center'><input type='number' class='form-control qty_penjualan' name='item["+count+"][qty]' max='"+stock+"' value='1' id='qty"+count+"' data-idbuffer='"+count+"' onchange='cekQty(this)' ></td>";
+                        rowBarang+="<td style='text-align:center'><input type='number' class='form-control qty_pembelian' name='item["+count+"][qty]' max='"+stock+"' value='1' id='qty"+count+"' data-idbuffer='"+count+"' onchange='cekQty(this)' ></td>";
                         rowBarang+="<td style='text-align:center'><div class='input-group-prepend input-primary'><input onchange='cekDiscount(this)' max='100' style='text-align:right' type='number' class='form-control discount' name='item["+count+"][discount]' value='0' id='discount"+count+"' onkeypress='cek_number()' data-idbuffer='"+count+"'><span class='input-group-text'>%</span></div></td>";
                         rowBarang+="<td style='text-align:center'><input style='text-align:right' type='number' class='form-control' name='item["+count+"][subtotal]' value='"+harga_jual+"' readonly='true' id='subtotal"+count+"'></td>";
-                        rowBarang+="<td style='text-align:center;'><button type='button' class='btn btn-danger hapus_penjualan' data-idbuffer='"+count+"' ><i class='fa fa-trash'></i></button></td>";
+                        rowBarang+="<td style='text-align:center;'><button type='button' class='btn btn-danger hapus_pembelian' data-idbuffer='"+count+"' ><i class='fa fa-trash'></i></button></td>";
                         rowBarang+="</tr>";
-                        $('#t_penjualan').append(rowBarang);
+                        $('#t_pembelian').append(rowBarang);
                     }else{
                         var posisi=CariPosisi(id_barang);
                         var qty=Number($('#qty'+posisi).val())+1;
@@ -474,45 +472,37 @@
                     return $(elemValue).val(formatRupiah($(elemValue).val(), 'Rp. '))
                 }
 
-            $(document).on('keyup', '#bayar', function(e){
+            $(document).on('keyup', '#ayar', function(e){
                 generateRupiah(this);
             })
 
-            // $('#tampil-bayar-gede').formatRupiah(this);
 
-            //TOTAL
-            $(document).on('change', '#tampil-bayar-gede', function(e){
-                formatRupiah(this);
-            })
-
-           //DP
-            $(document).on('keyup', '#dp', function (e) {
+            //DP
+            $(document).on('keyup', '#p', function (e) {
                 generateRupiah(this);
                    
 		    });
 
-            //     //UBAH DP
-            // $(document).on('keyup', '#dp', function (e) {
-            //     var tb = $("#total_bayar").val();
-            //     var dp = $(this).val();
-            //     $('#sisa').val(tb - dp);
-            // });
-
-            $(document).on('keyup', '#dp', function(e) {
+                //UBAH DP
+            $(document).on('keyup', '#dp', function (e) {
                 var tb = $("#total_bayar").val();
                 var dp = $(this).val();
-                var harga = String(dp).replaceAll(".", '');
-                console.log(harga)
-                $('#sisa').val(tb - parseInt(harga) );
-            })
+                $('#sisa').val(tb - dp);
+            });
+
+            // $(document).on('change', '#dp', function(e) {
+            //     var tb = $("#total_bayar").val();
+            //     var dp = $(this).val();
+            //     var harga = String(dp).replace(".", '');
+            //     console.log(harga)
+            //     $('#sisa').val(tb - parseInt(harga) );
+            // })
 
             //KEMBALIAN
             $(document).on('keyup', '#bayar', function (e) {
                 var tb = $("#total_bayar").val();
                 var bayar = $(this).val();
-                var harga = String(bayar).replaceAll(".", '');
-                
-                $('#kembali').val( parseInt(harga) - tb );
+                $('#kembali').val(bayar - tb);
             });
             
          
@@ -523,13 +513,13 @@
             //     if (kembali >= 0) {
             //         $("#kembali").val(kembali);
             //     } else {
-            //         var kurang = $('#total_penjualan').val();
+            //         var kurang = $('#total_pembelian').val();
             //         $('#bayar').val(kurang)
             //         $("#kembali").val(kembali);
             //     }
             // }
 
-            $(document).on('click','.hapus_penjualan',function(){
+            $(document).on('click','.hapus_pembelian',function(){
                 var delete_row=$(this).data("idbuffer");
             
                 //hapus pada table
@@ -541,14 +531,14 @@
 
 
             function GetTotalBayar(){
-                var total_penjualan=0;
+                var total_pembelian=0;
                 //HASILKAN TOTAL BAYAR
                 for(x=1;x<=count;x++){
-                    total_penjualan+= Number($("input[name='item["+x+"][subtotal]']").val());
+                    total_pembelian+= Number($("input[name='item["+x+"][subtotal]']").val());
                 }
-        			$('#total_bayar').val(Number(total_penjualan));
-        			$('#total_bayar_gede').text('Rp. '+ Math.round(Number(total_penjualan)));
-                    $('#total_penjualan').val(Number(total_penjualan));	
+        			$('#total_bayar').val(Number(total_pembelian));
+        			$('#total_bayar_gede').text('Rp. '+ Math.round(Number(total_pembelian)));
+                    $('#total_pembelian').val(Number(total_pembelian));	
             }
                 
             });

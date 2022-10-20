@@ -1,22 +1,22 @@
-<table id="tbl-data-barang" class="table table-bordered table-hover table-compact" style="width: 100%;">
+<table id="tbl-data-barang" class="table table-bordered table-striped table-hover table-compact" style="width: 100%;">
     <thead>
         <tr>
-            <td>No</td>
-            <td>Kode Barang</td>
-            <td>Nama Barang</td>
-            <td>Barcode Barang</td>
-            <td>Kategori Barang</td>
-            <td>Supplier</td>
-            <td>Satuan</td>
-            <td>Merek</td>
-            <td>Perusahaan</td>
-            <td>Stock</td>
-            <td>Stock Minimal</td>
-            <td>Harga Beli</td>
-            <td>Keuntungan</td>
-            <td>Keterangan</td>
-            <td>Status</td>
-            <td>Action</td>
+            <th>No</th>
+            <th>Kode Barang</th>
+            <th>Nama Barang</th>
+            {{-- <th>Barcohe Barang</th> --}}
+            <th>Kategori Barang</th>
+            {{-- <th>Supplier</th> --}}
+            <th>Satuan</th>
+            <th>Merek</th>
+            {{-- <th>Perusahaan</th> --}}
+            <th>Stock</th>
+            {{-- <th>Stock Minimal</th> --}}
+            <th>Harga Beli</th>
+            {{-- <th>Keuntungan</th> --}}
+            <th>Keterangan</th>
+            <th>Status</th>
+            <th>Action</th>
         </tr>
     </thead>
     <tbody>
@@ -25,16 +25,16 @@
                 <td>{{ $item->id }}</td>
                 <td>{{ $item->kode }}</td>
                 <td>{{ $item->nama }}</td>
-                <td>{{ $item->barcode }}</td>
+                {{-- <td>{{ $item->barcode }}</td> --}}
                 <td>{{ $item->nama_kategori }}</td>
-                <td>{{ $item->nama_supplier }}</td>
+                {{-- <td>{{ $item->nama_supplier }}</td> --}}
                 <td>{{ $item->nama_satuan }}</td>
                 <td>{{ $item->nama_merek }}</td>
-                <td>{{ $item->nama_perusahaan }}</td>
+                {{-- <td>{{ $item->nama_perusahaan }}</td> --}}
                 <td>{{ $item->stock }}</td>
-                <td>{{ $item->stock_minimal }}</td>
+                {{-- <td>{{ $item->stock_minimal }}</td> --}}
                 <td>{{ $item->harga_beli }}</td>
-                <td>{{ $item->keuntungan }}</td>
+                {{-- <td>{{ $item->keuntungan }}</td> --}}
                 <td>{{ $item->keterangan }}</td>
                 <td>
                     @if ($item->status == 1)
@@ -44,7 +44,25 @@
                     @endif    
                 </td>
                 <td>
-                    <button class="btn" type="button" style="color: green;" title="Edit" data-mode="edit" data-toggle="modal" data-target="#formModalBarang" data-id_barang="{{ $item->id }}" data-kode="{{ $item->kode }}" data-nama_barang="{{ $item->nama }}" data-barcode="{{ $item->barcode }}" data-tebal="{{ $item->tebal }}" data-panjang="{{ $item->panjang }}" data-id_kategori="{{ $item->id_kategori }}" data-id_supplier="{{ $item->id_supplier }}" data-id_satuan="{{ $item->id_satuan }}" data-id_merek="{{ $item->id_merek }}" data-id_perusahaan="{{ $item->id_perusahaan }}" data-stock="{{ $item->stock }}" data-stock_minimal="{{ $item->stock_minimal }}" data-harga_beli="{{ $item->harga_beli }}" data-keuntungan="{{ $item->keuntungan }}" data-keterangan="{{ $item->keterangan }}" data-status="{{ $item->status }}">
+                    <button class="btn edit" type="button" style="color: green;" title="Edit" 
+                    data-mode="edit" 
+                    data-route="{{ route('barang.update', $item->id) }}" 
+                    data-toggle="modal" data-target="#formModalBarang" 
+                    data-id_barang="{{ $item->id }}" 
+                    data-kode="{{ $item->kode }}" 
+                    data-nama_barang="{{ $item->nama }}" 
+                    data-barcode="{{ $item->barcode }}" 
+                    data-id_kategori="{{ $item->id_kategori }}" 
+                    data-id_supplier="{{ $item->id_supplier }}" 
+                    data-id_satuan="{{ $item->id_satuan }}" 
+                    data-id_merek="{{ $item->id_merek }}" 
+                    data-id_perusahaan="{{ $item->id_perusahaan }}" 
+                    data-stock="{{ $item->stock }}" 
+                    data-stock_minimal="{{ $item->stock_minimal }}" 
+                    data-harga_beli="{{ $item->harga_beli }}" 
+                    data-keuntungan="{{ $item->keuntungan }}" 
+                    data-keterangan="{{ $item->keterangan }}" 
+                    data-status="{{ $item->status }}">
                         <i class="fas fa-edit"></i>
                     </button>
                     <form action="{{ route('barang.destroy', $item->id) }}" style="display: inline;" method="post">

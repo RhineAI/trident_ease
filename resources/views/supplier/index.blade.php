@@ -38,7 +38,7 @@
           </div>
           <div class="card-body">
                 <!-- Button trigger modal -->
-                @if(session('success'))
+                {{-- @if(session('success'))
                     <div class="alert alert-success" role="alert" id="success-alert">
                     {{ session('success') }}
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -63,7 +63,7 @@
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                @endif
+                @endif --}}
                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#formModalSupplier">
                     <i class="fas fa-plus"></i>&nbsp; Tambah Data
                 </button>

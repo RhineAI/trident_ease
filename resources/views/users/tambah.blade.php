@@ -1,7 +1,7 @@
 @extends('templates.layout')
 
 @section('title')
-    Pegawai | {{ $cPerusahaan->nama }}
+    <title>Pegawai | {{ $cPerusahaan->nama }}</title>
 @endsection
 
 @section('breadcrumb')

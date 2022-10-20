@@ -52,7 +52,7 @@
                     <span aria-hidden="true">&times;</span>
                     </div>
                 @endif --}}
-                @if($errors->any())
+                {{-- @if($errors->any())
                     <div class="alert alert-danger alert-dismissible fade show" role="alert">
                         <ul>
                             @foreach ($errors->all() as $error)
@@ -63,7 +63,7 @@
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                @endif
+                @endif --}}
                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#formModalSatuan">
                     <i class="fas fa-plus"></i>&nbsp; Tambah Data
                 </button>
