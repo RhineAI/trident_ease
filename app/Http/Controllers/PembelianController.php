@@ -7,6 +7,7 @@ use App\Http\Requests\StorePembelianRequest;
 use App\Http\Requests\UpdatePembelianRequest;
 use App\Models\Barang;
 use App\Models\DetailPembelian;
+use App\Models\Pembayaran;
 use App\Models\Perusahaan;
 use App\Models\Supplier;
 
@@ -20,7 +21,10 @@ class PembelianController extends Controller
     public function index()
     {
         $data['cPerusahaan'] = Perusahaan::select('*')->where('id', auth()->user()->id_perusahaan)->first();
-        return view('pembelian.index', $data);
+        $data['supplier'] = Supplier::where('id_perusahaan', auth()->user()->id_perusahaan)->get();    
+        // $data['produk'] = Barang::where('stock', '>', 0)->where('status', '==', '1')->get();    
+        $data['produk'] = Barang::where('stock', '>', 0)->where('status', '=', '1')->where('id_perusahaan', auth()->user()->id_perusahaan)->get();    
+        return view('transaksi-pembelian.index', $data);
     }
 
     /**
@@ -42,36 +46,89 @@ class PembelianController extends Controller
      * @param  \App\Http\Requests\StorePembelianRequest  $request
      * @return \Illuminate\Http\Response
      */
+    // old store (mungkin masih berguna)
+    // public function store(StorePembelianRequest $request)
+    // {
+    //     $pembelian = new Pembelian();
+    //     $generateKode = Pembelian::select('kode_invoice')->orderBy('created_at', 'DESC')->first();
+
+    //     $kode = '';
+
+    //     if($generateKode == NULL) {
+    //         $kode = 'INV-202205001';
+    //     } else {
+    //         $kode = sprintf('INV-202205%03d', substr($generateKode->kode_pembelian, 10) + 1);
+    //         // $kode = sprintf('BRC-202205%03d' + 1);
+    //     }
+
+    //     $pembelian->tgl = now();
+    //     $pembelian->kode_invoice = $kode;
+    //     $pembelian->id_supplier = $request->id_supplier;
+    //     $pembelian->total_pembelian = $request->total_pembelian;
+    //     $pembelian->jenis_pembayaran = $request->jenis_pembayaran;
+    //     $pembelian->id_user = $request->id_user;
+    //     $pembelian->save();
+
+    //     $detail = DetailPembelian::Where('id_pembelian', $pembelian->id)->get();
+    //     foreach ($detail as $item) {
+    //         $produk = Barang::find($item->id_produk);
+    //         $produk->stok += $item->jumlah;
+    //         $produk->update();
+    //     }
+
+    //     return redirect()->route('pembelian.index');
+    // }
+
     public function store(StorePembelianRequest $request)
     {
-        $pembelian = new Pembelian();
-        $generateKode = Pembelian::select('kode_invoice')->orderBy('created_at', 'DESC')->first();
+        // dd($request); die;
+            $pembelianBaru = new Pembelian();
+            // "select max(id)+1 as nextid from t_pembayaran where id like '".$tgl."%'"
+            // dd(Pembelian::select("id")->where('id', 'like', '%'. date('Ymd') . '%')->first()); die;
+            if(Pembelian::select("id")->where('id', 'like', '%'. date('Ymd') . '%')->first() == null){
+                $indexTransaksi = sprintf("%05d", 1);
+                $pembelianBaru->id = date('Ymd'). $indexTransaksi;
+            }
 
-        $kode = '';
+            $pembelianBaru->tgl = date('Y-m-d');
+            $pembelianBaru->kode_invoice = 'kode invoice simpak';
+            $pembelianBaru->id_supplier = $request->id_supplier;
+            $pembelianBaru->total_pembelian = $request->total_pembelian;
+            $pembelianBaru->jenis_pembayaran = $request->jenis_pembayaran;
+            $pembelianBaru->id_user = auth()->user()->id;
+            $pembelianBaru->id_perusahaan = auth()->user()->id_perusahaan;
+            $pembelianBaru->save();
 
-        if($generateKode == NULL) {
-            $kode = 'INV-202205001';
-        } else {
-            $kode = sprintf('INV-202205%03d', substr($generateKode->kode_pembelian, 10) + 1);
-            // $kode = sprintf('BRC-202205%03d' + 1);
-        }
+            // $pembayaranBaru = new Pembayaran();
+            // $pembayaranBaru->id_penjualan = $pembelianBaru->id;
+            // $pembayaranBaru->tgl = date('Ymd');
+            // $pembayaranBaru->total_bayar = $request->total_bayar;
+            // $pembayaranBaru->id_user = auth()->user()->id;
+            // $pembayaranBaru->save();
+            // dd($pembelianBaru->id); die;
+            foreach($request->item as $barang){
+                // dd($barang['discount']); die;
+                $detPembelianBaru = new DetailPembelian(); 
+                $detPembelianBaru->id_pembelian = $pembelianBaru->id;
+                $detPembelianBaru->id_barang = $barang['id_barang'];
+                $detPembelianBaru->harga_beli = $barang['harga_beli'];
+                $detPembelianBaru->qty = $barang['qty'];
+                $detPembelianBaru->diskon = $barang['discount'];
+                $detPembelianBaru->id_perusahaan = auth()->user()->id_perusahaan;
+                $detPembelianBaru->save();
+                
+                $barangUpdate = Barang::find($barang['id_barang']);
+                $barangUpdate->stock += $barang['qty'];
+                $barangUpdate->update();
+                
+                // $barangUpdate = Barang::select('stock')->where('id', $barang->id_barang)->first();
+                // $kurangiStok = $barangUpdate - $barang->qty;
+                // Barang::update([
+                //     'stock' => $kurangiStok
+                // ]);
+            }
 
-        $pembelian->tgl = now();
-        $pembelian->kode_invoice = $kode;
-        $pembelian->id_supplier = $request->id_supplier;
-        $pembelian->total_pembelian = $request->total_pembelian;
-        $pembelian->jenis_pembayaran = $request->jenis_pembayaran;
-        $pembelian->id_user = $request->id_user;
-        $pembelian->save();
-
-        $detail = DetailPembelian::Where('id_pembelian', $pembelian->id)->get();
-        foreach ($detail as $item) {
-            $produk = Barang::find($item->id_produk);
-            $produk->stok += $item->jumlah;
-            $produk->update();
-        }
-
-        return redirect()->route('pembelian.index');
+            return redirect('/list-transaksi')->with(['success' => 'Input data Transaksi Berhasil!']);
     }
 
     public function data($id)

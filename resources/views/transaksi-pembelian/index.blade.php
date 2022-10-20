@@ -70,24 +70,24 @@
         
                     <div class="box-body mx-2 my-2">
 
-                        <form class="form-pelanggan" method="post">
+                        <form class="form-supplier" method="post">
                             @csrf
                             <div class="form-group row">
-                                <label for="nama_pelanggan" class="col-lg-2">Pelanggan</label>
+                                <label for="nama_supplier" class="col-lg-2">Supplier</label>
                                 <div class="col-lg-3">
                                     <div class="input-group">
-                                        <input type="text" name="nama_pelanggan" id="nama_pelanggan" class="form-control" required autofocus readonly>
-                                        <span class="input-group-btn tampil-pelanggan">
-                                            <button onclick="tampilPelanggan()" class="btn btn-info btn-flat" type="button"><i class="fa-solid fa-magnifying-glass"></i></i></button>
+                                        <input type="text" name="nama_supplier" id="nama_supplier" class="form-control" required autofocus readonly>
+                                        <span class="input-group-btn tampil-supplier">
+                                            <button onclick="tampilSupplier()" class="btn btn-info btn-flat" type="button"><i class="fa-solid fa-magnifying-glass"></i></i></button>
                                         </span>
                                     </div>
                                 </div>
                             </div>
                             <div class="form-group row">
-                                <label for="tlp" class="col-lg-2">Telepon Pelanggan</label>
+                                <label for="tlp" class="col-lg-2">Telepon Supplier</label>
                                 <div class="col-lg-3">
                                     <div class="input-group">
-                                        <input type="hidden" name="id_pelanggan" id="id_pelanggan">
+                                        <input type="hidden" name="id_supplier" id="id_supplier">
                                         <input type="text" name="tlp" id="tlp" class="form-control" required readonly>
                                     </div>
                                 </div>
@@ -109,29 +109,31 @@
                                 </div>
                             </div>
         
-                        <table cellpaddong="0" cellspacing="0" class="table table-striped table-bordered table-responsive" id="buffer_table">
-                            <thead>
-                               <tr>
-                                    <th class="text-center"> Kode</th>
-                                    <th class="text-center">Nama</th>
-                                    <th class="text-center">Harga</th>
-                                    <th class="text-center">Jumlah</th>
-                                    <th class="text-center">Diskon</th>
-                                    <th class="text-center">Subtotal</th>
-                                    <th class="text-center">Aksi</th>
-                               </tr>
-                            </thead>
-                            <tbody id="t_pembelian">
-                                <tr id="buffer100" height="50px">
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                            </tbody>
-                        </table>
+                        <div class="table-responsive">
+                            <table cellpaddong="0" cellspacing="0" class="table table-striped table-bordered" id="buffer_table">
+                                <thead>
+                                   <tr>
+                                        <th class="text-center"> Kode</th>
+                                        <th class="text-center">Nama</th>
+                                        <th class="text-center">Harga</th>
+                                        <th class="text-center">Jumlah</th>
+                                        <th class="text-center">Diskon</th>
+                                        <th class="text-center">Subtotal</th>
+                                        <th class="text-center">Aksi</th>
+                                   </tr>
+                                </thead>
+                                <tbody id="t_pembelian">
+                                    <tr id="buffer100" height="50px">
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
         
                         <div class="row mt-4">
                             <div class="col-lg-7">
@@ -143,19 +145,17 @@
                                     <input class="form-control" type="hidden" name="total_pembelian" value="" data-bv-trigger="blur"
                                     id="total_pembelian" readonly="true">
 
-                                    <input type="hidden" data-bv-trigger="blur" id="total_bayar" name="total_bayar" class="form-control" readonly>
-
                                     <div class="form-group row">
                                         <label for="inputEmail3" class="col-lg-3 control-label">Jenis Pembayaran</label>
                                         <div class="col-lg-8">
                                             <select class="form-control" name="jenis_pembayaran" data-bv-trigger="blur" id="jenis_pembayaran">
-                                                <option value="1" selected="selected">CASH</option>';
-                                                <option value="2">KREDIT</option>';
+                                                <option value="1" selected="selected">Transfer</option>';
+                                                <option value="2">Cash</option>';
                                             </select>
                                         </div>
                                     </div>
                              
-                                    {{-- <div class="form-group row mt-4">
+                                    <div class="form-group row mt-4">
                                         <label for="bayar" class="col-lg-3 control-label">Total</label>
                                         <div class="col-lg-8 ">
                                             <div class="input-group-prepend input-primary"> 
@@ -163,65 +163,7 @@
                                                 <input type="text" data-bv-trigger="blur" id="total_bayar" name="total_bayar" class="form-control" readonly>
                                             </div>
                                         </div>
-                                    </div> --}}
-                                    <div class="form-group row mt-4" id="tampil_bayar">
-                                        <label for="diterima" class="col-lg-3 control-label">Bayar</label>
-                                        <div class="col-lg-8 ">
-                                            <div class="input-group-prepend input-primary"> 
-                                                <span class="input-group-text">RP.</span> 
-                                                <input type="text" data-bv-trigger="blur" id="bayar" name="bayar" class="form-control" >
-                                            </div>
-                                        </div>
                                     </div>
-                                    <div class="form-group row mt-4" id="tampil_kembali">
-                                        <label for="diterima" class="col-lg-3 control-label">Kembalian</label>
-                                        <div class="col-lg-8 ">
-                                            <div class="input-group-prepend input-primary"> 
-                                                <span class="input-group-text">RP.</span> 
-                                                <input type="text" data-bv-trigger="blur" id="kembali" readonly name="kembali" class="form-control" >
-                                            </div>
-                                        </div>
-                                    </div>
-        
-                                    <div class="form-group row mt-4" id="tampil_dp">
-                                        <label for="inputEmail3" class="col-lg-3 control-label">DP</label>
-                                        <div class="col-lg-8 ">
-                                            <div class="input-group-prepend input-primary"> 
-                                                <span class="input-group-text">RP.</span> 
-                                                <input type="text" data-bv-trigger="blur" id="dp" name="dp" class="form-control">
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group row mt-4" id="tampil_sisa">
-                                        <label for="inputEmail3" class="col-lg-3 control-label">Sisa</label>
-                                        <div class="col-lg-8 ">
-                                            <div class="input-group-prepend input-primary"> 
-                                                <span class="input-group-text">RP.</span> 
-                                                <input type="text" data-bv-trigger="blur" id="sisa" name="sisa" class="form-control" readonly>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    {{-- <div class="form-group row" style="display: none;" id="tampil_dp">
-                                        <label for="inputEmail3" class="col-lg-3 control-label">DP</label>
-                                        <div class="col-lg-8">
-                                            <div class="input-group-prepend input-primary"> 
-                                                <span class="input-group-text">RP.</span> 
-                                                <input type="text" id="dp" class="form-control" name="dp">
-                                            </div>
-                                        </div>
-                                    </div> --}}
-                
-                                    {{-- <div class="form-group" style="display: none;" id="tampil_sisa">
-                                        <label for="inputEmail3" class="col-lg-3 control-label">SISA</label>
-                                        <div class="col-lg-8">
-                                            <div class="input-group-prepend input-primary"> 
-                                                <span class="input-group-text">RP.</span> 
-                                                <input type="text" id="sisa" class="form-control" name="sisa">
-                                            </div>
-                                        </div>
-                                    </div> --}}
                             </div>
                         </div>
                     </div>
@@ -235,7 +177,7 @@
     </form>
   
         @include('transaksi-pembelian.formBarang')
-        @include('transaksi-pembelian.formPelanggan')
+        @include('transaksi-pembelian.formSupplier')
       </section>
       <!-- /.content -->
 @endsection
@@ -259,24 +201,24 @@
             $('#formModalBarangPembelian').modal('hide');
         }
 
-        function tampilPelanggan() {
-            $('#formModalPelangganPembelian').modal('show');
-            $('#tbl-data-pelanggan-pembelian').DataTable();
+        function tampilSupplier() {
+            $('#formModalSupplierPembelian').modal('show');
+            $('#tbl-data-supplier-pembelian').DataTable();
         }
 
-        function hidePelanggan() {
-            $('#formModalPelangganPembelian').modal('hide');
+        function hideSupplier() {
+            $('#formModalSupplierPembelian').modal('hide');
         }
 
             function cekDiscount(qty) {
-                    if(Number(qty.value) < 0){
-                        qty.value = 0; 
-                    } else if(Number(qty.value) > 100) {
-                        qty.value = 100;
-                    } else {
-                        qty.value = qty.value;
-                    }
+                if(Number(qty.value) < 0){
+                    qty.value = 0; 
+                } else if(Number(qty.value) > 100) {
+                    qty.value = 100;
+                } else {
+                    qty.value = qty.value;
                 }
+            }
 
             function cekQty(stock) {
                 if(Number(stock.value) < 0){
@@ -295,53 +237,40 @@
             var total=0;
             var count=0;
 
- 
-            $('div#tampil_dp').hide();
-            $('div#tampil_sisa').hide();
-
-            $(document).on('change', '#jenis_pembayaran', function () {
-                
-            var isiJenis = $("#jenis_pembayaran").val();
-                if (isiJenis == '1') {
-                    $("#tampil_dp").val("");
-                    $("#tampil_sisa").val("");
-                    $('div#tampil_bayar').show();
-                    $('div#tampil_kembali').show();
-                    $('div#tampil_dp').hide();
-                    $('div#tampil_sisa').hide();
-
-                } else {
-                    $("#tampil_bayar").val("");
-                    $("#tampil_kembali").val("");
-                    $('div#tampil_bayar').hide();
-                    $('div#tampil_kembali').hide();
-                    $('div#tampil_dp').show();
-                    $('div#tampil_sisa').show();
-                }
-            });
-
             	//UBAH DISCOUNT
                 $(document).on('keyup', '.discount', function () {
 
                     var id = $(this).data("idbuffer");
-                    var harga_jual = $('#harga_jual' + id).val();
+                    var harga_beli = $('#harga_beli' + id).val();
                     var qty = $('#qty' + id).val();
                     var discount = $('#discount' + id).val();
-                    var hasil = (harga_jual *qty) * discount/100;
-                    $('#subtotal' + id).val((harga_jual * qty) - hasil);
+                    var hasil = (harga_beli *qty) * discount/100;
+                    $('#subtotal' + id).val((harga_beli * qty) - hasil);
                     GetTotalBayar();
                     //GetKeuntungan();
                     //alert(id);
-                    });
+                });
+
+                $(document).on('keyup', '.harga_beli', function () {
+                    var id = $(this).data("idbuffer");
+                    var harga_beli = $('#harga_beli' + id).val();
+                    var qty = $('#qty' + id).val();
+                    var discount = $('#discount' + id).val();
+                    var hasil = (harga_beli *qty) * discount/100;
+                    $('#subtotal' + id).val((harga_beli * qty) - hasil);
+                    GetTotalBayar();
+                    //GetKeuntungan();
+                    //alert(id);
+                });
                     
                 //UBAH QTY
                 // $(document).on('keyup', '.qty_pembelian', function (e) {
                 //     // if (e.keyCode === 13) {
                 //         var id = $(this).data("idbuffer");
-                //         var harga_jual = $('#harga_jual' + id).val();
+                //         var harga_beli = $('#harga_beli' + id).val();
                 //         var qty = $('#qty' + id).val();
                 //         var discount = $('#discount' + id).val();
-                //         $('#subtotal' + id).val((harga_jual * qty) - discount);
+                //         $('#subtotal' + id).val((harga_beli * qty) - discount);
                 //         GetTotalBayar();
                 //     // }
                 // });
@@ -350,7 +279,7 @@
                 $(document).on('keyup', '.qty_pembelian', function () {
 
                     var id = $(this).data("idbuffer");
-                    var harga_jual = $('#harga_jual' + id).val();
+                    var harga_beli = $('#harga_beli' + id).val();
 
                     var qty = $('#qty' + id).val();
                     // if(qty > getStock()){
@@ -359,7 +288,7 @@
                     //     qty = $('#qty' + id).val();
                     // }
                     var discount = $('#discount' + id).val();
-                    $('#subtotal' + id).val((harga_jual * qty) - discount/100);
+                    $('#subtotal' + id).val((harga_beli * qty) - discount/100);
                     GetTotalBayar();
                 });
 
@@ -369,30 +298,28 @@
                     var kode = $(this).data("kode_barang");
                     var nama = $(this).data("nama_barang");
                     var harga_beli = $(this).data("harga_beli");
-                    var harga_jual = $(this).data("harga_jual");
                     var stock = $(this).data("stock");
                     // function getStock(){
                     //     return stock;
                     // }
-                    TambahDataPembelian(id,kode,nama,harga_beli,harga_jual, stock);
+                    TambahDataPembelian(id,kode,nama,harga_beli,stock);
                 });
 
-                $(document).on('click','.add_pelanggan',function(){
-                    var id = $(this).data("id_pelanggan");
-                    var nama = $(this).data("nama_pelanggan");
+                $(document).on('click','.add_supplier',function(){
+                    var id = $(this).data("id_supplier");
+                    var nama = $(this).data("nama_supplier");
                     var alamat = $(this).data("alamat");
                     var tlp = $(this).data("tlp");
-                    $('#id_pelanggan').val(id);
-                    $('#nama_pelanggan').val(nama);
+                    $('#id_supplier').val(id);
+                    $('#nama_supplier').val(nama);
                     $('#tlp').val(tlp);
                 });
 
-                function TambahDataPembelian(id,kode,nama,harga_beli,harga_jual,stock){
+                function TambahDataPembelian(id,kode,nama,harga_beli,stock){
                     var id_barang=id;
                     var kode_barang=kode;
                     var nama_barang=nama;
                     var harga_beli=harga_beli;
-                    var harga_jual=harga_jual;
                     var stock=stock;
 
                     var barang=CariIdBarang(id_barang);
@@ -405,10 +332,10 @@
                         var rowBarang="<tr id='buffer"+count+"'>";
                         rowBarang+="<td style='text-align:center'><input type='hidden' name='item["+count+"][id_barang]' value='"+id_barang+"'> <input class='form-control' type='text' name='item["+count+"][kode]' value='"+kode_barang+"' readonly='true'></td>";
                         rowBarang+="<td style='text-align:center'><input class='form-control' type='text' name='item["+count+"][nama_barang]' value='"+nama_barang+"' readonly='true'></td>";
-                        rowBarang+="<td><input class='form-control' style='text-align:right' type='text' name='item["+count+"][harga_jual]' value='"+harga_jual+"' id='harga_jual"+count+"' readonly='true'><input type='hidden' name='item["+count+"][harga_beli]' value='"+harga_beli+"'></td>";
+                        rowBarang+="<td style='text-align:center'><div class='input-group-prepend input-primary'><input style='text-align:right' type='number' class='form-control harga_beli' name='item["+count+"][harga_beli]' value='0' id='harga_beli"+count+"' onkeypress='cek_number()' data-idbuffer='"+count+"'></div></td>";
                         rowBarang+="<td style='text-align:center'><input type='number' class='form-control qty_pembelian' name='item["+count+"][qty]' max='"+stock+"' value='1' id='qty"+count+"' data-idbuffer='"+count+"' onchange='cekQty(this)' ></td>";
                         rowBarang+="<td style='text-align:center'><div class='input-group-prepend input-primary'><input onchange='cekDiscount(this)' max='100' style='text-align:right' type='number' class='form-control discount' name='item["+count+"][discount]' value='0' id='discount"+count+"' onkeypress='cek_number()' data-idbuffer='"+count+"'><span class='input-group-text'>%</span></div></td>";
-                        rowBarang+="<td style='text-align:center'><input style='text-align:right' type='number' class='form-control' name='item["+count+"][subtotal]' value='"+harga_jual+"' readonly='true' id='subtotal"+count+"'></td>";
+                        rowBarang+="<td style='text-align:center'><input style='text-align:right' type='number' class='form-control' name='item["+count+"][subtotal]' value='0' readonly='true' id='subtotal"+count+"'></td>";
                         rowBarang+="<td style='text-align:center;'><button type='button' class='btn btn-danger hapus_pembelian' data-idbuffer='"+count+"' ><i class='fa fa-trash'></i></button></td>";
                         rowBarang+="</tr>";
                         $('#t_pembelian').append(rowBarang);
@@ -416,7 +343,7 @@
                         var posisi=CariPosisi(id_barang);
                         var qty=Number($('#qty'+posisi).val())+1;
                         $('#qty'+posisi).val(qty);
-                        $('#subtotal'+posisi).val(harga_jual*qty);
+                        $('#subtotal'+posisi).val(harga_beli*qty);
                     }
                         GetTotalBayar();
                         // GetKeuntungan();
@@ -475,20 +402,6 @@
             $(document).on('keyup', '#ayar', function(e){
                 generateRupiah(this);
             })
-
-
-            //DP
-            $(document).on('keyup', '#p', function (e) {
-                generateRupiah(this);
-                   
-		    });
-
-                //UBAH DP
-            $(document).on('keyup', '#dp', function (e) {
-                var tb = $("#total_bayar").val();
-                var dp = $(this).val();
-                $('#sisa').val(tb - dp);
-            });
 
             // $(document).on('change', '#dp', function(e) {
             //     var tb = $("#total_bayar").val();

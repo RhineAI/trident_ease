@@ -52,10 +52,10 @@ Route::middleware('auth')->group(function(){
         Route::get('/keuntungan', [KeuntunganController::class, 'index'])->name('keuntungan');
         Route::post('/keuntungan', [KeuntunganController::class, 'store']);
 
-        Route::resource('/pembelian', PembelianController::class);
+        Route::resource('/transaksi-pembelian', PembelianController::class);
 
-        Route::resource('/pembelian_detail', DetailPembelianController::class);
-        // Route::get('/transaksi-pembelian', Transak)
+        // Route::resource('/pembelian_detail', DetailPembelianController::class);
+        // Route::get('/show-transaksi-pembelian', [PembelianController::class, 'showTPembelian'])
         Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
         
         Route::resource('/transaksi-penjualan', TransaksiPenjualanController::class);

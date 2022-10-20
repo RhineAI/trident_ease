@@ -22,6 +22,8 @@ return new class extends Migration
             $table->double('total_pembelian');
             $table->integer('jenis_pembayaran');
             $table->integer('id_user');
+            $table->integer('id_perusahaan');
+            $table->foreign('id_perusahaan')->references('id')->on('t_perusahaan')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('id_supplier')->references('id')->on('t_supplier')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('id_user')->references('id')->on('t_users')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));

@@ -109,29 +109,31 @@
                                 </div>
                             </div>
         
-                        <table cellpaddong="0" cellspacing="0" class="table table-striped table-bordered table-responsive" id="buffer_table">
-                            <thead>
-                               <tr>
-                                    <th class="text-center"> Kode</th>
-                                    <th class="text-center">Nama</th>
-                                    <th class="text-center">Harga</th>
-                                    <th class="text-center">Jumlah</th>
-                                    <th class="text-center">Diskon</th>
-                                    <th class="text-center">Subtotal</th>
-                                    <th class="text-center">Aksi</th>
-                               </tr>
-                            </thead>
-                            <tbody id="t_penjualan">
-                                <tr id="buffer100" height="50px">
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                            </tbody>
-                        </table>
+                        <div class="table-responsive">
+                            <table cellpaddong="0" cellspacing="0" class="table table-striped table-bordered" id="buffer_table">
+                                <thead>
+                                   <tr>
+                                        <th class="text-center"> Kode</th>
+                                        <th class="text-center">Nama</th>
+                                        <th class="text-center">Harga</th>
+                                        <th class="text-center">Jumlah</th>
+                                        <th class="text-center">Diskon</th>
+                                        <th class="text-center">Subtotal</th>
+                                        <th class="text-center">Aksi</th>
+                                   </tr>
+                                </thead>
+                                <tbody id="t_penjualan">
+                                    <tr id="buffer100" height="50px">
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
         
                         <div class="row mt-4">
                             <div class="col-lg-7">
