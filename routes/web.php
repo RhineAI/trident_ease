@@ -18,7 +18,7 @@ use App\Http\Controllers\UsersController;
 // Transaksi
 use App\Http\Controllers\TransaksiPenjualanController;
 use App\Http\Controllers\DetailPenjualanController;
-
+use App\Http\Controllers\PembayaranController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth')->group(function(){
@@ -68,7 +68,8 @@ Route::middleware('auth')->group(function(){
         Route::get('/list-penjualan/pdf/{awal}/{akhir}', [TransaksiPenjualanController::class, 'exportPDF'])->name('list-transaksi.export_pdf');
 
 
-        Route::resource('/detail-penjualan', DetailPenjualanController::class);
+        // Route::resource('/detail-penjualan', DetailPenjualanController::class);
+        Route::resource('/pembayaran', PembayaranController::class);
     
 });
 

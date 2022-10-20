@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Pembayaran;
 use App\Http\Requests\StorePembayaranRequest;
 use App\Http\Requests\UpdatePembayaranRequest;
+use App\Models\Perusahaan;
 
 class PembayaranController extends Controller
 {
@@ -15,7 +16,8 @@ class PembayaranController extends Controller
      */
     public function index()
     {
-        //
+        $data['cPerusahaan'] = Perusahaan::select('*')->where('id', auth()->user()->id_perusahaan)->first();
+        return view('pembayaran.index', $data);
     }
 
     /**

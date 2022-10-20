@@ -17,7 +17,7 @@ return new class extends Migration
         Schema::create('t_detail_pembelian', function (Blueprint $table) {
             $table->integer('id')->autoIncrement();
             $table->date('tgl');
-            $table->integer('id_pembelian');
+            $table->bigInteger('id_pembelian');
             $table->integer('id_barang');
             $table->double('harga_beli');
             $table->integer('qty');
