@@ -9,6 +9,7 @@ use App\Models\Perusahaan;
 use App\Http\Requests\StorePenjualanRequest;
 use App\Http\Requests\UpdatePenjualanRequest;
 use App\Models\DetailPenjualan;
+use App\Models\Pembayaran;
 use Illuminate\Support\Facades\DB;
 
 class TransaksiPenjualanController extends Controller
@@ -26,7 +27,8 @@ class TransaksiPenjualanController extends Controller
         //  $detail = DetailPenjualan::orderBy('id_penjualan_detail', 'DESC');
 
         $data['pelanggan'] = Pelanggan::get();    
-        $data['produk'] = Barang::get()->where('stock', '>', 0);    
+        // $data['produk'] = Barang::where('stock', '>', 0)->where('status', '==', '1')->get();    
+        $data['produk'] = Barang::where('stock', '>', 0)->where('status', '=', '1')->get();    
         $data['cPerusahaan'] = Perusahaan::select('*')->where('id', auth()->user()->id_perusahaan)->first();
    
         return view('transaksi-penjualan.index', $data);
@@ -41,7 +43,7 @@ class TransaksiPenjualanController extends Controller
         //  $detail = DetailPenjualan::orderBy('id_penjualan_detail', 'DESC');
 
         $data['pelanggan'] = Pelanggan::get();    
-        $data['produk'] = Barang::get()->where('stock', '>', 0);    
+        $data['produk'] = Barang::where('stock', '>', 0, 'AND', 'status' === 1)->get();    
         $data['cPerusahaan'] = Perusahaan::select('*')->where('id', auth()->user()->id_perusahaan)->first();
         $data['transaksi'] = TransaksiPenjualan::select('*')->where('id', auth()->user()->id_perusahaan)->get();
    
@@ -66,51 +68,63 @@ class TransaksiPenjualanController extends Controller
      */
     public function store(StorePenjualanRequest $request)
     {
-        $penjualanBaru = new TransaksiPenjualan();
-        // "select max(id)+1 as nextid from t_pembayaran where id like '".$tgl."%'"
-        // dd(TransaksiPenjualan::select("id")->where('id', 'like', '%'. date('Ymd') . '%')->first()); die;
-        if(TransaksiPenjualan::select("id")->where('id', 'like', '%'. date('Ymd') . '%')->first() == null){
-            $indexTransaksi = sprintf("%05d", 1);
-            $penjualanBaru->tgl = date('Ymd'). $indexTransaksi;
-        }
-
-        $penjualanBaru->tgl = date('Y-m-d');
-        $penjualanBaru->id_pelanggan = $request->id_pelanggan;
-        $penjualanBaru->total_harga = $request->total_bayar;
-        if($request->jenis_pembayaran == '1') {
-            $penjualanBaru->total_bayar = $request->bayar;
+        dd($request); die;
+        if($request->kembali < 0){
+            return back()->with('error', 'Uang bayar kurang');
         } else {
-            $penjualanBaru->total_bayar = $request->dp;
-        }
-        $penjualanBaru->kembalian = $request->kembali;
-        $penjualanBaru->id_user = auth()->user()->id;
-        $penjualanBaru->id_perusahaan = auth()->user()->id_perusahaan;
-        $penjualanBaru->save();
-        // dd($penjualanBaru->id); die;
-        foreach($request->item as $barang){
-            // dd($barang['discount']); die;
-            $detPenjualanBaru = new DetailPenjualan(); 
-            $detPenjualanBaru->id_penjualan = $penjualanBaru->id;
-            $detPenjualanBaru->id_barang = $barang['id_barang'];
-            $detPenjualanBaru->qty = $barang['qty'];
-            $detPenjualanBaru->diskon = $barang['discount'];
-            $detPenjualanBaru->harga_beli = $barang['harga_beli'];
-            $detPenjualanBaru->harga_jual = $barang['harga_jual'];
-            $detPenjualanBaru->id_perusahaan = auth()->user()->id_perusahaan;
-            $detPenjualanBaru->save();
+            $penjualanBaru = new TransaksiPenjualan();
+            // "select max(id)+1 as nextid from t_pembayaran where id like '".$tgl."%'"
+            // dd(TransaksiPenjualan::select("id")->where('id', 'like', '%'. date('Ymd') . '%')->first()); die;
+            if(TransaksiPenjualan::select("id")->where('id', 'like', '%'. date('Ymd') . '%')->first() == null){
+                $indexTransaksi = sprintf("%05d", 1);
+                $penjualanBaru->tgl = date('Ymd'). $indexTransaksi;
+            }
 
-            $barangUpdate = Barang::find($barang['id_barang']);
-            $barangUpdate->stock -= $barang['qty'];
-            $barangUpdate->update();
-            // $barangUpdate = Barang::select('stock')->where('id', $barang->id_barang)->first();
-            // $kurangiStok = $barangUpdate - $barang->qty;
-            // Barang::update([
-            //     'stock' => $kurangiStok
-            // ]);
-        }
+            $penjualanBaru->tgl = date('Y-m-d');
+            $penjualanBaru->id_pelanggan = $request->id_pelanggan;
+            $penjualanBaru->total_harga = $request->total_bayar;
+            if($request->jenis_pembayaran == '1') {
+                $penjualanBaru->total_bayar = $request->bayar;
+            } else {
+                $penjualanBaru->total_bayar = $request->dp;
+            }
+            $penjualanBaru->kembalian = $request->kembali;
+            $penjualanBaru->id_user = auth()->user()->id;
+            $penjualanBaru->id_perusahaan = auth()->user()->id_perusahaan;
+            $penjualanBaru->save();
 
-        return redirect('/list-transaksi')->with(['success' => 'Input data Transaksi Berhasil!']);
-        
+            $pembayaranBaru = new Pembayaran();
+            $pembayaranBaru->id_penjualan = $penjualanBaru->id;
+            $pembayaranBaru->tgl = date('Ymd');
+            $pembayaranBaru->total_bayar = $request->total_bayar;
+            $pembayaranBaru->id_user = auth()->user()->id;
+            $pembayaranBaru->save();
+            // dd($penjualanBaru->id); die;
+            foreach($request->item as $barang){
+                // dd($barang['discount']); die;
+                $detPenjualanBaru = new DetailPenjualan(); 
+                $detPenjualanBaru->id_penjualan = $penjualanBaru->id;
+                $detPenjualanBaru->id_barang = $barang['id_barang'];
+                $detPenjualanBaru->qty = $barang['qty'];
+                $detPenjualanBaru->diskon = $barang['discount'];
+                $detPenjualanBaru->harga_beli = $barang['harga_beli'];
+                $detPenjualanBaru->harga_jual = $barang['harga_jual'];
+                $detPenjualanBaru->id_perusahaan = auth()->user()->id_perusahaan;
+                $detPenjualanBaru->save();
+                
+                $barangUpdate = Barang::find($barang['id_barang']);
+                $barangUpdate->stock -= $barang['qty'];
+                $barangUpdate->update();
+                
+                // $barangUpdate = Barang::select('stock')->where('id', $barang->id_barang)->first();
+                // $kurangiStok = $barangUpdate - $barang->qty;
+                // Barang::update([
+                //     'stock' => $kurangiStok
+                // ]);
+            }
+
+            return redirect('/list-transaksi')->with(['success' => 'Input data Transaksi Berhasil!']);
+        }
     }
 
     /**

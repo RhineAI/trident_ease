@@ -52,7 +52,18 @@
   
       <!-- Main content -->
       <section class="content">
-  
+        @if($errors->any())
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        @endif
         <div class="row mx-4">
             <div class="col-lg-12" style="background-color: white;">
                 <div class="box-body">
@@ -77,7 +88,7 @@
                                 <div class="col-lg-3">
                                     <div class="input-group">
                                         <input type="hidden" name="id_pelanggan" id="id_pelanggan">
-                                        <input type="text" name="tlp" id="tlp" class="form-control" required  readonly>
+                                        <input type="text" name="tlp" id="tlp" class="form-control" required readonly>
                                     </div>
                                 </div>
                             </div>
@@ -216,7 +227,7 @@
                     </div>
         
                     <div class="box-footer mb-4 btn-submit">
-                        <button type="submit" class="btn btn-outline-primary btn-sm btn-flat pull-right btn-simpan"><i class="fa-solid fa-floppy-disk"></i> Simpan Transaksi</button>
+                        <button type="submit" class="btn btn-outline-primary btn-sm btn-flat pull-right btn-simpan" onkeypress="preventEnter(this)"><i class="fa-solid fa-floppy-disk"></i> Simpan Transaksi</button>
                     </div>
                 </div>
             </div>
@@ -236,6 +247,12 @@
         function tampilProduk() {
             $('#formModalBarangPenjualan').modal('show');
             $('#tbl-data-barang-penjualan').DataTable();
+        }
+
+        function preventEnter(e){
+            if(e.keyCode === 13){
+                return false
+            }
         }
 
         function hideProduk() {
@@ -278,7 +295,7 @@
             var total=0;
             var count=0;
 
-            
+ 
             $('div#tampil_dp').hide();
             $('div#tampil_sisa').hide();
 
@@ -304,7 +321,7 @@
             });
 
             	//UBAH DISCOUNT
-                $(document).on('change', '.discount', function () {
+                $(document).on('keyup', '.discount', function () {
 
                     var id = $(this).data("idbuffer");
                     var harga_jual = $('#harga_jual' + id).val();
@@ -318,19 +335,19 @@
                     });
                     
                 //UBAH QTY
-                $(document).on('keypress', '.qty_penjualan', function (e) {
-                    if (e.keyCode === 13) {
-                        var id = $(this).data("idbuffer");
-                        var harga_jual = $('#harga_jual' + id).val();
-                        var qty = $('#qty' + id).val();
-                        var discount = $('#discount' + id).val();
-                        $('#subtotal' + id).val((harga_jual * qty) - discount);
-                        GetTotalBayar();
-                    }
-                });
+                // $(document).on('keyup', '.qty_penjualan', function (e) {
+                //     // if (e.keyCode === 13) {
+                //         var id = $(this).data("idbuffer");
+                //         var harga_jual = $('#harga_jual' + id).val();
+                //         var qty = $('#qty' + id).val();
+                //         var discount = $('#discount' + id).val();
+                //         $('#subtotal' + id).val((harga_jual * qty) - discount);
+                //         GetTotalBayar();
+                //     // }
+                // });
 
                 //UBAH QTY
-                $(document).on('change', '.qty_penjualan', function () {
+                $(document).on('keyup', '.qty_penjualan', function () {
 
                     var id = $(this).data("idbuffer");
                     var harga_jual = $('#harga_jual' + id).val();
@@ -467,12 +484,10 @@
 		    });
 
                 //UBAH DP
-            $(document).on('keypress', '#dp', function (e) {
-                if (e.keyCode === 13) {
-                    var tb = $("#total_bayar").val();
-                    var dp = $(this).val();
-                    $('#sisa').val(tb - dp);
-                }
+            $(document).on('keyup', '#dp', function (e) {
+                var tb = $("#total_bayar").val();
+                var dp = $(this).val();
+                $('#sisa').val(tb - dp);
             });
 
             // $(document).on('change', '#dp', function(e) {
@@ -484,25 +499,25 @@
             // })
 
             //KEMBALIAN
-            $(document).on('change', '#bayar', function (e) {
-                // var angka = $('#bayar').val();
-                // var number = String(angka).replace(".", ''); 
-                // console.log(number)
-                GetKembali();
+            $(document).on('keyup', '#bayar', function (e) {
+                var tb = $("#total_bayar").val();
+                var bayar = $(this).val();
+                $('#kembali').val(bayar - tb);
             });
             
          
-            function GetKembali() {
-                // var harga = number;
-
-                var kembali = $('#bayar').val() - $("#total_bayar").val();
-                // console.log(kembali)
-                if (kembali >= 0) {
-                    $("#kembali").val(kembali);
-                } else if (kembali < 0){
-                    alert('kurang');
-                }
-            }
+            // function GetKembali() {
+            //     // var harga = number;
+            //     var kembali = $('#bayar').val() - $("#total_bayar").val();
+            //     // console.log(kembali)
+            //     if (kembali >= 0) {
+            //         $("#kembali").val(kembali);
+            //     } else {
+            //         var kurang = $('#total_penjualan').val();
+            //         $('#bayar').val(kurang)
+            //         $("#kembali").val(kembali);
+            //     }
+            // }
 
             $(document).on('click','.hapus_penjualan',function(){
                 var delete_row=$(this).data("idbuffer");

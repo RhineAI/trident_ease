@@ -24,7 +24,19 @@ class StorePenjualanRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            // id_pelanggan, total_bayar, bayar, dp, kembali, item
+            'id_pelanggan' => 'required',
+            'bayar' => 'required',
+            'item' => 'required'
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'id_pelanggan.required' => 'Pilih Pelanggan Terlebih Dahulu',
+            'bayar.required' => 'Isi Uang Bayar!',
+            'item.required' => 'Isi Barang Dahulu!',
         ];
     }
 }
