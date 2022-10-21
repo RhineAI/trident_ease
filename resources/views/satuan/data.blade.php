@@ -1,5 +1,5 @@
 <div class="box-body table-responsive">
-    <table class="table table-striped table-bordered" id="tbl-data-satuan">
+    <table class="table table-striped table-bordered dt-responsive" style="width: 100%;" id="tbl-data-satuan">
         <thead>
             <tr>
                 <td>No</td>

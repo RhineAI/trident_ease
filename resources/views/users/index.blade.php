@@ -54,9 +54,7 @@
 
 @push('scripts')
     <script>
-        $('#tbl-data-pegawai').DataTable({
-          scrollX: true,
-        });
+        $('#tbl-data-pegawai').DataTable();
     </script>
     <script>
         $(document).ready(function(){

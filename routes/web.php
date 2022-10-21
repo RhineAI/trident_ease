@@ -8,7 +8,6 @@ use App\Http\Controllers\KeuntunganController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\MerekController;
 use App\Http\Controllers\PelangganController;
-use App\Http\Controllers\PembelianController;
 use App\Http\Controllers\PerusahaanController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SatuanController;
@@ -17,8 +16,15 @@ use App\Http\Controllers\UsersController;
 
 // Transaksi
 use App\Http\Controllers\TransaksiPenjualanController;
+use App\Http\Controllers\ListTransaksiPenjualanController;
 use App\Http\Controllers\DetailPenjualanController;
+
+use App\Http\Controllers\PembelianController;
+use App\Http\Controllers\ListTransaksiPembelianController;
+
 use App\Http\Controllers\PembayaranController;
+
+
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth')->group(function(){
@@ -51,22 +57,23 @@ Route::middleware('auth')->group(function(){
 
         Route::get('/keuntungan', [KeuntunganController::class, 'index'])->name('keuntungan');
         Route::post('/keuntungan', [KeuntunganController::class, 'store']);
-
-        Route::resource('/transaksi-pembelian', PembelianController::class);    
-        Route::get('/list-pembelian', [PembelianController::class, 'listPembelian'])->name('list-pembelian');
-        Route::post('/list-pembelian/data', [PembelianController::class, 'dataPembelian'])->name('list-pembelian.data');
        
         // Route::resource('/pembelian_detail', DetailPembelianController::class);
         // Route::get('/show-transaksi-pembelian', [PembelianController::class, 'showTPembelian'])
         Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
         
-        Route::resource('/transaksi-penjualan', TransaksiPenjualanController::class);
-        Route::get('/transaksi-penjualan/data', [TransaksiPenjualanController::class, 'data'])->name('transaksi.data');
-        Route::get('/list-transaksi', [TransaksiPenjualanController::class, 'listTransaksi'])->name('list-transaksi');
-        Route::post('/list-transaksi/data', [TransaksiPenjualanController::class, 'dataTransaksi'])->name('list-transaksi.data');
-        Route::get('/list-penjualan/data/{awal}/{akhir}', [TransaksiPenjualanController::class, 'data'])->name('list-transaksi.data');
-        Route::get('/list-penjualan/pdf/{awal}/{akhir}', [TransaksiPenjualanController::class, 'exportPDF'])->name('list-transaksi.export_pdf');
 
+        // Transaksi Penjualan
+        Route::resource('/transaksi-penjualan', TransaksiPenjualanController::class);
+        Route::get('/list-penjualan', [ListTransaksiPenjualanController::class, 'index'])->name('list-transaksi.index');
+        Route::post('/list-penjualan/data/{awal}/{akhir}', [ListTransaksiPenjualanController::class, 'getData'])->name('list-transaksi.data');
+        Route::get('/list-penjualan/pdf/{awal}/{akhir}', [ListTransaksiPenjualanController::class, 'exportPDF'])->name('list-transaksi.export_pdf');
+
+        // Transaksi Pembelian
+        Route::resource('/transaksi-pembelian', PembelianController::class);    
+        Route::get('/list-pembelian', [ListTransaksiPembelianController::class, 'index'])->name('list-pembelian.index');
+        Route::post('/list-pembelian/data/{awal}/{akhir}', [ListTransaksiPembelianController::class, 'getData'])->name('list-pembelian.data');
+        Route::get('/list-pembelian/pdf/{awal}/{akhir}', [ListTransaksiPembelianController::class, 'exportPDF'])->name('list-pembelian.export_pdf');
 
         // Route::resource('/detail-penjualan', DetailPenjualanController::class);
         Route::resource('/pembayaran', PembayaranController::class);

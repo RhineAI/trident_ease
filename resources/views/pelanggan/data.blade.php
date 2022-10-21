@@ -1,5 +1,5 @@
-<div class="box-body table-responsive">
-    <table class="table table-striped table-bordered" id="tbl-data-pelanggan">
+<div class="table-responsive">
+    <table class="table table-striped table-bordered dt-responsive" style="width: 100%;" id="tbl-data-pelanggan">
         <thead>
             <tr>
                 <td>No</td>
