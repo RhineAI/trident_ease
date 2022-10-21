@@ -507,7 +507,7 @@
                 var tb = $("#total_bayar").val();
                 var dp = $(this).val();
                 var harga = String(dp).replaceAll(".", '');
-                console.log(harga)
+                // console.log(harga)
                 $('#sisa').val(tb - parseInt(harga) );
             })
 

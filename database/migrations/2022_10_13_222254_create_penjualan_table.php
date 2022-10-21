@@ -18,6 +18,7 @@ return new class extends Migration
             $table->bigInteger('id')->autoIncrement();
             $table->date('tgl');
             $table->integer('id_pelanggan');
+            $table->string('kode_invoice');
             $table->integer('total_harga');
             // $table->float('diskon')->default(0);
             $table->integer('total_bayar');
