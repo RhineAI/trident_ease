@@ -6,6 +6,7 @@ use App\Models\Pembayaran;
 use App\Http\Requests\StorePembayaranRequest;
 use App\Http\Requests\UpdatePembayaranRequest;
 use App\Models\Perusahaan;
+use App\Models\TransaksiPenjualan;
 
 class PembayaranController extends Controller
 {
@@ -17,6 +18,14 @@ class PembayaranController extends Controller
     public function index()
     {
         $data['cPerusahaan'] = Perusahaan::select('*')->where('id', auth()->user()->id_perusahaan)->first();
+        $data['pembayaran'] = TransaksiPenjualan::leftJoin('t_pelanggan AS P', 'P.id', 't_transaksi_penjualan.id_pelanggan')
+        ->select('t_transaksi_penjualan.*', 'P.nama AS nama_pelanggan', 'P.tlp')     
+        ->where('t_transaksi_penjualan.total_bayar', 0)
+        ->where('t_transaksi_penjualan.dp', '>', 0)
+        ->where('t_transaksi_penjualan.id_perusahaan', auth()->user()->id_perusahaan)     
+        ->orderBy('id', 'desc')
+        ->get();
+
         return view('pembayaran.index', $data);
     }
 
