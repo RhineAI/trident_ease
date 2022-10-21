@@ -18,14 +18,23 @@ class PembayaranController extends Controller
     public function index()
     {
         $data['cPerusahaan'] = Perusahaan::select('*')->where('id', auth()->user()->id_perusahaan)->first();
-        $data['pembayaran'] = TransaksiPenjualan::leftJoin('t_pelanggan AS P', 'P.id', 't_transaksi_penjualan.id_pelanggan')
-        ->select('t_transaksi_penjualan.*', 'P.nama AS nama_pelanggan', 'P.tlp')     
-        ->where('t_transaksi_penjualan.total_bayar', 0)
-        ->where('t_transaksi_penjualan.dp', '>', 0)
-        ->where('t_transaksi_penjualan.id_perusahaan', auth()->user()->id_perusahaan)     
+        // $data['pembayaran'] = TransaksiPenjualan::leftJoin('t_pelanggan AS P', 'P.id', 't_transaksi_penjualan.id_pelanggan')
+        // ->select('t_transaksi_penjualan.*', 'P.nama AS nama_pelanggan', 'P.tlp', 'P.id as id_pelanggan')     
+        // ->where('t_transaksi_penjualan.total_bayar', 0)
+        // ->where('t_transaksi_penjualan.dp', '>', 0)
+        // ->where('t_transaksi_penjualan.id_perusahaan', auth()->user()->id_perusahaan)     
+        // ->orderBy('id', 'desc')
+        // ->get();
+        $data['pembayaran'] = Pembayaran::leftJoin('t_transaksi_penjualan AS TP', 'TP.id', 't_pembayaran.id_penjualan')
+        ->leftJoin('t_pelanggan as P', 'P.id', 'TP.id_pelanggan')
+        ->select('TP.*', 'P.nama AS nama_pelanggan', 'P.tlp', 'P.id as id_pelanggan', 't_pembayaran.id as id_pembayaran')     
+        ->where('TP.jenis_pembayaran', 2)
+        ->where('TP.sisa', '>', 0)
+        ->where('TP.id_perusahaan', auth()->user()->id_perusahaan)     
         ->orderBy('id', 'desc')
         ->get();
-
+        $data['cDate'] = date('d-m-Y');
+        // return $data['pembayaran'];
         return view('pembayaran.index', $data);
     }
 
@@ -81,7 +90,31 @@ class PembayaranController extends Controller
      */
     public function update(UpdatePembayaranRequest $request, Pembayaran $pembayaran)
     {
-        //
+        $cPenjualan = TransaksiPenjualan::where('id', $pembayaran->id_penjualan)->first();
+        // return $request;
+        if($request->sisa <= 0){
+            $cPenjualan->dp = $request->total_harga;
+            $cPenjualan->sisa = 0;
+            $cPenjualan->tgl = $request->tgl;
+            $cPenjualan->id_user = auth()->user()->id;
+            
+            $pembayaran->total_bayar = $request->total_harga;
+            $pembayaran->tgl = $request->tgl;
+            $pembayaran->id_user = auth()->user()->id;
+        } else {
+            $cPenjualan->dp += $request->bayar;
+            $cPenjualan->sisa += $request->sisa;
+            $cPenjualan->tgl = $request->tgl;
+            $cPenjualan->id_user = auth()->user()->id;
+            
+            $pembayaran->total_bayar += $request->bayar;
+            $pembayaran->tgl = $request->tgl;
+            $pembayaran->id_user = auth()->user()->id;
+        }
+
+        $pembayaran->update();
+        $cPenjualan->update();
+        return back()->with(['success', 'Pembayaran berhasil']);
     }
 
     /**

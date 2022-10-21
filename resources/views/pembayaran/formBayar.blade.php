@@ -11,11 +11,12 @@
         <div class="modal-body">
             <form action="" method="POST">
                 @csrf
+                @method('put')
                 <div id="method"></div>
                 <div class="form-group row">
                     <div class="form-group" style="width: 95%; margin: auto;">
                         <label for="nama">Tanggal</label>
-                        <input type="date" class="form-control" id="tgl" name="tgl" readonly>
+                        <input type="date" class="form-control" id="tgl" name="tgl" >
                     </div>
                 </div>
                 <div class="form-group row">
@@ -27,6 +28,7 @@
                 <div class="form-group row">
                     <div class="form-group" style="width: 95%; margin: auto;">
                         <label for="nama_pelanggan">Nama Pelanggan</label>
+                        <input type="hidden" name="id_pelanggan" id="id_pelanggan">
                         <input type="text" class="form-control" id="nama_pelanggan" name="nama_pelanggan" readonly>
                     </div>
                 </div>
@@ -70,15 +72,8 @@
     
         </div>
         <div class="modal-footer">
-            <button type="button" class="btn btn-info add_pembayaran" 
-                data-id_penjualan="{{ $item->id }}" 
-                data-tgl="{{ $item->tgl }}" 
-                data-nama_pelanggan="{{ $item->nama_pelanggan }}" 
-                data-total_harga="{{ $item->total_harga }}" 
-                data-dp="{{ $item->dp }}" 
-                data-sisa="{{ $item->sisa }}" 
-                data-dismiss="modal"> <i class="fa fa-pencil"></i>
-            </button>
+            <button type="submit" class="btn btn-primary"><i class="fa fa-circle-check"></i>
+                Simpan</button>
         </div>
         </div>
     </div>

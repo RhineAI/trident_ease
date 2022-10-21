@@ -107,13 +107,15 @@
                                 <td>
                                     <button type="button" class="btn btn-info edit_pembayaran" 
                                         data-id_penjualan="{{ $item->id }}" 
-                                        data-tgl="{{ $item->tgl }}" 
+                                        data-tgl="{{ $cDate }}" 
                                         data-nama_pelanggan="{{ $item->nama_pelanggan }}" 
+                                        data-id_pelanggan="{{ $item->id_pelanggan }}" 
                                         data-tlp="{{ $item->tlp }}" 
                                         data-total_harga="{{ $item->total_harga }}" 
                                         data-dp="{{ $item->dp }}" 
                                         data-sisa="{{ $item->sisa }}" 
-                                        data-dismiss="modal"> <i class="fa fa-pencil"></i>
+                                        data-route="{{ route('pembayaran.update', $item->id_pembayaran)}}"
+                                        data-toggle="modal" data-target="#formModalPelanggan" data-mode="edit"> <i class="fa fa-pencil"></i>
                                     </button>
                                 </td>
                             </tr>
@@ -133,40 +135,59 @@
 
 @push('scripts') 
 <script>
+    $(document).on('keyup', '#bayar', function(e) {
+        var tb = $(this).val();
+        var sisa = $("#sisa").val();
+        var dp = $("#dp").val();
+        var total_harga = $('#total_harga').val()
+        // var harga = String(dp).replaceAll(".", '');
+        // console.log(harga)
+        $('#kembalian').val(tb-(total_harga - dp));
+        $('#sisa').val((total_harga - dp)-tb)
+    })
+
     $(document).ready(function(){
         $(document).on('click','.edit_pembayaran',function(){
             $('#formModalBayar').modal('show');
             // $('#tbl-data-bayar').DataTable();
         });
 
-        $(document).on('click','.add_pembayaran',function(){
-            $('#formModalBayar').modal('hide');
-            // $('#tbl-data-bayar').DataTable();
-        });
+        // $(document).on('click','.add_pembayaran',function(){
+        //     $('#formModalBayar').modal('hide');
+             // $('#tbl-data-bayar').DataTable();
+        // });
+        $(document).on('change', '#tgl', function(){
+            console.log($('#tgl').val());
+        })
 
-        $('#formModalBayar').on("show.bs.modal", function(e){
-                const btn = $(e.relatedTarget)
-                const id_penjualan = btn.data('id_penjualan')
-                const tgl = btn.data('tgl')
-                const nama_pelanggan = btn.data('nama_pelanggan')
-                const tlp = btn.data('tlp')
-                const total_harga = btn.data('total_harga')
-                const dp = btn.data('dp')
-                const sisa = btn.data('sisa')
-                const mode = btn.data('mode')
-                const modal = $(this)
+        let nama_pelanggan = $(this).data('nama_pelanggan')
+        $(document).on('click', '.edit_pembayaran', function (e) {
+                let id_penjualan = $(this).data('id_penjualan')
+                let id_pelanggan = $(this).data('id_pelanggan')
+                let nama_pelanggan = $(this).data('nama_pelanggan')
+                let tgl = $(this).data('tgl')
+                let tlp = $(this).data('tlp')
+                let total_harga = $(this).data('total_harga')
+                let dp = $(this).data('dp')
+                let sisa = $(this).data('sisa')
+                let url = $(this).data('route')
+                var now = new Date();
+                var day = ("0" + now.getDate()).slice(-2)
+                var month = ("0" + (now.getMonth() + 1)).slice(-2)
+                var today = now.getFullYear()+"-"+(month)+"-"+(day) 
 
-                modal.find('#modal-title').text("Edit Data Pembayaran")
-                modal.find('.modal-body #tgl').val(tgl)
-                modal.find('.modal-body #id_penjualan').val(id_penjualan)
-                modal.find('.modal-body #nama_pelanggan').val(nama_pelanggan)
-                modal.find('.modal-body #tlp').val(tlp)
-                modal.find('.modal-body #total_harga').val(total_harga)
-                modal.find('.modal-body #dp').val(dp)
-                modal.find('.modal-body #sisa').val(sisa)
-                modal.find('.modal-footer #btn-submit').text('Update')
-                modal.find('.modal-body form').attr('action', '/pembayaran/' + id_penjualan)
-                modal.find('.modal-body #method').html('{{ method_field('PATCH') }}')
+                $('.modal-footer #btn-submit').text('Update')
+                $('.modal-body form')[0].reset();
+                $('.modal-body form').attr('action', url);
+                
+                $('#modal-title').text("Edit Data Pembayaran")
+                $('.modal-body #tgl').val(today)
+                $('.modal-body #id_penjualan').val(id_penjualan)
+                $('.modal-body #nama_pelanggan').val(nama_pelanggan)
+                $('.modal-body #tlp').val(tlp)
+                $('.modal-body #total_harga').val(total_harga)
+                $('.modal-body #dp').val(dp)
+                $('.modal-body #sisa').val(sisa)
         });
     });
 </script>
