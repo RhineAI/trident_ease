@@ -52,7 +52,7 @@
                           <li class="nav-item">
                               <a href="{{ route('barang.index') }}" class="nav-link">
                                   <i class="far fa-circle nav-icon"></i>
-                                  <p>Lihat Data Produk</p>
+                                  <p>Data Produk</p>
                               </a>
                           </li>
                       </ul>
@@ -75,7 +75,7 @@
                           <li class="nav-item">
                               <a href="{{ route('users.index') }}" class="nav-link">
                                   <i class="far fa-circle nav-icon"></i>
-                                  <p>Lihat Data Pegawai</p>
+                                  <p>Data Pegawai</p>
                               </a>
                           </li>
                       </ul>
@@ -99,7 +99,7 @@
                           <li class="nav-item">
                               <a href="{{ route('supplier.index') }}" class="nav-link">
                                   <i class="far fa-circle nav-icon"></i>
-                                  <p>Lihat Data Supplier</p>
+                                  <p>Data Supplier</p>
                               </a>
                           </li>
                       </ul>
@@ -122,7 +122,7 @@
                           <li class="nav-item">
                               <a href="{{ route('pelanggan.index') }}" class="nav-link">
                                   <i class="far fa-circle nav-icon"></i>
-                                  <p>Lihat Data Pelanggan</p>
+                                  <p>Data Pelanggan</p>
                               </a>
                           </li>
                       </ul>
@@ -190,6 +190,29 @@
                         </li>
                       </ul>
                   </li>
+
+                  <li class="nav-item">
+                      <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-solid fa-money-bill-wave"></i>
+                          <p>
+                              Kas
+                              <i class="right fas fa-angle-right"></i>
+                          </p>
+                      </a>
+                      <ul class="nav nav-treeview ml-4">
+                          <li class="nav-item">
+                              <a href="{{ route('transaksi-penjualan.index') }}" class="nav-link">
+                                  <p>Kas Masuk</p>
+                              </a>
+                          </li>
+                          <li class="nav-item">
+                            <a href="{{ route('list-transaksi.index') }}" class="nav-link">
+                                <p>Kas Keluar</p>
+                            </a>
+                        </li>
+                      </ul>
+                  </li>
+
                   <li class="nav-item">
                       <a href="#" class="nav-link">
                           <i class="nav-icon fas fa-solid fa-cog"></i>
