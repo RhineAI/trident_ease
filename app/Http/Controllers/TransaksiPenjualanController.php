@@ -11,6 +11,8 @@ use App\Http\Requests\UpdatePenjualanRequest;
 use App\Models\DetailPenjualan;
 use App\Models\Pembayaran;
 use Illuminate\Support\Facades\DB;
+use Barryvdh\DomPDF\PDF as pdf;
+use Illuminate\Http\Request;
 
 class TransaksiPenjualanController extends Controller
 {
@@ -35,45 +37,9 @@ class TransaksiPenjualanController extends Controller
          
     }
 
-    public function listTransaksi()
-    {
-        //  $barang = Barang::orderBy('nama')->get();
-        //  $diskon = TransaksiPenjualan::first()->diskon ?? 0;
- 
-        //  $detail = DetailPenjualan::orderBy('id_penjualan_detail', 'DESC');
-
-        $data['pelanggan'] = Pelanggan::where('id_perusahaan', auth()->user()->id_perusahaan)->get();    
-        // $data['produk'] = Barang::where('stock', '>', 0)->where('status', '==', '1')->get();    
-        $data['produk'] = Barang::where('stock', '>', 0)->where('status', '=', '1')->where('id_perusahaan', auth()->user()->id_perusahaan)->get();    
-        $data['cPerusahaan'] = Perusahaan::select('*')->where('id', auth()->user()->id_perusahaan)->first();
-        $data['transaksi'] = TransaksiPenjualan::select('*')->where('id', auth()->user()->id_perusahaan)->get();
    
-       return view('transaksi-penjualan.listTransaksi', $data);
-    }
 
-    public function dataTransaksi()
-    {
-        $penjualan = TransaksiPenjualan::leftJoin('t_pelanggan AS P', 'P.id', 't_transaksi_penjualan.id_pelanggan')
-                                        ->select('t_transaksi_penjualan.*', 'P.nama AS nama_pelanggan')
-                                        ->orderBy('id', 'desc')->get();
-
-        return datatables()
-        ->of($penjualan)
-        ->addIndexColumn()
-        ->addColumn('invoice', function($penjualan) {
-            return '<span class="badge badge-info">'. $penjualan->id .'</span>';
-        })
-        ->addColumn('total_bayar', function($penjualan) {
-            return 'RP. '. format_uang($penjualan->total_harga);
-        })
-        ->addColumn('action', function ($penjualan) {
-            return '
-                <button class="btn btn-xs btn-danger rounded delete"><i class="fa-solid fa-file-pdf"></i></button>
-            ';
-        })
-        ->rawColumns(['action', 'invoice'])
-        ->make(true);
-    }
+    
 
     /**
      * Show the form for creating a new resource.
@@ -91,8 +57,25 @@ class TransaksiPenjualanController extends Controller
      * @param  \App\Http\Requests\StorePenjualanRequest  $request
      * @return \Illuminate\Http\Response
      */
+    public function checkPrice($value)
+    {
+        if (gettype($value) == "string") {
+            $temp = 0;
+            for ($i = 0; $i < strlen($value); $i++) {
+                if ((isset($value[$i]) == true && $value[$i] != ".") && $value[$i] != ",") {
+                    $temp = ($temp * 10) + (int)$value[$i];
+                }
+            }
+            return $temp;
+        } else {
+            return $value;
+        }
+    }
+
+
     public function store(StorePenjualanRequest $request)
     {
+        // return $request;
         // dd($request); die;
         if($request->kembali < 0){
             return back()->with('error', 'Uang bayar kurang');
@@ -109,7 +92,7 @@ class TransaksiPenjualanController extends Controller
             $penjualanBaru->id_pelanggan = $request->id_pelanggan;
             $penjualanBaru->total_harga = $request->total_bayar;
             if($request->jenis_pembayaran == '1') {
-                $penjualanBaru->total_bayar = $request->bayar;
+                $penjualanBaru->total_bayar = $this->checkPrice($request->bayar);
             } else {
                 $penjualanBaru->total_bayar = $request->dp;
             }
@@ -155,7 +138,7 @@ class TransaksiPenjualanController extends Controller
             // dd($penjualanBaru->id); die;
             
 
-            return redirect('/list-transaksi')->with(['success' => 'Input data Transaksi Berhasil!']);
+            return redirect()->route('list-transaksi.index')->with(['success' => 'Input data Transaksi Berhasil!']);
         }
     }
 
@@ -202,5 +185,14 @@ class TransaksiPenjualanController extends Controller
     public function destroy(TransaksiPenjualan $penjualan)
     {
         //
+    }
+
+    public function exportPDF($awal, $akhir)
+    {
+        $data = $this->getData($awal, $akhir);
+        $pdf  = pdf::loadView('reportpembelian.export_pdf', compact('awal', 'akhir', 'data'));
+        $pdf->setPaper('a4', 'potrait');
+        
+        return $pdf->stream('Laporan-pendapatan-'. date('Y-m-d-his') .'.pdf');
     }
 }

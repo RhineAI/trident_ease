@@ -126,47 +126,7 @@ class PembelianController extends Controller
             return redirect('/list-transaksi')->with(['success' => 'Input data Transaksi Berhasil!']);
     }
 
-    public function data($id)
-    {
-        $detail = DetailPembelian::with('produk')
-            ->where('id_pembelian', $id)
-            ->get();
-        $data = array();
-        $total = 0;
-        $total_item = 0;
 
-        foreach ($detail as $item) {
-            $row = array();
-            $row['barcode']     = '<span class="badge badge-info">'. $item->produk->barcode .'</span>';
-            $row['nama_produk'] = $item->produk->nama;
-            $row['harga_beli']  = 'Rp. '. format_uang($item->harga_beli);
-            $row['qty']      = '<input type="number" class="form-control input-sm quantity" data-id="'. $item->id .'" value="'. $item->qty .'">';
-            $row['subtotal']    = 'Rp. '. format_uang($item->harga_beli * $item->qty);
-            $row['aksi']        = '<div class="btn-group">
-                                    <button onclick="deleteData(`'. route('pembelian_detail.destroy', $item->id_pembelian_detail) .'`)" class="btn btn-xs btn-danger btn-flat"><i class="fa fa-trash"></i> Hapus</button>
-                                </div>';
-            $data[] = $row;
-
-            $total += $item->harga_beli * $item->qty;
-            $total_item += $item->qty;
-        }
-        $data[] = [
-            'barcode' => '
-                <div class="total hide" style="visibility : hidden">'. $total .'</div>
-                <div class="total_item hide" style="visibility : hidden">'. $total_item .'</div>',
-            'nama_produk' => '',
-            'harga_beli'  => '',
-            'jumlah'      => '',
-            'subtotal'    => '',
-            'aksi'        => '',
-        ];
-
-        return datatables()
-            ->of($data)
-            ->addIndexColumn()
-            ->rawColumns(['aksi', 'barcode', 'jumlah'])
-            ->make(true);
-    }
 
     /**
      * Display the specified resource.

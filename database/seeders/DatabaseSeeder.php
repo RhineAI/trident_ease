@@ -107,5 +107,30 @@ class DatabaseSeeder extends Seeder
             'hak_akses' => 1,
             'id_perusahaan' => '1'
         ]);
+
+        DB::table('t_barang')->insert([
+            'kode' => '004',
+            'nama' => 'Nabati',
+            'barcode' => 'BRC-2022102001',
+            'id_kategori' => 1,
+            'id_supplier' => 1,
+            'id_satuan' => 1,
+            'id_merek' => 1,
+            'id_perusahaan' => 1,
+            'stock' => 100,
+            'stock_minimal' => 2,
+            'harga_beli' => 5000,
+            'keuntungan' => 5,
+            'keterangan' => "Anjai Mabar",
+            'status' => 1,
+        ]);
+
+        DB::table('t_pelanggan')->insert([
+            'nama' => 'Udin',
+            'alamat' => 'Jl udin Udin al-udin',
+            'tlp' => '082118356213',
+            'jenis_kelamin' => 'L',
+            'id_perusahaan' => 1,
+        ]);
     }
 }

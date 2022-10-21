@@ -23,12 +23,12 @@
     <div class="row mb-3">
         <!-- New User Card Example -->
         <div class="col-xl-3 col-md-6 mb-4">
-            <div class="card h-100">
+            <div class="card h-80">
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
                             <div class="text-xs font-weight-bold text-uppercase mb-1">Product Added</div>
-                            <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800"></div>
+                            <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">{{ $barang }}</div>
                             <div class="mt-2 mb-0 text-muted text-xs">
                                 <span class="text-success mr-2"><i class="fas fa-arrow-up"></i> 20.4%</span>
                                 <span>Since last month</span>
@@ -43,12 +43,12 @@
         </div>
         <!-- Earnings (Monthly) Card Example -->
         <div class="col-xl-3 col-md-6 mb-4">
-            <div class="card h-100">
+            <div class="card h-80">
                 <div class="card-body">
                     <div class="row align-items-center">
                         <div class="col mr-2">
                             <div class="text-xs font-weight-bold text-uppercase mb-1">Earnings (Monthly)</div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">$40,000</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">Rp.{{ format_uang($penjualan) }}</div>
                             <div class="mt-2 mb-0 text-muted text-xs">
                                 <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> 3.48%</span>
                                 <span>Since last month</span>
@@ -63,12 +63,12 @@
         </div>
         <!-- Earnings (Annual) Card Example -->
         <div class="col-xl-3 col-md-6 mb-4">
-            <div class="card h-100">
+            <div class="card h-80">
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
                             <div class="text-xs font-weight-bold text-uppercase mb-1">Sales</div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">40</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $total_penjualan }}</div>
                             <div class="mt-2 mb-0 text-muted text-xs">
                                 <span class="text-success mr-2"><i class="fas fa-arrow-up"></i> 12%</span>
                                 <span>Since last years</span>
@@ -83,12 +83,12 @@
         </div>
         <!-- Pending Requests Card Example -->
         <div class="col-xl-3 col-md-6 mb-4">
-            <div class="card h-100">
+            <div class="card h-80">
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-uppercase mb-1">Pending Requests</div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">18</div>
+                            <div class="text-xs font-weight-bold text-uppercase mb-1">Employee</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $pegawai }}</div>
                             <div class="mt-2 mb-0 text-muted text-xs">
                                 <span class="text-danger mr-2"><i class="fas fa-arrow-down"></i> 1.10%</span>
                                 <span>Since yesterday</span>

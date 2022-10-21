@@ -27,14 +27,7 @@
           <div class="card-header">
             <h3 class="card-title">Data Supplier</h3>
   
-            <div class="card-tools">
-              <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
-                <i class="fas fa-minus"></i>
-              </button>
-              <button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
-                <i class="fas fa-times"></i>
-              </button>
-            </div>
+           
           </div>
           <div class="card-body">
                 <!-- Button trigger modal -->
@@ -85,9 +78,7 @@
 
 @push('scripts')
     <script>
-        $('#tbl-data-supplier').DataTable({
-          scrollX: true,
-        });
+        $('#tbl-data-supplier').DataTable();
     </script>
     <script>
         $(document).ready(function(){
