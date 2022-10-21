@@ -1,5 +1,5 @@
 <div class="box-body table-responsive">
-    <table class="table table-striped table-bordered" id="tbl-data-pegawai">
+    <table class="table table-striped table-bordered dt-responsive" style="width: 100%;" id="tbl-data-pegawai">
         <thead>
             <tr>
                 <td>Id Pegawai</td>

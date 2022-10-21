@@ -143,7 +143,7 @@
                               </a>
                           </li>
                           <li class="nav-item">
-                            <a href="{{ route('list-pembelian') }}" class="nav-link">
+                            <a href="{{ route('list-pembelian.index') }}" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Data Pembelian</p>
                             </a>
@@ -183,7 +183,7 @@
                               </a>
                           </li>
                           <li class="nav-item">
-                            <a href="{{ route('list-transaksi') }}" class="nav-link">
+                            <a href="{{ route('list-transaksi.index') }}" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Data Transaksi</p>
                             </a>

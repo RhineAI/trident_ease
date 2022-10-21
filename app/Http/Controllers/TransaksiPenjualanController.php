@@ -12,7 +12,7 @@ use App\Models\DetailPenjualan;
 use App\Models\Pembayaran;
 use Illuminate\Support\Facades\DB;
 use Barryvdh\DomPDF\PDF as pdf;
-
+use Illuminate\Http\Request;
 
 class TransaksiPenjualanController extends Controller
 {
@@ -37,108 +37,7 @@ class TransaksiPenjualanController extends Controller
          
     }
 
-    public function getData($awal, $akhir)
-    {
-        $no = 1;
-        $data = array();
-
-        while (strtotime($awal) <= strtotime($akhir)) {
-            $tanggal = $awal;
-            $awal = date('Y-m-d', strtotime("+1day", strtotime($awal)));
-
-            $total_penjualan = TransaksiPenjualan::where('created_at', 'LIKE', "%$tanggal%");
-            // $total_pembelian = Pembelian::where('created_at', 'LIKE', "%$tanggal%")->sum('bayar');
-
-
-            
-            // $penjualan = Penjualan::where('created_at', 'LIKE', "%$tanggal%")->sum('bayar');
-            // $penjualan = Penjualan::first();
-            $penjualan = TransaksiPenjualan::leftJoin('t_pelanggan AS P', 'P.id', 't_transaksi_penjualan.id_pelanggan')
-                                            ->select('t_transaksi_penjualan.*', 'P.nama AS nama_pelanggan')
-                                            ->orderBy('id', 'desc')->get();
-            
-            $row = array();
-            $row['DT_RowIndex'] = $no++;
-            $row['tanggal'] = tanggal_indonesia($tanggal, false);
-            // $row['nota'] = 'INV-202005'. $penjualan->kode_penjualan ;
-            $row['pembelian'] = 'Rp. '.format_uang($total_pembelian);
-            $row['penjualan'] = 'Rp. '.format_uang($total_penjualan);
-            // $row['aksi']        = '<div class="btn-group">
-            //                         <button onclick="{{ route(`daftarpenjualan.index`) }}" class="btn btn-xs btn-info btn-flat"><i class="fa fa-eye"></i> Detail</button>
-            //                     </div>';
-
-            $data[] = $row;
-        }
-
-        $data[] = [
-            'DT_RowIndex' => '',
-            'tanggal' => '',
-            'nota' => '',
-            'pembelian' => '',
-            'penjualan' => '',
-            // 'aksi' => '',
-        ];
-
-        return $data;
-    }
-
-    public function data($awal, $akhir)
-    {
-        $data = $this->getData($awal, $akhir);
-
-        return datatables()
-            ->of($data)
-            ->rawColumns(['aksi'])
-            ->make(true);
-    }
-
-    public function dataTransaksi()
-    {
-        $penjualan = TransaksiPenjualan::leftJoin('t_pelanggan AS P', 'P.id', 't_transaksi_penjualan.id_pelanggan')
-                                        ->select('t_transaksi_penjualan.*', 'P.nama AS nama_pelanggan')
-                                        ->orderBy('id', 'desc')->get();
-
-        return datatables()
-        ->of($penjualan)
-        ->addIndexColumn()
-        ->addColumn('invoice', function($penjualan) {
-            return '<span class="badge badge-info">'. $penjualan->id .'</span>';
-        })
-        ->addColumn('total_bayar', function($penjualan) {
-            return 'RP. '. format_uang($penjualan->total_harga);
-        })
-        ->addColumn('action', function ($penjualan) {
-            return '
-                <button class="btn btn-xs btn-danger rounded delete"><i class="fa-solid fa-file-pdf"></i></button>
-            ';
-        })
-        ->rawColumns(['action', 'invoice'])
-        ->make(true);
-    }
-
-    public function listTransaksi(Request $request)
-    {
-        //  $barang = Barang::orderBy('nama')->get();
-        //  $diskon = TransaksiPenjualan::first()->diskon ?? 0;
- 
-        //  $detail = DetailPenjualan::orderBy('id_penjualan_detail', 'DESC');
-       
-        $tanggalAwal = date('Y-m-d', mktime(0, 0, 0, date('m'), 1, date('Y')));
-        $tanggalAkhir = date('Y-m-d');
-
-        if ($request->has('tanggal_awal') && $request->tanggal_awal != "" && $request->has('tanggal_akhir') && $request->tanggal_akhir) {
-            $tanggalAwal = date('Y-m-d', strtotime($request->tanggal_awal));
-            $tanggalAkhir = date('Y-m-d', strtotime($request->tanggal_akhir));
-        }
-
-        $data['pelanggan'] = Pelanggan::where('id_perusahaan', auth()->user()->id_perusahaan)->get();    
-        // $data['produk'] = Barang::where('stock', '>', 0)->where('status', '==', '1')->get();    
-        $data['produk'] = Barang::where('stock', '>', 0)->where('status', '=', '1')->where('id_perusahaan', auth()->user()->id_perusahaan)->get();    
-        $data['cPerusahaan'] = Perusahaan::select('*')->where('id', auth()->user()->id_perusahaan)->first();
-        $data['transaksi'] = TransaksiPenjualan::select('*')->where('id', auth()->user()->id_perusahaan)->get();
    
-       return view('transaksi-penjualan.listTransaksi', $data, compact('tanggalAwal', 'tanggalAkhir'));
-    }
 
     
 
@@ -176,6 +75,7 @@ class TransaksiPenjualanController extends Controller
 
     public function store(StorePenjualanRequest $request)
     {
+        // return $request;
         // dd($request); die;
         if($request->kembali < 0){
             return back()->with('error', 'Uang bayar kurang');
@@ -190,9 +90,9 @@ class TransaksiPenjualanController extends Controller
 
             $penjualanBaru->tgl = date('Y-m-d');
             $penjualanBaru->id_pelanggan = $request->id_pelanggan;
-            $penjualanBaru->total_harga = ($request->total_bayar);
+            $penjualanBaru->total_harga = $request->total_bayar;
             if($request->jenis_pembayaran == '1') {
-                $penjualanBaru->total_bayar = $request->bayar;
+                $penjualanBaru->total_bayar = $this->checkPrice($request->bayar);
             } else {
                 $penjualanBaru->total_bayar = $request->dp;
             }
@@ -238,7 +138,7 @@ class TransaksiPenjualanController extends Controller
             // dd($penjualanBaru->id); die;
             
 
-            return redirect('/list-transaksi')->with(['success' => 'Input data Transaksi Berhasil!']);
+            return redirect()->route('list-transaksi.index')->with(['success' => 'Input data Transaksi Berhasil!']);
         }
     }
 
