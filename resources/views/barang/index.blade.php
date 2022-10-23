@@ -194,6 +194,51 @@ Barang
             $('#modal-form [name=status]').val(data.status);
         }
 
+        function deleteForm(url) {
+            Swal.fire({
+                title: 'Hapus Data yang dipilih?',
+                icon: 'question',
+                iconColor: '#DC3545',
+                showDenyButton: true,
+                denyButtonColor: '#838383',
+                denyButtonText: 'Batal',
+                confirmButtonText: 'Hapus',
+                confirmButtonColor: '#DC3545'
+                }).then((result) => {
+                if (result.isConfirmed) {
+                    $.post(url, {
+                        '_token': $('[name=csrf-token]').attr('content'),
+                        '_method': 'delete'
+                    })
+                    .done((response) => {
+                        Swal.fire({
+                            title: 'Sukses!',
+                            text: 'Data Barang berhasil dihapus',
+                            icon: 'success',
+                            confirmButtonText: 'Lanjut',
+                            confirmButtonColor: '#28A745'
+                        }) 
+                        table.ajax.reload();
+                    })
+                    .fail((errors) => {
+                        Swal.fire({
+                            title: 'Gagal!',
+                            text: 'Data Barang gagal dihapus',
+                            icon: 'error',
+                            confirmButtonText: 'Kembali',
+                            confirmButtonColor: '#DC3545'
+                        })                       
+                        return;
+                    });
+                } else if (result.isDenied) {
+                    Swal.fire({
+                        title: 'Kategori batal dihapus',
+                        icon: 'warning',
+                    })
+                }
+            })
+        }
+
 </script>
 {{-- <script>
 
@@ -253,24 +298,5 @@ Barang
         });
     });
 </script> --}}
-<script>
-    $('.delete-data').on('click', function (e) {
-        e.preventDefault();
-        Swal.fire({
-            title: 'Apakah Kamu Yakin Menghapus Data Ini?',
-            text: "Data tidak akan bisa dikembalikan!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Ya, Hapus data ini!'
-        }).then((result) => {
-            if (result.isConfirmed) {
-                $(e.target).closest('form').submit()
-            } else {
-                swal.close()
-            }
-        })
-    });
-</script>
+
 @endpush

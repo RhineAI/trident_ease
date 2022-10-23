@@ -27,7 +27,7 @@ class DatabaseSeeder extends Seeder
             'slogan' => '213123',
             'email' => 'asdsakdjkasjdsakh',
             'logo' => '213123',
-            'level' => '1'
+            'grade' => 1
         ]);
 
         // DB::table('t_perusahaan')->insert([
@@ -54,7 +54,7 @@ class DatabaseSeeder extends Seeder
             'npwp' => '23321321321',
             'slogan' => '213123',
             'email' => 'asdsakdjkasjdsakh@gmail.com',
-            'level' => 1,
+            'grade' => 1,
             'logo' => '/assets/img/buildings.png'
         ]);
 
@@ -108,9 +108,18 @@ class DatabaseSeeder extends Seeder
             'id_perusahaan' => '1'
         ]);
 
+        DB::table('t_pelanggan')->insert([
+            'nama' => 'Udin',
+            'alamat' => 'Jl udin Udin al-udin',
+            'tlp' => '082118356213',
+            'jenis_kelamin' => 'L',
+            'id_perusahaan' => 1,
+        ]);
+
+
         DB::table('t_barang')->insert([
-            'kode' => '004',
-            'nama' => 'Nabati',
+            'kode' => '001',
+            'nama' => 'Nabati Cheese',
             'barcode' => 'BRC-2022102001',
             'id_kategori' => 1,
             'id_supplier' => 1,
@@ -119,18 +128,248 @@ class DatabaseSeeder extends Seeder
             'id_perusahaan' => 1,
             'stock' => 100,
             'stock_minimal' => 2,
-            'harga_beli' => 5000,
+            'harga_beli' => 2000,
             'keuntungan' => 5,
             'keterangan' => "Anjai Mabar",
             'status' => 1,
         ]);
 
-        DB::table('t_pelanggan')->insert([
-            'nama' => 'Udin',
-            'alamat' => 'Jl udin Udin al-udin',
-            'tlp' => '082118356213',
-            'jenis_kelamin' => 'L',
+        DB::table('t_barang')->insert([
+            'kode' => '002',
+            'nama' => 'Nabati Chocolate',
+            'barcode' => 'BRC-2022102002',
+            'id_kategori' => 1,
+            'id_supplier' => 1,
+            'id_satuan' => 1,
+            'id_merek' => 1,
             'id_perusahaan' => 1,
+            'stock' => 100,
+            'stock_minimal' => 2,
+            'harga_beli' => 2000,
+            'keuntungan' => 5,
+            'keterangan' => "Anjai Mabar",
+            'status' => 1,
+        ]);
+
+        DB::table('t_barang')->insert([
+            'kode' => '003',
+            'nama' => 'Nabati Black',
+            'barcode' => 'BRC-2022102003',
+            'id_kategori' => 1,
+            'id_supplier' => 1,
+            'id_satuan' => 1,
+            'id_merek' => 1,
+            'id_perusahaan' => 1,
+            'stock' => 100,
+            'stock_minimal' => 2,
+            'harga_beli' => 2000,
+            'keuntungan' => 5,
+            'keterangan' => "Anjai Mabar",
+            'status' => 1,
+        ]);
+
+        DB::table('t_barang')->insert([
+            'kode' => '004',
+            'nama' => 'Nabati Caramel',
+            'barcode' => 'BRC-2022102004',
+            'id_kategori' => 1,
+            'id_supplier' => 1,
+            'id_satuan' => 1,
+            'id_merek' => 1,
+            'id_perusahaan' => 1,
+            'stock' => 100,
+            'stock_minimal' => 2,
+            'harga_beli' => 2000,
+            'keuntungan' => 5,
+            'keterangan' => "Anjai Mabar",
+            'status' => 1,
+        ]);
+
+        DB::table('t_barang')->insert([
+            'kode' => '005',
+            'nama' => 'Nabati Chocolate Coated',
+            'barcode' => 'BRC-2022102005',
+            'id_kategori' => 1,
+            'id_supplier' => 1,
+            'id_satuan' => 1,
+            'id_merek' => 1,
+            'id_perusahaan' => 1,
+            'stock' => 100,
+            'stock_minimal' => 2,
+            'harga_beli' => 2000,
+            'keuntungan' => 5,
+            'keterangan' => "Anjai Mabar",
+            'status' => 1,
+        ]);
+
+        DB::table('t_barang')->insert([
+            'kode' => '006',
+            'nama' => 'Nabati White',
+            'barcode' => 'BRC-2022102006',
+            'id_kategori' => 1,
+            'id_supplier' => 1,
+            'id_satuan' => 1,
+            'id_merek' => 1,
+            'id_perusahaan' => 1,
+            'stock' => 100,
+            'stock_minimal' => 2,
+            'harga_beli' => 2000,
+            'keuntungan' => 5,
+            'keterangan' => "Anjai Mabar",
+            'status' => 1,
+        ]);
+
+        DB::table('t_barang')->insert([
+            'kode' => '007',
+            'nama' => 'Nabati Peanut Butter',
+            'barcode' => 'BRC-2022102007',
+            'id_kategori' => 1,
+            'id_supplier' => 1,
+            'id_satuan' => 1,
+            'id_merek' => 1,
+            'id_perusahaan' => 1,
+            'stock' => 100,
+            'stock_minimal' => 2,
+            'harga_beli' => 2000,
+            'keuntungan' => 5,
+            'keterangan' => "Anjai Mabar",
+            'status' => 1,
+        ]);
+
+        DB::table('t_barang')->insert([
+            'kode' => '008',
+            'nama' => 'Nabati Pink Lava',
+            'barcode' => 'BRC-2022102008',
+            'id_kategori' => 1,
+            'id_supplier' => 1,
+            'id_satuan' => 1,
+            'id_merek' => 1,
+            'id_perusahaan' => 1,
+            'stock' => 100,
+            'stock_minimal' => 2,
+            'harga_beli' => 2000,
+            'keuntungan' => 5,
+            'keterangan' => "Anjai Mabar",
+            'status' => 1,
+        ]);
+
+        DB::table('t_barang')->insert([
+            'kode' => '009',
+            'nama' => 'Nabati Chocolate Coconut',
+            'barcode' => 'BRC-2022102009',
+            'id_kategori' => 1,
+            'id_supplier' => 1,
+            'id_satuan' => 1,
+            'id_merek' => 1,
+            'id_perusahaan' => 1,
+            'stock' => 100,
+            'stock_minimal' => 2,
+            'harga_beli' => 2000,
+            'keuntungan' => 5,
+            'keterangan' => "Anjai Mabar",
+            'status' => 1,
+        ]);
+
+        DB::table('t_barang')->insert([
+            'kode' => '010',
+            'nama' => 'Nabati Raspbery Yoghurt',
+            'barcode' => 'BRC-2022102010',
+            'id_kategori' => 1,
+            'id_supplier' => 1,
+            'id_satuan' => 1,
+            'id_merek' => 1,
+            'id_perusahaan' => 1,
+            'stock' => 100,
+            'stock_minimal' => 2,
+            'harga_beli' => 2000,
+            'keuntungan' => 5,
+            'keterangan' => "Anjai Mabar",
+            'status' => 1,
+        ]);
+
+        DB::table('t_barang')->insert([
+            'kode' => '011',
+            'nama' => 'Nabati Peach Yoghurt',
+            'barcode' => 'BRC-2022102011',
+            'id_kategori' => 1,
+            'id_supplier' => 1,
+            'id_satuan' => 1,
+            'id_merek' => 1,
+            'id_perusahaan' => 1,
+            'stock' => 100,
+            'stock_minimal' => 2,
+            'harga_beli' => 2000,
+            'keuntungan' => 5,
+            'keterangan' => "Anjai Mabar",
+            'status' => 1,
+        ]);
+
+        DB::table('t_barang')->insert([
+            'kode' => '012',
+            'nama' => 'Nabati Hazelnut',
+            'barcode' => 'BRC-2022102012',
+            'id_kategori' => 1,
+            'id_supplier' => 1,
+            'id_satuan' => 1,
+            'id_merek' => 1,
+            'id_perusahaan' => 1,
+            'stock' => 100,
+            'stock_minimal' => 2,
+            'harga_beli' => 2000,
+            'keuntungan' => 5,
+            'keterangan' => "Anjai Mabar",
+            'status' => 1,
+        ]);
+
+        DB::table('t_barang')->insert([
+            'kode' => '013',
+            'nama' => 'Nabati Vanilla Cream',
+            'barcode' => 'BRC-2022102013',
+            'id_kategori' => 1,
+            'id_supplier' => 1,
+            'id_satuan' => 1,
+            'id_merek' => 1,
+            'id_perusahaan' => 1,
+            'stock' => 100,
+            'stock_minimal' => 2,
+            'harga_beli' => 2000,
+            'keuntungan' => 5,
+            'keterangan' => "Anjai Mabar",
+            'status' => 1,
+        ]);
+
+        DB::table('t_barang')->insert([
+            'kode' => '014',
+            'nama' => 'Nabati Cookies and Cream',
+            'barcode' => 'BRC-2022102014',
+            'id_kategori' => 1,
+            'id_supplier' => 1,
+            'id_satuan' => 1,
+            'id_merek' => 1,
+            'id_perusahaan' => 1,
+            'stock' => 100,
+            'stock_minimal' => 2,
+            'harga_beli' => 2000,
+            'keuntungan' => 5,
+            'keterangan' => "Anjai Mabar",
+            'status' => 1,
+        ]);
+
+        DB::table('t_barang')->insert([
+            'kode' => '015',
+            'nama' => 'Nabati Coconut Lava',
+            'barcode' => 'BRC-2022102015',
+            'id_kategori' => 1,
+            'id_supplier' => 1,
+            'id_satuan' => 1,
+            'id_merek' => 1,
+            'id_perusahaan' => 1,
+            'stock' => 100,
+            'stock_minimal' => 2,
+            'harga_beli' => 2000,
+            'keuntungan' => 5,
+            'keterangan' => "Anjai Mabar",
+            'status' => 1,
         ]);
     }
 }

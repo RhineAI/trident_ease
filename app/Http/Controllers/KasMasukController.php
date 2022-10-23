@@ -53,7 +53,7 @@ class KasMasukController extends Controller
                 return '
                     <button data-jumlah="'.$kasMasuk->jumlah.'" 
                             data-route="' . route('kas-masuk.update', $kasMasuk->id) . '" class="edit btn btn-xs btn-success"><i class="fas fa-pencil-square"></i></button>
-                    <button onclick="deleteData(`'. route('kas-masuk.destroy', $kasMasuk->id) .'`)" class="btn btn-xs btn-danger delete"><i class="fas fa-trash"></i></button>
+                    <button onclick="deleteForm(`'. route('kas-masuk.destroy', $kasMasuk->id) .'`)" class="btn btn-xs btn-danger delete"><i class="fas fa-trash"></i></button>
                 ';
             })
             ->rawColumns(['action'])
@@ -89,6 +89,7 @@ class KasMasukController extends Controller
         $kasMasuk->tgl = now();
         $kasMasuk->jumlah = $this->checkPrice($jumlah);
         $kasMasuk->id_user = auth()->user()->id;
+        $kasMasuk->id_perusahaan = auth()->user()->id_perusahaan;
         $kasMasuk->save();
 
         return redirect()->route('kas-masuk.index')->with(['success' => 'Berhasil Disimpan!']);

@@ -135,5 +135,51 @@
             $('#modal-form [name=jumlah]').val(data.jumlah);
         }
 
+        function deleteForm(url) {
+            Swal.fire({
+                title: 'Hapus Data yang dipilih?',
+                icon: 'question',
+                iconColor: '#DC3545',
+                showDenyButton: true,
+                denyButtonColor: '#838383',
+                denyButtonText: 'Batal',
+                confirmButtonText: 'Hapus',
+                confirmButtonColor: '#DC3545'
+                }).then((result) => {
+                if (result.isConfirmed) {
+                    $.post(url, {
+                        '_token': $('[name=csrf-token]').attr('content'),
+                        '_method': 'delete'
+                    })
+                    .done((response) => {
+                        Swal.fire({
+                            title: 'Sukses!',
+                            text: 'Data Kas Masuk berhasil dihapus',
+                            icon: 'success',
+                            confirmButtonText: 'Lanjut',
+                            confirmButtonColor: '#28A745'
+                        }) 
+                        table.ajax.reload();
+                    })
+                    .fail((errors) => {
+                        Swal.fire({
+                            title: 'Gagal!',
+                            text: 'Data Kas Masuk gagal dihapus',
+                            icon: 'error',
+                            confirmButtonText: 'Kembali',
+                            confirmButtonColor: '#DC3545'
+                        })                       
+                        return;
+                    });
+                } else if (result.isDenied) {
+                    Swal.fire({
+                        title: 'Kas Masuk batal dihapus',
+                        icon: 'warning',
+                    })
+                }
+            })
+        }
+
+
 </script>
 @endpush

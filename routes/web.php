@@ -88,7 +88,7 @@ Route::middleware('auth')->group(function(){
         Route::post('/kas-masuk/data', [KasMasukController::class, 'data'])->name('kas-masuk.data');
 
         Route::resource('kas-keluar', KasKeluarController::class);
-        Route::post('/kas-keluar/data', [KasMasukController::class, 'data'])->name('kas-keluar.data');
+        Route::post('/kas-keluar/data', [KasKeluarController::class, 'data'])->name('kas-keluar.data');
 
 });
 

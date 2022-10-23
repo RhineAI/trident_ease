@@ -28,10 +28,10 @@
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
                             <div class="text-xs font-weight-bold text-uppercase mb-1">Product Added</div>
-                            <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">{{ $barang }}</div>
+                            <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">{{ $cardBarang }}</div>
                             <div class="mt-2 mb-0 text-muted text-xs">
-                                <span class="text-success mr-2"><i class="fas fa-arrow-up"></i> 20.4%</span>
-                                <span>Since last month</span>
+                                <span class="text-success mr-2"><i class="fas fa-arrow-up"></i> {{ $percentage_barang }}%</span>
+                                <span>Since last Day (+{{ $totalBarangYesterday }})</span>
                             </div>
                         </div>
                         <div class="col-auto">
@@ -87,15 +87,15 @@
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-uppercase mb-1">Employee</div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $pegawai }}</div>
+                            <div class="text-xs font-weight-bold text-uppercase mb-1">Kas Masuk</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">Rp.{{ format_uang($kas) }}</div>
                             <div class="mt-2 mb-0 text-muted text-xs">
                                 <span class="text-danger mr-2"><i class="fas fa-arrow-down"></i> 1.10%</span>
                                 <span>Since yesterday</span>
                             </div>
                         </div>
                         <div class="col-auto">
-                            <i class="fas fa-comments fa-2x text-warning"></i>
+                            <i class="fas fa-sharp fa-money-bill-1-wave fa-2x text-warning"></i>
                         </div>
                     </div>
                 </div>
@@ -133,69 +133,81 @@
         <div class="col-xl-4 col-lg-5">
             <div class="card mb-4">
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                    <h6 class="m-0 font-weight-bold text-primary">Products Sold</h6>
-                    <div class="dropdown no-arrow">
-                        <a class="dropdown-toggle btn btn-primary btn-sm" href="#" role="button" id="dropdownMenuLink"
-                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Month <i class="fas fa-chevron-down"></i>
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                            aria-labelledby="dropdownMenuLink">
-                            <div class="dropdown-header">Select Periode</div>
-                            <a class="dropdown-item" href="#">Today</a>
-                            <a class="dropdown-item" href="#">Week</a>
-                            <a class="dropdown-item active" href="#">Month</a>
-                            <a class="dropdown-item" href="#">This Year</a>
-                        </div>
-                    </div>
+                    <h6 class="m-0 font-weight-bold text-primary">Level Now</h6>
+                    @if ($check->grade == 1) 
+                        <span class="badge badge-primary">Free</span>
                 </div>
                 <div class="card-body">
                     <div class="mb-3">
-                        <div class="small text-gray-500">Oblong T-Shirt
-                            <div class="small float-right"><b>600 of 800 Items</b></div>
+                        <div class="small text-gray-500">Barang
+                            <div class="small float-right"><b>{{ $cardBarang }} of 10 Items</b></div>
                         </div>
                         <div class="progress" style="height: 12px;">
-                            <div class="progress-bar bg-warning" role="progressbar" style="width: 80%" aria-valuenow="80"
-                                aria-valuemin="0" aria-valuemax="100"></div>
+                            <div class="progress-bar bg-warning" role="progressbar" style="width: {{ $barang }}%" aria-valuenow="{{ $barang }}"
+                                aria-valuemin="{{ $barang }}" aria-valuemax="10"></div>
                         </div>
                     </div>
                     <div class="mb-3">
-                        <div class="small text-gray-500">Gundam 90'Editions
-                            <div class="small float-right"><b>500 of 800 Items</b></div>
+                        <div class="small text-gray-500">Transaksi 
+                            <div class="small float-right"><b>{{ $total_penjualan }} of 10 Items</b></div>
                         </div>
                         <div class="progress" style="height: 12px;">
-                            <div class="progress-bar bg-success" role="progressbar" style="width: 70%" aria-valuenow="70"
-                                aria-valuemin="0" aria-valuemax="100"></div>
+                            <div class="progress-bar bg-success" role="progressbar" style="width: {{ $total_penjualan }}%" aria-valuenow="{{ $total_penjualan }}"
+                                aria-valuemin="0" aria-valuemax="10"></div>
                         </div>
-                    </div>
-                    <div class="mb-3">
-                        <div class="small text-gray-500">Rounded Hat
-                            <div class="small float-right"><b>455 of 800 Items</b></div>
-                        </div>
-                        <div class="progress" style="height: 12px;">
-                            <div class="progress-bar bg-danger" role="progressbar" style="width: 55%" aria-valuenow="55"
-                                aria-valuemin="0" aria-valuemax="100"></div>
-                        </div>
-                    </div>
-                    <div class="mb-3">
-                        <div class="small text-gray-500">Indomie Goreng
-                            <div class="small float-right"><b>400 of 800 Items</b></div>
-                        </div>
-                        <div class="progress" style="height: 12px;">
-                            <div class="progress-bar bg-info" role="progressbar" style="width: 10%" aria-valuenow="10"
-                                aria-valuemin="0" aria-valuemax="100"></div>
-                        </div>
-                    </div>
-                    <div class="mb-3">
-                        <div class="small text-gray-500">Remote Control Car Racing
-                            <div class="small float-right"><b>200 of 800 Items</b></div>
-                        </div>
-                        <div class="progress" style="height: 12px;">
-                            <div class="progress-bar bg-success" role="progressbar" style="width: 30%" aria-valuenow="30"
-                                aria-valuemin="0" aria-valuemax="100"></div>
-                        </div>
-                    </div>
+                    </div>                    
                 </div>
+
+
+                    @elseif ($check->grade == 2)
+                        <span class="badge badge-info">Intermediate</span>
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <div class="small text-gray-500">Barang
+                            <div class="small float-right"><b>{{ $cardBarang }} of 50 Items</b></div>
+                        </div>
+                        <div class="progress" style="height: 12px;">
+                            <div class="progress-bar bg-warning" role="progressbar" style="width: {{ $barang }}%" aria-valuenow="{{ $barang }}"
+                                aria-valuemin="0" aria-valuemax="50"></div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <div class="small text-gray-500">Transaksi 
+                            <div class="small float-right"><b>{{ $total_penjualan }} of 50 Items</b></div>
+                        </div>
+                        <div class="progress" style="height: 12px;">
+                            <div class="progress-bar bg-success" role="progressbar" style="width: {{ $total_penjualan }}%" aria-valuenow="{{ $total_penjualan }}"
+                                aria-valuemin="0" aria-valuemax="50"></div>
+                        </div>
+                    </div>                    
+                </div>
+
+                        
+                    @elseif ($check->grade == 3)
+                        <span class="badge badge-danger">Premium</span>
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <div class="small text-gray-500">Barang
+                            <div class="small float-right"><b>{{ $cardBarang }} of 1000 Items</b></div>
+                        </div>
+                        <div class="progress" style="height: 12px;">
+                            <div class="progress-bar bg-warning" role="progressbar" style="width: {{ $barang }}%" aria-valuenow="{{ $barang }}"
+                                aria-valuemin="0" aria-valuemax="1000"></div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <div class="small text-gray-500">Transaksi 
+                            <div class="small float-right"><b>{{ $total_penjualan }} of 1000 Items</b></div>
+                        </div>
+                        <div class="progress" style="height: 12px;">
+                            <div class="progress-bar bg-success" role="progressbar" style="width: {{ $total_penjualan }}%" aria-valuenow="{{ $total_penjualan }}"
+                                aria-valuemin="0" aria-valuemax="1000"></div>
+                        </div>
+                    </div>                    
+                </div>
+                @endif
                 <div class="card-footer text-center">
                     <a class="m-0 small text-primary card-link" href="#">View More <i class="fas fa-chevron-right"></i></a>
                 </div>

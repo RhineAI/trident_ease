@@ -241,7 +241,7 @@
       </section>
       <!-- /.content -->
 
-      @includeIf('transaksi-pembelian.barang')
+      @includeIf('transaksi-penjualan.barang')
 @endsection
 
 @push('scripts') 
