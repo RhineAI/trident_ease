@@ -76,7 +76,7 @@
                                 <label for="nama_pelanggan" class="col-lg-2">Pelanggan</label>
                                 <div class="col-lg-3">
                                     <div class="input-group">
-                                        <input type="text" name="nama_pelanggan" id="nama_pelanggan" class="form-control" required autofocus readonly>
+                                        <input type="text" name="nama_pelanggan" old="{{  }}" required id="nama_pelanggan" class="form-control" required autofocus readonly>
                                         <span class="input-group-btn tampil-pelanggan">
                                             <button onclick="tampilPelanggan()" class="btn btn-info btn-flat" type="button"><i class="fa-solid fa-magnifying-glass"></i></i></button>
                                         </span>
@@ -98,9 +98,9 @@
                                 <label for="kode_produk" class="col-lg-2">Tambah Produk</label>
                                 <div class="col-lg-3">
                                     <div class="input-group">
-                                        <input type="hidden" name="id_produk" id="id_produk">
+                                        <input type="hidden" required name="id_produk" id="id_produk">
                                         <input type="hidden" class="form-control" name="kode_produk" id="kode_produk">
-                                        <input type="text" name="barcode" id="barcode" class="form-control" required autofocus readonly>
+                                        <input type="text"  name="barcode" id="barcode" class="form-control" required autofocus readonly>
                                         <span class="input-group-btn tampil-produk">
                                             {{-- <button onclick="tambahProduk()" class="btn btn-info btn-flat" type="button"><i class="fa fa-arrow-right"></i></button> --}}
                                             <button onclick="tampilProduk()" id="tampil" class="btn btn-info btn-flat" type="button"><i class="fa-solid fa-magnifying-glass"></i></button>
@@ -171,7 +171,7 @@
                                         <div class="col-lg-8 ">
                                             <div class="input-group-prepend input-primary"> 
                                                 <span class="input-group-text">RP.</span> 
-                                                <input type="text" data-bv-trigger="blur" id="bayar" name="bayar" class="form-control" value="0">
+                                                <input type="text" data-bv-trigger="blur" id="bayar" name="bayar" class="form-control" min="" value="">
                                             </div>
                                         </div>
                                     </div>
@@ -180,7 +180,7 @@
                                         <div class="col-lg-8 ">
                                             <div class="input-group-prepend input-primary"> 
                                                 <span class="input-group-text">RP.</span> 
-                                                <input type="number" data-bv-trigger="blur" id="kembali" readonly name="kembali" class="form-control" value="0">
+                                                <input type="text" data-bv-trigger="blur" id="kembali" readonly name="kembali" class="form-control" value="0">
                                             </div>
                                         </div>
                                     </div>
@@ -190,7 +190,7 @@
                                         <div class="col-lg-8 ">
                                             <div class="input-group-prepend input-primary"> 
                                                 <span class="input-group-text">RP.</span> 
-                                                <input type="number" data-bv-trigger="blur" id="dp" name="dp" class="form-control" value="0">
+                                                <input type="number" data-bv-trigger="blur" id="dp" name="dp" class="form-control" value="">
                                             </div>
                                         </div>
                                     </div>
@@ -229,7 +229,7 @@
                     </div>
         
                     <div class="box-footer mb-4 btn-submit">
-                        <button type="submit" class="btn btn-outline-primary btn-sm btn-flat pull-right btn-simpan" onkeypress="preventEnter(this)"><i class="fa-solid fa-floppy-disk"></i> Simpan Transaksi</button>
+                        <button type="submit" id="submit" class="btn btn-outline-primary btn-sm btn-flat pull-right btn-simpan" onkeypress="preventEnter(this)"><i class="fa-solid fa-floppy-disk"></i> Simpan Transaksi</button>
                     </div>
                 </div>
             </div>
@@ -272,6 +272,8 @@
             $('#formModalPelangganPenjualan').modal('hide');
         }
 
+        //Validasi Submit
+
             function cekDiscount(qty) {
                     if(Number(qty.value) < 0){
                         qty.value = 0; 
@@ -299,13 +301,11 @@
             var total=0;
             var count=0;
 
- 
             $('div#tampil_dp').hide();
             $('div#tampil_sisa').hide();
 
-            $(document).on('change', '#jenis_pembayaran', function () {
-                
-            var isiJenis = $("#jenis_pembayaran").val();
+            $(document).on('change', '#jenis_pembayaran', function () {  
+                var isiJenis = $("#jenis_pembayaran").val();
                 if (isiJenis == '1') {
                     $("#tampil_dp").val("");
                     $("#tampil_sisa").val("");
@@ -483,8 +483,9 @@
             $(document).on('keyup', '#bayar', function(e){
                 generateRupiah(this);
             })
-
-            // $('#tampil-bayar-gede').formatRupiah(this);
+            $(document).on('keyup', '#dp', function(e){
+                generateRupiah(this);
+            })
 
             //TOTAL
             $(document).on('change', '#tampil-bayar-gede', function(e){
@@ -492,24 +493,31 @@
             })
 
            //DP
-            $(document).on('keyup', '#dp', function (e) {
-                generateRupiah(this);
-                   
-		    });
-
-            //     //UBAH DP
-            // $(document).on('keyup', '#dp', function (e) {
-            //     var tb = $("#total_bayar").val();
-            //     var dp = $(this).val();
-            //     $('#sisa').val(tb - dp);
-            // });
-
             $(document).on('keyup', '#dp', function(e) {
                 var tb = $("#total_bayar").val();
                 var dp = $(this).val();
-                var harga = String(dp).replaceAll(".", '');
-                // console.log(harga)
-                $('#sisa').val(tb - parseInt(harga) );
+                var bayardp = String(dp).replaceAll(".", '');
+                console.log(tb)
+                console.log(bayardp)
+                var sisa = tb - parseInt(bayardp);
+                let formatRupiah = Number(sisa).toLocaleString("id-ID", {
+                                    style:"currency",
+                                    currency:"IDR",
+                                    maximumSignificantDigits: (sisa + '').replace('.', '').length
+                                });
+                let ubah_int = formatRupiah.replace(/Rp/g, '');
+                let sisabayar = ubah_int.replaceAll('.', '');
+
+                if (bayardp >= tb) {
+                    $('#dp').val(tb);
+                    $('#sisa').val(parseInt(sisabayar));
+                    $('#bayar').val(0);
+                } else {
+                    $('#dp').val(parseInt(bayardp));
+                    $('#sisa').val(parseInt(sisabayar));
+                    $('#bayar').val(0);
+                }
+             
             })
 
             //KEMBALIAN
@@ -517,8 +525,56 @@
                 var tb = $("#total_bayar").val();
                 var bayar = $(this).val();
                 var harga = String(bayar).replaceAll(".", '');
+
+                let pengurangan = parseInt(harga) - tb;
+                let total = Math.round(Number(pengurangan)).toLocaleString("id-ID", {
+                            style:"currency", 
+                            currency:"IDR", 
+                            maximumSignificantDigits: (pengurangan + '').replace('.', '').length
+                        });
+                let cek_bayar = Number(tb).toLocaleString("id-ID", {
+                            style:"currency",
+                            currency:"IDR",
+                            maximumSignificantDigits: (tb + '').replace('.', '').length
+                        });
+                let ubah_int = cek_bayar.replace(/Rp/g, '');
+                let jadi_harga = ubah_int.replaceAll('.', '');
+                // console.log(jadi_harga)
+                let pengurangan2 = parseInt(jadi_harga - tb);
                 
-                $('#kembali').val( parseInt(harga) - tb );
+                $('#bayar').val(bayar)
+                $('#kembali').val(total.replace(/Rp/g, '').substr(1));
+                        // console.log(total)
+                $(document).on('change', '#bayar', function(){
+                    if(bayar <= tb) {
+                        $('#bayar').val(cek_bayar.replace(/Rp/g, '').substr(1));
+                        $('#kembali').val(pengurangan2);
+                        $('#dp').val(0);
+                    } else {
+                        $('#bayar').val(bayar)
+                        $('#kembali').val(total.replace(/Rp/g, '').substr(1));
+                        $('#dp').val(0);
+                    }
+                });   
+                
+                // $(document).on('submit', '#submit', function(){ 
+                //     if(bayar <= tb ) {
+                //         $('#bayar').val(total);
+                //     } else {
+                //         $('#bayar').val(bayar);
+                //     }
+                // });
+            });
+
+
+            $(document).on('click','.hapus_penjualan',function(){
+                var delete_row=$(this).data("idbuffer");
+            
+                //hapus pada table
+                $('#buffer'+delete_row).remove(); 
+                count--;
+                GetTotalBayar();
+                //GetKeuntungan();
             });
             
          
@@ -535,16 +591,6 @@
             //     }
             // }
 
-            $(document).on('click','.hapus_penjualan',function(){
-                var delete_row=$(this).data("idbuffer");
-            
-                //hapus pada table
-                $('#buffer'+delete_row).remove(); 
-                count--;
-                GetTotalBayar();
-                //GetKeuntungan();
-            });
-
 
             function GetTotalBayar(){
                 var total_penjualan = 0;
@@ -553,7 +599,12 @@
                     total_penjualan += Number($("input[name='item["+x+"][subtotal]']").val());
                 }
         			$('#total_bayar').val(Number(total_penjualan));
-        			$('#total_bayar_gede').text('Rp. '+ Math.round(Number(total_penjualan)));
+                    let total = Math.round(Number(total_penjualan)).toLocaleString("id-ID", {
+                                    style:"currency", 
+                                    currency:"IDR", 
+                                    maximumSignificantDigits: (total_penjualan + '').replace('.', '').length
+                                });
+        			$('#total_bayar_gede').text(total);
                     $('#total_penjualan').val(Number(total_penjualan));	
             }
                 
