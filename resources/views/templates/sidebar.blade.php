@@ -201,12 +201,12 @@
                       </a>
                       <ul class="nav nav-treeview ml-4">
                           <li class="nav-item">
-                              <a href="{{ route('transaksi-penjualan.index') }}" class="nav-link">
+                              <a href="{{ route('kas-masuk.index') }}" class="nav-link">
                                   <p>Kas Masuk</p>
                               </a>
                           </li>
                           <li class="nav-item">
-                            <a href="{{ route('list-transaksi.index') }}" class="nav-link">
+                            <a href="{{ route('kas-keluar.index') }}" class="nav-link">
                                 <p>Kas Keluar</p>
                             </a>
                         </li>

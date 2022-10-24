@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class KasMasuk extends Model
 {
     use HasFactory;
+
+    protected $table = 't_kas_masuk';
+    protected $primaryKey = 'id';
+    protected $guarded = [];
 }
+

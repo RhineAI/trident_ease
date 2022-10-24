@@ -39,3 +39,26 @@ function tanggal_indonesia($tgl, $tampil_hari = true)
     
     return $text; 
 }
+
+function persentasePerbandingan($getDataYesterday, $getDataToday) {
+    $checkJumlah = $getDataYesterday - $getDataToday;
+        if($checkJumlah < 0) {
+            $hasilCheck = $checkJumlah + -($checkJumlah*2);
+        } elseif($checkJumlah >= 0) {
+            $hasilCheck = $checkJumlah;
+        }
+        if ($hasilCheck != $getDataYesterday) {
+            $cek1 = 100 / $getDataYesterday ;
+            $cek2 = $getDataYesterday - $hasilCheck;
+            $percentage = round($cek1 * $cek2, 2, PHP_ROUND_HALF_UP) ;
+        } elseif($hasilCheck == $getDataYesterday) {
+            $percentage = 100;
+        } elseif($hasilCheck >= $getDataYesterday) {
+            $cek1 = 100 / $getDataYesterday ;
+            $cek2 = $getDataYesterday - $hasilCheck;
+            $percentage = 100 + round($cek1 * $cek2, 2, PHP_ROUND_HALF_EVEN);
+        }
+
+        return $percentage;
+}
+
