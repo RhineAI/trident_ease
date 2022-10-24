@@ -98,10 +98,10 @@
                         @foreach ($pembayaran as $item)
                             <tr>
                                 <td>{{ $i = (isset($i)?++$i:$i=1) }}</td>
-                                <td>{{ $item->id }}</td>
+                                <td>{{ $item->id_penjualan }}</td>
                                 <td>{{ $item->tgl }}</td>
                                 <td>{{ $item->nama_pelanggan }}</td>
-                                <td>{{ $item->total_harga }}</td>
+                                <td>{{ $item->total_bayar }}</td>
                                 <td>{{ $item->dp }}</td>
                                 <td>{{ $item->sisa }}</td>
                                 <td>
@@ -111,10 +111,10 @@
                                         data-nama_pelanggan="{{ $item->nama_pelanggan }}" 
                                         data-id_pelanggan="{{ $item->id_pelanggan }}" 
                                         data-tlp="{{ $item->tlp }}" 
-                                        data-total_harga="{{ $item->total_harga }}" 
+                                        data-total_bayar="{{ $item->total_bayar }}" 
                                         data-dp="{{ $item->dp }}" 
                                         data-sisa="{{ $item->sisa }}" 
-                                        data-route="{{ route('pembayaran.update', $item->id_pembayaran)}}"
+                                        data-route="{{ route('pembayaran.store')}}"
                                         data-toggle="modal" data-target="#formModalPelanggan" data-mode="edit"> <i class="fa fa-pencil"></i>
                                     </button>
                                 </td>

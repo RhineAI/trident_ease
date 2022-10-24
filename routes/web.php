@@ -23,8 +23,8 @@ use App\Http\Controllers\PembelianController;
 use App\Http\Controllers\ListTransaksiPembelianController;
 
 use App\Http\Controllers\PembayaranController;
-
-
+use App\Http\Controllers\ReturPenjualanController;
+use App\Http\Controllers\StokOpnameController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth')->group(function(){
@@ -82,7 +82,13 @@ Route::middleware('auth')->group(function(){
 
         // Route::resource('/detail-penjualan', DetailPenjualanController::class);
         Route::resource('/pembayaran', PembayaranController::class);
-    
+
+        // Stok opname
+        Route::get('/stock-opname', [StokOpnameController::class, 'index'])->name('stockOpname');
+        Route::post('/stock-opname', [StokOpnameController::class, 'updateStock']);
+
+        // Retur Penjualan
+        Route::resource('/retur-penjualan', ReturPenjualanController::class);
 });
 
 Route::group(['middleware' => 'auth'], function () {

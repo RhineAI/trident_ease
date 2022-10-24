@@ -91,10 +91,11 @@ class TransaksiPenjualanController extends Controller
             $penjualanBaru->tgl = date('Y-m-d');
             $penjualanBaru->id_pelanggan = $request->id_pelanggan;
             $penjualanBaru->total_harga = $request->total_bayar;
+            $penjualanBaru->kode_invoice = 'kdfjalkd';
             if($request->jenis_pembayaran == '1') {
                 $penjualanBaru->total_bayar = $this->checkPrice($request->bayar);
             } else {
-                $penjualanBaru->total_bayar = $request->dp;
+                $penjualanBaru->total_bayar = $this->checkPrice($request->dp);
             }
             $penjualanBaru->kembalian = $request->kembali;
             $penjualanBaru->dp = $request->dp;
@@ -131,7 +132,11 @@ class TransaksiPenjualanController extends Controller
             $pembayaranBaru = new Pembayaran();
             $pembayaranBaru->id_penjualan = $penjualanBaru->id;
             $pembayaranBaru->tgl = date('Ymd');
-            $pembayaranBaru->total_bayar = $request->total_bayar;
+            if($request->jenis_pembayaran == 1){
+                $pembayaranBaru->total_bayar = $this->checkPrice($request->bayar);
+            } else if ($request->jenis_pembayaran == 2 ){
+                $pembayaranBaru->total_bayar = $this->checkPrice($request->dp);
+            }
             $pembayaranBaru->id_user = auth()->user()->id;
             $pembayaranBaru->id_perusahaan = auth()->user()->id_perusahaan;
             $pembayaranBaru->save();
