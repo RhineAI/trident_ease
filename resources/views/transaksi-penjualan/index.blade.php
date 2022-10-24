@@ -387,6 +387,7 @@
                     var nama = $(this).data("nama_pelanggan");
                     var alamat = $(this).data("alamat");
                     var tlp = $(this).data("tlp");
+
                     $('#id_pelanggan').val(id);
                     $('#nama_pelanggan').val(nama);
                     $('#tlp').val(tlp);
@@ -420,8 +421,8 @@
                         rowBarang+="</tr>";
                         $('#t_penjualan').append(rowBarang);
                     }else{
-                        var posisi=CariPosisi(id_barang);
-                        var qty=Number($('#qty'+posisi).val())+1;
+                        var posisi = CariPosisi(id_barang);
+                        var qty = Number($('#qty'+posisi).val())+1;
                         $('#qty'+posisi).val(qty);
                         $('#subtotal'+posisi).val(harga_jual*qty);
                     }
@@ -546,18 +547,16 @@
 
 
             function GetTotalBayar(){
-                var total_penjualan=0;
+                var total_penjualan = 0;
                 //HASILKAN TOTAL BAYAR
                 for(x=1;x<=count;x++){
-                    total_penjualan+= Number($("input[name='item["+x+"][subtotal]']").val());
+                    total_penjualan += Number($("input[name='item["+x+"][subtotal]']").val());
                 }
         			$('#total_bayar').val(Number(total_penjualan));
         			$('#total_bayar_gede').text('Rp. '+ Math.round(Number(total_penjualan)));
                     $('#total_penjualan').val(Number(total_penjualan));	
             }
                 
-            });
-
-
+        });
     </script>
 @endpush

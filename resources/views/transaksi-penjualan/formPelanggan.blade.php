@@ -28,11 +28,12 @@
                             <td width="6%">{{ $item->tlp }}</td>
                             <td width="6%">
                                 <button type="button" class="btn btn-info add_pelanggan" 
-                                data-id_pelanggan="{{ $item->id }}" 
-                                data-nama_pelanggan="{{ $item->nama }}" 
-                                data-alamat="{{ $item->alamat }}" 
-                                data-tlp="{{ $item->tlp }}" 
-                                data-dismiss="modal"> <i class="fa fa-plus"></i>
+                                        data-id_pelanggan="{{ $item->id }}" 
+                                        data-nama_pelanggan="{{ $item->nama }}" 
+                                        data-alamat="{{ $item->alamat }}" 
+                                        data-tlp="{{ $item->tlp }}" 
+                                        data-dismiss="modal"> 
+                                        <i class="fa fa-plus"></i>
                                 </button>
                             </td>
                         </tr>

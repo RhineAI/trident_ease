@@ -23,7 +23,7 @@ class TransaksiPenjualanController extends Controller
      */
     public function index()
     {
-        //  $barang = Barang::orderBy('nama')->get();
+         $data['barang'] = Barang::orderBy('nama')->get();
         //  $diskon = TransaksiPenjualan::first()->diskon ?? 0;
  
         //  $detail = DetailPenjualan::orderBy('id_penjualan_detail', 'DESC');
@@ -107,6 +107,7 @@ class TransaksiPenjualanController extends Controller
                 // dd($barang['discount']); die;
                 $penjualanBaru->keuntungan += $barang['keuntungan'];
                 $penjualanBaru->save();
+                
                 $detPenjualanBaru = new DetailPenjualan(); 
                 $detPenjualanBaru->id_penjualan = $penjualanBaru->id;
                 $detPenjualanBaru->id_barang = $barang['id_barang'];
