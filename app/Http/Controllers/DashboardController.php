@@ -27,6 +27,9 @@ class DashboardController extends Controller
         $getDataBarangYesterday = Barang::whereDate('created_at', $yesterday)->count();
         $getDataBarangToday = Barang::whereDate('created_at', $today)->count();
         // return $getDataBarangYesterday;
+
+        // $data['percentage_barang'] = persentasePerbandingan($getDataBarangYesterday, $getDataBarangToday);
+
         $checkJumlahBarang = $getDataBarangYesterday - $getDataBarangToday;
         // return $checkJumlahBarang;
         if($checkJumlahBarang < 0) {
@@ -34,17 +37,22 @@ class DashboardController extends Controller
         } elseif($checkJumlahBarang >= 0) {
             $hasilCheck = $checkJumlahBarang;
         }
-        $data['totalBarangYesterday'] = $hasilCheck;
+        // return $hasilCheck;
         if ($hasilCheck != $getDataBarangYesterday) {
             $cek1 = 100 / $getDataBarangYesterday ;
-            $cek2 = $hasilCheck - $getDataBarangYesterday;
-            // return $cek2;
-            $data['percentage_barang'] = $cek1 * $cek2 ;
-        } else {
-            $data['percentage_barang'] = 0;
+            // return $cek1;
+            $cek2 = $getDataBarangYesterday - $hasilCheck;
+            $data['percentage_barang'] = round($cek1 * $cek2, 2, PHP_ROUND_HALF_UP) ;
+        } elseif($hasilCheck == $getDataBarangYesterday) {
+            $data['percentage_barang'] = 100;
+        } elseif($hasilCheck >= $getDataBarangYesterday) {
+            $cek1 = 100 / $getDataBarangYesterday ;
+            $cek2 = $getDataBarangYesterday - $hasilCheck;
+            $data['percentage_barang'] = 100 + round($cek1 * $cek2, 2, PHP_ROUND_HALF_EVEN);
         }
-        // return $percentage_barang;
-        
+        // return $data['totalBarangYesterday'];
+        // return $data['percentage_barang'];
+        $data['totalBarangYesterday'] = $hasilCheck;
 
 
         if($data['check']->grade == 1) {
