@@ -38,6 +38,9 @@
 <!-- FlatPickr -->
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
+{{-- Bootstrap Validator --}}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-validator/0.5.3/js/bootstrapValidator.min.js"></script>
+
 <script>
   @if(session()->has('success'))
       toastr.success('{{ session('success') }}', 'TERIMA KASIH!'); 

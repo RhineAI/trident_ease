@@ -70,7 +70,7 @@
         
                     <div class="box-body mx-2 my-2">
 
-                        <form class="form-pelanggan" method="post">
+                        <form class="form-pelanggan" method="post" id="form-transaksi">
                             @csrf
                             <div class="form-group row">
                                 <label for="nama_pelanggan" class="col-lg-2">Pelanggan</label>
@@ -142,7 +142,7 @@
                             </div>
                             <div class="col-lg-5">
                                        	<!-- TOTAL PENJUALAN  -->
-                                    <input class="form-control" type="hidden" name="total_penjualan" value="" data-bv-trigger="blur"
+                                    <input class="form-control" type="hidden" name="total_penjualan" data-bv-trigger="blur"
                                     id="total_penjualan" readonly="true">
 
                                     <input type="hidden" data-bv-trigger="blur" id="total_bayar" name="total_bayar" class="form-control" readonly>
@@ -171,7 +171,7 @@
                                         <div class="col-lg-8 ">
                                             <div class="input-group-prepend input-primary"> 
                                                 <span class="input-group-text">RP.</span> 
-                                                <input type="text" data-bv-trigger="blur" id="bayar" name="bayar" class="form-control" min="" value="">
+                                                <input type="text" data-bv-trigger="blur" id="bayar" name="bayar" class="form-control" min="">
                                             </div>
                                         </div>
                                     </div>
@@ -190,7 +190,7 @@
                                         <div class="col-lg-8 ">
                                             <div class="input-group-prepend input-primary"> 
                                                 <span class="input-group-text">RP.</span> 
-                                                <input type="number" data-bv-trigger="blur" id="dp" name="dp" class="form-control" value="">
+                                                <input type="number" data-bv-trigger="blur" id="dp" name="dp" class="form-control">
                                             </div>
                                         </div>
                                     </div>
@@ -244,8 +244,100 @@
       @includeIf('transaksi-penjualan.barang')
 @endsection
 
-@push('scripts') 
+@push('scripts')
     <script>
+        //Generate custom message
+        $(document).ready(function(){
+            ('#form-transaksi').bootstrapValidator({
+                message: 'Data yang di input tidak sesuai ketentuan',
+                feedbackIcons: {
+                    valid: 'fa-sollid fa-success',
+                    invalid: 'fa-solid fa-x',
+                    validating: 'fa-solid fa-arrows-rotate'
+                },
+                fields: {
+                    nama_pelanggan: {
+                        validators: {
+                            notEmpty: {
+                                message: 'Data harus diisi',
+                            },						
+                        },
+                    },
+                    id_pelanggan: {
+                        validators: {
+                            notEmpty: {
+                                message: 'Data harus diisi'
+                            }
+                        }
+                    },
+                    bayar: {
+                        validators: {
+                            notEmpty: {
+                                message: 'Masukan jumlah uang terlebih dahulu'
+                            },
+                            regexp: {
+                                regexp: /^[0-9 ()-]+$/i,
+                                message: 'Data harus diisi angka',
+                            }
+                        }
+                    },
+                    dp: {
+                        validators: {
+                            notEmpty: {
+                                message: 'Masukan jumlah dp terlebih dahulu'
+                            },
+                            regexp: {
+                                regexp: /^[0-9 ()-]+$/i,
+                                message: 'Data harus diisi angka',
+                            }
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+
+    <script>
+            $(document).on('click', '#submit', function(){
+                let id_pelanggan = $('#id_pelanggan').val();
+                let produk = $('.produk').val();
+                let bayar = $('#bayar').val();
+                let dp = $('#dp').val();
+                let jenis_pembayaran = $('#jenis_pembayaran').val();
+                console.log(jenis_pembayaran)
+
+                if(id_pelanggan == 0) {
+                    Swal.fire('Isi data pelanggan terlebih dahulu')
+                    return false;
+                } else {
+                    $('#id_pelanggan').val();
+                }
+
+                if(produk == 0) {
+                    Swal.fire('Tambahkan produk terlebih dahulu')
+                    return false;
+                } else {
+                    $('#id_produk').val();
+                }
+               
+                if(jenis_pembayaran == 1) {
+                    if(bayar == 0) {
+                        Swal.fire('Masukan jumlah uang bayar terlebih dahulu')
+                        return false;
+                    } else {
+                        $('#bayar').val();
+                    }
+                }else{
+                    if(dp == 0) {
+                        Swal.fire('Masukan jumlah uang dp terlebih dahulu')
+                        return false;
+                    } else {
+                        $('#dp').val();
+                    }
+                }          
+            });
+      
+
         $('body').addClass('sidebar-collapse');
 
         function tampilProduk() {
@@ -326,7 +418,6 @@
 
             	//UBAH DISCOUNT
                 $(document).on('keyup', '.discount', function () {
-
                     var id = $(this).data("idbuffer");
                     var harga_jual = $('#harga_jual' + id).val();
                     var qty = $('#qty' + id).val();
@@ -334,34 +425,38 @@
                     var hasil = (harga_jual *qty) * discount/100;
                     $('#subtotal' + id).val((harga_jual * qty) - hasil);
                     GetTotalBayar();
-                    //GetKeuntungan();
-                    //alert(id);
-                    });
                     
-                //UBAH QTY
-                // $(document).on('keyup', '.qty_penjualan', function (e) {
-                //     // if (e.keyCode === 13) {
-                //         var id = $(this).data("idbuffer");
-                //         var harga_jual = $('#harga_jual' + id).val();
-                //         var qty = $('#qty' + id).val();
-                //         var discount = $('#discount' + id).val();
-                //         $('#subtotal' + id).val((harga_jual * qty) - discount);
-                //         GetTotalBayar();
-                //     // }
-                // });
+                });
+
+                $(document).on('change', '.discount', function () {
+                    var id = $(this).data("idbuffer");
+                    var harga_jual = $('#harga_jual' + id).val();
+                    var qty = $('#qty' + id).val();
+                    var discount = $('#discount' + id).val();
+                    var hasil = (harga_jual *qty) * discount/100;
+                    $('#subtotal' + id).val((harga_jual * qty) - hasil);
+                    GetTotalBayar();
+                    
+                });
+                    
+
 
                 //UBAH QTY
                 $(document).on('keyup', '.qty_penjualan', function () {
-
                     var id = $(this).data("idbuffer");
                     var harga_jual = $('#harga_jual' + id).val();
 
                     var qty = $('#qty' + id).val();
-                    // if(qty > getStock()){
-                    //     qty = getStock()
-                    // } else {
-                    //     qty = $('#qty' + id).val();
-                    // }
+                    var discount = $('#discount' + id).val();
+                    $('#subtotal' + id).val((harga_jual * qty) - discount/100);
+                    GetTotalBayar();
+                });
+
+                $(document).on('change', '.qty_penjualan', function () {
+                    var id = $(this).data("idbuffer");
+                    var harga_jual = $('#harga_jual' + id).val();
+
+                    var qty = $('#qty' + id).val();
                     var discount = $('#discount' + id).val();
                     $('#subtotal' + id).val((harga_jual * qty) - discount/100);
                     GetTotalBayar();
@@ -409,7 +504,7 @@
                         $('#buffer100').remove();
                         count++;
                         //alert(count);
-                        var rowBarang="<tr id='buffer"+count+"'>";
+                        var rowBarang="<tr class='barang' id='buffer"+count+"'>";
                         rowBarang+="<td style='text-align:center'><input type='hidden' name='item["+count+"][id_barang]' value='"+id_barang+"'> <input class='form-control' type='text' name='item["+count+"][kode]' value='"+kode_barang+"' readonly='true'></td>";
                         rowBarang+="<td style='text-align:center'><input class='form-control' type='text' name='item["+count+"][nama_barang]' value='"+nama_barang+"' readonly='true'></td>";
                         rowBarang+="<td><input class='form-control' style='text-align:right' type='text' name='item["+count+"][harga_jual]' value='"+harga_jual+"' id='harga_jual"+count+"' readonly='true'><input type='hidden' name='item["+count+"][harga_beli]' value='"+harga_beli+"'></td>";
@@ -487,11 +582,6 @@
                 generateRupiah(this);
             })
 
-            //TOTAL
-            $(document).on('change', '#tampil-bayar-gede', function(e){
-                formatRupiah(this);
-            })
-
            //DP
             $(document).on('keyup', '#dp', function(e) {
                 var tb = $("#total_bayar").val();
@@ -508,15 +598,17 @@
                 let ubah_int = formatRupiah.replace(/Rp/g, '');
                 let sisabayar = ubah_int.replaceAll('.', '');
 
-                if (bayardp >= tb) {
-                    $('#dp').val(tb);
-                    $('#sisa').val(parseInt(sisabayar));
-                    $('#bayar').val(0);
-                } else {
-                    $('#dp').val(parseInt(bayardp));
-                    $('#sisa').val(parseInt(sisabayar));
-                    $('#bayar').val(0);
-                }
+                $(document).on('change', '#dp', function(e) {
+                    if (bayardp > tb) {
+                        $('#dp').val(tb);
+                        $('#bayar').val(0);
+                        $('#sisa').val(parseInt(sisabayar));
+                    } else {
+                        $('#dp').val(parseInt(bayardp));
+                        $('#bayar').val(0);
+                        $('#sisa').val(parseInt(sisabayar));
+                    }
+                })
              
             })
 
@@ -547,13 +639,13 @@
                         // console.log(total)
                 $(document).on('change', '#bayar', function(){
                     if(bayar <= tb) {
+                        $('#dp').val(0);
                         $('#bayar').val(cek_bayar.replace(/Rp/g, '').substr(1));
                         $('#kembali').val(pengurangan2);
-                        $('#dp').val(0);
                     } else {
+                        $('#dp').val(0);
                         $('#bayar').val(bayar)
                         $('#kembali').val(total.replace(/Rp/g, '').substr(1));
-                        $('#dp').val(0);
                     }
                 });   
                 

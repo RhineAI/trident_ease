@@ -59,7 +59,7 @@ class ListTransaksiPenjualanController extends Controller
                 $row['invoice'] = '<span class="badge badge-info">'. $item->id .'</span>';
                 $row['total_harga'] = 'RP. '. format_uang($item->total_harga);
                 
-                $row['action'] = '<button class="btn btn-xs btn-danger rounded delete"><i class="fa-solid fa-file-pdf"></i></button>';
+                $row['action'] = '<button class="btn btn-xs btn-secondary rounded delete"><i class="fa-solid fa-print"></i></button>';
 
                 $data[] = $row;
             }         

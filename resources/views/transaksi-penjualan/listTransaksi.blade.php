@@ -65,10 +65,10 @@ Data Penjualan
                                 <thead class="table-danger">
                                     <tr>
                                         <th width="5%" class="text-center">No</th>
-                                        <th width="15%" class="text-center">Tanggal</th>
-                                        <th width="10%" class="text-center">Invoice</th>
-                                        <th width="15%" class="text-center">Pelanggan</th>
-                                        <th width="14%" class="text-center">Total Bayar</th>
+                                        <th width="13%" class="text-center">Tanggal</th>
+                                        <th width="9%" class="text-center">Invoice</th>
+                                        <th width="14%" class="text-center">Pelanggan</th>
+                                        <th width="14%" class="text-center">Total Penjualan</th>
                                         <th width="7%" class="text-center">Aksi</th>
                                     </tr>
                                 </thead>
