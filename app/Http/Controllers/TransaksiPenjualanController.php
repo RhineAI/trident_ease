@@ -74,9 +74,9 @@ class TransaksiPenjualanController extends Controller
         }
     }
 
-    public function store(StorePenjualanRequest $request)
+    public function store(Request $request)
     {
-        return $request;
+        // return $request;
         // dd($request); die;
         if($request->kembali < 0){
             // return back()->with('error', 'Uang bayar kurang');
@@ -95,12 +95,16 @@ class TransaksiPenjualanController extends Controller
             $penjualanBaru->total_harga = $request->total_bayar;
             if($request->jenis_pembayaran == 1) {
                 $penjualanBaru->total_bayar = $this->checkPrice($request->bayar);
+                $penjualanBaru->sisa = 0;
+
             } else {
                 $penjualanBaru->total_bayar = $this->checkPrice($request->dp);
+                $penjualanBaru->sisa = $request->sisa;
+
             }
             $penjualanBaru->kembalian = $request->kembali;
             $penjualanBaru->dp = $this->checkPrice($request->dp);
-            $penjualanBaru->sisa = $request->sisa;
+
             $penjualanBaru->jenis_pembayaran = $request->jenis_pembayaran;
             $penjualanBaru->id_user = auth()->user()->id;
             $penjualanBaru->id_perusahaan = auth()->user()->id_perusahaan;

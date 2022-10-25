@@ -31,6 +31,7 @@ return new class extends Migration
             $table->integer('id')->autoIncrement();
             $table->date('tgl');
             $table->double('jumlah');
+            $table->string('keterangan');
             $table->integer('id_perusahaan');
             $table->foreign('id_perusahaan')->references('id')->on('t_perusahaan')->onDelete('cascade')->onUpdate('cascade');
             $table->integer('id_user');
