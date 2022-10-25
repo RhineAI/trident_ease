@@ -38,10 +38,11 @@
                                     <thead class="thead-secondary">
                                         <tr>
                                             <th width="3%" class="text-center">No</th>
-                                            <th width="4%" class="text-center">Tanggal</th>
+                                            <th width="3.6%" class="text-center">Tanggal</th>
                                             <th width="10%" class="text-center">Jumlah</th>
-                                            <th width="10%" class="text-center">Oleh</th>
-                                            <th width="4%" class="text-center">Aksi</th>
+                                            <th width="7%" class="text-center">Oleh</th>
+                                            <th width="15%" class="text-center">Keterangan</th>
+                                            <th width="7%" class="text-center">Aksi</th>
                                         </tr>
                                     </thead>
                                 </table>
@@ -108,6 +109,7 @@
                 {data:'tgl'},
                 {data:'jumlah'},
                 {data:'nama_user'},
+                {data:'keterangan'},
                 {data:'action', searchable: false, sortable: false},
             ]
         });

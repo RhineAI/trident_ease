@@ -6,6 +6,7 @@ use App\Models\Barang;
 use App\Models\Pelanggan;
 use App\Models\Pembayaran;
 use App\Models\Perusahaan;
+use App\Models\KasMasuk;
 use Illuminate\Http\Request;
 use App\Models\DetailPenjualan;
 use Barryvdh\DomPDF\PDF as pdf;
@@ -143,9 +144,16 @@ class TransaksiPenjualanController extends Controller
             $pembayaranBaru->id_perusahaan = auth()->user()->id_perusahaan;
             $pembayaranBaru->save();
             // dd($penjualanBaru->id); die;
-            
 
-            return redirect()->route('list-transaksi.index')->with(['success' => 'Input data Transaksi Berhasil!']);
+            $kasMasuk = new KasMasuk();
+            $kasMasuk->tgl = now();
+            $kasMasuk->jumlah = $request->total_bayar; 
+            $kasMasuk->id_user = auth()->user()->id;
+            $kasMasuk->id_perusahaan = auth()->user()->id_perusahaan;
+            $kasMasuk->keterangan = 'Transaksi Penjualan';
+            $kasMasuk->save();
+
+            return redirect()->route('list-transaksi.index')->with(['success' => 'Transaksi Berhasil!']);
         }
     }
 

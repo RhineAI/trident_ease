@@ -1,6 +1,6 @@
 <!-- Modal -->
-<div class="modal fade" id="modal-form" tabindex="-1" role="dialog" aria-labelledby="modal-form">
-    <div class="modal-dialog" role="document">
+<div class="modal fade" id="modal-form" style="width:575px; margin:auto;" tabindex="-1" role="dialog" aria-labelledby="modal-form">
+    <div class="modal-dialog modal-lg" role="document">
         <form action="" method="post" class="form-horizontal">
             @csrf
             @method('post')
@@ -28,20 +28,21 @@
                         <label for="jumlah_kas" class="col-md-3 control-label">
                             <h5 class="my-2">Jumlah Kas</h5>
                         </label>
-                        <div class="col-md-9">
-                            <input type="text" name="jumlah_kas" id="jumlah_kas" readonly value="{{ $sisaKas }}" class="form-control" required
-                                autofocus>
+                        <div class="input-group mb-3 col-md-9">
+                            <div class="input-group-prepend">
+                              <span class="input-group-text" id="basic-addon1">Rp.</span>
+                            </div>
+                            <input type="text" name="jumlah_kas" readonly id="jumlah_kas" value="{{ $sisaKas }}" class="form-control" aria-label="Username" aria-describedby="basic-addon1">
                             <span class="help-block with-errors"></span>
                         </div>
                     </div>
 
                     <div class="form-group row">
-                        <label for="keperluan" class="col-md-3 control-label">
+                        <label for="keperluan" class="col-md-3 col-md-offset-1 control-label">
                             <h5 class="my-2">Keperluan</h5>
                         </label>
                         <div class="col-md-9">
-                            <input type="text" value="{{ old('keperluan') }}" name="keperluan" id="keperluan" class="form-control" required
-                                autofocus>
+                            <textarea name="keperluan" class="form-control" id="keperluan" cols="10" rows="3.5"></textarea>
                             <span class="help-block with-errors"></span>
                         </div>
                     </div>
@@ -50,9 +51,11 @@
                         <label for="jumlah" class="col-md-3 control-label">
                             <h5 class="my-2">Biaya</h5>
                         </label>
-                        <div class="col-md-9">
-                            <input type="text" value="{{ old('jumlah') }}" name="jumlah" max="{{ $sisaKas }}" id="jumlah" class="form-control" required
-                                autofocus>
+                        <div class="input-group mb-3 col-md-9">
+                            <div class="input-group-prepend">
+                              <span class="input-group-text" id="basic-addon1">Rp.</span>
+                            </div>
+                            <input type="text" name="jumlah" id="jumlah" class="form-control" aria-label="Username" aria-describedby="basic-addon1">
                             <span class="help-block with-errors"></span>
                         </div>
                     </div>

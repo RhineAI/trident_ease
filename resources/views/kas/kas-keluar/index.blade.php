@@ -38,10 +38,10 @@
                                     <thead class="thead-secondary">
                                         <tr>
                                             <th width="2.5%" class="text-center">No</th>
-                                            <th width="3%" class="text-center">Tanggal</th>
-                                            <th width="6.5%" class="text-center">Jumlah</th>
+                                            <th width="2.5%" class="text-center">Tanggal</th>
+                                            <th width="4.9%" class="text-center">Jumlah</th>
                                             <th width="10%" class="text-center">Keperluan</th>
-                                            <th width="8%" class="text-center">Oleh</th>
+                                            <th width="5.8%" class="text-center">Oleh</th>
                                             <th width="6%" class="text-center">Aksi</th>
                                         </tr>
                                     </thead>
