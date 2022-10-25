@@ -76,7 +76,7 @@
                                 <label for="nama_pelanggan" class="col-lg-2">Pelanggan</label>
                                 <div class="col-lg-3">
                                     <div class="input-group">
-                                        <input type="text" name="nama_pelanggan" old="{{  }}" required id="nama_pelanggan" class="form-control" required autofocus readonly>
+                                        <input type="text" name="nama_pelanggan" required id="nama_pelanggan" class="form-control" required autofocus readonly>
                                         <span class="input-group-btn tampil-pelanggan">
                                             <button onclick="tampilPelanggan()" class="btn btn-info btn-flat" type="button"><i class="fa-solid fa-magnifying-glass"></i></i></button>
                                         </span>
