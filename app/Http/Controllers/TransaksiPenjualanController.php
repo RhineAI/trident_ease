@@ -2,17 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\TransaksiPenjualan;
 use App\Models\Barang;
 use App\Models\Pelanggan;
+use App\Models\Pembayaran;
 use App\Models\Perusahaan;
+use Illuminate\Http\Request;
+use App\Models\DetailPenjualan;
+use Barryvdh\DomPDF\PDF as pdf;
+use App\Models\TransaksiPenjualan;
+use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Redirect;
+// use Symfony\Component\Console\Input\Input;
 use App\Http\Requests\StorePenjualanRequest;
 use App\Http\Requests\UpdatePenjualanRequest;
-use App\Models\DetailPenjualan;
-use App\Models\Pembayaran;
-use Illuminate\Support\Facades\DB;
-use Barryvdh\DomPDF\PDF as pdf;
-use Illuminate\Http\Request;
 
 class TransaksiPenjualanController extends Controller
 {
@@ -23,7 +26,7 @@ class TransaksiPenjualanController extends Controller
      */
     public function index()
     {
-        //  $barang = Barang::orderBy('nama')->get();
+         $data['barang'] = Barang::orderBy('nama')->get();
         //  $diskon = TransaksiPenjualan::first()->diskon ?? 0;
  
         //  $detail = DetailPenjualan::orderBy('id_penjualan_detail', 'DESC');
@@ -34,7 +37,6 @@ class TransaksiPenjualanController extends Controller
         $data['cPerusahaan'] = Perusahaan::select('*')->where('id', auth()->user()->id_perusahaan)->first();
    
         return view('transaksi-penjualan.index', $data);
-         
     }
 
    
@@ -72,13 +74,13 @@ class TransaksiPenjualanController extends Controller
         }
     }
 
-
-    public function store(StorePenjualanRequest $request)
+    public function store(Request $request)
     {
         // return $request;
         // dd($request); die;
         if($request->kembali < 0){
-            return back()->with('error', 'Uang bayar kurang');
+            // return back()->with('error', 'Uang bayar kurang');
+            return back()->withInput($request->only('id_pelanggan', 'bayar', 'kembali'))->with('error', 'Uang Bayar Kurang');
         } else {
             $penjualanBaru = new TransaksiPenjualan();
             // "select max(id)+1 as nextid from t_pembayaran where id like '".$tgl."%'"
@@ -94,12 +96,16 @@ class TransaksiPenjualanController extends Controller
             $penjualanBaru->kode_invoice = 'kdfjalkd';
             if($request->jenis_pembayaran == '1') {
                 $penjualanBaru->total_bayar = $this->checkPrice($request->bayar);
+                $penjualanBaru->sisa = 0;
+
             } else {
                 $penjualanBaru->total_bayar = $this->checkPrice($request->dp);
+                $penjualanBaru->sisa = $request->sisa;
+
             }
             $penjualanBaru->kembalian = $request->kembali;
-            $penjualanBaru->dp = $request->dp;
-            $penjualanBaru->sisa = $request->sisa;
+            $penjualanBaru->dp = $this->checkPrice($request->dp);
+
             $penjualanBaru->jenis_pembayaran = $request->jenis_pembayaran;
             $penjualanBaru->id_user = auth()->user()->id;
             $penjualanBaru->id_perusahaan = auth()->user()->id_perusahaan;
@@ -108,6 +114,7 @@ class TransaksiPenjualanController extends Controller
                 // dd($barang['discount']); die;
                 $penjualanBaru->keuntungan += $barang['keuntungan'];
                 $penjualanBaru->save();
+                
                 $detPenjualanBaru = new DetailPenjualan(); 
                 $detPenjualanBaru->id_penjualan = $penjualanBaru->id;
                 $detPenjualanBaru->id_barang = $barang['id_barang'];

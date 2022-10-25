@@ -14,6 +14,10 @@ use App\Http\Controllers\SatuanController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\UsersController;
 
+// Informasi Kas
+use App\Http\Controllers\KasMasukController;
+use App\Http\Controllers\KasKeluarController;
+
 // Transaksi
 use App\Http\Controllers\TransaksiPenjualanController;
 use App\Http\Controllers\ListTransaksiPenjualanController;
@@ -59,8 +63,8 @@ Route::middleware('auth')->group(function(){
         Route::post('/keuntungan', [KeuntunganController::class, 'store']);
 
         Route::resource('/transaksi-pembelian', PembelianController::class);    
-        Route::get('/list-pembelian', [PembelianController::class, 'listPembelian'])->name('list-pembelian');
-        Route::post('/list-pembelian/data', [PembelianController::class, 'dataPembelian'])->name('list-pembelian.data');
+        // Route::get('/list-pembelian', [PembelianController::class, 'listPembelian'])->name('list-pembelian');
+        // Route::post('/list-pembelian/data', [PembelianController::class, 'dataPembelian'])->name('list-pembelian.data');
 
 
         // Route::resource('/pembelian_detail', DetailPembelianController::class);
@@ -80,7 +84,7 @@ Route::middleware('auth')->group(function(){
         Route::post('/list-pembelian/data/{awal}/{akhir}', [ListTransaksiPembelianController::class, 'getData'])->name('list-pembelian.data');
         Route::get('/list-pembelian/pdf/{awal}/{akhir}', [ListTransaksiPembelianController::class, 'exportPDF'])->name('list-pembelian.export_pdf');
 
-        // Route::resource('/detail-penjualan', DetailPenjualanController::class);
+        // Tunggakan Pembayaran
         Route::resource('/pembayaran', PembayaranController::class);
 
         // Stok opname
@@ -90,6 +94,14 @@ Route::middleware('auth')->group(function(){
         // Retur Penjualan
         Route::resource('/retur-penjualan', ReturPenjualanController::class);
         Route::post('/retur-penjualan/data', [ReturPenjualanController::class, 'data'])->name('retur-penjualan.data');
+
+        // Informasi KAS
+        Route::resource('kas-masuk', KasMasukController::class);
+        Route::post('/kas-masuk/data', [KasMasukController::class, 'data'])->name('kas-masuk.data');
+
+        Route::resource('kas-keluar', KasKeluarController::class);
+        Route::post('/kas-keluar/data', [KasKeluarController::class, 'data'])->name('kas-keluar.data');
+
 });
 
 Route::group(['middleware' => 'auth'], function () {
