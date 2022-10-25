@@ -12,26 +12,26 @@ use Illuminate\Http\Request;
 class DashboardController extends Controller
 {
     public function index(){
+
+        //Card
         $data['penjualan'] = TransaksiPenjualan::where('id_perusahaan', auth()->user()->id_perusahaan)->sum('total_harga');
         $data['pegawai'] = User::count();
         $data['kas'] = KasMasuk::where('id_perusahaan', auth()->user()->id_perusahaan)->sum('jumlah');
         $data['check'] = Perusahaan::where('id', auth()->user()->id_perusahaan)->first();
         $brg = Barang::where('id_perusahaan', auth()->user()->id_perusahaan)->count();
         $data['cardBarang'] = $brg;
+        //
 
 
         // Ngambil Persentase Kenaikan (barang)
         $yesterday = date('Y-m-d', strtotime('-1days'));
         $today = date('Y-m-d');
-        // return $brg;
-        $getDataBarangYesterday = Barang::whereDate('created_at', $yesterday)->count();
-        $getDataBarangToday = Barang::whereDate('created_at', $today)->count();
-        $barangNow = Barang::select('created_at')->where('created_at', $today);
-        // return $barangNow;
         $now = now();
-        // return $getDataBarangYesterday;
-
-        // $data['percentage_barang'] = persentasePerbandingan($getDataBarangYesterday, $getDataBarangToday);
+        // return $brg;
+        $getDataBarangYesterday = Barang::where('id_perusahaan', auth()->user()->id_perusahaan)->whereDate('created_at', $yesterday)->count();
+        $getDataBarangToday = Barang::where('id_perusahaan', auth()->user()->id_perusahaan)->whereDate('created_at', $today)->count();
+        $countDataBarang = Barang::where('id_perusahaan', auth()->user()->id_perusahaan)->count();
+        $barangNow = Barang::select('created_at')->where('created_at', $now);
 
         $checkJumlahBarang = $getDataBarangYesterday - $getDataBarangToday;
         // return $checkJumlahBarang;
@@ -42,12 +42,16 @@ class DashboardController extends Controller
         }
         // return $hasilCheck;
         if ($hasilCheck != $getDataBarangYesterday) {
-            $cek1 = 100 / $getDataBarangYesterday ;
-            // return $cek1;
-            $cek2 = $getDataBarangYesterday - $hasilCheck;
-            $data['percentage_barang'] = round($cek1 * $cek2, 2, PHP_ROUND_HALF_UP) ;
+            if($getDataBarangYesterday != 0) {
+                $cek1 = 100 / $getDataBarangYesterday ;
+                $cek2 = $getDataBarangYesterday - $hasilCheck;
+                $data['percentage_barang'] = round($cek1 * $cek2, 2, PHP_ROUND_HALF_UP) ;
+            } else {
+                $cek3 = 100 / $countDataBarang;
+                $data['percentage_barang'] = $hasilCheck * $cek3; 
+            }
         } elseif($hasilCheck == $getDataBarangYesterday) {
-            if ($now == $barangNow) {
+            if ($barangNow != $now) {
                 $data['percentage_barang'] = 0;
             } else {
                 $data['percentage_barang'] = 100;
@@ -71,14 +75,24 @@ class DashboardController extends Controller
             $data['barang'] = $brg * 0.1;
         }
 
-        $total = TransaksiPenjualan::where('id_perusahaan', auth()->user()->id_perusahaan)->count();
+        $penjualan = TransaksiPenjualan::where('id_perusahaan', auth()->user()->id_perusahaan)->where('tgl', date('Y-m-d'))->count();
+        $data['total_penjualan'] = TransaksiPenjualan::where('id_perusahaan', auth()->user()->id_perusahaan)->count();
+        // return $penjualan;
         if($data['check']->grade == 1) {
-            $data['total_penjualan'] = $total * 10;
+            $data['penjualanHarian'] = $penjualan * 10;
         } elseif($data['check']->grade == 2) {
-            $data['total_penjualan'] = $total * 2;
+            $data['penjualanHarian'] = $penjualan * 2;
         } elseif($data['check']->grade == 3) {
-            $data['total_penjualan'] = $total * 0.1;
-            // $data['jumlah_penjualan'] = $total;
+            $data['penjualanHarian'] = $penjualan ;
+        }
+
+        $barang = Barang::where('id_perusahaan', auth()->user()->id_perusahaan)->where('created_at', $now)->count();
+        if($data['check']->grade == 1) {
+            $data['barangHarian'] = $barang * 10;
+        } elseif($data['check']->grade == 2) {
+            $data['barangHarian'] = $barang * 2;
+        } elseif($data['check']->grade == 3) {
+            $data['barangHarian'] = $barang ;
         }
         // return $check;
         // return $data['check'];
