@@ -1,6 +1,6 @@
 <!-- Modal -->
-<div class="modal fade" id="modal-form" tabindex="-1" role="dialog" aria-labelledby="modal-form">
-    <div class="modal-dialog" role="document">
+<div class="modal fade" style="width:575px; margin:auto;" id="modal-form" tabindex="-1" role="dialog" aria-labelledby="modal-form">
+    <div class="modal-dialog modal-lg " role="document">
         <form action="" method="post" class="form-horizontal">
             @csrf
             @method('post')
@@ -14,24 +14,34 @@
                 </div>
                 <div class="modal-body">
                     <div class="form-group row">
-                        <label for="tanggal" class="col-md-2 col-md-offset-1 control-label">
+                        <label for="tanggal" class="col-md-3 col-md-offset-1 control-label">
                             <h5 class="my-2">Tanggal</h5>
                         </label>
-                        <div class="col-md-10">
+                        <div class="col-md-9">
                             <input type="text" readonly name="tanggal" id="tanggal" value="{{ $now }}" class="form-control" required
                                 autofocus>
                             <span class="help-block with-errors"></span>
                         </div>
                     </div>
-                </div>
-                <div class="modal-body">
                     <div class="form-group row">
-                        <label for="jumlah" class="col-md-2 col-md-offset-1 control-label">
+                        <label for="jumlah" class="col-md-3 col-md-offset-1 control-label">
                             <h5 class="my-2">Jumlah</h5>
                         </label>
-                        <div class="col-md-10">
-                            <input type="text" name="jumlah" id="jumlah" class="form-control" required
-                                autofocus>
+                        <div class="input-group mb-3 col-md-9">
+                            <div class="input-group-prepend">
+                              <span class="input-group-text" id="basic-addon1">Rp.</span>
+                            </div>
+                            <input type="text" name="jumlah" id="jumlah" class="form-control" aria-label="Username" aria-describedby="basic-addon1">
+                            <span class="help-block with-errors"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="keterangan" class="col-md-3 col-md-offset-1 control-label">
+                            <h5 class="my-2">Keterangan</h5>
+                        </label>
+                        <div class="col-md-9">
+                            <textarea name="keterangan" class="form-control" id="keterangan" cols="10" rows="3.5"></textarea>
                             <span class="help-block with-errors"></span>
                         </div>
                     </div>

@@ -26,6 +26,9 @@ class DashboardController extends Controller
         // return $brg;
         $getDataBarangYesterday = Barang::whereDate('created_at', $yesterday)->count();
         $getDataBarangToday = Barang::whereDate('created_at', $today)->count();
+        $barangNow = Barang::select('created_at')->where('created_at', $today);
+        // return $barangNow;
+        $now = now();
         // return $getDataBarangYesterday;
 
         // $data['percentage_barang'] = persentasePerbandingan($getDataBarangYesterday, $getDataBarangToday);
@@ -44,12 +47,17 @@ class DashboardController extends Controller
             $cek2 = $getDataBarangYesterday - $hasilCheck;
             $data['percentage_barang'] = round($cek1 * $cek2, 2, PHP_ROUND_HALF_UP) ;
         } elseif($hasilCheck == $getDataBarangYesterday) {
-            $data['percentage_barang'] = 100;
+            if ($now == $barangNow) {
+                $data['percentage_barang'] = 0;
+            } else {
+                $data['percentage_barang'] = 100;
+            }
         } elseif($hasilCheck >= $getDataBarangYesterday) {
             $cek1 = 100 / $getDataBarangYesterday ;
             $cek2 = $getDataBarangYesterday - $hasilCheck;
             $data['percentage_barang'] = 100 + round($cek1 * $cek2, 2, PHP_ROUND_HALF_EVEN);
-        }
+        } 
+        
         // return $data['totalBarangYesterday'];
         // return $data['percentage_barang'];
         $data['totalBarangYesterday'] = $hasilCheck;

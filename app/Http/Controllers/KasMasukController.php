@@ -81,6 +81,7 @@ class KasMasukController extends Controller
     {
         $validate = $request->validate([
             'jumlah' => 'required',
+            'keterangan' => 'required',
         ]);
 
         $jumlah = $request['jumlah'];
@@ -90,6 +91,7 @@ class KasMasukController extends Controller
         $kasMasuk->jumlah = $this->checkPrice($jumlah);
         $kasMasuk->id_user = auth()->user()->id;
         $kasMasuk->id_perusahaan = auth()->user()->id_perusahaan;
+        $kasMasuk->keterangan = $request->keterangan;
         $kasMasuk->save();
 
         return redirect()->route('kas-masuk.index')->with(['success' => 'Berhasil Disimpan!']);
@@ -136,6 +138,7 @@ class KasMasukController extends Controller
         $kasMasuk->tgl = now();
         $kasMasuk->jumlah = $this->checkPrice($jumlah);
         $kasMasuk->id_user = auth()->user()->id;
+        $kasMasuk->keterangan = $request->keterangan;
         $kasMasuk->update();
 
         return redirect()->route('kas-masuk.index')->with(['success' => 'Berhasil Diupdate!']);
