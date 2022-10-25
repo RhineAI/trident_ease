@@ -26,7 +26,7 @@ class StorePenjualanRequest extends FormRequest
         return [
             // id_pelanggan, total_bayar, bayar, dp, kembali, item
             'id_pelanggan' => 'required',
-            'bayar' => 'required',
+            // 'bayar' => 'required',
             'item' => 'required'
         ];
     }
@@ -35,7 +35,7 @@ class StorePenjualanRequest extends FormRequest
     {
         return [
             'id_pelanggan.required' => 'Pilih Pelanggan Terlebih Dahulu',
-            'bayar.required' => 'Isi Uang Bayar!',
+            // 'bayar.required' => 'Isi Uang Bayar!',
             'item.required' => 'Isi Barang Dahulu!',
         ];
     }

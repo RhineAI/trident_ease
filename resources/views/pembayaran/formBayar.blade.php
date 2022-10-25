@@ -11,12 +11,11 @@
         <div class="modal-body">
             <form action="" method="POST">
                 @csrf
-                @method('put')
                 <div id="method"></div>
                 <div class="form-group row">
                     <div class="form-group" style="width: 95%; margin: auto;">
                         <label for="nama">Tanggal</label>
-                        <input type="date" class="form-control" id="tgl" name="tgl" >
+                        <input type="date" class="form-control" id="tgl" name="tgl" readonly>
                     </div>
                 </div>
                 <div class="form-group row">

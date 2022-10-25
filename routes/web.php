@@ -27,8 +27,8 @@ use App\Http\Controllers\PembelianController;
 use App\Http\Controllers\ListTransaksiPembelianController;
 
 use App\Http\Controllers\PembayaranController;
-
-
+use App\Http\Controllers\ReturPenjualanController;
+use App\Http\Controllers\StokOpnameController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth')->group(function(){
@@ -86,7 +86,14 @@ Route::middleware('auth')->group(function(){
 
         // Tunggakan Pembayaran
         Route::resource('/pembayaran', PembayaranController::class);
-    
+
+        // Stok opname
+        Route::get('/stock-opname', [StokOpnameController::class, 'index'])->name('stockOpname');
+        Route::post('/stock-opname', [StokOpnameController::class, 'updateStock']);
+
+        // Retur Penjualan
+        Route::resource('/retur-penjualan', ReturPenjualanController::class);
+        Route::post('/retur-penjualan/data', [ReturPenjualanController::class, 'data'])->name('retur-penjualan.data');
 
         // Informasi KAS
         Route::resource('kas-masuk', KasMasukController::class);

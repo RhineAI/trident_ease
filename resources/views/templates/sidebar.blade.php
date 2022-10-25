@@ -213,47 +213,91 @@
                       </ul>
                   </li>
 
-                  <li class="nav-item">
-                      <a href="#" class="nav-link">
-                          <i class="nav-icon fas fa-solid fa-cog"></i>
-                          <p>
-                              Setup Perusahaan
-                              <i class="right fas fa-angle-right"></i>
-                          </p>
-                      </a>
-                      <ul class="nav nav-treeview">
-                          <li class="nav-item">
-                              <a href="{{ route('keuntungan') }}" class="nav-link">
-                                  <i class="far fa-circle nav-icon"></i>
-                                  <p>Set Keuntungan</p>
-                              </a>
-                          </li>
-                          <li class="nav-item">
-                              <a href="{{ route('kategori.index') }}" class="nav-link">
-                                  <i class="far fa-circle nav-icon"></i>
-                                  <p>Set Kategori</p>
-                              </a>
-                          </li>
-                          <li class="nav-item">
-                              <a href="{{ route('perusahaan.index') }}" class="nav-link">
-                                  <i class="far fa-circle nav-icon"></i>
-                                  <p>Set Perusahaan</p>
-                              </a>
-                          </li>
-                          <li class="nav-item">
-                              <a href="{{ route('merek.index') }}" class="nav-link">
-                                  <i class="far fa-circle nav-icon"></i>
-                                  <p>Set Merek</p>
-                              </a>
-                          </li>
-                          <li class="nav-item">
-                              <a href="{{ route('satuan.index') }}" class="nav-link">
-                                  <i class="far fa-circle nav-icon"></i>
-                                  <p>Set Satuan</p>
-                              </a>
-                          </li>
-                      </ul>
-                  </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-solid fa-list-check"></i>
+                            <p>
+                                Stock Opname
+                                <i class="right fas fa-angle-right"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview ml-4">
+                            <li class="nav-item">
+                                <a href="{{ route('stockOpname') }}" class="nav-link">
+                                    <p>Cek Stock Opname</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <p>Laporan Kas</p>
+                            </a>
+                        </li>
+                        </ul>
+                    </li>
+
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-solid fa-rotate-left"></i>
+                            <p>
+                                Retur Penjualan
+                                <i class="right fas fa-angle-right"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview ml-4">
+                            <li class="nav-item">
+                                <a href="{{ route('retur-penjualan.create') }}" class="nav-link">
+                                    <p>Tambah Retur</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <p>Lihat Data Retur</p>
+                            </a>
+                        </li>
+                        </ul>
+                    </li>
+
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <i class="nav-icon fas fa-solid fa-cog"></i>
+                            <p>
+                                Setup Perusahaan
+                                <i class="right fas fa-angle-right"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="{{ route('keuntungan') }}" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Set Keuntungan</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('kategori.index') }}" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Set Kategori</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('perusahaan.index') }}" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Set Perusahaan</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('merek.index') }}" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Set Merek</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('satuan.index') }}" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Set Satuan</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
                   @else
                   <li class="nav-item">
                       <a href="{{ route('dashboard') }}" class="nav-link">
