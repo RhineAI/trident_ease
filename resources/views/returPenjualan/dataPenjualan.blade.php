@@ -20,23 +20,19 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($produk as $item)
+                    @foreach ($penjualan as $item)
                         <tr>
                             <td width="6%">{{ $i = (isset($i)?++$i:$i=1) }}</td>
                             <td width="10%"><span class="badge badge-info">{{ $item->id_penjualan }}</span></td>
-                            <td>{{ $item->tgl }}</td>
+                            <td>{{ $item->tanggal }}</td>
                             <td>{{ $item->nama_pelanggan }}</td>
                             <td width="6%">
                                 <button type="button" class="btn btn-info add_penjualan" 
-                                data-id_penjualan="{{ $item->id }}" 
+                                data-id_penjualan="{{ $item->id_penjualan }}" 
                                 data-tgl="{{ $item->tgl }}" 
                                 data-nama_pelanggan="{{ $item->nama_pelanggan }}"
                                 data-id_pelanggan="{{ $item->id_pelanggan }}" 
-                                data-tlp_pelanggan="{{ $item->tlp }}" 
-                                data-kode="{{ $item->kode }}" 
-                                data-nama_barang="{{ $item->nama_barang }}" 
-                                data-harga="{{ $item->harga }}" 
-                                data-qty="{{ $item->qty }}" 
+                                data-tlp_pelanggan="{{ $item->tlp }}"  
                                 data-dismiss="modal"> <i class="fa fa-plus"></i>
                                 </button>
                             </td>

@@ -2,6 +2,7 @@
 
 @section('title')
     <title>Retur Penjualan | {{ $cPerusahaan->nama }}</title>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 @endsection
 
 @section('page')
@@ -74,10 +75,10 @@
                             @csrf
                             
                             <div class="form-group row">
-                                <label for="kode_produk" class="col-lg-2 control-label">Retur Penjualan</label>
-                                <div class="col-lg-5">
+                                <label for="id_penjualan" class="col-lg-2 control-label">Retur Penjualan</label>
+                                <div class="col-lg-4">
                                     <div class="input-group">
-                                        <input type="text" name="barcode" id="barcode" class="form-control" required autofocus readonly>
+                                        <input type="text" name="id_penjualan" id="id_penjualan" class="form-control" required autofocus readonly>
                                         <span class="input-group-btn tampil-produk">
                                             {{-- <button onclick="tambahProduk()" class="btn btn-info btn-flat" type="button"><i class="fa fa-arrow-right"></i></button> --}}
                                             <button onclick="tampilPenjualan()" id="tampil" class="btn btn-info btn-flat" type="button"><i class="fa-solid fa-magnifying-glass"></i></button>
@@ -85,10 +86,24 @@
                                     </div>
                                 </div>
 
-                                {{-- <label for="kode_produk" class="col-lg-1 control-label">Tanggal</label>
+                                <label for="nama_pelanggan" class="col-lg-2 control-label">Nama Pelanggan</label>
+                                <div class="col-lg-4">
+                                    <div class="input-group">
+                                        <input type="text" name="nama_pelanggan" id="nama_pelanggan" class="form-control" required autofocus readonly>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="tgl" class="col-lg-2 control-label">Tanggal</label>
                                 <div class="col-lg-4">
                                     <input type="date" class="form-control" name="tgl" id="tgl" readonly>
-                                </div> --}}
+                                </div>
+
+                                <label for="tlp" class="col-lg-2 control-label">Telepon</label>
+                                <div class="col-lg-4">
+                                    <input type="text" class="form-control" name="tlp" id="tlp" readonly>
+                                </div>
                             </div>
         
                         <div class="table-responsive">
@@ -122,15 +137,16 @@
                             <thead>
                                <tr>
                                     <th class="text-center">Kode</th>
-                                    <th class="text-center">Nama</th>
-                                    <th class="text-center">Merek</th>
-                                    <th class="text-center">Kategori</th>
-                                    <th class="text-center">Stock</th>
+                                    <th class="text-center">Nama Barang</th>
+                                    <th class="text-center">Harga</th>
+                                    <th class="text-center">QTY</th>
+                                    <th class="text-center">Sub Total</th>
                                     <th class="text-center">Aksi</th>
                                </tr>
                             </thead>
                             <tbody id="t_retur">
                                 <tr id="rtr100" height="50px">
+                                    <td></td>
                                     <td></td>
                                     <td></td>
                                     <td></td>
@@ -187,11 +203,27 @@
                 var nama_pelanggan = $(this).data("nama_pelanggan");
                 var tlp_pelanggan = $(this).data("tlp_pelanggan");
                 var id_pelanggan = $(this).data("id_pelanggan");
-                var kode = $(this).data("kode");
-                var nama_barang = $(this).data("nama_barang");
-                var harga = $(this).data("harga");
-                var qty = $(this).data("qty");
-                TambahDataPenjualan(id,tgl,nama_pelanggan,tlp_pelanggan,id_pelanggan,kode,nama_barang, harga, qty);
+                $('#nama_pelanggan').val(nama_pelanggan);
+                $('#tlp').val(tlp_pelanggan);
+                $('#id_penjualan').val(id);
+                $('#t_penjualan #buffer100').remove();
+
+                $.ajaxSetup({
+                    headers: {
+                        '_token': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+                $.ajax({
+                    url:"{{ route('retur-penjualan.data') }}",
+                    type: 'POST',
+                    data: {
+                        "id": id,
+                        "_token": '{{ csrf_token() }}'
+                    },
+                    success:function(response){
+                        $("#t_penjualan").append(response); 
+                    }
+                })
             }); 
 
             function TambahDataPenjualan(id,tgl,nama_pelanggan,tlp_pelanggan,id_pelanggan,kode,nama_barang, harga, qty){
@@ -217,8 +249,8 @@
                     rowPenjualan+="<td style='text-align:center'><input class='form-control' type='text' name='item["+count+"][nama_barang]' value='"+nama_barang+"' readonly='true'></td>";
                     rowPenjualan+="<td style='text-align:center'><input class='form-control' type='number' name='item["+count+"][harga]' value='"+harga+"' readonly='true'></td>";
                     rowPenjualan+="<td style='text-align:center'><input class='form-control' type='text' name='item["+count+"][qty]' value='"+qty+"' readonly='true'></td>";
-                    rowPenjualan+="<td style='text-align:center'><input class='form-control' type='number' name='item["+count+"][subtotal]' value='"+harga*qty+"'></td>";
-                    rowPenjualan+="<td style='text-align:center;'><button type='button' class='btn btn-danger hapus_penjualan' data-idbuffer='"+count+"' ><i class='fa fa-trash'></i></button></td>";
+                    rowPenjualan+="<td style='text-align:center'><input class='form-control' type='number' name='item["+count+"][subtotal]' value='"+harga*qty+"' readonly></td>";
+                    rowPenjualan+="<td style='text-align:center;'><button type='button' class='btn btn-info hapus_penjualan' data-idbuffer='"+count+"' ><i class='fa fa-plus'></i></button></td>";
                     rowPenjualan+="</tr>";
                     $('#t_penjualan').append(rowPenjualan);
                 }else{

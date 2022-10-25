@@ -89,6 +89,7 @@ Route::middleware('auth')->group(function(){
 
         // Retur Penjualan
         Route::resource('/retur-penjualan', ReturPenjualanController::class);
+        Route::post('/retur-penjualan/data', [ReturPenjualanController::class, 'data'])->name('retur-penjualan.data');
 });
 
 Route::group(['middleware' => 'auth'], function () {
