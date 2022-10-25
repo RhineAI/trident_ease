@@ -63,8 +63,8 @@ Route::middleware('auth')->group(function(){
         Route::post('/keuntungan', [KeuntunganController::class, 'store']);
 
         Route::resource('/transaksi-pembelian', PembelianController::class);    
-        Route::get('/list-pembelian', [PembelianController::class, 'listPembelian'])->name('list-pembelian');
-        Route::post('/list-pembelian/data', [PembelianController::class, 'dataPembelian'])->name('list-pembelian.data');
+        // Route::get('/list-pembelian', [PembelianController::class, 'listPembelian'])->name('list-pembelian');
+        // Route::post('/list-pembelian/data', [PembelianController::class, 'dataPembelian'])->name('list-pembelian.data');
 
 
         // Route::resource('/pembelian_detail', DetailPembelianController::class);
