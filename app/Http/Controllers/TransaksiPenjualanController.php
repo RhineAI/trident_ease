@@ -110,11 +110,35 @@ class TransaksiPenjualanController extends Controller
             $penjualanBaru->jenis_pembayaran = $request->jenis_pembayaran;
             $penjualanBaru->id_user = auth()->user()->id;
             $penjualanBaru->id_perusahaan = auth()->user()->id_perusahaan;
-            
+
+            // $perusahaan = Perusahaan::select('level')->where('id', auth()->user()->id_perusahaan);
+            $perusahaan = Perusahaan::where('id', auth()->user()->id_perusahaan)->first();
+            $limit = TransaksiPenjualan::where('id_perusahaan', auth()->user()->id_perusahaan)->whereDate('craeted_at', date('Y-m-d'))->count();
             foreach($request->item as $barang){
                 // dd($barang['discount']); die;
                 $penjualanBaru->keuntungan += $barang['keuntungan'];
-                $penjualanBaru->save();
+                if($perusahaan == 1) {
+                    if($limit == 10 ) {
+                        $penjualanBaru->save();
+                    }else {
+                        return redirect()->route('dashboard.index')->with(['error' => 'Sudah mencapai limit transaksi, Naikan levelmu terlebih!']);
+                    }
+                } elseif($perusahaan == 2) {
+                    if($limit == 50 ) {
+                        $penjualanBaru->save();
+                    }else {
+                        return redirect()->route('dashboard.index')->with(['error' => 'Sudah mencapai limit transaksi, Naikan levelmu terlebih!']);
+                    }
+                } elseif($perusahaan == 3) {
+                    if($limit == 10000 ) {
+                        $penjualanBaru->save();
+                    }else {
+                        return redirect()->route('dashboard.index')->with(['success' => 'Laku kah?']);
+                    }
+                } else{
+                    return redirect()->route('logout')->with(['error' => 'Lu siapa??']);
+                }
+
                 
                 $detPenjualanBaru = new DetailPenjualan(); 
                 $detPenjualanBaru->id_penjualan = $penjualanBaru->id;

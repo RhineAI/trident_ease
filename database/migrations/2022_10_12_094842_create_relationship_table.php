@@ -82,6 +82,7 @@ return new class extends Migration
             $table->integer('id_satuan');
             $table->integer('id_merek');
             $table->integer('id_perusahaan');
+            $table->string('tgl');
             $table->integer('stock');
             $table->integer('stock_minimal');
             $table->integer('harga_beli');

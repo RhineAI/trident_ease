@@ -69,7 +69,7 @@ Route::middleware('auth')->group(function(){
 
         // Route::resource('/pembelian_detail', DetailPembelianController::class);
         // Route::get('/show-transaksi-pembelian', [PembelianController::class, 'showTPembelian'])
-        Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+        Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
         
 
         // Transaksi Penjualan

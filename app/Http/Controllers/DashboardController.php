@@ -18,77 +18,107 @@ class DashboardController extends Controller
         $data['pegawai'] = User::count();
         $data['kas'] = KasMasuk::where('id_perusahaan', auth()->user()->id_perusahaan)->sum('jumlah');
         $data['check'] = Perusahaan::where('id', auth()->user()->id_perusahaan)->first();
-        $brg = Barang::where('id_perusahaan', auth()->user()->id_perusahaan)->count();
-        $data['cardBarang'] = $brg;
+        $data['cardBarang'] = Barang::where('id_perusahaan', auth()->user()->id_perusahaan)->count();;
+        $data['cardPenjualan'] = TransaksiPenjualan::where('id_perusahaan', auth()->user()->id_perusahaan)->count();
         //
 
 
-        // Ngambil Persentase Kenaikan (barang)
+        // Ngambil Persentase Kenaikan
         $yesterday = date('Y-m-d', strtotime('-1days'));
         $today = date('Y-m-d');
         $now = now();
-        // return $brg;
+
+        //Barang
         $getDataBarangYesterday = Barang::where('id_perusahaan', auth()->user()->id_perusahaan)->whereDate('created_at', $yesterday)->count();
         $getDataBarangToday = Barang::where('id_perusahaan', auth()->user()->id_perusahaan)->whereDate('created_at', $today)->count();
         $countDataBarang = Barang::where('id_perusahaan', auth()->user()->id_perusahaan)->count();
-        $barangNow = Barang::select('created_at')->where('created_at', $now);
+        $barangNow = Barang::whereDate('created_at', $now)->where('id_perusahaan', auth()->user()->id_perusahaan)->get();
+        //Transaksi
+        $getDataTransaksiYesterday = TransaksiPenjualan::where('id_perusahaan', auth()->user()->id_perusahaan)->whereDate('created_at', $yesterday)->count();
+        $getDataTransaksiToday = TransaksiPenjualan::where('id_perusahaan', auth()->user()->id_perusahaan)->whereDate('created_at', $today)->count();
+        $countDataTransaksi = TransaksiPenjualan::where('id_perusahaan', auth()->user()->id_perusahaan)->count();
+        $transaksiNow = TransaksiPenjualan::whereDate('created_at', $now)->where('id_perusahaan', auth()->user()->id_perusahaan)->get();
+
+        $data['percentage_barang'] = persentasePerbandingan($getDataBarangYesterday, $getDataBarangToday, $countDataBarang, $barangNow);
+        $data['percentage_transaksi'] = persentasePerbandingan($getDataTransaksiYesterday, $getDataTransaksiToday, $countDataTransaksi, $transaksiNow);
+
+        // return $getDataBarangToday;
+        // $checkJumlahBarang = $getDataBarangYesterday - $getDataBarangToday;
+        // if($checkJumlahBarang < 0) {
+        //     $hasilCheck = $checkJumlahBarang + -($checkJumlahBarang*2);
+        // } elseif($checkJumlahBarang >= 0) {
+        //     $hasilCheck = $checkJumlahBarang;
+        // }
+        // if($getDataBarangYesterday == 0) {
+        //     $cek = 100 / $countDataBarang;
+        //     $data['percentage_barang'] = round($hasilCheck * $cek, 2, PHP_ROUND_HALF_UP); 
+        // }elseif ($hasilCheck != $getDataBarangYesterday) {
+        //     if($getDataBarangYesterday <= $hasilCheck) {
+        //         $cek1 = 100 / $getDataBarangYesterday;
+        //         $cek2 = $getDataBarangToday - $getDataBarangYesterday;
+        //         $cek3 = $cek2 - $getDataBarangYesterday;
+        //         $data['percentage_barang'] = round($cek1 * $cek3 , 2, PHP_ROUND_HALF_UP);
+        //     } 
+        //     elseif($getDataBarangYesterday >= $hasilCheck) {
+        //         $cek4 = 100/ $getDataBarangYesterday;
+        //         $data['percentage_barang'] = round($cek4 * $hasilCheck, 2, PHP_ROUND_HALF_UP);
+        //     } 
+        // } 
+        // elseif($hasilCheck == $getDataBarangYesterday) {
+        //     foreach ($barangNow as $bn) {
+        //         if ($bn->created_at != $now) {
+        //             $data['percentage_barang'] = 0;
+        //         }
+        //     }
+        //     $data['percentage_barang'] = 100;
+        // } elseif($hasilCheck >= $getDataBarangYesterday) {
+        //     $cek1 = 100 / $getDataBarangYesterday ;
+        //     $cek2 = $getDataBarangYesterday - $hasilCheck;
+        //     $data['percentage_barang'] = 100 + round($cek1 * $cek2, 2, PHP_ROUND_HALF_EVEN);
+        // }
 
         $checkJumlahBarang = $getDataBarangYesterday - $getDataBarangToday;
-        // return $checkJumlahBarang;
         if($checkJumlahBarang < 0) {
-            $hasilCheck = $checkJumlahBarang + -($checkJumlahBarang*2);
+            $hasilB = $checkJumlahBarang + -($checkJumlahBarang*2);
         } elseif($checkJumlahBarang >= 0) {
-            $hasilCheck = $checkJumlahBarang;
+            $hasilB = $checkJumlahBarang;
         }
-        // return $hasilCheck;
-        if ($hasilCheck != $getDataBarangYesterday) {
-            if($getDataBarangYesterday != 0) {
-                $cek1 = 100 / $getDataBarangYesterday ;
-                $cek2 = $getDataBarangYesterday - $hasilCheck;
-                $data['percentage_barang'] = round($cek1 * $cek2, 2, PHP_ROUND_HALF_UP) ;
-            } else {
-                $cek3 = 100 / $countDataBarang;
-                $data['percentage_barang'] = $hasilCheck * $cek3; 
-            }
-        } elseif($hasilCheck == $getDataBarangYesterday) {
-            if ($barangNow != $now) {
-                $data['percentage_barang'] = 0;
-            } else {
-                $data['percentage_barang'] = 100;
-            }
-        } elseif($hasilCheck >= $getDataBarangYesterday) {
-            $cek1 = 100 / $getDataBarangYesterday ;
-            $cek2 = $getDataBarangYesterday - $hasilCheck;
-            $data['percentage_barang'] = 100 + round($cek1 * $cek2, 2, PHP_ROUND_HALF_EVEN);
-        } 
         
-        // return $data['totalBarangYesterday'];
-        // return $data['percentage_barang'];
-        $data['totalBarangYesterday'] = $hasilCheck;
+        $data['upordownbarang'] = $hasilB;
+        $data['cekupordownbarang'] = $getDataBarangYesterday;
+        $data['todaybarang'] = $getDataBarangToday;
+        $data['totalBarangYesterday'] = $hasilB;
 
-
-        if($data['check']->grade == 1) {
-            $data['barang'] = $brg * 10;
-        } elseif($data['check']->grade == 2) {
-            $data['barang'] = $brg * 2;
-        } elseif($data['check']->grade == 3) {
-            $data['barang'] = $brg * 0.1;
+        // return $getDataTransaksiYesterday;
+        $checkJumlahTransaksi = $getDataTransaksiYesterday - $getDataTransaksiToday;
+        if($checkJumlahTransaksi < 0) {
+            $hasilT = $checkJumlahTransaksi + -($checkJumlahTransaksi*2);
+        } elseif($checkJumlahTransaksi >= 0) {
+            $hasilT = $checkJumlahTransaksi;
         }
+        
+        $data['upordowntransaksi'] = $hasilT;
+        $data['cekupordowntransaksi'] = $getDataTransaksiYesterday;
+        $data['todaytransaksi'] = $getDataBarangToday;
+        $data['totalTransaksiYesterday'] = $hasilT;
+
+       
+        // PROGRESS
 
         $penjualan = TransaksiPenjualan::where('id_perusahaan', auth()->user()->id_perusahaan)->where('tgl', date('Y-m-d'))->count();
-        $data['total_penjualan'] = TransaksiPenjualan::where('id_perusahaan', auth()->user()->id_perusahaan)->count();
         // return $penjualan;
         if($data['check']->grade == 1) {
-            $data['penjualanHarian'] = $penjualan * 10;
+            $data['penjualanHarian'] = $penjualan * 20;
         } elseif($data['check']->grade == 2) {
             $data['penjualanHarian'] = $penjualan * 2;
         } elseif($data['check']->grade == 3) {
             $data['penjualanHarian'] = $penjualan ;
         }
 
-        $barang = Barang::where('id_perusahaan', auth()->user()->id_perusahaan)->where('created_at', $now)->count();
+        $barang = Barang::where('id_perusahaan', auth()->user()->id_perusahaan)->whereDate('created_at', $now)->count();
+        // return $barang;
         if($data['check']->grade == 1) {
-            $data['barangHarian'] = $barang * 10;
+            $data['barangHarian'] = $barang * 20;
         } elseif($data['check']->grade == 2) {
             $data['barangHarian'] = $barang * 2;
         } elseif($data['check']->grade == 3) {
