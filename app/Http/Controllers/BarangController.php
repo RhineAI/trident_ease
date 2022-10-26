@@ -172,16 +172,51 @@ class BarangController extends Controller
         $barang->id_supplier = $request->id_supplier;
         $barang->id_merek = $request->id_merek;
         $barang->id_perusahaan = auth()->user()->id_perusahaan;
+        $barang->tgl = date('Y-m-d');
         $barang->stock = $request->stock;
         $barang->stock_minimal = $request->stock_minimal;
         $barang->harga_beli = $this->checkPrice($request->harga_beli);
         $barang->keuntungan = $request->keuntungan;
         $barang->status = $request->status;
         $barang->keterangan = $request->keterangan;
-        // return $barang;
-        $barang->save();
 
-        return redirect('/barang')->with('success', 'Input data Barang berhasil!');
+        // $now = now();
+        // $tglBarang = Barang::all();
+        $now = date('Y-m-d');
+        // return $tglBarang;
+        // $perusahaan = Perusahaan::all()->where('id', auth()->user()->id_perusahaan);
+        $perusahaan = Perusahaan::where('id', auth()->user()->id_perusahaan)->first();
+        $limit = Barang::whereDate('created_at', $now)->where('id_perusahaan', auth()->user()->id_perusahaan)->count();
+        
+        // $c = Barang::all();
+        // return $limit;
+            if($perusahaan->grade == 1) {
+                if($limit != 5 ) {
+                    $barang->save();
+                    return redirect()->route('barang.index')->with(['success' => 'Berhasil Disimpan']);
+                }else {
+                    return redirect()->route('dashboard')->with(['error' => 'Sudah mencapai limit barang, Naikan levelmu terlebih dahulu!']);
+                }
+            } elseif($perusahaan->grade == 2) {
+                if($limit != 50 ) {
+                    $barang->save();
+                    return redirect()->route('barang.index')->with(['success' => 'Berhasil Disimpan']);
+                }else {
+                    return redirect()->route('dashboard')->with(['error' => 'Sudah mencapai limit barang, Naikan levelmu terlebih dahulu!']);
+                }
+            } elseif($perusahaan->grade == 3) {
+                if($limit != 10000 ) {
+                    $barang->save();
+                    return redirect()->route('barang.index')->with(['success' => 'Berhasil Disimpan']);
+                }else {
+                    return redirect()->route('dashboard')->with(['success' => 'Laku kah?']);
+                }
+            } else{
+                return redirect()->route('logout')->with(['error' => 'Lu siapa??']);
+            }
+
+        return redirect()->route('barang.index')->with(['success' => 'Berhasil Disimpan']);
+
     }
 
     /**
@@ -225,6 +260,7 @@ class BarangController extends Controller
         $barang->id_supplier = $request->id_supplier;
         $barang->id_merek = $request->id_merek;
         $barang->id_perusahaan = auth()->user()->id_perusahaan;
+        $barang->tgl = now();
         $barang->stock = $request->stock;
         $barang->stock_minimal = $request->stock_minimal;
         $barang->harga_beli = $this->checkPrice($request->harga_beli);

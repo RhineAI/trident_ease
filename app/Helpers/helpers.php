@@ -40,18 +40,34 @@ function tanggal_indonesia($tgl, $tampil_hari = true)
     return $text; 
 }
 
-function persentasePerbandingan($getDataYesterday, $getDataToday) {
+function persentasePerbandingan($getDataYesterday, $getDataToday, $countDataNow, $countDataNowByCreatedAt) {
     $checkJumlah = $getDataYesterday - $getDataToday;
         if($checkJumlah < 0) {
             $hasilCheck = $checkJumlah + -($checkJumlah*2);
         } elseif($checkJumlah >= 0) {
             $hasilCheck = $checkJumlah;
         }
-        if ($hasilCheck != $getDataYesterday) {
-            $cek1 = 100 / $getDataYesterday ;
-            $cek2 = $getDataYesterday - $hasilCheck;
-            $percentage = round($cek1 * $cek2, 2, PHP_ROUND_HALF_UP) ;
-        } elseif($hasilCheck == $getDataYesterday) {
+        if($getDataYesterday == 0) {
+            $cek = 100 / $countDataNow;
+            $percentage = round($hasilCheck * $cek, 2, PHP_ROUND_HALF_UP); 
+        }elseif ($hasilCheck != $getDataYesterday) {
+            if($getDataYesterday <= $hasilCheck) {
+                $cek1 = 100 / $getDataYesterday;
+                $cek2 = $getDataToday - $getDataYesterday;
+                $cek3 = $cek2 - $getDataYesterday;
+                $percentage = round($cek1 * $cek3 , 2, PHP_ROUND_HALF_UP);
+            } 
+            elseif($getDataYesterday >= $hasilCheck) {
+                $cek4 = 100/ $getDataYesterday;
+                $percentage = round($cek4 * $hasilCheck, 2, PHP_ROUND_HALF_UP);
+            } 
+        } 
+        elseif($hasilCheck == $getDataYesterday) {
+            foreach ($countDataNowByCreatedAt as $bn) {
+                if ($bn->created_at != $now) {
+                    $percentage = 0;
+                }
+            }
             $percentage = 100;
         } elseif($hasilCheck >= $getDataYesterday) {
             $cek1 = 100 / $getDataYesterday ;
