@@ -463,9 +463,6 @@
                 //GetKeuntungan();
             });
 
-        
-                            // console.log(text)
-
 
             function GetTotalBayar(){
                 var total_pembelian=0;
