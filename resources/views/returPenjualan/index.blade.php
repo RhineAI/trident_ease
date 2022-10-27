@@ -223,7 +223,8 @@
                     },
                     cache: false,
                     success:function(response){
-                        alert('tes')
+                        console.log(response)
+                        $('#t_penjualan').append(response);
                     }
                 })
             }); 

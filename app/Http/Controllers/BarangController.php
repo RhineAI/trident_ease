@@ -191,21 +191,21 @@ class BarangController extends Controller
         // $c = Barang::all();
         // return $limit;
             if($perusahaan->grade == 1) {
-                if($limit != 5 ) {
+                if($limit < 10 ) {
                     $barang->save();
                     return redirect()->route('barang.index')->with(['success' => 'Berhasil Disimpan']);
                 }else {
                     return redirect()->route('dashboard')->with(['error' => 'Sudah mencapai limit barang, Naikan levelmu terlebih dahulu!']);
                 }
             } elseif($perusahaan->grade == 2) {
-                if($limit != 50 ) {
+                if($limit < 50 ) {
                     $barang->save();
                     return redirect()->route('barang.index')->with(['success' => 'Berhasil Disimpan']);
                 }else {
                     return redirect()->route('dashboard')->with(['error' => 'Sudah mencapai limit barang, Naikan levelmu terlebih dahulu!']);
                 }
             } elseif($perusahaan->grade == 3) {
-                if($limit != 10000 ) {
+                if($limit < 10000 ) {
                     $barang->save();
                     return redirect()->route('barang.index')->with(['success' => 'Berhasil Disimpan']);
                 }else {

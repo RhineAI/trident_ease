@@ -1,16 +1,16 @@
 @extends('templates.layout')
 
 @section('title')
-<title>Data Penjualan | {{ $cPerusahaan->nama }}</title>
+<title>Data Pelanggan Terbaik | {{ $cPerusahaan->nama }}</title>
 @endsection
 
 @section('page')
-Data Penjualan
+Data Pelanggan Terbaik
 @endsection
 
 @section('breadcrumb')
 @parent
-Data Penjualan
+Data Pelanggan Terbaik
 @endsection
 
 @push('styles')
@@ -68,7 +68,7 @@ Data Penjualan
                                         <th width="13%" class="text-center">Tanggal</th>
                                         <th width="9%" class="text-center">Invoice</th>
                                         <th width="14%" class="text-center">Pelanggan</th>
-                                        <th width="14%" class="text-center">Total Penjualan</th>
+                                        <th width="14%" class="text-center">Total Pelanggan Terbaik</th>
                                         <th width="7%" class="text-center">Aksi</th>
                                     </tr>
                                 </thead>
@@ -99,7 +99,7 @@ Data Penjualan
         autoWidth: false,
         serverSide: true,
         ajax: {
-            url: "{{ route('list-transaksi.data', [$tanggalAwal, $tanggalAkhir]) }}",
+            url: "{{ route('list-b-pelanggan.data', [$tanggalAwal, $tanggalAkhir]) }}",
             type: "POST",
             data: {  
                 _token: '{{ csrf_token() }}'
