@@ -463,28 +463,19 @@
                 //GetKeuntungan();
             });
 
-        
-                            // console.log(text)
-
 
             function GetTotalBayar(){
-                var total=0;
-            
+                var total_pembelian=0;
                 //HASILKAN TOTAL BAYAR
                 for(x=1;x<=count;x++){
-                    total += Number($("input[name='item["+x+"][subtotal]']").val());
-                    let total_pembelian = total.toLocaleString("id-ID", {
-                        style:"currency", 
-                        currency:"IDR", 
-                        maximumSignificantDigits: (total + '').replace('.', '').length
-                    });
+                    total_pembelian+= Number($("input[name='item["+x+"][subtotal]']").val());
                 }
-                console.log(total)
-                $('#total_bayar').val(total);
-                $('#total_bayar_gede').text('Rp. '+ Math.round(Number(total_pembelian)));
-                $('#total_pembelian').val(total);
+        			$('#total_bayar').val(Number(total_pembelian));
+        			$('#total_bayar_gede').text('Rp. '+ Math.round(Number(total_pembelian)));
+                    $('#total_pembelian').val(Number(total_pembelian));	
             }
-        });
+                
+            });
 
 
     </script>
