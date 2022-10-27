@@ -48,6 +48,6 @@ class User extends Authenticatable
     ];
 
     public function scopeIsNotAdmin() {
-        return $query->where('hak_akses', '!=' ,1);
+        return $query->where('hak_akses', '!=' , 1);
     }
 }

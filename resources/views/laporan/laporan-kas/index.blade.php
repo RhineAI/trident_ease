@@ -1,16 +1,16 @@
 @extends('templates.layout')
 
 @section('title')
-<title>Data Penjualan | {{ $cPerusahaan->nama }}</title>
+<title>Laporan Kas | {{ $cPerusahaan->nama }}</title>
 @endsection
 
 @section('page')
-Data Penjualan
+Laporan Kas
 @endsection
 
 @section('breadcrumb')
 @parent
-Data Penjualan
+Laporan Kas
 @endsection
 
 @push('styles')
@@ -24,7 +24,7 @@ Data Penjualan
         <div class="col-md-12 p-2 mb-3" style="background-color: white">
             <div class="box mb-4">
                 <div class="box-body table-responsive ">
-                    <form action="{{ route('list-transaksi.index') }}" method="get">
+                    <form action="{{ route('laporan-kas.index') }}" method="get">
                         {{-- @csrf --}}
                         {{-- @method('get') --}}
                         <div class="form-group row mt-4">
@@ -53,24 +53,36 @@ Data Penjualan
                     </form>
 
                     <br>
-                    <h3 class="text-center">Data Penjualan</h3>
-                    <h5 style="text-align:center;">{{ tanggal_indonesia($tanggalAwal) }} s/d {{ tanggal_indonesia($tanggalAkhir) }}</h5>
+                    <h3 class="text-center">{{ $cPerusahaan->nama }}</h3>
+                    <h5 style="text-align:center;">Laporan Kas {{ tanggal_indonesia($tanggalAwal) }} s/d {{ tanggal_indonesia($tanggalAkhir) }}</h5>
                     <br>
                 {{-- <a href="{{ route('list-transaksi.export_pdf', [$tanggalAwal, $tanggalAkhir] ) }}" target="_blank" class="btn btn-danger btn-sm btn-flat" ><i class="bi bi-filetype-pdf"></i> Export PDF</a> --}}
 
                     <!-- DataTable with Hover -->
                     <div class="col-lg-12">
                         <div class="table-responsive p-3">
-                            <table class="table align-items-center table-bordered table-striped table-flush table-hover text-center"
-                                id="dataTableHover">
-                                <thead class="table-danger">
+                            <h5 class="mb-3">Kas Masuk</h5>
+                            <table class="table align-items-center mb-5 table-bordered table-striped table-flush table-hover text-center table-kas-masuk" id="dataTableHover">
+                                <thead class="table-primary">
                                     <tr>
-                                        <th width="5%" class="text-center">No</th>
+                                        {{-- <th width="5%" class="text-center">No</th> --}}
                                         <th width="13%" class="text-center">Tanggal</th>
-                                        <th width="9%" class="text-center">Invoice</th>
-                                        <th width="14%" class="text-center">Pelanggan</th>
-                                        <th width="14%" class="text-center">Total Penjualan</th>
-                                        <th width="7%" class="text-center">Aksi</th>
+                                        <th width="14%" class="text-center">Jumlah</th>
+                                        <th width="14%" class="text-center">Keterangan</th>
+                                        <th width="14%" class="text-center">Oleh</th>
+                                    </tr>
+                                </thead>
+                            </table>
+
+                            <h5 class="mt-5 mb-3">Kas Keluar</h5>
+                            <table class="table align-items-center mb-5 table-bordered table-striped table-flush table-hover text-center table-kas-keluar" id="dataTableHover">
+                                <thead class="table-info">
+                                    <tr>
+                                        {{-- <th width="5%" class="text-center">No</th> --}}
+                                        <th width="13%" class="text-center">Tanggal</th>
+                                        <th width="14%" class="text-center">Jumlah</th>
+                                        <th width="14%" class="text-center">Keperluan</th>
+                                        <th width="14%" class="text-center">Oleh</th>
                                     </tr>
                                 </thead>
                             </table>
@@ -90,29 +102,58 @@ Data Penjualan
         enableTime: false,
         dateFormat: "d-m-Y",
         autoclose: true,
-        // ubahPeriode();
     });
+
     
    let table;
-        table = $('.table').DataTable({
+        table = $('.table-kas-masuk').DataTable({
+        searching: false,
+        info: false,
+        paging:false,
+        bFilter:false,
         processing: true,
         responsive: true,
         autoWidth: false,
         serverSide: true,
         ajax: {
-            url: "{{ route('list-transaksi.data', [$tanggalAwal, $tanggalAkhir]) }}",
+            url: "{{ route('laporan-kas-masuk.data', [$tanggalAwal, $tanggalAkhir]) }}",
             type: "POST",
             data: {  
                 _token: '{{ csrf_token() }}'
             }
         },
         columns: [
-            {data:'DT_RowIndex', searchable: false, sortable: false},
+            // {data:'DT_RowIndex', searchable: false, sortable: false},
             {data:'tgl'},
-            {data:'invoice'},
-            {data:'nama_pelanggan'},
-            {data:'total_harga'},
-            {data:'action', searchable: false, sortable: false},
+            {data:'jumlah'},
+            {data:'keterangan'},
+            {data:'oleh'},
+        ]
+    });
+
+    let table2;
+        table = $('.table-kas-keluar').DataTable({
+        searching: false,
+        info: false,
+        paging:false,
+        bFilter:false,
+        processing: true,
+        responsive: true,
+        autoWidth: false,
+        serverSide: true,
+        ajax: {
+            url: "{{ route('laporan-kas-keluar.data', [$tanggalAwal, $tanggalAkhir]) }}",
+            type: "POST",
+            data: {  
+                _token: '{{ csrf_token() }}'
+            }
+        },
+        columns: [
+            // {data:'DT_RowIndex', searchable: false, sortable: false},
+            {data:'tgl'},
+            {data:'jumlah'},
+            {data:'keperluan'},
+            {data:'oleh'},
         ]
     });
 </script>

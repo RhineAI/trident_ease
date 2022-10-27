@@ -170,7 +170,7 @@
 
 
                     @elseif ($check->grade == 2)
-                        <span class="badge badge-info">Intermediate</span>
+                        <span class="badge" style="background-color:#81d6b0;">Intermediate</span>
                 </div>
                 <div class="card-body">
                     <div class="mb-3">
@@ -240,5 +240,7 @@
     <script>
         $('body').addClass('sidebar-collapse');
     </script>
+    <script src="{{ asset('assets') }}/vendor/chart.js/Chart.min.js"></script>
+    <script src="{{ asset('assets') }}/js/chart-area-demo.js"></script> 
   
 @endpush

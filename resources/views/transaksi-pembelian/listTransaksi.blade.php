@@ -53,7 +53,8 @@ Data Pembelian
                     </form>
 
                     <br>
-                    <h5 style="text-align:center;">Laporan {{ tanggal_indonesia($tanggalAwal) }} s/d {{ tanggal_indonesia($tanggalAkhir) }}</h5>
+                    <h3 class="text-center">Data Pembelian</h3>
+                    <h5 style="text-align:center;">{{ tanggal_indonesia($tanggalAwal) }} s/d {{ tanggal_indonesia($tanggalAkhir) }}</h5>
                     <br>
 
                     <!-- DataTable with Hover -->
