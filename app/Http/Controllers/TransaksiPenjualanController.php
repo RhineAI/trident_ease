@@ -113,27 +113,31 @@ class TransaksiPenjualanController extends Controller
 
             // $perusahaan = Perusahaan::select('level')->where('id', auth()->user()->id_perusahaan);
             $perusahaan = Perusahaan::where('id', auth()->user()->id_perusahaan)->first();
-            $limit = TransaksiPenjualan::where('id_perusahaan', auth()->user()->id_perusahaan)->whereDate('craeted_at', date('Y-m-d'))->count();
+            $limit = TransaksiPenjualan::where('id_perusahaan', auth()->user()->id_perusahaan)->where('tgl', date('Y-m-d'))->count();
+            // dd($limit); die;
             foreach($request->item as $barang){
                 // dd($barang['discount']); die;
                 $penjualanBaru->keuntungan += $barang['keuntungan'];
-                if($perusahaan == 1) {
-                    if($limit == 10 ) {
+                if($perusahaan->grade == 1) {
+                    if($limit < 5 ) {
                         $penjualanBaru->save();
+                        return redirect()->route('list-transaksi.index')->with(['success' => 'Data Transaksi Penjualan Berhasil Disimpan']);
                     }else {
-                        return redirect()->route('dashboard.index')->with(['error' => 'Sudah mencapai limit transaksi, Naikan levelmu terlebih!']);
+                        return redirect()->route('dashboard')->with(['error' => 'Sudah mencapai limit transaksi, Naikan levelmu terlebih!']);
                     }
-                } elseif($perusahaan == 2) {
-                    if($limit == 50 ) {
+                } elseif($perusahaan->grade == 2) {
+                    if($limit < 50 ) {
                         $penjualanBaru->save();
+                        return redirect()->route('list-transaksi.index')->with(['success' => 'Data Transaksi Penjualan Berhasil Disimpan']);
                     }else {
-                        return redirect()->route('dashboard.index')->with(['error' => 'Sudah mencapai limit transaksi, Naikan levelmu terlebih!']);
+                        return redirect()->route('dashboard')->with(['error' => 'Sudah mencapai limit transaksi, Naikan levelmu terlebih!']);
                     }
-                } elseif($perusahaan == 3) {
-                    if($limit == 10000 ) {
+                } elseif($perusahaan->grade == 3) {
+                    if($limit < 10000 ) {
                         $penjualanBaru->save();
+                        return redirect()->route('list-transaksi.index')->with(['success' => 'Data Transaksi Penjualan Berhasil Disimpan']);
                     }else {
-                        return redirect()->route('dashboard.index')->with(['success' => 'Laku kah?']);
+                        return redirect()->route('dashboard')->with(['success' => 'Laku kah?']);
                     }
                 } else{
                     return redirect()->route('logout')->with(['error' => 'Lu siapa??']);
@@ -154,6 +158,26 @@ class TransaksiPenjualanController extends Controller
                 $barangUpdate->stock -= $barang['qty'];
                 $barangUpdate->update();
                 
+                $pembayaranBaru = new Pembayaran();
+                $pembayaranBaru->id_penjualan = $penjualanBaru->id;
+                $pembayaranBaru->tgl = date('Ymd');
+                if($request->jenis_pembayaran == 1){
+                    $pembayaranBaru->total_bayar = $this->checkPrice($request->bayar);
+                } else if ($request->jenis_pembayaran == 2 ){
+                    $pembayaranBaru->total_bayar = $this->checkPrice($request->dp);
+                }
+                $pembayaranBaru->id_user = auth()->user()->id;
+                $pembayaranBaru->id_perusahaan = auth()->user()->id_perusahaan;
+                $pembayaranBaru->save();
+    
+                $kasMasuk = new KasMasuk();
+                $kasMasuk->tgl = now();
+                $kasMasuk->jumlah = $request->total_bayar; 
+                $kasMasuk->id_user = auth()->user()->id;
+                $kasMasuk->id_perusahaan = auth()->user()->id_perusahaan;
+                $kasMasuk->keterangan = 'Transaksi Penjualan';
+                $kasMasuk->save();
+                
                 // $barangUpdate = Barang::select('stock')->where('id', $barang->id_barang)->first();
                 // $kurangiStok = $barangUpdate - $barang->qty;
                 // Barang::update([
@@ -161,26 +185,8 @@ class TransaksiPenjualanController extends Controller
                 // ]);
             }
 
-            $pembayaranBaru = new Pembayaran();
-            $pembayaranBaru->id_penjualan = $penjualanBaru->id;
-            $pembayaranBaru->tgl = date('Ymd');
-            if($request->jenis_pembayaran == 1){
-                $pembayaranBaru->total_bayar = $this->checkPrice($request->bayar);
-            } else if ($request->jenis_pembayaran == 2 ){
-                $pembayaranBaru->total_bayar = $this->checkPrice($request->dp);
-            }
-            $pembayaranBaru->id_user = auth()->user()->id;
-            $pembayaranBaru->id_perusahaan = auth()->user()->id_perusahaan;
-            $pembayaranBaru->save();
             // dd($penjualanBaru->id); die;
 
-            $kasMasuk = new KasMasuk();
-            $kasMasuk->tgl = now();
-            $kasMasuk->jumlah = $request->total_bayar; 
-            $kasMasuk->id_user = auth()->user()->id;
-            $kasMasuk->id_perusahaan = auth()->user()->id_perusahaan;
-            $kasMasuk->keterangan = 'Transaksi Penjualan';
-            $kasMasuk->save();
 
             return redirect()->route('list-transaksi.index')->with(['success' => 'Transaksi Berhasil!']);
         }

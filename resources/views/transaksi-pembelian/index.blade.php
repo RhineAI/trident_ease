@@ -174,6 +174,15 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="form-group row mt-4" id="tampil_sisa">
+                                        <label for="sisa_kredit" class="col-lg-3 control-label">Sisa</label>
+                                        <div class="col-lg-8 ">
+                                            <div class="input-group-prepend input-primary"> 
+                                                <span class="input-group-text">RP.</span> 
+                                                <input type="text" data-bv-trigger="blur" id="sisa_kredit" name="sisa_kredit" class="form-control">
+                                            </div>
+                                        </div>
+                                    </div>
                             </div>
                         </div>
                     </div>
@@ -197,11 +206,13 @@
         $('body').addClass('sidebar-collapse');
 
         $('div#tampil_kredit').hide();
+        $('div#tampil_sisa').hide();
 
         $(document).on('change', '#jenis_pembayaran', function () {  
             var isiJenis = $("#jenis_pembayaran").val();
             if (isiJenis == '2') {
                 $('div#tampil_kredit').show();
+                $('div#tampil_sisa').show();
             } else {
                 $('div#tampil_kredit').hide();
                 $('div#tampil_total').show();
@@ -283,6 +294,21 @@
                     GetTotalBayar();
                     //GetKeuntungan();
                     //alert(id);
+                });
+
+                $(document).on('keyup', '#bayar_kredit', function () {
+                    var dp = $(this).val();
+                    var total = $('#total_bayar').val();
+                    var bayardp = String(dp).replaceAll(".", '');
+                    var sisa = total - parseInt(bayardp);
+                    let formatRupiah = Number(sisa).toLocaleString("id-ID", {
+                                        style:"currency",
+                                        currency:"IDR",
+                                        maximumSignificantDigits: (sisa + '').replace('.', '').length
+                                    });
+                    let ubah_int = formatRupiah.replace(/Rp/g, '');
+                    let sisabayar = ubah_int.replaceAll('.', '');
+                    $('#sisa_kredit').val(parseInt(sisabayar));
                 });
                     
                 //UBAH QTY

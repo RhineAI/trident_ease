@@ -43,7 +43,7 @@ class ReturPenjualanController extends Controller
     public function data(Request $request){
          $detailPenjualan = TransaksiPenjualan::leftJoin('t_detail_penjualan AS DT', 't_transaksi_penjualan.id', 'DT.id_penjualan')
          ->leftJoin('t_barang AS B', 'B.id', 'DT.id_barang')
-         ->select('B.*', 'P.*', 'DT.harga_jual', 'DT.qty', 't_transaksi_penjualan.id AS id_penjualan', 't_transaksi_penjualan.tgl AS tanggal', 'B.nama AS nama_barang', 'B.id AS id_barang')
+         ->select('DT.harga_jual', 'DT.qty', 't_transaksi_penjualan.id AS id_penjualan', 't_transaksi_penjualan.tgl AS tanggal', 'B.nama AS nama_barang', 'B.id AS id_barang')
          ->where('t_transaksi_penjualan.id', $request->id)     
          ->where('t_transaksi_penjualan.id_perusahaan', auth()->user()->id_perusahaan)     
          ->orderBy('t_transaksi_penjualan.id', 'desc')
@@ -65,8 +65,9 @@ class ReturPenjualanController extends Controller
             $html.="</tr>";
             
         }  
-        $response['data'] = $html;
-        return response()->json($response);
+        return $detailPenjualan;
+        // $response['data'] = $html;
+        // return response()->json($response);
     }
 
     /**
