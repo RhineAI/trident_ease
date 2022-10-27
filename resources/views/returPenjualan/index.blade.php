@@ -183,6 +183,12 @@
             $('#formModalReturPenjualan').modal('hide');
         }
 
+        $.ajaxSetup({
+            headers: {
+                '_token': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
 
         $(document).ready(function(){
             var subtotal=0;
@@ -208,20 +214,16 @@
                 $('#id_penjualan').val(id);
                 $('#t_penjualan #buffer100').remove();
 
-                $.ajaxSetup({
-                    headers: {
-                        '_token': $('meta[name="csrf-token"]').attr('content')
-                    }
-                });
                 $.ajax({
-                    url:"{{ route('retur-penjualan.data') }}",
                     type: 'POST',
+                    url:"{{ route('retur-penjualan.data') }}",
                     data: {
-                        "id": id,
-                        "_token": '{{ csrf_token() }}'
+                        id: id,
+                        _token: "{{ csrf_token() }}"
                     },
+                    cache: false,
                     success:function(response){
-                        $("#t_penjualan").append(response); 
+                        alert('tes')
                     }
                 })
             }); 

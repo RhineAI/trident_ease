@@ -1,16 +1,16 @@
 @extends('templates.layout')
 
 @section('title')
-    <title>Pembayaran Penjualan | {{ $cPerusahaan->nama }}</title>
+    <title>Pembayaran Pembelian | {{ $cPerusahaan->nama }}</title>
 @endsection
 
 @section('page')
-    Pembayaran Penjualan
+    Pembayaran Pembelian
 @endsection
 
 @section('breadcrumb')
 @parent
-    Pembayaran Penjualan
+    Pembayaran Pembelian
 @endsection
 
 @push('styles')
@@ -56,7 +56,7 @@
         <!-- Default box -->
         <div class="card">
           <div class="card-header">
-            <h3 class="card-title">Data Tunggakan Penjualan</h3>
+            <h3 class="card-title">Data Tunggakan Pembelian</h3>
   
             <div class="card-tools">
               <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
@@ -78,14 +78,14 @@
                 </div>
             @endif
             <div class="box-body table-responsive" style="background-color: white;">
-                <table class="table table-striped table-bordered dt-responsive" style="width: 100%;" id="tbl-data-pembayaran">
+                <table class="table table-striped table-bordered" id="tbl-data-pembayaran">
                     <thead>
                         <tr>
                             <td>No</td>
-                            <td>No Penjualan</td>
+                            <td>No Pembelian</td>
                             <td>Tanggal</td>
-                            <td>Pelanggan</td>
-                            <td>Total Pembayaran</td>
+                            <td>Supplier</td>
+                            <td>Total Bayar</td>
                             <td>DP</td>
                             <td>Sisa</td>
                             <td>Action</td>
@@ -95,30 +95,29 @@
                         @foreach ($pembayaran as $item)
                             <tr>
                                 <td>{{ $i = (isset($i)?++$i:$i=1) }}</td>
-                                <td>{{ $item->id_penjualan }}</td>
+                                <td>{{ $item->id_pembelian }}</td>
                                 <td>{{ $item->tgl }}</td>
-                                <td>{{ $item->nama_pelanggan }}</td>
+                                <td>{{ $item->nama_supplier }}</td>
                                 <td>{{ $item->total_bayar }}</td>
                                 <td>{{ $item->dp }}</td>
                                 <td>{{ $item->sisa  }}</td>
                                 <td>
                                     @if ($item->sisa > 0 && $item->jenis_pembayaran === 2)
                                         <button type="button" class="btn btn-info edit_pembayaran" 
-                                        data-id_penjualan="{{ $item->id_penjualan }}" 
+                                        data-id_pembelian="{{ $item->id_pembelian }}" 
                                         data-tgl="{{ $cDate }}" 
-                                        data-nama_pelanggan="{{ $item->nama_pelanggan }}" 
-                                        data-id_pelanggan="{{ $item->id_pelanggan }}" 
+                                        data-nama_supplier="{{ $item->nama_supplier }}" 
+                                        data-id_supplier="{{ $item->id_supplier }}" 
                                         data-tlp="{{ $item->tlp }}" 
-                                        data-total_harga="{{ $item->total_harga }}" 
+                                        data-total_bayar="{{ $item->total_bayar }}" 
                                         data-dp="{{ $item->dp }}" 
                                         data-sisa="{{ $item->sisa }}" 
-                                        data-route="{{ route('pembayaran.store')}}"
-                                        data-toggle="modal" data-target="#formModalPelanggan" data-mode="edit"> <i class="fa fa-pencil"></i>
+                                        data-route="{{ route('pembayaran-pembelian.store')}}"
+                                        data-toggle="modal" data-target="#formModalPembayaranPBL" data-mode="edit"> <i class="fa fa-pencil"></i>
                                         </button>
                                     @else 
                                         <button type="button" class="btn btn-danger"><i class="fa-solid fa-print"></i></button>
                                     @endif
-                                    
                                 </td>
                             </tr>
                         @endforeach
@@ -129,7 +128,7 @@
           <!-- /.card-footer-->
         </div>
         <!-- /.card --> 
-        @include('pembayaran.formBayar')
+        @include('pembayaran-pembelian.formBayar')
   
       </section>
       <!-- /.content -->
@@ -141,7 +140,6 @@
         var tb = $(this).val();
         var sisa = $("#sisa").val();
         var dp = $("#dp").val();
-        console.log(sisa, tb, sisa-tb)
         var total_harga = $('#total_harga').val()
         // var harga = String(dp).replaceAll(".", '');
         // console.log(harga)
@@ -168,12 +166,12 @@
 
         let nama_pelanggan = $(this).data('nama_pelanggan')
         $(document).on('click', '.edit_pembayaran', function (e) {
-                let id_penjualan = $(this).data('id_penjualan')
-                let id_pelanggan = $(this).data('id_pelanggan')
-                let nama_pelanggan = $(this).data('nama_pelanggan')
+                let id_pembelian = $(this).data('id_pembelian')
+                let id_supplier = $(this).data('id_supplier')
+                let nama_supplier = $(this).data('nama_supplier')
                 let tgl = $(this).data('tgl')
                 let tlp = $(this).data('tlp')
-                let total_harga = $(this).data('total_harga')
+                let total_bayar = $(this).data('total_bayar')
                 let dp = $(this).data('dp')
                 let sisa = $(this).data('sisa')
                 let url = $(this).data('route')
@@ -188,10 +186,10 @@
                 
                 $('#modal-title').text("Edit Data Pembayaran")
                 $('.modal-body #tgl').val(today)
-                $('.modal-body #id_penjualan').val(id_penjualan)
-                $('.modal-body #nama_pelanggan').val(nama_pelanggan)
+                $('.modal-body #id_pembelian').val(id_pembelian)
+                $('.modal-body #nama_supplier').val(nama_supplier)
                 $('.modal-body #tlp').val(tlp)
-                $('.modal-body #total_harga').val(total_harga)
+                $('.modal-body #total_pembelian').val(total_pembelian)
                 $('.modal-body #dp').val(dp)
                 $('.modal-body #sisa').val(sisa)
         });

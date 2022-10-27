@@ -8,7 +8,7 @@
             <span aria-hidden="true">&times;</span>
             </button>
         </div>
-        <div class="modal-body">
+        <div class="modal-body table-responsive">
             <table id="tbl-data-barang-penjualan" class="table table-striped table-bordered table-hover table-compact" style="width: 100%;">
                 <thead>
                     <tr>

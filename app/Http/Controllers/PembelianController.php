@@ -7,7 +7,9 @@ use App\Http\Requests\StorePembelianRequest;
 use App\Http\Requests\UpdatePembelianRequest;
 use App\Models\Barang;
 use App\Models\DetailPembelian;
+use App\Models\KasKeluar;
 use App\Models\Pembayaran;
+use App\Models\PembayaranPembelian;
 use App\Models\Perusahaan;
 use App\Models\Supplier;
 
@@ -37,7 +39,22 @@ class PembelianController extends Controller
         $data['supplier'] = Supplier::get();
         $data['produk'] = Barang::get();
         $data['cPerusahaan'] = Perusahaan::select('*')->where('id', auth()->user()->id_perusahaan)->first();
-        return view('pembelian.tambah', $data);
+        return view('transaksi-pembelian.index', $data);
+    }
+
+    public function checkPrice($value)
+    {
+        if (gettype($value) == "string") {
+            $temp = 0;
+            for ($i = 0; $i < strlen($value); $i++) {
+                if ((isset($value[$i]) == true && $value[$i] != ".") && $value[$i] != ",") {
+                    $temp = ($temp * 10) + (int)$value[$i];
+                }
+            }
+            return $temp;
+        } else {
+            return $value;
+        }
     }
 
     /**
@@ -95,6 +112,13 @@ class PembelianController extends Controller
             $pembelianBaru->id_supplier = $request->id_supplier;
             $pembelianBaru->total_pembelian = $request->total_pembelian;
             $pembelianBaru->jenis_pembayaran = $request->jenis_pembayaran;
+            if($request->jenis_pembayaran == 2){
+                $pembelianBaru->dp = $this->checkPrice($request->bayar_kredit);
+                $pembelianBaru->sisa = $request->total_pembelian - $this->checkPrice($request->bayar_kredit);
+            } else {
+                $pembelianBaru->dp = 0;
+                $pembelianBaru->sisa = 0;
+            }
             $pembelianBaru->id_user = auth()->user()->id;
             $pembelianBaru->id_perusahaan = auth()->user()->id_perusahaan;
             $pembelianBaru->save();
@@ -123,7 +147,32 @@ class PembelianController extends Controller
                 // ]);
             }
 
-            return redirect('/list-transaksi')->with(['success' => 'Input data Transaksi Berhasil!']);
+            $pembayaranBaru = new PembayaranPembelian();
+            $pembayaranBaru->id_pembelian = $pembelianBaru->id;
+            $pembayaranBaru->tgl = date('Y-m-d');
+            if($request->jenis_pembayaran == 2){
+                $pembayaranBaru->total_bayar = $this->checkPrice($request->bayar_kredit);
+            } else {
+                $pembayaranBaru->total_bayar = $request->total_pembelian;
+            }
+            $pembayaranBaru->id_user = auth()->user()->id;
+            $pembayaranBaru->id_perusahaan = auth()->user()->id_perusahaan;
+            $pembayaranBaru->save();
+            // dd($pembelianBaru->id); die;
+
+            $kasMasuk = new KasKeluar();
+            $kasMasuk->tgl = now();
+            if($request->jenis_pembayaran == 2){
+                $kasMasuk->jumlah = $this->checkPrice($request->bayar_kredit);
+            } else {
+                $kasMasuk->jumlah = $request->total_pembelian;
+            }
+            $kasMasuk->id_user = auth()->user()->id;
+            $kasMasuk->id_perusahaan = auth()->user()->id_perusahaan;
+            $kasMasuk->keperluan = 'Transaksi Pembelian Produk';
+            $kasMasuk->save();
+
+            return redirect('/list-pembelian')->with(['success' => 'Input data Transaksi Berhasil!']);
     }
 
 
@@ -176,9 +225,9 @@ class PembelianController extends Controller
     public function listPembelian()
     {
         //  $barang = Barang::orderBy('nama')->get();
-        //  $diskon = TransaksiPenjualan::first()->diskon ?? 0;
+        //  $diskon = Transaksipembelian::first()->diskon ?? 0;
  
-        //  $detail = DetailPenjualan::orderBy('id_penjualan_detail', 'DESC');
+        //  $detail = Detailpembelian::orderBy('id_pembelian_detail', 'DESC');
 
         $data['supplier'] = Supplier::where('id_perusahaan', auth()->user()->id_perusahaan)->get();    
         // $data['produk'] = Barang::where('stock', '>', 0)->where('status', '==', '1')->get();    
