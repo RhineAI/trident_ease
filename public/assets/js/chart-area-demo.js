@@ -5,7 +5,7 @@ Chart.defaults.global.defaultFontColor = '#858796';
 function number_format(number, decimals, dec_point, thousands_sep) {
   // *     example: number_format(1234.56, 2, ',', ' ');
   // *     return: '1 234,56'
-  number = (number + '').replace(',', '').replace(' ', '');
+  number = (number + '').replace(',', '').replace('.', '');
   var n = !isFinite(+number) ? 0 : +number,
     prec = !isFinite(+decimals) ? 0 : Math.abs(decimals),
     sep = (typeof thousands_sep === 'undefined') ? ',' : thousands_sep,
@@ -27,6 +27,21 @@ function number_format(number, decimals, dec_point, thousands_sep) {
   return s.join(dec);
 }
 
+// Get Earnings Data
+var bulan1 = $('#bulan1').val();
+var bulan2 = $('#bulan2').val();
+var bulan3 = $('#bulan3').val();
+var bulan4 = $('#bulan4').val();
+var bulan5 = $('#bulan5').val();
+var bulan6 = $('#bulan6').val();
+var bulan7 = $('#bulan7').val();
+var bulan8 = $('#bulan8').val();
+var bulan9 = $('#bulan9').val();
+var bulan10 = $('#bulan10').val();
+var bulan11 = $('#bulan11').val();
+var bulan12 = $('#bulan12').val();
+
+
 // Area Chart Example
 var ctx = document.getElementById("myAreaChart");
 var myLineChart = new Chart(ctx, {
@@ -34,19 +49,19 @@ var myLineChart = new Chart(ctx, {
   data: {
     labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
     datasets: [{
-      label: "Earnings",
-      lineTension: 0.3,
+      label: "Pendapatan",
+      lineTension: 0.38,
       backgroundColor: "rgba(78, 115, 223, 0.5)",
       borderColor: "rgba(78, 115, 223, 1)",
       pointRadius: 3,
-      pointBackgroundColor: "rgba(78, 115, 223, 1)",
+      pointBackgroundColor: "rgba(192, 193, 209)",
       pointBorderColor: "rgba(78, 115, 223, 1)",
       pointHoverRadius: 3,
       pointHoverBackgroundColor: "rgba(78, 115, 223, 1)",
       pointHoverBorderColor: "rgba(78, 115, 223, 1)",
       pointHitRadius: 10,
       pointBorderWidth: 2,
-      data: [0, 10000, 5000, 15000, 10000, 20000, 15000, 25000, 20000, 30000, 25000, 40000],
+      data: [bulan1, bulan2, bulan3, bulan4, bulan5, bulan6, bulan7, bulan8, bulan9, bulan10, bulan11, bulan12],
     }],
   },
   options: {
@@ -78,7 +93,7 @@ var myLineChart = new Chart(ctx, {
           padding: 10,
           // Include a dollar sign in the ticks
           callback: function(value, index, values) {
-            return '$' + number_format(value);
+            return 'Rp. ' + number_format(value);
           }
         },
         gridLines: {
@@ -110,7 +125,7 @@ var myLineChart = new Chart(ctx, {
       callbacks: {
         label: function(tooltipItem, chart) {
           var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
-          return datasetLabel + ': $' + number_format(tooltipItem.yLabel);
+          return datasetLabel + ': Rp. ' + number_format(tooltipItem.yLabel);
         }
       }
     }

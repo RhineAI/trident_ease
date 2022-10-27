@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use App\Models\Perusahaan;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -13,7 +14,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        view()->composer('templates.layout', function($view) {
+            $view->with('perusahaan', Perusahaan::first());
+        });
     }
 
     /**
