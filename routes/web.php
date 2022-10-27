@@ -22,11 +22,12 @@ use App\Http\Controllers\KasKeluarController;
 use App\Http\Controllers\TransaksiPenjualanController;
 use App\Http\Controllers\ListTransaksiPenjualanController;
 use App\Http\Controllers\DetailPenjualanController;
-
+use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\PembelianController;
 use App\Http\Controllers\ListTransaksiPembelianController;
 
 use App\Http\Controllers\PembayaranController;
+use App\Http\Controllers\PembayaranPembelianController;
 use App\Http\Controllers\ReturPenjualanController;
 use App\Http\Controllers\StokOpnameController;
 use Illuminate\Support\Facades\Route;
@@ -86,6 +87,7 @@ Route::middleware('auth')->group(function(){
 
         // Tunggakan Pembayaran
         Route::resource('/pembayaran', PembayaranController::class);
+        Route::resource('/pembayaran-pembelian', PembayaranPembelianController::class);
 
         // Stok opname
         Route::get('/stock-opname', [StokOpnameController::class, 'index'])->name('stockOpname');
@@ -102,6 +104,10 @@ Route::middleware('auth')->group(function(){
         Route::resource('kas-keluar', KasKeluarController::class);
         Route::post('/kas-keluar/data', [KasKeluarController::class, 'data'])->name('kas-keluar.data');
 
+        
+        Route::get('/list-pelanggan-terbaik', [LaporanController::class, 'indexBestPelanggan'])->name('list-b-pelanggan.index');
+        Route::post('/list-pelanggan-terbaik/data/{awal}/{akhir}', [LaporanController::class, 'getDataBPelanggan'])->name('list-b-pelanggan.data');
+        Route::get('/list-pelanggan-terbaik/pdf/{awal}/{akhir}', [LaporanController::class, 'exportPDFBPelanggan'])->name('list-b-pelanggan.export_pdf');
 });
 
 Route::group(['middleware' => 'auth'], function () {

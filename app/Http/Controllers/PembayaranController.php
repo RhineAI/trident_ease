@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Pembayaran;
 use App\Http\Requests\StorePembayaranRequest;
 use App\Http\Requests\UpdatePembayaranRequest;
+use App\Models\KasMasuk;
 use App\Models\Perusahaan;
 use App\Models\TransaksiPenjualan;
+use Illuminate\Support\Facades\DB;
 
 class PembayaranController extends Controller
 {
@@ -16,17 +18,19 @@ class PembayaranController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
+    {   
         $data['cPerusahaan'] = Perusahaan::select('*')->where('id', auth()->user()->id_perusahaan)->first();
-        $data['pembayaran'] = Pembayaran::leftJoin('t_transaksi_penjualan AS TP', 'TP.id', 't_pembayaran.id_penjualan')
+        $data['pembayaran'] = Pembayaran::leftJoin('t_transaksi_penjualan AS TP', 'TP.id', 't_pembayaran_penjualan.id_penjualan')
         ->leftJoin('t_pelanggan as P', 'P.id', 'TP.id_pelanggan')
-        ->select('P.nama AS nama_pelanggan', 'P.tlp', 'P.id as id_pelanggan', 't_pembayaran.*', 'TP.dp', 'TP.total_harga')     
-        ->where('TP.jenis_pembayaran', 2)
-        ->where('TP.sisa', '>', 0)
-        ->where('TP.id_perusahaan', auth()->user()->id_perusahaan)     
-        ->orderBy('id', 'desc')
+        ->select('P.nama AS nama_pelanggan', 'P.tlp', 'P.id as id_pelanggan', 't_pembayaran_penjualan.*', 'TP.dp', 'TP.total_harga', 'TP.sisa', 'TP.jenis_pembayaran')
+        // ->where('TP.jenis_pembayaran', 2)
+        ->where('TP.id_perusahaan', auth()->user()->id_perusahaan)    
+        ->orderBy('jenis_pembayaran', 'desc')
         ->get();
+        // $data['total_bayar'] = Pembayaran::where('id_penjualan', 'id_penjualan')->sum('total_bayar');
         $data['cDate'] = date('d-m-Y');
+        // $data['totalBayar'] = Pembayaran::select('id_penjualan', DB::raw('ceiling(sum(t_pembayaran_penjualan.total_bayar)) AS totalBayar'))->groupBy('id_penjualan')->get();
+        // DB::raw('sum(t_pembayaran_penjualan.total_bayar) AS total')
         // return $data['pembayaran'];
         return view('pembayaran.index', $data);
     }
@@ -56,8 +60,24 @@ class PembayaranController extends Controller
         $pembayaran->total_bayar = $request->bayar;
         $pembayaran->id_user = auth()->user()->id;
         $pembayaran->id_perusahaan = auth()->user()->id_perusahaan;
-
         $pembayaran->save();
+        $updateSisa = TransaksiPenjualan::find($request->id_penjualan);
+        if(($updateSisa->sisa - $request->bayar) >= 0){
+            $updateSisa->sisa -= $request->bayar;
+        } else {
+            $updateSisa->sisa = 0;
+            $updateSisa->kembalian = $request->kembalian;
+        }
+        $updateSisa->update();
+
+        $kasMasuk = new KasMasuk();
+        $kasMasuk->tgl = date('Y-m-d');
+        $kasMasuk->jumlah = $request->bayar;
+        $kasMasuk->keterangan = 'Pembayaran Piutang Customer';
+        $kasMasuk->id_perusahaan = auth()->user()->id_perusahaan;
+        $kasMasuk->id_user = auth()->user()->id;
+        $kasMasuk->save();
+
         return back()->with(['success', 'Pembayaran berhasil']);
     }
 

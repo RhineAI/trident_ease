@@ -149,18 +149,28 @@
                                         <label for="inputEmail3" class="col-lg-3 control-label">Jenis Pembayaran</label>
                                         <div class="col-lg-8">
                                             <select class="form-control" name="jenis_pembayaran" data-bv-trigger="blur" id="jenis_pembayaran">
-                                                <option value="1" selected="selected">Transfer</option>';
-                                                <option value="2">Cash</option>';
+                                                <option value="1" selected="selected">Cash</option>
+                                                <option value="2">Kredit</option>
+                                                <option value="3">Transfer</option>
                                             </select>
                                         </div>
                                     </div>
                              
-                                    <div class="form-group row mt-4">
+                                    <div class="form-group row mt-4" id="tampil_total">
                                         <label for="bayar" class="col-lg-3 control-label">Total</label>
                                         <div class="col-lg-8 ">
                                             <div class="input-group-prepend input-primary"> 
                                                 <span class="input-group-text">RP.</span> 
                                                 <input type="text" data-bv-trigger="blur" id="total_bayar" name="total_bayar" class="form-control" readonly>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row mt-4" id="tampil_kredit">
+                                        <label for="bayar_kredit" class="col-lg-3 control-label">DP</label>
+                                        <div class="col-lg-8 ">
+                                            <div class="input-group-prepend input-primary"> 
+                                                <span class="input-group-text">RP.</span> 
+                                                <input type="text" data-bv-trigger="blur" id="bayar_kredit" name="bayar_kredit" class="form-control">
                                             </div>
                                         </div>
                                     </div>
@@ -185,6 +195,18 @@
 @push('scripts') 
     <script>
         $('body').addClass('sidebar-collapse');
+
+        $('div#tampil_kredit').hide();
+
+        $(document).on('change', '#jenis_pembayaran', function () {  
+            var isiJenis = $("#jenis_pembayaran").val();
+            if (isiJenis == '2') {
+                $('div#tampil_kredit').show();
+            } else {
+                $('div#tampil_kredit').hide();
+                $('div#tampil_total').show();
+            }
+        });
 
         function tampilProduk() {
             $('#formModalBarangPembelian').modal('show');
@@ -332,9 +354,9 @@
                         var rowBarang="<tr id='buffer"+count+"'>";
                         rowBarang+="<td style='text-align:center'><input type='hidden' name='item["+count+"][id_barang]' value='"+id_barang+"'> <input class='form-control' type='text' name='item["+count+"][kode]' value='"+kode_barang+"' readonly='true'></td>";
                         rowBarang+="<td style='text-align:center'><input class='form-control' type='text' name='item["+count+"][nama_barang]' value='"+nama_barang+"' readonly='true'></td>";
-                        rowBarang+="<td style='text-align:center'><div class='input-group-prepend input-primary'><input style='text-align:right' type='number' class='form-control harga_beli' name='item["+count+"][harga_beli]' value='0' id='harga_beli"+count+"' onkeypress='cek_number()' data-idbuffer='"+count+"'></div></td>";
+                        rowBarang+="<td style='text-align:center'><div class='input-group-prepend input-primary'><input style='text-align:right' type='number' class='form-control harga_beli' name='item["+count+"][harga_beli]' value='0' id='harga_beli"+count+"' data-idbuffer='"+count+"'></div></td>";
                         rowBarang+="<td style='text-align:center'><input type='number' class='form-control qty_pembelian' name='item["+count+"][qty]' max='"+stock+"' value='1' id='qty"+count+"' data-idbuffer='"+count+"' onchange='cekQty(this)' ></td>";
-                        rowBarang+="<td style='text-align:center'><div class='input-group-prepend input-primary'><input onchange='cekDiscount(this)' max='100' style='text-align:right' type='number' class='form-control discount' name='item["+count+"][discount]' value='0' id='discount"+count+"' onkeypress='cek_number()' data-idbuffer='"+count+"'><span class='input-group-text'>%</span></div></td>";
+                        rowBarang+="<td style='text-align:center'><div class='input-group-prepend input-primary'><input onchange='cekDiscount(this)' max='100' style='text-align:right' type='number' class='form-control discount' name='item["+count+"][discount]' value='0' id='discount"+count+"' data-idbuffer='"+count+"'><span class='input-group-text'>%</span></div></td>";
                         rowBarang+="<td style='text-align:center'><input style='text-align:right' type='number' class='form-control' name='item["+count+"][subtotal]' value='0' readonly='true' id='subtotal"+count+"'></td>";
                         rowBarang+="<td style='text-align:center;'><button type='button' class='btn btn-danger hapus_pembelian' data-idbuffer='"+count+"' ><i class='fa fa-trash'></i></button></td>";
                         rowBarang+="</tr>";
@@ -346,7 +368,6 @@
                         $('#subtotal'+posisi).val(harga_beli*qty);
                     }
                         GetTotalBayar();
-                        // GetKeuntungan();
                 }
 
 
@@ -399,7 +420,7 @@
                     return $(elemValue).val(formatRupiah($(elemValue).val(), 'Rp. '))
                 }
 
-            $(document).on('keyup', '#ayar', function(e){
+            $(document).on('keyup', '#bayar_kredit', function(e){
                 generateRupiah(this);
             })
 
@@ -443,7 +464,7 @@
             });
 
         
-                            console.log(text)
+                            // console.log(text)
 
 
             function GetTotalBayar(){
@@ -451,18 +472,19 @@
             
                 //HASILKAN TOTAL BAYAR
                 for(x=1;x<=count;x++){
-                    let total = Number($("input[name='item["+x+"][subtotal]']").val());
+                    total += Number($("input[name='item["+x+"][subtotal]']").val());
                     let total_pembelian = total.toLocaleString("id-ID", {
-                                style:"currency", 
-                                currency:"IDR", 
-                                maximumSignificantDigits: (total + '').replace('.', '').length
-                            });
-                    }
-                        $('#total_bayar').val(Number(total_pembelian));
-                        $('#total_bayar_gede').text('Rp. '+ Math.round(Number(total_pembelian)));
-                        $('#total_pembelian').val(Number(total_pembelian));	
-                    }
-            });
+                        style:"currency", 
+                        currency:"IDR", 
+                        maximumSignificantDigits: (total + '').replace('.', '').length
+                    });
+                }
+                console.log(total)
+                $('#total_bayar').val(total);
+                $('#total_bayar_gede').text('Rp. '+ Math.round(Number(total_pembelian)));
+                $('#total_pembelian').val(total);
+            }
+        });
 
 
     </script>

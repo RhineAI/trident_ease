@@ -7,6 +7,7 @@ use App\Http\Requests\StoreReturPenjualanRequest;
 use App\Http\Requests\UpdateReturPenjualanRequest;
 use App\Models\Perusahaan;
 use App\Models\TransaksiPenjualan;
+use GrahamCampbell\ResultType\Success;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -40,7 +41,6 @@ class ReturPenjualanController extends Controller
     }
 
     public function data(Request $request){
-        if($request->id){
          $detailPenjualan = TransaksiPenjualan::leftJoin('t_detail_penjualan AS DT', 't_transaksi_penjualan.id', 'DT.id_penjualan')
          ->leftJoin('t_barang AS B', 'B.id', 'DT.id_barang')
          ->select('B.*', 'P.*', 'DT.harga_jual', 'DT.qty', 't_transaksi_penjualan.id AS id_penjualan', 't_transaksi_penjualan.tgl AS tanggal', 'B.nama AS nama_barang', 'B.id AS id_barang')
@@ -50,6 +50,7 @@ class ReturPenjualanController extends Controller
          ->get();	
          $i=0;
          $html="";
+         
          foreach ($detailPenjualan as $row) {
             $i++;
             $subtotal = $row->qty * $row->harga_jual;
@@ -64,8 +65,8 @@ class ReturPenjualanController extends Controller
             $html.="</tr>";
             
         }  
-        return $html;
-        }
+        $response['data'] = $html;
+        return response()->json($response);
     }
 
     /**

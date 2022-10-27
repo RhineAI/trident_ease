@@ -131,7 +131,7 @@
                       <a href="#" class="nav-link">
                           <i class="nav-icon fas fa-solid fa-cart-plus"></i>
                           <p>
-                              Pembelian
+                              Transaksi
                               <i class="right fas fa-angle-right"></i>
                           </p>
                       </a>
@@ -139,7 +139,7 @@
                           <li class="nav-item">
                               <a href="{{ route('transaksi-pembelian.index') }}" class="nav-link">
                                   <i class="far fa-circle nav-icon"></i>
-                                  <p>Transaksi Baru</p>
+                                  <p>Tambah Pembelian</p>
                               </a>
                           </li>
                           <li class="nav-item">
@@ -148,44 +148,28 @@
                                 <p>Data Pembelian</p>
                             </a>
                         </li>
-                      </ul>
-                  </li>
-                  <li class="nav-item">
-                      <a href="#" class="nav-link">
-                          <i class="nav-icon fas fa-solid fa-calculator"></i>
-                          <p>
-                              Pembayaran
-                              <i class="right fas fa-angle-right"></i>
-                          </p>
-                      </a>
-                      <ul class="nav nav-treeview">
-                          <li class="nav-item">
-                              <a href="{{ route('pembayaran.index') }}" class="nav-link">
-                                  <i class="far fa-circle nav-icon"></i>
-                                  <p>Data Tunggakan</p>
-                              </a>
-                          </li>
-                      </ul>
-                  </li>
-                  <li class="nav-item">
-                      <a href="#" class="nav-link">
-                          <i class="nav-icon fas fa-solid fa-cart-plus"></i>
-                          <p>
-                              Penjualan
-                              <i class="right fas fa-angle-right"></i>
-                          </p>
-                      </a>
-                      <ul class="nav nav-treeview">
-                          <li class="nav-item">
-                              <a href="{{ route('transaksi-penjualan.index') }}" class="nav-link">
-                                  <i class="far fa-circle nav-icon"></i>
-                                  <p>Transaksi Baru</p>
-                              </a>
-                          </li>
-                          <li class="nav-item">
+                        <li class="nav-item">
+                          <a href="{{ route('pembayaran-pembelian.index') }}" class="nav-link">
+                              <i class="far fa-circle nav-icon"></i>
+                              <p style="font-size: 13px;">Bayar Tunggakan Pembelian</p>
+                          </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('transaksi-penjualan.index') }}" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Tambah Penjualan</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
                             <a href="{{ route('list-transaksi.index') }}" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Data Transaksi</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('pembayaran.index') }}" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p style="font-size: 13px;">Bayar Tunggakan Penjualan</p>
                             </a>
                         </li>
                       </ul>
