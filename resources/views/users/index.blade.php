@@ -4,14 +4,14 @@
     <title>User | {{ $cPerusahaan->nama }}</title>
 @endsection
 
+@section('page')
+    User
+@endsection
+
 @section('breadcrumb')
 @parent
     User
 @endsection
-
-@push('styles')
-    
-@endpush
 
 @section('contents')
   

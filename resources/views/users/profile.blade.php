@@ -1,17 +1,17 @@
 @extends('templates.layout')
 
 @section('title')
-    Profil Pegawai | {{ $cPerusahaan->nama }}
+    <title>Profile | {{ $cPerusahaan->nama }}</title>
+@endsection
+
+@section('page')
+    Profile
 @endsection
 
 @section('breadcrumb')
 @parent
-    Profil Pegawai
+    Profile
 @endsection
-
-@push('styles')
-    
-@endpush
 
 @section('contents')
 

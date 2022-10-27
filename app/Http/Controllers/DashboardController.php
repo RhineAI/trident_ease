@@ -8,6 +8,8 @@ use App\Models\Barang;
 use App\Models\KasMasuk;
 use App\Models\TransaksiPenjualan;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
+
 
 class DashboardController extends Controller
 {
@@ -124,21 +126,34 @@ class DashboardController extends Controller
         } elseif($data['check']->grade == 3) {
             $data['barangHarian'] = $barang ;
         }
-        // return $check;
-        // return $data['check'];
-        // if ($data['check']->grade == 1) {
-        //     'Free';
-        // } elseif($data['check']->grade = 2) {
-        //     'Intermediate';
-        // } elseif($data['check']->grade = 3) {
-        //     'Premium';
-        // }
+        
 
-        // return $data;
-        // return $brg;
-        // $data['barang'] = $brg->count();
-        // $data['barang'] = Barang::count();
-        // ->where('id_perusahaan', auth()->user()->id_perushaan)->first();
+        // GRAFIK HARGA 
+        $firstMonth = Carbon::now()->startOfMonth();
+        $month = date('m');
+        $year = date('Y');
+
+
+        $data['bulan1'] = TransaksiPenjualan::whereYear('created_at',$year)->whereMonth('created_at', 1)->sum('total_harga');
+        $data['bulan2'] = TransaksiPenjualan::whereYear('created_at',$year)->whereMonth('created_at', 2)->sum('total_harga');
+        $data['bulan3'] = TransaksiPenjualan::whereYear('created_at',$year)->whereMonth('created_at', 3)->sum('total_harga');
+        $data['bulan4'] = TransaksiPenjualan::whereYear('created_at',$year)->whereMonth('created_at', 4)->sum('total_harga');
+        $data['bulan5'] = TransaksiPenjualan::whereYear('created_at',$year)->whereMonth('created_at', 5)->sum('total_harga');
+        $data['bulan6'] = TransaksiPenjualan::whereYear('created_at',$year)->whereMonth('created_at', 6)->sum('total_harga');
+        $data['bulan7'] = TransaksiPenjualan::whereYear('created_at',$year)->whereMonth('created_at', 7)->sum('total_harga');
+        $data['bulan8'] = TransaksiPenjualan::whereYear('created_at',$year)->whereMonth('created_at', 8)->sum('total_harga');
+        $data['bulan9'] = TransaksiPenjualan::whereYear('created_at',$year)->whereMonth('created_at', 9)->sum('total_harga');
+        $data['bulan10'] = TransaksiPenjualan::whereYear('created_at',$year)->whereMonth('created_at', 10)->sum('total_harga');
+        $data['bulan11'] = TransaksiPenjualan::whereYear('created_at',$year)->whereMonth('created_at', 11)->sum('total_harga');
+        $data['bulan12'] = TransaksiPenjualan::whereYear('created_at',$year)->whereMonth('created_at', 12)->sum('total_harga');
+        
+        // return $data['bulan10'];
+
+        // return $data_tanggal;
+        // d($data_tanggal, $data_pendapatan);
+        // $data['rekapBulanan'] = TransaksiPenjualan::whereYear('created_at', $year)->whereMonth('created_at', $month)->sum('total_harga');
+
+
         $data['cPerusahaan'] = Perusahaan::select('*')->where('id', auth()->user()->id_perusahaan)->first();
 
         // return $data;

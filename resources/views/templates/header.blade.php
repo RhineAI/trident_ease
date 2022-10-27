@@ -12,7 +12,9 @@
 <link rel="stylesheet" href="{{ asset('assets') }}/dist/css/adminlte.min.css">
 <link rel="stylesheet" href="{{ asset('assets') }}/plugins/datatables-bs4/css/dataTables.bootstrap4.css">
 <link rel="icon" href="{{ $cPerusahaan->logo }}" type="image/png">
-
+{{-- Bootstrap v5.2 --}}
+<!-- CSS only -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
 {{-- Bootstrap Icon --}}
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.9.1/bootstrap-icons.svg">
 {{-- Bootstrap Validator --}}

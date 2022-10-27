@@ -104,8 +104,7 @@
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
                             <div class="text-xs font-weight-bold text-uppercase mb-1">Kas Masuk</div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">Rp.{{ format_uang($kas) }}</div>
-                           
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">Rp.{{ format_uang($kas) }}</div>          
                         </div>
                         <div class="col-auto">
                             <i class="fas fa-sharp fa-money-bill-1-wave fa-2x text-warning"></i>
@@ -119,24 +118,22 @@
         <div class="col-xl-8 col-lg-7">
             <div class="card mb-4">
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                    <h6 class="m-0 font-weight-bold text-primary">Monthly Recap Report</h6>
-                    <div class="dropdown no-arrow">
-                        <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown"
-                            aria-haspopup="true" aria-expanded="false">
-                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                            aria-labelledby="dropdownMenuLink">
-                            <div class="dropdown-header">Dropdown Header:</div>
-                            <a class="dropdown-item" href="#">Action</a>
-                            <a class="dropdown-item" href="#">Another action</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">Something else here</a>
-                        </div>
-                    </div>
+                    <h6 class="m-0 font-weight-bold text-primary">Laporan Pendapatan Bulanan</h6>
                 </div>
                 <div class="card-body">
                     <div class="chart-area">
+                        <input type="hidden" id="bulan1" value="{{ $bulan1 }}">
+                        <input type="hidden" id="bulan2" value="{{ $bulan2 }}">
+                        <input type="hidden" id="bulan3" value="{{ $bulan3 }}">
+                        <input type="hidden" id="bulan4" value="{{ $bulan4 }}">
+                        <input type="hidden" id="bulan5" value="{{ $bulan5 }}">
+                        <input type="hidden" id="bulan6" value="{{ $bulan6 }}">
+                        <input type="hidden" id="bulan7" value="{{ $bulan7 }}">
+                        <input type="hidden" id="bulan8" value="{{ $bulan8 }}">
+                        <input type="hidden" id="bulan9" value="{{ $bulan9 }}">
+                        <input type="hidden" id="bulan10" value="{{ $bulan10 }}">
+                        <input type="hidden" id="bulan11" value="{{ $bulan11 }}">
+                        <input type="hidden" id="bulan12" value="{{ $bulan12 }}">
                         <canvas id="myAreaChart"></canvas>
                     </div>
                 </div>
@@ -230,12 +227,12 @@
     </div>
     <!--Row-->
 
-    <div class="row">
+    {{-- <div class="row">
         <div class="col-lg-12 text-center">
             <p>Do you like this template ? you can download from <a href="https://github.com/indrijunanda/RuangAdmin"
                     class="btn btn-primary btn-sm" target="_blank"><i class="fab fa-fw fa-github"></i>&nbsp;GitHub</a></p>
         </div>
-    </div>
+    </div> --}}
 </section>
 @endsection
 
@@ -243,4 +240,6 @@
     <script>
         $('body').addClass('sidebar-collapse');
     </script>
+    <script src="{{ asset('assets') }}/vendor/chart.js/Chart.min.js"></script>
+    <script src="{{ asset('assets') }}/js/chart-area-demo.js"></script> 
 @endpush
