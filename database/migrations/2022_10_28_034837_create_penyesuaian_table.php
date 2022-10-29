@@ -14,17 +14,17 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('t_retur_penjualan', function (Blueprint $table) {
+        Schema::create('t_penyesuaian', function (Blueprint $table) {
             $table->integer('id')->autoIncrement();
-            $table->bigInteger('id_penjualan');
             $table->date('tgl');
-            // $table->integer('qty');
-            $table->double('total_retur');
-            $table->double('retur_keuntungan');
+            $table->integer('id_barang');
+            $table->integer('stock_awal');
+            $table->integer('stock_baru');
             $table->integer('id_user');
             $table->integer('id_perusahaan');
-            $table->foreign('id_perusahaan')->references('id')->on('t_perusahaan')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('id_barang')->references('id')->on('t_barang')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('id_user')->references('id')->on('t_users')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('id_perusahaan')->references('id')->on('t_perusahaan')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
         });
@@ -37,6 +37,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('t_retur_penjualan');
+        Schema::dropIfExists('t_penyesuaian');
     }
 };

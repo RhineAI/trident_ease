@@ -14,7 +14,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('detail_retur_penjualan', function (Blueprint $table) {
+        Schema::create('t_detail_retur_penjualan', function (Blueprint $table) {
             $table->integer('id')->autoIncrement();
             $table->integer('id_retur_penjualan');
             $table->integer('id_barang');
@@ -39,6 +39,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('detail_retur_penjualan');
+        Schema::dropIfExists('t_detail_retur_penjualan');
     }
 };

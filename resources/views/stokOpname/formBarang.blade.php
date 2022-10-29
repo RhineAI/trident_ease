@@ -35,6 +35,7 @@
                                 data-nama_barang="{{ $item->nama }}" 
                                 data-nama_kategori="{{ $item->nama_kategori }}" 
                                 data-nama_merek="{{ $item->nama_merek }}" 
+                                data-stok_awal="{{ $item->stock }}"
                                 data-dismiss="modal"> <i class="fa fa-plus"></i>
                                 </button>
                             </td>

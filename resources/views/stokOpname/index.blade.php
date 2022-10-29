@@ -161,15 +161,17 @@
                 var nama = $(this).data("nama_barang");
                 var nama_kategori = $(this).data("nama_kategori");
                 var nama_merek = $(this).data("nama_merek");
-                TambahDataPenjualan(id,kode,nama,nama_kategori,nama_merek);
+                var stok_awal = $(this).data("stok_awal");
+                TambahDataPenjualan(id,kode,nama,nama_kategori,nama_merek,stok_awal);
             }); 
 
-            function TambahDataPenjualan(id,kode,nama,nama_kategori,nama_merek){
+            function TambahDataPenjualan(id,kode,nama,nama_kategori,nama_merek,stok_awal){
                 var id_barang=id;
                 var kode_barang=kode;
                 var nama_barang=nama;
                 var nama_kategori=nama_kategori;
                 var nama_merek=nama_merek;
+                var stok_awal=stok_awal;
 
                 var barang=CariIdBarang(id_barang);
 
@@ -183,7 +185,7 @@
                     rowBarang+="<td style='text-align:center'><input class='form-control' type='text' name='item["+count+"][nama_barang]' value='"+nama_barang+"' readonly='true'></td>";
                     rowBarang+="<td style='text-align:center'><input class='form-control' type='text' name='item["+count+"][nama_kategori]' value='"+nama_kategori+"' readonly='true'></td>";
                     rowBarang+="<td style='text-align:center'><input class='form-control' type='text' name='item["+count+"][nama_merek]' value='"+nama_merek+"' readonly='true'></td>";
-                    rowBarang+="<td style='text-align:center'><input class='form-control' type='number' name='item["+count+"][stock]'></td>";
+                    rowBarang+="<td style='text-align:center'><input class='form-control' type='hidden' name='item["+count+"][stock_awal]' value='"+stok_awal+"'><input class='form-control' type='number' name='item["+count+"][stock]'></td>";
                     rowBarang+="<td style='text-align:center;'><button type='button' class='btn btn-danger hapus_penjualan' data-idbuffer='"+count+"' ><i class='fa fa-trash'></i></button></td>";
                     rowBarang+="</tr>";
                     $('#t_penjualan').append(rowBarang);

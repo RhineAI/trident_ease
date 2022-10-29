@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Barang;
+use App\Models\Penyesuaian;
 use App\Models\Perusahaan;
 use Illuminate\Http\Request;
 
@@ -18,10 +19,19 @@ class StokOpnameController extends Controller
     public function updateStock(Request $request){
         // dd($request); die;
         foreach($request->item as $barang){
+            $penyesuaianBaru = new Penyesuaian();
+            $penyesuaianBaru->tgl = date('Y-m-d');
+            $penyesuaianBaru->id_barang = $barang['id_barang'];
+            $penyesuaianBaru->stock_awal = $barang['stock_awal'];
+            $penyesuaianBaru->stock_baru = $barang['stock'];
+            $penyesuaianBaru->id_user = auth()->user()->id;
+            $penyesuaianBaru->id_perusahaan = auth()->user()->id_perusahaan;
+            $penyesuaianBaru->save();
+
             $barangUpdate = Barang::find($barang['id_barang']);
             $barangUpdate->stock = $barang['stock'];
             $barangUpdate->update();
         }
-        return back()->with(['success' => 'Update Stok Barang berhasil']);
+        return back()->with(['success' => 'Cek Stok Opname berhasil']);
     }
 }

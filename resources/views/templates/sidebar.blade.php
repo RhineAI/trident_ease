@@ -244,7 +244,7 @@
                         </a>
                         <ul class="nav nav-treeview ml-4">
                             <li class="nav-item">
-                                <a href="{{ route('retur-penjualan.create') }}" class="nav-link">
+                                <a href="{{ route('retur-penjualan.index') }}" class="nav-link">
                                     <p>Tambah Retur</p>
                                 </a>
                             </li>
