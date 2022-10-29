@@ -227,9 +227,9 @@
                             </div>
                         </div>
                     </div>
-        
+                    <div class="col-md-11"></div>
                     <div class="box-footer mb-4 btn-submit">
-                        <button type="submit" id="submit" class="btn btn-outline-primary btn-sm btn-flat pull-right btn-simpan" onkeypress="preventEnter(this)"><i class="fa-solid fa-floppy-disk"></i> Simpan Transaksi</button>
+                        <button type="submit" id="submit" class="col-md-1 btn btn-outline-primary btn-sm pull-right btn-simpan" onkeypress="preventEnter(this)"><i class="fa-solid fa-floppy-disk"></i> Simpan Transaksi</button>
                     </div>
                 </div>
             </div>

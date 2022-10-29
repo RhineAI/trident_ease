@@ -267,6 +267,12 @@
                         </a>
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
+                                <a href="{{ route('perusahaan.index') }}" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Set Perusahaan</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
                                 <a href="{{ route('keuntungan') }}" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
                                     <p>Set Keuntungan</p>
@@ -276,12 +282,6 @@
                                 <a href="{{ route('kategori.index') }}" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
                                     <p>Set Kategori</p>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="{{ route('perusahaan.index') }}" class="nav-link">
-                                    <i class="far fa-circle nav-icon"></i>
-                                    <p>Set Perusahaan</p>
                                 </a>
                             </li>
                             <li class="nav-item">

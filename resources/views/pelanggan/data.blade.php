@@ -1,13 +1,13 @@
 <div class="table-responsive">
-    <table class="table table-striped table-bordered dt-responsive" style="width: 100%;" id="tbl-data-pelanggan">
+    <table class="table table-striped table-hover table-bordered dt-responsive" style="width: 100%;" id="tbl-data-pelanggan">
         <thead>
-            <tr>
-                <td>No</td>
-                <td>Nama Pelanggan</td>
-                <td>Alamat</td>
-                <td>No Telepon</td>
-                <td>Nama Perusahaan</td>
-                <td>Action</td>
+            <tr class="table-success">
+                <td class="text-center" width="3%">No</td>
+                <td class="text-center" width="9%">Nama</td>
+                <td class="text-center" width="12%">Alamat</td>
+                <td class="text-center" width="9%">No Telepon</td>
+                {{-- <td class="text-center" width="9%">Nama Perusahaan</td> --}}
+                <td class="text-center" width="6%">Action</td>
             </tr>
         </thead>
         <tbody>
@@ -17,19 +17,19 @@
                 <td>{{ $item->nama }}</td>
                 <td>{{ $item->alamat }}</td>
                 <td>{{ $item->tlp }}</td>
-                <td>{{ $item->nama_perusahaan }}</td>
+                {{-- <td>{{ $item->nama_perusahaan }}</td> --}}
                 <td>
-                    <button class="btn" type="button" style="color: green;" title="Edit" data-mode="edit"
+                    <button class="btn btn-xs btn-warning" type="button" style="color: green;" title="Edit" data-mode="edit"
                         data-toggle="modal" data-target="#formModalPelanggan" data-id_pelanggan="{{ $item->id }}"
                         data-nama_pelanggan="{{ $item->nama }}" data-alamat="{{ $item->alamat }}"
                         data-tlp="{{ $item->tlp }}" data-jenis_kelamin="{{ $item->jenis_kelamin }}"
-                        data-id_perusahaan="{{ $item->id_perusahaan }}">
-                        <i class="fas fa-edit"></i>
+                        {{-- data-id_perusahaan="{{ $item->id_perusahaan }}" --}}
+                        ><i class="fas fa-edit"></i>
                     </button>
-                    <form action="{{ route('pelanggan.destroy', $item->id) }}" style="display: inline;" method="post">
+                    <form action="{{ route('pelanggan.destroy', $item->id) }}" method="post" class="d-inline">
                         @csrf
                         @method('DELETE')
-                        <button class="btn delete-data" type="button" style="color: red;" title="Delete">
+                        <button class="btn btn-xs btn-danger delete-data" type="button" title="Delete">
                             <i class="fas fa-trash"></i>
                         </button>
                     </form>

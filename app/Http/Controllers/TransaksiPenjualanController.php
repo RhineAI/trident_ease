@@ -121,27 +121,28 @@ class TransaksiPenjualanController extends Controller
                 if($perusahaan->grade == 1) {
                     if($limit < 5 ) {
                         $penjualanBaru->save();
-                        return redirect()->route('list-transaksi.index')->with(['success' => 'Data Transaksi Penjualan Berhasil Disimpan']);
+                        // return redirect()->route('list-transaksi.index')->with(['success' => 'Data Transaksi Penjualan Berhasil Disimpan']);
                     }else {
                         return redirect()->route('dashboard')->with(['error' => 'Sudah mencapai limit transaksi, Naikan levelmu terlebih!']);
                     }
                 } elseif($perusahaan->grade == 2) {
                     if($limit < 50 ) {
                         $penjualanBaru->save();
-                        return redirect()->route('list-transaksi.index')->with(['success' => 'Data Transaksi Penjualan Berhasil Disimpan']);
+                        // return redirect()->route('list-transaksi.index')->with(['success' => 'Data Transaksi Penjualan Berhasil Disimpan']);
                     }else {
                         return redirect()->route('dashboard')->with(['error' => 'Sudah mencapai limit transaksi, Naikan levelmu terlebih!']);
                     }
                 } elseif($perusahaan->grade == 3) {
                     if($limit < 10000 ) {
                         $penjualanBaru->save();
-                        return redirect()->route('list-transaksi.index')->with(['success' => 'Data Transaksi Penjualan Berhasil Disimpan']);
+                        // return redirect()->route('list-transaksi.index')->with(['success' => 'Data Transaksi Penjualan Berhasil Disimpan']);
                     }else {
                         return redirect()->route('dashboard')->with(['success' => 'Laku kah?']);
                     }
-                } else{
-                    return redirect()->route('logout')->with(['error' => 'Lu siapa??']);
-                }
+                } 
+                // else{
+                //     return redirect()->route('logout')->with(['error' => 'Lu siapa??']);
+                // }
 
                 
                 $detPenjualanBaru = new DetailPenjualan(); 

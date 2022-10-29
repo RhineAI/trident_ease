@@ -1,6 +1,6 @@
 <!-- Modal -->
 <div class="modal fade" id="formModalPegawai" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-<div class="modal-dialog" role="document">
+<div class="modal-dialog modal-lg" role="document" style="width:630px;">
     <div class="modal-content">
     <div class="modal-header">
         <h5 class="modal-title" id="modal-title">Modal title</h5>
@@ -21,7 +21,7 @@
             <div class="form-group row">
                 <div class="form-group" style="width: 95%; margin: auto;">
                     <label for="alamat">Alamat Pegawai</label>
-                    <textarea class="form-control" name="alamat" id="alamat" cols="10" rows="4"></textarea>
+                    <textarea class="form-control" name="alamat" id="alamat" cols="6" rows="2.95"></textarea>
                 </div>
             </div>
             <div class="form-group row">
@@ -48,22 +48,24 @@
                 </div>
             </div>
             <div class="form-group row" id="hpsPassword">
-                <div class="form-group" style="width: 95%; margin: auto;">
-                    <label for="password">Password</label>
-                    <input type="password" minlength="6" class="form-control" id="password" placeholder="Password" name="password">
+                <div class="col-md-6">
+                    <div class="form-group" style="width: 95%; margin: auto;">
+                        <label for="password">Password</label>
+                        <input type="password" minlength="6" class="form-control" id="password" placeholder="Password" name="password">
+                    </div>
                 </div>
-            </div>
-            <div class="form-group row" id="hpsPassword2">
-                <div class="form-group" style="width: 95%; margin: auto;">
-                    <label for="password_confirmation">Ketik Ulang Password</label>
-                    <input type="password" minlength="6" class="form-control" id="password_confirmation" placeholder="Password" name="password_confirmation">
+                <div class="col-md-6">
+                    <div class="form-group" style="width: 95%; margin: auto;">
+                        <label for="password_confirmation">Ketik Ulang Password</label>
+                        <input type="password" minlength="6" class="form-control" id="password_confirmation" placeholder="Password" name="password_confirmation">
+                    </div>
                 </div>
             </div>
             <div class="form-group row">
                 <div class="form-group" style="width: 95%; margin: auto;">
                     <label for="hak_akses">Hak Akses User</label>
                     <select class="form-control" name="hak_akses" id="hak_akses">
-                        <option value="" disabled="disabled" selected="true">Choose Hak Akses User</option>
+                        <option value="" disabled="disabled" selected="true">Pilih Hak Akses User</option>
                         <option value="1">Administrator</option>
                         <option value="2">Kasir</option>
                         {{-- <option value="owner">Owner</option> --}}

@@ -1,6 +1,6 @@
 <!-- Modal -->
 <div class="modal fade" id="formModalSupplier" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-<div class="modal-dialog" role="document">
+<div class="modal-dialog modal-lg" role="document" style="width:600px;">
     <div class="modal-content">
     <div class="modal-header">
         <h5 class="modal-title" id="modal-title">Modal title</h5>
@@ -21,7 +21,7 @@
             <div class="form-group row">
                 <div class="form-group" style="width: 95%; margin: auto;">
                     <label for="alamat">Alamat Supplier</label>
-                    <textarea class="form-control" name="alamat" id="alamat" cols="30" rows="10"></textarea>
+                    <textarea class="form-control" name="alamat" id="alamat" cols="6" rows="3"></textarea>
                 </div>
             </div>
             <div class="form-group row">
