@@ -226,10 +226,25 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                            <a href="{{ route('laporan-kas.index') }}" class="nav-link">
-                                <p>Laporan Kas</p>
-                            </a>
-                        </li>
+                                <a href="{{ route('laporan-harian.index') }}" class="nav-link">
+                                    <p>Laporan Harian</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('laporan-kas.index') }}" class="nav-link">
+                                    <p>Laporan Kas</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('laporan-penjualan.index') }}" class="nav-link">
+                                    <p>Laporan Penjualan</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('laporan-stok.index') }}" class="nav-link">
+                                    <p>Laporan Stok</p>
+                                </a>
+                            </li>
                         </ul>
                     </li>
 

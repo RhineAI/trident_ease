@@ -89,7 +89,7 @@ class BarangController extends Controller
             ->of($barang)
             ->addIndexColumn()
             ->addColumn('kode', function ($barang) {
-                return '<span class="badge badge-info">'. $barang->barcode .'</span>';
+                return '<span class="badge" style="background-color:#2f3d57; color:white;">'. $barang->kode .'</span>';
             })
             ->addColumn('harga_beli', function ($barang) {
                 return format_uang($barang->harga_beli);
@@ -105,7 +105,7 @@ class BarangController extends Controller
             })
             ->addColumn('status', function ($barang) {
                 if($barang->status == 1) {
-                    return '<span class="badge badge-info">Aktif</span>';
+                    return '<span class="badge badge-primary">Aktif</span>';
                 } else {
                     return '<span class="badge badge-danger">Tidak Aktif</span>';
                 }

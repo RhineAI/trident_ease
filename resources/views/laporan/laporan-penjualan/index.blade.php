@@ -1,16 +1,16 @@
 @extends('templates.layout')
 
 @section('title')
-<title>Laporan Kas | {{ $cPerusahaan->nama }}</title>
+<title>Laporan Penjualan | {{ $cPerusahaan->nama }}</title>
 @endsection
 
 @section('page')
-Laporan Kas
+Laporan Penjualan
 @endsection
 
 @section('breadcrumb')
 @parent
-Laporan Kas
+Laporan Penjualan
 @endsection
 
 @push('styles')
@@ -24,7 +24,7 @@ Laporan Kas
         <div class="col-md-12 p-2 mb-3" style="background-color: white">
             <div class="box mb-4">
                 <div class="box-body table-responsive ">
-                    <form action="{{ route('laporan-kas.index') }}" method="get">
+                    <form action="{{ route('laporan-penjualan.index') }}" method="get">
                         {{-- @csrf --}}
                         {{-- @method('get') --}}
                         <div class="form-group row mt-4">
@@ -43,7 +43,7 @@ Laporan Kas
                                 <input type="date" name="tanggal_akhir" id="tanggal_akhir" class="form-control flatpickr" required readonly             
                                 value="{{ request('tanggal_akhir') }}"
                                 style="border-radius: 0 !important;">
-                                {{-- placeholder="{{ (request('tanggal_akhir') != '') ? request('tanggal_akhir') : $tanggal }}" --}}
+    
                                 <span class="help-block with-errors"></span>
                             </div>
 
@@ -54,35 +54,24 @@ Laporan Kas
 
                     <br>
                     <h3 class="text-center">{{ $cPerusahaan->nama }}</h3>
-                    <h5 style="text-align:center;">Laporan Kas {{ tanggal_indonesia($tanggalAwal) }} s/d {{ tanggal_indonesia($tanggalAkhir) }}</h5>
+                    <h5 style="text-align:center;">Laporan Penjualan {{ tanggal_indonesia($tanggalAwal) }} s/d {{ tanggal_indonesia($tanggalAkhir) }}</h5>
                     <br>
                 {{-- <a href="{{ route('list-transaksi.export_pdf', [$tanggalAwal, $tanggalAkhir] ) }}" target="_blank" class="btn btn-danger btn-sm btn-flat" ><i class="bi bi-filetype-pdf"></i> Export PDF</a> --}}
 
                     <!-- DataTable with Hover -->
                     <div class="col-lg-12">
                         <div class="table-responsive p-3">
-                            <h5 class="mb-3">Kas Masuk</h5>
-                            <table class="table align-items-center mb-5 table-bordered table-striped table-flush table-hover text-center table-kas-masuk" id="dataTableHover">
+                            <h5 class="mb-3">Penjualan</h5>
+                            <table class="table align-items-center mb-5 table-bordered table-striped table-flush table-hover text-center table-penjualan" id="dataTableHover">
                                 <thead class="table-primary">
                                     <tr>
                                         {{-- <th width="5%" class="text-center">No</th> --}}
-                                        <th width="13%" class="text-center">Tanggal</th>
-                                        <th width="14%" class="text-center">Jumlah</th>
-                                        <th width="14%" class="text-center">Keterangan</th>
-                                        <th width="14%" class="text-center">Oleh</th>
-                                    </tr>
-                                </thead>
-                            </table>
-
-                            <h5 class="mt-5 mb-3">Kas Keluar</h5>
-                            <table class="table align-items-center mb-5 table-bordered table-striped table-flush table-hover text-center table-kas-keluar" id="dataTableHover">
-                                <thead class="table-info">
-                                    <tr>
-                                        {{-- <th width="5%" class="text-center">No</th> --}}
-                                        <th width="13%" class="text-center">Tanggal</th>
-                                        <th width="14%" class="text-center">Jumlah</th>
-                                        <th width="14%" class="text-center">Keperluan</th>
-                                        <th width="14%" class="text-center">Oleh</th>
+                                        <th width="15%" class="text-center">Tanggal</th>
+                                        <th width="9%" class="text-center">Kode</th>
+                                        <th width="16%" class="text-center">Nama Barang</th>
+                                        <th width="8%" class="text-center">QTY</th>
+                                        <th width="14%" class="text-center">Omset</th>
+                                        <th width="11%" class="text-center">Keuntungan</th>
                                     </tr>
                                 </thead>
                             </table>
@@ -106,7 +95,7 @@ Laporan Kas
 
     
    let table;
-        table = $('.table-kas-masuk').DataTable({
+        table = $('.table-penjualan').DataTable({
         searching: false,
         info: false,
         paging:false,
@@ -116,7 +105,7 @@ Laporan Kas
         autoWidth: false,
         serverSide: true,
         ajax: {
-            url: "{{ route('laporan-kas-masuk.data', [$tanggalAwal, $tanggalAkhir]) }}",
+            url: "{{ route('laporan-penjualan.data', [$tanggalAwal, $tanggalAkhir]) }}",
             type: "POST",
             data: {  
                 _token: '{{ csrf_token() }}'
@@ -125,36 +114,13 @@ Laporan Kas
         columns: [
             // {data:'DT_RowIndex', searchable: false, sortable: false},
             {data:'tgl'},
-            {data:'jumlah'},
-            {data:'keterangan'},
-            {data:'oleh'},
+            {data:'kode'},
+            {data:'nama_barang'},
+            {data:'qty'},
+            {data:'total_penjualan'},
+            {data:'keuntungan'},
         ]
     });
 
-    let table2;
-        table = $('.table-kas-keluar').DataTable({
-        searching: false,
-        info: false,
-        paging:false,
-        bFilter:false,
-        processing: false,
-        responsive: true,
-        autoWidth: false,
-        serverSide: true,
-        ajax: {
-            url: "{{ route('laporan-kas-keluar.data', [$tanggalAwal, $tanggalAkhir]) }}",
-            type: "POST",
-            data: {  
-                _token: '{{ csrf_token() }}'
-            }
-        },
-        columns: [
-            // {data:'DT_RowIndex', searchable: false, sortable: false},
-            {data:'tgl'},
-            {data:'jumlah'},
-            {data:'keperluan'},
-            {data:'oleh'},
-        ]
-    });
 </script>
 @endpush
