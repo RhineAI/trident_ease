@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Kategori;
+use App\Models\Merek;
 use App\Models\Barang;
 use App\Models\Pelanggan;
 use App\Models\Perusahaan;
@@ -186,6 +188,7 @@ class LaporanController extends Controller
     }
 
 
+
     // LAPORAN PENJUALAN
      public function indexLaporanPenjualan(Request $request)
      {   
@@ -235,12 +238,98 @@ class LaporanController extends Controller
  
                  $data[] = $row;
              }         
-            //  dd($data); die;
-            // return $data;
          }
  
          return datatables()
              ->of($data)
+             ->rawColumns(['kode'])
+             ->make(true);
+ 
+         return $data;
+     }
+
+
+
+     // LAPORAN STOK
+     public function indexLaporanStok(Request $request)
+     {   
+       
+        // return $barang;
+        // return $request;
+         $data['tanggal'] = date('Y-m-d');
+         $tanggalAwal = date('Y-m-d', mktime(0, 0, 0, date('m'), 1, date('Y')));
+         $tanggalAkhir = date('Y-m-d');
+         $now = date('Y-m-d');
+ 
+        //  if ($request->has('tanggal_awal') && $request->tanggal_awal != $now && $request->has('tanggal_akhir') && $request->tanggal_akhir != "") {
+        //      $tanggalAwal = date('Y-m-d', strtotime($request->tanggal_awal));
+        //      $tanggalAkhir = date('Y-m-d', strtotime($request->tanggal_akhir));
+        //  } else {
+        //      $tanggalAwal = date('Y-m-d', strtotime($now));
+        //      $tanggalAkhir = date('Y-m-d', strtotime($now));
+        //  }
+        $merek1st = Merek::select('*')->where('id_perusahaan', auth()->user()->id_perusahaan)->first();
+        $kategori1st = Kategori::select('*')->where('id_perusahaan', auth()->user()->id_perusahaan)->first();
+        $merek2nd = Merek::select('*')->where('id', $request->merek)->where('id_perusahaan', auth()->user()->id_perusahaan)->first();
+        $kategori2nd = Kategori::select('*')->where('id', $request->kategori)->where('id_perusahaan', auth()->user()->id_perusahaan)->first();
+
+        if ($request->has('merek') && $request->merek != '' && $request->has('kategori') && $request->kategori != '') {
+            $data['merk'] = $request->merek;
+            $data['category'] = $request->kategori;
+            $nameMerk = $merek2nd->nama;
+            $nameCategory = $kategori2nd->nama;
+        } else {
+            $data['merk'] = $merek1st->id;
+            $data['category'] = $kategori1st->id;
+            $nameMerk = $merek1st->nama;
+            $nameCategory = $kategori1st->nama;
+        }
+ 
+         $data['merek'] = Merek::select('*')->where('id_perusahaan', auth()->user()->id_perusahaan)->get();
+         $data['kategori'] = Kategori::select('*')->where('id_perusahaan', auth()->user()->id_perusahaan)->get();
+         $data['cPerusahaan'] = Perusahaan::select('*')->where('id', auth()->user()->id_perusahaan)->first();
+        //  return $data;
+    
+        return view('laporan.laporan-stok.index', compact('nameMerk','nameCategory','now'))->with($data);
+     }
+ 
+     public function dataLaporanStok($merek, $kategori)
+     {
+        //  return $merek;
+         $no = 1;
+         $data = array();
+ 
+        //  while ($merek && $kategori != '') {
+            //  $tanggal = $awal;
+            //  $awal = date('Y-m-d', strtotime("+1day", strtotime($awal)));
+ 
+            $barang = Barang::where('id_merek', $merek)
+                            ->orWhere('id_kategori', $kategori)
+                            ->leftJoin('t_merek AS M', 'M.id', 't_barang.id_merek')
+                            ->leftJoin('t_kategori AS K', 'K.id', 't_barang.id_kategori')
+                            ->select('t_barang.*', 'M.nama AS nama_merek', 'K.nama AS nama_kategori')    
+                            ->where('t_barang.id_perusahaan', auth()->user()->id_perusahaan)
+                            ->orderBy('kode', 'asc')->get();
+
+        // return $barang;
+             foreach($barang as $item) {
+                 $row = array();
+                 $row['kode'] = '<span class="badge" style="background-color:#2f3d57; color:white;">'. $item->kode .'</span>';
+                 $row['nama_barang'] = $item->nama ;
+                 $row['merek'] = $item->nama_merek;
+                 $row['kategori'] = $item->nama_kategori;
+                 $row['stock_minimal'] = $item->stock_minimal;
+                 $row['stock_sekarang'] = $item->stock;
+ 
+                 $data[] = $row;
+             }         
+            //  dd($data); die;
+            // return $data;
+        //  }
+ 
+         return datatables()
+             ->of($data)
+             ->addIndexColumn()
              ->rawColumns(['kode'])
              ->make(true);
  

@@ -94,21 +94,8 @@
                             <select name="id_merek" id="id_merek" class="form-control" required>
                                 <option value="">Pilih Merek</option>
                                 @foreach ($merek as $item )
-                                    {{-- @if ($item->id == $barang->id_merek) --}}
-                                        {{-- <option value="{{ $item->id }}" selected>{{ $item->nama }}</option> --}}
-                                    {{-- @else --}}
                                         <option value="{{ $item->id }}">{{ $item->nama }}</option>
-                                    {{-- @endif --}}
                                 @endforeach
-
-                                {{-- <option value="">-- Pilih Layanan --</option>
-                                    @foreach ($services as $service)
-                                        @if(old('service', $detail->service_id) == $service->id)
-                                            <option value="{{ $service->id }}" selected>{{ $service->title }}</option>
-                                        @else
-                                            <option value="{{ $service->id }}">{{ $service->title }}</option>
-                                        @endif
-                                    @endforeach --}}
                             </select>
                             <span class="help-block with-errors"></span>
                         </div>

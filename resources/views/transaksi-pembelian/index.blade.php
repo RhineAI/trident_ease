@@ -113,13 +113,13 @@
                             <table cellpaddong="0" cellspacing="0" class="table table-striped table-bordered" id="buffer_table">
                                 <thead>
                                    <tr>
-                                        <th class="text-center"> Kode</th>
-                                        <th class="text-center">Nama</th>
-                                        <th class="text-center">Harga</th>
-                                        <th class="text-center">Jumlah</th>
-                                        <th class="text-center">Diskon</th>
-                                        <th class="text-center">Subtotal</th>
-                                        <th class="text-center">Aksi</th>
+                                    <th class="text-center" width="8.2%"> Kode</th>
+                                    <th class="text-center" width="18%">Nama</th>
+                                    <th class="text-center" width="12%">Harga</th>
+                                    <th class="text-center" width="9%">Jumlah</th>
+                                    <th class="text-center" width="10.7%">Diskon</th>
+                                    <th class="text-center" width="13%">Subtotal</th>
+                                    <th class="text-center" width="9%">Aksi</th>
                                    </tr>
                                 </thead>
                                 <tbody id="t_pembelian">

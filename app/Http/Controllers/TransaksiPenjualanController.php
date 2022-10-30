@@ -140,9 +140,9 @@ class TransaksiPenjualanController extends Controller
                         return redirect()->route('dashboard')->with(['success' => 'Laku kah?']);
                     }
                 } 
-                // else{
-                //     return redirect()->route('logout')->with(['error' => 'Lu siapa??']);
-                // }
+                else{
+                    return redirect()->route('logout')->with(['error' => 'Lu siapa??']);
+                }
 
                 
                 $detPenjualanBaru = new DetailPenjualan(); 
@@ -154,37 +154,31 @@ class TransaksiPenjualanController extends Controller
                 $detPenjualanBaru->harga_jual = $barang['harga_jual'];
                 $detPenjualanBaru->id_perusahaan = auth()->user()->id_perusahaan;
                 $detPenjualanBaru->save();
-                
-                $barangUpdate = Barang::find($barang['id_barang']);
-                $barangUpdate->stock -= $barang['qty'];
-                $barangUpdate->update();
-                
-                $pembayaranBaru = new Pembayaran();
-                $pembayaranBaru->id_penjualan = $penjualanBaru->id;
-                $pembayaranBaru->tgl = date('Ymd');
-                if($request->jenis_pembayaran == 1){
-                    $pembayaranBaru->total_bayar = $this->checkPrice($request->bayar);
-                } else if ($request->jenis_pembayaran == 2 ){
-                    $pembayaranBaru->total_bayar = $this->checkPrice($request->dp);
-                }
-                $pembayaranBaru->id_user = auth()->user()->id;
-                $pembayaranBaru->id_perusahaan = auth()->user()->id_perusahaan;
-                $pembayaranBaru->save();
-    
-                $kasMasuk = new KasMasuk();
-                $kasMasuk->tgl = now();
-                $kasMasuk->jumlah = $request->total_bayar; 
-                $kasMasuk->id_user = auth()->user()->id;
-                $kasMasuk->id_perusahaan = auth()->user()->id_perusahaan;
-                $kasMasuk->keterangan = 'Transaksi Penjualan';
-                $kasMasuk->save();
-                
-                // $barangUpdate = Barang::select('stock')->where('id', $barang->id_barang)->first();
-                // $kurangiStok = $barangUpdate - $barang->qty;
-                // Barang::update([
-                //     'stock' => $kurangiStok
-                // ]);
             }
+
+            $barangUpdate = Barang::find($barang['id_barang']);
+            $barangUpdate->stock -= $barang['qty'];
+            $barangUpdate->update();
+            
+            $pembayaranBaru = new Pembayaran();
+            $pembayaranBaru->id_penjualan = $penjualanBaru->id;
+            $pembayaranBaru->tgl = date('Ymd');
+            if($request->jenis_pembayaran == 1){
+                $pembayaranBaru->total_bayar = $this->checkPrice($request->bayar);
+            } else if ($request->jenis_pembayaran == 2 ){
+                $pembayaranBaru->total_bayar = $this->checkPrice($request->dp);
+            }
+            $pembayaranBaru->id_user = auth()->user()->id;
+            $pembayaranBaru->id_perusahaan = auth()->user()->id_perusahaan;
+            $pembayaranBaru->save();
+
+            $kasMasuk = new KasMasuk();
+            $kasMasuk->tgl = now();
+            $kasMasuk->jumlah = $request->total_bayar; 
+            $kasMasuk->id_user = auth()->user()->id;
+            $kasMasuk->id_perusahaan = auth()->user()->id_perusahaan;
+            $kasMasuk->keterangan = 'Transaksi Penjualan';
+            $kasMasuk->save();
 
             // dd($penjualanBaru->id); die;
 
