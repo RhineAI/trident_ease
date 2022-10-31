@@ -1,16 +1,16 @@
 @extends('templates.layout')
 
 @section('title')
-<title>Data Pelanggan Terbaik | {{ $cPerusahaan->nama }}</title>
+<title>Data Retur Penjualan | {{ $cPerusahaan->nama }}</title>
 @endsection
 
 @section('page')
-Data Pelanggan Terbaik
+Data Retur Penjualan
 @endsection
 
 @section('breadcrumb')
 @parent
-Data Pelanggan Terbaik
+Data Retur Penjualan
 @endsection
 
 @push('styles')
@@ -47,8 +47,11 @@ Data Pelanggan Terbaik
                                 <span class="help-block with-errors"></span>
                             </div>
 
-                            <button type="" class="btn btn-sm btn-primary"><i class="fa fa-search"></i> Cari</button>
+                            <button type="" class="btn btn-sm btn-flat btn-primary"><i class="fa fa-search"></i> Cari</button>
                          
+                        </div>
+                        <div class="form-group row mt-4 ml-2">
+                            <a href="{{ route('retur-penjualan.index') }}" class="btn btn-primary">Tambah Retur</a>
                         </div>
                     </form>
 
@@ -65,11 +68,11 @@ Data Pelanggan Terbaik
                                 <thead class="table-danger">
                                     <tr>
                                         <th width="5%" class="text-center">No</th>
-                                        <th width="13%" class="text-center">Nama Pelanggan</th>
-                                        <th width="9%" class="text-center">Telepon</th>
-                                        <th width="14%" class="text-center">Alamat</th>
-                                        <th width="14%" class="text-center">Jumlah Beli</th>
-                                        <th width="14%" class="text-center">Total Beli</th>
+                                        <th width="13%" class="text-center">No Retur</th>
+                                        <th width="9%" class="text-center">Tanggal</th>
+                                        <th width="14%" class="text-center">Pelanggan</th>
+                                        <th width="14%" class="text-center">Total Retur</th>
+                                        <th width="7%" class="text-center">Aksi</th>
                                     </tr>
                                 </thead>
                             </table>
@@ -97,12 +100,9 @@ Data Pelanggan Terbaik
         processing: true,
         responsive: true,
         autoWidth: false,
-        "searching": false,
-        "paging": false,
-        "ordering": false,
         serverSide: true,
         ajax: {
-            url: "{{ route('list-b-pelanggan.data', [$tanggalAwal, $tanggalAkhir]) }}",
+            url: "{{ route('list-retur-penjualan.data', [$tanggalAwal, $tanggalAkhir]) }}",
             type: "POST",
             data: {  
                 _token: '{{ csrf_token() }}'
@@ -110,11 +110,11 @@ Data Pelanggan Terbaik
         },
         columns: [
             {data:'DT_RowIndex', searchable: false, sortable: false},
+            {data:'id'},
+            {data:'tgl'},
             {data:'nama_pelanggan'},
-            {data:'tlp_pelanggan'},
-            {data:'alamat_pelanggan'},
-            {data:'jumlahBeliBarang'},
-            {data:'jumlahBayarBarang'},
+            {data:'total_retur'},
+            {data:'action', searchable: false, sortable: false},
         ]
     });
 </script>
