@@ -107,10 +107,13 @@ class PembelianController extends Controller
                 $pembelianBaru->id = date('Ymd'). $indexTransaksi;
             }
 
+            // $no = 1;
+            // return $no++;
+
             $pembelianBaru->tgl = date('Y-m-d');
             $pembelianBaru->kode_invoice = 'kode invoice simpak';
             $pembelianBaru->id_supplier = $request->id_supplier;
-            $pembelianBaru->total_pembelian = $request->total_pembelian;
+            $pembelianBaru->total_pembelian = $this->checkPrice($request->total_pembelian);
             $pembelianBaru->jenis_pembayaran = $request->jenis_pembayaran;
             if($request->jenis_pembayaran == 2){
                 $pembelianBaru->dp = $this->checkPrice($request->bayar_kredit);
@@ -129,7 +132,7 @@ class PembelianController extends Controller
                 $detPembelianBaru->id_pembelian = $pembelianBaru->id;
                 $detPembelianBaru->tgl = date('Ymd');
                 $detPembelianBaru->id_barang = $barang['id_barang'];
-                $detPembelianBaru->harga_beli = $barang['harga_beli'];
+                $detPembelianBaru->harga_beli = $this->checkPrice($barang['harga_beli']);
                 $detPembelianBaru->qty = $barang['qty'];
                 $detPembelianBaru->diskon = $barang['discount'];
                 $detPembelianBaru->id_perusahaan = auth()->user()->id_perusahaan;
