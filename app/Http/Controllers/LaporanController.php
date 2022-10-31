@@ -39,29 +39,25 @@ class LaporanController extends Controller
     {
         // return $awal;
         $no = 1;
-        $data = array();
+        $data = array(); 
 
         while (strtotime($awal) <= strtotime($akhir)) {
             $tanggal = $awal;
             $awal = date('Y-m-d', strtotime("+1day", strtotime($awal)));
 
-            $penjualan = TransaksiPenjualan::where('tgl', 'Like', '%'.$tanggal.'%')
-                                            ->leftJoin('t_pelanggan AS P', 'P.id', 't_transaksi_penjualan.id_pelanggan')
-                                            ->select('t_transaksi_penjualan.*', 'P.nama AS nama_pelanggan')
-                                            
-                                            ->orderBy('id', 'desc')->get();
-                                            // return $penjualan;
+            $pelangganTerbaik = Pelanggan::leftJoin('t_transaksi_penjualan AS TP', 'TP.id_pelanggan', 't_pelanggan.id')->leftJoin('t_detail_penjualan AS DTP', 'DTP.id_penjualan', 'TP.id')->select('t_pelanggan.id AS id_pelanggan', 't_pelanggan.nama AS nama_pelanggan', 't_pelanggan.tlp AS tlp_pelanggan', 't_pelanggan.alamat AS alamat_pelanggan', DB::raw('sum(DTP.qty) as jumlahBeliBarang'), DB::raw('sum(DTP.qty*DTP.harga_jual) as jumlahBayarBarang'))->where('TP.id_perusahaan', auth()->user()->id_perusahaan)->groupBy('t_pelanggan.id')->orderBy('jumlahBayarBarang', 'DESC')->get();
+            // return $pelangganTerbaik;
 
-            foreach($penjualan as $item) {
-                // return $item;
+            foreach($pelangganTerbaik as $item) {
+                // return $key;
                 $row = array();
                 $row['DT_RowIndex'] = $no++;
-                $row['tgl'] = tanggal_indonesia($tanggal, false);
-                $row['nama_pelanggan'] = $item->nama_pelanggan;
-                $row['invoice'] = '<span class="badge badge-info">'. $item->id .'</span>';
-                $row['total_harga'] = 'RP. '. format_uang($item->total_harga);
-                
-                $row['action'] = '<button class="btn btn-xs btn-secondary rounded delete"><i class="fa-solid fa-print"></i></button>';
+                $row['id_pelanggan'] = $item['id_pelanggan'];
+                $row['nama_pelanggan'] = $item['nama_pelanggan'];
+                $row['tlp_pelanggan'] = $item['tlp_pelanggan'];
+                $row['alamat_pelanggan'] = $item['alamat_pelanggan'];
+                $row['jumlahBeliBarang'] = $item['jumlahBeliBarang'];
+                $row['jumlahBayarBarang'] = $item['jumlahBayarBarang'];
 
                 $data[] = $row;
             }         
@@ -85,7 +81,7 @@ class LaporanController extends Controller
 
         return datatables()
             ->of($data)
-            ->rawColumns(['action', 'invoice'])
+            ->rawColumns(['action'])
             ->make(true);
 
         return $data;

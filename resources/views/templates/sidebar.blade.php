@@ -125,6 +125,12 @@
                                   <p>Data Pelanggan</p>
                               </a>
                           </li>
+                          <li class="nav-item">
+                            <a href="{{ route('list-b-pelanggan.index') }}" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Laporan Pelanggan Terbaik</p>
+                            </a>
+                        </li>
                       </ul>
                   </li>
                   <li class="nav-item">
@@ -163,7 +169,7 @@
                         <li class="nav-item">
                             <a href="{{ route('list-transaksi.index') }}" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>Data Transaksi</p>
+                                <p>Data Penjualan</p>
                             </a>
                         </li>
                         <li class="nav-item">
@@ -212,10 +218,10 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <p>Laporan Kas</p>
-                            </a>
-                        </li>
+                                <a href="#" class="nav-link">
+                                    <p>Laporan Kas</p>
+                                </a>
+                            </li>
                         </ul>
                     </li>
 
@@ -234,7 +240,7 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                            <a href="#" class="nav-link">
+                            <a href="{{ route('list-retur-penjualan.index') }}" class="nav-link">
                                 <p>Lihat Data Retur</p>
                             </a>
                         </li>

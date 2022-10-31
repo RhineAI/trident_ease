@@ -75,105 +75,104 @@
                             @csrf
                             
                         <div class="form-group row">
-                                <label for="id_penjualan" class="col-lg-2 control-label">Retur Penjualan</label>
-                                <div class="col-lg-4">
-                                    <div class="input-group">
-                                        <input type="text" name="id_penjualan" id="id_penjualan" class="form-control" required autofocus readonly>
-                                        <span class="input-group-btn tampil-produk">
-                                            {{-- <button onclick="tambahProduk()" class="btn btn-info btn-flat" type="button"><i class="fa fa-arrow-right"></i></button> --}}
-                                            <button onclick="tampilPenjualan()" id="tampil" class="btn btn-info btn-flat" type="button"><i class="fa-solid fa-magnifying-glass"></i></button>
-                                        </span>
-                                    </div>
-                                </div>
-
-                                <label for="nama_pelanggan" class="col-lg-2 control-label">Nama Pelanggan</label>
-                                <div class="col-lg-4">
-                                    <div class="input-group">
-                                        <input type="text" name="nama_pelanggan" id="nama_pelanggan" class="form-control" required autofocus readonly>
-                                    </div>
+                            <label for="id_penjualan" class="col-lg-2 control-label">Retur Penjualan</label>
+                            <div class="col-lg-4">
+                                <div class="input-group">
+                                    <input type="text" name="id_penjualan" id="id_penjualan" class="form-control" required autofocus readonly>
+                                    <span class="input-group-btn tampil-produk">
+                                        {{-- <button onclick="tambahProduk()" class="btn btn-info btn-flat" type="button"><i class="fa fa-arrow-right"></i></button> --}}
+                                        <button onclick="tampilPenjualan()" id="tampil" class="btn btn-info btn-flat" type="button"><i class="fa-solid fa-magnifying-glass"></i></button>
+                                    </span>
                                 </div>
                             </div>
 
-                            <div class="form-group row">
-                                <label for="tgl" class="col-lg-2 control-label">Tanggal</label>
-                                <div class="col-lg-4">
-                                    <input type="date" class="form-control" name="tgl" id="tgl" readonly>
+                            <label for="nama_pelanggan" class="col-lg-2 control-label">Nama Pelanggan</label>
+                            <div class="col-lg-4">
+                                <div class="input-group">
+                                    <input type="text" name="nama_pelanggan" id="nama_pelanggan" class="form-control" required autofocus readonly>
                                 </div>
-
-                                <label for="tlp" class="col-lg-2 control-label">Telepon</label>
-                                <div class="col-lg-4">
-                                    <input type="text" class="form-control" name="tlp" id="tlp" readonly>
-                                </div>
-                            </div>
-        
-                            <div class="table-responsive">
-                                <table cellpaddong="0" cellspacing="0" class="table table-striped table-bordered" id="buffer_table">
-                                    <thead>
-                                    <tr>
-                                            <th class="text-center">Kode</th>
-                                            <th class="text-center">Nama Barang</th>
-                                            <th class="text-center">Harga</th>
-                                            <th class="text-center">QTY</th>
-                                            <th class="text-center">Sub Total</th>
-                                            <th class="text-center">Aksi</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody id="t_penjualan">
-                                        <tr id="buffer100" height="50px">
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-
-                            <div class="table-responsive">
-                                <table cellpaddong="0" cellspacing="0" class="table table-striped table-bordered" id="buffer_table">
-                                    <thead>
-                                       <tr>
-                                            <th class="text-center">Kode</th>
-                                            <th class="text-center">Nama Barang</th>
-                                            <th class="text-center">Harga</th>
-                                            <th class="text-center">QTY</th>
-                                            <th class="text-center">Sub Total</th>
-                                            <th class="text-center">Aksi</th>
-                                       </tr>
-                                    </thead>
-                                    <tbody id="t_retur">
-                                        <tr id="buffer100" height="50px">
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                        </tr>
-                                    </tbody>
-                                </table>
                             </div>
                         </div>
-                </div>
+
+                        <div class="form-group row">
+                            <label for="tgl" class="col-lg-2 control-label">Tanggal</label>
+                            <div class="col-lg-4">
+                                <input type="date" class="form-control" name="tgl" id="tgl" readonly>
+                            </div>
+
+                            <label for="tlp" class="col-lg-2 control-label">Telepon</label>
+                            <div class="col-lg-4">
+                                <input type="text" class="form-control" name="tlp" id="tlp" readonly>
+                            </div>
+                        </div>
+        
+                        <div class="table-responsive">
+                            <table cellpaddong="0" cellspacing="0" class="table table-striped table-bordered" id="buffer_table">
+                                <thead>
+                                <tr>
+                                        <th class="text-center">Kode</th>
+                                        <th class="text-center">Nama Barang</th>
+                                        <th class="text-center">Harga</th>
+                                        <th class="text-center">QTY</th>
+                                        <th class="text-center">Sub Total</th>
+                                        <th class="text-center">Aksi</th>
+                                </tr>
+                                </thead>
+                                <tbody id="t_penjualan">
+                                    <tr id="buffer100" height="50px">
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="table-responsive">
+                            <table cellpaddong="0" cellspacing="0" class="table table-striped table-bordered" id="buffer_table">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center">Kode</th>
+                                        <th class="text-center">Nama Barang</th>
+                                        <th class="text-center">Harga</th>
+                                        <th class="text-center">QTY</th>
+                                        <th class="text-center">Sub Total</th>
+                                        <th class="text-center">Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="t_retur">
+                                    <tr id="buffer100" height="50px">
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                
 
                 <div class="col-sm-6">
-
                     <!--KEUNTUNGAN-->
                     <input class="form-control" type="hidden" name="retur_keuntungan" value="" data-bv-trigger="blur" id="retur_keuntungan" readonly="true">
             
-                      <div class="form-group">
-                            <label for="inputEmail3" class="col-sm-4 control-label">TOTAL RETUR</label>       
-                            <div class="col-sm-8">
+                    <div class="form-group">
+                        <label for="inputEmail3" class="col-sm-4 control-label">TOTAL RETUR</label>       
+                        <div class="col-sm-8">
                             <div class="input-group">
-                              <div class="input-group-addon">
+                                <div class="input-group-addon">
                                 Rp.
-                              </div>&nbsp; &nbsp;
-                              <input class="form-control" type="text" name="total_retur" value="" data-bv-trigger="blur" id="total_retur" readonly="true" style='text-align:right'>
+                                </div>&nbsp; &nbsp;
+                                <input class="form-control" type="text" name="total_retur" value="" data-bv-trigger="blur" id="total_retur" readonly="true" style='text-align:right'>
                             </div>
                         </div>
-                      </div>
+                    </div>
                 </div>
 
                     <div class="box-footer mb-4 btn-submit">

@@ -25,6 +25,7 @@ use App\Http\Controllers\DetailPenjualanController;
 use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\PembelianController;
 use App\Http\Controllers\ListTransaksiPembelianController;
+use App\Http\Controllers\ListReturPenjualanController;
 
 use App\Http\Controllers\PembayaranController;
 use App\Http\Controllers\PembayaranPembelianController;
@@ -96,6 +97,9 @@ Route::middleware('auth')->group(function(){
         // Retur Penjualan
         Route::resource('/retur-penjualan', ReturPenjualanController::class);
         Route::post('/retur-penjualan/data', [ReturPenjualanController::class, 'data'])->name('retur-penjualan.data');
+        Route::get('/list-retur-penjualan', [ListReturPenjualanController::class, 'index'])->name('list-retur-penjualan.index');
+        Route::post('/list-retur-penjualan/data/{awal}/{akhir}', [ListReturPenjualanController::class, 'getData'])->name('list-retur-penjualan.data');
+        Route::get('/list-retur-penjualan/pdf/{awal}/{akhir}', [ListReturPenjualanController::class, 'exportPDF'])->name('list-retur-penjualan.export_pdf');
 
         // Informasi KAS
         Route::resource('kas-masuk', KasMasukController::class);
@@ -106,7 +110,7 @@ Route::middleware('auth')->group(function(){
 
         
         Route::get('/list-pelanggan-terbaik', [LaporanController::class, 'indexBestPelanggan'])->name('list-b-pelanggan.index');
-        Route::post('/list-pelanggan-terbaik/data/{awal}/{akhir}', [LaporanController::class, 'getDataBPelanggan'])->name('list-b-pelanggan.data');
+        Route::post('/list-pelanggan-terbaik/data/{awal}/{akhir}', [LaporanController::class, 'getDataBestPelanggan'])->name('list-b-pelanggan.data');
         Route::get('/list-pelanggan-terbaik/pdf/{awal}/{akhir}', [LaporanController::class, 'exportPDFBPelanggan'])->name('list-b-pelanggan.export_pdf');
 });
 
