@@ -66,7 +66,7 @@ Laporan Harian
                             <table class="table align-items-center mb-5 table-bordered table-striped table-flush table-hover text-center table-penjualan" id="dataTableHover">
                                 <thead class="table-primary">
                                     <tr>
-                                        {{-- <th width="5%" class="text-center">No</th> --}}
+                                        <th width="4%" class="text-center">No</th>
                                         <th width="15%" class="text-center">Tanggal</th>
                                         <th width="9%" class="text-center">Kode</th>
                                         <th width="16%" class="text-center">Nama Barang</th>
@@ -77,11 +77,24 @@ Laporan Harian
                                 </thead>
                             </table>
 
+                            <h5 class="mt-5 mb-3">Pembelian Barang</h5>
+                            <table class="table align-items-center mb-5 table-bordered table-striped table-flush table-hover text-center table-pembelian" id="dataTableHover">
+                                <thead class="table-primary">
+                                    <tr>
+                                        <th width="4%" class="text-center">No</th>
+                                        <th width="10%" class="text-center">Kode</th>
+                                        <th width="16%" class="text-center">Nama Barang</th>
+                                        <th width="8%" class="text-center">QTY</th>
+                                        <th width="17%" class="text-center">Total Pembelian</th>
+                                    </tr>
+                                </thead>
+                            </table>
+
                             <h5 class="mt-5 mb-3">Kas Masuk</h5>
                             <table class="table align-items-center mb-5 table-bordered table-striped table-flush table-hover text-center table-kas-masuk" id="dataTableHover">
                                 <thead class="table-primary">
                                     <tr>
-                                        {{-- <th width="5%" class="text-center">No</th> --}}
+                                        <th width="4%" class="text-center">No</th>
                                         <th width="13%" class="text-center">Tanggal</th>
                                         <th width="14%" class="text-center">Jumlah</th>
                                         <th width="14%" class="text-center">Keterangan</th>
@@ -94,7 +107,7 @@ Laporan Harian
                             <table class="table align-items-center mb-5 table-bordered table-striped table-flush table-hover text-center table-kas-keluar" id="dataTableHover">
                                 <thead class="table-info">
                                     <tr>
-                                        {{-- <th width="5%" class="text-center">No</th> --}}
+                                        <th width="4%" class="text-center">No</th>
                                         <th width="13%" class="text-center">Tanggal</th>
                                         <th width="14%" class="text-center">Jumlah</th>
                                         <th width="14%" class="text-center">Keperluan</th>
@@ -153,7 +166,7 @@ Laporan Harian
             }
         },
         columns: [
-            // {data:'DT_RowIndex', searchable: false, sortable: false},
+            {data:'DT_RowIndex', searchable: false, sortable: false},
             {data:'tgl'},
             {data:'kode'},
             {data:'nama_barang'},
@@ -165,6 +178,33 @@ Laporan Harian
 
 
     let table2;
+        table = $('.table-pembelian').DataTable({
+        searching: false,
+        info: false,
+        paging:false,
+        bFilter:false,
+        processing: false,
+        responsive: true,
+        autoWidth: false,
+        serverSide: true,
+        ajax: {
+            url: "{{ route('laporan-pembelian.data', [$tanggalAwal, $tanggalAkhir]) }}",
+            type: "POST",
+            data: {  
+                _token: '{{ csrf_token() }}'
+            }
+        },
+        columns: [
+            {data:'DT_RowIndex', searchable: false, sortable: false},
+            {data:'kode'},
+            {data:'nama_barang'},
+            {data:'qty'},
+            {data:'total_pembelian'},
+        ]
+    });
+
+
+    let table3;
         table = $('.table-kas-masuk').DataTable({
         searching: false,
         info: false,
@@ -182,7 +222,7 @@ Laporan Harian
             }
         },
         columns: [
-            // {data:'DT_RowIndex', searchable: false, sortable: false},
+            {data:'DT_RowIndex', searchable: false, sortable: false},
             {data:'tgl'},
             {data:'jumlah'},
             {data:'keterangan'},
@@ -191,7 +231,7 @@ Laporan Harian
     });
 
 
-    let table3;
+    let table4;
         table = $('.table-kas-keluar').DataTable({
         searching: false,
         info: false,
@@ -209,7 +249,7 @@ Laporan Harian
             }
         },
         columns: [
-            // {data:'DT_RowIndex', searchable: false, sortable: false},
+            {data:'DT_RowIndex', searchable: false, sortable: false},
             {data:'tgl'},
             {data:'jumlah'},
             {data:'keperluan'},

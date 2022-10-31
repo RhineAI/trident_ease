@@ -122,6 +122,11 @@ Route::group(['middleware' => 'hak_akses:1'], function () {
         Route::post('/laporan-penjualan/data/{awal}/{akhir}', [LaporanController::class, 'dataLaporanPenjualan'])->name('laporan-penjualan.data');
         Route::post('/laporan-penjualan/pdf/{awal}/{akhir}', [LaporanController::class, 'PDFPenjualan'])->name('laporan-penjualan.pdf');
 
+        Route::post('/laporan-pembelian/data/{awal}/{akhir}', [LaporanController::class, 'dataLaporanPembelian'])->name('laporan-pembelian.data');
+
+        Route::get('/laporan-harian', [LaporanController::class, 'indexLaporanHarian'])->name('laporan-harian.index');
+        Route::post('/laporan-harian/pdf/{awal}/{akhir}', [LaporanController::class, 'PDFHarian'])->name('laporan-harian.pdf');
+       
         Route::get('/laporan-stok', [LaporanController::class, 'indexLaporanStok'])->name('laporan-stok.index');
         Route::post('/laporan-stok/data/{merek}/{kategori}', [LaporanController::class, 'dataLaporanStok'])->name('laporan-stok.data');
         Route::post('/laporan-stok/pdf/{merek}/{kategori}', [LaporanController::class, 'PDFStok'])->name('laporan-stok.pdf');

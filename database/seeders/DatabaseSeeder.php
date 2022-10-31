@@ -30,20 +30,6 @@ class DatabaseSeeder extends Seeder
             'grade' => 1
         ]);
 
-        // DB::table('t_perusahaan')->insert([
-        //     'nama' => 'Nur',
-        //     'alamat' => 'asdsadsadf',
-        //     'tlp' => '012893219',
-        //     'pemilik' => 'Nur Kumalasari',
-        //     'bank' => 'Syariah',
-        //     'no_rekening' => '213123',
-        //     'npwp' => '23321321321',
-        //     'slogan' => '213123',
-        //     'email' => 'asdsakdjkasjdsakh@gmail.com',
-        //     'level' => 1,
-        //     'logo' => '/assets/img/buildings.png'
-        // ]);
-
         Perusahaan::Create([
             'nama' => 'Nur',
             'alamat' => 'asdsadsadf',

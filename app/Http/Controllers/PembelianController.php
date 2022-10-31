@@ -130,7 +130,7 @@ class PembelianController extends Controller
                 // dd($barang['discount']); die;
                 $detPembelianBaru = new DetailPembelian(); 
                 $detPembelianBaru->id_pembelian = $pembelianBaru->id;
-                $detPembelianBaru->tgl = date('Ymd');
+                $detPembelianBaru->tgl = date('Y-m-d');
                 $detPembelianBaru->id_barang = $barang['id_barang'];
                 $detPembelianBaru->harga_beli = $this->checkPrice($barang['harga_beli']);
                 $detPembelianBaru->qty = $barang['qty'];

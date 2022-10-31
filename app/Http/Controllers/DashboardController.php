@@ -46,40 +46,45 @@ class DashboardController extends Controller
         $data['percentage_barang'] = persentasePerbandingan($getDataBarangYesterday, $getDataBarangToday, $countDataBarang);
         $data['percentage_transaksi'] = persentasePerbandingan($getDataTransaksiYesterday, $getDataTransaksiToday, $countDataTransaksi);
 
-        // return $getDataBarangToday;
-        // $checkJumlahBarang = $getDataBarangYesterday - $getDataBarangToday;
-        // if($checkJumlahBarang < 0) {
-        //     $hasilCheck = $checkJumlahBarang + -($checkJumlahBarang*2);
-        // } elseif($checkJumlahBarang >= 0) {
-        //     $hasilCheck = $checkJumlahBarang;
+        // return $countDataNow;
+        // $checkJumlah = $getDataYesterday - $getDataToday;
+        // $now = now();
+        // if($checkJumlah < 0) {
+        //     $hasilCheck = $checkJumlah + -($checkJumlah*2);
+        // } elseif($checkJumlah >= 0) {
+        //     $hasilCheck = $checkJumlah;
         // }
-        // if($getDataBarangYesterday == 0) {
-        //     $cek = 100 / $countDataBarang;
-        //     $data['percentage_barang'] = round($hasilCheck * $cek, 2, PHP_ROUND_HALF_UP); 
-        // }elseif ($hasilCheck != $getDataBarangYesterday) {
-        //     if($getDataBarangYesterday <= $hasilCheck) {
-        //         $cek1 = 100 / $getDataBarangYesterday;
-        //         $cek2 = $getDataBarangToday - $getDataBarangYesterday;
-        //         $cek3 = $cek2 - $getDataBarangYesterday;
-        //         $data['percentage_barang'] = round($cek1 * $cek3 , 2, PHP_ROUND_HALF_UP);
-        //     } 
-        //     elseif($getDataBarangYesterday >= $hasilCheck) {
-        //         $cek4 = 100/ $getDataBarangYesterday;
-        //         $data['percentage_barang'] = round($cek4 * $hasilCheck, 2, PHP_ROUND_HALF_UP);
-        //     } 
-        // } 
-        // elseif($hasilCheck == $getDataBarangYesterday) {
-        //     foreach ($barangNow as $bn) {
-        //         if ($bn->created_at != $now) {
-        //             $data['percentage_barang'] = 0;
-        //         }
+        // // return $hasilCheck;
+        // if($getDataYesterday == 0) {
+        //     if($countDataNow != 0) {
+        //         $cek = 100 / $countDataNow;
+        //         $percentage = round($hasilCheck * $cek, 2, PHP_ROUND_HALF_UP); 
+        //     } elseif($countDataNow == 0) {
+        //         $percentage = 0;
         //     }
-        //     $data['percentage_barang'] = 100;
-        // } elseif($hasilCheck >= $getDataBarangYesterday) {
-        //     $cek1 = 100 / $getDataBarangYesterday ;
-        //     $cek2 = $getDataBarangYesterday - $hasilCheck;
-        //     $data['percentage_barang'] = 100 + round($cek1 * $cek2, 2, PHP_ROUND_HALF_EVEN);
+        // }elseif ($hasilCheck != $getDataYesterday) {
+        //     if($getDataYesterday <= $hasilCheck) {
+        //         $cek1 = 100 / $getDataYesterday;
+        //         $cek2 = $getDataToday - $getDataYesterday;
+        //         $cek3 = $cek2 - $getDataYesterday;
+        //         $percentage = round($cek1 * $cek3 , 2, PHP_ROUND_HALF_UP);
+        //     } 
+        //     elseif($getDataYesterday >= $hasilCheck) {
+        //         $cek4 = 100/ $getDataYesterday;
+        //         $percentage = round($cek4 * $hasilCheck, 2, PHP_ROUND_HALF_UP);
+                
+        //     } 
+        // }elseif($hasilCheck == $getDataYesterday) {
+        //     $percentage = 100;   
+        // } 
+        // elseif($hasilCheck >= $getDataYesterday) {
+        //     $cek1 = 100 / $getDataYesterday ;
+        //     $cek2 = $getDataYesterday - $hasilCheck;
+        //     $percentage = 100 + round($cek1 * $cek2, 2, PHP_ROUND_HALF_EVEN);
         // }
+
+        // return $percentage;
+
 
         $checkJumlahBarang = $getDataBarangYesterday - $getDataBarangToday;
         if($checkJumlahBarang < 0) {
@@ -92,6 +97,7 @@ class DashboardController extends Controller
         $data['cekupordownbarang'] = $getDataBarangYesterday;
         $data['todaybarang'] = $getDataBarangToday;
         $data['totalBarangYesterday'] = $hasilB;
+        // return $data;
 
         // return $getDataTransaksiYesterday;
         $checkJumlahTransaksi = $getDataTransaksiYesterday - $getDataTransaksiToday;

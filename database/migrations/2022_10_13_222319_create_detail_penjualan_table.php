@@ -16,6 +16,7 @@ return new class extends Migration
     {
         Schema::create('t_detail_penjualan', function (Blueprint $table) {
             $table->integer('id')->autoIncrement();
+            $table->date('tgl');
             $table->bigInteger('id_penjualan');
             $table->integer('id_barang')->nullable();
             $table->integer('qty')->nullable();
