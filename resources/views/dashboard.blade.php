@@ -80,13 +80,13 @@
                             <div class="mt-2 mb-0 text-muted text-xs">
                                 @if($upordowntransaksi >= $cekupordowntransaksi) 
                                     <span class="text-success mr-2"><i class="fas fa-arrow-up"></i> {{ $percentage_transaksi }}%</span>
-                                    <span>Since last Added (+{{ $totalBarangYesterday }})</span>
+                                    <span>Since last (+{{ $totalBarangYesterday }})</span>
                                 @elseif($upordowntransaksi <= $cekupordowntransaksi)
                                     <span class="text-danger mr-2"><i class="fas fa-arrow-down"></i> {{ $percentage_transaksi }}%</span>
-                                    <span>Since last Added (-{{ $cekupordowntransaksi - $totalTransaksiYesterday }})</span>
+                                    <span>Since last (-{{ $cekupordowntransaksi - $totalTransaksiYesterday }})</span>
                                 @else
                                     <span class="text-success mr-2"><i class="fas fa-arrow-up"></i> {{ $percentage_transaksi }}%</span>
-                                    <span>Since last Added (+{{ $totalTransaksiYesterday }})</span>
+                                    <span>Since last (+{{ $totalTransaksiYesterday }})</span>
                                 @endif
                             </div>
                         </div>
@@ -170,7 +170,7 @@
 
 
                     @elseif ($check->grade == 2)
-                        <span class="badge badge-info">Intermediate</span>
+                        <span class="badge" style="background-color:#81d6b0;">Intermediate</span>
                 </div>
                 <div class="card-body">
                     <div class="mb-3">
@@ -240,5 +240,7 @@
     <script>
         $('body').addClass('sidebar-collapse');
     </script>
+    <script src="{{ asset('assets') }}/vendor/chart.js/Chart.min.js"></script>
+    <script src="{{ asset('assets') }}/js/chart-area-demo.js"></script> 
   
 @endpush

@@ -19,68 +19,28 @@
 
 @section('contents')
   
-      <!-- Main content -->
-      <section class="content">
+<section class="content">
+    <div class="row mx-3">
+        <div class="col-md-12 p-2 mb-3" style="background-color: white">
+            <div class="box mb-4">
+                <div class="box-body table-responsive ">
+                    <h3 class="text-center mt-3 mb-2">Data Pelanggan</h3>
+                  <button type="button" class="btn btn-primary ml-4 mb-4 mt-3" data-toggle="modal" data-target="#formModalPelanggan">
+                      <i class="fas fa-plus"></i>&nbsp; Tambah Data
+                  </button>
+                    <!-- DataTable with Hover -->
+                    <div class="col-lg-12">
+                        <div class="table-responsive p-3">
+                            @include('pelanggan.data')
+                        </div>
+                    </div>
+                </div>
   
-        <!-- Default box -->
-        <div class="card">
-          <div class="card-header">
-            <h3 class="card-title">Data Pelanggan</h3>
-  
-            <div class="card-tools">
-              <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
-                <i class="fas fa-minus"></i>
-              </button>
-              <button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
-                <i class="fas fa-times"></i>
-              </button>
             </div>
-          </div>
-          <div class="card-body">
-                <!-- Button trigger modal -->
-                @if(session('success'))
-                    <div class="alert alert-success" role="alert" id="success-alert">
-                    {{ session('success') }}
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                    </div>
-                @endif
-                @if(session('delete'))
-                    <div class="alert alert-danger" role="alert" id="success-danger">
-                    {{ session('delete') }}
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                    </div>
-                @endif
-                @if($errors->any())
-                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                        <ul>
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                @endif
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#formModalPelanggan">
-                    <i class="fas fa-plus"></i>&nbsp; Tambah Data
-                </button>
-                <br><br>
-                <div>
-                    @include('pelanggan.form')
-                </div>
-                <div>
-                    @include('pelanggan.data')
-                </div>
-          </div>
-          <!-- /.card-footer-->
         </div>
-        <!-- /.card -->
-  
-      </section>
-      <!-- /.content -->
+    </div>
+</section>
+@include('pelanggan.form')
 @endsection
 
 @push('scripts')

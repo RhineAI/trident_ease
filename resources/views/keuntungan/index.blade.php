@@ -1,20 +1,20 @@
 @extends('templates.layout')
 
 @section('title')
-    <title>Keuntungan | {{ $cPerusahaan->nama }}</title>
+<title>Keuntungan | {{ $cPerusahaan->nama }}</title>
 @endsection
 
 @section('page')
-    Keuntungan
+Keuntungan
 @endsection
 
 @section('breadcrumb')
 @parent
-    Keuntungan
+Keuntungan
 @endsection
 
 @push('styles')
-    
+
 @endpush
 
 @section('contents')
@@ -72,13 +72,9 @@
                         </select>
                     </div>
                 </div>
-                <button type="submit" class="btn btn-primary mt-4" id="btn-submit" style="margin-left: 0.25rem;">Simpan Data</button>
-            </form>
-          </div>
-          <!-- /.card-footer-->
+            </div>
         </div>
-        <!-- /.card -->
-  
-      </section>
-      <!-- /.content -->
+    </div>
+</section>
+
 @endsection

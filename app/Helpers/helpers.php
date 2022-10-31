@@ -42,6 +42,7 @@ function tanggal_indonesia($tgl, $tampil_hari = true)
 
 function persentasePerbandingan($getDataYesterday, $getDataToday, $countDataNow, $countDataNowByCreatedAt) {
     $checkJumlah = $getDataYesterday - $getDataToday;
+    $now = now();
         if($checkJumlah < 0) {
             $hasilCheck = $checkJumlah + -($checkJumlah*2);
         } elseif($checkJumlah >= 0) {
@@ -61,14 +62,15 @@ function persentasePerbandingan($getDataYesterday, $getDataToday, $countDataNow,
                 $cek4 = 100/ $getDataYesterday;
                 $percentage = round($cek4 * $hasilCheck, 2, PHP_ROUND_HALF_UP);
             } 
-        } 
-        elseif($hasilCheck == $getDataYesterday) {
-            foreach ($countDataNowByCreatedAt as $bn) {
-                if ($bn->created_at != $now) {
-                    $percentage = 0;
-                }
-            }
-            $percentage = 100;
+        }elseif($getDataYesterday == 0) {
+            $percentage = 0;
+        }elseif($hasilCheck == $getDataYesterday) {
+            // foreach ($countDataNowByCreatedAt as $bn) {
+            //     if ($bn->created_at != $now) {
+            //         $percentage = 0;
+            //     }
+            // }
+            $percentage = 100;   
         } elseif($hasilCheck >= $getDataYesterday) {
             $cek1 = 100 / $getDataYesterday ;
             $cek2 = $getDataYesterday - $hasilCheck;

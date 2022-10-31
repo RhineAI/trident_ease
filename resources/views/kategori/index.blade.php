@@ -18,42 +18,26 @@
 @endpush
 
 @section('contents')
-  
-      <!-- Main content -->
-      <section class="content">
-  
-        <!-- Default box -->
-        <div class="card">
-          <div class="card-header">
-            <h3 class="card-title">Data Kategori</h3>
-  
-            <div class="card-tools">
-              <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
-                <i class="fas fa-minus"></i>
-              </button>
-              <button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
-                <i class="fas fa-times"></i>
-              </button>
-            </div>
+<section class="content">
+  <div class="row mx-3">
+      <div class="col-md-12 p-2 mb-3" style="background-color: white">
+          <div class="box mb-4">
+              <div class="box-body table-responsive ">
+                  <h3 class="text-center mt-3 mb-2">Set kategori</h3>
+                  <button type="button" class="btn btn-primary ml-4 mb-4 mt-3" data-toggle="modal" data-target="#formModalKategori">
+                      <i class="fas fa-plus"></i>&nbsp; Tambah Data
+                  </button>
+                  <div class="col-lg-12">
+                      <div class="table-responsive p-3">
+                          @include('kategori.data')
+                      </div>
+                  </div>
+              </div>
           </div>
-          <div class="card-body">
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#formModalKategori">
-                    <i class="fas fa-plus"></i>&nbsp; Tambah Data
-                </button>
-                <br><br>
-                <div>
-                    @include('kategori.form')
-                </div>
-                <div>
-                    @include('kategori.data')
-                </div>
-          </div>
-          <!-- /.card-footer-->
-        </div>
-        <!-- /.card -->
-  
-      </section>
-      <!-- /.content -->
+      </div>
+  </div>
+</section>
+@include('kategori.form')
 @endsection
 
 @push('scripts')

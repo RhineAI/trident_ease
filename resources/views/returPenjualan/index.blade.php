@@ -15,38 +15,6 @@
 @endsection
 
 @push('styles')
-<style>
-    .tampil-bayar {
-        font-size: 3em;
-        text-align: center;
-        height: 100px;
-    }
-
-    .tampil-terbilang {
-        padding: 10px;
-        color: white;
-        background: #615d5d;
-    }
-
-    .table-penjualan tbody tr:last-child {
-        display: none;
-    }
-
-    .btn-simpan {
-        float: right;
-        margin-top: 10px;
-        margin-right: 30px;
-        margin-bottom: 40px;
-    }
-
-    @media(max-width: 768px) {
-        .tampil-bayar {
-            font-size: 3em;
-            height: 70px;
-            padding-top: 5px;
-        }
-    }
-</style>
 @endpush
 
 @section('contents')
@@ -174,17 +142,40 @@
                         </div>
                     </div>
                 </div>
+            </div>
 
-                    <div class="box-footer mb-4 btn-submit">
-                        <button type="submit" id="submit" class="btn btn-outline-primary btn-sm btn-flat pull-right btn-simpan"><i class="fa-solid fa-floppy-disk"></i> Simpan Data</button>
+            <div class="col-sm-6">
+
+                <!--KEUNTUNGAN-->
+                <input class="form-control" type="hidden" name="retur_keuntungan" value="" data-bv-trigger="blur"
+                    id="retur_keuntungan" readonly="true">
+
+                <div class="form-group">
+                    <label for="inputEmail3" class="col-sm-4 control-label">TOTAL RETUR</label>
+                    <div class="col-sm-8">
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1">Rp. <span>
+                              </div>
+                            <input class="form-control" type="text" name="total_retur" value=""
+                                data-bv-trigger="blur" id="total_retur" readonly="true" style='text-align:right'>
+                        </div>
                     </div>
                 </div>
             </div>
+
+            <div class="box-footer mb-4 btn-submit">
+                <button type="submit" id="submit"
+                    class="btn btn-outline-primary btn-sm pull-right btn-simpan"><i
+                        class="fa-solid fa-floppy-disk"></i> Simpan Data</button>
+            </div>
         </div>
-        @include('returPenjualan.dataPenjualan')
+    </div>
+    </div>
+    @include('returPenjualan.dataPenjualan')
     </form>
-  
-    </section>
+
+</section>
 @endsection
 
 @push('scripts') 

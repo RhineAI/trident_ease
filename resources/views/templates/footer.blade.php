@@ -39,8 +39,6 @@
 {{-- Bootstrap Validator --}}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-validator/0.5.3/js/bootstrapValidator.min.js"></script>
 
-<script src="{{ asset('assets') }}/vendor/chart.js/Chart.min.js"></script>
-<script src="{{ asset('assets') }}/js/chart-area-demo.js"></script> 
 
 <script>
   @if(session()->has('success'))

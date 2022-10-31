@@ -18,67 +18,35 @@
 @endpush
 
 @section('contents')
-  
-      <!-- Main content -->
-      <section class="content">
-  
-        <!-- Default box -->
-        <div class="card">
-          <div class="card-header">
-            <h3 class="card-title">Data Supplier</h3>
-  
-           
-          </div>
-          <div class="card-body">
-                <!-- Button trigger modal -->
-                {{-- @if(session('success'))
-                    <div class="alert alert-success" role="alert" id="success-alert">
-                    {{ session('success') }}
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
+<section class="content">
+    <div class="row mx-3">
+        <div class="col-md-12 p-2 mb-3" style="background-color: white">
+            <div class="box mb-4">
+                <div class="box-body table-responsive ">
+                <h3 class="text-center mt-3 mb-2">Data Supplier</h3>
+                  <button type="button" class="btn btn-primary ml-4 mb-4 mt-3" data-toggle="modal" data-target="#formModalSupplier">
+                      <i class="fas fa-plus"></i>&nbsp; Tambah Data
+                  </button>
+                    <!-- DataTable with Hover -->
+                    <div class="col-lg-12">
+                        <div class="table-responsive p-3">
+                            @include('supplier.data')
+                        </div>
                     </div>
-                @endif
-                @if(session('delete'))
-                    <div class="alert alert-danger" role="alert" id="success-danger">
-                    {{ session('delete') }}
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                    </div>
-                @endif
-                @if($errors->any())
-                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                        <ul>
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                @endif --}}
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#formModalSupplier">
-                    <i class="fas fa-plus"></i>&nbsp; Tambah Data
-                </button>
-                <br><br>
-                <div>
-                    @include('supplier.form')
                 </div>
-                <div style="width: 100%;">
-                    @include('supplier.data')
-                </div>
-          </div>
-          <!-- /.card-footer-->
+  
+            </div>
         </div>
-        <!-- /.card -->
-  
-      </section>
-      <!-- /.content -->
+    </div>
+</section>
+@include('supplier.form')
 @endsection
 
 @push('scripts')
     <script>
         $('#tbl-data-supplier').DataTable();
+
+        $('body').addClass('sidebar-collapse');
     </script>
     <script>
         $(document).ready(function(){

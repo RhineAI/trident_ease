@@ -1,6 +1,6 @@
 <!-- Modal -->
 <div class="modal fade" id="formModalPegawai" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-<div class="modal-dialog" role="document">
+<div class="modal-dialog modal-lg" role="document" style="width:620px;">
     <div class="modal-content">
     <div class="modal-header">
         <h5 class="modal-title" id="modal-title">Modal title</h5>
@@ -13,61 +13,85 @@
             @csrf
             <div id="method"></div>
             <div class="form-group row">
-                <div class="form-group" style="width: 95%; margin: auto;">
-                    <label for="nama">Nama Pegawai</label>
-                    <input type="text" class="form-control" id="nama" placeholder="Nama Pegawai" name="nama">
+                <label for="alamat" class="col-md-4 col-md-offset-1 control-label">
+                    <h5 class="my-2">Nama</h5>
+                </label>
+                <div class="col-md-8">
+                    <input type="text" placeholder="Nama Pegawai" name="nama" id="nama" class="form-control" aria-label="Username" aria-describedby="basic-addon1" required>
+                    <span class="help-block with-errors"></span>
                 </div>
             </div>
             <div class="form-group row">
-                <div class="form-group" style="width: 95%; margin: auto;">
-                    <label for="alamat">Alamat Pegawai</label>
-                    <textarea class="form-control" name="alamat" id="alamat" cols="10" rows="4"></textarea>
+                <label for="alamat" class="col-md-4 col-md-offset-1 control-label">
+                    <h5 class="my-2">Alamat</h5>
+                </label>
+                <div class="col-md-8">
+                    <textarea placeholder="Alamat Pegawai" name="alamat" class="form-control" id="alamat" cols="10" rows="3.5" required></textarea>
+                    <span class="help-block with-errors"></span>
                 </div>
             </div>
             <div class="form-group row">
-                <div class="form-group" style="width: 95%; margin: auto;">
-                    <label for="tlp">Telepon</label>
-                    <input type="text" class="form-control" id="tlp" placeholder="Telepon" name="tlp">
+                <label for="tlp" class="col-md-4 col-md-offset-1 control-label">
+                    <h5 class="my-2">Telepon</h5>
+                </label>
+                <div class="col-md-8">
+                    <input type="text" placeholder="Telepon / No Hp" name="tlp" id="tlp" class="form-control" aria-label="Username" aria-describedby="basic-addon1" required>
+                    <span class="help-block with-errors"></span>
                 </div>
             </div>
             <div class="form-group row">
-                <div class="form-group" style="width: 95%; margin: auto;">
-                    <label for="jenis_kelamin">Jenis Kelamin</label>
-                    <select class="form-control" name="jenis_kelamin" id="jenis_kelamin">
+                <label for="jenis_kelamin" class="col-md-4 col-md-offset-1 control-label">
+                    <h5 class="my-2">Jenis Kelamin</h5>
+                </label>
+                <div class="col-md-8">
+                    <select placeholder="" name="jenis_kelamin" id="jenis_kelamin" class="form-control" required>
                         <option value="" disabled="disabled" selected="true">Pilih Jenis Kelamin</option>
                         <option value="L">Laki-Laki</option>
                         <option value="P">Perempuan</option>
                         <option value="Other">Lainnya</option>
                     </select>
-                </div>
-            </div>
-            <div class="form-group row" id="hpsUsername">
-                <div class="form-group" style="width: 95%; margin: auto;">
-                    <label for="username">Username</label>
-                    <input type="text" class="form-control" id="username" placeholder="Username" name="username">
-                </div>
-            </div>
-            <div class="form-group row" id="hpsPassword">
-                <div class="form-group" style="width: 95%; margin: auto;">
-                    <label for="password">Password</label>
-                    <input type="password" minlength="6" class="form-control" id="password" placeholder="Password" name="password">
-                </div>
-            </div>
-            <div class="form-group row" id="hpsPassword2">
-                <div class="form-group" style="width: 95%; margin: auto;">
-                    <label for="password_confirmation">Ketik Ulang Password</label>
-                    <input type="password" minlength="6" class="form-control" id="password_confirmation" placeholder="Password" name="password_confirmation">
+                    <span class="help-block with-errors"></span>
                 </div>
             </div>
             <div class="form-group row">
-                <div class="form-group" style="width: 95%; margin: auto;">
-                    <label for="hak_akses">Hak Akses User</label>
-                    <select class="form-control" name="hak_akses" id="hak_akses">
-                        <option value="" disabled="disabled" selected="true">Choose Hak Akses User</option>
+                <label for="username" class="col-md-4 col-md-offset-1 control-label">
+                    <h5 class="my-2">Username</h5>
+                </label>
+                <div class="col-md-8">
+                    <input type="text" placeholder="Username" name="username" id="username" class="form-control" aria-label="Username" aria-describedby="basic-addon1" required>
+                    <span class="help-block with-errors"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="password" class="col-md-4 col-md-offset-1 control-label">
+                    <h5 class="my-2">Password</h5>
+                </label>
+                <div class="col-md-8">
+                    <input type="text" minlengt="6" placeholder="Ketik Password" name="password" id="password" class="form-control" aria-label="Username" aria-describedby="basic-addon1" required>
+                    <span class="help-block with-errors"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="password_confirmation" class="col-md-4 col-md-offset-1 control-label">
+                    <h5 class="my-2">Konfirmasi Password</h5>
+                </label>
+                <div class="col-md-8">
+                    <input type="text" minlengt="6" placeholder="Ketik Ulang Password" name="password" id="password_confirmation" class="form-control" aria-label="Username" aria-describedby="basic-addon1" required>
+                    <span class="help-block with-errors"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="jenis_kelamin" class="col-md-4 col-md-offset-1 control-label">
+                    <h5 class="my-2">Hak Akses</h5>
+                </label>
+                <div class="col-md-8">
+                    <select class="form-control" name="hak_akses" id="hak_akses" required>
+                        <option value="" disabled="disabled" selected="true">Pilih Hak Akses User</option>
                         <option value="1">Administrator</option>
                         <option value="2">Kasir</option>
                         {{-- <option value="owner">Owner</option> --}}
                     </select>
+                    <span class="help-block with-errors"></span>
                 </div>
             </div>
             <input type="hidden" name="id_perusahaan" value="{{ $cPerusahaan->id }}">

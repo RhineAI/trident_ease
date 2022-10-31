@@ -1,6 +1,6 @@
 <!-- Modal -->
 <div class="modal fade" id="formModalPelanggan" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-<div class="modal-dialog" role="document">
+<div class="modal-dialog modal-lg" role="document" style="width:600px;">
     <div class="modal-content">
     <div class="modal-header">
         <h5 class="modal-title" id="modal-title">Modal title</h5>
@@ -13,32 +13,44 @@
             @csrf
             <div id="method"></div>
             <div class="form-group row">
-                <div class="form-group" style="width: 95%; margin: auto;">
-                    <label for="nama">Nama Pelanggan</label>
-                    <input type="text" class="form-control" id="nama" placeholder="Nama Pelanggan" name="nama">
+                <label for="nama" class="col-md-3 col-md-offset-1 control-label">
+                    <h5 class="my-2">Nama</h5>
+                </label>
+                <div class="col-md-9">
+                    <input type="text" placeholder="Nama Pelanggan" name="nama" id="nama" class="form-control" aria-label="Username" aria-describedby="basic-addon1" required>
+                    <span class="help-block with-errors"></span>
                 </div>
             </div>
             <div class="form-group row">
-                <div class="form-group" style="width: 95%; margin: auto;">
-                    <label for="alamat">Alamat</label>
-                    <textarea class="form-control" name="alamat" id="alamat" cols="30" rows="10"></textarea>
+                <label for="alamat" class="col-md-3 col-md-offset-1 control-label">
+                    <h5 class="my-2">Alamat</h5>
+                </label>
+                <div class="col-md-9">
+                    <textarea placeholder="Alamat Pelanggan" name="alamat" class="form-control" id="alamat" cols="10" rows="3.5" required></textarea>
+                    <span class="help-block with-errors"></span>
                 </div>
             </div>
             <div class="form-group row">
-                <div class="form-group" style="width: 95%; margin: auto;">
-                    <label for="tlp">No Telepon</label>
-                    <input type="text" class="form-control" id="tlp" placeholder="No Telepon" name="tlp">
+                <label for="telepon" class="col-md-3 col-md-offset-1 control-label">
+                    <h5 class="my-2">Telepon</h5>
+                </label>
+                <div class="col-md-9">
+                    <input type="text" placeholder="Telepon / No Hp" name="telepon" id="telepon" class="form-control" aria-label="Username" aria-describedby="basic-addon1" required>
+                    <span class="help-block with-errors"></span>
                 </div>
             </div>
-            <div class="form-group row">
-                <div class="form-group" style="width: 95%; margin: auto;">
-                    <label for="jenis_kelamin">Jenis Kelamin</label>
-                    <select class="form-control" name="jenis_kelamin" id="jenis_kelamin">
+             <div class="form-group row">
+                <label for="jenis_kelamin" class="col-md-3 col-md-offset-1 control-label">
+                    <h5 class="my-2">Jenis Kelamin</h5>
+                </label>
+                <div class="col-md-9">
+                    <select placeholder="" name="jenis_kelamin" id="jenis_kelamin" class="form-control" required>
                         <option value="" disabled="disabled" selected="true">Pilih Jenis Kelamin</option>
                         <option value="L">Laki-Laki</option>
                         <option value="P">Perempuan</option>
                         <option value="Other">Lainnya</option>
                     </select>
+                    <span class="help-block with-errors"></span>
                 </div>
             </div>
             <input type="text" name="id_perusahaan" value="{{ $cPerusahaan->id }}" style="display: none;">
