@@ -115,7 +115,7 @@
                                    <tr>
                                     <th class="text-center" width="8.2%"> Kode</th>
                                     <th class="text-center" width="18%">Nama</th>
-                                    <th class="text-center" width="12%">Harga</th>
+                                    <th class="text-center" width="15%">Harga</th>
                                     <th class="text-center" width="9%">Jumlah</th>
                                     <th class="text-center" width="10.7%">Diskon</th>
                                     <th class="text-center" width="13%">Subtotal</th>
@@ -137,7 +137,7 @@
         
                         <div class="row mt-4">
                             <div class="col-lg-7">
-                                <div class="tampil-bayar bg-default mb-4" id="total_bayar_gede">RP. 0</div>
+                                <div class="tampil-bayar bg-default mb-4" id="total_bayar_gede">Rp. 0</div>
                                 <div class="tampil-terbilang">Nol Rupiah</div>
                             </div>
                             <div class="col-lg-5">
@@ -253,15 +253,15 @@
                 }
             }
 
-            function cekQty(stock) {
-                if(Number(stock.value) < 0){
-                    stock.value = 1;
-                } else if (Number(stock.value) > Number(stock.max)){
-                    stock.value = stock.max;
-                } else {
-                    stock.value = stock.value;
-                }
-            }
+            // function cekQty(stock) {
+            //     if(Number(stock.value) < 0){
+            //         stock.value = 1;
+            //     } else if (Number(stock.value) > Number(stock.max)){
+            //         stock.value = stock.max;
+            //     } else {
+            //         stock.value = stock.value;
+            //     }
+            // }
 
 
         $(document).ready(function(){
@@ -277,8 +277,10 @@
                     var harga_beli = $('#harga_beli' + id).val();
                     var qty = $('#qty' + id).val();
                     var discount = $('#discount' + id).val();
-                    var hasil = (harga_beli *qty) * discount/100;
-                    $('#subtotal' + id).val((harga_beli * qty) - hasil);
+                    var convert = String(harga_beli).replaceAll(".", '');
+                    
+                    var hasil = (parseInt(convert) *qty) * discount/100;
+                    $('#subtotal' + id).val((parseInt(convert) * qty) - hasil);
                     GetTotalBayar();
                     //GetKeuntungan();
                     //alert(id);
@@ -290,7 +292,9 @@
                     var qty = $('#qty' + id).val();
                     var discount = $('#discount' + id).val();
                     var hasil = (harga_beli *qty) * discount/100;
-                    $('#subtotal' + id).val((harga_beli * qty) - hasil);
+                    var convert = String(harga_beli).replaceAll(".", '');
+
+                    $('#subtotal' + id).val((parseInt(convert) * qty) - hasil);
                     GetTotalBayar();
                     //GetKeuntungan();
                     //alert(id);
@@ -330,13 +334,10 @@
                     var harga_beli = $('#harga_beli' + id).val();
 
                     var qty = $('#qty' + id).val();
-                    // if(qty > getStock()){
-                    //     qty = getStock()
-                    // } else {
-                    //     qty = $('#qty' + id).val();
-                    // }
+                    var convert = String(harga_beli).replaceAll(".", '');
+                    
                     var discount = $('#discount' + id).val();
-                    $('#subtotal' + id).val((harga_beli * qty) - discount/100);
+                    $('#subtotal' + id).val((parseInt(convert) * qty) - discount/100);
                     GetTotalBayar();
                 });
 
@@ -380,7 +381,7 @@
                         var rowBarang="<tr id='buffer"+count+"'>";
                         rowBarang+="<td style='text-align:center'><input type='hidden' name='item["+count+"][id_barang]' value='"+id_barang+"'> <input class='form-control' type='text' name='item["+count+"][kode]' value='"+kode_barang+"' readonly='true'></td>";
                         rowBarang+="<td style='text-align:center'><input class='form-control' type='text' name='item["+count+"][nama_barang]' value='"+nama_barang+"' readonly='true'></td>";
-                        rowBarang+="<td style='text-align:center'><div class='input-group-prepend input-primary'><input style='text-align:right' type='number' class='form-control harga_beli' name='item["+count+"][harga_beli]' value='0' id='harga_beli"+count+"' data-idbuffer='"+count+"'></div></td>";
+                        rowBarang+="<td style='text-align:center'><div class='input-group-prepend input-primary'><span class='input-group-text'>Rp.</span><input style='text-align:right' type='text' class='form-control harga_beli' name='item["+count+"][harga_beli]' value='0' id='harga_beli"+count+"' data-idbuffer='"+count+"'></div></td>";
                         rowBarang+="<td style='text-align:center'><input type='number' class='form-control qty_pembelian' name='item["+count+"][qty]' max='"+stock+"' value='1' id='qty"+count+"' data-idbuffer='"+count+"' onchange='cekQty(this)' ></td>";
                         rowBarang+="<td style='text-align:center'><div class='input-group-prepend input-primary'><input onchange='cekDiscount(this)' max='100' style='text-align:right' type='number' class='form-control discount' name='item["+count+"][discount]' value='0' id='discount"+count+"' data-idbuffer='"+count+"'><span class='input-group-text'>%</span></div></td>";
                         rowBarang+="<td style='text-align:center'><input style='text-align:right' type='number' class='form-control' name='item["+count+"][subtotal]' value='0' readonly='true' id='subtotal"+count+"'></td>";
@@ -438,7 +439,7 @@
                         rupiah += separator + ribuan.join('.');
                     }
 
-                    rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
+                    rupiah = split[1] != undefined ? rupiah + '.' + split[1] : rupiah;
                     return prefix == undefined ? rupiah : (rupiah ? '' + rupiah : '');
                 }
 
@@ -449,6 +450,11 @@
             $(document).on('keyup', '#bayar_kredit', function(e){
                 generateRupiah(this);
             })
+
+            $(document).on('keyup', '.harga_beli', function(e){
+                generateRupiah(this);
+            })
+  
 
             // $(document).on('change', '#dp', function(e) {
             //     var tb = $("#total_bayar").val();
@@ -464,20 +470,7 @@
                 var bayar = $(this).val();
                 $('#kembali').val(bayar - tb);
             });
-            
-         
-            // function GetKembali() {
-            //     // var harga = number;
-            //     var kembali = $('#bayar').val() - $("#total_bayar").val();
-            //     // console.log(kembali)
-            //     if (kembali >= 0) {
-            //         $("#kembali").val(kembali);
-            //     } else {
-            //         var kurang = $('#total_pembelian').val();
-            //         $('#bayar').val(kurang)
-            //         $("#kembali").val(kembali);
-            //     }
-            // }
+
 
             $(document).on('click','.hapus_pembelian',function(){
                 var delete_row=$(this).data("idbuffer");
@@ -497,7 +490,14 @@
                     total_pembelian+= Number($("input[name='item["+x+"][subtotal]']").val());
                 }
         			$('#total_bayar').val(Number(total_pembelian));
-        			$('#total_bayar_gede').text('Rp. '+ Math.round(Number(total_pembelian)));
+                    // console.log(total_pembelian)
+                    var total = total_pembelian.toLocaleString("id-ID", {
+                                    style:"currency", 
+                                    currency:"IDR", 
+                                    maximumSignificantDigits: (total_pembelian + '').replace('.', '').length
+                                });
+                                // console.log(total)
+        			$('#total_bayar_gede').text(total);
                     $('#total_pembelian').val(Number(total_pembelian));	
             }
                 

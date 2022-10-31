@@ -335,4 +335,28 @@ class LaporanController extends Controller
  
          return $data;
      }
+
+
+
+     // LAPORAN Harian
+     public function indexLaporanHarian(Request $request)
+     {   
+         $data['tanggal'] = date('Y-m-d');
+         // return $kasMasuk;
+         $tanggalAwal = date('Y-m-d', mktime(0, 0, 0, date('m'), 1, date('Y')));
+         $tanggalAkhir = date('Y-m-d');
+         $now = date('Y-m-d');
+ 
+         if ($request->has('tanggal_awal') && $request->tanggal_awal != $now && $request->has('tanggal_akhir') && $request->tanggal_akhir != "") {
+             $tanggalAwal = date('Y-m-d', strtotime($request->tanggal_awal));
+             $tanggalAkhir = date('Y-m-d', strtotime($request->tanggal_akhir));
+         } else {
+             $tanggalAwal = date('Y-m-d', strtotime($now));
+             $tanggalAkhir = date('Y-m-d', strtotime($now));
+         }
+ 
+         $data['cPerusahaan'] = Perusahaan::select('*')->where('id', auth()->user()->id_perusahaan)->first();
+    
+        return view('laporan.laporan-harian.index', compact('tanggalAwal', 'tanggalAkhir', 'now'))->with($data);
+     }
 }

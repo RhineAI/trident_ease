@@ -13,39 +13,57 @@
             @csrf
             <div id="method"></div>
             <div class="form-group row">
-                <div class="form-group" style="width: 95%; margin: auto;">
-                    <label for="nama">Nama Supplier</label>
-                    <input type="text" class="form-control" id="nama" placeholder="Nama Supplier" name="nama">
+                <label for="nama" class="col-md-3 col-md-offset-1 control-label">
+                    <h5 class="my-2">Nama</h5>
+                </label>
+                <div class="col-md-9">
+                    <input type="text" placeholder="Nama Supplier" name="nama" id="nama" class="form-control" aria-label="Nama" aria-describedby="basic-addon1" required>
+                    <span class="help-block with-errors"></span>
                 </div>
             </div>
             <div class="form-group row">
-                <div class="form-group" style="width: 95%; margin: auto;">
-                    <label for="alamat">Alamat Supplier</label>
-                    <textarea class="form-control" name="alamat" id="alamat" cols="6" rows="3"></textarea>
+                <label for="alamat" class="col-md-3 col-md-offset-1 control-label">
+                    <h5 class="my-2">Alamat</h5>
+                </label>
+                <div class="col-md-9">
+                    <textarea placeholder="Alamat Supplier" name="alamat" class="form-control" id="alamat" cols="10" rows="3.5" required></textarea>
+                    <span class="help-block with-errors"></span>
                 </div>
             </div>
             <div class="form-group row">
-                <div class="form-group" style="width: 95%; margin: auto;">
-                    <label for="tlp">Telepon</label>
-                    <input type="text" class="form-control" id="tlp" placeholder="Telepon" name="tlp">
+                <label for="tlp" class="col-md-3 col-md-offset-1 control-label">
+                    <h5 class="my-2">Telepon</h5>
+                </label>
+                <div class="col-md-9">
+                    <input type="text" placeholder="Telepon / No Hp" name="tlp" id="tlp" class="form-control" aria-label="Telepon" aria-describedby="basic-addon1" required>
+                    <span class="help-block with-errors"></span>
                 </div>
             </div>
             <div class="form-group row">
-                <div class="form-group" style="width: 95%; margin: auto;">
-                    <label for="salesman">Salesman</label>
-                    <input type="text" class="form-control" id="salesman" placeholder="Salesman" name="salesman">
+                <label for="salesman" class="col-md-3 col-md-offset-1 control-label">
+                    <h5 class="my-2">Salesman</h5>
+                </label>
+                <div class="col-md-9">
+                    <input type="text" placeholder="Salesman" name="salesman" id="salesman" class="form-control" aria-label="Telepon" aria-describedby="basic-addon1" required>
+                    <span class="help-block with-errors"></span>
                 </div>
             </div>
             <div class="form-group row">
-                <div class="form-group" style="width: 95%; margin: auto;">
-                    <label for="bank">Bank</label>
-                    <input type="text" class="form-control" id="bank" placeholder="Bank" name="bank">
+                <label for="bank" class="col-md-3 col-md-offset-1 control-label">
+                    <h5 class="my-2">Bank</h5>
+                </label>
+                <div class="col-md-9">
+                    <input type="text" placeholder="Bank" name="bank" id="bank" class="form-control" aria-label="Telepon" aria-describedby="basic-addon1" required>
+                    <span class="help-block with-errors"></span>
                 </div>
             </div>
             <div class="form-group row">
-                <div class="form-group" style="width: 95%; margin: auto;">
-                    <label for="no_rekening">No Rekening</label>
-                    <input type="number" class="form-control" id="no_rekening" placeholder="No Rekening" name="no_rekening">
+                <label for="no_rekening" class="col-md-3 col-md-offset-1 control-label">
+                    <h5 class="my-2">No Rekening</h5>
+                </label>
+                <div class="col-md-9">
+                    <input type="text" placeholder="No Rekening" name="no_rekening" id="no_rekening" class="form-control" aria-label="Telepon" aria-describedby="basic-addon1" required>
+                    <span class="help-block with-errors"></span>
                 </div>
             </div>
             <input type="text" name="id_perusahaan" value="{{ $cPerusahaan->id }}" style="display: none;">
