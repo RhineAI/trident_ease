@@ -2,15 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Kategori;
 use App\Models\Merek;
 use App\Models\Barang;
+use App\Models\KasMasuk;
+use App\Models\Kategori;
+use App\Models\KasKeluar;
 use App\Models\Pelanggan;
 use App\Models\Perusahaan;
-use App\Models\KasMasuk;
-use App\Models\KasKeluar;
-use App\Models\DetailPenjualan;
 use Illuminate\Http\Request;
+use App\Models\DetailPembelian;
+use App\Models\DetailPenjualan;
+use App\Models\TransaksiPenjualan;
+use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\DB;
 
 class LaporanController extends Controller
@@ -142,6 +145,7 @@ class LaporanController extends Controller
 
         return datatables()
             ->of($data)
+            ->addIndexColumn()
             ->rawColumns(['action', 'invoice'])
             ->make(true);
 
@@ -181,6 +185,7 @@ class LaporanController extends Controller
 
         return datatables()
             ->of($data)
+            ->addIndexColumn()
             ->rawColumns(['action', 'invoice'])
             ->make(true);
 
@@ -221,7 +226,7 @@ class LaporanController extends Controller
              $tanggal = $awal;
              $awal = date('Y-m-d', strtotime("+1day", strtotime($awal)));
  
-             $detPenjualan= DetailPenjualan::where('tgl', 'Like', '%'.$tanggal.'%')
+             $detPenjualan= DetailPenjualan::where('t_detail_penjualan.tgl', 'Like', '%'.$tanggal.'%')
                                             ->leftJoin('t_barang AS B', 'B.id', 't_detail_penjualan.id_barang')
                                             ->select('t_detail_penjualan.*', 'B.nama AS nama_barang', 'B.kode')    
                                             ->where('t_detail_penjualan.id_perusahaan', auth()->user()->id_perusahaan)
@@ -242,6 +247,46 @@ class LaporanController extends Controller
  
          return datatables()
              ->of($data)
+             ->addIndexColumn()
+             ->rawColumns(['kode'])
+             ->make(true);
+ 
+         return $data;
+     }
+
+
+     
+     // LAPORAN PEMBELIAN
+     public function dataLaporanPembelian($awal, $akhir)
+     {
+         // return $awal;
+         $no = 1;
+         $data = array();
+ 
+         while (strtotime($awal) <= strtotime($akhir)) {
+             $tanggal = $awal;
+             $awal = date('Y-m-d', strtotime("+1day", strtotime($awal)));
+ 
+             $detPembelian= DetailPembelian::where('t_detail_pembelian.tgl', 'Like','%$tanggal%')
+                                            ->leftJoin('t_barang AS B', 'B.id', 't_detail_pembelian.id_barang')
+                                            ->select('t_detail_pembelian.*', 'B.nama AS nama_barang', 'B.kode')    
+                                            ->where('t_detail_pembelian.id_perusahaan', auth()->user()->id_perusahaan)
+                                            ->orderBy('id', 'desc')->get();
+        
+             foreach($detPembelian as $item) {
+                 $row = array();
+                 $row['kode'] = '<span class="badge" style="background-color:#2f3d57; color:white;">'. $item->kode .'</span>';
+                 $row['nama_barang'] = $item->nama_barang ;
+                 $row['qty'] = $item->qty;
+                 $row['total_pembelian'] = 'Rp. '. format_uang($item->qty * $item->harga_beli);
+ 
+                 $data[] = $row;
+             }         
+         }
+ 
+         return datatables()
+             ->of($data)
+             ->addIndexColumn()
              ->rawColumns(['kode'])
              ->make(true);
  
@@ -253,21 +298,11 @@ class LaporanController extends Controller
      // LAPORAN STOK
      public function indexLaporanStok(Request $request)
      {   
-       
-        // return $barang;
-        // return $request;
          $data['tanggal'] = date('Y-m-d');
          $tanggalAwal = date('Y-m-d', mktime(0, 0, 0, date('m'), 1, date('Y')));
          $tanggalAkhir = date('Y-m-d');
          $now = date('Y-m-d');
  
-        //  if ($request->has('tanggal_awal') && $request->tanggal_awal != $now && $request->has('tanggal_akhir') && $request->tanggal_akhir != "") {
-        //      $tanggalAwal = date('Y-m-d', strtotime($request->tanggal_awal));
-        //      $tanggalAkhir = date('Y-m-d', strtotime($request->tanggal_akhir));
-        //  } else {
-        //      $tanggalAwal = date('Y-m-d', strtotime($now));
-        //      $tanggalAkhir = date('Y-m-d', strtotime($now));
-        //  }
         $merek1st = Merek::select('*')->where('id_perusahaan', auth()->user()->id_perusahaan)->first();
         $kategori1st = Kategori::select('*')->where('id_perusahaan', auth()->user()->id_perusahaan)->first();
         $merek2nd = Merek::select('*')->where('id', $request->merek)->where('id_perusahaan', auth()->user()->id_perusahaan)->first();
@@ -341,6 +376,7 @@ class LaporanController extends Controller
      // LAPORAN Harian
      public function indexLaporanHarian(Request $request)
      {   
+                            // return $detPembelian;
          $data['tanggal'] = date('Y-m-d');
          // return $kasMasuk;
          $tanggalAwal = date('Y-m-d', mktime(0, 0, 0, date('m'), 1, date('Y')));

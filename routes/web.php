@@ -29,6 +29,7 @@ use App\Http\Controllers\ListTransaksiPembelianController;
 use App\Http\Controllers\PembayaranController;
 use App\Http\Controllers\PembayaranPembelianController;
 use App\Http\Controllers\ReturPenjualanController;
+use App\Http\Controllers\ListReturPenjualanController;
 use App\Http\Controllers\StokOpnameController;
 use Illuminate\Support\Facades\Route;
 
@@ -87,7 +88,9 @@ Route::group(['middleware' => 'hak_akses:1'], function () {
         // Retur Penjualan
         Route::resource('/retur-penjualan', ReturPenjualanController::class);
         Route::post('/retur-penjualan/data', [ReturPenjualanController::class, 'data'])->name('retur-penjualan.data');
-
+        Route::get('/list-retur-penjualan', [ListReturPenjualanController::class, 'index'])->name('list-retur-penjualan.index');
+        Route::post('/list-retur-penjualan/data/{awal}/{akhir}', [ListReturPenjualanController::class, 'getData'])->name('list-retur-penjualan.data');
+        Route::get('/list-retur-penjualan/pdf/{awal}/{akhir}', [ListReturPenjualanController::class, 'exportPDF'])->name('list-retur-penjualan.export_pdf');
         // Informasi KAS
         Route::resource('kas-masuk', KasMasukController::class);
         Route::post('/kas-masuk/data', [KasMasukController::class, 'data'])->name('kas-masuk.data');
@@ -108,9 +111,10 @@ Route::group(['middleware' => 'hak_akses:1'], function () {
         Route::get('/laporan-penjualan', [LaporanController::class, 'indexLaporanPenjualan'])->name('laporan-penjualan.index');
         Route::post('/laporan-penjualan/data/{awal}/{akhir}', [LaporanController::class, 'dataLaporanPenjualan'])->name('laporan-penjualan.data');
         Route::post('/laporan-penjualan/pdf/{awal}/{akhir}', [LaporanController::class, 'PDFPenjualan'])->name('laporan-penjualan.pdf');
-        
+
+        Route::post('/laporan-pembelian/data/{awal}/{akhir}', [LaporanController::class, 'dataLaporanPembelian'])->name('laporan-pembelian.data');
+
         Route::get('/laporan-harian', [LaporanController::class, 'indexLaporanHarian'])->name('laporan-harian.index');
-        // Route::post('/laporan-harian/data/{awal}/{akhir}', [LaporanController::class, 'dataLaporanHarian'])->name('laporan-harian.data');
         Route::post('/laporan-harian/pdf/{awal}/{akhir}', [LaporanController::class, 'PDFHarian'])->name('laporan-harian.pdf');
        
         Route::get('/laporan-stok', [LaporanController::class, 'indexLaporanStok'])->name('laporan-stok.index');

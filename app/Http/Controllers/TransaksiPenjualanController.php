@@ -146,6 +146,7 @@ class TransaksiPenjualanController extends Controller
 
                 
                 $detPenjualanBaru = new DetailPenjualan(); 
+                $detPenjualanBaru->tgl = date('Y-m-d');
                 $detPenjualanBaru->id_penjualan = $penjualanBaru->id;
                 $detPenjualanBaru->id_barang = $barang['id_barang'];
                 $detPenjualanBaru->qty = $barang['qty'];

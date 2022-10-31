@@ -264,7 +264,7 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                            <a href="#" class="nav-link">
+                            <a href="{{ route('list-retur-penjualan.index') }}" class="nav-link">
                                 <p>Lihat Data Retur</p>
                             </a>
                         </li>
