@@ -179,7 +179,7 @@
                                         <div class="col-lg-8 ">
                                             <div class="input-group-prepend input-primary"> 
                                                 <span class="input-group-text">RP.</span> 
-                                                <input type="text" data-bv-trigger="blur" id="sisa_kredit" name="sisa_kredit" class="form-control">
+                                                <input type="text" readonly data-bv-trigger="blur" id="sisa_kredit" name="sisa_kredit" class="form-control">
                                             </div>
                                         </div>
                                     </div>
@@ -188,7 +188,7 @@
                     </div>
         
                     <div class="box-footer mb-4 btn-submit">
-                        <button type="submit" class="btn btn-outline-primary btn-sm pull-right btn-simpan" onkeypress="preventEnter(this)"><i class="fa-solid fa-floppy-disk"></i> Simpan Transaksi</button>
+                        <button type="submit" id="submit" class="btn btn-outline-primary btn-sm pull-right btn-simpan" onkeypress="preventEnter(this)"><i class="fa-solid fa-floppy-disk"></i> Simpan Transaksi</button>
                     </div>
                 </div>
             </div>
@@ -203,6 +203,38 @@
 
 @push('scripts') 
     <script>
+        $(document).on('click', '#submit', function(){
+            let id_supplier = $('#id_supplier').val();
+            let produk = $('.produk').val();
+            let bayar = $('#bayar').val();
+            let bayar_kredit = $('#bayar_kredit').val();
+            let jenis_pembayaran = $('#jenis_pembayaran').val();
+            console.log(jenis_pembayaran)
+
+            if(id_supplier == 0) {
+                Swal.fire('Isi data supplier terlebih dahulu')
+                return false;
+            } else {
+                $('#id_supplier').val();
+            }
+
+            if(produk == 0) {
+                Swal.fire('Tambahkan produk terlebih dahulu')
+                return false;
+            } else {
+                $('#id_produk').val();
+            }
+            
+            if(jenis_pembayaran == 2) {
+                if(bayar_kredit == 0) {
+                    Swal.fire('Masukan jumlah uang dp terlebih dahulu')
+                    return false;
+                } else {
+                    $('#bayar_kredit').val();
+                }
+            }          
+        });
+
         $('body').addClass('sidebar-collapse');
 
         $('div#tampil_kredit').hide();
@@ -253,17 +285,6 @@
                 }
             }
 
-            // function cekQty(stock) {
-            //     if(Number(stock.value) < 0){
-            //         stock.value = 1;
-            //     } else if (Number(stock.value) > Number(stock.max)){
-            //         stock.value = stock.max;
-            //     } else {
-            //         stock.value = stock.value;
-            //     }
-            // }
-
-
         $(document).ready(function(){
             var subtotal=0;
             var discount=0;
@@ -312,6 +333,7 @@
                                     });
                     let ubah_int = formatRupiah.replace(/Rp/g, '');
                     let sisabayar = ubah_int.replaceAll('.', '');
+
                     $('#sisa_kredit').val(parseInt(sisabayar));
                 });
                     
