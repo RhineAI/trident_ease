@@ -14,7 +14,9 @@ use Carbon\Carbon;
 class DashboardController extends Controller
 {
     public function index(){
-
+        // $no = date('Y-m-d');
+        // $p = Barang::select('*')->whereDate('created_at', $no)->get();
+        // return $p;
         //Card
         $month = date('m');
         $year = date('Y');
