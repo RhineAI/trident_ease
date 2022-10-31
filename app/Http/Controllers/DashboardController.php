@@ -16,9 +16,11 @@ class DashboardController extends Controller
     public function index(){
 
         //Card
-        $data['penjualan'] = TransaksiPenjualan::where('id_perusahaan', auth()->user()->id_perusahaan)->sum('total_harga');
+        $month = date('m');
+        $year = date('Y');
+        $data['penjualan'] = TransaksiPenjualan::whereMonth('created_at', $month)->whereYear('created_at', $year)->where('id_perusahaan', auth()->user()->id_perusahaan)->sum('total_harga');
+        $data['kas'] = KasMasuk::whereMonth('created_at', $month)->whereYear('created_at', $year)->where('id_perusahaan', auth()->user()->id_perusahaan)->sum('jumlah');
         $data['pegawai'] = User::count();
-        $data['kas'] = KasMasuk::where('id_perusahaan', auth()->user()->id_perusahaan)->sum('jumlah');
         $data['check'] = Perusahaan::where('id', auth()->user()->id_perusahaan)->first();
         $data['cardBarang'] = Barang::where('id_perusahaan', auth()->user()->id_perusahaan)->count();;
         $data['cardPenjualan'] = TransaksiPenjualan::where('id_perusahaan', auth()->user()->id_perusahaan)->count();
