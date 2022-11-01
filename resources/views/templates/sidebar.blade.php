@@ -24,7 +24,6 @@
           <nav class="mt-2">
               <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
                   data-accordion="false">
-                    @if (auth()->user()->hak_akses == 1)
 
                   @if (auth()->user()->hak_akses == 1)
                   <li class="nav-item">

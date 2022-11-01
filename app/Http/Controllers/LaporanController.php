@@ -24,6 +24,15 @@ class LaporanController extends Controller
         if ($request->has('tanggal_awal') && $request->tanggal_awal != $now && $request->has('tanggal_akhir') && $request->tanggal_akhir != "") {
             $tanggalAwal = date('Y-m-d', strtotime($request->tanggal_awal));
             $tanggalAkhir = date('Y-m-d', strtotime($request->tanggal_akhir));
+            if($kategori == 'semua' && $merek == 'semua'){
+            $condition = '';
+        } else if ($kategori == 'semua' && $merek != 'semua'){
+            $condition = 'b.merek, ' . $merek; 
+        } else if ($kategori != 'semua' && $merek == 'semua'){
+            $condition = 'b.kategori, ' . $kategori; 
+        } else {
+            $condition = "b.kategori == $kategori AND b.merek == $merek"
+        }
         } else {
             $tanggalAwal = date('Y-m-d', strtotime($now));
             $tanggalAkhir = date('Y-m-d', strtotime($now));

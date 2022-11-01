@@ -23,13 +23,15 @@ use App\Http\Controllers\TransaksiPenjualanController;
 use App\Http\Controllers\ListTransaksiPenjualanController;
 use App\Http\Controllers\DetailPenjualanController;
 use App\Http\Controllers\LaporanController;
+use App\Http\Controllers\PDFController;
 use App\Http\Controllers\PembelianController;
 use App\Http\Controllers\ListTransaksiPembelianController;
-use App\Http\Controllers\ListReturPenjualanController;
 
-use App\Http\Controllers\PembayaranController;
-use App\Http\Controllers\PembayaranPembelianController;
+use App\Http\Controllers\HutangController;
+use App\Http\Controllers\PiutangController;
 use App\Http\Controllers\ReturPenjualanController;
+use App\Http\Controllers\ListReturPenjualanController;
+use App\Http\Controllers\ReturPembelianController;
 use App\Http\Controllers\StokOpnameController;
 use Illuminate\Support\Facades\Route;
 
@@ -78,8 +80,8 @@ Route::group(['middleware' => 'hak_akses:1'], function () {
         Route::get('/list-pembelian/pdf/{awal}/{akhir}', [ListTransaksiPembelianController::class, 'exportPDF'])->name('list-pembelian.export_pdf');
 
         // Tunggakan Pembayaran
-        Route::resource('/pembayaran', PembayaranController::class);
-        Route::resource('/pembayaran-pembelian', PembayaranPembelianController::class);
+        Route::resource('/data-piutang', PiutangController::class);
+        Route::resource('/data-hutang', HutangController::class);
 
         // Stok opname
         Route::get('/stock-opname', [StokOpnameController::class, 'index'])->name('stockOpname');
@@ -92,6 +94,13 @@ Route::group(['middleware' => 'hak_akses:1'], function () {
         Route::post('/list-retur-penjualan/data/{awal}/{akhir}', [ListReturPenjualanController::class, 'getData'])->name('list-retur-penjualan.data');
         Route::get('/list-retur-penjualan/pdf/{awal}/{akhir}', [ListReturPenjualanController::class, 'exportPDF'])->name('list-retur-penjualan.export_pdf');
 
+        // Retur Pembelian
+        Route::resource('/retur-pembelian', ReturPembelianController::class);
+        Route::post('/retur-pembelian/data', [ReturPembelianController::class, 'data'])->name('retur-pembelian.data');
+        Route::get('/list-retur-pembelian', [ListReturPembelianController::class, 'index'])->name('list-retur-pembelian.index');
+        Route::post('/list-retur-pembelian/data/{awal}/{akhir}', [ListReturPembelianController::class, 'getData'])->name('list-retur-pembelian.data');
+        Route::get('/list-retur-pembelian/pdf/{awal}/{akhir}', [ListReturPembelianController::class, 'exportPDF'])->name('list-retur-pembelian.export_pdf');
+
         // Informasi KAS
         Route::resource('kas-masuk', KasMasukController::class);
         Route::post('/kas-masuk/data', [KasMasukController::class, 'data'])->name('kas-masuk.data');
@@ -101,9 +110,8 @@ Route::group(['middleware' => 'hak_akses:1'], function () {
 
         // Laporan
         Route::get('/list-pelanggan-terbaik', [LaporanController::class, 'indexBestPelanggan'])->name('list-b-pelanggan.index');
-
-        Route::post('/list-pelanggan-terbaik/data/{awal}/{akhir}', [LaporanController::class, 'getDataBestPelanggan'])->name('list-b-pelanggan.data');
-        Route::get('/list-pelanggan-terbaik/pdf/{awal}/{akhir}', [LaporanController::class, 'exportPDFBPelanggan'])->name('list-b-pelanggan.export_pdf');
+        Route::post('/list-pelanggan-terbaik/data/{awal}/{akhir}', [LaporanController::class, 'getDataBestBPelanggan'])->name('list-b-pelanggan.data');
+        Route::get('/list-pelanggan-terbaik/pdf/{awal}/{akhir}', [LaporanController::class, 'PDFBestPelanggan'])->name('list-b-pelanggan.pdf');
 
         Route::get('/laporan-kas', [LaporanController::class, 'indexLaporanKas'])->name('laporan-kas.index');
         Route::post('/laporan-kas-masuk/data/{awal}/{akhir}', [LaporanController::class, 'dataLaporanKasMasuk'])->name('laporan-kas-masuk.data');
@@ -113,11 +121,7 @@ Route::group(['middleware' => 'hak_akses:1'], function () {
         Route::get('/laporan-penjualan', [LaporanController::class, 'indexLaporanPenjualan'])->name('laporan-penjualan.index');
         Route::post('/laporan-penjualan/data/{awal}/{akhir}', [LaporanController::class, 'dataLaporanPenjualan'])->name('laporan-penjualan.data');
         Route::post('/laporan-penjualan/pdf/{awal}/{akhir}', [LaporanController::class, 'PDFPenjualan'])->name('laporan-penjualan.pdf');
-        
-        Route::get('/laporan-harian', [LaporanController::class, 'indexLaporanHarian'])->name('laporan-harian.index');
-        // Route::post('/laporan-harian/data/{awal}/{akhir}', [LaporanController::class, 'dataLaporanHarian'])->name('laporan-harian.data');
-        Route::post('/laporan-harian/pdf/{awal}/{akhir}', [LaporanController::class, 'PDFHarian'])->name('laporan-harian.pdf');
-       
+
         Route::get('/laporan-stok', [LaporanController::class, 'indexLaporanStok'])->name('laporan-stok.index');
         Route::post('/laporan-stok/data/{merek}/{kategori}', [LaporanController::class, 'dataLaporanStok'])->name('laporan-stok.data');
         Route::post('/laporan-stok/pdf/{merek}/{kategori}', [LaporanController::class, 'PDFStok'])->name('laporan-stok.pdf');
@@ -125,10 +129,20 @@ Route::group(['middleware' => 'hak_akses:1'], function () {
         Route::get('/laporan-kesesuaian-stock', [LaporanController::class, 'indexLaporanKesesuaianStok'])->name('laporan-kesesuaian-stock.index');
         Route::post('/laporan-kesesuaian-stock/data/{awal}/{akhir}', [LaporanController::class, 'dataLaporanKesesuaianStok'])->name('laporan-kesesuaian-stock.data');
         Route::post('/laporan-kesesuaian-stock/pdf/{awal}/{akhir}', [LaporanController::class, 'PDFKesesuaianStok'])->name('laporan-kesesuaian-stock.pdf');
-       
+     
+        Route::get('/laporan-hutang-piutang', [LaporanController::class, 'indexLaporanHutangPiutang'])->name('laporan-hutang-piutang.index');
+        Route::post('/laporan-hutang/data/{awal}/{akhir}', [LaporanController::class, 'dataLaporanHutang'])->name('laporan-hutang.data');
+        Route::post('/laporan-piutang/data/{awal}/{akhir}', [LaporanController::class, 'dataLaporanPiutang'])->name('laporan-piutang.data');
+  
+
+        Route::get('/laporan-harian', [LaporanController::class, 'indexLaporanHarian'])->name('laporan-harian.index');
+        Route::post('/laporan-harian/pdf/{awal}/{akhir}', [LaporanController::class, 'PDFHarian'])->name('laporan-harian.pdf');
+        Route::post('/laporan-pembelian/data/{awal}/{akhir}', [LaporanController::class, 'dataLaporanPembelian'])->name('laporan-pembelian.data');
+        Route::post('/laporan-retur-penjualan/data/{awal}/{akhir}', [LaporanController::class, 'dataLaporanReturPenjualan'])->name('laporan-retur-penjualan.data');
+        Route::post('/laporan-retur-pembelian/data/{awal}/{akhir}', [LaporanController::class, 'dataLaporanReturPembelian'])->name('laporan-retur-pembelian.data');
+   
         
         Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
-
 });
 
 //Kasir
