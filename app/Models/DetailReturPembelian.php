@@ -9,7 +9,7 @@ class DetailReturPembelian extends Model
 {
     use HasFactory;
     protected $fillable = ['id_retur_pembelian', 'id_barang', 'qty', 'harga_beli', 'harga_jual', 'sub_total', 'keuntungan', 'id_user'];
-    protected $table = 't_det_retur_pembelian';
+    protected $table = 't_detail_retur_pembelian';
     protected $primaryKey = 'id';
     protected $guarded = ['id'];
 }
