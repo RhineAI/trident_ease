@@ -87,7 +87,7 @@ class PiutangController extends Controller
      * @param  \App\Models\Pembayaran  $pembayaran
      * @return \Illuminate\Http\Response
      */
-    public function show(Pembayaran $pembayaran)
+    public function show(Piutang $piutang)
     {
         //
     }
@@ -98,7 +98,7 @@ class PiutangController extends Controller
      * @param  \App\Models\Pembayaran  $pembayaran
      * @return \Illuminate\Http\Response
      */
-    public function edit(Pembayaran $pembayaran)
+    public function edit(Piutang $piutang)
     {
         //
     }
@@ -110,7 +110,7 @@ class PiutangController extends Controller
      * @param  \App\Models\Pembayaran  $pembayaran
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdatePembayaranRequest $request, Pembayaran $pembayaran)
+    public function update(UpdatePembayaranRequest $request, Piutang $piutang)
     {
         // $cPenjualan = TransaksiPenjualan::where('id', $pembayaran->id_penjualan)->first();
         // // return $request;
@@ -145,7 +145,7 @@ class PiutangController extends Controller
      * @param  \App\Models\Pembayaran  $pembayaran
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Pembayaran $pembayaran)
+    public function destroy(Piutang $piutang)
     {
         //
     }
