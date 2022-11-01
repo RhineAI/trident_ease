@@ -23,6 +23,8 @@ use Illuminate\Http\Request;
 
 class LaporanController extends Controller
 {
+
+    // LAPORAN PELANGGAN TERBAIK
     public function indexBestPelanggan(Request $request){
         // select count(DTP.id) from t_transaksi_penjualan TP right join t_detail_penjualan DTP on TP.id = DTP.id_penjualan group by id_pelanggan;
         $tanggalAwal = date('Y-m-d', mktime(0, 0, 0, date('m'), 1, date('Y')));
@@ -121,119 +123,118 @@ class LaporanController extends Controller
     }
 
 
-     // LAPORAN PEMBELIAN
-     public function dataLaporanPembelian($awal, $akhir)
-     {
-         // return $awal;
-         $no = 1;
-         $data = array();
- 
-         while (strtotime($awal) <= strtotime($akhir)) {
-             $tanggal = $awal;
-             $awal = date('Y-m-d', strtotime("+1day", strtotime($awal)));
- 
-             $detPembelian= DetailPembelian::where('t_detail_pembelian.tgl', 'Like','%$tanggal%')
-                                            ->leftJoin('t_barang AS B', 'B.id', 't_detail_pembelian.id_barang')
-                                            ->select('t_detail_pembelian.*', 'B.nama AS nama_barang', 'B.kode')    
-                                            ->where('t_detail_pembelian.id_perusahaan', auth()->user()->id_perusahaan)
+    // LAPORAN PEMBELIAN
+    public function dataLaporanPembelian($awal, $akhir)
+    {
+        // return $awal;
+        $no = 1;
+        $data = array();
+
+        while (strtotime($awal) <= strtotime($akhir)) {
+            $tanggal = $awal;
+            $awal = date('Y-m-d', strtotime("+1day", strtotime($awal)));
+
+            $detPembelian= DetailPembelian::where('t_detail_pembelian.tgl', 'Like','%$tanggal%')
+                                        ->leftJoin('t_barang AS B', 'B.id', 't_detail_pembelian.id_barang')
+                                        ->select('t_detail_pembelian.*', 'B.nama AS nama_barang', 'B.kode')    
+                                        ->where('t_detail_pembelian.id_perusahaan', auth()->user()->id_perusahaan)
+                                        ->orderBy('id', 'desc')->get();
+    
+            foreach($detPembelian as $item) {
+                $row = array();
+                $row['kode'] = '<span class="badge" style="background-color:#2f3d57; color:white;">'. $item->kode .'</span>';
+                $row['nama_barang'] = $item->nama_barang ;
+                $row['qty'] = $item->qty;
+                $row['total_pembelian'] = 'Rp. '. format_uang($item->qty * $item->harga_beli);
+
+                $data[] = $row;
+            }         
+        }
+
+        return datatables()
+            ->of($data)
+            ->addIndexColumn()
+            ->rawColumns(['kode'])
+            ->make(true);
+
+        return $data;
+    }
+
+
+
+    // LAPORAN Retur Penjualan
+    public function dataLaporanReturPenjualan($awal, $akhir)
+    {
+        // return $awal;
+        $no = 1;
+        $data = array();
+
+        while (strtotime($awal) <= strtotime($akhir)) {
+            $tanggal = $awal;
+            $awal = date('Y-m-d', strtotime("+1day", strtotime($awal)));
+
+            $returPenjualan= DetailReturPenjualan::where('tgl', 'Like','%$tanggal%')
+                                                ->leftJoin('t_barang AS B', 'B.id', 't_detail_retur_penjualan.id_barang')
+                                                ->select('t_detail_retur_penjualan.*', 'B.nama AS nama_barang', 'B.kode')    
+                                                ->where('t_detail_retur_penjualan.id_perusahaan', auth()->user()->id_perusahaan)
+                                                ->orderBy('id', 'desc')->get();
+        
+            foreach($returPenjualan as $item) {
+                $row = array();
+                $row['kode'] = '<span class="badge" style="background-color:#2f3d57; color:white;">'. $item->kode .'</span>';
+                $row['nama_barang'] = $item->nama_barang ;
+                $row['qty'] = $item->qty;
+                $row['total_retur'] = 'Rp. '. format_uang($item->qty * $item->harga_jual);
+
+                $data[] = $row;
+            }         
+        }
+
+        return datatables()
+            ->of($data)
+            ->addIndexColumn()
+            ->rawColumns(['kode'])
+            ->make(true);
+
+        return $data;
+    }
+
+    // LAPORAN RETUR PEMBELIAN
+    public function dataLaporanReturPembelian($awal, $akhir)
+    {
+        // return $awal;
+        $no = 1;
+        $data = array();
+
+        while (strtotime($awal) <= strtotime($akhir)) {
+            $tanggal = $awal;
+            $awal = date('Y-m-d', strtotime("+1day", strtotime($awal)));
+
+            $returPembelian= ReturPembelian::where('t_retur_pembelian.tgl', 'Like','%$tanggal%')
+                                            ->leftJoin('t_barang AS B', 'B.id', 't_retur_pembelian.id_barang')
+                                            ->select('t_retur_pembelian.*', 'B.nama AS nama_barang', 'B.kode')    
+                                            ->where('t_retur_pembelian.id_perusahaan', auth()->user()->id_perusahaan)
                                             ->orderBy('id', 'desc')->get();
         
-             foreach($detPembelian as $item) {
-                 $row = array();
-                 $row['kode'] = '<span class="badge" style="background-color:#2f3d57; color:white;">'. $item->kode .'</span>';
-                 $row['nama_barang'] = $item->nama_barang ;
-                 $row['qty'] = $item->qty;
-                 $row['total_pembelian'] = 'Rp. '. format_uang($item->qty * $item->harga_beli);
- 
-                 $data[] = $row;
-             }         
-         }
- 
-         return datatables()
-             ->of($data)
-             ->addIndexColumn()
-             ->rawColumns(['kode'])
-             ->make(true);
- 
-         return $data;
-     }
+            foreach($returPembelian as $item) {
+                $row = array();
+                $row['kode'] = '<span class="badge" style="background-color:#2f3d57; color:white;">'. $item->kode .'</span>';
+                $row['nama_barang'] = $item->nama_barang ;
+                $row['qty'] = $item->qty;
+                $row['total_retur'] = 'Rp. '. format_uang($item->qty * $item->harga_beli);
 
+                $data[] = $row;
+            }         
+        }
 
-      // LAPORAN Retur Penjualan
-      public function dataLaporanReturPenjualan($awal, $akhir)
-      {
-          // return $awal;
-          $no = 1;
-          $data = array();
-  
-          while (strtotime($awal) <= strtotime($akhir)) {
-              $tanggal = $awal;
-              $awal = date('Y-m-d', strtotime("+1day", strtotime($awal)));
-  
-              $returPenjualan= DetailReturPenjualan::where('tgl', 'Like','%$tanggal%')
-                                                    ->leftJoin('t_barang AS B', 'B.id', 't_detail_retur_penjualan.id_barang')
-                                                    ->select('t_detail_retur_penjualan.*', 'B.nama AS nama_barang', 'B.kode')    
-                                                    ->where('t_detail_retur_penjualan.id_perusahaan', auth()->user()->id_perusahaan)
-                                                    ->orderBy('id', 'desc')->get();
-         
-              foreach($returPenjualan as $item) {
-                  $row = array();
-                  $row['kode'] = '<span class="badge" style="background-color:#2f3d57; color:white;">'. $item->kode .'</span>';
-                  $row['nama_barang'] = $item->nama_barang ;
-                  $row['qty'] = $item->qty;
-                  $row['total_retur'] = 'Rp. '. format_uang($item->qty * $item->harga_jual);
-  
-                  $data[] = $row;
-              }         
-          }
-  
-          return datatables()
-              ->of($data)
-              ->addIndexColumn()
-              ->rawColumns(['kode'])
-              ->make(true);
-  
-          return $data;
-      }
+        return datatables()
+            ->of($data)
+            ->addIndexColumn()
+            ->rawColumns(['kode'])
+            ->make(true);
 
-
-      // LAPORAN RETUR PEMBELIAN
-      public function dataLaporanReturPembelian($awal, $akhir)
-      {
-          // return $awal;
-          $no = 1;
-          $data = array();
-  
-          while (strtotime($awal) <= strtotime($akhir)) {
-              $tanggal = $awal;
-              $awal = date('Y-m-d', strtotime("+1day", strtotime($awal)));
-  
-              $returPembelian= ReturPembelian::where('t_retur_pembelian.tgl', 'Like','%$tanggal%')
-                                             ->leftJoin('t_barang AS B', 'B.id', 't_retur_pembelian.id_barang')
-                                             ->select('t_retur_pembelian.*', 'B.nama AS nama_barang', 'B.kode')    
-                                             ->where('t_retur_pembelian.id_perusahaan', auth()->user()->id_perusahaan)
-                                             ->orderBy('id', 'desc')->get();
-         
-              foreach($returPembelian as $item) {
-                  $row = array();
-                  $row['kode'] = '<span class="badge" style="background-color:#2f3d57; color:white;">'. $item->kode .'</span>';
-                  $row['nama_barang'] = $item->nama_barang ;
-                  $row['qty'] = $item->qty;
-                  $row['total_retur'] = 'Rp. '. format_uang($item->qty * $item->harga_beli);
-  
-                  $data[] = $row;
-              }         
-          }
-  
-          return datatables()
-              ->of($data)
-              ->addIndexColumn()
-              ->rawColumns(['kode'])
-              ->make(true);
-  
-          return $data;
-      }
-
+        return $data;
+    }
 
 
 
@@ -482,8 +483,7 @@ class LaporanController extends Controller
 
 
 
-
-       // LAPORAN HUTANG PIUTANG
+    // LAPORAN HUTANG PIUTANG
     public function indexLaporaHutangPiutang(Request $request)
     {   
         $data['tanggal'] = date('Y-m-d');
@@ -518,20 +518,25 @@ class LaporanController extends Controller
             $tanggal = $awal;
             $awal = date('Y-m-d', strtotime("+1day", strtotime($awal)));
 
-            $hutang= Hutang::where('tgl', 'Like', '%'.$tanggal.'%')
-                            ->leftJoin('t_pelanggan AS P', 'P.id', 't_data_hutang.id_user')
-                            ->select('t_data_hutang.*', 'P.nama AS nama_pelanggan')  
+            $hutang= Hutang::where('t_data_hutang.tgl', 'Like', '%'.$tanggal.'%')
+                            ->leftJoin('t_transaksi_pembelian AS TP', 'TP.id', 't_data_hutang.id_pembelian')
+                            ->leftJoin('t_supplier AS S', 'S.id', 'TP.id_supplier')
+                            ->select('t_data_hutang.*', 'TP.kode_invoice', 'TP.sisa', 'S.nama AS nama_supplier')  
                             ->where('t_data_hutang.id_perusahaan', auth()->user()->id_perusahaan)
                             ->orderBy('id', 'desc')->get();
             
             foreach($hutang as $item) {
                 $row = array();
                 $row['DT_RowIndex'] = $no++;
-                $row['no_pembelian'] = 'RP. '. format_uang($item->jumlah);
+                $row['no_pembelian'] = '<span class="badge" style="background-color:#2f3d57; color:white;">'. $item->kode_invoice .'</span>';
                 $row['tgl'] = tanggal_indonesia($tanggal, false);
-                $row['nama_pelanggan'] = $item->nama_pelanggan ;
-                $row['total_bayar'] = ucfirst($item->nama_user) ;
-                $row['status'] = '<span class="badge" style="background-color:#2f3d57; color:white;">'. $item->kode .'</span>';
+                $row['nama_supplier'] = $item->nama_supplier ;
+                $row['total_bayar'] = $item->total_bayar ;
+                if ($item->sisa != 0) {
+                    $row['status'] = '<span class="badge" style="background-color:#16c467; color:white;">Lunas</span>';
+                } else {
+                    $row['status'] = '<span class="badge badge-danger" color:white;">Belum Lunas</span>';
+                }
 
 
                 $data[] = $row;
@@ -542,7 +547,52 @@ class LaporanController extends Controller
         return datatables()
             ->of($data)
             ->addIndexColumn()
-            ->rawColumns(['status'])
+            ->rawColumns(['no_pembelian','status'])
+            ->make(true);
+
+        return $data;
+    }
+
+    public function dataLaporanPiutang($awal, $akhir)
+    {
+        // return $awal;
+        $no = 1;
+        $data = array();
+
+        while (strtotime($awal) <= strtotime($akhir)) {
+            $tanggal = $awal;
+            $awal = date('Y-m-d', strtotime("+1day", strtotime($awal)));
+
+            $piutang= Piutang::where('t_data_piutang.tgl', 'Like', '%'.$tanggal.'%')
+                            ->leftJoin('t_transaksi_penjualan AS TP', 'TP.id', 't_data_piutang.id_penjualan')
+                            ->leftJoin('t_pelanggan AS P', 'P.id', 'TP.id_pelanggan')
+                            ->select('t_data_piutang.*', 'TP.kode_invoice', 'TP.sisa', 'P.nama AS nama_pelanggan')  
+                            ->where('t_data_piutang.id_perusahaan', auth()->user()->id_perusahaan)
+                            ->orderBy('id', 'desc')->get();
+            
+            foreach($piutang as $item) {
+                $row = array();
+                $row['DT_RowIndex'] = $no++;
+                $row['no_penjualan'] = '<span class="badge" style="background-color:#2f3d57; color:white;">'. $item->kode_invoice .'</span>';
+                $row['tgl'] = tanggal_indonesia($tanggal, false);
+                $row['nama_pelanggan'] = $item->nama_pelanggan ;
+                $row['total_bayar'] = $item->total_bayar ;
+                if ($item->sisa != 0) {
+                    $row['status'] = '<span class="badge" style="background-color:#16c467; color:white;">Lunas</span>';
+                } else {
+                    $row['status'] = '<span class="badge badge-danger" color:white;">Belum Lunas</span>';
+                }
+
+
+                $data[] = $row;
+            }         
+
+        }
+
+        return datatables()
+            ->of($data)
+            ->addIndexColumn()
+            ->rawColumns(['no_pembelian','status'])
             ->make(true);
 
         return $data;

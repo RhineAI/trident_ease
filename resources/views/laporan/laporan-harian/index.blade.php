@@ -123,7 +123,7 @@ Laporan Harian
                                         <th width="4%" class="text-center">No</th>
                                         <th width="10.5%" class="text-center">No Pembelian</th>
                                         <th width="8%" class="text-center">Tanggal</th>
-                                        <th width="16%" class="text-center">Nama Pelanggan</th>
+                                        <th width="16%" class="text-center">Nama Supplier</th>
                                         <th width="13%" class="text-center">Total Bayar</th>
                                         <th width="9%" class="text-center">Status</th>
                                     </tr>
@@ -319,7 +319,7 @@ columns: [
             {data:'DT_RowIndex', searchable: false, sortable: false},
             {data:'tgl'},
             {data:'no_pembelian'},
-            {data:'nama_pelanggan'},
+            {data:'nama_supplier'},
             {data:'total_bayar'},
             {data:'status'},
         ]
