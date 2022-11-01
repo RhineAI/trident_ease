@@ -298,44 +298,44 @@
     </script>
 
     <script>
-            $(document).on('click', '#submit', function(){
-                let id_pelanggan = $('#id_pelanggan').val();
-                let produk = $('.produk').val();
-                let bayar = $('#bayar').val();
-                let dp = $('#dp').val();
-                let jenis_pembayaran = $('#jenis_pembayaran').val();
-                console.log(jenis_pembayaran)
+        $(document).on('click', '#submit', function(){
+            let id_pelanggan = $('#id_pelanggan').val();
+            let produk = $('.produk').val();
+            let bayar = $('#bayar').val();
+            let dp = $('#dp').val();
+            let jenis_pembayaran = $('#jenis_pembayaran').val();
+            console.log(jenis_pembayaran)
 
-                if(id_pelanggan == 0) {
-                    Swal.fire('Isi data pelanggan terlebih dahulu')
+            if(id_pelanggan == 0) {
+                Swal.fire('Isi data pelanggan terlebih dahulu')
+                return false;
+            } else {
+                $('#id_pelanggan').val();
+            }
+
+            if(produk == 0) {
+                Swal.fire('Tambahkan produk terlebih dahulu')
+                return false;
+            } else {
+                $('#id_produk').val();
+            }
+            
+            if(jenis_pembayaran == 1) {
+                if(bayar == 0) {
+                    Swal.fire('Masukan jumlah uang bayar terlebih dahulu')
                     return false;
                 } else {
-                    $('#id_pelanggan').val();
+                    $('#bayar').val();
                 }
-
-                if(produk == 0) {
-                    Swal.fire('Tambahkan produk terlebih dahulu')
+            }else{
+                if(dp == 0) {
+                    Swal.fire('Masukan jumlah uang dp terlebih dahulu')
                     return false;
                 } else {
-                    $('#id_produk').val();
+                    $('#dp').val();
                 }
-               
-                if(jenis_pembayaran == 1) {
-                    if(bayar == 0) {
-                        Swal.fire('Masukan jumlah uang bayar terlebih dahulu')
-                        return false;
-                    } else {
-                        $('#bayar').val();
-                    }
-                }else{
-                    if(dp == 0) {
-                        Swal.fire('Masukan jumlah uang dp terlebih dahulu')
-                        return false;
-                    } else {
-                        $('#dp').val();
-                    }
-                }          
-            });
+            }          
+        });
       
 
         $('body').addClass('sidebar-collapse');

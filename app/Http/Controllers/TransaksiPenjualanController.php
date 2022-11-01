@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Barang;
 use App\Models\Pelanggan;
-use App\Models\Pembayaran;
+use App\Models\Piutang;
 use App\Models\Perusahaan;
 use App\Models\KasMasuk;
 use Illuminate\Http\Request;
@@ -91,10 +91,21 @@ class TransaksiPenjualanController extends Controller
                 $penjualanBaru->id = date('Ymd'). $indexTransaksi;
             }
 
+        $kode = '';
+        $date = (date('Ymd'));
+        // return $date;
+        if($penjualanBaru == NULL) {
+            $kode_invoice = $date . '0001';
+        } 
+        else {
+            $kode = sprintf($date.'%04d', intval(substr($penjualanBaru->kode, 8)) + 1);
+            $kode_invoice = strval($kode);
+        }
+
             $penjualanBaru->tgl = date('Y-m-d');
             $penjualanBaru->id_pelanggan = $request->id_pelanggan;
             $penjualanBaru->total_harga = $request->total_bayar;
-            $penjualanBaru->kode_invoice = 'kdfjalkd';
+            $penjualanBaru->kode_invoice = $kode_invoice;
             if($request->jenis_pembayaran == '1') {
                 $penjualanBaru->total_bayar = $this->checkPrice($request->bayar);
                 $penjualanBaru->sisa = 0;
@@ -143,9 +154,9 @@ class TransaksiPenjualanController extends Controller
                 else{
                     return redirect()->route('logout')->with(['error' => 'Lu siapa??']);
                 }
-
-                
+         
                 $detPenjualanBaru = new DetailPenjualan(); 
+                $detPenjualanBaru->tgl = date('Y-m-d');
                 $detPenjualanBaru->id_penjualan = $penjualanBaru->id;
                 $detPenjualanBaru->id_barang = $barang['id_barang'];
                 $detPenjualanBaru->qty = $barang['qty'];
@@ -160,7 +171,7 @@ class TransaksiPenjualanController extends Controller
             $barangUpdate->stock -= $barang['qty'];
             $barangUpdate->update();
             
-            $pembayaranBaru = new Pembayaran();
+            $pembayaranBaru = new Piutang();
             $pembayaranBaru->id_penjualan = $penjualanBaru->id;
             $pembayaranBaru->tgl = date('Ymd');
             if($request->jenis_pembayaran == 1){

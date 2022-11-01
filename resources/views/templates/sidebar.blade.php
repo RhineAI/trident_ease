@@ -306,9 +306,9 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="{{ route('pembayaran-pembelian.index') }}" class="nav-link">
+                                <a href="{{ route('data-hutang.index') }}" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
-                                    <p>Tunggakan Pembelian</p>
+                                    <p>Data Hutang</p>
                                 </a>
                             </li>
                             <hr>
@@ -325,10 +325,11 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="{{ route('pembayaran.index') }}" class="nav-link">
+                                <a href="{{ route('data-hutang.index') }}" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
-                                    <p>Tunggakan Penjualan</p>
+                                    <p>Data 3,14 utang</p>
                                 </a>
+                                {{-- π --}}
                             </li>
                         </ul>
                     </li>
@@ -389,6 +390,11 @@
                             <li class="nav-item">
                                 <a href="{{ route('laporan-stok.index') }}" class="nav-link">
                                     <p>Laporan Stok</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('list-b-pelanggan.index') }}" class="nav-link">
+                                    <p>Laporan Pelanggan Terbaik</p>
                                 </a>
                             </li>
                         </ul>

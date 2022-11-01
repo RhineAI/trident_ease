@@ -3,12 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\KasKeluar;
-use App\Models\PembayaranPembelian;
+use App\Models\Hutang;
 use App\Models\Pembelian;
 use App\Models\Perusahaan;
 use Illuminate\Http\Request;
 
-class PembayaranPembelianController extends Controller
+class HutangController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,9 +18,9 @@ class PembayaranPembelianController extends Controller
     public function index()
     {
         $data['cPerusahaan'] = Perusahaan::select('*')->where('id', auth()->user()->id_perusahaan)->first();
-        $data['pembayaran'] = PembayaranPembelian::leftJoin('t_transaksi_pembelian AS TP', 'TP.id', 't_pembayaran_pembelian.id_pembelian')
+        $data['pembayaran'] = Hutang::leftJoin('t_transaksi_pembelian AS TP', 'TP.id', 't_data_hutang.id_pembelian')
         ->leftJoin('t_supplier as S', 'S.id', 'TP.id_supplier')
-        ->select('S.nama AS nama_supplier', 'S.tlp', 'S.id as id_supplier', 't_pembayaran_pembelian.*', 'TP.dp', 'TP.total_pembelian', 'TP.sisa', 'TP.jenis_pembayaran')
+        ->select('S.nama AS nama_supplier', 'S.tlp', 'S.id as id_supplier', 't_data_hutang.*', 'TP.dp', 'TP.total_pembelian', 'TP.sisa', 'TP.jenis_pembayaran')
         // ->where('TP.jenis_pembayaran', 2)
         ->where('TP.id_perusahaan', auth()->user()->id_perusahaan)    
         ->orderBy('jenis_pembayaran', 'desc')
@@ -30,7 +30,7 @@ class PembayaranPembelianController extends Controller
         // $data['totalBayar'] = Pembayaran::select('id_pembelian', DB::raw('ceiling(sum(t_pembayaran_pembelian.total_bayar)) AS totalBayar'))->groupBy('id_pembelian')->get();
         // DB::raw('sum(t_pembayaran_pembelian.total_bayar) AS total')
         // return $data['totalBayar'];
-        return view('pembayaran-pembelian.index', $data);
+        return view('hutang-piutang.hutang.index', $data);
     }
 
     /**
@@ -67,13 +67,13 @@ class PembayaranPembelianController extends Controller
     public function store(Request $request)
     {
         // return $request;
-        $pembayaran = new PembayaranPembelian();
-        $pembayaran->id_pembelian = $request->id_pembelian;
-        $pembayaran->tgl = date('Y-m-d');
-        $pembayaran->total_bayar = $request->bayar;
-        $pembayaran->id_user = auth()->user()->id;
-        $pembayaran->id_perusahaan = auth()->user()->id_perusahaan;
-        $pembayaran->save();
+        $hutang = new Hutang();
+        $hutang->id_pembelian = $request->id_pembelian;
+        $hutang->tgl = date('Y-m-d');
+        $hutang->total_bayar = $request->bayar;
+        $hutang->id_user = auth()->user()->id;
+        $hutang->id_perusahaan = auth()->user()->id_perusahaan;
+        $hutang->save();
         $updateSisa = Pembelian::find($request->id_pembelian);
         if(($updateSisa->sisa - $request->bayar) >= 0){
             $updateSisa->sisa -= $request->bayar;

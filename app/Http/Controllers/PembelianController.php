@@ -8,8 +8,8 @@ use App\Http\Requests\UpdatePembelianRequest;
 use App\Models\Barang;
 use App\Models\DetailPembelian;
 use App\Models\KasKeluar;
-use App\Models\Pembayaran;
-use App\Models\PembayaranPembelian;
+use App\Models\Piutang;
+use App\Models\Hutang;
 use App\Models\Perusahaan;
 use App\Models\Supplier;
 
@@ -107,10 +107,21 @@ class PembelianController extends Controller
                 $pembelianBaru->id = date('Ymd'). $indexTransaksi;
             }
 
+            $kode = '';
+            $date = (date('Ymd'));
+            // return $date;
+            if($penjualanBaru == NULL) {
+                $kode_invoice = $date . '0001';
+            } 
+            else {
+                $kode = sprintf($date.'%04d', intval(substr($pembelianBaru->kode, 8)) + 1);
+                $kode_invoice = strval($kode);
+            }
+
             $pembelianBaru->tgl = date('Y-m-d');
-            $pembelianBaru->kode_invoice = 'kode invoice simpak';
+            $pembelianBaru->kode_invoice = $kode_invoice;
             $pembelianBaru->id_supplier = $request->id_supplier;
-            $pembelianBaru->total_pembelian = $request->total_pembelian;
+            $pembelianBaru->total_pembelian = $this->checkPrice($request->total_pembelian);
             $pembelianBaru->jenis_pembayaran = $request->jenis_pembayaran;
             if($request->jenis_pembayaran == 2){
                 $pembelianBaru->dp = $this->checkPrice($request->bayar_kredit);
@@ -127,9 +138,9 @@ class PembelianController extends Controller
                 // dd($barang['discount']); die;
                 $detPembelianBaru = new DetailPembelian(); 
                 $detPembelianBaru->id_pembelian = $pembelianBaru->id;
-                $detPembelianBaru->tgl = date('Ymd');
+                $detPembelianBaru->tgl = date('Y-m-d');
                 $detPembelianBaru->id_barang = $barang['id_barang'];
-                $detPembelianBaru->harga_beli = $barang['harga_beli'];
+                $detPembelianBaru->harga_beli = $this->checkPrice($barang['harga_beli']);
                 $detPembelianBaru->qty = $barang['qty'];
                 $detPembelianBaru->diskon = $barang['discount'];
                 $detPembelianBaru->id_perusahaan = auth()->user()->id_perusahaan;
@@ -147,7 +158,7 @@ class PembelianController extends Controller
                 // ]);
             }
 
-            $pembayaranBaru = new PembayaranPembelian();
+            $pembayaranBaru = new Hutang();
             $pembayaranBaru->id_pembelian = $pembelianBaru->id;
             $pembayaranBaru->tgl = date('Y-m-d');
             if($request->jenis_pembayaran == 2){

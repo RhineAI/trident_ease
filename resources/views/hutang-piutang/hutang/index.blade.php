@@ -1,16 +1,16 @@
 @extends('templates.layout')
 
 @section('title')
-    <title>Tunggakan Pembelian | {{ $cPerusahaan->nama }}</title>
+    <title>Data Hutang | {{ $cPerusahaan->nama }}</title>
 @endsection
 
 @section('page')
-    Tunggakan Pembelian
+    Data Hutang
 @endsection
 
 @section('breadcrumb')
 @parent
-    Tunggakan Pembelian
+    Data Hutang
 @endsection
 
 @push('styles')
@@ -80,7 +80,7 @@
         </div>
     </div>
 </section>
-    @include('pembayaran-pembelian.formBayar')
+    @include('hutang-piutang.hutang.formBayar')
 @endsection
 
 @push('scripts') 

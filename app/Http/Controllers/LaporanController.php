@@ -2,19 +2,28 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Kategori;
 use App\Models\Merek;
 use App\Models\Barang;
+use App\Models\KasMasuk;
+use App\Models\Kategori;
+use App\Models\KasKeluar;
 use App\Models\Pelanggan;
 use App\Models\Perusahaan;
-use App\Models\KasMasuk;
-use App\Models\KasKeluar;
+use App\Models\Hutang;
+use App\Models\Piutang;
+use App\Models\DetailPembelian;
 use App\Models\DetailPenjualan;
-use Illuminate\Http\Request;
+use App\Models\DetailReturPenjualan;
+// use App\Models\ReturPembelian;
+use App\Models\TransaksiPenjualan;
+use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Http\Request;
 
 class LaporanController extends Controller
 {
+
+    // LAPORAN PELANGGAN TERBAIK
     public function indexBestPelanggan(Request $request){
         // select count(DTP.id) from t_transaksi_penjualan TP right join t_detail_penjualan DTP on TP.id = DTP.id_penjualan group by id_pelanggan;
         $tanggalAwal = date('Y-m-d', mktime(0, 0, 0, date('m'), 1, date('Y')));
@@ -29,16 +38,18 @@ class LaporanController extends Controller
             $tanggalAkhir = date('Y-m-d', strtotime($now));
         }
 
+        $data['bestPelanggan'] = TransaksiPenjualan::leftJoin('t_detail_penjualan AS DTP', 'DTP.id_penjualan', 't_transaksi_penjualan.id')->select('t_transaksi_penjualan.id_pelanggan', DB::raw('sum(qty) as jumlahBeliBarang'))->where('t_transaksi_penjualan.id_perusahaan', auth()->user()->id_perusahaan)->groupBy('t_transaksi_penjualan.id_pelanggan')->get();    
         // dd($data['bestPelanggan']); die;
-        $data['kas-masuk'] = KasMasuk::select('*')->where('id', auth()->user()->id_perusahaan)->get();
-        $data['kas-keluar'] = KasKeluar::select('*')->where('id', auth()->user()->id_perusahaan)->get();
+        $data['transaksi'] = TransaksiPenjualan::select('*')->where('id', auth()->user()->id_perusahaan)->get();
+        $data['pelanggan'] = Pelanggan::where('id_perusahaan', auth()->user()->id_perusahaan)->get();    
+        // $data['produk'] = Barang::where('stock', '>', 0)->where('status', '==', '1')->get();    
+        $data['produk'] = Barang::where('stock', '>', 0)->where('status', '=', '1')->where('id_perusahaan', auth()->user()->id_perusahaan)->get();  
         $data['cPerusahaan'] = Perusahaan::select('*')->where('id', auth()->user()->id_perusahaan)->first();
         return view('laporan.laporan-pelanggan.index', $data, compact('tanggalAwal', 'tanggalAkhir', 'now'));
     }
 
     public function getDataBestPelanggan($awal, $akhir)
     {
-        // return $awal;
         $no = 1;
         $data = array(); 
 
@@ -62,23 +73,157 @@ class LaporanController extends Controller
 
                 $data[] = $row;
             }         
-            // return $data;   
 
         }
 
         return datatables()
             ->of($data)
-            ->rawColumns(['action', 'invoice'])
+            ->rawColumns(['action'])
             ->make(true);
 
         return $data;
 
     }
 
-    public function PDFBestPelanggan($awal, $akhir)
-    {
 
+
+    // LAPORAN Harian
+    public function indexLaporanHarian(Request $request)
+    {   
+                            // return $detPembelian;
+        $data['tanggal'] = date('Y-m-d');
+        // return $kasMasuk;
+        $tanggalAwal = date('Y-m-d', mktime(0, 0, 0, date('m'), 1, date('Y')));
+        $tanggalAkhir = date('Y-m-d');
+        $now = date('Y-m-d');
+
+        if ($request->has('tanggal_awal') && $request->tanggal_awal != $now && $request->has('tanggal_akhir') && $request->tanggal_akhir != "") {
+            $tanggalAwal = date('Y-m-d', strtotime($request->tanggal_awal));
+            $tanggalAkhir = date('Y-m-d', strtotime($request->tanggal_akhir));
+        } else {
+            $tanggalAwal = date('Y-m-d', strtotime($now));
+            $tanggalAkhir = date('Y-m-d', strtotime($now));
+        }
+
+        $data['cPerusahaan'] = Perusahaan::select('*')->where('id', auth()->user()->id_perusahaan)->first();
+
+        return view('laporan.laporan-harian.index', compact('tanggalAwal', 'tanggalAkhir', 'now'))->with($data);
     }
+
+
+    // LAPORAN PEMBELIAN
+    public function dataLaporanPembelian($awal, $akhir)
+    {
+        // return $awal;
+        $no = 1;
+        $data = array();
+
+        while (strtotime($awal) <= strtotime($akhir)) {
+            $tanggal = $awal;
+            $awal = date('Y-m-d', strtotime("+1day", strtotime($awal)));
+
+            $detPembelian= DetailPembelian::where('t_detail_pembelian.tgl', 'Like','%$tanggal%')
+                                        ->leftJoin('t_barang AS B', 'B.id', 't_detail_pembelian.id_barang')
+                                        ->select('t_detail_pembelian.*', 'B.nama AS nama_barang', 'B.kode')    
+                                        ->where('t_detail_pembelian.id_perusahaan', auth()->user()->id_perusahaan)
+                                        ->orderBy('id', 'desc')->get();
+    
+            foreach($detPembelian as $item) {
+                $row = array();
+                $row['kode'] = '<span class="badge" style="background-color:#2f3d57; color:white;">'. $item->kode .'</span>';
+                $row['nama_barang'] = $item->nama_barang ;
+                $row['qty'] = $item->qty;
+                $row['total_pembelian'] = 'Rp. '. format_uang($item->qty * $item->harga_beli);
+
+                $data[] = $row;
+            }         
+        }
+
+        return datatables()
+            ->of($data)
+            ->addIndexColumn()
+            ->rawColumns(['kode'])
+            ->make(true);
+
+        return $data;
+    }
+
+
+
+    // LAPORAN Retur Penjualan
+    public function dataLaporanReturPenjualan($awal, $akhir)
+    {
+        // return $awal;
+        $no = 1;
+        $data = array();
+
+        while (strtotime($awal) <= strtotime($akhir)) {
+            $tanggal = $awal;
+            $awal = date('Y-m-d', strtotime("+1day", strtotime($awal)));
+
+            $returPenjualan= DetailReturPenjualan::where('tgl', 'Like','%$tanggal%')
+                                                ->leftJoin('t_barang AS B', 'B.id', 't_detail_retur_penjualan.id_barang')
+                                                ->select('t_detail_retur_penjualan.*', 'B.nama AS nama_barang', 'B.kode')    
+                                                ->where('t_detail_retur_penjualan.id_perusahaan', auth()->user()->id_perusahaan)
+                                                ->orderBy('id', 'desc')->get();
+        
+            foreach($returPenjualan as $item) {
+                $row = array();
+                $row['kode'] = '<span class="badge" style="background-color:#2f3d57; color:white;">'. $item->kode .'</span>';
+                $row['nama_barang'] = $item->nama_barang ;
+                $row['qty'] = $item->qty;
+                $row['total_retur'] = 'Rp. '. format_uang($item->qty * $item->harga_jual);
+
+                $data[] = $row;
+            }         
+        }
+
+        return datatables()
+            ->of($data)
+            ->addIndexColumn()
+            ->rawColumns(['kode'])
+            ->make(true);
+
+        return $data;
+    }
+
+    // LAPORAN RETUR PEMBELIAN
+    public function dataLaporanReturPembelian($awal, $akhir)
+    {
+        // return $awal;
+        $no = 1;
+        $data = array();
+
+        while (strtotime($awal) <= strtotime($akhir)) {
+            $tanggal = $awal;
+            $awal = date('Y-m-d', strtotime("+1day", strtotime($awal)));
+
+            $returPembelian= ReturPembelian::where('t_retur_pembelian.tgl', 'Like','%$tanggal%')
+                                            ->leftJoin('t_barang AS B', 'B.id', 't_retur_pembelian.id_barang')
+                                            ->select('t_retur_pembelian.*', 'B.nama AS nama_barang', 'B.kode')    
+                                            ->where('t_retur_pembelian.id_perusahaan', auth()->user()->id_perusahaan)
+                                            ->orderBy('id', 'desc')->get();
+        
+            foreach($returPembelian as $item) {
+                $row = array();
+                $row['kode'] = '<span class="badge" style="background-color:#2f3d57; color:white;">'. $item->kode .'</span>';
+                $row['nama_barang'] = $item->nama_barang ;
+                $row['qty'] = $item->qty;
+                $row['total_retur'] = 'Rp. '. format_uang($item->qty * $item->harga_beli);
+
+                $data[] = $row;
+            }         
+        }
+
+        return datatables()
+            ->of($data)
+            ->addIndexColumn()
+            ->rawColumns(['kode'])
+            ->make(true);
+
+        return $data;
+    }
+
 
 
     // Laporan KAS
@@ -138,7 +283,8 @@ class LaporanController extends Controller
 
         return datatables()
             ->of($data)
-            ->rawColumns(['action'])
+            ->addIndexColumn()
+            ->rawColumns(['action', 'invoice'])
             ->make(true);
 
         return $data;
@@ -177,6 +323,7 @@ class LaporanController extends Controller
 
         return datatables()
             ->of($data)
+            ->addIndexColumn()
             ->rawColumns(['action', 'invoice'])
             ->make(true);
 
@@ -217,7 +364,7 @@ class LaporanController extends Controller
              $tanggal = $awal;
              $awal = date('Y-m-d', strtotime("+1day", strtotime($awal)));
  
-             $detPenjualan= DetailPenjualan::where('tgl', 'Like', '%'.$tanggal.'%')
+             $detPenjualan= DetailPenjualan::where('t_detail_penjualan.tgl', 'Like', '%'.$tanggal.'%')
                                             ->leftJoin('t_barang AS B', 'B.id', 't_detail_penjualan.id_barang')
                                             ->select('t_detail_penjualan.*', 'B.nama AS nama_barang', 'B.kode')    
                                             ->where('t_detail_penjualan.id_perusahaan', auth()->user()->id_perusahaan)
@@ -238,6 +385,7 @@ class LaporanController extends Controller
  
          return datatables()
              ->of($data)
+             ->addIndexColumn()
              ->rawColumns(['kode'])
              ->make(true);
  
@@ -249,21 +397,11 @@ class LaporanController extends Controller
      // LAPORAN STOK
      public function indexLaporanStok(Request $request)
      {   
-       
-        // return $barang;
-        // return $request;
          $data['tanggal'] = date('Y-m-d');
          $tanggalAwal = date('Y-m-d', mktime(0, 0, 0, date('m'), 1, date('Y')));
          $tanggalAkhir = date('Y-m-d');
          $now = date('Y-m-d');
  
-        //  if ($request->has('tanggal_awal') && $request->tanggal_awal != $now && $request->has('tanggal_akhir') && $request->tanggal_akhir != "") {
-        //      $tanggalAwal = date('Y-m-d', strtotime($request->tanggal_awal));
-        //      $tanggalAkhir = date('Y-m-d', strtotime($request->tanggal_akhir));
-        //  } else {
-        //      $tanggalAwal = date('Y-m-d', strtotime($now));
-        //      $tanggalAkhir = date('Y-m-d', strtotime($now));
-        //  }
         $merek1st = Merek::select('*')->where('id_perusahaan', auth()->user()->id_perusahaan)->first();
         $kategori1st = Kategori::select('*')->where('id_perusahaan', auth()->user()->id_perusahaan)->first();
         $merek2nd = Merek::select('*')->where('id', $request->merek)->where('id_perusahaan', auth()->user()->id_perusahaan)->first();
@@ -334,25 +472,118 @@ class LaporanController extends Controller
 
 
 
-     // LAPORAN Harian
-     public function indexLaporanHarian(Request $request)
-     {   
-         $data['tanggal'] = date('Y-m-d');
-         // return $kasMasuk;
-         $tanggalAwal = date('Y-m-d', mktime(0, 0, 0, date('m'), 1, date('Y')));
-         $tanggalAkhir = date('Y-m-d');
-         $now = date('Y-m-d');
- 
-         if ($request->has('tanggal_awal') && $request->tanggal_awal != $now && $request->has('tanggal_akhir') && $request->tanggal_akhir != "") {
-             $tanggalAwal = date('Y-m-d', strtotime($request->tanggal_awal));
-             $tanggalAkhir = date('Y-m-d', strtotime($request->tanggal_akhir));
-         } else {
-             $tanggalAwal = date('Y-m-d', strtotime($now));
-             $tanggalAkhir = date('Y-m-d', strtotime($now));
-         }
- 
-         $data['cPerusahaan'] = Perusahaan::select('*')->where('id', auth()->user()->id_perusahaan)->first();
-    
-        return view('laporan.laporan-harian.index', compact('tanggalAwal', 'tanggalAkhir', 'now'))->with($data);
-     }
+    // LAPORAN HUTANG PIUTANG
+    public function indexLaporaHutangPiutang(Request $request)
+    {   
+        $data['tanggal'] = date('Y-m-d');
+        // $perusahaan = Perusahaan::select('id')->get();
+
+
+        // return $kasMasuk;
+        $tanggalAwal = date('Y-m-d', mktime(0, 0, 0, date('m'), 1, date('Y')));
+        $tanggalAkhir = date('Y-m-d');
+        $now = date('Y-m-d');
+
+        if ($request->has('tanggal_awal') && $request->tanggal_awal != $now && $request->has('tanggal_akhir') && $request->tanggal_akhir != "") {
+            $tanggalAwal = date('Y-m-d', strtotime($request->tanggal_awal));
+            $tanggalAkhir = date('Y-m-d', strtotime($request->tanggal_akhir));
+        } else {
+            $tanggalAwal = date('Y-m-d', strtotime($now));
+            $tanggalAkhir = date('Y-m-d', strtotime($now));
+        }
+
+        $data['cPerusahaan'] = Perusahaan::select('*')->where('id', auth()->user()->id_perusahaan)->first();
+   
+       return view('laporan.laporan-hutang-piutang.index', compact('tanggalAwal', 'tanggalAkhir', 'now'))->with($data);
+    }
+
+    public function dataLaporanHutang($awal, $akhir)
+    {
+        // return $awal;
+        $no = 1;
+        $data = array();
+
+        while (strtotime($awal) <= strtotime($akhir)) {
+            $tanggal = $awal;
+            $awal = date('Y-m-d', strtotime("+1day", strtotime($awal)));
+
+            $hutang= Hutang::where('t_data_hutang.tgl', 'Like', '%'.$tanggal.'%')
+                            ->leftJoin('t_transaksi_pembelian AS TP', 'TP.id', 't_data_hutang.id_pembelian')
+                            ->leftJoin('t_supplier AS S', 'S.id', 'TP.id_supplier')
+                            ->select('t_data_hutang.*', 'TP.kode_invoice', 'TP.sisa', 'S.nama AS nama_supplier')  
+                            ->where('t_data_hutang.id_perusahaan', auth()->user()->id_perusahaan)
+                            ->orderBy('id', 'desc')->get();
+            
+            foreach($hutang as $item) {
+                $row = array();
+                $row['DT_RowIndex'] = $no++;
+                $row['no_pembelian'] = '<span class="badge" style="background-color:#2f3d57; color:white;">'. $item->kode_invoice .'</span>';
+                $row['tgl'] = tanggal_indonesia($tanggal, false);
+                $row['nama_supplier'] = $item->nama_supplier ;
+                $row['total_bayar'] = $item->total_bayar ;
+                if ($item->sisa != 0) {
+                    $row['status'] = '<span class="badge" style="background-color:#16c467; color:white;">Lunas</span>';
+                } else {
+                    $row['status'] = '<span class="badge badge-danger" color:white;">Belum Lunas</span>';
+                }
+
+
+                $data[] = $row;
+            }         
+
+        }
+
+        return datatables()
+            ->of($data)
+            ->addIndexColumn()
+            ->rawColumns(['no_pembelian','status'])
+            ->make(true);
+
+        return $data;
+    }
+
+    public function dataLaporanPiutang($awal, $akhir)
+    {
+        // return $awal;
+        $no = 1;
+        $data = array();
+
+        while (strtotime($awal) <= strtotime($akhir)) {
+            $tanggal = $awal;
+            $awal = date('Y-m-d', strtotime("+1day", strtotime($awal)));
+
+            $piutang= Piutang::where('t_data_piutang.tgl', 'Like', '%'.$tanggal.'%')
+                            ->leftJoin('t_transaksi_penjualan AS TP', 'TP.id', 't_data_piutang.id_penjualan')
+                            ->leftJoin('t_pelanggan AS P', 'P.id', 'TP.id_pelanggan')
+                            ->select('t_data_piutang.*', 'TP.kode_invoice', 'TP.sisa', 'P.nama AS nama_pelanggan')  
+                            ->where('t_data_piutang.id_perusahaan', auth()->user()->id_perusahaan)
+                            ->orderBy('id', 'desc')->get();
+            
+            foreach($piutang as $item) {
+                $row = array();
+                $row['DT_RowIndex'] = $no++;
+                $row['no_penjualan'] = '<span class="badge" style="background-color:#2f3d57; color:white;">'. $item->kode_invoice .'</span>';
+                $row['tgl'] = tanggal_indonesia($tanggal, false);
+                $row['nama_pelanggan'] = $item->nama_pelanggan ;
+                $row['total_bayar'] = $item->total_bayar ;
+                if ($item->sisa != 0) {
+                    $row['status'] = '<span class="badge" style="background-color:#16c467; color:white;">Lunas</span>';
+                } else {
+                    $row['status'] = '<span class="badge badge-danger" color:white;">Belum Lunas</span>';
+                }
+
+
+                $data[] = $row;
+            }         
+
+        }
+
+        return datatables()
+            ->of($data)
+            ->addIndexColumn()
+            ->rawColumns(['no_pembelian','status'])
+            ->make(true);
+
+        return $data;
+    }
 }

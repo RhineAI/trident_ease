@@ -30,10 +30,10 @@
                             <div class="text-xs font-weight-bold text-uppercase mb-1">Product Added</div>
                             <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">{{ $cardBarang }}</div>
                             <div class="mt-2 mb-0 text-muted text-xs">
-                                @if($upordownbarang >= $cekupordownbarang) 
+                                @if($todaybarang >= $cekupordownbarang) 
                                     <span class="text-success mr-2"><i class="fas fa-arrow-up"></i> {{ $percentage_barang }}%</span>
                                     <span>Since last Added (+{{ $totalBarangYesterday }})</span>
-                                @elseif($upordownbarang <= $cekupordownbarang)
+                                @elseif($todaybarang <= $cekupordownbarang)
                                     <span class="text-danger mr-2"><i class="fas fa-arrow-down"></i> {{ $percentage_barang }}%</span>
                                     <span>Since last Added (-{{ $cekupordownbarang - $totalBarangYesterday }})</span>
                                 @else

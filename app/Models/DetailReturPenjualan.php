@@ -9,7 +9,7 @@ class DetailReturPenjualan extends Model
 {
     use HasFactory;
     protected $fillable = ['id_retur_penjualan', 'id_barang', 'qty', 'harga_beli', 'harga_jual', 'sub_total', 'keuntungan', 'id_user'];
-    protected $table = 't_det_retur_penjualan';
+    protected $table = 't_detail_retur_penjualan';
     protected $primaryKey = 'id';
     protected $guarded = ['id'];
 }

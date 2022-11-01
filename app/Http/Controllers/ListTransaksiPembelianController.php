@@ -56,9 +56,8 @@ class ListTransaksiPembelianController extends Controller
                 $row['tgl'] = tanggal_indonesia($tanggal, false);
                 $row['nama_supplier'] = ucfirst($item->nama_supplier);
                 $row['invoice'] = '<span class="badge badge-info">'. $item->kode_invoice .'</span>';
-                $row['total_pembelian'] = 'RP. '. format_uang($item->total_pembelian);
-                
-                $row['action'] = '<button class="btn btn-xs btn-danger rounded delete"><i class="fa-solid fa-file-pdf"></i></button>';
+                $row['total_pembelian'] = 'RP. '. format_uang($item->total_pembelian);   
+                $row['action'] = '<button class="btn btn-xs btn-secondary rounded delete"><i class="fa-solid fa-print"></i></button>';
 
                 $data[] = $row;
             }         

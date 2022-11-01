@@ -67,9 +67,9 @@ Laporan Kas
                                     <tr>
                                         {{-- <th width="5%" class="text-center">No</th> --}}
                                         <th width="13%" class="text-center">Tanggal</th>
-                                        <th width="14%" class="text-center">Jumlah</th>
                                         <th width="14%" class="text-center">Keterangan</th>
                                         <th width="14%" class="text-center">Oleh</th>
+                                        <th width="14%" class="text-center">Jumlah</th>
                                     </tr>
                                 </thead>
                             </table>
@@ -80,9 +80,9 @@ Laporan Kas
                                     <tr>
                                         {{-- <th width="5%" class="text-center">No</th> --}}
                                         <th width="13%" class="text-center">Tanggal</th>
-                                        <th width="14%" class="text-center">Jumlah</th>
                                         <th width="14%" class="text-center">Keperluan</th>
                                         <th width="14%" class="text-center">Oleh</th>
+                                        <th width="14%" class="text-center">Jumlah</th>
                                     </tr>
                                 </thead>
                             </table>
@@ -125,9 +125,9 @@ Laporan Kas
         columns: [
             // {data:'DT_RowIndex', searchable: false, sortable: false},
             {data:'tgl'},
-            {data:'jumlah'},
             {data:'keterangan'},
             {data:'oleh'},
+            {data:'jumlah'},
         ]
     });
 
@@ -151,9 +151,9 @@ Laporan Kas
         columns: [
             // {data:'DT_RowIndex', searchable: false, sortable: false},
             {data:'tgl'},
-            {data:'jumlah'},
             {data:'keperluan'},
             {data:'oleh'},
+            {data:'jumlah'},
         ]
     });
 </script>
