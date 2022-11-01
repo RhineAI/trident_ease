@@ -11,10 +11,10 @@ use App\Models\Pelanggan;
 use App\Models\Perusahaan;
 use App\Models\Hutang;
 use App\Models\Piutang;
+use App\Models\Penyesuaian;
 use App\Models\DetailPembelian;
 use App\Models\DetailPenjualan;
 use App\Models\DetailReturPenjualan;
-use App\Models\ReturPembelian;
 // use App\Models\ReturPembelian;
 use App\Models\TransaksiPenjualan;
 use Illuminate\Routing\Controller;
@@ -160,6 +160,44 @@ class LaporanController extends Controller
         return $data;
     }
 
+    // LAPORAN RETUR PEMBELIAN
+    public function dataLaporanReturPembelian($awal, $akhir)
+    {
+        // return $awal;
+        $no = 1;
+        $data = array();
+
+        while (strtotime($awal) <= strtotime($akhir)) {
+            $tanggal = $awal;
+            $awal = date('Y-m-d', strtotime("+1day", strtotime($awal)));
+
+            $returPembelian= ReturPembelian::where('t_retur_pembelian.tgl', 'Like','%$tanggal%')
+                                            ->leftJoin('t_barang AS B', 'B.id', 't_retur_pembelian.id_barang')
+                                            ->select('t_retur_pembelian.*', 'B.nama AS nama_barang', 'B.kode')    
+                                            ->where('t_retur_pembelian.id_perusahaan', auth()->user()->id_perusahaan)
+                                            ->orderBy('id', 'desc')->get();
+        
+            foreach($returPembelian as $item) {
+                $row = array();
+                $row['kode'] = '<span class="badge" style="background-color:#2f3d57; color:white;">'. $item->kode .'</span>';
+                $row['nama_barang'] = $item->nama_barang ;
+                $row['qty'] = $item->qty;
+                $row['total_retur'] = 'Rp. '. format_uang($item->qty * $item->harga_beli);
+
+                $data[] = $row;
+            }         
+        }
+
+        return datatables()
+            ->of($data)
+            ->addIndexColumn()
+            ->rawColumns(['kode'])
+            ->make(true);
+
+        return $data;
+    }
+
+
 
 
     // LAPORAN Retur Penjualan
@@ -295,7 +333,8 @@ class LaporanController extends Controller
 
         return datatables()
             ->of($data)
-            ->rawColumns(['action'])
+            ->addIndexColumn()
+            ->rawColumns(['action', 'invoice'])
             ->make(true);
 
         return $data;
@@ -481,6 +520,104 @@ class LaporanController extends Controller
          return $data;
      }
 
+     // LAPORAN KESESUAIAN STOK
+     public function indexLaporanKesesuaianStok(Request $request){
+        // select count(DTP.id) from t_transaksi_penjualan TP right join t_detail_penjualan DTP on TP.id = DTP.id_penjualan group by id_pelanggan;
+        $tanggalAwal = date('Y-m-d', mktime(0, 0, 0, date('m'), 1, date('Y')));
+        $tanggalAkhir = date('Y-m-d');
+        // $kategori = $request->kategori;
+        // $merek = $request->merek;
+        $now = date('Y-m-d');
+        // $condition = '';
+
+        $merek1st = Merek::select('*')->where('id_perusahaan', auth()->user()->id_perusahaan)->first();
+        $kategori1st = Kategori::select('*')->where('id_perusahaan', auth()->user()->id_perusahaan)->first();
+        $merek2nd = Merek::select('*')->where('id', $request->merek)->where('id_perusahaan', auth()->user()->id_perusahaan)->first();
+        $kategori2nd = Kategori::select('*')->where('id', $request->kategori)->where('id_perusahaan', auth()->user()->id_perusahaan)->first();
+
+        if ($request->has('merek') && $request->merek != '' && $request->has('kategori') && $request->kategori != '' && $request->has('tanggal_awal') && $request->tanggal_awal != $now && $request->has('tanggal_akhir') && $request->tanggal_akhir != "") {
+            $data['merk'] = $request->merek;
+            $data['category'] = $request->kategori;
+            $nameMerk = $merek2nd->nama;
+            $nameCategory = $kategori2nd->nama;
+            $tanggalAwal = date('Y-m-d', strtotime($request->tanggal_awal));
+            $tanggalAkhir = date('Y-m-d', strtotime($request->tanggal_akhir));
+        } else {
+            $data['merk'] = $merek1st->id;
+            $data['category'] = $kategori1st->id;
+            $nameMerk = $merek1st->nama;
+            $nameCategory = $kategori1st->nama;
+            $tanggalAwal = date('Y-m-d', strtotime($now));
+            $tanggalAkhir = date('Y-m-d', strtotime($now));
+        }
+ 
+        $data['merek'] = Merek::select('*')->where('id_perusahaan', auth()->user()->id_perusahaan)->get();
+        $data['kategori'] = Kategori::select('*')->where('id_perusahaan', auth()->user()->id_perusahaan)->get();
+
+        // $data['kesesuaianBarang'] = Penyesuaian::innerJoin('t_barang b', 'b.id', 't_penyesuaian.id_barang')->leftJoin('t_kategori k', 'k.id', 'b.id_kategori')->leftJoin('t_merek m', 'm.id', 'b.id_merek')->select('b.*', 'm.nama as nama_merek', 'k.nama as nama_kategori', 't_penyesuain.tgl', 't_penyesuain.stock_awal', 't_penyesuain.stock_baru')->where('id', auth()->user()->id_perusahaan)->where($condition)->orderBy('b.id')->orderBy('t_penyesuaian.tgl')->get();
+        $data['cPerusahaan'] = Perusahaan::select('*')->where('id', auth()->user()->id_perusahaan)->first();
+        return view('laporan.laporan-kesesuaian-stok.index', $data, compact('nameMerk', 'nameCategory' ,'tanggalAwal', 'tanggalAkhir', 'now'));
+    }
+    
+    public function dataLaporanKesesuaianStok($awal, $akhir, $merek, $kategori)
+    {
+        // return $awal;
+        $no = 1;
+        $data = array(); 
+    
+        while (strtotime($awal) <= strtotime($akhir)) {
+            $tanggal = $awal;
+            $awal = date('Y-m-d', strtotime("+1day", strtotime($awal)));
+            // $condition = '';
+            // if($kategori == 'semua' && $merek == 'semua'){
+            //     $condition = '';
+            // } else if ($kategori == 'semua' && $merek != 'semua'){
+            //     $condition = 'b.merek, ' . $merek; 
+            // } else if ($kategori != 'semua' && $merek == 'semua'){
+            //     $condition = 'b.kategori, ' . $kategori; 
+            // } else {
+            //     $condition = "b.kategori == $kategori AND b.merek == $merek";
+            // }
+            
+            $kesesuaianBarang = Penyesuaian::where('t_penyesuaian.tgl', 'LIKE', '%'.$tanggal.'%')
+                                            ->where('id_merek', $merek)
+                                            ->orWhere('id_kategori', $kategori)
+                                            ->leftJoin('t_barang AS B', 'B.id', 't_penyesuaian.id_barang')
+                                            ->leftJoin('t_kategori AS K', 'K.id', 'B.id_kategori')
+                                            ->leftJoin('t_merek AS M', 'M.id', 'B.id_merek')
+                                            ->select('B.*', 'M.nama AS nama_merek', 'K.nama AS nama_kategori', 't_penyesuaian.tgl', 't_penyesuaian.stock_awal', 't_penyesuaian.stock_baru')
+                                            ->where('t_penyesuaian.id_perusahaan', auth()->user()->id_perusahaan)
+                                            ->orderBy('id', 'DESC')->get();
+            // return $kesesuaianBarang;
+    
+            foreach($kesesuaianBarang as $item) {
+                // return $key;
+                $row = array();
+                $row['DT_RowIndex'] = $no++;
+                $row['kode'] = '<span class="badge" style="background-color:#2f3d57; color:white;">'. $item->kode .'</span>';
+                $row['nama_barang'] = $item['nama'];
+                $row['nama_merek'] = $item['nama_merek'];
+                $row['nama_kategori'] = $item['nama_kategori'];
+                $row['tgl'] = $item['tgl'];
+                $row['stock_awal'] = $item['stock_awal'];
+                $row['stock_baru'] = $item['stock_baru'];
+                $row['selisih'] = $item['stock_awal'] - $item['stock_akhir'];
+    
+                $data[] = $row;
+            }         
+            // return $data;   
+    
+        }
+    
+        return datatables()
+            ->of($data)
+            ->rawColumns(['action'])
+            ->make(true);
+    
+        return $data;
+    
+    }
+
 
 
     // LAPORAN HUTANG PIUTANG
@@ -531,8 +668,8 @@ class LaporanController extends Controller
                 $row['no_pembelian'] = '<span class="badge" style="background-color:#2f3d57; color:white;">'. $item->kode_invoice .'</span>';
                 $row['tgl'] = tanggal_indonesia($tanggal, false);
                 $row['nama_supplier'] = $item->nama_supplier ;
-                $row['total_bayar'] = $item->total_bayar ;
-                if ($item->sisa != 0) {
+                $row['total_bayar'] = 'Rp. '. format_uang($item->total_bayar );
+                if ($item->sisa == 0) {
                     $row['status'] = '<span class="badge" style="background-color:#16c467; color:white;">Lunas</span>';
                 } else {
                     $row['status'] = '<span class="badge badge-danger" color:white;">Belum Lunas</span>';
@@ -576,8 +713,8 @@ class LaporanController extends Controller
                 $row['no_penjualan'] = '<span class="badge" style="background-color:#2f3d57; color:white;">'. $item->kode_invoice .'</span>';
                 $row['tgl'] = tanggal_indonesia($tanggal, false);
                 $row['nama_pelanggan'] = $item->nama_pelanggan ;
-                $row['total_bayar'] = $item->total_bayar ;
-                if ($item->sisa != 0) {
+                $row['total_bayar'] = 'Rp. '. format_uang($item->total_bayar );
+                if ($item->sisa == 0) {
                     $row['status'] = '<span class="badge" style="background-color:#16c467; color:white;">Lunas</span>';
                 } else {
                     $row['status'] = '<span class="badge badge-danger" color:white;">Belum Lunas</span>';
@@ -592,7 +729,7 @@ class LaporanController extends Controller
         return datatables()
             ->of($data)
             ->addIndexColumn()
-            ->rawColumns(['no_pembelian','status'])
+            ->rawColumns(['no_penjualan','status'])
             ->make(true);
 
         return $data;

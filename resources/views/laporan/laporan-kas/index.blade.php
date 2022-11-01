@@ -25,30 +25,34 @@ Laporan Kas
             <div class="box mb-4">
                 <div class="box-body table-responsive ">
                     <form action="{{ route('laporan-kas.index') }}" method="get">
-                        {{-- @csrf --}}
-                        {{-- @method('get') --}}
-                        <div class="form-group row mt-4">
-                            <label for="tanggal_awal" class="col-lg-2 control-label">Tanggal Awal</label>
-                            <div class="col-md-3">
-                                <input type="date" name="tanggal_awal" id="tanggal_awal" class="form-control flatpickr" required autofocus readonly
-                                    value="{{ request('tanggal_awal') }}"
-                                    style="border-radius: 0 !important;">
+                        <div class="form-group row mt-4 ml-5">
+                            <label for="tanggal_awal" class="col-lg-1 control-label mr-3">Tanggal Awal</label>
+                            <div class="col-md-3 mr-3">
+                                <input type="date" name="tanggal_awal" id="tanggal_awal" class="flatpickr form-control" required autofocus readonly value="{{ request('tanggal_awal') }}" style="border-radius: 0 !important;">
+                                {{-- <div class="input-group-prepend">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text flatpickr firstdate" id="basic-addon1"><i class="fa-solid fa-calendar-days"></i></span>
+                                    </div>
+                                </div> --}}
                                 <span class="help-block with-errors"></span>
                             </div>
                             
-                            <label class="mx-3" for="" class="col-md-2 col-form-label">s/d</label>
-    
-                            <label for="tanggal_akhir" class="col-lg-2 control-label">Tanggal Akhir</label>
+                            <label class="mx-4 ml-3" for="" class="col-md-2 col-form-label">s/d</label>
+
+                            <label for="tanggal_akhir" class="col-lg-1 mr-2 control-label">Tanggal Akhir</label>
                             <div class="col-md-3">
-                                <input type="date" name="tanggal_akhir" id="tanggal_akhir" class="form-control flatpickr" required readonly             
-                                value="{{ request('tanggal_akhir') }}"
-                                style="border-radius: 0 !important;">
-                                {{-- placeholder="{{ (request('tanggal_akhir') != '') ? request('tanggal_akhir') : $tanggal }}" --}}
+                                <input type="date" name="tanggal_akhir" id="tanggal_akhir" class="flatpickr form-control" required readonly value="{{ request('tanggal_akhir') }}" style="border-radius: 0 !important;">
+                                {{-- <div class="input-group-prepend">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text flatpickr lastdate" id="basic-addon1"><i class="fa-solid fa-calendar-days"></i></span>
+                                    </div>
+                                </div> --}}
                                 <span class="help-block with-errors"></span>
                             </div>
 
-                            <button type="" class="btn btn-sm btn-primary"><i class="fa fa-search"></i> Cari</button>
-                         
+                            <div class="form-group ml-3">
+                                <button type="" class="btn btn-xs btn-primary"><i class="fa fa-search"></i> Cari</button>
+                            </div>
                         </div>
                     </form>
 
@@ -104,7 +108,18 @@ Laporan Kas
         autoclose: true,
     });
 
-    
+    $(document).on('click', '.firstdate', function() {
+        let firstdate = $('.firstdate').text();
+        console.log(firstdate);
+        $('#tanggalAwal').val(firstdate);
+    });
+
+
+    $(document).on('click', '.lastdate', function() {
+        let lastdate = $('.lastdate').text();
+        $('#tanggalAkhir').val(lastdate);
+    });
+  
    let table;
         table = $('.table-kas-masuk').DataTable({
         searching: false,

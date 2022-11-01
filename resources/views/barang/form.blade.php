@@ -52,7 +52,7 @@
                             <select name="id_kategori" id="id_kategori" class="form-control" required>
                                 <option value="">Pilih Kategori</option>
                                 @foreach ($categories as $item )
-                                <option value="{{ $item->id }}">{{ $item->nama }}</option>
+                                    <option value="{{ $item->id }}">{{ $item->nama }}</option>
                                 @endforeach
                             </select>
                             <span class="help-block with-errors"></span>
@@ -65,7 +65,7 @@
                             <select name="id_satuan" id="id_satuan" class="form-control" required>
                                 <option value="">Pilih Satuan</option>
                                 @foreach ($satuan as $item )
-                                <option value="{{ $item->id }}">{{ $item->nama }}</option>
+                                    <option value="{{ $item->id }}">{{ $item->nama }}</option>
                                 @endforeach
                             </select>
                             <span class="help-block with-errors"></span>
@@ -81,7 +81,7 @@
                             <select name="id_supplier" id="id_supplier" class="form-control" required>
                                 <option value="">Pilih Supplier</option>
                                 @foreach ($supplier as $item )
-                                <option value="{{ $item->id }}">{{ $item->nama }}</option>
+                                    <option value="{{ $item->id }}">{{ $item->nama }}</option>
                                 @endforeach
                             </select>
                             <span class="help-block with-errors"></span>
@@ -94,7 +94,7 @@
                             <select name="id_merek" id="id_merek" class="form-control" required>
                                 <option value="">Pilih Merek</option>
                                 @foreach ($merek as $item )
-                                        <option value="{{ $item->id }}">{{ $item->nama }}</option>
+                                    <option value="{{ $item->id }}">{{ $item->nama }}</option>
                                 @endforeach
                             </select>
                             <span class="help-block with-errors"></span>
