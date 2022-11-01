@@ -1,17 +1,17 @@
 @extends('templates.layout')
 
 @section('title')
-    <title>Retur Penjualan | {{ $cPerusahaan->nama }}</title>
+    <title>Retur Pembelian | {{ $cPerusahaan->nama }}</title>
     <meta name="csrf-token" content="{{ csrf_token() }}">
 @endsection
 
 @section('page')
-    Retur Penjualan
+    Retur Pembelian
 @endsection
 
 @section('breadcrumb')
 @parent
-    Retur Penjualan
+    Retur Pembelian
 @endsection
 
 @push('styles')
@@ -39,25 +39,25 @@
         
                     <div class="box-body mx-2 my-2">
 
-                        <form class="form-pelanggan" method="post">
+                        <form class="form-supplier" method="post">
                             @csrf
                             
                         <div class="form-group row">
-                            <label for="id_penjualan" class="col-lg-2 control-label">Retur Penjualan</label>
+                            <label for="id_pembelian" class="col-lg-2 control-label">Retur Pembelian</label>
                             <div class="col-lg-4">
                                 <div class="input-group">
-                                    <input type="text" name="id_penjualan" id="id_penjualan" class="form-control" required autofocus readonly>
+                                    <input type="text" name="id_pembelian" id="id_pembelian" class="form-control" required autofocus readonly>
                                     <span class="input-group-btn tampil-produk">
                                         {{-- <button onclick="tambahProduk()" class="btn btn-info btn-flat" type="button"><i class="fa fa-arrow-right"></i></button> --}}
-                                        <button onclick="tampilPenjualan()" id="tampil" class="btn btn-info btn-flat" type="button"><i class="fa-solid fa-magnifying-glass"></i></button>
+                                        <button onclick="tampilPembelian()" id="tampil" class="btn btn-info btn-flat" type="button"><i class="fa-solid fa-magnifying-glass"></i></button>
                                     </span>
                                 </div>
                             </div>
 
-                            <label for="nama_pelanggan" class="col-lg-2 control-label">Nama Pelanggan</label>
+                            <label for="nama_supplier" class="col-lg-2 control-label">Nama Supplier</label>
                             <div class="col-lg-4">
                                 <div class="input-group">
-                                    <input type="text" name="nama_pelanggan" id="nama_pelanggan" class="form-control" required autofocus readonly>
+                                    <input type="text" name="nama_supplier" id="nama_supplier" class="form-control" required autofocus readonly>
                                 </div>
                             </div>
                         </div>
@@ -86,7 +86,7 @@
                                         <th class="text-center">Aksi</th>
                                 </tr>
                                 </thead>
-                                <tbody id="t_penjualan">
+                                <tbody id="t_pembelian">
                                     <tr id="buffer100" height="50px">
                                         <td></td>
                                         <td></td>
@@ -142,7 +142,7 @@
                             </div>
                         </div>
                     </div>
-                </div>  
+                </div>
                 {{-- <div class="col-sm-6">
                     <!--KEUNTUNGAN-->
                     <input class="form-control" type="hidden" name="retur_keuntungan" value="" data-bv-trigger="blur" id="retur_keuntungan" readonly="true">
@@ -171,7 +171,7 @@
         </div>
     </div>
     </div>
-    @include('returPenjualan.dataPenjualan')
+    @include('returPembelian.dataPembelian')
     </form>
 
 </section>
@@ -184,13 +184,13 @@
         $(document).on('click', '#submit', function(){
                 let total_retur = $('#total_retur').val();
                 let retur = $('.retur').val();
-                let penjualan = $('.id_penjualan').val();
+                let pembelian = $('.id_pembelian').val();
 
-                if(penjualan == 0) {
-                    Swal.fire('Isi Data Penjualan yang ingin di Retur')
+                if(pembelian == 0) {
+                    Swal.fire('Isi Data Pembelian yang ingin di Retur')
                     return false;
                 } else {
-                    $('#id_penjualan').val();
+                    $('#id_pembelian').val();
                 }
 
                 if(retur == 0) {
@@ -208,13 +208,13 @@
                 } 
         });
 
-        function tampilPenjualan() {
-            $('#formModalReturPenjualan').modal('show');
-            $('#tbl-data-retur-penjualan').DataTable();
+        function tampilPembelian() {
+            $('#formModalReturPembelian').modal('show');
+            $('#tbl-data-retur-pembelian').DataTable();
         }
 
-        function hidePenjualan() {
-            $('#formModalReturPenjualan').modal('hide');
+        function hidePembelian() {
+            $('#formModalReturPembelian').modal('hide');
         }
 
         $.ajaxSetup({
@@ -237,20 +237,20 @@
             $('#tgl').val(today) 
 
 
-            $(document).on('click','.add_penjualan',function(){
-                var id = $(this).data("id_penjualan");
+            $(document).on('click','.add_pembelian',function(){
+                var id = $(this).data("id_pembelian");
                 var tgl = $(this).data("tgl");
-                var nama_pelanggan = $(this).data("nama_pelanggan");
-                var tlp_pelanggan = $(this).data("tlp_pelanggan");
-                var id_pelanggan = $(this).data("id_pelanggan");
-                $('#nama_pelanggan').val(nama_pelanggan);
-                $('#tlp').val(tlp_pelanggan);
-                $('#id_penjualan').val(id);
-                $('#t_penjualan #buffer100').remove();
+                var nama_supplier = $(this).data("nama_supplier");
+                var tlp_supplier = $(this).data("tlp_supplier");
+                var id_supplier = $(this).data("id_supplier");
+                $('#nama_supplier').val(nama_supplier);
+                $('#tlp').val(tlp_supplier);
+                $('#id_pembelian').val(id);
+                $('#t_pembelian #buffer100').remove();
 
                 $.ajax({
                     type: 'POST',
-                    url:"{{ route('retur-penjualan.data') }}",
+                    url:"{{ route('retur-pembelian.data') }}",
                     data: {
                         id: id,
                         _token: "{{ csrf_token() }}"
@@ -258,7 +258,7 @@
                     cache: false,
                     success:function(response){
                         console.log(response)
-                        $('#t_penjualan').html(response);
+                        $('#t_pembelian').html(response);
                     }
                 })
             }); 
@@ -269,79 +269,48 @@
                 var kode=$('#kode'+id).val();
                 var nama_barang=$('#nama_barang'+id).val();
                 var harga_beli=$('#harga_beli'+id).val();
-                var harga_jual=$('#harga_jual'+id).val();
+                // var harga_beli=$('#harga_beli'+id).val();
                 var qty=$('#qty'+id).val();
                 var subtotal=$('#subtotal'+id).val();
-                console.log(id_barang, kode, nama_barang, harga_beli, harga_jual, qty, subtotal)
+                console.log(id_barang, kode, nama_barang, harga_beli, qty, subtotal)
 
                 var search=CariIdBarang(id_barang);
                 if(search==false){
                 //HAPUS BARIS 1
-                $('#t_retur #buffer100').remove();
-                count++;
-                var html_code="<tr id='buffer"+count+" retur'>";
+                    $('#t_retur #buffer100').remove();
+                    count++;
+                    var html_code="<tr id='buffer"+count+"'>";
 
-                html_code+="<td style='text-align:center'><input type='hidden' name='item["+count+"][id_barang_retur]' value='"+id_barang+"' > <input class='form-control' type='text' name='item["+count+"][kode_retur]' value='"+kode+"' readonly='true'></td>";
-                html_code+="<td style='text-align:center'><input class='form-control' type='text' name='item["+count+"][nama_barang_retur]' value='"+nama_barang+"' readonly='true'></td>";
-                html_code+="<td><input class='form-control' style='text-align:right' type='text' name='item["+count+"][harga_jual_retur]' value='"+harga_jual+"' id='harga_jual_retur"+count+"' readonly='true'><input type='hidden' name='item["+count+"][harga_beli_retur]' value='"+harga_beli+"'  id='harga_beli_retur"+count+"' ></td>";
-                html_code+="<td style='text-align:center; width: 8%;'><input type='number' class='form-control qty_retur' data-idbuffer='"+count+"' name='item["+count+"][qty_retur]' value='1' max='"+qty+"' id='qty_retur"+count+"' onkeypress='cek_number()'></td>";
-                html_code+="<td style='text-align:center;'><input style='text-align:right' type='number' class='form-control' name='item["+count+"][subtotal_retur]' value='"+harga_jual*qty+"' readonly='true' id='subtotal_retur"+count+"'></td>";
-                html_code+="<td style='text-align:center;'><button type='button' class='btn btn-danger hapus_retur' data-idbuffer='"+count+"' ><i class='fas fa-minus'></i></button></td>";
-                html_code+="</tr>";
-                //alert (html_code);
-                $('#t_retur').append(html_code);
-                GetTotalBayar();
-                GetKeuntungan();
+                    html_code+="<td style='text-align:center'><input type='hidden' name='item["+count+"][id_barang_retur]' value='"+id_barang+"' > <input class='form-control' type='text' name='item["+count+"][kode_retur]' value='"+kode+"' readonly='true'></td>";
+                    html_code+="<td style='text-align:center'><input class='form-control' type='text' name='item["+count+"][nama_barang_retur]' value='"+nama_barang+"' readonly='true'></td>";
+                    html_code+="<td><input class='form-control' style='text-align:right' type='text' name='item["+count+"][harga_beli_retur]' value='"+harga_beli+"' id='harga_beli_retur"+count+"' readonly='true'></td>";
+                    html_code+="<td style='text-align:center; width: 8%;'><input type='number' class='form-control qty_retur' data-idbuffer='"+count+"' name='item["+count+"][qty_retur]' value='1' max='"+qty+"' id='qty_retur"+count+"' onkeypress='cek_number()'></td>";
+                    html_code+="<td style='text-align:center;'><input style='text-align:right' type='number' class='form-control' name='item["+count+"][subtotal_retur]' value='"+harga_beli*qty+"' readonly='true' id='subtotal_retur"+count+"'></td>";
+                    html_code+="<td style='text-align:center;'><button type='button' class='btn btn-danger hapus_retur' data-idbuffer='"+count+"'><i class='fas fa-minus'></i></button></td>";
+                    html_code+="</tr>";
+                    //alert (html_code);
+                    $('#t_retur').append(html_code);
+                    GetTotalBayar();
+                    GetKeuntungan();
+                } else{
+                    var posisi = CariPosisi(id_barang);
+                    var qty = Number($('#qty_retur'+posisi).val())+1;
+                    $('#qty_retur'+posisi).val(qty);
+                    $('#subtotal_retur'+posisi).val(harga_beli*qty);
                 }
 
 
 
             });
 
-            // function TambahDataPenjualan(id,tgl,nama_pelanggan,tlp_pelanggan,id_pelanggan,kode,nama_barang, harga, qty){
-            //     var id_penjualan=id;
-            //     var tgl=tgl;
-            //     var nama_pelanggan=nama_pelanggan;
-            //     var tlp_pelanggan=tlp_pelanggan;
-            //     var id_pelanggan=id_pelanggan;
-            //     var kode=kode;
-            //     var nama_barang=nama_barang;
-            //     var harga=harga;
-            //     var qty=qty;
-
-            //     var penjualan=CariIdBarang(id_penjualan);
-
-            //     if(penjualan==false){
-            //         //HAPUS BARIS 1
-            //         $('#buffer100').remove();
-            //         count++;
-            //         //alert(count);
-            //         var rowPenjualan="<tr id='buffer"+count+"'>";
-            //         rowPenjualan+="<td style='text-align:center'><input class='form-control' type='text' name='item["+count+"][kode]' value='"+kode+"' readonly='true'></td>";
-            //         rowPenjualan+="<td style='text-align:center'><input class='form-control' type='text' name='item["+count+"][nama_barang]' value='"+nama_barang+"' readonly='true'></td>";
-            //         rowPenjualan+="<td style='text-align:center'><input class='form-control' type='number' name='item["+count+"][harga]' value='"+harga+"' readonly='true'></td>";
-            //         rowPenjualan+="<td style='text-align:center'><input class='form-control' type='text' name='item["+count+"][qty]' value='"+qty+"' readonly='true'></td>";
-            //         rowPenjualan+="<td style='text-align:center'><input class='form-control' type='number' name='item["+count+"][subtotal]' value='"+harga*qty+"' readonly></td>";
-            //         rowPenjualan+="<td style='text-align:center;'><button type='button' class='btn btn-info hapus_penjualan' data-idbuffer='"+count+"' ><i class='fa fa-plus'></i></button></td>";
-            //         rowPenjualan+="</tr>";
-            //         $('#t_penjualan').append(rowPenjualan);
-            //     }else{
-            //         var posisi=CariPosisi(id_penjualan);
-            //         var qty=Number($('#qty'+posisi).val())+1;
-            //         $('#qty'+posisi).val(qty);
-            //         $('#subtotal'+posisi).val(harga_jual*qty);
-            //     }
-            // }
-
-
             function CariIdBarang(cari){
                 var found = false;
                 var x = 1;
-                while((x<=count) && ($("input[name='item["+x+"][id_barang]']").val()!=cari)){
+                while((x<=count) && ($("input[name='item["+x+"][id_barang_retur]']").val()!=cari)){
                     x++
                 }
 
-                if($("input[name='item["+x+"][id_barang]']").val()==cari){
+                if($("input[name='item["+x+"][id_barang_retur]']").val()==cari){
                     found=true;
                 }
 
@@ -365,7 +334,6 @@
                 //HASILKAN TOTAL BAYAR
                 for(x=1;x<=count;x++){
                     hargabeli=$("input[name='item["+x+"][harga_beli_retur]']").val();
-                    hargajual=$("input[name='item["+x+"][harga_jual_retur]']").val();
                     qty=$("input[name='item["+x+"][qty_retur]']").val();
                     keuntungan+= (hargajual-hargabeli)*qty;
                 }
@@ -376,11 +344,11 @@
                 var found=false;
                 var x=1;
 
-                while((x<=count) && ($("input[name='item["+x+"][id_barang]']").val()!=cari)){
+                while((x<=count) && ($("input[name='item["+x+"][id_barang_retur]']").val()!=cari)){
                     x++
                 }
 
-                if($("input[name='item["+x+"][id_barang]']").val()==cari){
+                if($("input[name='item["+x+"][id_barang_retur]']").val()==cari){
                     found=true;
                 }
 
@@ -390,7 +358,8 @@
 
             $(document).on('click','.hapus_retur',function(){
                 var delete_row=$(this).data("idbuffer");
-                $('#buffer'+delete_row).remove(); 
+                console.log(delete_row)
+                $('#t_retur #buffer'+delete_row).remove(); 
                 count--;
                 GetTotalBayar();
                 GetKeuntungan();
@@ -398,13 +367,13 @@
             
             $(document).on('keyup','.qty_retur',function(){
                 var id=$(this).data("idbuffer");
-                var harga_jual=$('#harga_jual_retur'+id).val();
+                var harga_beli=$('#harga_beli_retur'+id).val();
                 var qty=$('#qty_retur'+id).val();
                 console.log(qty)
-                $('#subtotal_retur'+id).val(harga_jual*qty);
+                $('#subtotal_retur'+id).val(harga_beli*qty);
                 GetTotalBayar();
                 GetKeuntungan();
-            //alert(harga_jual);
+            //alert(harga_beli);
             });
         });
 

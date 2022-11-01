@@ -30,10 +30,21 @@ class LaporanController extends Controller
         $tanggalAwal = date('Y-m-d', mktime(0, 0, 0, date('m'), 1, date('Y')));
         $tanggalAkhir = date('Y-m-d');
         $now = date('Y-m-d');
+        $kategori = $request->kategori;
+        $merek = $request->merek;
 
         if ($request->has('tanggal_awal') && $request->tanggal_awal != $now && $request->has('tanggal_akhir') && $request->tanggal_akhir != "") {
             $tanggalAwal = date('Y-m-d', strtotime($request->tanggal_awal));
             $tanggalAkhir = date('Y-m-d', strtotime($request->tanggal_akhir));
+            if($kategori == 'semua' && $merek == 'semua'){
+                $condition = '';
+            } else if ($kategori == 'semua' && $merek != 'semua'){
+                $condition = 'b.merek, ' . $merek; 
+            } else if ($kategori != 'semua' && $merek == 'semua'){
+                $condition = 'b.kategori, ' . $kategori; 
+            } else {
+                $condition = "b.kategori == $kategori AND b.merek == $merek";
+            }
         } else {
             $tanggalAwal = date('Y-m-d', strtotime($now));
             $tanggalAkhir = date('Y-m-d', strtotime($now));
@@ -148,6 +159,44 @@ class LaporanController extends Controller
 
         return $data;
     }
+
+    // LAPORAN RETUR PEMBELIAN
+    public function dataLaporanReturPembelian($awal, $akhir)
+    {
+        // return $awal;
+        $no = 1;
+        $data = array();
+
+        while (strtotime($awal) <= strtotime($akhir)) {
+            $tanggal = $awal;
+            $awal = date('Y-m-d', strtotime("+1day", strtotime($awal)));
+
+            $returPembelian= ReturPembelian::where('t_retur_pembelian.tgl', 'Like','%$tanggal%')
+                                            ->leftJoin('t_barang AS B', 'B.id', 't_retur_pembelian.id_barang')
+                                            ->select('t_retur_pembelian.*', 'B.nama AS nama_barang', 'B.kode')    
+                                            ->where('t_retur_pembelian.id_perusahaan', auth()->user()->id_perusahaan)
+                                            ->orderBy('id', 'desc')->get();
+        
+            foreach($returPembelian as $item) {
+                $row = array();
+                $row['kode'] = '<span class="badge" style="background-color:#2f3d57; color:white;">'. $item->kode .'</span>';
+                $row['nama_barang'] = $item->nama_barang ;
+                $row['qty'] = $item->qty;
+                $row['total_retur'] = 'Rp. '. format_uang($item->qty * $item->harga_beli);
+
+                $data[] = $row;
+            }         
+        }
+
+        return datatables()
+            ->of($data)
+            ->addIndexColumn()
+            ->rawColumns(['kode'])
+            ->make(true);
+
+        return $data;
+    }
+
 
 
 

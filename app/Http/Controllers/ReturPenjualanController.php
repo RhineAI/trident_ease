@@ -93,6 +93,12 @@ class ReturPenjualanController extends Controller
     {
         // dd($request);
         $returBaru = new ReturPenjualan();
+
+        if(TransaksiPenjualan::select("id")->where('id', 'like', '%'. date('Ymd') . '%')->first() == null){
+            $indexTransaksi = sprintf("%05d", 1);
+            $returBaru->id = date('Ymd'). $indexTransaksi;
+        }
+        
         $returBaru->id_penjualan = $request->id_penjualan;
         $returBaru->tgl = date('Y-m-d');
         $returBaru->total_retur = $request->total_retur;
@@ -110,11 +116,14 @@ class ReturPenjualanController extends Controller
             $detReturBaru->harga_jual = $barang['harga_jual_retur'];
             $detReturBaru->sub_total = $barang['harga_jual_retur'] * $barang['qty_retur'];
             $detReturBaru->keuntungan = $barang['harga_jual_retur'] - $barang['harga_beli_retur'];
+            $detReturBaru->id_perusahaan = auth()->user()->id_perusahaan;
             $detReturBaru->save();
 
-            $barangUpdate = Barang::find($barang['id_barang']);
+            $barangUpdate = Barang::find($barang['id_barang_retur']);
             $barangUpdate->stock += $barang['qty_retur'];
             $barangUpdate->update();
+
+            return redirect()->route('retur-penjualan.index')->with(['success' => 'Retur Penjualan Berhasil']);
         }
         
     }

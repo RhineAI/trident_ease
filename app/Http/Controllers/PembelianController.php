@@ -110,7 +110,7 @@ class PembelianController extends Controller
             $kode = '';
             $date = (date('Ymd'));
             // return $date;
-            if($penjualanBaru == NULL) {
+            if($pembelianBaru == NULL) {
                 $kode_invoice = $date . '0001';
             } 
             else {

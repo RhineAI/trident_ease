@@ -26,12 +26,12 @@ use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\PDFController;
 use App\Http\Controllers\PembelianController;
 use App\Http\Controllers\ListTransaksiPembelianController;
-use App\Http\Controllers\ListReturPenjualanController;
 
 use App\Http\Controllers\HutangController;
 use App\Http\Controllers\PiutangController;
 use App\Http\Controllers\ReturPenjualanController;
 use App\Http\Controllers\ListReturPenjualanController;
+use App\Http\Controllers\ReturPembelianController;
 use App\Http\Controllers\StokOpnameController;
 use Illuminate\Support\Facades\Route;
 
@@ -94,6 +94,13 @@ Route::group(['middleware' => 'hak_akses:1'], function () {
         Route::post('/list-retur-penjualan/data/{awal}/{akhir}', [ListReturPenjualanController::class, 'getData'])->name('list-retur-penjualan.data');
         Route::get('/list-retur-penjualan/pdf/{awal}/{akhir}', [ListReturPenjualanController::class, 'exportPDF'])->name('list-retur-penjualan.export_pdf');
 
+        // Retur Pembelian
+        Route::resource('/retur-pembelian', ReturPembelianController::class);
+        Route::post('/retur-pembelian/data', [ReturPembelianController::class, 'data'])->name('retur-pembelian.data');
+        Route::get('/list-retur-pembelian', [ListReturPembelianController::class, 'index'])->name('list-retur-pembelian.index');
+        Route::post('/list-retur-pembelian/data/{awal}/{akhir}', [ListReturPembelianController::class, 'getData'])->name('list-retur-pembelian.data');
+        Route::get('/list-retur-pembelian/pdf/{awal}/{akhir}', [ListReturPembelianController::class, 'exportPDF'])->name('list-retur-pembelian.export_pdf');
+
         // Informasi KAS
         Route::resource('kas-masuk', KasMasukController::class);
         Route::post('/kas-masuk/data', [KasMasukController::class, 'data'])->name('kas-masuk.data');
@@ -103,9 +110,8 @@ Route::group(['middleware' => 'hak_akses:1'], function () {
 
         // Laporan
         Route::get('/list-pelanggan-terbaik', [LaporanController::class, 'indexBestPelanggan'])->name('list-b-pelanggan.index');
-
-        Route::post('/list-pelanggan-terbaik/data/{awal}/{akhir}', [LaporanController::class, 'getDataBestPelanggan'])->name('list-b-pelanggan.data');
-        Route::get('/list-pelanggan-terbaik/pdf/{awal}/{akhir}', [LaporanController::class, 'exportPDFBPelanggan'])->name('list-b-pelanggan.export_pdf');
+        Route::post('/list-pelanggan-terbaik/data/{awal}/{akhir}', [LaporanController::class, 'getDataBestBPelanggan'])->name('list-b-pelanggan.data');
+        Route::get('/list-pelanggan-terbaik/pdf/{awal}/{akhir}', [LaporanController::class, 'PDFBestPelanggan'])->name('list-b-pelanggan.pdf');
 
         Route::get('/laporan-kas', [LaporanController::class, 'indexLaporanKas'])->name('laporan-kas.index');
         Route::post('/laporan-kas-masuk/data/{awal}/{akhir}', [LaporanController::class, 'dataLaporanKasMasuk'])->name('laporan-kas-masuk.data');
@@ -137,7 +143,6 @@ Route::group(['middleware' => 'hak_akses:1'], function () {
    
         
         Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
-
 });
 
 //Kasir
