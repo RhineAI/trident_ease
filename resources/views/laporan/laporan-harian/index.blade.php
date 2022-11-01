@@ -121,7 +121,7 @@ Laporan Harian
                                 <thead class="table-primary">
                                     <tr>
                                         <th width="4%" class="text-center">No</th>
-                                        <th width="10.5%" class="text-center">No Pembelian</th>
+                                        <th width="10%" class="text-center">Invoice</th>
                                         <th width="8%" class="text-center">Tanggal</th>
                                         <th width="16%" class="text-center">Nama Supplier</th>
                                         <th width="13%" class="text-center">Total Bayar</th>
@@ -135,7 +135,7 @@ Laporan Harian
                                 <thead class="table-primary">
                                     <tr>
                                         <th width="4%" class="text-center">No</th>
-                                        <th width="10.5%" class="text-center">No Penjualan</th>
+                                        <th width="10.5%" class="text-center">Invoice</th>
                                         <th width="8%" class="text-center">Tanggal</th>
                                         <th width="16%" class="text-center">Nama Pelanggan</th>
                                         <th width="13%" class="text-center">Total Bayar</th>
@@ -317,8 +317,8 @@ columns: [
         },
         columns: [
             {data:'DT_RowIndex', searchable: false, sortable: false},
-            {data:'tgl'},
             {data:'no_pembelian'},
+            {data:'tgl'},
             {data:'nama_supplier'},
             {data:'total_bayar'},
             {data:'status'},
@@ -344,8 +344,8 @@ columns: [
         },
         columns: [
             {data:'DT_RowIndex', searchable: false, sortable: false},
-            {data:'tgl'},
             {data:'no_penjualan'},
+            {data:'tgl'},
             {data:'nama_pelanggan'},
             {data:'total_bayar'},
             {data:'status'},

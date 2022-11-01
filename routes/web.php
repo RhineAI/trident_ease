@@ -120,9 +120,9 @@ Route::group(['middleware' => 'hak_akses:1'], function () {
         Route::post('/laporan-stok/data/{merek}/{kategori}', [LaporanController::class, 'dataLaporanStok'])->name('laporan-stok.data');
         Route::post('/laporan-stok/pdf/{merek}/{kategori}', [LaporanController::class, 'PDFStok'])->name('laporan-stok.pdf');
 
-        Route::get('/laporan-kesesuaian-stock', [LaporanController::class, 'indexLaporanKesesuaianStok'])->name('laporan-kesesuaian-stock.index');
-        Route::post('/laporan-kesesuaian-stock/data/{awal}/{akhir}', [LaporanController::class, 'dataLaporanKesesuaianStok'])->name('laporan-kesesuaian-stock.data');
-        Route::post('/laporan-kesesuaian-stock/pdf/{awal}/{akhir}', [LaporanController::class, 'PDFKesesuaianStok'])->name('laporan-kesesuaian-stock.pdf');
+        Route::get('/laporan-kesesuaian-stock', [LaporanController::class, 'indexLaporanKesesuaianStok'])->name('laporan-kesesuaian-stok.index');
+        Route::post('/laporan-kesesuaian-stock/data/{awal}/{akhir}/{merek}/{kategori}', [LaporanController::class, 'dataLaporanKesesuaianStok'])->name('laporan-kesesuaian-stok.data');
+        Route::post('/laporan-kesesuaian-stock/pdf/{awal}/{akhir}/{merek}/{kategori}', [LaporanController::class, 'PDFKesesuaianStok'])->name('laporan-kesesuaian-stok.pdf');
      
         Route::get('/laporan-hutang-piutang', [LaporanController::class, 'indexLaporanHutangPiutang'])->name('laporan-hutang-piutang.index');
         Route::post('/laporan-hutang/data/{awal}/{akhir}', [LaporanController::class, 'dataLaporanHutang'])->name('laporan-hutang.data');
