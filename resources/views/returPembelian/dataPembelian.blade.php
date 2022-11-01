@@ -15,7 +15,7 @@
                         <td>No</td>
                         <td>No Pembelian</td>
                         <td>Tanggal</td>
-                        <td>Pelanggan</td>
+                        <td>Supplier</td>
                         <td>Action</td>
                     </tr>
                 </thead>
@@ -25,14 +25,14 @@
                             <td width="6%">{{ $i = (isset($i)?++$i:$i=1) }}</td>
                             <td width="10%"><span class="badge badge-info">{{ $item->id_pembelian }}</span></td>
                             <td>{{ $item->tanggal }}</td>
-                            <td>{{ $item->nama_pelanggan }}</td>
+                            <td>{{ $item->nama_supplier }}</td>
                             <td width="6%">
                                 <button type="button" class="btn btn-info add_pembelian" 
                                 data-id_pembelian="{{ $item->id_pembelian }}" 
                                 data-tgl="{{ $item->tgl }}" 
-                                data-nama_pelanggan="{{ $item->nama_pelanggan }}"
-                                data-id_pelanggan="{{ $item->id_pelanggan }}" 
-                                data-tlp_pelanggan="{{ $item->tlp }}"  
+                                data-nama_supplier="{{ $item->nama_supplier }}"
+                                data-id_supplier="{{ $item->id_supplier }}" 
+                                data-tlp_supplier="{{ $item->tlp }}"  
                                 data-dismiss="modal"> <i class="fa fa-plus"></i>
                                 </button>
                             </td>

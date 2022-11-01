@@ -15,7 +15,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('t_retur_penjualan', function (Blueprint $table) {
-            $table->integer('id')->autoIncrement();
+            $table->bigInteger('id')->autoIncrement();
             $table->bigInteger('id_penjualan');
             $table->date('tgl');
             // $table->integer('qty');

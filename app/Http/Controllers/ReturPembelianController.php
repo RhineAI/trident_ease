@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\ReturPembelian;
 use App\Http\Requests\StoreReturPembelianRequest;
 use App\Http\Requests\UpdateReturPembelianRequest;
+use App\Models\Barang;
 use App\Models\DetailReturPembelian;
 use App\Models\Pembelian;
 use App\Models\Perusahaan;
@@ -32,7 +33,7 @@ class ReturPembelianController extends Controller
     public function data(Request $request){
         $detailPembelian = Pembelian::leftJoin('t_detail_pembelian AS DT', 't_transaksi_pembelian.id', 'DT.id_pembelian')
         ->leftJoin('t_barang AS B', 'B.id', 'DT.id_barang')
-        ->select('DT.harga_jual', 'DT.qty', 't_transaksi_pembelian.id AS id_pembelian', 't_transaksi_pembelian.tgl AS tanggal', 'B.nama AS nama_barang', 'B.id AS id_barang', 'B.harga_beli', 'B.kode')
+        ->select('DT.harga_beli', 'DT.qty', 't_transaksi_pembelian.id AS id_pembelian', 't_transaksi_pembelian.tgl AS tanggal', 'B.nama AS nama_barang', 'B.id AS id_barang', 'B.harga_beli', 'B.kode')
         ->where('t_transaksi_pembelian.id', $request->id)     
         ->where('t_transaksi_pembelian.id_perusahaan', auth()->user()->id_perusahaan)     
         ->orderBy('t_transaksi_pembelian.id', 'desc')
@@ -103,14 +104,15 @@ class ReturPembelianController extends Controller
             $detReturBaru->id_barang = $barang['id_barang_retur'];
             $detReturBaru->qty = $barang['qty_retur'];
             $detReturBaru->harga_beli = $barang['harga_beli_retur'];
-            $detReturBaru->harga_jual = $barang['harga_jual_retur'];
-            $detReturBaru->sub_total = $barang['harga_jual_retur'] * $barang['qty_retur'];
-            $detReturBaru->keuntungan = $barang['harga_jual_retur'] - $barang['harga_beli_retur'];
+            $detReturBaru->sub_total = $barang['harga_beli_retur'] * $barang['qty_retur'];
+            $detReturBaru->keuntungan = $barang['harga_beli_retur'] - $barang['harga_beli_retur'];
+            $detReturBaru->id_perusahaan = auth()->user()->id_perusahaan;
             $detReturBaru->save();
 
-            $barangUpdate = Barang::find($barang['id_barang']);
+            $barangUpdate = Barang::find($barang['id_barang_retur']);
             $barangUpdate->stock += $barang['qty_retur'];
             $barangUpdate->update();
+            return redirect()->route('retur-penjualan.index')->with(['success' => 'Retur Pembelian Berhasil']);
         }
     }
 

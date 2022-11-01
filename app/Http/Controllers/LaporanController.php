@@ -44,7 +44,7 @@ class LaporanController extends Controller
                 $condition = 'b.kategori, ' . $kategori; 
             } else {
                 $condition = "b.kategori == $kategori AND b.merek == $merek";
-            }   
+            }
         } else {
             $tanggalAwal = date('Y-m-d', strtotime($now));
             $tanggalAkhir = date('Y-m-d', strtotime($now));

@@ -15,7 +15,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('t_retur_pembelian', function (Blueprint $table) {
-            $table->integer('id')->autoIncrement();
+            $table->bigInteger('id')->autoIncrement();
             $table->bigInteger('id_pembelian');
             $table->date('tgl');
             $table->double('total_retur');

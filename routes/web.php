@@ -31,9 +31,10 @@ use App\Http\Controllers\HutangController;
 use App\Http\Controllers\PiutangController;
 use App\Http\Controllers\ReturPenjualanController;
 use App\Http\Controllers\ListReturPenjualanController;
-use App\Http\Controllers\ReturPembelianController;
 use App\Http\Controllers\StokOpnameController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ReturPembelianController;
+use App\Http\Controllers\ListReturPembelianController;
 
 Route::group(['middleware' => 'hak_akses:1'], function () {
         Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
