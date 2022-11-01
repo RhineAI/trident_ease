@@ -47,7 +47,7 @@ Data Pelanggan Terbaik
                                 <span class="help-block with-errors"></span>
                             </div>
 
-                            <button type="" class="btn btn-sm btn-primary"><i class="fa fa-search"></i> Cari</button>
+                            <button type="" class="btn btn-sm btn-flat btn-primary"><i class="fa fa-search"></i> Cari</button>
                          
                         </div>
                     </form>
@@ -65,11 +65,11 @@ Data Pelanggan Terbaik
                                 <thead class="table-danger">
                                     <tr>
                                         <th width="5%" class="text-center">No</th>
-                                        <th width="13%" class="text-center">Tanggal</th>
-                                        <th width="9%" class="text-center">Invoice</th>
-                                        <th width="14%" class="text-center">Pelanggan</th>
-                                        <th width="14%" class="text-center">Total Pelanggan Terbaik</th>
-                                        <th width="7%" class="text-center">Aksi</th>
+                                        <th width="13%" class="text-center">Nama Pelanggan</th>
+                                        <th width="9%" class="text-center">Telepon</th>
+                                        <th width="14%" class="text-center">Alamat</th>
+                                        <th width="14%" class="text-center">Jumlah Beli</th>
+                                        <th width="14%" class="text-center">Total Beli</th>
                                     </tr>
                                 </thead>
                             </table>
@@ -97,6 +97,9 @@ Data Pelanggan Terbaik
         processing: true,
         responsive: true,
         autoWidth: false,
+        "searching": false,
+        "paging": false,
+        "ordering": false,
         serverSide: true,
         ajax: {
             url: "{{ route('list-b-pelanggan.data', [$tanggalAwal, $tanggalAkhir]) }}",
@@ -107,11 +110,11 @@ Data Pelanggan Terbaik
         },
         columns: [
             {data:'DT_RowIndex', searchable: false, sortable: false},
-            {data:'tgl'},
-            {data:'invoice'},
             {data:'nama_pelanggan'},
-            {data:'total_harga'},
-            {data:'action', searchable: false, sortable: false},
+            {data:'tlp_pelanggan'},
+            {data:'alamat_pelanggan'},
+            {data:'jumlahBeliBarang'},
+            {data:'jumlahBayarBarang'},
         ]
     });
 </script>

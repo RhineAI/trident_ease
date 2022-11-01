@@ -116,6 +116,34 @@ Laporan Harian
                                 </thead>
                             </table> --}}
 
+                            <h5 class="mt-4 mb-3">Hutang</h5>
+                            <table class="table align-items-center mb-5 table-bordered table-striped table-flush table-hover text-center table-hutang" id="dataTableHover">
+                                <thead class="table-primary">
+                                    <tr>
+                                        <th width="4%" class="text-center">No</th>
+                                        <th width="10.5%" class="text-center">No Pembelian</th>
+                                        <th width="8%" class="text-center">Tanggal</th>
+                                        <th width="16%" class="text-center">Nama Pelanggan</th>
+                                        <th width="13%" class="text-center">Total Bayar</th>
+                                        <th width="9%" class="text-center">Status</th>
+                                    </tr>
+                                </thead>
+                            </table>
+
+                            <h5 class="mt-4 mb-3">Piutang</h5>
+                            <table class="table align-items-center mb-5 table-bordered table-striped table-flush table-hover text-center table-piutang" id="dataTableHover">
+                                <thead class="table-primary">
+                                    <tr>
+                                        <th width="4%" class="text-center">No</th>
+                                        <th width="10.5%" class="text-center">No Penjualan</th>
+                                        <th width="8%" class="text-center">Tanggal</th>
+                                        <th width="16%" class="text-center">Nama Pelanggan</th>
+                                        <th width="13%" class="text-center">Total Bayar</th>
+                                        <th width="9%" class="text-center">Status</th>
+                                    </tr>
+                                </thead>
+                            </table>
+
                             <h5 class="mt-4 mb-3">Kas Masuk</h5>
                             <table class="table align-items-center mb-5 table-bordered table-striped table-flush table-hover text-center table-kas-masuk" id="dataTableHover">
                                 <thead class="table-primary">
@@ -265,6 +293,62 @@ columns: [
             {data:'nama_barang'},
             {data:'qty'},
             {data:'total_retur'},
+        ]
+    });
+
+
+
+    let table_hutang;
+        table = $('.table-hutang').DataTable({
+        searching: false,
+        info: false,
+        paging:false,
+        bFilter:false,
+        processing: false,
+        responsive: true,
+        autoWidth: false,
+        serverSide: true,
+        ajax: {
+            url: "{{ route('laporan-hutang.data', [$tanggalAwal, $tanggalAkhir]) }}",
+            type: "POST",
+            data: {  
+                _token: '{{ csrf_token() }}'
+            }
+        },
+        columns: [
+            {data:'DT_RowIndex', searchable: false, sortable: false},
+            {data:'tgl'},
+            {data:'no_pembelian'},
+            {data:'nama_pelanggan'},
+            {data:'total_bayar'},
+            {data:'status'},
+        ]
+    });
+
+    let piutang;
+        table = $('.table-piutang').DataTable({
+        searching: false,
+        info: false,
+        paging:false,
+        bFilter:false,
+        processing: false,
+        responsive: true,
+        autoWidth: false,
+        serverSide: true,
+        ajax: {
+            url: "{{ route('laporan-piutang.data', [$tanggalAwal, $tanggalAkhir]) }}",
+            type: "POST",
+            data: {  
+                _token: '{{ csrf_token() }}'
+            }
+        },
+        columns: [
+            {data:'DT_RowIndex', searchable: false, sortable: false},
+            {data:'tgl'},
+            {data:'no_penjualan'},
+            {data:'nama_pelanggan'},
+            {data:'total_bayar'},
+            {data:'status'},
         ]
     });
 

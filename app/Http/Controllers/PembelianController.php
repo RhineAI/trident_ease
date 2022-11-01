@@ -8,8 +8,8 @@ use App\Http\Requests\UpdatePembelianRequest;
 use App\Models\Barang;
 use App\Models\DetailPembelian;
 use App\Models\KasKeluar;
-use App\Models\Pembayaran;
-use App\Models\PembayaranPembelian;
+use App\Models\Piutang;
+use App\Models\Hutang;
 use App\Models\Perusahaan;
 use App\Models\Supplier;
 
@@ -150,7 +150,7 @@ class PembelianController extends Controller
                 // ]);
             }
 
-            $pembayaranBaru = new PembayaranPembelian();
+            $pembayaranBaru = new Hutang();
             $pembayaranBaru->id_pembelian = $pembelianBaru->id;
             $pembayaranBaru->tgl = date('Y-m-d');
             if($request->jenis_pembayaran == 2){

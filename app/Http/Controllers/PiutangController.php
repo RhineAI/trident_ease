@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Pembayaran;
+use App\Models\Piutang;
 use App\Http\Requests\StorePembayaranRequest;
 use App\Http\Requests\UpdatePembayaranRequest;
 use App\Models\KasMasuk;
@@ -10,7 +10,7 @@ use App\Models\Perusahaan;
 use App\Models\TransaksiPenjualan;
 use Illuminate\Support\Facades\DB;
 
-class PembayaranController extends Controller
+class PiutangController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -20,9 +20,9 @@ class PembayaranController extends Controller
     public function index()
     {   
         $data['cPerusahaan'] = Perusahaan::select('*')->where('id', auth()->user()->id_perusahaan)->first();
-        $data['pembayaran'] = Pembayaran::leftJoin('t_transaksi_penjualan AS TP', 'TP.id', 't_pembayaran_penjualan.id_penjualan')
+        $data['pembayaran'] = Piutang::leftJoin('t_transaksi_penjualan AS TP', 'TP.id', 't_data_piutang.id_penjualan')
         ->leftJoin('t_pelanggan as P', 'P.id', 'TP.id_pelanggan')
-        ->select('P.nama AS nama_pelanggan', 'P.tlp', 'P.id as id_pelanggan', 't_pembayaran_penjualan.*', 'TP.dp', 'TP.total_harga', 'TP.sisa', 'TP.jenis_pembayaran')
+        ->select('P.nama AS nama_pelanggan', 'P.tlp', 'P.id as id_pelanggan', 't_data_piutang.*', 'TP.dp', 'TP.total_harga', 'TP.sisa', 'TP.jenis_pembayaran')
         // ->where('TP.jenis_pembayaran', 2)
         ->where('TP.id_perusahaan', auth()->user()->id_perusahaan)    
         ->orderBy('jenis_pembayaran', 'desc')
@@ -32,7 +32,7 @@ class PembayaranController extends Controller
         // $data['totalBayar'] = Pembayaran::select('id_penjualan', DB::raw('ceiling(sum(t_pembayaran_penjualan.total_bayar)) AS totalBayar'))->groupBy('id_penjualan')->get();
         // DB::raw('sum(t_pembayaran_penjualan.total_bayar) AS total')
         // return $data['pembayaran'];
-        return view('pembayaran.index', $data);
+        return view('hutang-piutang.piutang.index', $data);
     }
 
     /**
@@ -54,13 +54,13 @@ class PembayaranController extends Controller
     public function store(StorePembayaranRequest $request)
     {
         // return $request;
-        $pembayaran = new Pembayaran();
-        $pembayaran->id_penjualan = $request->id_penjualan;
-        $pembayaran->tgl = date('Ymd');
-        $pembayaran->total_bayar = $request->bayar;
-        $pembayaran->id_user = auth()->user()->id;
-        $pembayaran->id_perusahaan = auth()->user()->id_perusahaan;
-        $pembayaran->save();
+        $piutang = new Piutang();
+        $piutang->id_penjualan = $request->id_penjualan;
+        $piutang->tgl = date('Ymd');
+        $piutang->total_bayar = $request->bayar;
+        $piutang->id_user = auth()->user()->id;
+        $piutang->id_perusahaan = auth()->user()->id_perusahaan;
+        $piutang->save();
         $updateSisa = TransaksiPenjualan::find($request->id_penjualan);
         if(($updateSisa->sisa - $request->bayar) >= 0){
             $updateSisa->sisa -= $request->bayar;
