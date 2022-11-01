@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Barang;
 use App\Models\Pelanggan;
-use App\Models\Pembayaran;
+use App\Models\Piutang;
 use App\Models\Perusahaan;
 use App\Models\KasMasuk;
 use Illuminate\Http\Request;
@@ -143,8 +143,7 @@ class TransaksiPenjualanController extends Controller
                 else{
                     return redirect()->route('logout')->with(['error' => 'Lu siapa??']);
                 }
-
-                
+         
                 $detPenjualanBaru = new DetailPenjualan(); 
                 $detPenjualanBaru->tgl = date('Y-m-d');
                 $detPenjualanBaru->id_penjualan = $penjualanBaru->id;
@@ -161,7 +160,7 @@ class TransaksiPenjualanController extends Controller
             $barangUpdate->stock -= $barang['qty'];
             $barangUpdate->update();
             
-            $pembayaranBaru = new Pembayaran();
+            $pembayaranBaru = new Piutang();
             $pembayaranBaru->id_penjualan = $penjualanBaru->id;
             $pembayaranBaru->tgl = date('Ymd');
             if($request->jenis_pembayaran == 1){

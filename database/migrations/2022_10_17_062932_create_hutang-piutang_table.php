@@ -14,7 +14,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('t_pembayaran_penjualan', function (Blueprint $table) {
+        Schema::create('t_data_piutang', function (Blueprint $table) {
             $table->integer('id')->autoIncrement();
             $table->bigInteger('id_penjualan');
             $table->date('tgl');
@@ -28,7 +28,7 @@ return new class extends Migration
             $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
         });
 
-        Schema::create('t_pembayaran_pembelian', function (Blueprint $table) {
+        Schema::create('t_data_hutang', function (Blueprint $table) {
             $table->integer('id')->autoIncrement();
             $table->bigInteger('id_pembelian');
             $table->date('tgl');
@@ -50,7 +50,7 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('t_pembayaran_penjualan');
-        Schema::dropIfExists('t_pembayaran_pembelian');
+        Schema::dropIfExists('t_data-piutang');
+        Schema::dropIfExists('t_data-hutang');
     }
 };

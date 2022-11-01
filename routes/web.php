@@ -140,9 +140,7 @@ Route::group(['middleware' => 'hak_akses:1'], function () {
         Route::post('/laporan-pembelian/data/{awal}/{akhir}', [LaporanController::class, 'dataLaporanPembelian'])->name('laporan-pembelian.data');
         Route::post('/laporan-retur-penjualan/data/{awal}/{akhir}', [LaporanController::class, 'dataLaporanReturPenjualan'])->name('laporan-retur-penjualan.data');
         Route::post('/laporan-retur-pembelian/data/{awal}/{akhir}', [LaporanController::class, 'dataLaporanReturPembelian'])->name('laporan-retur-pembelian.data');
-        Route::post('/laporan-tunggakan-penjualan/data/{awal}/{akhir}', [LaporanController::class, 'dataLaporanTunggakanPenjualan'])->name('laporan-tunggakan-penjualan.data');
-        Route::post('/laporan-tunggakan-pembelian/data/{awal}/{akhir}', [LaporanController::class, 'dataLaporanTunggakanPembelian'])->name('laporan-tunggakan-pembelian.data');
-  
+   
         
         Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 });

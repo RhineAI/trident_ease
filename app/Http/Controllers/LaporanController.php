@@ -9,9 +9,12 @@ use App\Models\Kategori;
 use App\Models\KasKeluar;
 use App\Models\Pelanggan;
 use App\Models\Perusahaan;
+use App\Models\Hutang;
+use App\Models\Piutang;
 use App\Models\DetailPembelian;
 use App\Models\DetailPenjualan;
 use App\Models\DetailReturPenjualan;
+use App\Models\ReturPembelian;
 // use App\Models\ReturPembelian;
 use App\Models\TransaksiPenjualan;
 use Illuminate\Routing\Controller;
@@ -45,16 +48,18 @@ class LaporanController extends Controller
             $tanggalAkhir = date('Y-m-d', strtotime($now));
         }
 
+        $data['bestPelanggan'] = TransaksiPenjualan::leftJoin('t_detail_penjualan AS DTP', 'DTP.id_penjualan', 't_transaksi_penjualan.id')->select('t_transaksi_penjualan.id_pelanggan', DB::raw('sum(qty) as jumlahBeliBarang'))->where('t_transaksi_penjualan.id_perusahaan', auth()->user()->id_perusahaan)->groupBy('t_transaksi_penjualan.id_pelanggan')->get();    
         // dd($data['bestPelanggan']); die;
-        $data['kas-masuk'] = KasMasuk::select('*')->where('id', auth()->user()->id_perusahaan)->get();
-        $data['kas-keluar'] = KasKeluar::select('*')->where('id', auth()->user()->id_perusahaan)->get();
+        $data['transaksi'] = TransaksiPenjualan::select('*')->where('id', auth()->user()->id_perusahaan)->get();
+        $data['pelanggan'] = Pelanggan::where('id_perusahaan', auth()->user()->id_perusahaan)->get();    
+        // $data['produk'] = Barang::where('stock', '>', 0)->where('status', '==', '1')->get();    
+        $data['produk'] = Barang::where('stock', '>', 0)->where('status', '=', '1')->where('id_perusahaan', auth()->user()->id_perusahaan)->get();  
         $data['cPerusahaan'] = Perusahaan::select('*')->where('id', auth()->user()->id_perusahaan)->first();
         return view('laporan.laporan-pelanggan.index', $data, compact('tanggalAwal', 'tanggalAkhir', 'now'));
     }
 
     public function getDataBestPelanggan($awal, $akhir)
     {
-        // return $awal;
         $no = 1;
         $data = array(); 
 
@@ -78,18 +83,19 @@ class LaporanController extends Controller
 
                 $data[] = $row;
             }         
-            // return $data;   
 
         }
 
         return datatables()
             ->of($data)
-            ->rawColumns(['action', 'invoice'])
+            ->rawColumns(['action'])
             ->make(true);
 
         return $data;
 
     }
+
+
 
     // LAPORAN Harian
     public function indexLaporanHarian(Request $request)
@@ -475,4 +481,70 @@ class LaporanController extends Controller
      }
 
 
+
+
+       // LAPORAN HUTANG PIUTANG
+    public function indexLaporaHutangPiutang(Request $request)
+    {   
+        $data['tanggal'] = date('Y-m-d');
+        // $perusahaan = Perusahaan::select('id')->get();
+
+
+        // return $kasMasuk;
+        $tanggalAwal = date('Y-m-d', mktime(0, 0, 0, date('m'), 1, date('Y')));
+        $tanggalAkhir = date('Y-m-d');
+        $now = date('Y-m-d');
+
+        if ($request->has('tanggal_awal') && $request->tanggal_awal != $now && $request->has('tanggal_akhir') && $request->tanggal_akhir != "") {
+            $tanggalAwal = date('Y-m-d', strtotime($request->tanggal_awal));
+            $tanggalAkhir = date('Y-m-d', strtotime($request->tanggal_akhir));
+        } else {
+            $tanggalAwal = date('Y-m-d', strtotime($now));
+            $tanggalAkhir = date('Y-m-d', strtotime($now));
+        }
+
+        $data['cPerusahaan'] = Perusahaan::select('*')->where('id', auth()->user()->id_perusahaan)->first();
+   
+       return view('laporan.laporan-hutang-piutang.index', compact('tanggalAwal', 'tanggalAkhir', 'now'))->with($data);
+    }
+
+    public function dataLaporanHutang($awal, $akhir)
+    {
+        // return $awal;
+        $no = 1;
+        $data = array();
+
+        while (strtotime($awal) <= strtotime($akhir)) {
+            $tanggal = $awal;
+            $awal = date('Y-m-d', strtotime("+1day", strtotime($awal)));
+
+            $hutang= Hutang::where('tgl', 'Like', '%'.$tanggal.'%')
+                            ->leftJoin('t_pelanggan AS P', 'P.id', 't_data_hutang.id_user')
+                            ->select('t_data_hutang.*', 'P.nama AS nama_pelanggan')  
+                            ->where('t_data_hutang.id_perusahaan', auth()->user()->id_perusahaan)
+                            ->orderBy('id', 'desc')->get();
+            
+            foreach($hutang as $item) {
+                $row = array();
+                $row['DT_RowIndex'] = $no++;
+                $row['no_pembelian'] = 'RP. '. format_uang($item->jumlah);
+                $row['tgl'] = tanggal_indonesia($tanggal, false);
+                $row['nama_pelanggan'] = $item->nama_pelanggan ;
+                $row['total_bayar'] = ucfirst($item->nama_user) ;
+                $row['status'] = '<span class="badge" style="background-color:#2f3d57; color:white;">'. $item->kode .'</span>';
+
+
+                $data[] = $row;
+            }         
+
+        }
+
+        return datatables()
+            ->of($data)
+            ->addIndexColumn()
+            ->rawColumns(['status'])
+            ->make(true);
+
+        return $data;
+    }
 }
