@@ -18,25 +18,38 @@
 @endpush
 
 @section('contents')
-<section class="content">
-    <div class="row mx-4">
-        <div class="col-lg-12" style="background-color: white;">
-            <div class="box-body">
-                <div class="box-body mx-2 my-2">
-                    <form class="form-pelanggan" method="post">
-                        @csrf
+  
+      <!-- Main content -->
+      <section class="content">
+        @if($errors->any())
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        @endif
+        <div class="row mx-4">
+            <div class="col-lg-12" style="background-color: white;">
+                <div class="box-body">
+        
+                    <div class="box-body mx-2 my-2">
 
-                        <div class="form-group row mt-4" >
+                        <form class="form-pelanggan" method="post">
+                            @csrf
+                            
+                        <div class="form-group row">
                             <label for="id_penjualan" class="col-lg-2 control-label">Retur Penjualan</label>
                             <div class="col-lg-4">
                                 <div class="input-group">
-                                    <input type="text" name="id_penjualan" id="id_penjualan" class="form-control"
-                                        required autofocus readonly>
+                                    <input type="text" name="id_penjualan" id="id_penjualan" class="form-control" required autofocus readonly>
                                     <span class="input-group-btn tampil-produk">
                                         {{-- <button onclick="tambahProduk()" class="btn btn-info btn-flat" type="button"><i class="fa fa-arrow-right"></i></button> --}}
-                                        <button onclick="tampilPenjualan()" id="tampil"
-                                            class="btn btn-info btn-flat" type="button"><i
-                                                class="fa-solid fa-magnifying-glass"></i></button>
+                                        <button onclick="tampilPenjualan()" id="tampil" class="btn btn-info btn-flat" type="button"><i class="fa-solid fa-magnifying-glass"></i></button>
                                     </span>
                                 </div>
                             </div>
@@ -44,13 +57,12 @@
                             <label for="nama_pelanggan" class="col-lg-2 control-label">Nama Pelanggan</label>
                             <div class="col-lg-4">
                                 <div class="input-group">
-                                    <input type="text" name="nama_pelanggan" id="nama_pelanggan"
-                                        class="form-control" required autofocus readonly>
+                                    <input type="text" name="nama_pelanggan" id="nama_pelanggan" class="form-control" required autofocus readonly>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="form-group row mb-5">
+                        <div class="form-group row">
                             <label for="tgl" class="col-lg-2 control-label">Tanggal</label>
                             <div class="col-lg-4">
                                 <input type="date" class="form-control" name="tgl" id="tgl" readonly>
@@ -61,19 +73,18 @@
                                 <input type="text" class="form-control" name="tlp" id="tlp" readonly>
                             </div>
                         </div>
-
+        
                         <div class="table-responsive">
-                            <table cellpaddong="0" cellspacing="0" class="table table-striped table-bordered"
-                                id="buffer_table">
+                            <table cellpaddong="0" cellspacing="0" class="table table-striped table-bordered" id="buffer_table">
                                 <thead>
-                                    <tr>
+                                <tr>
                                         <th class="text-center">Kode</th>
                                         <th class="text-center">Nama Barang</th>
                                         <th class="text-center">Harga</th>
                                         <th class="text-center">QTY</th>
                                         <th class="text-center">Sub Total</th>
                                         <th class="text-center">Aksi</th>
-                                    </tr>
+                                </tr>
                                 </thead>
                                 <tbody id="t_penjualan">
                                     <tr id="buffer100" height="50px">
@@ -89,8 +100,7 @@
                         </div>
 
                         <div class="table-responsive">
-                            <table cellpaddong="0" cellspacing="0" class="table table-striped table-bordered"
-                                id="buffer_table">
+                            <table cellpaddong="0" cellspacing="0" class="table table-striped table-bordered" id="buffer_table">
                                 <thead>
                                     <tr>
                                         <th class="text-center">Kode</th>
@@ -113,6 +123,24 @@
                                 </tbody>
                             </table>
                         </div>
+                    </div>
+                
+
+                <div class="col-sm-6">
+                    <!--KEUNTUNGAN-->
+                    <input class="form-control" type="hidden" name="retur_keuntungan" value="" data-bv-trigger="blur" id="retur_keuntungan" readonly="true">
+            
+                    <div class="form-group">
+                        <label for="inputEmail3" class="col-sm-4 control-label">TOTAL RETUR</label>       
+                        <div class="col-sm-8">
+                            <div class="input-group">
+                                <div class="input-group-addon">
+                                Rp.
+                                </div>&nbsp; &nbsp;
+                                <input class="form-control" type="text" name="total_retur" value="" data-bv-trigger="blur" id="total_retur" readonly="true" style='text-align:right'>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 

@@ -26,6 +26,7 @@ use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\PDFController;
 use App\Http\Controllers\PembelianController;
 use App\Http\Controllers\ListTransaksiPembelianController;
+use App\Http\Controllers\ListReturPenjualanController;
 
 use App\Http\Controllers\HutangController;
 use App\Http\Controllers\PiutangController;
@@ -92,6 +93,7 @@ Route::group(['middleware' => 'hak_akses:1'], function () {
         Route::get('/list-retur-penjualan', [ListReturPenjualanController::class, 'index'])->name('list-retur-penjualan.index');
         Route::post('/list-retur-penjualan/data/{awal}/{akhir}', [ListReturPenjualanController::class, 'getData'])->name('list-retur-penjualan.data');
         Route::get('/list-retur-penjualan/pdf/{awal}/{akhir}', [ListReturPenjualanController::class, 'exportPDF'])->name('list-retur-penjualan.export_pdf');
+
         // Informasi KAS
         Route::resource('kas-masuk', KasMasukController::class);
         Route::post('/kas-masuk/data', [KasMasukController::class, 'data'])->name('kas-masuk.data');
@@ -101,8 +103,9 @@ Route::group(['middleware' => 'hak_akses:1'], function () {
 
         // Laporan
         Route::get('/list-pelanggan-terbaik', [LaporanController::class, 'indexBestPelanggan'])->name('list-b-pelanggan.index');
-        Route::post('/list-pelanggan-terbaik/data/{awal}/{akhir}', [LaporanController::class, 'getDataBestBPelanggan'])->name('list-b-pelanggan.data');
-        Route::get('/list-pelanggan-terbaik/pdf/{awal}/{akhir}', [LaporanController::class, 'PDFBestPelanggan'])->name('list-b-pelanggan.pdf');
+
+        Route::post('/list-pelanggan-terbaik/data/{awal}/{akhir}', [LaporanController::class, 'getDataBestPelanggan'])->name('list-b-pelanggan.data');
+        Route::get('/list-pelanggan-terbaik/pdf/{awal}/{akhir}', [LaporanController::class, 'exportPDFBPelanggan'])->name('list-b-pelanggan.export_pdf');
 
         Route::get('/laporan-kas', [LaporanController::class, 'indexLaporanKas'])->name('laporan-kas.index');
         Route::post('/laporan-kas-masuk/data/{awal}/{akhir}', [LaporanController::class, 'dataLaporanKasMasuk'])->name('laporan-kas-masuk.data');
@@ -134,6 +137,7 @@ Route::group(['middleware' => 'hak_akses:1'], function () {
    
         
         Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
+
 });
 
 //Kasir
