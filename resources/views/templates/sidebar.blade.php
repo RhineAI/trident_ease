@@ -181,9 +181,8 @@
                             <li class="nav-item">
                                 <a href="{{ route('data-hutang.index') }}" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
-                                    <p>Data 3,14 utang</p>
+                                    <p>Data π Utang</p> 
                                 </a>
-                                {{-- π --}}
                             </li>
                         </ul>
                     </li>
@@ -242,8 +241,18 @@
                                 </a>
                             </li>
                             <li class="nav-item">
+                                <a href="{{ route('laporan-hutang-piutang.index') }}" class="nav-link">
+                                    <p>Laporan Hutang Piutang</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
                                 <a href="{{ route('laporan-stok.index') }}" class="nav-link">
                                     <p>Laporan Stok</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('laporan-kesesuaian-stok.index') }}" class="nav-link">
+                                    <p>Laporan Kesesuaian Stok</p>
                                 </a>
                             </li>
                             <li class="nav-item">
