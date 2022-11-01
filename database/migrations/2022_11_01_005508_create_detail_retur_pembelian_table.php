@@ -14,7 +14,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('t_det_retur_pembelian', function (Blueprint $table) {
+        Schema::create('t_detail_retur_pembelian', function (Blueprint $table) {
             $table->bigInteger('id')->autoIncrement();
             $table->bigInteger('id_retur_pembelian');
             $table->integer('id_barang');

@@ -112,7 +112,7 @@ class ReturPembelianController extends Controller
             $barangUpdate = Barang::find($barang['id_barang_retur']);
             $barangUpdate->stock += $barang['qty_retur'];
             $barangUpdate->update();
-            return redirect()->route('retur-penjualan.index')->with(['success' => 'Retur Pembelian Berhasil']);
+            return redirect()->route('retur-pembelian.index')->with(['success' => 'Retur Pembelian Berhasil']);
         }
     }
 
