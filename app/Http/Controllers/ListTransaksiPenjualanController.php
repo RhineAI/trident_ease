@@ -59,7 +59,7 @@ class ListTransaksiPenjualanController extends Controller
                 $row['invoice'] = '<span class="badge badge-info">'. $item->id .'</span>';
                 $row['total_harga'] = 'RP. '. format_uang($item->total_harga);
                 
-                $row['action'] = '<button class="btn btn-xs btn-secondary rounded delete"><i class="fa-solid fa-print"></i></button>';
+                $row['action'] = '<a href="'. route('list-transaksi.print_nota', $item->id) .'" class="btn btn-xs btn-secondary rounded delete"><i class="fa-solid fa-print"></i></a>';
 
                 $data[] = $row;
             }         
@@ -100,10 +100,17 @@ class ListTransaksiPenjualanController extends Controller
             ->make(true);
     }
 
-   public function table($awal, $akhir) {
-        $awal = $request->awal;
-        $akhir = $request->akhir;
+    public function printNota($id){
+        $data['cPerusahaan'] = Perusahaan::select('*')->where('id', auth()->user()->id_perusahaan)->first();
+        $data['cPenjualan'] = TransaksiPenjualan::leftJoin('t_detail_penjualan DTP', 'DTP.id_penjualan', 't_transaksi_penjualan.id')->leftJoin('t_barang B', 'B.id', 'DTP.id_barang')->leftJoin('t_pelanggan P', 'P.id', 't_transaksi_penjualan.id_pelanggan')->select('P.nama AS nama_pelanggan', 'B.nama AS nama_barang', 't_transaksi_penjualan.tgl AS tgl_transaksi')->where('t_transaksi_penjualan.id', $id)->where('t_transaksi_penjualan.id_perusahaan', auth()->user()->id_perusahan)->get();
 
-        return $awal;
-   }
+        return view('transaksi-penjualan.printNota', $data);
+    }
+
+//    public function table($awal, $akhir) {
+//         $awal = $request->awal;
+//         $akhir = $request->akhir;
+
+//         return $awal;
+//    }
 }

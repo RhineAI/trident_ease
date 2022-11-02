@@ -171,29 +171,32 @@ class TransaksiPenjualanController extends Controller
             $barangUpdate->stock -= $barang['qty'];
             $barangUpdate->update();
             
-            $pembayaranBaru = new Piutang();
-            $pembayaranBaru->id_penjualan = $penjualanBaru->id;
-            $pembayaranBaru->tgl = date('Ymd');
             if($request->jenis_pembayaran == 1){
-                $pembayaranBaru->total_bayar = $this->checkPrice($request->bayar);
-            } else if ($request->jenis_pembayaran == 2 ){
+                $kasMasuk = new KasMasuk();
+                $kasMasuk->tgl = now();
+                $kasMasuk->jumlah = $request->total_bayar; 
+                $kasMasuk->id_user = auth()->user()->id;
+                $kasMasuk->id_perusahaan = auth()->user()->id_perusahaan;
+                $kasMasuk->keterangan = 'Transaksi Penjualan';
+                $kasMasuk->save();
+            } else if ($request->jenis_pembayaran == 2){
+                $pembayaranBaru = new Piutang();
+                $pembayaranBaru->id_penjualan = $penjualanBaru->id;
+                $pembayaranBaru->tgl = date('Ymd');
                 $pembayaranBaru->total_bayar = $this->checkPrice($request->dp);
+                $pembayaranBaru->id_user = auth()->user()->id;
+                $pembayaranBaru->id_perusahaan = auth()->user()->id_perusahaan;
+                $pembayaranBaru->save();
+
+                $kasMasuk = new KasMasuk();
+                $kasMasuk->tgl = now();
+                $kasMasuk->jumlah = $request->dp; 
+                $kasMasuk->id_user = auth()->user()->id;
+                $kasMasuk->id_perusahaan = auth()->user()->id_perusahaan;
+                $kasMasuk->keterangan = 'DP Transaksi Penjualan';
+                $kasMasuk->save();
             }
-            $pembayaranBaru->id_user = auth()->user()->id;
-            $pembayaranBaru->id_perusahaan = auth()->user()->id_perusahaan;
-            $pembayaranBaru->save();
-
-            $kasMasuk = new KasMasuk();
-            $kasMasuk->tgl = now();
-            $kasMasuk->jumlah = $request->total_bayar; 
-            $kasMasuk->id_user = auth()->user()->id;
-            $kasMasuk->id_perusahaan = auth()->user()->id_perusahaan;
-            $kasMasuk->keterangan = 'Transaksi Penjualan';
-            $kasMasuk->save();
-
             // dd($penjualanBaru->id); die;
-
-
             return redirect()->route('list-transaksi.index')->with(['success' => 'Transaksi Berhasil!']);
         }
     }

@@ -23,9 +23,9 @@ class PiutangController extends Controller
         $data['pembayaran'] = Piutang::leftJoin('t_transaksi_penjualan AS TP', 'TP.id', 't_data_piutang.id_penjualan')
         ->leftJoin('t_pelanggan as P', 'P.id', 'TP.id_pelanggan')
         ->select('P.nama AS nama_pelanggan', 'P.tlp', 'P.id as id_pelanggan', 't_data_piutang.*', 'TP.dp', 'TP.total_harga', 'TP.sisa', 'TP.jenis_pembayaran')
-        // ->where('TP.jenis_pembayaran', 2)
+        ->where('TP.jenis_pembayaran', 2)
         ->where('TP.id_perusahaan', auth()->user()->id_perusahaan)    
-        ->orderBy('jenis_pembayaran', 'desc')
+        ->orderBy('id', 'desc')
         ->get();
         // $data['total_bayar'] = Pembayaran::where('id_penjualan', 'id_penjualan')->sum('total_bayar');
         $data['cDate'] = date('d-m-Y');
@@ -87,7 +87,7 @@ class PiutangController extends Controller
      * @param  \App\Models\Pembayaran  $pembayaran
      * @return \Illuminate\Http\Response
      */
-    public function show(Pembayaran $pembayaran)
+    public function show(Piutang $piutang)
     {
         //
     }
@@ -98,7 +98,7 @@ class PiutangController extends Controller
      * @param  \App\Models\Pembayaran  $pembayaran
      * @return \Illuminate\Http\Response
      */
-    public function edit(Pembayaran $pembayaran)
+    public function edit(Piutang $piutang)
     {
         //
     }
@@ -110,7 +110,7 @@ class PiutangController extends Controller
      * @param  \App\Models\Pembayaran  $pembayaran
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdatePembayaranRequest $request, Pembayaran $pembayaran)
+    public function update(UpdatePembayaranRequest $request, Piutang $piutang)
     {
         // $cPenjualan = TransaksiPenjualan::where('id', $pembayaran->id_penjualan)->first();
         // // return $request;
@@ -145,7 +145,7 @@ class PiutangController extends Controller
      * @param  \App\Models\Pembayaran  $pembayaran
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Pembayaran $pembayaran)
+    public function destroy(Piutang $piutang)
     {
         //
     }

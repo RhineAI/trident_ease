@@ -158,31 +158,33 @@ class PembelianController extends Controller
                 // ]);
             }
 
-            $pembayaranBaru = new Hutang();
-            $pembayaranBaru->id_pembelian = $pembelianBaru->id;
-            $pembayaranBaru->tgl = date('Y-m-d');
             if($request->jenis_pembayaran == 2){
+                $pembayaranBaru = new Hutang();
+                $pembayaranBaru->id_pembelian = $pembelianBaru->id;
+                $pembayaranBaru->tgl = date('Y-m-d');
                 $pembayaranBaru->total_bayar = $this->checkPrice($request->bayar_kredit);
-            } else {
-                $pembayaranBaru->total_bayar = $request->total_pembelian;
-            }
-            $pembayaranBaru->id_user = auth()->user()->id;
-            $pembayaranBaru->id_perusahaan = auth()->user()->id_perusahaan;
-            $pembayaranBaru->save();
-            // dd($pembelianBaru->id); die;
+                $pembayaranBaru->id_user = auth()->user()->id;
+                $pembayaranBaru->id_perusahaan = auth()->user()->id_perusahaan;
+                $pembayaranBaru->save();
+                // dd($pembelianBaru->id); die;
 
-            $kasMasuk = new KasKeluar();
-            $kasMasuk->tgl = now();
-            if($request->jenis_pembayaran == 2){
+                $kasMasuk = new KasKeluar();
+                $kasMasuk->tgl = now();
                 $kasMasuk->jumlah = $this->checkPrice($request->bayar_kredit);
+                $kasMasuk->id_user = auth()->user()->id;
+                $kasMasuk->id_perusahaan = auth()->user()->id_perusahaan;
+                $kasMasuk->keperluan = 'DP Transaksi Pembelian Produk';
+                $kasMasuk->save();
             } else {
+                $kasMasuk = new KasKeluar();
+                $kasMasuk->tgl = now();
                 $kasMasuk->jumlah = $request->total_pembelian;
+                $kasMasuk->id_user = auth()->user()->id;
+                $kasMasuk->id_perusahaan = auth()->user()->id_perusahaan;
+                $kasMasuk->keperluan = 'Transaksi Pembelian Produk';
+                $kasMasuk->save();
             }
-            $kasMasuk->id_user = auth()->user()->id;
-            $kasMasuk->id_perusahaan = auth()->user()->id_perusahaan;
-            $kasMasuk->keperluan = 'Transaksi Pembelian Produk';
-            $kasMasuk->save();
-
+            
             return redirect('/list-pembelian')->with(['success' => 'Input data Transaksi Berhasil!']);
     }
 
