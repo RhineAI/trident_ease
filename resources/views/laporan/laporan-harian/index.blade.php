@@ -103,7 +103,7 @@ Laporan Harian
                                 </thead>
                             </table>
 
-                            {{-- <h5 class="mt-4 mb-3">Retur Pembelian</h5>
+                            <h5 class="mt-4 mb-3">Retur Pembelian</h5>
                             <table class="table align-items-center mb-5 table-bordered table-striped table-flush table-hover text-center table-retur-pembelian" id="dataTableHover">
                                 <thead class="table-primary">
                                     <tr>
@@ -114,7 +114,7 @@ Laporan Harian
                                         <th width="13%" class="text-center">Total Retur</th>
                                     </tr>
                                 </thead>
-                            </table> --}}
+                            </table>
 
                             <h5 class="mt-4 mb-3">Hutang</h5>
                             <table class="table align-items-center mb-5 table-bordered table-striped table-flush table-hover text-center table-hutang" id="dataTableHover">
@@ -179,31 +179,7 @@ Laporan Harian
     </div>
 </section>
 @endsection
-{{-- let table_retur_pembelian;
-table = $('.table-retur-pembelian').DataTable({
-searching: false,
-info: false,
-paging:false,
-bFilter:false,
-processing: false,
-responsive: true,
-autoWidth: false,
-serverSide: true,
-ajax: {
-    url: "{{ route('laporan-retur-pembelian.data', [$tanggalAwal, $tanggalAkhir]) }}",
-    type: "POST",
-    data: {  
-        _token: '{{ csrf_token() }}'
-    }
-},
-columns: [
-    {data:'DT_RowIndex', searchable: false, sortable: false},
-    {data:'kode'},
-    {data:'nama_barang'},
-    {data:'qty'},
-    {data:'total_retur'},
-]
-}); --}}
+
 @push('scripts')
 <script>
     $(".flatpickr").flatpickr({
@@ -295,6 +271,34 @@ columns: [
             {data:'total_retur'},
         ]
     });
+
+
+    let table_retur_pembelian;
+        table = $('.table-retur-pembelian').DataTable({
+        searching: false,
+        info: false,
+        paging:false,
+        bFilter:false,
+        processing: false,
+        responsive: true,
+        autoWidth: false,
+        serverSide: true,
+        ajax: {
+            url: "{{ route('laporan-retur-pembelian.data', [$tanggalAwal, $tanggalAkhir]) }}",
+            type: "POST",
+            data: {  
+                _token: '{{ csrf_token() }}'
+            }
+        },
+        columns: [
+            {data:'DT_RowIndex', searchable: false, sortable: false},
+            {data:'kode'},
+            {data:'nama_barang'},
+            {data:'qty'},
+            {data:'total_retur'},
+        ]
+    }); 
+
 
 
 
