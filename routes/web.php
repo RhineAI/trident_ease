@@ -73,6 +73,7 @@ Route::group(['middleware' => 'hak_akses:1'], function () {
         Route::get('/list-penjualan', [ListTransaksiPenjualanController::class, 'index'])->name('list-transaksi.index');
         Route::post('/list-penjualan/data/{awal}/{akhir}', [ListTransaksiPenjualanController::class, 'getData'])->name('list-transaksi.data');
         Route::get('/list-penjualan/pdf/{awal}/{akhir}', [ListTransaksiPenjualanController::class, 'exportPDF'])->name('list-transaksi.export_pdf');
+        Route::get('/list-penjualan/nota/{id}', [ListTransaksiPenjualanController::class, 'printNota'])->name('list-transaksi.print_nota');
 
         // Transaksi Pembelian
         Route::resource('/transaksi-pembelian', PembelianController::class);    
