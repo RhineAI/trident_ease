@@ -19,7 +19,8 @@ class UsersController extends Controller
     public function index()
     {
         $data['cPerusahaan'] = Perusahaan::select('*')->where('id', auth()->user()->id_perusahaan)->first();
-        $data['pegawai'] = User::get();
+        $data['pegawai'] = User::orderBy('id', 'DESC')->get();
+        // return $data;
         return view('users.index', $data);
     }
 
@@ -48,24 +49,40 @@ class UsersController extends Controller
     public function store(Request $request)
     {
         // dd($request); die;
+        // return $request;
         $request->validate([
             'nama' => 'required',
             'alamat' => 'required',
             'tlp' => 'required',
             'username' => 'required',
-            'password' => 'required|confirmed',
+            'password' => 'required',
             'hak_akses' => 'required'
         ]);
 
-        $user = User::create([
-            'nama' => $request->nama,
-            'alamat' => $request->alamat,
-            'tlp' => $request->tlp,
-            'username' => $request->username,
-            'password' => bcrypt($request->password),
-            'hak_akses' => $request->hak_akses,
-            'id_perusahaan' => $request->id_perusahaan
-        ]);
+        // $user = User::create([
+        //     'nama' => $request->nama,
+        //     'alamat' => $request->alamat,
+        //     'tlp' => $request->tlp,
+        //     'username' => $request->username,
+        //     'password' => bcrypt($request->password),
+        //     'hak_akses' => $request->hak_akses,
+        //     'id_perusahaan' => $request->id_perusahaan
+        // ]);
+
+        $user = new User();
+        $user->nama = $request->nama;
+        $user->alamat = $request->alamat;
+        $user->tlp = $request->tlp;
+        $user->jenis_kelamin = $request->jenis_kelamin;
+        $user->username = $request->username;
+        $user->password = bcrypt($request->password); 
+        $user->hak_akses = $request->hak_akses;
+        $user->id_perusahaan = $request->id_perusahaan;
+        // return $user;
+        $user->save();
+
+
+        // dd($user);
         
         // return redirect('/users')->with('success', 'Input data Pegawai berhasil!');
         return redirect()->route('users.index')->with(['success' => 'Input data Pegawai berhasil!']);

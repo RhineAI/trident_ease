@@ -1,6 +1,6 @@
 <!-- Modal -->
-<div class="modal fade" id="formModalPegawai" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-<div class="modal-dialog modal-lg" role="document" style="width:620px;">
+<div class="modal fade" id="modal-form" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal-dialog modal-lg" role="document" id="" style="width:620px;">
     <div class="modal-content">
     <div class="modal-header">
         <h5 class="modal-title" id="modal-title">Modal title</h5>
@@ -67,7 +67,7 @@
                     <h5 class="my-2">Password</h5>
                 </label>
                 <div class="col-md-8">
-                    <input type="text" minlengt="6" placeholder="Ketik Password" name="password" id="password" class="form-control" aria-label="Username" aria-describedby="basic-addon1" required>
+                    <input type="password" minlengt="6" placeholder="Ketik Password" name="password" id="password" class="form-control" aria-label="Username" aria-describedby="basic-addon1" required>
                     <span class="help-block with-errors"></span>
                 </div>
             </div>
@@ -76,12 +76,12 @@
                     <h5 class="my-2">Konfirmasi Password</h5>
                 </label>
                 <div class="col-md-8">
-                    <input type="text" minlengt="6" placeholder="Ketik Ulang Password" name="password" id="password_confirmation" class="form-control" aria-label="Username" aria-describedby="basic-addon1" required>
+                    <input type="password" minlengt="6" data-match="#password" placeholder="Ketik Ulang Password" name="password_confirmation" id="password_confirmation" class="form-control" aria-label="Username" aria-describedby="basic-addon1" required>
                     <span class="help-block with-errors"></span>
                 </div>
             </div>
             <div class="form-group row">
-                <label for="jenis_kelamin" class="col-md-4 col-md-offset-1 control-label">
+                <label for="hak_akses" class="col-md-4 col-md-offset-1 control-label">
                     <h5 class="my-2">Hak Akses</h5>
                 </label>
                 <div class="col-md-8">

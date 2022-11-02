@@ -15,7 +15,7 @@ use App\Models\Penyesuaian;
 use App\Models\DetailPembelian;
 use App\Models\DetailPenjualan;
 use App\Models\DetailReturPenjualan;
-// use App\Models\ReturPembelian;
+use App\Models\DetailReturPembelian;
 use App\Models\TransaksiPenjualan;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\DB;
@@ -160,6 +160,8 @@ class LaporanController extends Controller
         return $data;
     }
 
+
+
     // LAPORAN RETUR PEMBELIAN
     public function dataLaporanReturPembelian($awal, $akhir)
     {
@@ -171,12 +173,12 @@ class LaporanController extends Controller
             $tanggal = $awal;
             $awal = date('Y-m-d', strtotime("+1day", strtotime($awal)));
 
-            $returPembelian= ReturPembelian::where('t_retur_pembelian.tgl', 'Like','%$tanggal%')
-                                            ->leftJoin('t_barang AS B', 'B.id', 't_retur_pembelian.id_barang')
-                                            ->select('t_retur_pembelian.*', 'B.nama AS nama_barang', 'B.kode')    
-                                            ->where('t_retur_pembelian.id_perusahaan', auth()->user()->id_perusahaan)
-                                            ->orderBy('id', 'desc')->get();
-        
+            $returPembelian= DetailReturPembelian::where('tgl', 'Like','%$tanggal%')
+                                                ->leftJoin('t_barang AS B', 'B.id', 't_detail_retur_pembelian.id_barang')
+                                                ->select('t_detail_retur_pembelian.*', 'B.nama AS nama_barang', 'B.kode')    
+                                                ->where('t_detail_retur_pembelian.id_perusahaan', auth()->user()->id_perusahaan)
+                                                ->orderBy('id', 'desc')->get();
+          
             foreach($returPembelian as $item) {
                 $row = array();
                 $row['kode'] = '<span class="badge" style="background-color:#2f3d57; color:white;">'. $item->kode .'</span>';
@@ -196,8 +198,6 @@ class LaporanController extends Controller
 
         return $data;
     }
-
-
 
 
     // LAPORAN Retur Penjualan
@@ -223,43 +223,6 @@ class LaporanController extends Controller
                 $row['nama_barang'] = $item->nama_barang ;
                 $row['qty'] = $item->qty;
                 $row['total_retur'] = 'Rp. '. format_uang($item->qty * $item->harga_jual);
-
-                $data[] = $row;
-            }         
-        }
-
-        return datatables()
-            ->of($data)
-            ->addIndexColumn()
-            ->rawColumns(['kode'])
-            ->make(true);
-
-        return $data;
-    }
-
-    // LAPORAN RETUR PEMBELIAN
-    public function dataLaporanReturPembelian($awal, $akhir)
-    {
-        // return $awal;
-        $no = 1;
-        $data = array();
-
-        while (strtotime($awal) <= strtotime($akhir)) {
-            $tanggal = $awal;
-            $awal = date('Y-m-d', strtotime("+1day", strtotime($awal)));
-
-            $returPembelian= ReturPembelian::where('t_retur_pembelian.tgl', 'Like','%$tanggal%')
-                                            ->leftJoin('t_barang AS B', 'B.id', 't_retur_pembelian.id_barang')
-                                            ->select('t_retur_pembelian.*', 'B.nama AS nama_barang', 'B.kode')    
-                                            ->where('t_retur_pembelian.id_perusahaan', auth()->user()->id_perusahaan)
-                                            ->orderBy('id', 'desc')->get();
-        
-            foreach($returPembelian as $item) {
-                $row = array();
-                $row['kode'] = '<span class="badge" style="background-color:#2f3d57; color:white;">'. $item->kode .'</span>';
-                $row['nama_barang'] = $item->nama_barang ;
-                $row['qty'] = $item->qty;
-                $row['total_retur'] = 'Rp. '. format_uang($item->qty * $item->harga_beli);
 
                 $data[] = $row;
             }         
@@ -521,7 +484,8 @@ class LaporanController extends Controller
      }
 
      // LAPORAN KESESUAIAN STOK
-     public function indexLaporanKesesuaianStok(Request $request){
+     public function indexLaporanKesesuaianStok(Request $request)
+     {
         // select count(DTP.id) from t_transaksi_penjualan TP right join t_detail_penjualan DTP on TP.id = DTP.id_penjualan group by id_pelanggan;
         $tanggalAwal = date('Y-m-d', mktime(0, 0, 0, date('m'), 1, date('Y')));
         $tanggalAkhir = date('Y-m-d');
