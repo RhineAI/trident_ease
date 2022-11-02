@@ -1,16 +1,16 @@
 @extends('templates.layout')
 
 @section('title')
-<title>Data Retur Penjualan | {{ $cPerusahaan->nama }}</title>
+<title>Data Retur Pembelian | {{ $cPerusahaan->nama }}</title>
 @endsection
 
 @section('page')
-Data Retur Penjualan
+Data Retur Pembelian
 @endsection
 
 @section('breadcrumb')
 @parent
-Data Retur Penjualan
+Data Retur Pembelian
 @endsection
 
 @push('styles')
@@ -51,7 +51,7 @@ Data Retur Penjualan
                          
                         </div>
                         <div class="form-group row mt-4 ml-2">
-                            <a href="{{ route('retur-penjualan.index') }}" class="btn btn-primary">Tambah Retur</a>
+                            <a href="{{ route('retur-pembelian.index') }}" class="btn btn-primary">Tambah Retur</a>
                         </div>
                     </form>
 
@@ -70,7 +70,7 @@ Data Retur Penjualan
                                         <th width="5%" class="text-center">No</th>
                                         <th width="13%" class="text-center">No Retur</th>
                                         <th width="9%" class="text-center">Tanggal</th>
-                                        <th width="14%" class="text-center">Pelanggan</th>
+                                        <th width="14%" class="text-center">Supplier</th>
                                         <th width="14%" class="text-center">Total Retur</th>
                                         <th width="7%" class="text-center">Aksi</th>
                                     </tr>
@@ -102,7 +102,7 @@ Data Retur Penjualan
         autoWidth: false,
         serverSide: true,
         ajax: {
-            url: "{{ route('list-retur-penjualan.data', [$tanggalAwal, $tanggalAkhir]) }}",
+            url: "{{ route('list-retur-pembelian.data', [$tanggalAwal, $tanggalAkhir]) }}",
             type: "POST",
             data: {  
                 _token: '{{ csrf_token() }}'
@@ -112,7 +112,7 @@ Data Retur Penjualan
             {data:'DT_RowIndex', searchable: false, sortable: false},
             {data:'id'},
             {data:'tgl'},
-            {data:'nama_pelanggan'},
+            {data:'nama_supplier'},
             {data:'total_retur'},
             {data:'action', searchable: false, sortable: false},
         ]

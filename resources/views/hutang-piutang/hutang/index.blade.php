@@ -37,6 +37,7 @@
                                         <td>Total Bayar</td>
                                         <td>DP</td>
                                         <td>Sisa</td>
+                                        <td>Status</td>
                                         <td>Action</td>
                                     </tr>
                                 </thead>
@@ -50,6 +51,13 @@
                                             <td>{{ $item->total_bayar }}</td>
                                             <td>{{ $item->dp }}</td>
                                             <td>{{ $item->sisa  }}</td>
+                                            <td>
+                                                @if ($item->sisa <= 0)
+                                                    <span class="badge badge-success">Lunas</span>
+                                                @else
+                                                    <span class="badge badge-danger">Belum Lunas</span>
+                                                @endif
+                                            </td>
                                             <td>
                                                 @if ($item->sisa > 0 && $item->jenis_pembayaran === 2)
                                                     <button type="button" class="btn btn-info edit_pembayaran" 

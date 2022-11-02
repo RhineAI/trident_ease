@@ -28,6 +28,7 @@ use App\Http\Controllers\PembelianController;
 use App\Http\Controllers\ListTransaksiPembelianController;
 
 use App\Http\Controllers\HutangController;
+use App\Http\Controllers\ListReturPembelianController;
 use App\Http\Controllers\PiutangController;
 use App\Http\Controllers\ReturPenjualanController;
 use App\Http\Controllers\ListReturPenjualanController;

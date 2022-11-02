@@ -268,21 +268,31 @@
                       <a href="#" class="nav-link">
                       <i class="nav-icon fas fa-solid fa-rotate-left"></i>
                           <p>
-                              Retur Penjualan
+                              Retur 
                               <i class="right fas fa-angle-right"></i>
                           </p>
                       </a>
                       <ul class="nav nav-treeview ml-4">
-                          <li class="nav-item">
-                              <a href="{{ route('retur-penjualan.index') }}" class="nav-link">
-                                  <p>Tambah Retur</p>
-                              </a>
-                          </li>
-                          <li class="nav-item">
-                          <a href="{{ route('list-retur-penjualan.index') }}" class="nav-link">
-                              <p>Lihat Data Retur</p>
-                          </a>
-                      </li>
+                            <li class="nav-item">
+                                <a href="{{ route('retur-penjualan.index') }}" class="nav-link">
+                                    <p>Tambah Retur Penjualan</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('list-retur-penjualan.index') }}" class="nav-link">
+                                    <p>Data Retur Penjualan</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('retur-pembelian.index') }}" class="nav-link">
+                                    <p>Tambah Retur Pembelian</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('list-retur-pembelian.index') }}" class="nav-link">
+                                    <p>Data Retur Pembelian</p>
+                                </a>
+                            </li>
                       </ul>
                   </li>
 

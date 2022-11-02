@@ -36,6 +36,7 @@
                                         <td class="text-center" width="9%">Total Pembayaran</td>
                                         <td class="text-center" width="8%">DP</td>
                                         <td class="text-center" width="8%">Sisa</td>
+                                        <td class="text-center" width="8%">Status</td>
                                         <td class="text-center" width="2%">Action</td>
                                     </tr>
                                 </thead>
@@ -49,6 +50,13 @@
                                             <td>{{ 'Rp. '. format_uang($item->total_bayar) }}</td>
                                             <td>{{ $item->dp }}</td>
                                             <td>{{ $item->sisa  }}</td>
+                                            <td>
+                                                @if ($item->sisa <= 0)
+                                                    <span class="badge badge-success">Lunas</span>
+                                                @else
+                                                    <span class="badge badge-danger">Belum Lunas</span>
+                                                @endif
+                                            </td>
                                             <td>
                                                 @if ($item->sisa > 0 && $item->jenis_pembayaran === 2)
                                                     <button type="button" class="btn btn-info edit_pembayaran" 

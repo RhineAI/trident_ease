@@ -21,9 +21,9 @@ class HutangController extends Controller
         $data['pembayaran'] = Hutang::leftJoin('t_transaksi_pembelian AS TP', 'TP.id', 't_data_hutang.id_pembelian')
         ->leftJoin('t_supplier as S', 'S.id', 'TP.id_supplier')
         ->select('S.nama AS nama_supplier', 'S.tlp', 'S.id as id_supplier', 't_data_hutang.*', 'TP.dp', 'TP.total_pembelian', 'TP.sisa', 'TP.jenis_pembayaran')
-        // ->where('TP.jenis_pembayaran', 2)
+        ->where('TP.jenis_pembayaran', 2)
         ->where('TP.id_perusahaan', auth()->user()->id_perusahaan)    
-        ->orderBy('jenis_pembayaran', 'desc')
+        ->orderBy('id', 'desc')
         ->get();
         // $data['total_bayar'] = Pembayaran::where('id_pembelian', 'id_pembelian')->sum('total_bayar');
         $data['cDate'] = date('d-m-Y');
@@ -98,10 +98,10 @@ class HutangController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\PembayaranPembelian  $pembayaranPembelian
+     * @param  \App\Models\Hutang $hutang
      * @return \Illuminate\Http\Response
      */
-    public function show(PembayaranPembelian $pembayaranPembelian)
+    public function show(Hutang $hurang)
     {
         //
     }
@@ -109,10 +109,10 @@ class HutangController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\PembayaranPembelian  $pembayaranPembelian
+     * @param  \App\Models\Hutang $hutang
      * @return \Illuminate\Http\Response
      */
-    public function edit(PembayaranPembelian $pembayaranPembelian)
+    public function edit(Hutang $hutang)
     {
         //
     }
@@ -121,10 +121,10 @@ class HutangController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\PembayaranPembelian  $pembayaranPembelian
+     * @param  \App\Models\Hutang $hutang
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, PembayaranPembelian $pembayaranPembelian)
+    public function update(Request $request, Hutang $hutang)
     {
         //
     }
@@ -132,10 +132,10 @@ class HutangController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\PembayaranPembelian  $pembayaranPembelian
+     * @param  \App\Models\Hutang $hutang
      * @return \Illuminate\Http\Response
      */
-    public function destroy(PembayaranPembelian $pembayaranPembelian)
+    public function destroy(Hutang $hutang)
     {
         //
     }

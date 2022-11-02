@@ -98,7 +98,7 @@ class PembelianController extends Controller
 
     public function store(StorePembelianRequest $request)
     {
-        dd($request); die;
+        // dd($request); die;
             $pembelianBaru = new Pembelian();
             // "select max(id)+1 as nextid from t_pembayaran where id like '".$tgl."%'"
             // dd(Pembelian::select("id")->where('id', 'like', '%'. date('Ymd') . '%')->first()); die;
@@ -158,7 +158,7 @@ class PembelianController extends Controller
                 // ]);
             }
 
-            if($request->jenis_pembayaran = 2){
+            if($request->jenis_pembayaran == 2){
                 $pembayaranBaru = new Hutang();
                 $pembayaranBaru->id_pembelian = $pembelianBaru->id;
                 $pembayaranBaru->tgl = date('Y-m-d');
