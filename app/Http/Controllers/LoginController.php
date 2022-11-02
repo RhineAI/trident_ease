@@ -58,7 +58,7 @@ class LoginController extends Controller
         $validate = $request->validate([
             'email' => 'required|max:50|email:dns',
         ]);
-
+        
         $perusahaan = new Perusahaan();
 
         if($request->logo){
@@ -76,7 +76,6 @@ class LoginController extends Controller
         } else {
             $perusahaan->logo = $perusahaan->logo;
         }
-
         $perusahaan->nama = $request->nama;
         $perusahaan->alamat = $request->alamat;
         $perusahaan->email = $request->email;
@@ -93,7 +92,7 @@ class LoginController extends Controller
         // return $id;
 
         $user = new User();
-        $user->id_perusahaan = $id->id;
+        $user->id_perusahaan = $perusahaan->id;
         $user->nama = $id->pemilik;
         $user->username = $id->nama;
         $user->password = bcrypt('12345');

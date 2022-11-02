@@ -85,6 +85,7 @@ class BarangController extends Controller
                     ->orderBy('id', 'desc')
                     ->get();
 
+
         return datatables()
             ->of($barang)
             ->addIndexColumn()
