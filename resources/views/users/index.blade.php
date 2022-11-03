@@ -118,12 +118,10 @@
             $('#modal-form').modal('show')
             $('#modal-form .modal-title').text('Edit Pegawai');
 
-            // $('#modal-form form')[0].reset();
-            // $('#modal-form form').attr('action', data.url);
-            // $('#modal-form [name=_method]').val('put');
+            $('#modal-form form')[0].reset();
+            $('.modal-body form').attr('action', data.url);
+            $('.modal-body #method').html('{{ method_field('PUT') }}');
 
-           
-            
             $('#modal-form [name=nama]').val(data.nama);
             $('#modal-form [name=alamat]').val(data.alamat);
             $('#modal-form [name=tlp]').val(data.tlp);
@@ -131,8 +129,8 @@
             $('#modal-form [name=hak_akses]').val(data.hak_akses);
             $('#modal-form [name=username]').val(data.username);
             // $('#modal-form [name=password]').val(data.password);
-             modal.find('.modal-body form').attr('action', data.url);
-            modal.find('.modal-body #method').html('{{ method_field('PATCH') }}');
+            // modal.find('.modal-body form').attr('action', data.url);
+            // modal.find('.modal-body #method').html('{{ method_field('PATCH') }}');
         }
            
 

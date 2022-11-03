@@ -69,7 +69,7 @@
                                                     data-total_bayar="{{ $item->total_bayar }}" 
                                                     data-dp="{{ $item->dp }}" 
                                                     data-sisa="{{ $item->sisa }}" 
-                                                    data-route="{{ route('pembayaran-pembelian.store')}}"
+                                                    data-route="{{ route('data-hutang.store')}}"
                                                     data-toggle="modal" data-target="#formModalPembayaranPBL" data-mode="edit"> <i class="fa fa-pencil"></i>
                                                     </button>
                                                 @else 
