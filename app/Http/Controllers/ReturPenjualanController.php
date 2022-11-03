@@ -12,6 +12,7 @@ use App\Models\TransaksiPenjualan;
 use GrahamCampbell\ResultType\Success;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\DB;
 
 class ReturPenjualanController extends Controller
 {
@@ -51,12 +52,12 @@ class ReturPenjualanController extends Controller
          ->orderBy('t_transaksi_penjualan.id', 'desc')
          ->get();	
 
-        $qtyRetur = ReturPenjualan::leftJoin('t_detail_retur_penjualan AS DRP', 'DRP.id_retur_penjualan', 't_retur_penjualan.id')->select('DRP.qty AS jumlah_kembali_barang', 'DRP.id_barang AS id_barang_retur', 't_retur_penjualan.id_penjualan', 't_retur_penjualan.tgl')
+        $qtyRetur = ReturPenjualan::leftJoin('t_detail_retur_penjualan AS DRP', 'DRP.id_retur_penjualan', 't_retur_penjualan.id')->select(DB::raw('sum(DRP.qty) AS jumlah_kembali_barang'))
         ->where('t_retur_penjualan.id_penjualan', $request->id) 
         ->where('t_retur_penjualan.id_perusahaan', auth()->user()->id_perusahaan) 
         ->orderBy('t_retur_penjualan.id_penjualan', 'desc')
         ->get();
-
+        // return ($qtyRetur);
 
          $i=0;
          $html="";
@@ -65,14 +66,15 @@ class ReturPenjualanController extends Controller
             foreach ($detailPenjualan as $key => $row) {
                 $i++;
                 $subtotal = $row->jumlah_beli_barang * $row->harga_jual;
+                $qtySekarang = $row->jumlah_beli_barang - $qtyRetur[$key]->jumlah_kembali_barang;
                 $html.="<tr>";
                 $html.="<td style='text-align:center;'><input type='hidden' value='$row->id_barang' id='id_barang$i'> <input class='form-control' type='text' value='$row->kode' readonly='true' id='kode$i'></td>";
                 $html.="<td style='text-align:center;'><input class='form-control' type='text' value='$row->nama_barang' readonly='true' id='nama_barang$i'></td>";
                 $html.="<td style='text-align:center;'><input class='form-control' type='number' value='$row->harga_jual' readonly='true' id='harga_jual$i' style='text-align:right'><input class='form-control' type='hidden' value='$row->harga_beli' readonly='true' id='harga_beli$i' style='text-align:right'></td>";
-                $html.="<td style='text-align:center; width: 8%;'><input class='form-control' type='number' value='$row->jumlah_beli_barang' readonly='true' id='qty$i'></td>";
+                $html.="<td style='text-align:center; width: 8%;'><input class='form-control' type='number' value='$row->qtySekarang' readonly='true' id='qty$i'></td>";
                 $html.="<td style='text-align:center;'><input class='form-control' type='number' value='$subtotal' readonly='true' id='subtotal$i' style='text-align:right'></td>";
-
-                if(count($qtyRetur) != 0){
+                // return $key;
+                if(count($qtyRetur) > 0){
                     $cekBarang = $row->jumlah_beli_barang - $qtyRetur[$key]->jumlah_kembali_barang;
                     if($cekBarang == 0){
                         $html.="<td style='text-align:center;'><button type='button' class='btn btn-info restrict-retur'><i class='fas fa-plus'></i></button></td>";
