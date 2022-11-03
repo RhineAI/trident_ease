@@ -149,19 +149,37 @@
                                         <label for="inputEmail3" class="col-lg-3 control-label">Jenis Pembayaran</label>
                                         <div class="col-lg-8">
                                             <select class="form-control" name="jenis_pembayaran" data-bv-trigger="blur" id="jenis_pembayaran">
-                                                <option value="1" selected="selected">Cash</option>
+                                                <option value="1">Cash</option>
                                                 <option value="2">Kredit</option>
-                                                <option value="3">Transfer</option>
+                                                <option value="3" selected="selected">Transfer</option>
                                             </select>
                                         </div>
                                     </div>
                              
                                     <div class="form-group row mt-4" id="tampil_total">
-                                        <label for="bayar" class="col-lg-3 control-label">Total</label>
+                                        <label for="total_bayar" class="col-lg-3 control-label">Total</label>
                                         <div class="col-lg-8 ">
                                             <div class="input-group-prepend input-primary"> 
                                                 <span class="input-group-text">RP.</span> 
                                                 <input type="text" data-bv-trigger="blur" id="total_bayar" name="total_bayar" class="form-control" readonly>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row mt-4" id="tampil_bayar">
+                                        <label for="uang_bayar" class="col-lg-3 control-label">Bayar</label>
+                                        <div class="col-lg-8 ">
+                                            <div class="input-group-prepend input-primary"> 
+                                                <span class="input-group-text">RP.</span> 
+                                                <input type="text" data-bv-trigger="blur" id="uang_bayar" name="uang_bayar" class="form-control">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row mt-4" id="tampil_kembali">
+                                        <label for="uang_kembali" class="col-lg-3 control-label">Kembalian</label>
+                                        <div class="col-lg-8 ">
+                                            <div class="input-group-prepend input-primary"> 
+                                                <span class="input-group-text">RP.</span> 
+                                                <input type="text" data-bv-trigger="blur" id="uang_kembali" name="uang_kembali" class="form-control" readonly>
                                             </div>
                                         </div>
                                     </div>
@@ -239,15 +257,26 @@
 
         $('div#tampil_kredit').hide();
         $('div#tampil_sisa').hide();
+        $('div#tampil_bayar').hide();
+        $('div#tampil_kembali').hide();
 
         $(document).on('change', '#jenis_pembayaran', function () {  
             var isiJenis = $("#jenis_pembayaran").val();
             if (isiJenis == '2') {
                 $('div#tampil_kredit').show();
                 $('div#tampil_sisa').show();
+                $('div#tampil_bayar').hide();
+                $('div#tampil_kembali').hide();
+            } else if(isiJenis == '1') {
+                $('div#tampil_kredit').hide();
+                $('div#tampil_sisa').hide();
+                $('div#tampil_bayar').show();
+                $('div#tampil_kembali').show();
             } else {
                 $('div#tampil_kredit').hide();
-                $('div#tampil_total').show();
+                $('div#tampil_sisa').hide();
+                $('div#tampil_bayar').hide();
+                $('div#tampil_kembali').hide();
             }
         });
 
@@ -305,6 +334,53 @@
                     GetTotalBayar();
                     //GetKeuntungan();
                     //alert(id);
+                });
+
+                $(document).on('keyup', '#uang_bayar', function (e) {
+                    var tb = $("#total_bayar").val();
+                    var bayar = $(this).val();
+                    var harga = String(bayar).replaceAll(".", '');
+
+                    let pengurangan = parseInt(harga) - tb;
+                    let total = Math.round(Number(pengurangan)).toLocaleString("id-ID", {
+                                style:"currency", 
+                                currency:"IDR", 
+                                maximumSignificantDigits: (pengurangan + '').replace('.', '').length
+                            });
+                    let cek_bayar = Number(tb).toLocaleString("id-ID", {
+                                style:"currency",
+                                currency:"IDR",
+                                maximumSignificantDigits: (tb + '').replace('.', '').length
+                            });
+                    let ubah_int = cek_bayar.replace(/Rp/g, '');
+                    let jadi_harga = ubah_int.replaceAll('.', '');
+                    // console.log(jadi_harga)
+                    let pengurangan2 = parseInt(jadi_harga - tb);
+                    
+                    $('#uang_bayar').val(bayar)
+                    $('#uang_kembali').val(total.replace(/Rp/g, '').substr(1));
+                            // console.log(total)
+                    $(document).on('change', '#bayar', function(){
+                        if(bayar <= tb) {
+                            $('#bayar_kredit').val(0);
+                            $('#sisa_kredit').val(0);
+                            $('#uang_bayar').val(cek_bayar.replace(/Rp/g, '').substr(1));
+                            $('#uang_kembali').val(pengurangan2);
+                        } else {
+                            $('#bayar_kredit').val(0);
+                            $('#sisa_kredit').val(0);
+                            $('#uang_bayar').val(bayar)
+                            $('#uang_kembali').val(total.replace(/Rp/g, '').substr(1));
+                        }
+                    });   
+                    
+                    // $(document).on('submit', '#submit', function(){ 
+                    //     if(bayar <= tb ) {
+                    //         $('#bayar').val(total);
+                    //     } else {
+                    //         $('#bayar').val(bayar);
+                    //     }
+                    // });
                 });
 
                 $(document).on('keyup', '.harga_beli', function () {

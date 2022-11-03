@@ -179,9 +179,9 @@
                               </a>
                           </li>
                           <li class="nav-item">
-                              <a href="{{ route('data-hutang.index') }}" class="nav-link">
+                              <a href="{{ route('data-piutang.index') }}" class="nav-link">
                                   <i class="far fa-circle nav-icon"></i>
-                                  <p>Data π Utang</p> 
+                                  <p>Data Piutang</p> 
                               </a>
                           </li>
                       </ul>
@@ -372,7 +372,7 @@
                               </a>
                           </li>
                           <li class="nav-item">
-                              <a href="{{ route('pembayaran.index') }}" class="nav-link">
+                              <a href="{{ route('data-piutang.index') }}" class="nav-link">
                                   <p>Tunggakan</p>
                               </a>
                           </li>

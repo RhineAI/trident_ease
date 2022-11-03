@@ -57,7 +57,7 @@ class ListReturPenjualanController extends Controller
                 $row['nama_pelanggan'] = $item->nama_pelanggan;
                 $row['total_retur'] = 'RP. '. format_uang($item->total_retur);
                 
-                $row['action'] = '<button class="btn btn-xs btn-secondary rounded delete"><i class="fa-solid fa-print"></i></button>';
+                $row['action'] = '<a href="'. route('list-retur-penjualan.print_nota', $item->id) .'" class="btn btn-xs btn-secondary rounded delete"><i class="fa-solid fa-print"></i></a>';
 
                 $data[] = $row;
             }         
@@ -72,5 +72,13 @@ class ListReturPenjualanController extends Controller
 
         return $data;
 
+    }
+
+    public function printNota($id){
+        $data['cPerusahaan'] = Perusahaan::select('*')->where('id', auth()->user()->id_perusahaan)->first();
+        $data['cReturPenjualan'] = ReturPenjualan::leftJoin('t_detail_retur_penjualan AS DRP', 'DRP.id_retur_penjualan', 't_retur_penjualan.id')->leftJoin('t_transaksi_penjualan AS TP', 'TP.id', 't_retur_penjualan.id_penjualan')->leftJoin('t_pelanggan AS P', 'P.id', 'TP.id_pelanggan')->select('P.nama AS nama_pelanggan', 't_retur_penjualan.id AS id_retur', 't_retur_penjualan.id_penjualan AS id_transaksi', 't_retur_penjualan.tgl AS tgl_retur', 't_retur_penjualan.total_retur', 't_retur_penjualan.retur_keuntungan')->where('t_retur_penjualan.id', $id)->where('t_retur_penjualan.id_perusahaan', auth()->user()->id_perusahaan)->first();
+        $data['cDetailReturPenjualan'] = ReturPenjualan::leftJoin('t_detail_retur_penjualan AS DRP', 'DRP.id_retur_penjualan', 't_retur_penjualan.id')->leftJoin('t_barang AS B', 'B.id', 'DRP.id_barang')->select('DRP.qty', 'DRP.harga_beli', 'DRP.harga_jual', 'B.nama AS nama_barang')->where('t_retur_penjualan.id', $id)->where('t_retur_penjualan.id_perusahaan', auth()->user()->id_perusahaan)->get();
+        // dd($data['cDetailPenjualan']); die;
+        return view('returPenjualan.printNota', $data);
     }
 }

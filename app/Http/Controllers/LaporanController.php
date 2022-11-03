@@ -585,7 +585,7 @@ class LaporanController extends Controller
 
 
     // LAPORAN HUTANG PIUTANG
-    public function indexLaporaHutangPiutang(Request $request)
+    public function indexLaporanHutangPiutang(Request $request)
     {   
         $data['tanggal'] = date('Y-m-d');
         // $perusahaan = Perusahaan::select('id')->get();

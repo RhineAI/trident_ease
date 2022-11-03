@@ -102,8 +102,9 @@ class ListTransaksiPenjualanController extends Controller
 
     public function printNota($id){
         $data['cPerusahaan'] = Perusahaan::select('*')->where('id', auth()->user()->id_perusahaan)->first();
-        $data['cPenjualan'] = TransaksiPenjualan::leftJoin('t_detail_penjualan DTP', 'DTP.id_penjualan', 't_transaksi_penjualan.id')->leftJoin('t_barang B', 'B.id', 'DTP.id_barang')->leftJoin('t_pelanggan P', 'P.id', 't_transaksi_penjualan.id_pelanggan')->select('P.nama AS nama_pelanggan', 'B.nama AS nama_barang', 't_transaksi_penjualan.tgl AS tgl_transaksi')->where('t_transaksi_penjualan.id', $id)->where('t_transaksi_penjualan.id_perusahaan', auth()->user()->id_perusahan)->get();
-
+        $data['cPenjualan'] = TransaksiPenjualan::leftJoin('t_detail_penjualan AS DTP', 'DTP.id_penjualan', 't_transaksi_penjualan.id')->leftJoin('t_pelanggan AS P', 'P.id', 't_transaksi_penjualan.id_pelanggan')->select('P.nama AS nama_pelanggan', 't_transaksi_penjualan.id AS id_transaksi', 't_transaksi_penjualan.tgl AS tgl_transaksi', 't_transaksi_penjualan.kode_invoice', 't_transaksi_penjualan.jenis_pembayaran', 't_transaksi_penjualan.total_harga', 't_transaksi_penjualan.total_bayar', 't_transaksi_penjualan.dp', 't_transaksi_penjualan.sisa')->where('t_transaksi_penjualan.id', $id)->where('t_transaksi_penjualan.id_perusahaan', auth()->user()->id_perusahaan)->first();
+        $data['cDetailPenjualan'] = TransaksiPenjualan::leftJoin('t_detail_penjualan AS DTP', 'DTP.id_penjualan', 't_transaksi_penjualan.id')->leftJoin('t_barang AS B', 'B.id', 'DTP.id_barang')->select('DTP.qty', 'DTP.harga_jual', 'DTP.diskon', 'B.nama AS nama_barang')->where('t_transaksi_penjualan.id', $id)->where('t_transaksi_penjualan.id_perusahaan', auth()->user()->id_perusahaan)->get();
+        // dd($data['cDetailPenjualan']); die;
         return view('transaksi-penjualan.printNota', $data);
     }
 

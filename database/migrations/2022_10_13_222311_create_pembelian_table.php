@@ -20,6 +20,8 @@ return new class extends Migration
             $table->string('kode_invoice');
             $table->integer('id_supplier');
             $table->double('total_pembelian');
+            $table->double('bayar');
+            $table->double('kembali');
             $table->integer('jenis_pembayaran');
             $table->double('dp');
             $table->double('sisa');
