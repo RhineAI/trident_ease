@@ -26,17 +26,28 @@ Laporan Stok
                 <div class="box-body table-responsive ">
                     <form action="{{ route('laporan-stok.index') }}" method="get">
                         <div class="form-group row mt-4 ml-3 ">
-                            <label for="tanggal_awal" class="col-lg-1 control-label mr-3">Tanggal Awal</label>
+                            <label for="tanggal_awal" class="col-lg-1 control-label mr-3">Pilih Merek</label>
                             <div class="col-md-3 mr-5 mt-3">
-                                <input type="date" name="tanggal_awal" id="tanggal_awal" class="flatpickr form-control" required autofocus readonly value="{{ request('tanggal_awal') }}" style="border-radius: 0 !important;">
+                                <select name="merek" id="merek" class="form-control" required>
+                                    <option value="">Pilih Merek</option>
+                                    @foreach ($merek as $item )
+                                        <option value="{{ $item->id }}">{{ $item->nama }}</option>   
+                                    @endforeach
+                                </select>
                                 <span class="help-block with-errors"></span>
+
                             </div>
                             
-                            <h5 class="mr-5 mx-3 my-2 mt-3" for="" class="col-md-2"><b>s/d</b></h5>
+                            <h5 class="mr-5 mx-3 my-2 mt-3" for="" class="col-md-2"><b></b></h5>
 
-                            <label for="tanggal_akhir" class="col-lg-1 mr-2 control-label">Tanggal Akhir</label>
+                            <label for="tanggal_akhir" class="col-lg-1 mr-2 control-label">Pilih Kategori</label>
                             <div class="col-md-3 mr-5 mt-3">
-                                <input type="date" name="tanggal_akhir" id="tanggal_akhir" class="flatpickr form-control" required readonly value="{{ request('tanggal_akhir') }}" style="border-radius: 0 !important;">
+                                <select name="kategori" id="kategori" class="form-control" required>
+                                    <option value="">Pilih Kategori</option>
+                                    @foreach ($kategori as $item )
+                                        <option value="{{ $item->id }}">{{ $item->nama }}</option>
+                                    @endforeach
+                                </select>
                                 <span class="help-block with-errors"></span>
                             </div>
 
@@ -58,8 +69,8 @@ Laporan Stok
 
                     <br>
                     <h3 class="text-center">{{ $cPerusahaan->nama }}</h3>
-                    <h5 style="text-align:center;">Laporan Stok {{ $nameMerk }}</h5>
-                    <h5 style="text-align:center;" >s/d {{ $nameCategory }}</h5>
+                    <h5 style="text-align:center;">Laporan Stok untuk Merek {{ $nameMerk }}</h5>
+                    <h5 style="text-align:center;" >dan Kategori {{ $nameCategory }}</h5>
                     <br>
                 {{-- <a href="{{ route('list-transaksi.export_pdf', [$tanggalAwal, $tanggalAkhir] ) }}" target="_blank" class="btn btn-danger btn-sm btn-flat" ><i class="bi bi-filetype-pdf"></i> Export PDF</a> --}}
 
@@ -69,12 +80,12 @@ Laporan Stok
                             <table class="table align-items-center mb-5 table-bordered table-striped table-flush table-hover text-center table-stok" id="dataTableHover">
                                 <thead class="table-primary">
                                     <tr class="">
-                                        <th width="7%" class="text-center" style="margin:auto; text-align:center;">No</th>
-                                        {{-- <th width="15%" class="text-center" style="margin:auto; text-align:center;">No</th> --}}
-                                        <th width="7%" class="text-center" style="margin:auto; text-align:center;">Kode</th>
-                                        <th width="16%" class="text-center" style="margin:auto; text-align:center;">Nama Barang</th>
-                                        <th width="10%" class="text-center" style="margin:auto; text-align:center;">Merek</th>
-                                        <th width="12%" class="text-center" style="margin:auto; text-align:center;">Kategori</th>
+                                        <th width="7%" class="text-center" style="vertical-align:middle; margin:auto; text-align:center;">No</th>
+                                        {{-- <th width="15%" class="text-center" style="vertical-align:middle; margin:auto; text-align:center;">No</th> --}}
+                                        <th width="7%" class="text-center" style="vertical-align:middle; margin:auto; text-align:center;">Kode</th>
+                                        <th width="16%" class="text-center" style="vertical-align:middle; margin:auto; text-align:center;">Nama Barang</th>
+                                        <th width="10%" class="text-center" style="vertical-align:middle; margin:auto; text-align:center;">Merek</th>
+                                        <th width="12%" class="text-center" style="vertical-align:middle; margin:auto; text-align:center;">Kategori</th>
                                         <th width="5%" class="text-center">Stock Minimal</th>
                                         <th width="5%" class="text-center">Stock Sekarang</th>
                                     </tr>

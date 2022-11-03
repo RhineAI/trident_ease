@@ -25,18 +25,44 @@ Laporan Kesesuaian Stok
             <div class="box mb-4">
                 <div class="box-body table-responsive ">
                     <form action="{{ route('laporan-kesesuaian-stok.index') }}" method="get">
-                        <div class="form-group row mt-4 ml-3 ">
+                        <div class="form-group row mt-4 ml-3">
                             <label for="tanggal_awal" class="col-lg-1 control-label mr-3">Tanggal Awal</label>
                             <div class="col-md-3 mr-5 mt-3">
                                 <input type="date" name="tanggal_awal" id="tanggal_awal" class="flatpickr form-control" required autofocus readonly value="{{ request('tanggal_awal') }}" style="border-radius: 0 !important;">
                                 <span class="help-block with-errors"></span>
                             </div>
                             
-                            <h5 class="mr-5 mx-3 my-2 mt-3" for="" class="col-md-2"><b>s/d</b></h5>
+                            <h5 class="mr-5 mx-3 my-2 mt-3" for="" class="col-md-2"><small><b>s/d</b></small></h5>
 
                             <label for="tanggal_akhir" class="col-lg-1 mr-2 control-label">Tanggal Akhir</label>
                             <div class="col-md-3 mr-5 mt-3">
                                 <input type="date" name="tanggal_akhir" id="tanggal_akhir" class="flatpickr form-control" required readonly value="{{ request('tanggal_akhir') }}" style="border-radius: 0 !important;">
+                                <span class="help-block with-errors"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group row mt-4 ml-3">
+                            <label for="tanggal_awal" class="col-lg-1 control-label mr-3">Pilih Merek</label>
+                            <div class="col-md-3 mr-5 mt-3">
+                                <select name="merek" id="merek" class="form-control" required>
+                                    <option value="">Pilih Merek</option>
+                                    @foreach ($merek as $item )
+                                        <option value="{{ $item->id }}">{{ $item->nama }}</option>   
+                                    @endforeach
+                                </select>
+                                <span class="help-block with-errors"></span>
+                            </div>
+                            
+                            <h5 class="mr-5 mx-5 my-2 mt-3" for="" class="col-md-2"><b></b></h5>
+
+                            <label for="tanggal_akhir" class="col-lg-1 mr-2 control-label">Pilih Kategori</label>
+                            <div class="col-md-3 mr-5 mt-3">
+                                <select name="kategori" id="kategori" class="form-control" required>
+                                    <option value="">Pilih Kategori</option>
+                                    @foreach ($kategori as $item )
+                                        <option value="{{ $item->id }}">{{ $item->nama }}</option>
+                                    @endforeach
+                                </select>
                                 <span class="help-block with-errors"></span>
                             </div>
 
@@ -69,15 +95,15 @@ Laporan Kesesuaian Stok
                             <table class="table align-items-center mb-5 table-bordered table-striped table-flush table-hover text-center table-kesesuaian-stok" id="dataTableHover">
                                 <thead class="table-primary">
                                     <tr class="">
-                                        <th width="7%" class="text-center" style="margin:auto; text-align:center;">No</th>
+                                        <th width="7%" class="text-center" style="vertical-align:middle; margin:auto; text-align:center;">No</th>
                                         {{-- <th width="15%" class="text-center" style="margin:auto; text-align:center;">No</th> --}}
-                                        <th width="7%" class="text-center" style="margin:auto; text-align:center;">Kode</th>
-                                        <th width="16%" class="text-center" style="margin:auto; text-align:center;">Nama Barang</th>
-                                        <th width="10%" class="text-center" style="margin:auto; text-align:center;">Merek</th>
-                                        <th width="12%" class="text-center" style="margin:auto; text-align:center;">Kategori</th>
-                                        <th width="5%" class="text-center">Stock Sistem</th>
-                                        <th width="5%" class="text-center">Stock Baru</th>
-                                        <th width="5%" class="text-center">Selisih</th>
+                                        <th width="7%" class="text-center" style="vertical-align:middle; margin:auto; text-align:center;">Kode</th>
+                                        <th width="16%" class="text-center" style="vertical-align:middle; margin:auto; text-align:center;">Nama Barang</th>
+                                        <th width="10%" class="text-center" style="vertical-align:middle; margin:auto; text-align:center;">Merek</th>
+                                        <th width="12%" class="text-center" style="vertical-align:middle; margin:auto; text-align:center;">Kategori</th>
+                                        <th width="5%" class="text-center">Stok Sistem</th>
+                                        <th width="5%" class="text-center">Stok Baru</th>
+                                        <th width="5%" class="text-center" style="vertical-align:middle;">Selisih</th>
                                     </tr>
                                 </thead>
                             </table>
