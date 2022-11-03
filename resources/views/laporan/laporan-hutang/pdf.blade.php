@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Laporan Stok</title>
+    <title>Laporan Hutang</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
     <style>
         table {
@@ -20,44 +20,46 @@
     </style>
   </head>
   <body>
+    {{-- <small class="convert-tgl" style="visibility: hidden">
+        {{ $awals = date('Y-m-d', strtotime("-2day", strtotime($awal))); }}
+    </small> --}}
     <h1 class="text-center">{{ $cPerusahaan->nama }}</h1>
-    <h2 class="text-center">Laporan Stok</h2>
+    <h2 class="text-center">Laporan Hutang</h2>
     <h3 class="text-center mb-4">
-       Untuk merk {{ $merk->nama }}
-       dan kategori {{ $category->nama }}
+        Tanggal {{ tanggal_indonesia($tglAwal, false) }}
+        s/d
+        Tanggal {{ tanggal_indonesia($akhir, false) }}
     </h3>
 
-    {{-- <h4 class="mb-2 mt-5">Stok</h4> --}}
-    <div class="col-md-12">
+    <div class="col-md-12 mt-3">
         <div class="table-responsive p-2">
-            <table border="1" class="table mb-5 table-bordered table-striped table-stok" id="dataTableHover">
+            {{-- <h5 class="mb-2 mt-5">Hutang</h5> --}}
+            <table border="1" class="table mb-5 table-bordered table-striped table-hutang" id="dataTableHover">
                 <thead >
-                    <tr class="">
-                        <th width="4.2%" class="text-center" style="margin:auto; text-align:center;">No</th>
-                        {{-- <th width="15%" class="text-center" style="margin:auto; text-align:center;">No</th> --}}
-                        <th width="7.35%" class="text-center" style="margin:auto; text-align:center;">Kode</th>
-                        <th width="15.4%" class="text-center" style="margin:auto; text-align:center;">Nama Barang</th>
-                        <th width="8%" class="text-center" style="margin:auto; text-align:center;">Merek</th>
-                        <th width="12%" class="text-center" style="margin:auto; text-align:center;">Kategori</th>
-                        <th width="4.5%" class="text-center">Stock Minimal</th>
-                        <th width="4.5%" class="text-center">Stock Sekarang</th>
+                    <tr>
+                        <th width="3.8%" class="text-center">No</th>
+                        <th width="10.5%" class="text-center">Kode Pembelian</th>
+                        <th width="10%" class="text-center">Tanggal</th>
+                        <th width="16%" class="text-center">Nama Supplier</th>
+                        <th width="12%" class="text-center">Total Bayar</th>
+                        <th width="7%" class="text-center">Status</th>
                     </tr>
                 </thead>
                 <tbody>
                     {{ $no = 1 }}
-                    @foreach ($stok as $s)
+                    @foreach ($hutang as $h)
                         <tr>
-                            <td class="text-center">{{ $no++ }}</td>
-                            @foreach ($s as $item)
+                            {{-- <td class="text-center">{{ $no++ }}</td> --}}
+                            @foreach ($h as $item)
                                 <td class="text-center">{{ $item }}</td>
                             @endforeach
                         </tr>
                     @endforeach
                 </tbody>
             </table>
-            
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
-  </body>
+    </body>
 </html>
+

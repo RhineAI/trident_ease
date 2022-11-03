@@ -371,91 +371,91 @@ class LaporanController extends Controller
 
 
     // LAPORAN PENJUALAN
-     public function indexLaporanPenjualan(Request $request)
-     {   
-         $data['tanggal'] = date('Y-m-d');
-         // return $kasMasuk;
-         $tanggalAwal = date('Y-m-d', mktime(0, 0, 0, date('m'), 1, date('Y')));
-         $tanggalAkhir = date('Y-m-d');
-         $now = date('Y-m-d');
- 
-         if ($request->has('tanggal_awal') && $request->tanggal_awal != $now && $request->has('tanggal_akhir') && $request->tanggal_akhir != "") {
-             $tanggalAwal = date('Y-m-d', strtotime($request->tanggal_awal));
-             $tanggalAkhir = date('Y-m-d', strtotime($request->tanggal_akhir));
-         } else {
-             $tanggalAwal = date('Y-m-d', strtotime($now));
-             $tanggalAkhir = date('Y-m-d', strtotime($now));
-         }
- 
-         $data['cPerusahaan'] = Perusahaan::select('*')->where('id', auth()->user()->id_perusahaan)->first();
-    
+    public function indexLaporanPenjualan(Request $request)
+    {   
+        $data['tanggal'] = date('Y-m-d');
+        // return $kasMasuk;
+        $tanggalAwal = date('Y-m-d', mktime(0, 0, 0, date('m'), 1, date('Y')));
+        $tanggalAkhir = date('Y-m-d');
+        $now = date('Y-m-d');
+
+        if ($request->has('tanggal_awal') && $request->tanggal_awal != $now && $request->has('tanggal_akhir') && $request->tanggal_akhir != "") {
+            $tanggalAwal = date('Y-m-d', strtotime($request->tanggal_awal));
+            $tanggalAkhir = date('Y-m-d', strtotime($request->tanggal_akhir));
+        } else {
+            $tanggalAwal = date('Y-m-d', strtotime($now));
+            $tanggalAkhir = date('Y-m-d', strtotime($now));
+        }
+
+        $data['cPerusahaan'] = Perusahaan::select('*')->where('id', auth()->user()->id_perusahaan)->first();
+
         return view('laporan.laporan-penjualan.index', compact('tanggalAwal', 'tanggalAkhir', 'now'))->with($data);
-     }
+    }
  
-     public function penjualan($awal, $akhir)
-     {
-         // return $awal;
-         $no = 1;
-         $data = array();
- 
-         while (strtotime($awal) <= strtotime($akhir)) {
-             $tanggal = $awal;
-             $awal = date('Y-m-d', strtotime("+1day", strtotime($awal)));
- 
-             $detPenjualan= DetailPenjualan::where('t_detail_penjualan.tgl', 'Like', '%'.$tanggal.'%')
-                                            ->leftJoin('t_barang AS B', 'B.id', 't_detail_penjualan.id_barang')
-                                            ->select('t_detail_penjualan.*', 'B.nama AS nama_barang', 'B.kode')    
-                                            ->where('t_detail_penjualan.id_perusahaan', auth()->user()->id_perusahaan)
-                                            ->orderBy('id', 'desc')->get();
-        
-             foreach($detPenjualan as $item) {
-                 $row = array();
-                 $row['tgl'] = tanggal_indonesia($tanggal, false);
-                 $row['kode'] = '<span class="badge" style="background-color:#2f3d57; color:white;">'. $item->kode .'</span>';
-                 $row['nama_barang'] = $item->nama_barang ;
-                 $row['qty'] = $item->qty;
-                 $row['total_penjualan'] = 'Rp. '. format_uang($item->qty * $item->harga_jual);
-                 $row['keuntungan'] = 'Rp. '. format_uang(($item->harga_jual - $item->harga_beli) * $item->qty);
- 
-                 $data[] = $row;
-             }         
-         }
- 
-         return $data;
-     }
+    public function penjualan($awal, $akhir)
+    {
+        // return $awal;
+        $no = 1;
+        $data = array();
 
-     public function dataLaporanPenjualan($awal, $akhir) 
-     {
-        $data = $this->penjualan($awal, $akhir);
-        return datatables()
-             ->of($data)
-             ->addIndexColumn()
-             ->rawColumns(['kode'])
-             ->make(true);
-     }
+        while (strtotime($awal) <= strtotime($akhir)) {
+            $tanggal = $awal;
+            $awal = date('Y-m-d', strtotime("+1day", strtotime($awal)));
 
-     public function DownloadPenjualan($awal, $akhir) 
-     {
-         $penjualan = $this->penjualan($awal, $akhir);
-         $cPerusahaan = Perusahaan::select('*')->where('id', auth()->user()->id_perusahaan)->first();
- 
-         // return $data;
-         $pdf = PDF::loadView('laporan.laporan-penjualan.pdf', compact('awal', 'akhir', 'penjualan', 'cPerusahaan'));
-         $pdf->setPaper('a4', 'potrait');
-         return $pdf->stream('Laporan Penjualan-'. $cPerusahaan->nama .' '. date('Y-m-d-h:i:s') );
-     }
+            $detPenjualan= DetailPenjualan::where('t_detail_penjualan.tgl', 'Like', '%'.$tanggal.'%')
+                                        ->leftJoin('t_barang AS B', 'B.id', 't_detail_penjualan.id_barang')
+                                        ->select('t_detail_penjualan.*', 'B.nama AS nama_barang', 'B.kode')    
+                                        ->where('t_detail_penjualan.id_perusahaan', auth()->user()->id_perusahaan)
+                                        ->orderBy('id', 'desc')->get();
+    
+            foreach($detPenjualan as $item) {
+                $row = array();
+                $row['tgl'] = tanggal_indonesia($tanggal, false);
+                $row['kode'] = '<span class="badge" style="background-color:#2f3d57; color:white;">'. $item->kode .'</span>';
+                $row['nama_barang'] = $item->nama_barang ;
+                $row['qty'] = $item->qty;
+                $row['total_penjualan'] = 'Rp. '. format_uang($item->qty * $item->harga_jual);
+                $row['keuntungan'] = 'Rp. '. format_uang(($item->harga_jual - $item->harga_beli) * $item->qty);
+
+                $data[] = $row;
+            }         
+        }
+
+        return $data;
+    }
+
+    public function dataLaporanPenjualan($awal, $akhir) 
+    {
+    $data = $this->penjualan($awal, $akhir);
+    return datatables()
+            ->of($data)
+            ->addIndexColumn()
+            ->rawColumns(['kode'])
+            ->make(true);
+    }
+
+    public function DownloadPenjualan($awal, $akhir) 
+    {
+        $penjualan = $this->penjualan($awal, $akhir);
+        $cPerusahaan = Perusahaan::select('*')->where('id', auth()->user()->id_perusahaan)->first();
+
+        // return $data;
+        $pdf = PDF::loadView('laporan.laporan-penjualan.pdf', compact('awal', 'akhir', 'penjualan', 'cPerusahaan'));
+        $pdf->setPaper('a4', 'potrait');
+        return $pdf->stream('Laporan Penjualan-'. $cPerusahaan->nama .' '. date('Y-m-d-h:i:s') );
+    }
 
 
 
 
      // LAPORAN STOK
-     public function indexLaporanStok(Request $request)
-     {   
-         $data['tanggal'] = date('Y-m-d');
-         $tanggalAwal = date('Y-m-d', mktime(0, 0, 0, date('m'), 1, date('Y')));
-         $tanggalAkhir = date('Y-m-d');
-         $now = date('Y-m-d');
- 
+    public function indexLaporanStok(Request $request)
+    {   
+        $data['tanggal'] = date('Y-m-d');
+        $tanggalAwal = date('Y-m-d', mktime(0, 0, 0, date('m'), 1, date('Y')));
+        $tanggalAkhir = date('Y-m-d');
+        $now = date('Y-m-d');
+
         $merek1st = Merek::select('*')->where('id_perusahaan', auth()->user()->id_perusahaan)->first();
         $kategori1st = Kategori::select('*')->where('id_perusahaan', auth()->user()->id_perusahaan)->first();
         $merek2nd = Merek::select('*')->where('id', $request->merek)->where('id_perusahaan', auth()->user()->id_perusahaan)->first();
@@ -472,94 +472,93 @@ class LaporanController extends Controller
             $nameMerk = $merek1st->nama;
             $nameCategory = $kategori1st->nama;
         }
- 
-         $data['merek'] = Merek::select('*')->where('id_perusahaan', auth()->user()->id_perusahaan)->get();
-         $data['kategori'] = Kategori::select('*')->where('id_perusahaan', auth()->user()->id_perusahaan)->get();
-         $data['cPerusahaan'] = Perusahaan::select('*')->where('id', auth()->user()->id_perusahaan)->first();
-        //  return $data;
-    
+
+        $data['merek'] = Merek::select('*')->where('id_perusahaan', auth()->user()->id_perusahaan)->get();
+        $data['kategori'] = Kategori::select('*')->where('id_perusahaan', auth()->user()->id_perusahaan)->get();
+        $data['cPerusahaan'] = Perusahaan::select('*')->where('id', auth()->user()->id_perusahaan)->first();
+
         return view('laporan.laporan-stok.index', compact('nameMerk','nameCategory','now'))->with($data);
-     }
+    }
  
-     public function stok($merek, $kategori)
-     {
-        //  return $merek;
-         $no = 1;
-         $data = array();
- 
-        //  while ($merek && $kategori != '') {
-            //  $tanggal = $awal;
-            //  $awal = date('Y-m-d', strtotime("+1day", strtotime($awal)));
- 
-            $barang = Barang::where('id_merek', $merek)
-                            ->orWhere('id_kategori', $kategori)
-                            ->leftJoin('t_merek AS M', 'M.id', 't_barang.id_merek')
-                            ->leftJoin('t_kategori AS K', 'K.id', 't_barang.id_kategori')
-                            ->select('t_barang.*', 'M.nama AS nama_merek', 'K.nama AS nama_kategori')    
-                            ->where('t_barang.id_perusahaan', auth()->user()->id_perusahaan)
-                            ->orderBy('kode', 'asc')->get();
+    public function stok($merek, $kategori)
+    {
+    //  return $merek;
+        $no = 1;
+        $data = array();
 
-        // return $barang;
-             foreach($barang as $item) {
-                 $row = array();
-                 $row['kode'] = '<span class="badge" style="background-color:#2f3d57; color:white;">'. $item->kode .'</span>';
-                 $row['nama_barang'] = $item->nama ;
-                 $row['merek'] = $item->nama_merek;
-                 $row['kategori'] = $item->nama_kategori;
-                 $row['stock_minimal'] = $item->stock_minimal;
-                 $row['stock_sekarang'] = $item->stock;
- 
-                 $data[] = $row;
-             }         
-         return $data;
-     }
+    //  while ($merek && $kategori != '') {
+        //  $tanggal = $awal;
+        //  $awal = date('Y-m-d', strtotime("+1day", strtotime($awal)));
 
-     public function dataLaporanStok($merek, $kategori) 
-     {
-        $data = $this->stok($merek, $kategori);
+        $barang = Barang::where('id_merek', $merek)
+                        ->orWhere('id_kategori', $kategori)
+                        ->leftJoin('t_merek AS M', 'M.id', 't_barang.id_merek')
+                        ->leftJoin('t_kategori AS K', 'K.id', 't_barang.id_kategori')
+                        ->select('t_barang.*', 'M.nama AS nama_merek', 'K.nama AS nama_kategori')    
+                        ->where('t_barang.id_perusahaan', auth()->user()->id_perusahaan)
+                        ->orderBy('kode', 'asc')->get();
 
-        return datatables()
-        ->of($data)
-        ->addIndexColumn()
-        ->rawColumns(['kode'])
-        ->make(true);
-     }
+    // return $barang;
+            foreach($barang as $item) {
+                $row = array();
+                $row['kode'] = '<span class="badge" style="background-color:#2f3d57; color:white;">'. $item->kode .'</span>';
+                $row['nama_barang'] = $item->nama ;
+                $row['merek'] = $item->nama_merek;
+                $row['kategori'] = $item->nama_kategori;
+                $row['stock_minimal'] = $item->stock_minimal;
+                $row['stock_sekarang'] = $item->stock;
+
+                $data[] = $row;
+            }         
+        return $data;
+    }
+
+    public function dataLaporanStok($merek, $kategori) 
+    {
+    $data = $this->stok($merek, $kategori);
+
+    return datatables()
+    ->of($data)
+    ->addIndexColumn()
+    ->rawColumns(['kode'])
+    ->make(true);
+    }
 
 
-     public function DownloadStok($merek, $kategori) 
-     {
-        // $stok = $this->stok($merek, $kategori);
-        $stok = array();
-            $barang = Barang::where('id_merek', $merek)
-                            ->orWhere('id_kategori', $kategori)
-                            ->leftJoin('t_merek AS M', 'M.id', 't_barang.id_merek')
-                            ->leftJoin('t_kategori AS K', 'K.id', 't_barang.id_kategori')
-                            ->select('t_barang.*', 'M.nama AS nama_merek', 'K.nama AS nama_kategori')    
-                            ->where('t_barang.id_perusahaan', auth()->user()->id_perusahaan)
-                            ->orderBy('kode', 'asc')->get();
+    public function DownloadStok($merek, $kategori) 
+    {
+    // $stok = $this->stok($merek, $kategori);
+    $stok = array();
+        $barang = Barang::where('id_merek', $merek)
+                        ->orWhere('id_kategori', $kategori)
+                        ->leftJoin('t_merek AS M', 'M.id', 't_barang.id_merek')
+                        ->leftJoin('t_kategori AS K', 'K.id', 't_barang.id_kategori')
+                        ->select('t_barang.*', 'M.nama AS nama_merek', 'K.nama AS nama_kategori')    
+                        ->where('t_barang.id_perusahaan', auth()->user()->id_perusahaan)
+                        ->orderBy('kode', 'asc')->get();
 
-             foreach($barang as $item) {
-                 $row = array();
-                 $row['kode'] = $item->kode;
-                 $row['nama_barang'] = $item->nama ;
-                 $row['merek'] = $item->nama_merek;
-                 $row['kategori'] = $item->nama_kategori;
-                 $row['stock_minimal'] = $item->stock_minimal;
-                 $row['stock_sekarang'] = $item->stock;
- 
-                 $stok[] = $row;
-             }  
+            foreach($barang as $item) {
+                $row = array();
+                $row['kode'] = $item->kode;
+                $row['nama_barang'] = $item->nama ;
+                $row['merek'] = $item->nama_merek;
+                $row['kategori'] = $item->nama_kategori;
+                $row['stock_minimal'] = $item->stock_minimal;
+                $row['stock_sekarang'] = $item->stock;
 
-        $merk = Merek::where('id', $merek)->first();
-        $category = Kategori::where('id', $kategori)->first();
-        // return $category;
-        $cPerusahaan = Perusahaan::select('*')->where('id', auth()->user()->id_perusahaan)->first();
- 
-         // return $data;
-         $pdf = PDF::loadView('laporan.laporan-stok.pdf', compact('merek', 'kategori', 'merk', 'category', 'stok', 'cPerusahaan'));
-         $pdf->setPaper('a4', 'potrait');
-         return $pdf->stream('Laporan Stok-'. $cPerusahaan->nama .' '. date('Y-m-d-h:i:s') );
-     }
+                $stok[] = $row;
+            }  
+
+    $merk = Merek::where('id', $merek)->first();
+    $category = Kategori::where('id', $kategori)->first();
+    // return $category;
+    $cPerusahaan = Perusahaan::select('*')->where('id', auth()->user()->id_perusahaan)->first();
+
+        // return $data;
+        $pdf = PDF::loadView('laporan.laporan-stok.pdf', compact('merek', 'kategori', 'merk', 'category', 'stok', 'cPerusahaan'));
+        $pdf->setPaper('a4', 'potrait');
+        return $pdf->stream('Laporan Stok-'. $cPerusahaan->nama .' '. date('Y-m-d-h:i:s') );
+    }
      
 
      // LAPORAN KESESUAIAN STOK
@@ -666,21 +665,26 @@ class LaporanController extends Controller
             ->make(true);
     }
 
-    public function DownloadKesesuaianStok($awal, $akhir, $merek, $kategori) 
+    public function DownloadKesesuaianStok($merek, $kategori, $awal, $akhir) 
     {
         $kesesuaian_stok = $this->stok($awal, $akhir, $merek, $kategori);
- 
-         // return $data;
-         $pdf = PDF::loadView('laporan.laporan-kesesuaian-stok.pdf', compact('awal', 'akhir','merek', 'kategori', 'kesesuaian_stok', 'cPerusahaan'));
-         $pdf->setPaper('a4', 'potrait');
-         return $pdf->stream('Laporan Kesesuaian Stok-'. $cPerusahaan->nama .' '. date('Y-m-d-h:i:s') );
+        $cPerusahaan = Perusahaan::select('*')->where('id', auth()->user()->id_perusahaan)->first();
+        $awal = $awal;
+        $akhir = $akhir;
+        $merk = Merek::orderBy('id', 'ASC')->where('id', $merek)->first();
+        $category = Kategori::orderBy('id', 'ASC')->where('id', $kategori)->first();
+        // return $merk;
+        
+        $pdf = PDF::loadView('laporan.laporan-kesesuaian-stok.pdf', compact('cPerusahaan' ,'awal', 'akhir','merk', 'category', 'kesesuaian_stok', 'cPerusahaan'));
+        $pdf->setPaper('a4', 'potrait');
+        return $pdf->stream('Laporan Kesesuaian Stok-'. $cPerusahaan->nama .' '. date('Y-m-d-h:i:s') );
     }
 
 
 
 
     // LAPORAN HUTANG PIUTANG
-    public function indexLaporanHutangPiutang(Request $request)
+    public function indexLaporanHutang(Request $request)
     {   
         $data['tanggal'] = date('Y-m-d');
         // $perusahaan = Perusahaan::select('id')->get();
@@ -701,7 +705,7 @@ class LaporanController extends Controller
 
         $data['cPerusahaan'] = Perusahaan::select('*')->where('id', auth()->user()->id_perusahaan)->first();
    
-       return view('laporan.laporan-hutang-piutang.index', compact('tanggalAwal', 'tanggalAkhir', 'now'))->with($data);
+       return view('laporan.laporan-hutang.index', compact('tanggalAwal', 'tanggalAkhir', 'now'))->with($data);
     }
 
     public function hutang($awal, $akhir)
@@ -753,6 +757,30 @@ class LaporanController extends Controller
         ->make(true);
     }
 
+    public function indexLaporanPiutang(Request $request)
+    {   
+        $data['tanggal'] = date('Y-m-d');
+        // $perusahaan = Perusahaan::select('id')->get();
+
+
+        // return $kasMasuk;
+        $tanggalAwal = date('Y-m-d', mktime(0, 0, 0, date('m'), 1, date('Y')));
+        $tanggalAkhir = date('Y-m-d');
+        $now = date('Y-m-d');
+
+        if ($request->has('tanggal_awal') && $request->tanggal_awal != $now && $request->has('tanggal_akhir') && $request->tanggal_akhir != "") {
+            $tanggalAwal = date('Y-m-d', strtotime($request->tanggal_awal));
+            $tanggalAkhir = date('Y-m-d', strtotime($request->tanggal_akhir));
+        } else {
+            $tanggalAwal = date('Y-m-d', strtotime($now));
+            $tanggalAkhir = date('Y-m-d', strtotime($now));
+        }
+
+        $data['cPerusahaan'] = Perusahaan::select('*')->where('id', auth()->user()->id_perusahaan)->first();
+   
+       return view('laporan.laporan-piutang.index', compact('tanggalAwal', 'tanggalAkhir', 'now'))->with($data);
+    }
+
     public function piutang($awal, $akhir)
     {
         // return $awal;
@@ -801,51 +829,59 @@ class LaporanController extends Controller
             ->make(true);
     }
 
-    public function DownloadHutangPiutang($awal, $akhir) 
-     {
+    public function DownloadHutang($awal, $akhir) 
+    {
+    $no = 1;
+
+    // $hutang = $this->hutang($awal, $akhir);
+    // $piutang = $this->piutang($awal, $akhir);
+
+    $hutang = array();
+
+    while (strtotime($awal) <= strtotime($akhir)) {
+        $tanggal = $awal;
+        $awal = date('Y-m-d', strtotime("+1day", strtotime($awal)));
+
+        $h = Hutang::where('t_data_hutang.tgl', 'Like', '%'.$tanggal.'%')
+                    ->leftJoin('t_transaksi_pembelian AS TP', 'TP.id', 't_data_hutang.id_pembelian')
+                    ->leftJoin('t_supplier AS S', 'S.id', 'TP.id_supplier')
+                    ->select('t_data_hutang.*', 'TP.kode_invoice', 'TP.sisa', 'S.nama AS nama_supplier')  
+                    ->where('t_data_hutang.id_perusahaan', auth()->user()->id_perusahaan)
+                    ->orderBy('id', 'desc')->get();
+        
+        foreach($h as $item) {
+            $row = array();
+            $row['DT_RowIndex'] = $no++;
+            $row['no_pembelian'] = $item->kode_invoice;
+            $row['tgl'] = tanggal_indonesia($tanggal, false);
+            $row['nama_supplier'] = $item->nama_supplier ;
+            $row['total_bayar'] = 'Rp. '. format_uang($item->total_bayar );
+            if ($item->sisa == 0) {
+                $row['status'] = 'Lunas';
+            } else {
+                $row['status'] = 'Belum Lunas';
+            }
+
+
+            $hutang[] = $row;
+        }         
+
+    }
+    
+        $cPerusahaan = Perusahaan::select('*')->where('id', auth()->user()->id_perusahaan)->first();
+
+        // return $data;
+        $pdf = PDF::loadView('laporan.laporan-hutang.pdf', compact('awal', 'akhir', 'hutang', 'cPerusahaan'));
+        $pdf->setPaper('a4', 'potrait');
+        return $pdf->stream('Laporan Hutang-'. $cPerusahaan->nama .' '. date('Y-m-d h.i.s'));
+    }
+
+    public function DownloadPiutang($awal, $akhir) 
+    {
         $no = 1;
-
-        // $hutang = $this->hutang($awal, $akhir);
-        // $piutang = $this->piutang($awal, $akhir);
-
-        $hutang = array();
-
-        while (strtotime($awal) <= strtotime($akhir)) {
-            $tanggal = $awal;
-            $awal = date('Y-m-d', strtotime("+1day", strtotime($awal)));
-
-            $h = Hutang::where('t_data_hutang.tgl', 'Like', '%'.$tanggal.'%')
-                            ->leftJoin('t_transaksi_pembelian AS TP', 'TP.id', 't_data_hutang.id_pembelian')
-                            ->leftJoin('t_supplier AS S', 'S.id', 'TP.id_supplier')
-                            ->select('t_data_hutang.*', 'TP.kode_invoice', 'TP.sisa', 'S.nama AS nama_supplier')  
-                            ->where('t_data_hutang.id_perusahaan', auth()->user()->id_perusahaan)
-                            ->orderBy('id', 'desc')->get();
-            
-            foreach($h as $item) {
-                $row = array();
-                $row['DT_RowIndex'] = $no++;
-                $row['no_pembelian'] = $item->kode_invoice;
-                $row['tgl'] = tanggal_indonesia($tanggal, false);
-                $row['nama_supplier'] = $item->nama_supplier ;
-                $row['total_bayar'] = 'Rp. '. format_uang($item->total_bayar );
-                if ($item->sisa == 0) {
-                    $row['status'] = 'Lunas';
-                } else {
-                    $row['status'] = 'Belum Lunas';
-                }
-
-
-                $hutang[] = $row;
-            }         
-
-        }
+        $tglAwal = $awal;
 
         $piutang = array();
-        // $awals = date('Y-m-d', strtotime("-2day", strtotime($awal)));
-
-        
-
-        // return $p;
 
         while (strtotime($awal) <= strtotime($akhir)) {
             $tanggal = $awal;
@@ -871,25 +907,16 @@ class LaporanController extends Controller
                     $row['status'] = 'Belum Lunas';
                 }
 
-
                 $piutang[] = $row;
             }         
 
         }
-        // return $p;
-
-
-        // $now = date('Y-m-d');
-
-        // $tanggalAwal = $awal
         
-        // return $piutang;
-       
-         $cPerusahaan = Perusahaan::select('*')->where('id', auth()->user()->id_perusahaan)->first();
- 
-         // return $data;
-         $pdf = PDF::loadView('laporan.laporan-hutang-piutang.pdf', compact('awal', 'akhir', 'hutang', 'piutang', 'cPerusahaan'));
-         $pdf->setPaper('a4', 'potrait');
-         return $pdf->stream('Laporan Hutang dan Piutang-'. $cPerusahaan->nama .' '. date('Y-m-d-h:i:s') );
-     }
+        $cPerusahaan = Perusahaan::select('*')->where('id', auth()->user()->id_perusahaan)->first();
+
+        // return $data;
+        $pdf = PDF::loadView('laporan.laporan-piutang.pdf', compact('awal', 'akhir', 'piutang', 'tglAwal','cPerusahaan'));
+        $pdf->setPaper('a4', 'potrait');
+        return $pdf->stream('Laporan Piutang-'. $cPerusahaan->nama .' '. date('Y-m-d h.i.s'));
+    }
 }

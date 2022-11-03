@@ -22,9 +22,14 @@
   <body>
     <h1 class="text-center">{{ $cPerusahaan->nama }}</h1>
     <h2 class="text-center">Laporan Kesesuaian Stok</h2>
-    <h3 class="text-center mb-4">
+    <h3 class="text-center">
        Untuk merk {{ $merk->nama }}
        dan kategori {{ $category->nama }}
+    </h3>
+    <h3 class="text-center mb-4">
+        Dari Tanggal {{ tanggal_indonesia($awal, false) }}
+        s/d
+        Tanggal {{ tanggal_indonesia($akhir, false) }}
     </h3>
     
 
@@ -34,26 +39,15 @@
             <table border="1" class="table mb-5 table-bordered table-striped table-kesesuaian-stok" id="dataTableHover">
                 <thead >
                     <tr class="">
-                        <th width="7%" class="text-center" style="margin:auto; text-align:center;">No</th>
-                        {{-- <th width="15%" class="text-center" style="margin:auto; text-align:center;">No</th> --}}
-                        <th width="7%" class="text-center" style="margin:auto; text-align:center;">Kode</th>
-                        <th width="16%" class="text-center" style="margin:auto; text-align:center;">Nama Barang</th>
-                        <th width="10%" class="text-center" style="margin:auto; text-align:center;">Merek</th>
-                        <th width="12%" class="text-center" style="margin:auto; text-align:center;">Kategori</th>
-                        <th width="5%" class="text-center">Stock Sistem</th>
-                        <th width="5%" class="text-center">Stock Baru</th>
-                        <th width="5%" class="text-center">Selisih</th>
-                    </tr>
-                    <tr class="">
-                        <th width="4.2%" class="text-center" style="margin:auto; text-align:center;">No</th>
-                        {{-- <th width="15%" class="text-center" style="margin:auto; text-align:center;">No</th> --}}
-                        <th width="8%" class="text-center" style="margin:auto; text-align:center;">Kode</th>
-                        <th width="16%" class="text-center" style="margin:auto; text-align:center;">Nama Barang</th>
-                        <th width="9%" class="text-center" style="margin:auto; text-align:center;">Merek</th>
-                        <th width="11%" class="text-center" style="margin:auto; text-align:center;">Kategori</th>
-                        <th width="4.5%" class="text-center">Stock Sitem</th>
-                        <th width="4.5%" class="text-center">Stock Baru</th>
-                        <th width="3.9%" class="text-center">Selisih</th>
+                        <th width="3.81%" class="text-center" style="vertical-align:middle; margin:auto; text-align:center;">No</th>
+                        {{-- <th width="15%" class="text-center" style="vertical-align:middle; margin:auto; text-align:center;">No</th> --}}
+                        <th width="7%" class="text-center" style="vertical-align:middle; margin:auto; text-align:center;">Kode</th>
+                        <th width="16%" class="text-center" style="vertical-align:middle; margin:auto; text-align:center;">Nama Barang</th>
+                        <th width="8.1%" class="text-center" style="vertical-align:middle; margin:auto; text-align:center;">Merek</th>
+                        <th width="12.3%" class="text-center" style="vertical-align:middle; margin:auto; text-align:center;">Kategori</th>
+                        <th width="5%" class="text-center">Stok Sistem</th>
+                        <th width="5%" class="text-center">Stok Baru</th>
+                        <th width="5%" class="text-center" style="vertical-align:middle;">Selisih</th>
                     </tr>
                 </thead>
                 <tbody>

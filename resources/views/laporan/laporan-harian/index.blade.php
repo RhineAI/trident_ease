@@ -36,7 +36,7 @@ Laporan Harian
                                 <span class="help-block with-errors"></span>
                             </div>
                             
-                            <label class="mx-3" for="" class="col-md-2 col-form-label">s/d</label>
+                            <h5 class="mr-5 mx-3 my-2 mt-3" for="" class="col-md-2"><b>s/d</b></h5>
     
                             <label for="tanggal_akhir" class="col-lg-2 control-label">Tanggal Akhir</label>
                             <div class="col-md-3">
@@ -82,7 +82,7 @@ Laporan Harian
                                 <thead class="table-primary">
                                     <tr>
                                         <th width="4%" class="text-center">No</th>
-                                        <th width="10%" class="text-center">Kode</th>
+                                        <th width="8%" class="text-center">Kode</th>
                                         <th width="16%" class="text-center">Nama Barang</th>
                                         <th width="8%" class="text-center">QTY</th>
                                         <th width="17%" class="text-center">Total Pembelian</th>
@@ -121,8 +121,8 @@ Laporan Harian
                                 <thead class="table-primary">
                                     <tr>
                                         <th width="4%" class="text-center">No</th>
-                                        <th width="10%" class="text-center">Invoice</th>
-                                        <th width="8%" class="text-center">Tanggal</th>
+                                        <th width="6%" class="text-center">Invoice</th>
+                                        <th width="11%" class="text-center">Tanggal</th>
                                         <th width="16%" class="text-center">Nama Supplier</th>
                                         <th width="13%" class="text-center">Total Bayar</th>
                                         <th width="9%" class="text-center">Status</th>
@@ -135,9 +135,9 @@ Laporan Harian
                                 <thead class="table-primary">
                                     <tr>
                                         <th width="4%" class="text-center">No</th>
-                                        <th width="10.5%" class="text-center">Invoice</th>
-                                        <th width="8%" class="text-center">Tanggal</th>
-                                        <th width="16%" class="text-center">Nama Pelanggan</th>
+                                        <th width="6%" class="text-center">Invoice</th>
+                                        <th width="11%" class="text-center">Tanggal</th>
+                                        <th width="14%" class="text-center">Nama Pelanggan</th>
                                         <th width="13%" class="text-center">Total Bayar</th>
                                         <th width="9%" class="text-center">Status</th>
                                     </tr>

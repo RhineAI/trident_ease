@@ -138,11 +138,13 @@ Route::group(['middleware' => 'hak_akses:1'], function () {
         Route::post('/laporan-kesesuaian-stock/data/{awal}/{akhir}/{merek}/{kategori}', [LaporanController::class, 'dataLaporanKesesuaianStok'])->name('laporan-kesesuaian-stok.data');
         Route::get('/laporan-kesesuaian-stock/download/{awal}/{akhir}/{merek}/{kategori}', [LaporanController::class, 'DownloadKesesuaianStok'])->name('laporan-kesesuaian-stok.download');
      
-        Route::get('/laporan-hutang-piutang', [LaporanController::class, 'indexLaporanHutangPiutang'])->name('laporan-hutang-piutang.index');
+        Route::get('/laporan-hutang', [LaporanController::class, 'indexLaporanHutang'])->name('laporan-hutang.index');
         Route::post('/laporan-hutang/data/{awal}/{akhir}', [LaporanController::class, 'dataLaporanHutang'])->name('laporan-hutang.data');
+        Route::get('/laporan-hutang/download/{awal}/{akhir}', [LaporanController::class, 'DownloadHutang'])->name('laporan-hutang.download');
+        
+        Route::get('/laporan-piutang', [LaporanController::class, 'indexLaporanPiutang'])->name('laporan-piutang.index');
         Route::post('/laporan-piutang/data/{awal}/{akhir}', [LaporanController::class, 'dataLaporanPiutang'])->name('laporan-piutang.data');
-        Route::get('/laporan-piutang/download/{awal}/{akhir}', [LaporanController::class, 'DownloadHutangPiutang'])->name('laporan-hutang-piutang.download');
-  
+        Route::get('/laporan-piutang/download/{awal}/{akhir}', [LaporanController::class, 'DownloadPiutang'])->name('laporan-piutang.download');
 
         Route::get('/laporan-harian', [LaporanController::class, 'indexLaporanHarian'])->name('laporan-harian.index');
         Route::get('/laporan-harian/download/{awal}/{akhir}', [LaporanController::class, 'DownloadHarian'])->name('laporan-harian.download');

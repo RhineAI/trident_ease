@@ -241,8 +241,13 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ route('laporan-hutang-piutang.index') }}" class="nav-link">
-                                <p>Laporan Hutang Piutang</p>
+                            <a href="{{ route('laporan-hutang.index') }}" class="nav-link">
+                                <p>Laporan Hutang</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('laporan-piutang.index') }}" class="nav-link">
+                                <p>Laporan Piutang</p>
                             </a>
                         </li>
                         <li class="nav-item">
