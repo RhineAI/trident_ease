@@ -301,12 +301,36 @@ class LaporanController extends Controller
  
     public function DownloadPenjualan($awal, $akhir) 
     {
-        $penjualan = $this->penjualan($awal, $akhir);
-        $cPerusahaan = Perusahaan::select('*')->where('id', auth()->user()->id_perusahaan)->first();
+        $penjualan = array();
         $tglAwal = $awal;
+
+        while (strtotime($awal) <= strtotime($akhir)) {
+            $tanggal = $awal;
+            $awal = date('Y-m-d', strtotime("+1day", strtotime($awal)));
+
+            $detPenjualan= DetailPenjualan::where('t_detail_penjualan.tgl', 'Like', '%'.$tanggal.'%')
+                                        ->leftJoin('t_barang AS B', 'B.id', 't_detail_penjualan.id_barang')
+                                        ->select('t_detail_penjualan.*', 'B.nama AS nama_barang', 'B.kode')    
+                                        ->where('t_detail_penjualan.id_perusahaan', auth()->user()->id_perusahaan)
+                                        ->orderBy('id', 'desc')->get();
+    
+            foreach($detPenjualan as $item) {
+                $row = array();
+                $row['tgl'] = tanggal_indonesia($tanggal, false);
+                $row['kode'] = $item->kode;
+                $row['nama_barang'] = $item->nama_barang ;
+                $row['qty'] = $item->qty;
+                $row['total_penjualan'] = 'Rp. '. format_uang($item->qty * $item->harga_jual);
+                $row['keuntungan'] = 'Rp. '. format_uang(($item->harga_jual - $item->harga_beli) * $item->qty);
+
+                $penjualan[] = $row;
+            }         
+        }
+        $cPerusahaan = Perusahaan::select('*')->where('id', auth()->user()->id_perusahaan)->first();
 
 
         // return $data;
+        // return view('laporan.laporan-penjualan.pdf', compact('tglAwal' ,'awal', 'akhir', 'penjualan', 'cPerusahaan'));
         $pdf = PDF::loadView('laporan.laporan-penjualan.pdf', compact('tglAwal', 'awal', 'akhir', 'penjualan', 'cPerusahaan'));
         $pdf->setPaper('a4', 'potrait');
         return $pdf->stream('Laporan Penjualan-'. $cPerusahaan->nama .' '. date('Y-m-d-h.i.s') );
@@ -568,6 +592,7 @@ class LaporanController extends Controller
 
 
         // return $data;
+        // return view('laporan.laporan-kas.pdf', compact('tglAwal' ,'awal', 'akhir', 'kas_masuk', 'kas_keluar', 'cPerusahaan'));
         $pdf = PDF::loadView('laporan.laporan-kas.pdf', compact('tglAwal', 'awal', 'akhir', 'kas_masuk', 'kas_keluar', 'cPerusahaan'));
         $pdf->setPaper('a4', 'potrait');
         return $pdf->stream('Laporan KAS-'. $cPerusahaan->nama .' '. date('Y-m-d h.i.s') );
@@ -682,6 +707,7 @@ class LaporanController extends Controller
         $cPerusahaan = Perusahaan::select('*')->where('id', auth()->user()->id_perusahaan)->first();
 
         // return $data;
+        // return view('laporan.laporan-stok.pdf', compact('stok','merek', 'kategori', 'merk', 'category', 'cPerusahaan'));
         $pdf = PDF::loadView('laporan.laporan-stok.pdf', compact('merek', 'kategori', 'merk', 'category', 'stok', 'cPerusahaan'));
         $pdf->setPaper('a4', 'potrait');
         return $pdf->stream('Laporan Stok-'. $cPerusahaan->nama .' '. date('Y-m-d h.i.s') );
@@ -804,7 +830,8 @@ class LaporanController extends Controller
         $category = Kategori::orderBy('id', 'ASC')->where('id', $kategori)->first();
         // return $merk;
         
-        $pdf = PDF::loadView('laporan.laporan-kesesuaian-stok.pdf', compact('cPerusahaan' , 'tglAwal', 'awal', 'akhir','merk', 'category', 'kesesuaian_stok', 'cPerusahaan'));
+        // return view('laporan.laporan-kesesuaian-stok.pdf', compact('tglAwal' ,'awal', 'akhir', 'kesesuaian_stok', 'merk', 'category', 'cPerusahaan'));
+        $pdf = PDF::loadView('laporan.laporan-kesesuaian-stok.pdf', compact('cPerusahaan' , 'tglAwal', 'awal', 'akhir','merk', 'category', 'kesesuaian_stok'));
         $pdf->setPaper('a4', 'potrait');
         return $pdf->stream('Laporan Kesesuaian Stok-'. $cPerusahaan->nama .' '. date('Y-m-d h.i.s') );
     }
@@ -999,6 +1026,7 @@ class LaporanController extends Controller
         $cPerusahaan = Perusahaan::select('*')->where('id', auth()->user()->id_perusahaan)->first();
 
         // return $data;
+        // return view('laporan.laporan-hutang.pdf', compact('tglAwal' ,'awal', 'akhir', 'hutang', 'cPerusahaan'));
         $pdf = PDF::loadView('laporan.laporan-hutang.pdf', compact('tglAwal', 'awal', 'akhir', 'hutang', 'cPerusahaan'));
         $pdf->setPaper('a4', 'potrait');
         return $pdf->stream('Laporan Hutang-'. $cPerusahaan->nama .' '. date('Y-m-d h.i.s'));
@@ -1043,7 +1071,8 @@ class LaporanController extends Controller
         $cPerusahaan = Perusahaan::select('*')->where('id', auth()->user()->id_perusahaan)->first();
 
         // return $data;
-        $pdf = PDF::loadView('laporan.laporan-piutang.pdf', compact('awal', 'akhir', 'piutang', 'tglAwal','cPerusahaan'));
+        // return view('laporan.laporan-piutang.pdf', compact('tglAwal' ,'awal', 'akhir', 'piutang', 'cPerusahaan'));
+        $pdf = PDF::loadView('laporan.laporan-piutang.pdf', compact('awal', 'akhir', 'piutang', 'tglAwal', 'cPerusahaan'));
         $pdf->setPaper('a4', 'potrait');
         return $pdf->stream('Laporan Piutang-'. $cPerusahaan->nama .' '. date('Y-m-d h.i.s'));
     }

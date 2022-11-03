@@ -12,24 +12,30 @@
             width: 100%;
         }
 
+        tr {
+            border-top: 1.325px solid black;
+            border-bottom: 1.325px solid black;
+        }
+
         td, th {
             border: 1.325px solid black;
+            border-bottom: 1.325px solid black;
             text-align: left;
             padding: 8px;
         }
     </style>
   </head>
   <body>
-    {{-- <small class="convert-tgl" style="visibility: hidden">
-        {{ $awals = date('Y-m-d', strtotime("-2day", strtotime($awal))); }}
-    </small> --}}
-    <h1 class="text-center">{{ $cPerusahaan->nama }}</h1>
-    <h2 class="text-center">Laporan Hutang</h2>
-    <h3 class="text-center mb-4">
+    <small class="convert-tgl" style="visibility: hidden">
+        {{ $no = 1 }}
+    </small>
+    <h2 class="text-center">{{ $cPerusahaan->nama }}</h2>
+    <h3 class="text-center">Laporan Hutang</h3>
+    <h5 class="text-center mb-4">
         Tanggal {{ tanggal_indonesia($tglAwal, false) }}
         s/d
         Tanggal {{ tanggal_indonesia($akhir, false) }}
-    </h3>
+    </h5>
 
     <div class="col-md-12 mt-3">
         <div class="table-responsive p-2">
@@ -46,15 +52,20 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {{ $no = 1 }}
-                    @foreach ($hutang as $h)
+                    @if ($hutang != NULL) 
+                        @foreach ($hutang as $h)
+                            <tr>
+                                {{-- <td class="text-center">{{ $no++ }}</td> --}}
+                                @foreach ($h as $item)
+                                    <td class="text-center">{{ $item }}</td>
+                                @endforeach
+                            </tr>
+                        @endforeach
+                    @else
                         <tr>
-                            {{-- <td class="text-center">{{ $no++ }}</td> --}}
-                            @foreach ($h as $item)
-                                <td class="text-center">{{ $item }}</td>
-                            @endforeach
-                        </tr>
-                    @endforeach
+                            <td colspan="6" class="text-center" style="color:grey; font-size:17px;">Tidak ada data</td>    
+                        </tr>    
+                    @endif
                 </tbody>
             </table>
         </div>

@@ -36,13 +36,13 @@
         {{ $noKasMasuk = 1 }}
         {{ $noKasKeluar= 1 }}
     </small>
-    <h1 class="text-center">{{ $cPerusahaan->nama }}</h1>
-    <h2 class="text-center">Laporan Harian</h2>
-    <h3 class="text-center mb-4">
+    <h2 class="text-center">{{ $cPerusahaan->nama }}</h2>
+    <h3 class="text-center">Laporan Harian</h3>
+    <h5 class="text-center mb-4">
         Tanggal {{ tanggal_indonesia($tglAwal, false) }}
         s/d
         Tanggal {{ tanggal_indonesia($akhir, false) }}
-    </h3>
+    </h5>
 
     <div class="col-md-12 mt-3">
         <div class="table-responsive p-2">
