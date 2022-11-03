@@ -20,6 +20,8 @@ use App\Models\TransaksiPenjualan;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\Pdf as PDF;
+
 
 class LaporanController extends Controller
 {
@@ -99,6 +101,7 @@ class LaporanController extends Controller
 
 
 
+
     // LAPORAN Harian
     public function indexLaporanHarian(Request $request)
     {   
@@ -159,6 +162,7 @@ class LaporanController extends Controller
 
         return $data;
     }
+
 
 
 
@@ -239,6 +243,8 @@ class LaporanController extends Controller
 
 
 
+
+
     // Laporan KAS
     public function indexLaporanKas(Request $request)
     {   
@@ -264,7 +270,7 @@ class LaporanController extends Controller
        return view('laporan.laporan-kas.index', compact('tanggalAwal', 'tanggalAkhir', 'now'))->with($data);
     }
 
-    public function dataLaporanKasMasuk($awal, $akhir)
+    public function kasMasuk($awal, $akhir)
     {
         // return $awal;
         $no = 1;
@@ -291,19 +297,20 @@ class LaporanController extends Controller
 
                 $data[] = $row;
             }         
-
         }
-
-        return datatables()
-            ->of($data)
-            ->addIndexColumn()
-            ->rawColumns(['action', 'invoice'])
-            ->make(true);
-
         return $data;
     }
 
-    public function dataLaporanKasKeluar($awal, $akhir)
+    public function dataLaporanKasMasuk($awal, $akhir)
+    {
+        $data = $this->kasMasuk($awal, $akhir);
+        return datatables()
+            ->of($data)
+            ->addIndexColumn()
+            ->make(true);
+    }
+
+    public function kasKeluar($awal, $akhir)
     {
         // return $awal;
         $no = 1;
@@ -333,15 +340,33 @@ class LaporanController extends Controller
             }         
 
         }
+        return $data;
+
+    }
+
+    public function dataLaporanKasKeluar($awal, $akhir) 
+    {
+        $data = $this->kasKeluar($awal, $akhir);
 
         return datatables()
-            ->of($data)
-            ->addIndexColumn()
-            ->rawColumns(['action', 'invoice'])
-            ->make(true);
-
-        return $data;
+        ->of($data)
+        ->addIndexColumn()
+        ->make(true);
     }
+
+    public function DownloadKas($awal, $akhir) 
+    {
+        $kas_masuk = $this->kasMasuk($awal, $akhir);
+        $kas_keluar = $this->kasKeluar($awal, $akhir);
+        $cPerusahaan = Perusahaan::select('*')->where('id', auth()->user()->id_perusahaan)->first();
+
+        // return $data;
+        $pdf = PDF::loadView('laporan.laporan-kas.pdf', compact('awal', 'akhir', 'kas_masuk', 'kas_keluar', 'cPerusahaan'));
+        $pdf->setPaper('a4', 'potrait');
+        return $pdf->stream('Laporan KAS-'. $cPerusahaan->nama .' '. date('Y-m-d-h:i:s') );
+    }
+
+
 
 
 
@@ -367,7 +392,7 @@ class LaporanController extends Controller
         return view('laporan.laporan-penjualan.index', compact('tanggalAwal', 'tanggalAkhir', 'now'))->with($data);
      }
  
-     public function dataLaporanPenjualan($awal, $akhir)
+     public function penjualan($awal, $akhir)
      {
          // return $awal;
          $no = 1;
@@ -396,14 +421,30 @@ class LaporanController extends Controller
              }         
          }
  
-         return datatables()
+         return $data;
+     }
+
+     public function dataLaporanPenjualan($awal, $akhir) 
+     {
+        $data = $this->penjualan($awal, $akhir);
+        return datatables()
              ->of($data)
              ->addIndexColumn()
              ->rawColumns(['kode'])
              ->make(true);
- 
-         return $data;
      }
+
+     public function DownloadPenjualan($awal, $akhir) 
+     {
+         $penjualan = $this->penjualan($awal, $akhir);
+         $cPerusahaan = Perusahaan::select('*')->where('id', auth()->user()->id_perusahaan)->first();
+ 
+         // return $data;
+         $pdf = PDF::loadView('laporan.laporan-penjualan.pdf', compact('awal', 'akhir', 'penjualan', 'cPerusahaan'));
+         $pdf->setPaper('a4', 'potrait');
+         return $pdf->stream('Laporan Penjualan-'. $cPerusahaan->nama .' '. date('Y-m-d-h:i:s') );
+     }
+
 
 
 
@@ -440,7 +481,7 @@ class LaporanController extends Controller
         return view('laporan.laporan-stok.index', compact('nameMerk','nameCategory','now'))->with($data);
      }
  
-     public function dataLaporanStok($merek, $kategori)
+     public function stok($merek, $kategori)
      {
         //  return $merek;
          $no = 1;
@@ -470,22 +511,60 @@ class LaporanController extends Controller
  
                  $data[] = $row;
              }         
-            //  dd($data); die;
-            // return $data;
-        //  }
- 
-         return datatables()
-             ->of($data)
-             ->addIndexColumn()
-             ->rawColumns(['kode'])
-             ->make(true);
- 
          return $data;
      }
 
-     // LAPORAN KESESUAIAN STOK
-     public function indexLaporanKesesuaianStok(Request $request)
+     public function dataLaporanStok($merek, $kategori) 
      {
+        $data = $this->stok($merek, $kategori);
+
+        return datatables()
+        ->of($data)
+        ->addIndexColumn()
+        ->rawColumns(['kode'])
+        ->make(true);
+     }
+
+
+     public function DownloadStok($merek, $kategori) 
+     {
+        // $stok = $this->stok($merek, $kategori);
+        $stok = array();
+            $barang = Barang::where('id_merek', $merek)
+                            ->orWhere('id_kategori', $kategori)
+                            ->leftJoin('t_merek AS M', 'M.id', 't_barang.id_merek')
+                            ->leftJoin('t_kategori AS K', 'K.id', 't_barang.id_kategori')
+                            ->select('t_barang.*', 'M.nama AS nama_merek', 'K.nama AS nama_kategori')    
+                            ->where('t_barang.id_perusahaan', auth()->user()->id_perusahaan)
+                            ->orderBy('kode', 'asc')->get();
+
+             foreach($barang as $item) {
+                 $row = array();
+                 $row['kode'] = $item->kode;
+                 $row['nama_barang'] = $item->nama ;
+                 $row['merek'] = $item->nama_merek;
+                 $row['kategori'] = $item->nama_kategori;
+                 $row['stock_minimal'] = $item->stock_minimal;
+                 $row['stock_sekarang'] = $item->stock;
+ 
+                 $stok[] = $row;
+             }  
+
+        $merk = Merek::where('id', $merek)->first();
+        $category = Kategori::where('id', $kategori)->first();
+        // return $category;
+        $cPerusahaan = Perusahaan::select('*')->where('id', auth()->user()->id_perusahaan)->first();
+ 
+         // return $data;
+         $pdf = PDF::loadView('laporan.laporan-stok.pdf', compact('merek', 'kategori', 'merk', 'category', 'stok', 'cPerusahaan'));
+         $pdf->setPaper('a4', 'potrait');
+         return $pdf->stream('Laporan Stok-'. $cPerusahaan->nama .' '. date('Y-m-d-h:i:s') );
+     }
+     
+
+     // LAPORAN KESESUAIAN STOK
+    public function indexLaporanKesesuaianStok(Request $request)
+    {
         // select count(DTP.id) from t_transaksi_penjualan TP right join t_detail_penjualan DTP on TP.id = DTP.id_penjualan group by id_pelanggan;
         $tanggalAwal = date('Y-m-d', mktime(0, 0, 0, date('m'), 1, date('Y')));
         $tanggalAkhir = date('Y-m-d');
@@ -523,7 +602,7 @@ class LaporanController extends Controller
         return view('laporan.laporan-kesesuaian-stok.index', $data, compact('nameMerk', 'nameCategory' ,'tanggalAwal', 'tanggalAkhir', 'now'));
     }
     
-    public function dataLaporanKesesuaianStok($awal, $akhir, $merek, $kategori)
+    public function kesesuaianStok($awal, $akhir, $merek, $kategori)
     {
         // return $awal;
         $no = 1;
@@ -573,14 +652,30 @@ class LaporanController extends Controller
     
         }
     
-        return datatables()
-            ->of($data)
-            ->rawColumns(['action'])
-            ->make(true);
-    
         return $data;
     
     }
+
+    public function dataLaporanKesesuaianStok($awal, $akhir, $merek, $kategori)
+    {
+        $data = $this->kesesuaianStok($awal, $akhir, $merek, $kategori);
+          
+        return datatables()
+            ->of($data)
+            ->rawColumns(['action', 'kode'])
+            ->make(true);
+    }
+
+    public function DownloadKesesuaianStok($awal, $akhir, $merek, $kategori) 
+    {
+        $kesesuaian_stok = $this->stok($awal, $akhir, $merek, $kategori);
+ 
+         // return $data;
+         $pdf = PDF::loadView('laporan.laporan-kesesuaian-stok.pdf', compact('awal', 'akhir','merek', 'kategori', 'kesesuaian_stok', 'cPerusahaan'));
+         $pdf->setPaper('a4', 'potrait');
+         return $pdf->stream('Laporan Kesesuaian Stok-'. $cPerusahaan->nama .' '. date('Y-m-d-h:i:s') );
+    }
+
 
 
 
@@ -609,7 +704,7 @@ class LaporanController extends Controller
        return view('laporan.laporan-hutang-piutang.index', compact('tanggalAwal', 'tanggalAkhir', 'now'))->with($data);
     }
 
-    public function dataLaporanHutang($awal, $akhir)
+    public function hutang($awal, $akhir)
     {
         // return $awal;
         $no = 1;
@@ -645,16 +740,20 @@ class LaporanController extends Controller
 
         }
 
-        return datatables()
-            ->of($data)
-            ->addIndexColumn()
-            ->rawColumns(['no_pembelian','status'])
-            ->make(true);
-
         return $data;
     }
 
-    public function dataLaporanPiutang($awal, $akhir)
+    public function dataLaporanHutang($awal, $akhir)
+    {
+        $data = $this->hutang($awal, $akhir);
+        return datatables()
+        ->of($data)
+        ->addIndexColumn()
+        ->rawColumns(['no_pembelian','status'])
+        ->make(true);
+    }
+
+    public function piutang($awal, $akhir)
     {
         // return $awal;
         $no = 1;
@@ -689,13 +788,108 @@ class LaporanController extends Controller
             }         
 
         }
+        return $data;
+    }
 
+    public function dataLaporanPiutang($awal, $akhir)
+    {
+        $data = $this->piutang($awal, $akhir);
         return datatables()
             ->of($data)
             ->addIndexColumn()
             ->rawColumns(['no_penjualan','status'])
             ->make(true);
-
-        return $data;
     }
+
+    public function DownloadHutangPiutang($awal, $akhir) 
+     {
+        $no = 1;
+
+        // $hutang = $this->hutang($awal, $akhir);
+        // $piutang = $this->piutang($awal, $akhir);
+
+        $hutang = array();
+
+        while (strtotime($awal) <= strtotime($akhir)) {
+            $tanggal = $awal;
+            $awal = date('Y-m-d', strtotime("+1day", strtotime($awal)));
+
+            $h = Hutang::where('t_data_hutang.tgl', 'Like', '%'.$tanggal.'%')
+                            ->leftJoin('t_transaksi_pembelian AS TP', 'TP.id', 't_data_hutang.id_pembelian')
+                            ->leftJoin('t_supplier AS S', 'S.id', 'TP.id_supplier')
+                            ->select('t_data_hutang.*', 'TP.kode_invoice', 'TP.sisa', 'S.nama AS nama_supplier')  
+                            ->where('t_data_hutang.id_perusahaan', auth()->user()->id_perusahaan)
+                            ->orderBy('id', 'desc')->get();
+            
+            foreach($h as $item) {
+                $row = array();
+                $row['DT_RowIndex'] = $no++;
+                $row['no_pembelian'] = $item->kode_invoice;
+                $row['tgl'] = tanggal_indonesia($tanggal, false);
+                $row['nama_supplier'] = $item->nama_supplier ;
+                $row['total_bayar'] = 'Rp. '. format_uang($item->total_bayar );
+                if ($item->sisa == 0) {
+                    $row['status'] = 'Lunas';
+                } else {
+                    $row['status'] = 'Belum Lunas';
+                }
+
+
+                $hutang[] = $row;
+            }         
+
+        }
+
+        $piutang = array();
+        // $awals = date('Y-m-d', strtotime("-2day", strtotime($awal)));
+
+        
+
+        // return $p;
+
+        while (strtotime($awal) <= strtotime($akhir)) {
+            $tanggal = $awal;
+            $awal = date('Y-m-d', strtotime("+1day", strtotime($awal)));
+
+            $p = Piutang::where('t_data_piutang.tgl', $tanggal)
+                ->leftJoin('t_transaksi_penjualan AS TP', 'TP.id', 't_data_piutang.id_penjualan')
+                ->leftJoin('t_pelanggan AS P', 'P.id', 'TP.id_pelanggan')
+                ->select('t_data_piutang.*', 'TP.kode_invoice', 'TP.sisa', 'P.nama AS nama_pelanggan')  
+                ->where('t_data_piutang.id_perusahaan', auth()->user()->id_perusahaan)
+                ->orderBy('id', 'desc')->get();
+            
+            foreach($p as $item) {
+                $row = array();
+                $row['DT_RowIndex'] = $no++;
+                $row['no_penjualan'] = $item->kode_invoice ;
+                $row['tgl'] = tanggal_indonesia($tanggal, false);
+                $row['nama_pelanggan'] = $item->nama_pelanggan ;
+                $row['total_bayar'] = 'Rp. '. format_uang($item->total_bayar );
+                if ($item->sisa == 0) {
+                    $row['status'] = 'Lunas';
+                } else {
+                    $row['status'] = 'Belum Lunas';
+                }
+
+
+                $piutang[] = $row;
+            }         
+
+        }
+        // return $p;
+
+
+        // $now = date('Y-m-d');
+
+        // $tanggalAwal = $awal
+        
+        // return $piutang;
+       
+         $cPerusahaan = Perusahaan::select('*')->where('id', auth()->user()->id_perusahaan)->first();
+ 
+         // return $data;
+         $pdf = PDF::loadView('laporan.laporan-hutang-piutang.pdf', compact('awal', 'akhir', 'hutang', 'piutang', 'cPerusahaan'));
+         $pdf->setPaper('a4', 'potrait');
+         return $pdf->stream('Laporan Hutang dan Piutang-'. $cPerusahaan->nama .' '. date('Y-m-d-h:i:s') );
+     }
 }

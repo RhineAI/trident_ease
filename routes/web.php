@@ -118,33 +118,34 @@ Route::group(['middleware' => 'hak_akses:1'], function () {
 
         // Laporan
         Route::get('/list-pelanggan-terbaik', [LaporanController::class, 'indexBestPelanggan'])->name('list-b-pelanggan.index');
-        Route::post('/list-pelanggan-terbaik/data/{awal}/{akhir}', [LaporanController::class, 'getDataBestBPelanggan'])->name('list-b-pelanggan.data');
-        Route::get('/list-pelanggan-terbaik/pdf/{awal}/{akhir}', [LaporanController::class, 'PDFBestPelanggan'])->name('list-b-pelanggan.pdf');
+        Route::post('/list-pelanggan-terbaik/data/{awal}/{akhir}', [LaporanController::class, 'getDataBestPelanggan'])->name('list-b-pelanggan.data');
+        Route::get('/list-pelanggan-terbaik/download/{awal}/{akhir}', [LaporanController::class, 'DownloadBestPelanggan'])->name('list-b-pelanggan.download');
 
         Route::get('/laporan-kas', [LaporanController::class, 'indexLaporanKas'])->name('laporan-kas.index');
         Route::post('/laporan-kas-masuk/data/{awal}/{akhir}', [LaporanController::class, 'dataLaporanKasMasuk'])->name('laporan-kas-masuk.data');
         Route::post('/laporan-kas-keluar/data/{awal}/{akhir}', [LaporanController::class, 'dataLaporanKasKeluar'])->name('laporan-kas-keluar.data');
-        Route::post('/laporan-kas-keluar/pdf/{awal}/{akhir}', [LaporanController::class, 'PDFKas'])->name('laporan-kas.pdf');
+        Route::get('/laporan-kas/download/{awal}/{akhir}', [LaporanController::class, 'DownloadKas'])->name('laporan-kas.download');
 
         Route::get('/laporan-penjualan', [LaporanController::class, 'indexLaporanPenjualan'])->name('laporan-penjualan.index');
         Route::post('/laporan-penjualan/data/{awal}/{akhir}', [LaporanController::class, 'dataLaporanPenjualan'])->name('laporan-penjualan.data');
-        Route::post('/laporan-penjualan/pdf/{awal}/{akhir}', [LaporanController::class, 'PDFPenjualan'])->name('laporan-penjualan.pdf');
+        Route::get('/laporan-penjualan/download/{awal}/{akhir}', [LaporanController::class, 'DownloadPenjualan'])->name('laporan-penjualan.download');
 
         Route::get('/laporan-stok', [LaporanController::class, 'indexLaporanStok'])->name('laporan-stok.index');
         Route::post('/laporan-stok/data/{merek}/{kategori}', [LaporanController::class, 'dataLaporanStok'])->name('laporan-stok.data');
-        Route::post('/laporan-stok/pdf/{merek}/{kategori}', [LaporanController::class, 'PDFStok'])->name('laporan-stok.pdf');
+        Route::get('/laporan-stok/download/{merek}/{kategori}', [LaporanController::class, 'DownloadStok'])->name('laporan-stok.download');
 
         Route::get('/laporan-kesesuaian-stock', [LaporanController::class, 'indexLaporanKesesuaianStok'])->name('laporan-kesesuaian-stok.index');
         Route::post('/laporan-kesesuaian-stock/data/{awal}/{akhir}/{merek}/{kategori}', [LaporanController::class, 'dataLaporanKesesuaianStok'])->name('laporan-kesesuaian-stok.data');
-        Route::post('/laporan-kesesuaian-stock/pdf/{awal}/{akhir}/{merek}/{kategori}', [LaporanController::class, 'PDFKesesuaianStok'])->name('laporan-kesesuaian-stok.pdf');
+        Route::get('/laporan-kesesuaian-stock/download/{awal}/{akhir}/{merek}/{kategori}', [LaporanController::class, 'DownloadKesesuaianStok'])->name('laporan-kesesuaian-stok.download');
      
         Route::get('/laporan-hutang-piutang', [LaporanController::class, 'indexLaporanHutangPiutang'])->name('laporan-hutang-piutang.index');
         Route::post('/laporan-hutang/data/{awal}/{akhir}', [LaporanController::class, 'dataLaporanHutang'])->name('laporan-hutang.data');
         Route::post('/laporan-piutang/data/{awal}/{akhir}', [LaporanController::class, 'dataLaporanPiutang'])->name('laporan-piutang.data');
+        Route::get('/laporan-piutang/download/{awal}/{akhir}', [LaporanController::class, 'DownloadHutangPiutang'])->name('laporan-hutang-piutang.download');
   
 
         Route::get('/laporan-harian', [LaporanController::class, 'indexLaporanHarian'])->name('laporan-harian.index');
-        Route::post('/laporan-harian/pdf/{awal}/{akhir}', [LaporanController::class, 'PDFHarian'])->name('laporan-harian.pdf');
+        Route::get('/laporan-harian/download/{awal}/{akhir}', [LaporanController::class, 'DownloadHarian'])->name('laporan-harian.download');
         Route::post('/laporan-pembelian/data/{awal}/{akhir}', [LaporanController::class, 'dataLaporanPembelian'])->name('laporan-pembelian.data');
         Route::post('/laporan-retur-penjualan/data/{awal}/{akhir}', [LaporanController::class, 'dataLaporanReturPenjualan'])->name('laporan-retur-penjualan.data');
         Route::post('/laporan-retur-pembelian/data/{awal}/{akhir}', [LaporanController::class, 'dataLaporanReturPembelian'])->name('laporan-retur-pembelian.data');
@@ -161,10 +162,6 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/list-penjualan', [ListTransaksiPenjualanController::class, 'index'])->name('list-transaksi.index');
         Route::post('/list-penjualan/data/{awal}/{akhir}', [ListTransaksiPenjualanController::class, 'getData'])->name('list-transaksi.data');
         Route::get('/list-penjualan/pdf/{awal}/{akhir}', [ListTransaksiPenjualanController::class, 'exportPDF'])->name('list-transaksi.export_pdf');
-
-        Route::get('/list-pelanggan-terbaik', [LaporanController::class, 'indexBestPelanggan'])->name('list-b-pelanggan.index');
-        Route::post('/list-pelanggan-terbaik/data/{awal}/{akhir}', [LaporanController::class, 'getDataBPelanggan'])->name('list-b-pelanggan.data');
-        Route::get('/list-pelanggan-terbaik/pdf/{awal}/{akhir}', [LaporanController::class, 'exportPDFBPelanggan'])->name('list-b-pelanggan.export_pdf');
 });
 
 
