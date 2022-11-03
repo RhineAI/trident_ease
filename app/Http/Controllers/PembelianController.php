@@ -126,9 +126,18 @@ class PembelianController extends Controller
             if($request->jenis_pembayaran == 2){
                 $pembelianBaru->dp = $this->checkPrice($request->bayar_kredit);
                 $pembelianBaru->sisa = $request->total_pembelian - $this->checkPrice($request->bayar_kredit);
+                $pembelianBaru->bayar = 0;
+                $pembelianBaru->kembali = 0;
+            } else if($request->jenis_pembayaran == 1){
+                $pembelianBaru->dp = 0;
+                $pembelianBaru->sisa = 0;
+                $pembelianBaru->bayar = $this->checkPrice($request->uang_bayar);
+                $pembelianBaru->kembali = $this->checkPrice($request->uang_bayar) - $request->total_pembelian;
             } else {
                 $pembelianBaru->dp = 0;
                 $pembelianBaru->sisa = 0;
+                $pembelianBaru->bayar = 0;
+                $pembelianBaru->kembali = 0;
             }
             $pembelianBaru->id_user = auth()->user()->id;
             $pembelianBaru->id_perusahaan = auth()->user()->id_perusahaan;

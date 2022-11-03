@@ -54,7 +54,7 @@ class ListReturPembelianController extends Controller
                 $row['nama_supplier'] = $item->nama_supplier;
                 $row['total_retur'] = 'RP. '. format_uang($item->total_retur);
                 
-                $row['action'] = '<button class="btn btn-xs btn-secondary rounded delete"><i class="fa-solid fa-print"></i></button>';
+                $row['action'] = '<a href="'. route('list-retur-pembelian.print_nota', $item->id) .'" class="btn btn-xs btn-secondary rounded delete"><i class="fa-solid fa-print"></i></a>';
 
                 $data[] = $row;
             }         
@@ -68,5 +68,13 @@ class ListReturPembelianController extends Controller
             ->make(true);
 
         return $data;
+    }
+
+    public function printNota($id){
+        $data['cPerusahaan'] = Perusahaan::select('*')->where('id', auth()->user()->id_perusahaan)->first();
+        $data['cReturPembelian'] = ReturPembelian::leftJoin('t_detail_retur_pembelian AS DRP', 'DRP.id_retur_pembelian', 't_retur_pembelian.id')->leftJoin('t_transaksi_pembelian AS TP', 'TP.id', 't_retur_pembelian.id_pembelian')->leftJoin('t_supplier AS S', 'S.id', 'TP.id_supplier')->select('S.nama AS nama_supplier', 't_retur_pembelian.id AS id_retur', 't_retur_pembelian.id_pembelian AS id_transaksi', 't_retur_pembelian.tgl AS tgl_retur', 't_retur_pembelian.total_retur', 't_retur_pembelian.retur_keuntungan')->where('t_retur_pembelian.id', $id)->where('t_retur_pembelian.id_perusahaan', auth()->user()->id_perusahaan)->first();
+        $data['cDetailReturPembelian'] = ReturPembelian::leftJoin('t_detail_retur_pembelian AS DRP', 'DRP.id_retur_pembelian', 't_retur_pembelian.id')->leftJoin('t_barang AS B', 'B.id', 'DRP.id_barang')->select('DRP.qty', 'DRP.harga_beli', 'DRP.harga_jual', 'B.nama AS nama_barang')->where('t_retur_pembelian.id', $id)->where('t_retur_pembelian.id_perusahaan', auth()->user()->id_perusahaan)->get();
+        // dd($data['cDetailPembelian']); die;
+        return view('returPembelian.printNota', $data);
     }
 }

@@ -68,11 +68,11 @@
                                                     data-total_harga="{{ $item->total_harga }}" 
                                                     data-dp="{{ $item->dp }}" 
                                                     data-sisa="{{ $item->sisa }}" 
-                                                    data-route="{{ route('pembayaran.store')}}"
+                                                    data-route="{{ route('data-piutang.store')}}"
                                                     data-toggle="modal" data-target="#formModalPelanggan" data-mode="edit"> <i class="fa fa-pencil"></i>
                                                     </button>
                                                 @else 
-                                                    <button type="button" class="btn btn-danger"><i class="fa-solid fa-print"></i></button>
+                                                    <a href="{{ route('data-piutang.print_nota', $item->id) }}" class="btn btn-xs btn-secondary rounded delete"><i class="fa-solid fa-print"></i></a>
                                                 @endif
                                                 
                                             </td>

@@ -67,13 +67,14 @@
                                                     data-id_supplier="{{ $item->id_supplier }}" 
                                                     data-tlp="{{ $item->tlp }}" 
                                                     data-total_bayar="{{ $item->total_bayar }}" 
+                                                    data-total_pembelian="{{ $item->total_pembelian }}" 
                                                     data-dp="{{ $item->dp }}" 
                                                     data-sisa="{{ $item->sisa }}" 
                                                     data-route="{{ route('data-hutang.store')}}"
                                                     data-toggle="modal" data-target="#formModalPembayaranPBL" data-mode="edit"> <i class="fa fa-pencil"></i>
                                                     </button>
                                                 @else 
-                                                    <button type="button" class="btn btn-danger"><i class="fa-solid fa-print"></i></button>
+                                                    <a href="{{ route('data-hutang.print_nota', $item->id) }}" class="btn btn-xs btn-secondary rounded delete"><i class="fa-solid fa-print"></i></a>
                                                 @endif
                                             </td>
                                         </tr>
@@ -129,6 +130,7 @@
                 let tgl = $(this).data('tgl')
                 let tlp = $(this).data('tlp')
                 let total_bayar = $(this).data('total_bayar')
+                let total_pembelian = $(this).data('total_pembelian')
                 let dp = $(this).data('dp')
                 let sisa = $(this).data('sisa')
                 let url = $(this).data('route')

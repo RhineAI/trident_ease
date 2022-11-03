@@ -217,6 +217,21 @@
             $('#formModalReturPenjualan').modal('hide');
         }
 
+        function cekQty(qty) {
+            if(Number(qty.value) < 0){
+                qty.value = 1;
+                Swal.fire('QTY tidak boleh kurang dari 0!')
+                return false;
+            } else if (Number(qty.value) > Number(qty.max)){
+                qty.value = qty.max;
+                Swal.fire('QTY melebihi produk yang dibeli!');
+                GetTotalBayar()
+                return false;
+            } else {
+                qty.value = qty.value;
+            }
+        }
+
         $.ajaxSetup({
             headers: {
                 '_token': $('meta[name="csrf-token"]').attr('content')
@@ -236,6 +251,10 @@
             var today = now.getFullYear()+"-"+(month)+"-"+(day)
             $('#tgl').val(today) 
 
+            $(document).on('click','.restrict-retur',function(){
+                Swal.fire('Seluruh Barang Ini Telah Di Retur')
+                return false;   
+            }); 
 
             $(document).on('click','.add_penjualan',function(){
                 var id = $(this).data("id_penjualan");
@@ -284,7 +303,7 @@
                 html_code+="<td style='text-align:center'><input type='hidden' name='item["+count+"][id_barang_retur]' value='"+id_barang+"' > <input class='form-control' type='text' name='item["+count+"][kode_retur]' value='"+kode+"' readonly='true'></td>";
                 html_code+="<td style='text-align:center'><input class='form-control' type='text' name='item["+count+"][nama_barang_retur]' value='"+nama_barang+"' readonly='true'></td>";
                 html_code+="<td><input class='form-control' style='text-align:right' type='text' name='item["+count+"][harga_jual_retur]' value='"+harga_jual+"' id='harga_jual_retur"+count+"' readonly='true'><input type='hidden' name='item["+count+"][harga_beli_retur]' value='"+harga_beli+"'  id='harga_beli_retur"+count+"' ></td>";
-                html_code+="<td style='text-align:center; width: 8%;'><input type='number' class='form-control qty_retur' data-idbuffer='"+count+"' name='item["+count+"][qty_retur]' value='1' max='"+qty+"' id='qty_retur"+count+"' onkeypress='cek_number()'></td>";
+                html_code+="<td style='text-align:center; width: 8%;'><input type='number' class='form-control qty_retur' data-idbuffer='"+count+"' name='item["+count+"][qty_retur]' value='1' max='"+qty+"' id='qty_retur"+count+"' onkeypress='cek_number()' onchange='cekQty(this)'></td>";
                 html_code+="<td style='text-align:center;'><input style='text-align:right' type='number' class='form-control' name='item["+count+"][subtotal_retur]' value='"+harga_jual*qty+"' readonly='true' id='subtotal_retur"+count+"'></td>";
                 html_code+="<td style='text-align:center;'><button type='button' class='btn btn-danger hapus_retur' data-idbuffer='"+count+"' ><i class='fas fa-minus'></i></button></td>";
                 html_code+="</tr>";
