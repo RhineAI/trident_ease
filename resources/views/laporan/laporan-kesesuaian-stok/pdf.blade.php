@@ -6,31 +6,40 @@
     <title>Laporan Kesesuaian Stok</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
     <style>
-        table {
+       table {
             font-family: arial, sans-serif;
             border-collapse: collapse;
             width: 100%;
         }
 
+        tr {
+            border-top: 1.325px solid black;
+            border-bottom: 1.325px solid black;
+        }
+
         td, th {
             border: 1.325px solid black;
+            border-bottom: 1.325px solid black;
             text-align: left;
             padding: 8px;
         }
     </style>
   </head>
   <body>
-    <h1 class="text-center">{{ $cPerusahaan->nama }}</h1>
-    <h2 class="text-center">Laporan Kesesuaian Stok</h2>
-    <h3 class="text-center">
+    <small class="convert-tgl" style="visibility: hidden;">
+        {{ $no = 1 }}
+    </small>
+    <h2 class="text-center">{{ $cPerusahaan->nama }}</h2>
+    <h3 class="text-center">Laporan Kesesuaian Stok</h3>
+    <h5 class="text-center">
        Untuk merk {{ $merk->nama }}
        dan kategori {{ $category->nama }}
-    </h3>
-    <h3 class="text-center mb-4">
+    </h5>
+    <h5  class="text-center mb-4">
         Dari Tanggal {{ tanggal_indonesia($awal, false) }}
         s/d
         Tanggal {{ tanggal_indonesia($akhir, false) }}
-    </h3>
+    </h5    >
     
 
     {{-- <h4 class="mb-2 mt-5">Kesesuaian Stok</h4> --}}
@@ -51,15 +60,21 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {{ $no = 1 }}
-                    @foreach ($kesesuaian_stok as $ks)
+                    @if ($kesesuaian_stok != NULL)
+                        @foreach ($kesesuaian_stok as $ks)
+                            <tr>
+                                <td class="text-center">{{ $no++ }}</td>
+                                @foreach ($ks as $item)
+                                    <td class="text-center">{{ $item }}</td>
+                                @endforeach
+                            </tr>
+                        @endforeach
+                    @else
                         <tr>
-                            <td class="text-center">{{ $no++ }}</td>
-                            @foreach ($ks as $item)
-                                <td class="text-center">{{ $item }}</td>
-                            @endforeach
-                        </tr>
-                    @endforeach
+                            <td colspan="8" class="text-center" style="color:grey; font-size:17px;">Tidak ada data</td>    
+                        </tr>  
+                    @endif
+                   
                 </tbody>
             </table>
         </div>
