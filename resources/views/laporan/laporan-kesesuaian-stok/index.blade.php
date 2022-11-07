@@ -32,7 +32,7 @@ Laporan Kesesuaian Stok
                                 <span class="help-block with-errors"></span>
                             </div>
                             
-                            <h5 class="mr-5 mx-3 my-2 mt-3" for="" class="col-md-2"><small><b>s/d</b></small></h5>
+                            <h5 class="mr-5 mx-3 my-2 mt-3" for="" class="col-md-2"><small class="mr-2"><b>s/d</b></small></h5>
 
                             <label for="tanggal_akhir" class="col-lg-1 mr-2 control-label">Tanggal Akhir</label>
                             <div class="col-md-3 mr-5 mt-3">
@@ -78,7 +78,7 @@ Laporan Kesesuaian Stok
                     </div>
                     
                     <div class="button-group mb-2">          
-                        <a href="" class="ml-2 mb-3 mt-3 btn btn-sm btn-danger text-end"><i class="fa fa-file-pdf"></i> Print PDF</a>
+                        <a href="{{ route('laporan-kesesuaian-stok.print', [$merk, $category, $tanggalAwal, $tanggalAkhir]) }}" class="ml-2 mb-3 mt-3 btn btn-sm btn-danger text-end"><i class="fa fa-file-pdf"></i> Print PDF</a>
                         <a href="{{ route('laporan-kesesuaian-stok.download', [$merk, $category, $tanggalAwal, $tanggalAkhir] ) }}" class="ml-2 mb-3 mt-3 btn btn-sm btn-success text-end"><i class="fa fa-download"></i> Download PDF</a>           
                     </div>
 

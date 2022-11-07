@@ -63,7 +63,7 @@ Laporan Stok
                     </div>
                     
                     <div class="button-group mb-2">          
-                        <a href="" class="ml-2 mb-3 mt-3 btn btn-sm btn-danger text-end"><i class="fa fa-file-pdf"></i> Print PDF</a>
+                        <a href="{{ route('laporan-stok.print', [$merk, $category]) }}" class="ml-2 mb-3 mt-3 btn btn-sm btn-danger text-end"><i class="fa fa-file-pdf"></i> Print PDF</a>
                         <a href="{{ route('laporan-stok.download', [$merk, $category] ) }}" class="ml-2 mb-3 mt-3 btn btn-sm btn-success text-end"><i class="fa fa-download"></i> Download PDF</a>           
                     </div>
 

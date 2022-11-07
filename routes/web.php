@@ -120,34 +120,43 @@ Route::group(['middleware' => 'hak_akses:1'], function () {
         Route::get('/list-pelanggan-terbaik', [LaporanController::class, 'indexBestPelanggan'])->name('list-b-pelanggan.index');
         Route::post('/list-pelanggan-terbaik/data/{awal}/{akhir}', [LaporanController::class, 'getDataBestPelanggan'])->name('list-b-pelanggan.data');
         Route::get('/list-pelanggan-terbaik/download/{awal}/{akhir}', [LaporanController::class, 'DownloadBestPelanggan'])->name('list-b-pelanggan.download');
+        Route::get('/list-pelanggan-terbaik/pdf/{awal}/{akhir}', [LaporanController::class, 'PrintPDFBestPelanggan'])->name('list-b-pelanggan.print');
 
         Route::get('/laporan-kas', [LaporanController::class, 'indexLaporanKas'])->name('laporan-kas.index');
         Route::post('/laporan-kas-masuk/data/{awal}/{akhir}', [LaporanController::class, 'dataLaporanKasMasuk'])->name('laporan-kas-masuk.data');
         Route::post('/laporan-kas-keluar/data/{awal}/{akhir}', [LaporanController::class, 'dataLaporanKasKeluar'])->name('laporan-kas-keluar.data');
         Route::get('/laporan-kas/download/{awal}/{akhir}', [LaporanController::class, 'DownloadKas'])->name('laporan-kas.download');
-
+        Route::get('/laporan-kas/pdf/{awal}/{akhir}', [LaporanController::class, 'PrintPDFKas'])->name('laporan-kas.print');
+        
         Route::get('/laporan-penjualan', [LaporanController::class, 'indexLaporanPenjualan'])->name('laporan-penjualan.index');
         Route::post('/laporan-penjualan/data/{awal}/{akhir}', [LaporanController::class, 'dataLaporanPenjualan'])->name('laporan-penjualan.data');
         Route::get('/laporan-penjualan/download/{awal}/{akhir}', [LaporanController::class, 'DownloadPenjualan'])->name('laporan-penjualan.download');
+        Route::get('/laporan-penjualan/pdf/{awal}/{akhir}', [LaporanController::class, 'PrintPDFPenjualan'])->name('laporan-penjualan.print');
 
         Route::get('/laporan-stok', [LaporanController::class, 'indexLaporanStok'])->name('laporan-stok.index');
         Route::post('/laporan-stok/data/{merek}/{kategori}', [LaporanController::class, 'dataLaporanStok'])->name('laporan-stok.data');
         Route::get('/laporan-stok/download/{merek}/{kategori}', [LaporanController::class, 'DownloadStok'])->name('laporan-stok.download');
+        Route::get('/laporan-stok/pdf/{merek}/{kategori}', [LaporanController::class, 'PrintPDFStok'])->name('laporan-stok.print');
 
-        Route::get('/laporan-kesesuaian-stock', [LaporanController::class, 'indexLaporanKesesuaianStok'])->name('laporan-kesesuaian-stok.index');
-        Route::post('/laporan-kesesuaian-stock/data/{awal}/{akhir}/{merek}/{kategori}', [LaporanController::class, 'dataLaporanKesesuaianStok'])->name('laporan-kesesuaian-stok.data');
-        Route::get('/laporan-kesesuaian-stock/download/{awal}/{akhir}/{merek}/{kategori}', [LaporanController::class, 'DownloadKesesuaianStok'])->name('laporan-kesesuaian-stok.download');
+        Route::get('/laporan-kesesuaian-stok', [LaporanController::class, 'indexLaporanKesesuaianStok'])->name('laporan-kesesuaian-stok.index');
+        Route::post('/laporan-kesesuaian-stok/data/{awal}/{akhir}/{merek}/{kategori}', [LaporanController::class, 'dataLaporanKesesuaianStok'])->name('laporan-kesesuaian-stok.data');
+        Route::get('/laporan-kesesuaian-stok/download/{awal}/{akhir}/{merek}/{kategori}', [LaporanController::class, 'DownloadKesesuaianStok'])->name('laporan-kesesuaian-stok.download');
+        Route::get('/laporan-kesesuaian-stok/pdf/{awal}/{akhir}/{merek}/{kategori}', [LaporanController::class, 'PrintPDFKesesuaianStok'])->name('laporan-kesesuaian-stok.print');
      
         Route::get('/laporan-hutang', [LaporanController::class, 'indexLaporanHutang'])->name('laporan-hutang.index');
         Route::post('/laporan-hutang/data/{awal}/{akhir}', [LaporanController::class, 'dataLaporanHutang'])->name('laporan-hutang.data');
         Route::get('/laporan-hutang/download/{awal}/{akhir}', [LaporanController::class, 'DownloadHutang'])->name('laporan-hutang.download');
+        Route::get('/laporan-hutang/pdf/{awal}/{akhir}', [LaporanController::class, 'PrintPDFHutang'])->name('laporan-hutang.print');
         
         Route::get('/laporan-piutang', [LaporanController::class, 'indexLaporanPiutang'])->name('laporan-piutang.index');
         Route::post('/laporan-piutang/data/{awal}/{akhir}', [LaporanController::class, 'dataLaporanPiutang'])->name('laporan-piutang.data');
         Route::get('/laporan-piutang/download/{awal}/{akhir}', [LaporanController::class, 'DownloadPiutang'])->name('laporan-piutang.download');
+        Route::get('/laporan-piutang/pdf/{awal}/{akhir}', [LaporanController::class, 'PrintPDFPiutang'])->name('laporan-piutang.print');
+
 
         Route::get('/laporan-harian', [LaporanController::class, 'indexLaporanHarian'])->name('laporan-harian.index');
         Route::get('/laporan-harian/download/{awal}/{akhir}', [LaporanController::class, 'DownloadHarian'])->name('laporan-harian.download');
+        Route::get('/laporan-harian/pdf/{awal}/{akhir}', [LaporanController::class, 'PrintPDFHarian'])->name('laporan-harian.print');
         Route::post('/laporan-pembelian/data/{awal}/{akhir}', [LaporanController::class, 'dataLaporanPembelian'])->name('laporan-pembelian.data');
         Route::post('/laporan-retur-penjualan/data/{awal}/{akhir}', [LaporanController::class, 'dataLaporanReturPenjualan'])->name('laporan-retur-penjualan.data');
         Route::post('/laporan-retur-pembelian/data/{awal}/{akhir}', [LaporanController::class, 'dataLaporanReturPembelian'])->name('laporan-retur-pembelian.data');

@@ -5,8 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Laporan Stok</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
     <style>
-       table {
+        table {
             font-family: arial, sans-serif;
             border-collapse: collapse;
             width: 100%;
@@ -23,10 +24,75 @@
             text-align: left;
             padding: 8px;
         }
+
+        .button {
+            /* text-align-last: right; */
+            /* align-content: flex-end; */
+            /* align-items: flex-end; */
+            margin-left: 20px;
+        }
+        @page {
+            size: A4;
+            margin: 0;
+            }
+        @media print {
+            html, body {
+                width: 210mm;
+                padding-right:9.5mm;
+                padding-left:6.5mm;
+                padding-top:5.7mm;
+                padding-bottom:5.7mm;
+                height: 297mm;
+            }
+            /* ... the rest of the rules ... */
+        }
     </style>
-  </head>
-  <body>
-    <small class="convert-tgl" style="visibility: hidden;">
+
+<?php
+    $style = '
+    <style>
+        * {
+            font-family: "Gill Sans MT", cursive;
+        }
+        p {
+            display: block;
+            margin: 4px;
+            font-size: 10pt;
+        }
+        .text-center {
+            text-align: center;
+        }
+        .text-right {
+            text-align: right;
+        }
+
+    ';
+?>
+<?php 
+    $style .= 
+        ! empty($_COOKIE['innerHeight'])
+            ? $_COOKIE['innerHeight'] .'mm; }'
+            : '}';
+    ?>
+    <?php
+    $style .= '
+            .btn-print {
+                display: none;
+            }
+        }
+    </style>
+    ';
+?>
+
+{!! $style !!}
+</head>
+  <body onload="window.print()">
+    <div class="button ml-4 align-items-end">
+        <a href="{{ route('laporan-stok.index') }}" class="mb-3 mt-3 btn btn-sm btn-danger ml-4 d-print-none"><i class="fa-solid fa-arrow-rotate-left"></i> Back</a>
+        <button onclick="window.print()" class="mb-3 mt-3 btn btn-sm btn-danger ml-4 d-print-none"><i class="fa-solid fa-print"></i> Print PDF</button>
+    </div>
+
+    <small class="convert-tgl" style="visibility: hidden">
         {{ $no = 1 }}
     </small>
     <h2 class="text-center">{{ $cPerusahaan->nama }}</h2>
@@ -36,12 +102,11 @@
         dan kategori {{ $category->nama }}
      </h5>
 
-    {{-- <h4 class="mb-2 mt-5">Stok</h4> --}}
-    <div class="col-md-12">
+    <div class="col-md-12 mt-3">
         <div class="table-responsive p-2">
             <table border="1" class="table mb-5 table-bordered table-striped table-stok" id="dataTableHover">
-                <thead>
-                    <tr class="">
+                <thead class="table-secondary">
+                    <tr>
                         <th width="4.2%" class="text-center" style="margin:auto; text-align:center;">No</th>
                         <th width="7.35%" class="text-center" style="margin:auto; text-align:center;">Kode</th>
                         <th width="15.4%" class="text-center" style="margin:auto; text-align:center;">Nama Barang</th>
@@ -67,9 +132,19 @@
                         </tr>  
                     @endif          
                 </tbody>
-            </table>          
+            </table>
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
-  </body>
+    <script>
+        function remove() {
+            var btn =$('.button').html();
+            btn.remove();
+        }
+
+        $('div.button-print').hide();
+    </script>
+
+    </body>
 </html>
+
