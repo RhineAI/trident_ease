@@ -245,7 +245,7 @@
 @endsection
 
 @push('scripts')
-    <script>
+    {{-- <script>
         //Generate custom message
         $(document).ready(function(){
             ('#form-transaksi').bootstrapValidator({
@@ -295,16 +295,31 @@
                 }
             });
         });
-    </script>
+    </script> --}}
 
     <script>
         $(document).on('click', '#submit', function(){
             let id_pelanggan = $('#id_pelanggan').val();
             let produk = $('.produk').val();
-            let bayar = $('#bayar').val();
-            let dp = $('#dp').val();
             let jenis_pembayaran = $('#jenis_pembayaran').val();
-            console.log(jenis_pembayaran)
+
+            let tb = $("#total_bayar").val();
+            let bayar = $('#bayar').val();
+            let harga = String(bayar).replaceAll(".", '');
+
+            let dp = $('#dp').val();
+            let bayardp = String(dp).replaceAll(".", '');
+            // console.log(tb)
+            // console.log(bayardp)
+            let sisa = tb - parseInt(bayardp);
+            let formatRupiah = Number(sisa).toLocaleString("id-ID", {
+                                style:"currency",
+                                currency:"IDR",
+                                maximumSignificantDigits: (sisa + '').replace('.', '').length
+                            });
+            let ubah_int = formatRupiah.replace(/Rp/g, '');
+            let sisabayar = ubah_int.replaceAll('.', '');
+            // console.log(jenis_pembayaran)
 
             if(id_pelanggan == 0) {
                 Swal.fire('Isi data pelanggan terlebih dahulu')
@@ -325,14 +340,24 @@
                     Swal.fire('Masukan jumlah uang bayar terlebih dahulu')
                     return false;
                 } else {
-                    $('#bayar').val();
+                    if(parseInt(harga) < tb) {
+                        Swal.fire('Jumlah uang bayar kurang')
+                        return false;
+                    } else {
+                        $('#bayar').val();
+                    }    
                 }
             }else{
                 if(dp == 0) {
                     Swal.fire('Masukan jumlah uang dp terlebih dahulu')
                     return false;
                 } else {
-                    $('#dp').val();
+                    if(parseInt(bayardp) > tb) {
+                        Swal.fire('Jumlah dp melebihi total bayar, Silahkan ganti jenis pembayaran')
+                        return false;
+                    } else {
+                        $('#dp').val();
+                    }    
                 }
             }          
         });
@@ -452,15 +477,15 @@
                     GetTotalBayar();
                 });
 
-                $(document).on('change', '.qty_penjualan', function () {
-                    var id = $(this).data("idbuffer");
-                    var harga_jual = $('#harga_jual' + id).val();
+                // $(document).on('change', '.qty_penjualan', function () {
+                //     var id = $(this).data("idbuffer");
+                //     var harga_jual = $('#harga_jual' + id).val();
 
-                    var qty = $('#qty' + id).val();
-                    var discount = $('#discount' + id).val();
-                    $('#subtotal' + id).val((harga_jual * qty) - discount/100);
-                    GetTotalBayar();
-                });
+                //     var qty = $('#qty' + id).val();
+                //     var discount = $('#discount' + id).val();
+                //     $('#subtotal' + id).val((harga_jual * qty) - discount/100);
+                //     GetTotalBayar();
+                // });
 
 
                 $(document).on('click','.add_barang',function(){
@@ -587,8 +612,8 @@
                 var tb = $("#total_bayar").val();
                 var dp = $(this).val();
                 var bayardp = String(dp).replaceAll(".", '');
-                console.log(tb)
-                console.log(bayardp)
+                // console.log(tb)
+                // console.log(bayardp)
                 var sisa = tb - parseInt(bayardp);
                 let formatRupiah = Number(sisa).toLocaleString("id-ID", {
                                     style:"currency",
@@ -597,18 +622,23 @@
                                 });
                 let ubah_int = formatRupiah.replace(/Rp/g, '');
                 let sisabayar = ubah_int.replaceAll('.', '');
+                // console.log(sisabayar)
 
-                $(document).on('change', '#dp', function(e) {
-                    if (bayardp > tb) {
-                        $('#dp').val(tb);
-                        $('#bayar').val(0);
-                        $('#sisa').val(parseInt(sisabayar));
-                    } else {
-                        $('#dp').val(parseInt(bayardp));
-                        $('#bayar').val(0);
-                        $('#sisa').val(parseInt(sisabayar));
-                    }
-                })
+                // $('#dp').val(parseInt(bayardp));
+                $('#bayar').val(0);
+                $('#sisa').val(parseInt(sisabayar));
+
+                // $(document).on('change', '#dp', function(e) {
+                //     if (parseInt(bayardp) > tb) {
+                //         $('#dp').val(tb);
+                //         $('#bayar').val(0);
+                //         $('#sisa').val(parseInt(sisabayar));
+                //     } else {
+                //         $('#dp').val(parseInt(bayardp));
+                //         $('#bayar').val(0);
+                //         $('#sisa').val(parseInt(sisabayar));
+                //     }
+                // })
              
             })
 
@@ -618,45 +648,49 @@
                 var bayar = $(this).val();
                 var harga = String(bayar).replaceAll(".", '');
 
-                let pengurangan = parseInt(harga) - tb;
-                let total = Math.round(Number(pengurangan)).toLocaleString("id-ID", {
-                            style:"currency", 
-                            currency:"IDR", 
-                            maximumSignificantDigits: (pengurangan + '').replace('.', '').length
-                        });
-                let cek_bayar = Number(tb).toLocaleString("id-ID", {
-                            style:"currency",
-                            currency:"IDR",
-                            maximumSignificantDigits: (tb + '').replace('.', '').length
-                        });
-                let ubah_int = cek_bayar.replace(/Rp/g, '');
-                let jadi_harga = ubah_int.replaceAll('.', '');
+                $('#dp').val(0);
+                $('#bayar').val(bayar);
+                $('#kembali').val(parseInt(harga) - tb);  
+
+                // let pengurangan = parseInt(harga) - tb;
+                // let dibayar = Math.round(Number(harga)).toLocaleString("id-ID", {
+                //             style:"currency", 
+                //             currency:"IDR", 
+                //             maximumSignificantDigits: (harga + '').replace('.', '').length
+                //         });
+                // let kembali = Number(tb).toLocaleString("id-ID", {
+                //             style:"currency",
+                //             currency:"IDR",
+                //             maximumSignificantDigits: (tb + '').replace('.', '').length
+                //         });
+                // let ubah_int = cek_bayar.replace(/Rp/g, '');
+                // let jadi_harga = ubah_int.replaceAll('.', '');
                 // console.log(jadi_harga)
-                let pengurangan2 = parseInt(jadi_harga - tb);
-                
-                $('#bayar').val(bayar)
-                $('#kembali').val(total.replace(/Rp/g, '').substr(1));
+                // let pengurangan2 = parseInt(jadi_harga - tb);
+                // console.log(pengurangan2)
+                // $('#bayar').val(bayar)
+                // $('#kembali').val(total.replace(/Rp/g, '').substr(1));
                         // console.log(total)
-                $(document).on('change', '#bayar', function(){
-                    if(bayar <= tb) {
-                        $('#dp').val(0);
-                        $('#bayar').val(cek_bayar.replace(/Rp/g, '').substr(1));
-                        $('#kembali').val(pengurangan2);
-                    } else {
-                        $('#dp').val(0);
-                        $('#bayar').val(bayar)
-                        $('#kembali').val(total.replace(/Rp/g, '').substr(1));
-                    }
-                });   
-                
-                // $(document).on('submit', '#submit', function(){ 
-                //     if(bayar <= tb ) {
-                //         $('#bayar').val(total);
-                //     } else {
-                //         $('#bayar').val(bayar);
-                //     }
-                // });
+                // let hasil_akhir = String(bayar).replaceAll(".", "");
+                // console.log(harga)         
             });
+
+            // $(document).on('change', '#bayar', function() {
+            //     var tb = $("#total_bayar").val();
+            //     var bayar = $(this).val();
+            //     var harga = String(bayar).replaceAll(".", '');
+                
+            //     if(parseInt(harga) >= tb) {
+            //         $('#dp').val(0);
+            //         $('#bayar').val(parseInt(harga));
+            //         $('#kembali').val(parseInt(harga) - tb);      
+            //     } else if(parseInt(harga) <= tb) {
+            //         $('#dp').val(0);
+            //         $('#bayar').val(tb);
+            //         $('#kembali').val(0);
+            //     }
+                
+            // })
 
 
             $(document).on('click','.hapus_penjualan',function(){

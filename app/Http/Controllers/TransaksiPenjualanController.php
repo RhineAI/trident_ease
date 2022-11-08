@@ -95,17 +95,17 @@ class TransaksiPenjualanController extends Controller
         $date = (date('Ymd'));
         // return $date;
         if($penjualanBaru == NULL) {
-            $kode_invoice = $date . '0001';
+            $kode = $date . '0001';
         } 
         else {
             $kode = sprintf($date.'%04d', intval(substr($penjualanBaru->kode, 8)) + 1);
-            $kode_invoice = strval($kode);
+            $kode = strval($kode);
         }
 
             $penjualanBaru->tgl = date('Y-m-d');
             $penjualanBaru->id_pelanggan = $request->id_pelanggan;
             $penjualanBaru->total_harga = $request->total_bayar;
-            $penjualanBaru->kode_invoice = $kode_invoice;
+            $penjualanBaru->kode_invoice = $kode;
             if($request->jenis_pembayaran == '1') {
                 $penjualanBaru->total_bayar = $this->checkPrice($request->bayar);
                 $penjualanBaru->sisa = 0;

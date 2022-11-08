@@ -224,10 +224,16 @@
         $(document).on('click', '#submit', function(){
             let id_supplier = $('#id_supplier').val();
             let produk = $('.produk').val();
-            let bayar = $('#bayar').val();
-            let bayar_kredit = $('#bayar_kredit').val();
+            let dp = $('#bayar_kredit').val();
+            let cash = $('#uang_bayar').val();
             let jenis_pembayaran = $('#jenis_pembayaran').val();
-            console.log(jenis_pembayaran)
+
+            let tb = $("#total_bayar").val();
+            let bayar = $('#bayar').val();
+            let harga = String(bayar).replaceAll(".", '');
+            let total = $('#total_bayar').val();
+            let bayardp = String(dp).replaceAll(".", '');
+            // console.log(jenis_pembayaran)
 
             if(id_supplier == 0) {
                 Swal.fire('Isi data supplier terlebih dahulu')
@@ -244,13 +250,30 @@
             }
             
             if(jenis_pembayaran == 2) {
-                if(bayar_kredit == 0) {
+                if(dp == 0) {
                     Swal.fire('Masukan jumlah uang dp terlebih dahulu')
                     return false;
                 } else {
-                    $('#bayar_kredit').val();
+                    if (dp > total) {
+                        Swal.fire('Jumlah dp melebihi total harga, Silahkan ubah jenis pembayarn')
+                        return false;
+                    } else {
+                        $('#bayar_kredit').val();
+                    }
                 }
-            }          
+            } else if (jenis_pembayaran == 1) {
+                if(cash == 0) {
+                    Swal.fire('Masukan jumlah uang')
+                    return false;
+                } else {
+                    if (cash < total) {
+                        Swal.fire('Masukan jumlah uang yang cukup')
+                        return false;
+                    } else {
+                        $('#bayar_kredit').val();
+                    }
+                }
+            }     
         });
 
         $('body').addClass('sidebar-collapse');
@@ -356,23 +379,22 @@
                     let jadi_harga = ubah_int.replaceAll('.', '');
                     // console.log(jadi_harga)
                     let pengurangan2 = parseInt(jadi_harga - tb);
-                    
+              
+                            // console.log(total)
+                    $('#bayar_kredit').val(0);
+                    $('#sisa_kredit').val(0);
                     $('#uang_bayar').val(bayar)
                     $('#uang_kembali').val(total.replace(/Rp/g, '').substr(1));
-                            // console.log(total)
-                    $(document).on('change', '#bayar', function(){
-                        if(bayar <= tb) {
-                            $('#bayar_kredit').val(0);
-                            $('#sisa_kredit').val(0);
-                            $('#uang_bayar').val(cek_bayar.replace(/Rp/g, '').substr(1));
-                            $('#uang_kembali').val(pengurangan2);
-                        } else {
-                            $('#bayar_kredit').val(0);
-                            $('#sisa_kredit').val(0);
-                            $('#uang_bayar').val(bayar)
-                            $('#uang_kembali').val(total.replace(/Rp/g, '').substr(1));
-                        }
-                    });   
+                    // $(document).on('change', '#bayar', function(){
+                    //     if(bayar <= tb) {
+                    //         $('#bayar_kredit').val(0);
+                    //         $('#sisa_kredit').val(0);
+                    //         $('#uang_bayar').val(cek_bayar.replace(/Rp/g, '').substr(1));
+                    //         $('#uang_kembali').val(pengurangan2);
+                    //     } else {
+                            
+                    //     }
+                    // });   
                     
                     // $(document).on('submit', '#submit', function(){ 
                     //     if(bayar <= tb ) {
@@ -410,7 +432,7 @@
                     let ubah_int = formatRupiah.replace(/Rp/g, '');
                     let sisabayar = ubah_int.replaceAll('.', '');
 
-                    $('#sisa_kredit').val(parseInt(sisabayar));
+                    $('#sisa_kredit').val(formatRupiah.replace(/Rp/g, '').substr(1));
                 });
                     
                 //UBAH QTY
@@ -544,6 +566,10 @@
                 function generateRupiah(elemValue) {
                     return $(elemValue).val(formatRupiah($(elemValue).val(), 'Rp. '))
                 }
+
+            $(document).on('keyup', '#uang_bayar', function(e){
+                generateRupiah(this);
+            })
 
             $(document).on('keyup', '#bayar_kredit', function(e){
                 generateRupiah(this);

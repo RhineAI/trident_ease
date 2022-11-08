@@ -111,15 +111,15 @@ class PembelianController extends Controller
             $date = (date('Ymd'));
             // return $date;
             if($pembelianBaru == NULL) {
-                $kode_invoice = $date . '0001';
+                $kode = $date . '0001';
             } 
             else {
                 $kode = sprintf($date.'%04d', intval(substr($pembelianBaru->kode, 8)) + 1);
-                $kode_invoice = strval($kode);
+                $kode = strval($kode);
             }
 
             $pembelianBaru->tgl = date('Y-m-d');
-            $pembelianBaru->kode_invoice = $kode_invoice;
+            $pembelianBaru->kode_invoice = $kode;
             $pembelianBaru->id_supplier = $request->id_supplier;
             $pembelianBaru->total_pembelian = $this->checkPrice($request->total_pembelian);
             $pembelianBaru->jenis_pembayaran = $request->jenis_pembayaran;

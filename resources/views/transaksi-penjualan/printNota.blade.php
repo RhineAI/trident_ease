@@ -25,15 +25,15 @@
         }
 
         @page {
-            size: A5;
-            margin: 0;
+            /* size: 7in 10.5in ; */
+            scale: 200;
+            margin: 87px;
+            
         }
 
 
         @media print {
             html, body {
-                width: 85mm;
-                /* height: 100%; */
                 margin: 0 auto;
             }
 
@@ -106,7 +106,7 @@
             </tr>
             <tr>
                 <td>Kembalian:</td>
-                <td class="text-right">Rp. {{ format_uang($cPenjualan->total_harga - $cPenjualan->total_bayar) }}</td>
+                <td class="text-right">Rp. {{ format_uang($cPenjualan->total_bayar - $cPenjualan->total_harga ) }}</td>
             </tr>
         @else
             <tr>
