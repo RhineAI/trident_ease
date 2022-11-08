@@ -1,9 +1,12 @@
 <!-- Main Sidebar Container -->
 <aside class="main-sidebar sidebar-primary elevation-4" id="bgBlueLightWhiteColor">
     <!-- Brand Logo -->
-    <a href="{{ asset('assets') }}/index3.html" class="brand-link">
-        <img src="{{ $cPerusahaan->logo }}" alt="AdminLTE Logo"
-            class="brand-image img-circle  elevation-3 border border-white" style="opacity: .8">
+    <a href="/" class="brand-link">
+        @if ($cPerusahaan->logo == null)
+            <img src="{{ asset('assets') }}/img/buildings.png" alt="AdminLTE Logo" class="brand-image img-circle  elevation-3 border border-white" style="opacity: .8">
+        @else 
+            <img src="{{ $cPerusahaan->logo }}" alt="AdminLTE Logo" class="brand-image img-circle  elevation-3 border border-white" style="opacity: .8">
+        @endif
         <span class="brand-text">{{ $cPerusahaan->nama }}</span>
     </a>
 

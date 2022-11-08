@@ -190,7 +190,7 @@
                                         <div class="col-lg-8 ">
                                             <div class="input-group-prepend input-primary"> 
                                                 <span class="input-group-text">RP.</span> 
-                                                <input type="number" data-bv-trigger="blur" id="dp" name="dp" class="form-control">
+                                                <input type="text" data-bv-trigger="blur" id="dp" name="dp" class="form-control">
                                             </div>
                                         </div>
                                     </div>
