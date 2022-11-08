@@ -159,6 +159,7 @@
             $('#modal-form [name=jumlah_kas]').val(jumlah_kas);
             $('#modal-form [name=keperluan]').val(data.keperluan);
             $('#modal-form [name=jumlah]').val(data.jumlah);
+            $('#modal-form [name=jumlah]').attr("readonly", "readonly");
         }
 
         function deleteForm(url) {

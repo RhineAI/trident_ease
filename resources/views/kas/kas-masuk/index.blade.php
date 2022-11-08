@@ -116,10 +116,13 @@
         
         $(document).on('click', '.edit', function (event) {
             let jumlah = $(this).data('jumlah')
+            let keterangan = $(this).data('keterangan')
             let url = $(this).data('route')
+            // console.log(keterangan)
 
             let data = {
                 jumlah : jumlah,
+                keterangan : keterangan,
                 url: url
             }
 
@@ -135,6 +138,9 @@
             $('#modal-form [name=_method]').val('put');
             
             $('#modal-form [name=jumlah]').val(data.jumlah);
+            $('#modal-form [name=jumlah]').attr("readonly", "readonly");
+
+            $('#modal-form [name=keterangan]').val(data.keterangan);
         }
 
         function deleteForm(url) {

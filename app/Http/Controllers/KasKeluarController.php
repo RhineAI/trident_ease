@@ -72,7 +72,7 @@ class KasKeluarController extends Controller
             ->addColumn('action', function ($kasKeluar) {
                 return '
                     <button data-keperluan="'.$kasKeluar->keperluan.'" 
-                            data-jumlah="'.$kasKeluar->jumlah.'" 
+                            data-jumlah="'.$kasKeluar->jumlah.'" "
                             data-route="' . route('kas-keluar.update', $kasKeluar->id) . '" class="edit btn btn-xs btn-success"><i class="fas fa-pencil-square"></i></button>
                     <button onclick="deleteForm(`'. route('kas-keluar.destroy', $kasKeluar->id) .'`)" class="btn btn-xs btn-danger delete"><i class="fas fa-trash"></i></button>
                 ';
@@ -107,7 +107,7 @@ class KasKeluarController extends Controller
         // return $jumlah;
         $kasKeluar = new KasKeluar;
         $kasKeluar->tgl = now();
-        if( $this->checkPrice($request->jumlah) >= $sisaKas ) {
+        if( $this->checkPrice($request->jumlah) > $sisaKas ) {
             // return redirect()->back()->withInput(Input::all());
             return redirect()->back()->withInput($request->only('keperluan'))->with(['errorKasKeluar' => 'Biaya melebihi Uang Kas!']);
         } else {
