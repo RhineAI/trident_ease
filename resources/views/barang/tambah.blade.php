@@ -126,13 +126,19 @@
                 <div class="form-group row">
                     <div class="form-group" style="width: 95%; margin: auto;">
                         <label for="harga_beli">Harga Beli Barang</label>
-                        <input type="number" class="form-control" id="harga_beli" placeholder="Harga Beli Barang" name="harga_beli">
+                        <div class="input-group-prepend input-primary"> 
+                            <span class="input-group-text">RP.</span> 
+                            <input type="number" class="form-control" id="harga_beli" placeholder="Harga Beli Barang" name="harga_beli">
+                        </div>
                     </div>
                 </div>
                 <div class="form-group row">
                     <div class="form-group" style="width: 95%; margin: auto;">
                         <label for="keuntungan">Keuntungan Barang</label>
-                        <input type="number" min="1" max="100" class="form-control" id="keuntungan" placeholder="Keuntungan Barang" name="keuntungan">
+                        <div class="input-group-prepend input-primary"> 
+                            <input type="number" min="1" max="100" class="form-control" id="keuntungan" placeholder="Keuntungan Barang" name="keuntungan">
+                            <span class="input-group-text">%</span> 
+                        </div>
                     </div>
                 </div>
                 <div class="form-group row">

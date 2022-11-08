@@ -5,9 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Print Nota Pembelian</title>
-
-    <?php
-    $style = '
     <style>
         * {
             font-family: "consolas", sans-serif;
@@ -27,35 +24,46 @@
             text-align: right;
         }
 
+        @page {
+            size: A5;
+            margin: 0;
+        }
+
         @media print {
-            @page {
-                margin: 0;
-                size: 85mm 
-    ';
-    ?>
-    <?php 
-    $style .= 
-        ! empty($_COOKIE['innerHeight'])
-            ? $_COOKIE['innerHeight'] .'mm; }'
-            : '}';
-    ?>
-    <?php
-    $style .= '
             html, body {
-                width: 80mm;
+                width: 85mm;
+                /* height: 100%; */
+                margin: 0 auto;
             }
-            .btn-print {
+
+            #btn-print {
                 display: none;
             }
         }
-    </style>
-    ';
-    ?>
 
-    {!! $style !!}
+        tr.spaceUnder5>td {
+            padding-bottom: 5em;
+        }
+
+        tr.spaceUnder2>td {
+            padding-bottom: 2em;
+        }
+
+        table.bordered {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        table.bordered td, table.bordered th {
+            border: 1.325px solid black;
+            text-align: left;
+            padding: 8px;
+        }
+    </style>
 </head>
 <body onload="window.print()">
-    <button class="btn-print" style="position: absolute; right: 0px; top: 0px; padding: 2px;" onclick="window.print()">Print</button>
+    <button class="btn-print" id="btn-print" style="position: absolute; right: 0px; top: 0px; padding: 2px; width: 100px; background: #4195D5; border-radius: 15px; color: white; border-color: blue; cursor: pointer;" onclick="window.print()">Print</button>
     <div class="text-center">
         <h3 style="margin-bottom: 5px;">{{ strtoupper($cPerusahaan->nama) }}</h3>
         <p>{{ strtoupper($cPerusahaan->alamat) }}</p>
@@ -66,7 +74,7 @@
         <p>Admin: {{ strtoupper(auth()->user()->nama) }}</p>
     </div>
     <div class="clear-both" style="clear: both;"></div>
-    <p>No: {{ $cPembelian->id_transaksi }}</p>
+    <p>No Faktur: {{ $cPembelian->kode_invoice }}</p>
     <p>Supplier: {{ $cPembelian->nama_supplier }}</p>
     <p class="text-center">===================================</p>
     
@@ -106,7 +114,7 @@
             </tr>
             <tr>
                 <td>Sisa:</td>
-                <td class="text-right">Rp. {{ format_uang($cPembelian->total_harga - $cPembelian->dp) }}</td>
+                <td class="text-right">Rp. {{ format_uang($cPembelian->total_pembelian - $cPembelian->dp) }}</td>
             </tr>
         @else 
             <tr>

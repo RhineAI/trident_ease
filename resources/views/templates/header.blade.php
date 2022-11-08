@@ -11,7 +11,11 @@
 <!-- Theme style -->
 <link rel="stylesheet" href="{{ asset('assets') }}/dist/css/adminlte.min.css">
 <link rel="stylesheet" href="{{ asset('assets') }}/plugins/datatables-bs4/css/dataTables.bootstrap4.css">
-<link rel="icon" href="{{ $cPerusahaan->logo }}" type="image/png">
+@if ($cPerusahaan->logo == null)
+  <link rel="icon" href="{{ asset('assets') }}/img/buildings.png" type="image/png">
+@else
+  <link rel="icon" href="{{ $cPerusahaan->logo }}" type="image/png">
+@endif
 {{-- Bootstrap v5.2 --}}
 <!-- CSS only -->
 {{-- Bootstrap Icon --}}

@@ -71,7 +71,7 @@ class ReturPenjualanController extends Controller
                 $html.="<td style='text-align:center;'><input type='hidden' value='$row->id_barang' id='id_barang$i'> <input class='form-control' type='text' value='$row->kode' readonly='true' id='kode$i'></td>";
                 $html.="<td style='text-align:center;'><input class='form-control' type='text' value='$row->nama_barang' readonly='true' id='nama_barang$i'></td>";
                 $html.="<td style='text-align:center;'><input class='form-control' type='number' value='$row->harga_jual' readonly='true' id='harga_jual$i' style='text-align:right'><input class='form-control' type='hidden' value='$row->harga_beli' readonly='true' id='harga_beli$i' style='text-align:right'></td>";
-                $html.="<td style='text-align:center; width: 8%;'><input class='form-control' type='number' value='$row->qtySekarang' readonly='true' id='qty$i'></td>";
+                $html.="<td style='text-align:center; width: 8%;'><input class='form-control' type='number' value='$qtySekarang' readonly='true' id='qty$i'></td>";
                 $html.="<td style='text-align:center;'><input class='form-control' type='number' value='$subtotal' readonly='true' id='subtotal$i' style='text-align:right'></td>";
                 // return $key;
                 if(count($qtyRetur) > 0){

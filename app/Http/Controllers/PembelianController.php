@@ -157,7 +157,7 @@ class PembelianController extends Controller
                 
                 $barangUpdate = Barang::find($barang['id_barang']);
                 $barangUpdate->stock += $barang['qty'];
-                $barangUpdate->harga_beli += $barang['harga_beli'];
+                $barangUpdate->harga_beli = $this->checkPrice($barang['harga_beli']);
                 $barangUpdate->update();
                 
                 // $barangUpdate = Barang::select('stock')->where('id', $barang->id_barang)->first();

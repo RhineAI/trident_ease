@@ -6,6 +6,41 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Print Nota Piutang</title>
     <style>
+        * {
+            font-family: "consolas", sans-serif;
+        }
+        p {
+            display: block;
+            margin: 4px;
+            font-size: 10pt;
+        }
+        table td {
+            font-size: 9pt;
+        }
+        .text-center {
+            text-align: center;
+        }
+        .text-right {
+            text-align: right;
+        }
+
+        @page {
+            size: A5;
+            margin: 0;
+        }
+
+        @media print {
+            html, body {
+                width: 85mm;
+                /* height: 100%; */
+                margin: 0 auto;
+            }
+
+            #btn-print {
+                display: none;
+            }
+        }
+
         tr.spaceUnder5>td {
             padding-bottom: 5em;
         }
@@ -26,57 +61,9 @@
             padding: 8px;
         }
     </style>
-
-    <?php
-    $style = '
-    <style>
-        * {
-            font-family: "consolas", sans-serif;
-        }
-        p {
-            display: block;
-            margin: 4px;
-            font-size: 10pt;
-        }
-        table td {
-            font-size: 9pt;
-        }
-        .text-center {
-            text-align: center;
-        }
-        .text-right {
-            text-align: right;
-        }
-
-        @media print {
-            @page {
-                margin: 0;
-                size: 85mm 
-    ';
-    ?>
-    <?php 
-    $style .= 
-        ! empty($_COOKIE['innerHeight'])
-            ? $_COOKIE['innerHeight'] .'mm; }'
-            : '}';
-    ?>
-    <?php
-    $style .= '
-            html, body {
-                width: 80mm;
-            }
-            .btn-print {
-                display: none;
-            }
-        }
-    </style>
-    ';
-    ?>
-
-    {!! $style !!}
 </head>
 <body onload="window.print()">
-    <button class="btn-print" style="position: absolute; right: 0px; top: 0px; padding: 2px;" onclick="window.print()">Print</button>
+    <button class="btn-print" id="btn-print" style="position: absolute; right: 0px; top: 0px; padding: 2px; width: 100px; background: #4195D5; border-radius: 15px; color: white; border-color: blue; cursor: pointer;" onclick="window.print()">Print</button>
     <div class="text-center">
         <h3 style="margin-bottom: 5px;">{{ strtoupper($cPerusahaan->nama) }}</h3>
         <p>{{ strtoupper($cPerusahaan->alamat) }}</p>
@@ -145,19 +132,9 @@
             <td colspan="4" class="text-right">{{ $cPiutang->nama_pelanggan }}</td>
         </tr>
     </table>
-
-    
-
-    <script>
+    {{-- <script>
         let body = document.body;
         let html = document.documentElement;
-        // let height = Math.max(
-        //         body.scrollHeight, body.offsetHeight,
-        //         html.clientHeight, html.scrollHeight, html.offsetHeight
-        //     );
-
-        // document.cookie = "innerHeight=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-        // document.cookie = "innerHeight="+ ((height + 20) * 0.264583);
-    </script>
+    </script> --}}
 </body>
 </html>

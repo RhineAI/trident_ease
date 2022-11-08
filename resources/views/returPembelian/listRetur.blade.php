@@ -24,7 +24,7 @@ Data Retur Pembelian
         <div class="col-md-12 p-2 mb-3" style="background-color: white">
             <div class="box mb-4">
                 <div class="box-body table-responsive ">
-                    <form action="{{ route('list-transaksi.index') }}" method="get">
+                    <form action="{{ route('list-retur-pembelian.index') }}" method="get">
                         {{-- @csrf --}}
                         {{-- @method('get') --}}
                         <div class="form-group row mt-4">
