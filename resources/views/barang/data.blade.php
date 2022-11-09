@@ -24,7 +24,7 @@
             <tr>
                 <td>{{ $item->id }}</td>
                 <td>{{ $item->kode }}</td>
-                <td>{{ $item->nama }}</td>
+                <td id="nama_barang">{{ $item->nama }}</td>
                 {{-- <td>{{ $item->barcode }}</td> --}}
                 <td>{{ $item->nama_kategori }}</td>
                 {{-- <td>{{ $item->nama_supplier }}</td> --}}
@@ -68,7 +68,7 @@
                     <form action="{{ route('barang.destroy', $item->id) }}" style="display: inline;" method="post">
                         @csrf
                         @method('DELETE')
-                        <button class="btn delete-data" type="button" style="color: red;" title="Delete">
+                        <button data-nama_barang="{{ $item->nama }}" class="btn delete-data" type="button" style="color: red;" title="Delete">
                             <i class="fas fa-trash"></i>
                         </button>
                     </form>

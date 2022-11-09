@@ -1,6 +1,6 @@
 <div class="box-body table-responsive">
     <table class="table table-striped table-hover table-bordered dt-responsive" style="width: 100%;" id="tbl-data-kategori">
-        <thead class="table-primary">
+        <thead class="table-success">
             <tr>
                 <td class="text-center" width="10%">No</td>
                 <td class="text-center">Nama Kategori</td>

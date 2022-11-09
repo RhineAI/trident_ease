@@ -93,7 +93,7 @@ class BarangController extends Controller
                 return '<span class="badge" style="background-color:#2f3d57; color:white;">'. $barang->kode .'</span>';
             })
             ->addColumn('harga_beli', function ($barang) {
-                return format_uang($barang->harga_beli);
+                return 'Rp. '. format_uang($barang->harga_beli);
             })
             ->addColumn('stock', function ($barang) {
                 if($barang->stock == 0)
@@ -114,21 +114,21 @@ class BarangController extends Controller
             ->addColumn('action', function($barang) { 
                 return '
                         <button data-nama="'.$barang->nama.'"
-                        data-kode="'.$barang->kode.'"
-                        data-barcode="'.$barang->barcode.'"
-                        data-id_kategori="'.$barang->id_kategori.'"
-                        data-id_supplier="'.$barang->id_supplier.'"
-                        data-id_satuan="'.$barang->id_satuan.'"
-                        data-id_merek="'.$barang->id_merek.'"
-                        data-id_perusahaan="'.$barang->id_perusahaan.'"
-                        data-satuan="'.$barang->id_satuan.'"
-                        data-stock="'.$barang->stock.'"
-                        data-stock_minimal="'.$barang->stock_minimal.'"
-                        data-harga_beli="'.$barang->harga_beli.'"
-                        data-keuntungan="'.$barang->keuntungan.'"
-                        data-keterangan="'.$barang->keterangan.'"
-                        data-status="'.$barang->status.'"
-                        data-route="'. route('barang.update', $barang->id) .'" 
+                                data-kode="'.$barang->kode.'"
+                                data-barcode="'.$barang->barcode.'"
+                                data-id_kategori="'.$barang->id_kategori.'"
+                                data-id_supplier="'.$barang->id_supplier.'"
+                                data-id_satuan="'.$barang->id_satuan.'"
+                                data-id_merek="'.$barang->id_merek.'"
+                                data-id_perusahaan="'.$barang->id_perusahaan.'"
+                                data-satuan="'.$barang->id_satuan.'"
+                                data-stock="'.$barang->stock.'"
+                                data-stock_minimal="'.$barang->stock_minimal.'"
+                                data-harga_beli="'.$barang->harga_beli.'"
+                                data-keuntungan="'.$barang->keuntungan.'"
+                                data-keterangan="'.$barang->keterangan.'"
+                                data-status="'.$barang->status.'"
+                                data-route="'. route('barang.update', $barang->id) .'" 
                         class="edit btn btn-xs btn-success"><i class="fa fa-pencil"></i></button>     
                         <button onclick="deleteForm(`'. route('barang.destroy', $barang->id) .'`)" class="btn btn-xs btn-danger"><i class="fa fa-trash"></i></button>
                     '; 

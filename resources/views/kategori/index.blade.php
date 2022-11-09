@@ -23,8 +23,8 @@
       <div class="col-md-12 p-2 mb-3" style="background-color: white">
           <div class="box mb-4">
               <div class="box-body table-responsive ">
-                  <h3 class="text-center mt-3 mb-2">Set kategori</h3>
-                  <button type="button" class="btn btn-primary ml-4 mb-4 mt-3" data-toggle="modal" data-target="#formModalKategori">
+                  <h2 class="text-center mt-3 mb-4">Set kategori</h2>
+                  <button type="button" class="btn btn-primary ml-4" data-toggle="modal" data-target="#formModalKategori">
                       <i class="fas fa-plus"></i>&nbsp; Tambah Data
                   </button>
                   <div class="col-lg-12">

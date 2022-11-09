@@ -26,7 +26,7 @@
                 <div class="box-body">
         
                     <div class="box-body mx-2 my-2">
-                        <h3 class="text-center mb-5 mt-4">Stock Opname</h3>
+                        <h2 class="text-center mb-5 mt-4">Stock Opname</h2>
                         <form class="form-pelanggan" method="post">
                             @csrf
                             

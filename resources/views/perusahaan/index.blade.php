@@ -22,7 +22,7 @@ Perusahaan
     <div class="row mx-3">
         <div class="col-md-12 p-2 mb-3" style="background-color: white">
             <div class="box mb-4">
-              <h3 class="text-center mt-3 mb-5">Set Perusahaan</h3>
+              <h2 class="text-center mt-3 mb-5">Set Perusahaan</h2>
                 <div class="box-body table-responsive d-flex">
                     <div class="col-lg-12 justify-content-center" >
                         <form action="" method="POST" enctype="multipart/form-data">
@@ -107,8 +107,10 @@ Perusahaan
                                 </div>
                             </div>
                             <div class="mb-1 mt-2"></div>
-                            <button type="button" id="tombol" class="btn btn-primary" style="display: none; margin-left: 0,25rem; margin-right: 10px;">Reset Image</a>
-                            <button type="submit" class="btn btn-primary" id="btn-submit">Simpan Data</button>
+                            <div class="mt-3 mb-2 mx-5" style="float: right;">
+                                <button type="button" id="tombol" class="btn btn-primary" style="display: none; margin-left: 0,25rem; margin-right: 10px;">Reset Image</a>
+                                <button type="submit" class="btn btn-outline-primary" id="btn-submit"><i class="fa-solid fa-floppy-disk"></i> Simpan Data</button>
+                            </div>
                         </form>
                     </div>
                 </div>

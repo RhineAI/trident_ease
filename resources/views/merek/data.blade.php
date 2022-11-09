@@ -1,6 +1,6 @@
 <div class="box-body table-responsive">
     <table class="table table-striped table-hover table-bordered" id="tbl-data-merek">
-        <thead class="table-primary">
+        <thead class="table-success">
             <tr>
                 <td class="text-center" width="10%">No</td>
                 <td class="text-center">Nama Merek</td>

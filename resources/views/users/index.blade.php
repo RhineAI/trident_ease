@@ -20,7 +20,7 @@
       <div class="col-md-12 p-2 mb-3" style="background-color: white">
           <div class="box mb-4">
               <div class="box-body table-responsive">
-                <h3 class="text-center mt-3 mb-2">Data Pegawai</h3>
+                <h2 class="text-center mt-3 mb-2">Data Pegawai</h2>
                 <button onclick="addForm('{{ route('users.store') }}')" class="btn btn-primary mx-2 my-3"><i
                     class="fa fa-plus-circle"></i>
                 Tambah</button>

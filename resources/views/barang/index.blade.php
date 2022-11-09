@@ -200,8 +200,10 @@ Produk
         }
 
         function deleteForm(url) {
+            let nama = $(this).data('nama_barang');
+            // console.log(nama);
             Swal.fire({
-                title: 'Hapus Data yang dipilih?',
+                title: 'Hapus Produk yang dipilih?',
                 icon: 'question',
                 iconColor: '#DC3545',
                 showDenyButton: true,
@@ -218,7 +220,7 @@ Produk
                     .done((response) => {
                         Swal.fire({
                             title: 'Sukses!',
-                            text: 'Data Barang berhasil dihapus',
+                            text: 'Data Produk berhasil dihapus',
                             icon: 'success',
                             confirmButtonText: 'Lanjut',
                             confirmButtonColor: '#28A745'
@@ -228,7 +230,7 @@ Produk
                     .fail((errors) => {
                         Swal.fire({
                             title: 'Gagal!',
-                            text: 'Data Barang gagal dihapus',
+                            text: 'Data Produk gagal dihapus',
                             icon: 'error',
                             confirmButtonText: 'Kembali',
                             confirmButtonColor: '#DC3545'
@@ -237,7 +239,7 @@ Produk
                     });
                 } else if (result.isDenied) {
                     Swal.fire({
-                        title: 'Kategori batal dihapus',
+                        title: 'Produk batal dihapus',
                         icon: 'warning',
                     })
                 }
