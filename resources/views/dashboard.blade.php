@@ -58,8 +58,16 @@
                             <div class="text-xs font-weight-bold text-uppercase mb-1">Earnings (Monthly)</div>
                             <div class="h5 mb-0 font-weight-bold text-gray-800">Rp.{{ format_uang($penjualan) }}</div>
                             <div class="mt-2 mb-0 text-muted text-xs">
-                                <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> 3.48%</span>
-                                <span>Since last month</span>
+                                @if($upordownpenghasilan >= $cekupordownpenghasilan) 
+                                    <span class="text-success mr-2"><i class="fas fa-arrow-up"></i> {{ $percentage_penghasilan }}%</span>
+                                    <span>Since last Month</span>
+                                @elseif($upordownpenghasilan <= $cekupordownpenghasilan)
+                                    <span class="text-danger mr-2"><i class="fas fa-arrow-down"></i> {{ $percentage_penghasilan }}%</span>
+                                    <span>Since last Month</span>
+                                @else
+                                    <span class="text-success mr-2"><i class="fas fa-arrow-up"></i> {{ $percentage_penghasilan }}%</span>
+                                    <span>Since last Month</span>
+                                @endif
                             </div>
                         </div>
                         <div class="col-auto">
@@ -105,6 +113,18 @@
                         <div class="col mr-2">
                             <div class="text-xs font-weight-bold text-uppercase mb-1">Kas Masuk</div>
                             <div class="h5 mb-0 font-weight-bold text-gray-800">Rp.{{ format_uang($kas) }}</div>          
+                            <div class="mt-2 mb-0 text-muted text-xs">
+                                @if($upordownkasmasuk >= $cekupordownkasmasuk) 
+                                    <span class="text-success mr-2"><i class="fas fa-arrow-up"></i> {{ $percentage_kas_masuk }}%</span>
+                                    <span>Since last Month</span>
+                                @elseif($upordownkasmasuk <= $cekupordownkasmasuk)
+                                    <span class="text-danger mr-2"><i class="fas fa-arrow-down"></i> {{ $percentage_kas_masuk }}%</span>
+                                    <span>Since last Month</span>
+                                @else
+                                    <span class="text-success mr-2"><i class="fas fa-arrow-up"></i> {{ $percentage_kas_masuk }}%</span>
+                                    <span>Since last Month</span>
+                                @endif
+                            </div>
                         </div>
                         <div class="col-auto">
                             <i class="fas fa-sharp fa-money-bill-1-wave fa-2x text-warning"></i>

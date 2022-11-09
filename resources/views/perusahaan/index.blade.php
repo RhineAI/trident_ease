@@ -40,7 +40,7 @@ Perusahaan
                                 <div class="form-group" style="width: 95%; margin: auto;">
                                     <label for="alamat">Alamat Perusahaan</label>
                                     <textarea type="text" class="form-control" id="alamat" placeholder="Alamat Perusahaan" cols="6" rows="3"
-                                        name="alamat" value="{{ $cPerusahaan->alamat }}"></textarea>
+                                        name="alamat" value="">{{ $cPerusahaan->alamat }}</textarea>
                                 </div>
                             </div>
             

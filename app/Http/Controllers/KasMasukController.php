@@ -51,8 +51,10 @@ class KasMasukController extends Controller
             })
             ->addColumn('action', function ($kasMasuk) {
                 return '
-                    <button data-jumlah="'.$kasMasuk->jumlah.'" 
+                    <button data-mode ="edit"
+                            data-jumlah="'.$kasMasuk->jumlah.'" 
                             data-keterangan="'.$kasMasuk->keterangan.'"
+                            data-tambah = "'.route('kas-masuk.store').'"
                             data-route="' . route('kas-masuk.update', $kasMasuk->id) . '" class="edit btn btn-xs btn-success"><i class="fas fa-pencil-square"></i></button>
                     <button onclick="deleteForm(`'. route('kas-masuk.destroy', $kasMasuk->id) .'`)" class="btn btn-xs btn-danger delete"><i class="fas fa-trash"></i></button>
                 ';

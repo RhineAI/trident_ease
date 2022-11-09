@@ -21,7 +21,7 @@
                     <form action="{{ route('merek.destroy', $item->id) }}" style="display: inline;" method="post">
                         @csrf
                         @method('DELETE')
-                        <button class="btn btn-xs btn-danger delete-data" type="button" title="Delete">
+                        <button onclick="deleteData('{{ route('merek.destroy', $item->id) }}')" class="btn btn-xs btn-danger delete-data" type="button" title="Delete">
                             <i class="fas fa-trash"></i>
                         </button>
                     </form>

@@ -23,6 +23,17 @@
                             <span class="help-block with-errors"></span>
                         </div>
                     </div>
+
+                    <div class="form-group row">
+                        <label for="keterangan" class="col-md-3 col-md-offset-1 control-label">
+                            <h5 class="my-2">Keterangan</h5>
+                        </label>
+                        <div class="col-md-9">
+                            <textarea name="keterangan" class="form-control" id="keterangan" cols="10" rows="3.5"></textarea>
+                            <span class="help-block with-errors"></span>
+                        </div>
+                    </div>
+
                     <div class="form-group row">
                         <label for="jumlah" class="col-md-3 col-md-offset-1 control-label">
                             <h5 class="my-2">Jumlah</h5>
@@ -34,17 +45,7 @@
                             <input type="text" name="jumlah" id="jumlah" class="form-control" aria-label="Username" aria-describedby="basic-addon1">
                             <span class="help-block with-errors"></span>
                         </div>
-                    </div>
-
-                    <div class="form-group row">
-                        <label for="keterangan" class="col-md-3 col-md-offset-1 control-label">
-                            <h5 class="my-2">Keterangan</h5>
-                        </label>
-                        <div class="col-md-9">
-                            <textarea name="keterangan" class="form-control" id="keterangan" cols="10" rows="3.5"></textarea>
-                            <span class="help-block with-errors"></span>
-                        </div>
-                    </div>
+                    </div>                    
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default btn-sm" data-dismiss="modal"><i

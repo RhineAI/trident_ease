@@ -46,6 +46,6 @@ class KeuntunganController extends Controller
         }
 
         // return redirect('/keuntungan')->with('success', 'Set Keuntungan Berhasil');
-        return redirect()->route('keuntungan.index')->with(['success' => 'Set Keuntungan berhasil!']);
+        return redirect()->route('keuntungan')->with(['success' => 'Set Keuntungan berhasil!']);
     }
 }

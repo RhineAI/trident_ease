@@ -3,9 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Pelanggan;
+use App\Models\Perusahaan;
+use Illuminate\Http\Request;
+use Illuminate\Routing\Controller;
 use App\Http\Requests\StorePelangganRequest;
 use App\Http\Requests\UpdatePelangganRequest;
-use App\Models\Perusahaan;
+
 
 class PelangganController extends Controller
 {
@@ -47,11 +50,12 @@ class PelangganController extends Controller
      * @param  \App\Http\Requests\StorePelangganRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StorePelangganRequest $request)
+    public function store(Request $request)
     {
         $input = Pelanggan::create($request->all());
+        // return $request;
         // return redirect('/pelanggan')->with('success', 'Input data Supplier berhasil!');
-        return redirect()->route('pelanggan.index')->with(['success' => 'Input data Supplier berhasil!']);
+        return redirect()->route('pelanggan.index')->with(['success' => 'Data Berhasil Disimpan!']);
     }
 
     /**
@@ -87,7 +91,7 @@ class PelangganController extends Controller
     {
         $pelanggan->update($request->all());
         // return redirect('/pelanggan')->with('success', 'Update Data berhasil');
-        return redirect()->route('pelanggan.index')->with(['success' => 'Update data Supplier berhasil!']);
+        return redirect()->route('pelanggan.index')->with(['success' => 'Data Berhasil Diupdate!']);
     }
 
     /**
@@ -100,6 +104,6 @@ class PelangganController extends Controller
     {
         $pelanggan->delete();
         // return redirect('/pelanggan')->with('delete', 'Delete Data berhasil');
-        return redirect()->route('pelanggan.index')->with(['success' => 'Delete data Supplier berhasil!']);
+        return redirect()->route('pelanggan.index')->with(['success' => 'Data Berhasil Dihapus!']);
     }
 }

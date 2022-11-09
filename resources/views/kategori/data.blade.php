@@ -8,9 +8,10 @@
             </tr>
         </thead>
         <tbody>
+            <p style="visibility: hidden">{{ $no = 1 }}</p>
             @foreach ($categories as $item)
                 <tr>
-                    <td class="text-center">{{ $item->id }}</td>
+                    <td class="text-center">{{ $no++ }}</td>
                     <td>{{ $item->nama }}</td>
                     <td>
                         <button class="btn btn-xs btn-warning" type="button" style="color: green;" title="Edit" data-mode="edit" data-toggle="modal" data-target="#formModalKategori" data-id_kategori="{{ $item->id }}" data-nama_kategori="{{ $item->nama }}">
@@ -19,7 +20,7 @@
                         <form action="{{ route('kategori.destroy', $item->id) }}" style="display: inline;" method="post">
                             @csrf
                             @method('DELETE')
-                            <button class="btn btn-xs btn-danger delete-data" type="button" title="Delete">
+                            <button onclick="deleteData('{{ route('kategori.destroy', $item->id) }}')" class="btn btn-xs btn-danger delete-data" type="button" title="Delete">
                                 <i class="fas fa-trash"></i>
                             </button>
                         </form>

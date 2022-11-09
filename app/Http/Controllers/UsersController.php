@@ -20,6 +20,7 @@ class UsersController extends Controller
     {
         $data['cPerusahaan'] = Perusahaan::select('*')->where('id', auth()->user()->id_perusahaan)->first();
         $data['pegawai'] = User::orderBy('id', 'DESC')->get();
+
         // return $data;
         return view('users.index', $data);
     }

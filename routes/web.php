@@ -41,7 +41,7 @@ Route::group(['middleware' => 'hak_akses:1'], function () {
         Route::resource('/kategori', KategoriController::class);
         Route::resource('/merek', MerekController::class);
         Route::resource('/satuan', SatuanController::class);
-        Route::resource('/perusahaan', PerusahaanController::class);
+        Route::resource('/perusahaan', PerusahaanController::class);    
 
         Route::resource('/barang', BarangController::class);
         Route::get('/barang-tambah', [BarangController::class, 'index2'])->name('barang2');
@@ -65,7 +65,7 @@ Route::group(['middleware' => 'hak_akses:1'], function () {
         Route::post('/changePW', [UsersController::class, 'chawngePWUpdate']);
 
         Route::get('/keuntungan', [KeuntunganController::class, 'index'])->name('keuntungan');
-        Route::post('/keuntungan', [KeuntunganController::class, 'store']);
+        Route::post('/keuntungan', [KeuntunganController::class, 'store'])->name('keuntungan.store');
 
         
         // Transaksi Penjualan

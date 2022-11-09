@@ -35,7 +35,7 @@ return new class extends Migration
             $table->integer('id')->autoIncrement();
             $table->string('nama', 50);
             $table->integer('id_perusahaan');
-            $table->foreign('id_perusahaan')->references('id')->on('t_perusahaan')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('id_perusahaan')->references('id')->on('t_perusahaan')->onDelete('restrict')->onUpdate('restrict');
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
         });
@@ -49,7 +49,7 @@ return new class extends Migration
             $table->string('bank', 50);
             $table->string('no_rekening', 50);
             $table->integer('id_perusahaan');
-            $table->foreign('id_perusahaan')->references('id')->on('t_perusahaan')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('id_perusahaan')->references('id')->on('t_perusahaan')->onDelete('restrict')->onUpdate('restrict');
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
         });
@@ -58,7 +58,7 @@ return new class extends Migration
             $table->integer('id')->autoIncrement();
             $table->string('nama', 50);
             $table->integer('id_perusahaan');
-            $table->foreign('id_perusahaan')->references('id')->on('t_perusahaan')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('id_perusahaan')->references('id')->on('t_perusahaan')->onDelete('restrict')->onUpdate('restrict');
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
         });
@@ -67,7 +67,7 @@ return new class extends Migration
             $table->integer('id')->autoIncrement();
             $table->string('nama', 50);
             $table->integer('id_perusahaan');
-            $table->foreign('id_perusahaan')->references('id')->on('t_perusahaan')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('id_perusahaan')->references('id')->on('t_perusahaan')->onDelete('restrict')->onUpdate('restrict');
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
         });
@@ -89,11 +89,11 @@ return new class extends Migration
             $table->integer('keuntungan');
             $table->string('keterangan');
             $table->integer('status');
-            $table->foreign('id_supplier')->references('id')->on('t_supplier')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('id_kategori')->references('id')->on('t_kategori')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('id_satuan')->references('id')->on('t_satuan')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('id_merek')->references('id')->on('t_merek')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('id_perusahaan')->references('id')->on('t_perusahaan')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('id_supplier')->references('id')->on('t_supplier')->onDelete('restrict')->onUpdate('restrict');
+            $table->foreign('id_kategori')->references('id')->on('t_kategori')->onDelete('restrict')->onUpdate('restrict');
+            $table->foreign('id_satuan')->references('id')->on('t_satuan')->onDelete('restrict')->onUpdate('restrict');
+            $table->foreign('id_merek')->references('id')->on('t_merek')->onDelete('restrict')->onUpdate('restrict');
+            $table->foreign('id_perusahaan')->references('id')->on('t_perusahaan')->onDelete('restrict')->onUpdate('restrict');
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
         });

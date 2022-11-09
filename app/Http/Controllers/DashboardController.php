@@ -44,107 +44,19 @@ class DashboardController extends Controller
         $transaksiNow = TransaksiPenjualan::whereDate('created_at', $now)->where('id_perusahaan', auth()->user()->id_perusahaan)->get();
 
         //PENGHASILAN TRANSAKSI
-        $LatestTotalTransaksi = TransaksiPenjualan::whereYear('created_at', $year)->whereMonth('created_at', $lastMonth)->where('id', auth()->user()->id_perusahaan)->sum('total_harga');
-        $NowTotalTransaksi = TransaksiPenjualan::whereYear('created_at', $year)->whereMonth('created_at', $month)->where('id', auth()->user()->id_perusahaan)->sum('total_harga');
+        $LatestTotalTransaksi = TransaksiPenjualan::whereYear('tgl', $year)->whereMonth('tgl', $lastMonth)->where('id_perusahaan', auth()->user()->id_perusahaan)->sum('total_harga');
+        $NowTotalTransaksi = TransaksiPenjualan::whereYear('created_at', $year)->whereMonth('created_at', $month)->where('id_perusahaan', auth()->user()->id_perusahaan)->sum('total_harga');
+        // return $NowTotalTransaksi;
         //KAS MASUK
-        $getLatestTotal = KasMasuk::whereYear('created_at', $year)->whereMonth('created_at', $lastMonth)->where('id', auth()->user()->id_perusahaan)->sum('jumlah');
-        $getNowTotal = KasMasuk::whereYear('created_at', $year)->whereMonth('created_at', $month)->where('id', auth()->user()->id_perusahaan)->sum('jumlah');
-
-        if ($getLatestTotal == 0) {
-            if($getNowTotal > 10) {
-                $percentage = $getNowTotal;
-            } elseif ($getNowTotal > 100) {
-                $percentage = $getNowTotal / 10;
-            } elseif ($getNowTotal > 1000) {
-                $percentage = $getNowTotal / 10;
-            } elseif ($getNowTotal > 10000) {
-                $percentage = $getNowTotal / 100;
-            } elseif ($getNowTotal > 100000) {
-                $percentage = $getNowTotal / 1000;
-            } elseif ($getNowTotal > 1000000) {
-                $percentage = $getNowTotal / 10000;
-            } elseif ($getNowTotal > 10000000) {
-                $percentage = $getNowTotal / 100000;
-            } elseif ($getNowTotal > 100000000) {
-                $percentage = $getNowTotal / 1000000;
-            } elseif ($getNowTotal > 1000000000) {
-                $percentage = $getNowTotal / 10000000;
-            } elseif ($getNowTotal > 10000000000) {
-                $percentage = $getNowTotal / 100000000;
-            } elseif ($getNowTotal > 100000000000) {
-                $percentage = $getNowTotal / 1000000000;
-            } elseif ($getNowTotal > 1000000000000) {
-                $percentage = $getNowTotal / 10000000000;
-            } 
-        } else {
-            $difference = $getNowTotal - $getLatestTotal;
-            // JIKA KURANG DARI    $differece = 1000 - 2000 (-1000); 
-            // JIKA LEBIH DARI     $differece = 5000 - 1000 (4000); 
-            // JIKA DATA LAST 0    $difference = 1000 - 0 (1000);
-    
-            if ($difference <= $getLatestTotal) { //-1000
-                $makePositive = -1 * $difference; //1000 
-                $divide = 100 / $getLatestTotal; //100 / 2000 = 0.05
-                $percentage = round($makePositive * $divide, 2, PHP_ROUND_HALF_UP); //1000 * 0.05 = 50
-            } elseif ($difference == $getLatestTotal) {
-                $percentage = 100;
-            } elseif ($differece >= $getLatestTotal) { //4000
-                $divide = 100 / $getLatestTotal; //100 / 1000 = 0.1
-                $times = round($differece * $divide, 2, PHP_ROUND_HALF_UP); // 4000 * 0.1 = 500
-                if ($times > 1000) {
-                    $percentage = 1000 . '+';
-                } else {
-                    $percentage = $times;
-                }
-            }
-        }
-        $data['percentage_penghasilan'] = $percentage;
+        $LatestTotalKasMasuk = KasMasuk::whereYear('tgl', $year)->whereMonth('tgl', $lastMonth)->where('id_perusahaan',  auth()->user()->id_perusahaan)->sum('jumlah');
+        $NowTotalKasMasuk = KasMasuk::whereYear('created_at', $year)->whereMonth('created_at', $month)->where('id_perusahaan', auth()->user()->id_perusahaan)->sum('jumlah');
         
         $data['percentage_barang'] = persentasePerbandingan($getDataBarangYesterday, $getDataBarangToday, $countDataBarang);
-        // $data['percentage_penghasilan'] = persentasePerbandinganHarga($LatestTotalTransaksi, $NowTotalTransaksi);
+        $data['percentage_penghasilan'] = persentasePerbandinganHarga($LatestTotalTransaksi, $NowTotalTransaksi);
         $data['percentage_transaksi'] = persentasePerbandingan($getDataTransaksiYesterday, $getDataTransaksiToday, $countDataTransaksi);
-        // $data['percentage_kas'] = persentasePerbandinganHarga($LatestTotalKasMasuk, $NowTotalKasMasuk);
+        $data['percentage_kas_masuk'] = persentasePerbandinganHarga($LatestTotalKasMasuk, $NowTotalKasMasuk);
 
-        // return $countDataNow;
-        // $checkJumlah = $getDataYesterday - $getDataToday;
-        // $now = now();
-        // if($checkJumlah < 0) {
-        //     $hasilCheck = $checkJumlah + -($checkJumlah*2);
-        // } elseif($checkJumlah >= 0) {
-        //     $hasilCheck = $checkJumlah;
-        // }
-        // // return $hasilCheck;
-        // if($getDataYesterday == 0) {
-        //     if($countDataNow != 0) {
-        //         $cek = 100 / $countDataNow;
-        //         $percentage = round($hasilCheck * $cek, 2, PHP_ROUND_HALF_UP); 
-        //     } elseif($countDataNow == 0) {
-        //         $percentage = 0;
-        //     }
-        // }elseif ($hasilCheck != $getDataYesterday) {
-        //     if($getDataYesterday <= $hasilCheck) {
-        //         $cek1 = 100 / $getDataYesterday;
-        //         $cek2 = $getDataToday - $getDataYesterday;
-        //         $cek3 = $cek2 - $getDataYesterday;
-        //         $percentage = round($cek1 * $cek3 , 2, PHP_ROUND_HALF_UP);
-        //     } 
-        //     elseif($getDataYesterday >= $hasilCheck) {
-        //         $cek4 = 100/ $getDataYesterday;
-        //         $percentage = round($cek4 * $hasilCheck, 2, PHP_ROUND_HALF_UP);
-                
-        //     } 
-        // }elseif($hasilCheck == $getDataYesterday) {
-        //     $percentage = 100;   
-        // } 
-        // elseif($hasilCheck >= $getDataYesterday) {
-        //     $cek1 = 100 / $getDataYesterday ;
-        //     $cek2 = $getDataYesterday - $hasilCheck;
-        //     $percentage = 100 + round($cek1 * $cek2, 2, PHP_ROUND_HALF_EVEN);
-        // }
-
-        // return $percentage;
-
-
+        // PERCENTAGE UP OR DOWN BARANG
         $checkJumlahBarang = $getDataBarangYesterday - $getDataBarangToday;
         if($checkJumlahBarang < 0) {
             $hasilB = $checkJumlahBarang + -($checkJumlahBarang*2);
@@ -156,9 +68,19 @@ class DashboardController extends Controller
         $data['cekupordownbarang'] = $getDataBarangYesterday;
         $data['todaybarang'] = $getDataBarangToday;
         $data['totalBarangYesterday'] = $hasilB;
-        // return $data;
+        
+        //PERCENTAGE UP OR DOWN INCOME TRANSACTION
+        $checkJumlahPenghasilan = $LatestTotalTransaksi - $NowTotalTransaksi;
+        if($checkJumlahPenghasilan < 0) {
+            $hasilP = $checkJumlahPenghasilan + -($checkJumlahPenghasilan*2);
+        } elseif($checkJumlahPenghasilan >= 0) {
+            $hasilP = $checkJumlahPenghasilan;
+        }
+        $data['upordownpenghasilan'] = $hasilP;
+        $data['cekupordownpenghasilan'] = $LatestTotalTransaksi;
+        $data['todaypenghasilan'] = $NowTotalTransaksi;
 
-        // return $getDataTransaksiYesterday;
+        //PERCENTAGE UP OR DOWN TRANSACTION
         $checkJumlahTransaksi = $getDataTransaksiYesterday - $getDataTransaksiToday;
         if($checkJumlahTransaksi < 0) {
             $hasilT = $checkJumlahTransaksi + -($checkJumlahTransaksi*2);
@@ -170,6 +92,18 @@ class DashboardController extends Controller
         $data['cekupordowntransaksi'] = $getDataTransaksiYesterday;
         $data['todaytransaksi'] = $getDataBarangToday;
         $data['totalTransaksiYesterday'] = $hasilT;
+
+        //PERCENTAGE UP OR DOWN INCOME KAS
+        $checkJumlahKasMasuk = $LatestTotalTransaksi - $NowTotalTransaksi;
+        if($checkJumlahKasMasuk < 0) {
+            $hasilKM = $checkJumlahKasMasuk + -($checkJumlahKasMasuk*2);
+        } elseif($checkJumlahKasMasuk >= 0) {
+            $hasilKM = $checkJumlahKasMasuk;
+        }
+        $data['upordownkasmasuk'] = $hasilKM;
+        $data['cekupordownkasmasuk'] = $LatestTotalKasMasuk;
+        $data['todaykasmasuk'] = $NowTotalKasMasuk;
+
 
        
         // PROGRESS

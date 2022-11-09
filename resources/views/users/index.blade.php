@@ -86,6 +86,10 @@
         function addForm(url) {
             $('#modal-form').modal('show');
             $('#modal-form .modal-title').text('Tambah Pegawai Baru');
+
+            $('#modal-form form')[0].reset();
+            $('#modal-form form').attr('action', url);
+            $('#modal-form [name=_method]').val('post');
         }
 
         $(document).on('click', '#edit', function(event) {

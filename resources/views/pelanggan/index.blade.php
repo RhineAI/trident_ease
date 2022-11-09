@@ -70,6 +70,9 @@
                 modal.find('.modal-body form').attr('action', '/pelanggan/' + id_pelanggan)
                 modal.find('.modal-body #method').html('{{ method_field('PATCH') }}')
             } else {
+                $('#formModalPelanggan form')[0].reset();
+                $('#formModalPelanggan form').attr('action', url);
+                $('#formModalPelanggan [name=_method]').val('post');
                 modal.find('#modal-title').text("Tambah Data pelanggan")
                 modal.find('.modal-body #id_pelanggan').val('')
                 modal.find('.modal-body #nama_pelanggan').val('')
@@ -78,6 +81,51 @@
             }
           });
         });
+
+        // function addForm(url) {
+        //     // $('#modal-form').trigger('reset');
+        //     $('#modal-form').modal('show');
+        //     $('#modal-form .modal-title').text('Tambah Pelanggan');
+
+        //     $('#modal-form form')[0].reset();
+        //     $('#modal-form form').attr('action', url);
+        //     $('#modal-form [name=_method]').val('post');
+        //     $('#modal-form [name=nama]').focus();
+        // }
+
+        // $(document).on('click', '.edit', function (event) {
+        //     let nama_pelanggan = $(this).data('nama_pelanggan')
+        //     let alamat = $(this).data('alamat')
+        //     var tlp = $(this).data('tlp')
+        //     var jenis_kelamin = $(this).data('jenis_kelamin')
+        //     let url = $(this).data('route')
+        //     // console.log(keterangan)
+
+        //     var data = {
+        //         nama_pelanggan : nama_pelanggan,
+        //         alamat : alamat,
+        //         tlp: tlp,
+        //         jenis_kelamin: jenis_kelamin,
+        //         url: url
+        //     }
+
+        //     editForm(data)
+        // })
+        
+        // function editForm(data) {
+        //     $('#modal-form').modal('show')
+        //     $('#modal-form .modal-title').text('Edit Pelanggan');
+        //     $('#modal-form form')[0].reset();
+            
+        //     $('#modal-form [name=nama]').val(data.nama_pelanggan);
+        //     $('#modal-form [name=alamat]').val(data.alamat);
+        //     $('#modal-form [name=tlp]').val(data.tlp);
+        //     $('#modal-form [name=jenis_kelamin]').val(data.jenis_kelamin);
+
+        //     $('#modal-form form').attr('action', data.url);
+        //     $('#modal-form').setAttribute("method", "PUT");
+        // }
+         
       </script>
       <script>
           $('.delete-data').on('click', function(e){

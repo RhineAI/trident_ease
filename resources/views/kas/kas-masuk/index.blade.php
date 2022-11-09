@@ -25,7 +25,7 @@
             <div class="box">
     
                 <div class="box-header with-border mb-3">
-                    <button onclick="addForm('{{ route('kas-masuk.store') }}')" class="btn btn-primary mx-2 my-3"><i
+                    <button data-mode="tambah" onclick="addForm('{{ route('kas-masuk.store') }}')" class="btn btn-primary mx-2 my-3"><i
                             class="fa fa-plus-circle"></i>
                         Tambah</button>
                 </div>
@@ -87,8 +87,14 @@
 
 
         function addForm(url) {
-            $('#modal-form').modal('show')
-            $('#modal-form .modal-title').text('Kas Masuk');
+            // $('#modal-form').trigger('reset');
+            $('#modal-form').modal('show');
+            $('#modal-form .modal-title').text('Tambah Kas Masuk');
+
+            $('#modal-form form')[0].reset();
+            $('#modal-form form').attr('action', url);
+            $('#modal-form [name=_method]').val('post');
+            $('#modal-form [name=jumlah]').focus();
         }
 
         let table;
@@ -118,29 +124,45 @@
             let jumlah = $(this).data('jumlah')
             let keterangan = $(this).data('keterangan')
             let url = $(this).data('route')
+            var mode = $(this).data('mode')
+            var tambah = $(this).data('tambah')
             // console.log(keterangan)
 
-            let data = {
+            var data = {
                 jumlah : jumlah,
                 keterangan : keterangan,
-                url: url
+                url: url,
+                mode: mode,
+                tambah: tambah
             }
 
             editForm(data)
         })
         
         function editForm(data) {
-            $('#modal-form').modal('show')
-            $('#modal-form .modal-title').text('Edit Kas Masuk');
+           $('document').ready(function() {
+                if (data.mode == 'edit') {
+                    $('#modal-form').modal('show')
+                    $('#modal-form .modal-title').text('Edit Kas Masuk');
 
-            $('#modal-form form')[0].reset();
-            $('#modal-form form').attr('action', data.url);
-            $('#modal-form [name=_method]').val('put');
-            
-            $('#modal-form [name=jumlah]').val(data.jumlah);
-            $('#modal-form [name=jumlah]').attr("readonly", "readonly");
+                    $('#modal-form form')[0].reset();
+                    $('#modal-form form').attr('action', data.url);
+                    $('#modal-form [name=_method]').val('put');
+                    
+                    $('#modal-form [name=jumlah]').val(data.jumlah);
+                    $('#modal-form [name=jumlah]').attr("readonly", "readonly");
+                    $('#modal-form [name=keterangan]').val(data.keterangan);
 
-            $('#modal-form [name=keterangan]').val(data.keterangan);
+                } else {
+                    $('#modal-form').modal('show')
+                    $('#modal-form .modal-title').text('Tambah Kas Masuk');
+                    $('#modal-form form').attr('action', data.tambah);
+                    $('#modal-form [name=_method]').val('post');
+                    
+                    $('#modal-form [name=jumlah]').val();
+                    $('#modal-form [name=keterangan]').val(); 
+                }
+           })
         }
 
         function deleteForm(url) {

@@ -76,6 +76,9 @@
                 modal.find('.modal-body form').attr('action', '/supplier/' + id_supplier)
                 modal.find('.modal-body #method').html('{{ method_field('PATCH') }}')
             } else {
+                $('#formModalSupplier form')[0].reset();
+                $('#formModalSupplier form').attr('action', url);
+                $('#formModalSupplier [name=_method]').val('post');
                 modal.find('#modal-title').text("Tambah Data supplier")
                 modal.find('.modal-body #id_supplier').val('')
                 modal.find('.modal-body #nama_supplier').val('')

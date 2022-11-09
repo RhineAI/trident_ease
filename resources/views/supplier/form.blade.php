@@ -62,7 +62,7 @@
                     <h5 class="my-2">No Rekening</h5>
                 </label>
                 <div class="col-md-9">
-                    <input type="text" placeholder="No Rekening" name="no_rekening" id="no_rekening" class="form-control" aria-label="Telepon" aria-describedby="basic-addon1" required>
+                    <input type="number" placeholder="No Rekening" name="no_rekening" id="no_rekening" class="form-control" aria-label="Telepon" aria-describedby="basic-addon1" required>
                     <span class="help-block with-errors"></span>
                 </div>
             </div>

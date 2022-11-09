@@ -37,9 +37,8 @@ Keuntungan
             </div>
           </div>
           <div class="card-body">
-            <form action="" method="POST">
+            <form action="{{ route('keuntungan.store') }}" method="POST">
                 @csrf
-                <div id="method"></div>
                 <div class="form-group row">
                     <div class="form-group" style="width: 95%; margin: auto;">
                         <label for="keuntungan">Persen Keuntungan</label>
@@ -48,6 +47,7 @@ Keuntungan
                         </div>
                     </div>
                 </div>
+
                 <div class="form-group row">
                     <div class="form-group" style="width: 95%; margin: auto;">
                         <label for="id_kategori">Target Kategori</label>
@@ -60,6 +60,7 @@ Keuntungan
                         </select>
                     </div>
                 </div>
+
                 <div class="form-group row">
                     <div class="form-group" style="width: 95%; margin: auto;">
                         <label for="id_merek">Target Merek</label>
@@ -72,6 +73,12 @@ Keuntungan
                         </select>
                     </div>
                 </div>
+
+                <div class="card-footer" style="float: right; background-color:white;">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                  <button type="submit" class="btn btn-primary" id="btn-submit">Simpan Data</button>
+                </div>
+            </form>
           </div>
         </div>
 </section>

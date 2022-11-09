@@ -31,11 +31,11 @@
                 </div>
             </div>
             <div class="form-group row">
-                <label for="telepon" class="col-md-3 col-md-offset-1 control-label">
+                <label for="tlp" class="col-md-3 col-md-offset-1 control-label">
                     <h5 class="my-2">Telepon</h5>
                 </label>
                 <div class="col-md-9">
-                    <input type="text" placeholder="Telepon / No Hp" name="telepon" id="telepon" class="form-control" aria-label="Username" aria-describedby="basic-addon1" required>
+                    <input type="number" placeholder="Telepon / No Hp" name="tlp" id="tlp" class="form-control" aria-label="Username" aria-describedby="basic-addon1" required>
                     <span class="help-block with-errors"></span>
                 </div>
             </div>

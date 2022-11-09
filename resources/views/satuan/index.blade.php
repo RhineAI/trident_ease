@@ -60,6 +60,9 @@
                 modal.find('.modal-body form').attr('action', '/satuan/' + id_satuan)
                 modal.find('.modal-body #method').html('{{ method_field('PATCH') }}')
             } else {
+                $('#formModalSatuan form')[0].reset();
+                $('#formModalSatuan form').attr('action', url);
+                $('#formModalSatuan [name=_method]').val('post');
                 modal.find('#modal-title').text("Tambah Data Satuan")
                 modal.find('.modal-body #id_satuan').val('')
                 modal.find('.modal-body #nama').val('')
@@ -68,8 +71,53 @@
             }
           });
         });
+
+        function deleteData(url) {
+            Swal.fire({
+                title: 'Hapus Satuan yang dipilih?',
+                icon: 'question',
+                iconColor: '#DC3545',
+                showDenyButton: true,
+                denyButtonColor: '#838383',
+                denyButtonText: 'Batal',
+                confirmButtonText: 'Hapus',
+                confirmButtonColor: '#DC3545'
+                }).then((result) => {
+                if (result.isConfirmed) {
+                    $.post(url, {
+                        '_token': $('[name=csrf-token]').attr('content'),
+                        '_method': 'delete'
+                    })
+                    .done((response) => {
+                        Swal.fire({
+                            title: 'Sukses!',
+                            text: 'Satuan berhasil dihapus',
+                            icon: 'success',
+                            confirmButtonText: 'Lanjut',
+                            confirmButtonColor: '#28A745'
+                        }) 
+                        location.reload();
+                    })
+                    .fail((errors) => {
+                        Swal.fire({
+                            title: 'Gagal!',
+                            text: 'Satuan tidak bisa dihapus karena masih digunakan oleh produk',
+                            icon: 'error',
+                            confirmButtonText: 'Kembali',
+                            confirmButtonColor: '#DC3545'
+                        })                       
+                        return;
+                    });
+                } else if (result.isDenied) {
+                    Swal.fire({
+                        title: 'Satuan batal dihapus',
+                        icon: 'warning',
+                    })
+                }
+            })
+        }
       </script>
-      <script>
+      {{-- <script>
           $('.delete-data').on('click', function(e){
             e.preventDefault();
             Swal.fire({
@@ -88,5 +136,5 @@
             }
             })
           });
-      </script>
+      </script> --}}
 @endpush
