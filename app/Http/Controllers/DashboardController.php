@@ -14,12 +14,10 @@ use Carbon\Carbon;
 class DashboardController extends Controller
 {
     public function index(){
-        // $no = date('Y-m-d');
-        // $p = Barang::select('*')->whereDate('created_at', $no)->get();
-        // return $p;
-        //Card
+        $lastMonth = date('m', strtotime('-1month'));
         $month = date('m');
         $year = date('Y');
+
         $data['penjualan'] = TransaksiPenjualan::whereMonth('created_at', $month)->whereYear('created_at', $year)->where('id_perusahaan', auth()->user()->id_perusahaan)->sum('total_harga');
         $data['kas'] = KasMasuk::whereMonth('created_at', $month)->whereYear('created_at', $year)->where('id_perusahaan', auth()->user()->id_perusahaan)->sum('jumlah');
         $data['pegawai'] = User::count();
@@ -45,8 +43,67 @@ class DashboardController extends Controller
         $countDataTransaksi = TransaksiPenjualan::where('id_perusahaan', auth()->user()->id_perusahaan)->count();
         $transaksiNow = TransaksiPenjualan::whereDate('created_at', $now)->where('id_perusahaan', auth()->user()->id_perusahaan)->get();
 
+        //PENGHASILAN TRANSAKSI
+        $LatestTotalTransaksi = TransaksiPenjualan::whereYear('created_at', $year)->whereMonth('created_at', $lastMonth)->where('id', auth()->user()->id_perusahaan)->sum('total_harga');
+        $NowTotalTransaksi = TransaksiPenjualan::whereYear('created_at', $year)->whereMonth('created_at', $month)->where('id', auth()->user()->id_perusahaan)->sum('total_harga');
+        //KAS MASUK
+        $getLatestTotal = KasMasuk::whereYear('created_at', $year)->whereMonth('created_at', $lastMonth)->where('id', auth()->user()->id_perusahaan)->sum('jumlah');
+        $getNowTotal = KasMasuk::whereYear('created_at', $year)->whereMonth('created_at', $month)->where('id', auth()->user()->id_perusahaan)->sum('jumlah');
+
+        if ($getLatestTotal == 0) {
+            if($getNowTotal > 10) {
+                $percentage = $getNowTotal;
+            } elseif ($getNowTotal > 100) {
+                $percentage = $getNowTotal / 10;
+            } elseif ($getNowTotal > 1000) {
+                $percentage = $getNowTotal / 10;
+            } elseif ($getNowTotal > 10000) {
+                $percentage = $getNowTotal / 100;
+            } elseif ($getNowTotal > 100000) {
+                $percentage = $getNowTotal / 1000;
+            } elseif ($getNowTotal > 1000000) {
+                $percentage = $getNowTotal / 10000;
+            } elseif ($getNowTotal > 10000000) {
+                $percentage = $getNowTotal / 100000;
+            } elseif ($getNowTotal > 100000000) {
+                $percentage = $getNowTotal / 1000000;
+            } elseif ($getNowTotal > 1000000000) {
+                $percentage = $getNowTotal / 10000000;
+            } elseif ($getNowTotal > 10000000000) {
+                $percentage = $getNowTotal / 100000000;
+            } elseif ($getNowTotal > 100000000000) {
+                $percentage = $getNowTotal / 1000000000;
+            } elseif ($getNowTotal > 1000000000000) {
+                $percentage = $getNowTotal / 10000000000;
+            } 
+        } else {
+            $difference = $getNowTotal - $getLatestTotal;
+            // JIKA KURANG DARI    $differece = 1000 - 2000 (-1000); 
+            // JIKA LEBIH DARI     $differece = 5000 - 1000 (4000); 
+            // JIKA DATA LAST 0    $difference = 1000 - 0 (1000);
+    
+            if ($difference <= $getLatestTotal) { //-1000
+                $makePositive = -1 * $difference; //1000 
+                $divide = 100 / $getLatestTotal; //100 / 2000 = 0.05
+                $percentage = round($makePositive * $divide, 2, PHP_ROUND_HALF_UP); //1000 * 0.05 = 50
+            } elseif ($difference == $getLatestTotal) {
+                $percentage = 100;
+            } elseif ($differece >= $getLatestTotal) { //4000
+                $divide = 100 / $getLatestTotal; //100 / 1000 = 0.1
+                $times = round($differece * $divide, 2, PHP_ROUND_HALF_UP); // 4000 * 0.1 = 500
+                if ($times > 1000) {
+                    $percentage = 1000 . '+';
+                } else {
+                    $percentage = $times;
+                }
+            }
+        }
+        $data['percentage_penghasilan'] = $percentage;
+        
         $data['percentage_barang'] = persentasePerbandingan($getDataBarangYesterday, $getDataBarangToday, $countDataBarang);
+        // $data['percentage_penghasilan'] = persentasePerbandinganHarga($LatestTotalTransaksi, $NowTotalTransaksi);
         $data['percentage_transaksi'] = persentasePerbandingan($getDataTransaksiYesterday, $getDataTransaksiToday, $countDataTransaksi);
+        // $data['percentage_kas'] = persentasePerbandinganHarga($LatestTotalKasMasuk, $NowTotalKasMasuk);
 
         // return $countDataNow;
         // $checkJumlah = $getDataYesterday - $getDataToday;
