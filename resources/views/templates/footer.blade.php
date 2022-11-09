@@ -1,15 +1,15 @@
 <footer class="main-footer">
-    <div class="float-right d-none d-sm-block">
-      <b>Version</b> 3.1.0
-    </div>
-    <strong>Copyright &copy; <script>document.write(/\d{4}/.exec(Date())[0])</script> <a href="https://www.instagram.com/smooth_0702/">Muhamad Fadhil Allifah</a>.</strong> All rights reserved.
-  </footer>
+  <div class="float-right d-none d-sm-block">
+    <b>Version</b> 3.1.0
+  </div>
+  <strong>Copyright &copy; <script>document.write(/\d{4}/.exec(Date())[0])</script> <a href="https://www.instagram.com/smooth_0702/">Muhamad Fadhil Allifah</a>.</strong> All rights reserved.
+</footer>
 
-  <!-- Control Sidebar -->
-  <aside class="control-sidebar control-sidebar-dark">
-    <!-- Control sidebar content goes here -->
-  </aside>
-  <!-- /.control-sidebar -->
+<!-- Control Sidebar -->
+<aside class="control-sidebar control-sidebar-dark">
+  <!-- Control sidebar content goes here -->
+</aside>
+<!-- /.control-sidebar -->
 <!-- ./wrapper -->
 
 {{-- SweetAlert2 --}}
@@ -41,18 +41,29 @@
 
 
 <script>
-  @if(session()->has('success'))
-      toastr.success('{{ session('success') }}', 'TERIMA KASIH!'); 
+@if(session()->has('success'))
+    toastr.success('{{ session('success') }}', 'TERIMA KASIH!'); 
 
-      @elseif(session()->has('error'))
+    @elseif(session()->has('error'))
 
-      toastr.error('{{ session('error') }}', 'GAGAL!'); 
+    toastr.error('{{ session('error') }}', 'GAGAL!'); 
 
-      @elseif(session()->has('errorKasKeluar'))
+    @elseif(session()->has('errorKasKeluar'))
 
-      toastr.error('{{ session('errorKasKeluar') }}', 'Peringatan!'); 
-      $('#modal-form').modal('show')
-      $('#modal-form .modal-title').text('Kas Masuk');
-  @endif
+    toastr.error('{{ session('errorKasKeluar') }}', 'Peringatan!'); 
+    $('#modal-form').modal('show')
+    $('#modal-form .modal-title').text('Kas Masuk');
+@endif
+</script>
+<script>
+  $(document).on('click', '.nav-item', function(e) {
+    // console.log(this)
+    $('.nav-item').removeClass('menu-is-opening menu-open');
+    $('.nav-treeview').hide();
+    // var content = document.getElementById('.nav-treeview');
+    // content.style.display = "none";
+    $(this).addClass('menu-is-opening menu-open');
+    $(this).find('ul.nav.nav-treeview').show();
+  })
 </script>
 @stack('scripts')

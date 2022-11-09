@@ -958,7 +958,7 @@ class LaporanController extends Controller
         $category = Kategori::where('id', $kategori)->first();
         // return $category;
         $cPerusahaan = Perusahaan::select('*')->where('id', auth()->user()->id_perusahaan)->first();
-        return view('laporan.laporan-stok.print', compact('tglAwal' ,'awal', 'akhir', 'kesesuaian-stok', 'merk', 'category', 'cPerusahaan'));
+        return view('laporan.laporan-stok.print', compact('tglAwal' ,'awal', 'akhir', 'stok', 'merk', 'category', 'cPerusahaan'));
     }
      
 
@@ -1024,16 +1024,15 @@ class LaporanController extends Controller
             //     $condition = "b.kategori == $kategori AND b.merek == $merek";
             // }
             
-            $kesesuaianBarang = Penyesuaian::where('t_penyesuaian.tgl', 'LIKE', '%'.$tanggal.'%')
+            $kesesuaianBarang = Penyesuaian::Where('t_penyesuaian.tgl', 'LIKE', '%'.$tanggal.'%')
                                             ->where('id_merek', $merek)
-                                            ->orWhere('id_kategori', $kategori)
+                                            ->Where('id_kategori', $kategori)
                                             ->leftJoin('t_barang AS B', 'B.id', 't_penyesuaian.id_barang')
                                             ->leftJoin('t_kategori AS K', 'K.id', 'B.id_kategori')
                                             ->leftJoin('t_merek AS M', 'M.id', 'B.id_merek')
                                             ->select('B.*', 'M.nama AS nama_merek', 'K.nama AS nama_kategori', 't_penyesuaian.tgl', 't_penyesuaian.stock_awal', 't_penyesuaian.stock_baru')
                                             ->where('t_penyesuaian.id_perusahaan', auth()->user()->id_perusahaan)
                                             ->orderBy('id', 'DESC')->get();
-            // return $kesesuaianBarang;
     
             foreach($kesesuaianBarang as $item) {
                 // return $key;
@@ -1041,9 +1040,9 @@ class LaporanController extends Controller
                 $row['DT_RowIndex'] = $no++;
                 $row['kode'] = '<span class="badge" style="background-color:#2f3d57; color:white;">'. $item->kode .'</span>';
                 $row['nama_barang'] = $item['nama'];
-                $row['nama_merek'] = $item['nama_merek'];
-                $row['nama_kategori'] = $item['nama_kategori'];
-                $row['tgl'] = $item['tgl'];
+                $row['merek'] = $item['nama_merek'];
+                $row['kategori'] = $item['nama_kategori'];
+                // $row['tgl'] = $item['tgl'];
                 $row['stock_awal'] = $item['stock_awal'];
                 $row['stock_baru'] = $item['stock_baru'];
                 $row['selisih'] = $item['stock_awal'] - $item['stock_akhir'];
@@ -1064,7 +1063,7 @@ class LaporanController extends Controller
           
         return datatables()
             ->of($data)
-            ->rawColumns(['action', 'kode'])
+            ->rawColumns(['kode'])
             ->make(true);
     }
 

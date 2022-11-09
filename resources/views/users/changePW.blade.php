@@ -1,76 +1,48 @@
 @extends('templates.layout')
 
-@push('styles')
-    
-@endpush
-
 @section('title')
-  <title>Change Password Page | {{ $cPerusahaan->nama }}</title>
+<title>Ganti Password | {{ $cPerusahaan->nama }}</title>
+@endsection
+
+@section('page')
+Ganti Password
+@endsection
+
+@section('breadcrumb')
+@parent
+Ganti Password
 @endsection
 
 @section('contents')
-    <!-- Content Header (Page header) -->
-    <section class="content-header">
-        <div class="container-fluid">
-          <div class="row mb-2">
-            <div class="col-sm-6">
-              <h1>Change Password Page</h1>
-            </div>
-            <div class="col-sm-6">
-              <ol class="breadcrumb float-sm-right">
-                <li class="breadcrumb-item"><a href="#">Home</a></li>
-                <li class="breadcrumb-item active">Change Password Page</li>
-              </ol>
-            </div>
-          </div>
-        </div><!-- /.container-fluid -->
-      </section>
-  
-      <!-- Main content -->
-      <section class="content">
-  
-        <!-- Default box -->
-        <div class="card">
-          <div class="card-header">
-            <h3 class="card-title">Change Password</h3>
-  
-            <div class="card-tools">
-              <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
-                <i class="fas fa-minus"></i>
-              </button>
-              <button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
-                <i class="fas fa-times"></i>
-              </button>
-            </div>
-          </div>
-          <div class="card-body">
-            <form action="" method="POST">
-                @csrf
-                <div class="form-group row" id="hpsPassword">
-                  <div class="form-group" style="width: 95%; margin: auto;">
-                      <label for="password">Password Lama</label>
-                      <input type="password" class="form-control" id="password" placeholder="Password Lama" name="password">
+<section class="content">
+  <div class="row mx-3">
+      <div class="col-md-12 p-2 mb-3" style="background-color: white">
+          <div class="box mb-4">
+              <div class="box-body table-responsive">
+                  <h2 class="text-center mt-3 mb-5">Ganti Password</h2>
+                  <div class="col-lg-10" style="margin: 0 auto">
+                      <form action="" method="POST">
+                        @csrf
+                        <div class="form-group row" id="hpsPassword">
+                            <label for="password">Password Lama</label>
+                            <input type="password" class="form-control" id="password" placeholder="Password Lama" name="password">
+                        </div>
+                        <div class="form-group row" id="hpsPassword">
+                            <label for="new_password">Password Baru</label>
+                            <input type="password" class="form-control" id="new_password" placeholder="Password Baru" name="new_password">
+                        </div>
+                        <div class="form-group row" id="hpsPassword">
+                            <label for="new_password_confirmation">Konfirmasi Password</label>
+                            <input type="password" class="form-control" id="new_password_confirmation" placeholder="Konfirmasi Password" name="new_password_confirmation">
+                        </div>
+                        <div class="btn"  style="float:right; margin-left: 2rem">
+                          <button type="submit" class="btn btn-outline-success" id="btn-submit">Simpan Data</button>
+                        </div>
+                      </form>
                   </div>
-                </div>
-                <div class="form-group row" id="hpsPassword">
-                  <div class="form-group" style="width: 95%; margin: auto;">
-                      <label for="new_password">Password Baru</label>
-                      <input type="password" class="form-control" id="new_password" placeholder="Password Baru" name="new_password">
-                  </div>
-                </div>
-                <div class="form-group row" id="hpsPassword">
-                  <div class="form-group" style="width: 95%; margin: auto;">
-                      <label for="new_password_confirmation">Password Baru</label>
-                      <input type="password" class="form-control" id="new_password_confirmation" placeholder="Password Baru" name="new_password_confirmation">
-                  </div>
-                </div>
-                <button type="submit" class="btn btn-primary" id="btn-submit" style="margin-left: 1rem;">Simpan Data</button>
-            </form>
+              </div>
           </div>
-          <!-- /.card-footer-->
-        </div>
-        <!-- /.card -->
-  
-      </section>
-      <!-- /.content -->
+      </div>
+  </div>
+</section>
 @endsection

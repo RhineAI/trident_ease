@@ -173,6 +173,12 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/list-penjualan', [ListTransaksiPenjualanController::class, 'index'])->name('list-transaksi.index');
         Route::post('/list-penjualan/data/{awal}/{akhir}', [ListTransaksiPenjualanController::class, 'getData'])->name('list-transaksi.data');
         Route::get('/list-penjualan/pdf/{awal}/{akhir}', [ListTransaksiPenjualanController::class, 'exportPDF'])->name('list-transaksi.export_pdf');
+        
+        Route::get('/profile', [UsersController::class, 'profile'])->name('profile');
+        Route::post('/profile', [UsersController::class, 'profileUpdate']);
+        Route::get('/changePW', [UsersController::class, 'changePW'])->name('changePW');
+        Route::post('/changePW', [UsersController::class, 'chawngePWUpdate']);
+        Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 
         // Route::get('/list-pelanggan-terbaik', [LaporanController::class, 'indexBestPelanggan'])->name('list-b-pelanggan.index');
         // Route::post('/list-pelanggan-terbaik/data/{awal}/{akhir}', [LaporanController::class, 'getDataBPelanggan'])->name('list-b-pelanggan.data');

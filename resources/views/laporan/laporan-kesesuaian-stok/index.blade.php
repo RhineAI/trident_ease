@@ -151,7 +151,7 @@ Laporan Kesesuaian Stok
         },
         columns: [
             {data:'DT_RowIndex', searchable: false, sortable: false},
-            {data:'tgl'},
+            // {data:'tgl'},
             {data:'kode'},
             {data:'nama_barang'},
             {data:'merek'},
