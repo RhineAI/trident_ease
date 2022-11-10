@@ -178,7 +178,7 @@
                           <li class="nav-item">
                               <a href="{{ route('list-transaksi.index') }}" class="nav-link">
                                   {{-- <i class="far fa-circle nav-icon"></i> --}}
-                                  <p>Data Transaksi</p>
+                                  <p>Data Penjualan</p>
                               </a>
                           </li>
                           <li class="nav-item">
