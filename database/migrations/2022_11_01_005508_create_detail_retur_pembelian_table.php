@@ -19,6 +19,7 @@ return new class extends Migration
             $table->bigInteger('id_retur_pembelian');
             $table->integer('id_barang');
             $table->integer('qty');
+            $table->integer('qtySisa')->nullable();
             $table->double('harga_beli');
             $table->double('harga_jual');
             $table->double('sub_total');
