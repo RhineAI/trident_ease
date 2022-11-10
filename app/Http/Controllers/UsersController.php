@@ -19,7 +19,7 @@ class UsersController extends Controller
     public function index()
     {
         $data['cPerusahaan'] = Perusahaan::select('*')->where('id', auth()->user()->id_perusahaan)->first();
-        $data['pegawai'] = User::orderBy('id', 'DESC')->get();
+        $data['pegawai'] = User::orderBy('id', 'DESC')->where('id', '!=', auth()->user()->id) ->get();
 
         // return $data;
         return view('users.index', $data);

@@ -44,7 +44,7 @@
                     @endif    
                 </td>
                 <td>
-                    <button class="btn edit" type="button" style="color: green;" title="Edit" 
+                    <button class="btn btn-xs edit" type="button" style="color: green;" title="Edit" 
                     data-mode="edit" 
                     data-route="{{ route('barang.update', $item->id) }}" 
                     data-toggle="modal" data-target="#formModalBarang" 
@@ -68,7 +68,7 @@
                     <form action="{{ route('barang.destroy', $item->id) }}" style="display: inline;" method="post">
                         @csrf
                         @method('DELETE')
-                        <button data-nama_barang="{{ $item->nama }}" class="btn delete-data" type="button" style="color: red;" title="Delete">
+                        <button data-nama_barang="{{ $item->nama }}" class="btn btn-xs delete-data" type="button" style="color: red;" title="Delete">
                             <i class="fas fa-trash"></i>
                         </button>
                     </form>

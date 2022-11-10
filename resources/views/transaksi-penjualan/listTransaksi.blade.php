@@ -61,9 +61,9 @@ Data Penjualan
                     <!-- DataTable with Hover -->
                     <div class="col-lg-12">
                         <div class="table-responsive p-3">
-                            <table class="table align-items-center table-bordered table-striped table-flush table-hover text-center"
+                            <table class="table align-items-center table-bordered table-flush table-hover text-center"
                                 id="dataTableHover">
-                                <thead class="table-danger">
+                                <thead class="table-secondary">
                                     <tr>
                                         <th width="5%" class="text-center">No</th>
                                         <th width="13%" class="text-center">Tanggal</th>

@@ -26,7 +26,7 @@
 
         @page {
             /* size: 7in 10.5in ; */
-            scale: 200;
+            /* scale: 200; */
             margin: 87px;
             
         }

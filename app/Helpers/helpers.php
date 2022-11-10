@@ -4,6 +4,7 @@ function format_uang ($angka) {
     return number_format($angka, 0, ',', '.');
 }
 
+
 function GetHargaJual($harga_beli,$keuntungan){    
     $margin=$harga_beli*$keuntungan/100;
     $harga_jual=$harga_beli+$margin;

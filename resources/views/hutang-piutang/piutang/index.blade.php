@@ -26,18 +26,18 @@
                     <!-- DataTable with Hover -->
                     <div class="col-lg-12">
                         <div class="table-responsive p-3">
-                            <table class="table table-striped table-bordered dt-responsive" style="width: 100%;" id="tbl-data-pembayaran">
-                                <thead>
+                            <table class="table table-striped table-hover dt-responsive" style="width: 100%;" id="tbl-data-pembayaran">
+                                <thead class="table-secondary">
                                     <tr>
-                                        <td class="text-center" width="4%">No</td>
-                                        <td class="text-center" width="9%">No Penjualan</td>
-                                        <td class="text-center" width="8%">Tanggal</td>
-                                        <td class="text-center" width="4%">Pelanggan</td>
-                                        <td class="text-center" width="9%">Total Pembayaran</td>
-                                        <td class="text-center" width="8%">DP</td>
-                                        <td class="text-center" width="8%">Sisa</td>
-                                        <td class="text-center" width="8%">Status</td>
-                                        <td class="text-center" width="2%">Action</td>
+                                        <td class="text-center" style="vertical-align: middle;" width="4%">No</td>
+                                        <td class="text-center" style="vertical-align: middle;" width="9%">No Penjualan</td>
+                                        <td class="text-center" style="vertical-align: middle;" width="8%">Tanggal</td>
+                                        <td class="text-center" style="vertical-align: middle;" width="4%">Pelanggan</td>
+                                        <td class="text-center" style="vertical-align: middle;" width="9%">Total Pembayaran</td>
+                                        <td class="text-center" style="vertical-align: middle;" width="8%">DP</td>
+                                        <td class="text-center" style="vertical-align: middle;" width="8%">Sisa</td>
+                                        <td class="text-center" style="vertical-align: middle;" width="8%">Status</td>
+                                        <td class="text-center" style="vertical-align: middle;" width="2%">Action</td>
                                     </tr>
                                 </thead>
                                 <tbody>

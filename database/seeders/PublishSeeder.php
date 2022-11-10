@@ -24,7 +24,7 @@ class PublishSeeder extends Seeder
             'no_rekening' => '213123',
             'npwp' => '21312312312',
             'slogan' => '213123',
-            'email' => 'asdsakdjkasjdsakh',
+            'email' => 'asdsakdjkasjd123sakh@gmail.com',
             'logo' => '',
             'grade' => 3
         ]);

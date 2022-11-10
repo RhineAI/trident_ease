@@ -138,7 +138,7 @@
                         <div class="row mt-4">
                             <div class="col-lg-7">
                                 <div class="tampil-bayar bg-default mb-4" id="total_bayar_gede">RP. 0</div>
-                                <div class="tampil-terbilang">Nol Rupiah</div>
+                                <div class="tampil-terbilang"></div>
                             </div>
                             <div class="col-lg-5">
                                        	<!-- TOTAL PENJUALAN  -->
@@ -296,6 +296,7 @@
             });
         });
     </script> --}}
+   
 
     <script>
         $(document).on('click', '#submit', function(){
@@ -392,24 +393,41 @@
         //Validasi Submit
 
             function cekDiscount(qty) {
-                    if(Number(qty.value) < 0){
-                        qty.value = 0; 
-                    } else if(Number(qty.value) > 100) {
-                        qty.value = 100;
+                if(Number(qty.value) < 0){
+                    qty.value = 0; 
+                } else if(Number(qty.value) > 100) {
+                    qty.value = 100;
+                } else {
+                    qty.value = qty.value;
+                }
+            }
+
+            function cekQty(stock) {
+                    // console.log(stock)
+                    let id = stock.getAttribute("data-idbuffer");
+                    // let qty = $('#qty' + id).val();
+                    let discount = $('#discount' + id).val();
+                    let harga_jual = $('#harga_jual' + id).val();
+                    // console.log(harga_jual)
+                    // console.log(discount)
+                    
+
+
+                    // console.log(cek)
+                    if(Number(stock.value) < 0){
+                        stock.value = 1;
+                    } else if (Number(stock.value) > Number(stock.max)){
+                        stock.value = stock.max;
+                        // $('#subtotal' + id).val((harga_jual * stock.max) - discount/100);
+                        // GetTotalBayar();
+                        Swal.fire('QTY melebihi stock yang tersedia!')
+                        return false;
                     } else {
-                        qty.value = qty.value;
+                        stock.value = stock.value;
                     }
                 }
 
-            function cekQty(stock) {
-                if(Number(stock.value) < 0){
-                    stock.value = 1;
-                } else if (Number(stock.value) > Number(stock.max)){
-                    stock.value = stock.max;
-                } else {
-                    stock.value = stock.value;
-                }
-            }
+           
 
 
         $(document).ready(function(){
@@ -465,9 +483,8 @@
                 });
                     
 
-
                 //UBAH QTY
-                $(document).on('keyup', '.qty_penjualan', function () {
+                $(document).on('change', '.qty_penjualan', function () {
                     var id = $(this).data("idbuffer");
                     var harga_jual = $('#harga_jual' + id).val();
 
@@ -717,6 +734,32 @@
             //     }
             // }
 
+            // function terbilang(angka)
+            // {
+            //     var angka = Math.abs(angka);
+            //     var baca = ["", "Satu", "Dua", "Tiga", "Empat", "Lima", "Enam", "Tujuh", "Delapan", "Sembilan", "Sepuluh", "Sebelas"];
+            //     var terbilang = '';
+
+            //     if (angka < 12) { // 0 - 11
+            //             terbilang = ' '+$baca[angka];
+            //         } else if (angka < 20) { // 12 - 19
+            //             terbilang = angka -10+' belas';
+            //         } else if (angka < 100) { // 20 - 99
+            //             terbilang = angka / 10+' puluh'+(angka % 10);
+            //         } else if (angka < 200) { // 100 - 199
+            //             terbilang = ' seratus'+(angka -100);
+            //         } else if (angka < 1000) { // 200 - 999
+            //             terbilang = angka / 100+' ratus'+(angka % 100);
+            //         } else if (angka < 2000) { // +00 - +99
+            //             terbilang = ' seribu'+(angka -1000);
+            //         } else if (angka < 1000000) { // +00 - 99+99
+            //             terbilang = angka / 1000+' ribu'+(angka % 1000);
+            //         } else if (angka < 1000000000) { // 1000000 - 99+9+90
+            //             terbilang = angka / 1000000+' juta'+(angka % 1000000);
+            //         }
+
+            //     return terbilang;
+            // }
 
             function GetTotalBayar(){
                 var total_penjualan = 0;
@@ -732,8 +775,12 @@
                                 });
         			$('#total_bayar_gede').text(total);
                     $('#total_penjualan').val(Number(total_penjualan));	
+                    // $('#tampil-terbilang').text(terbilang(Number(total_penjualan)));
             }
                 
         });
+    </script>
+     <script>
+        
     </script>
 @endpush

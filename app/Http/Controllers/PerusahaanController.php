@@ -38,6 +38,7 @@ class PerusahaanController extends Controller
      */
     public function store(StorePerusahaanRequest $request)
     {
+        // return $request;
         $perusahaan = Perusahaan::select('*')->where('id', auth()->user()->id_perusahaan)->first();
 
         if($request->nama){

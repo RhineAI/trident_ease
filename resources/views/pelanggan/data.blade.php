@@ -1,7 +1,7 @@
 <div class="table-responsive">
-    <table class="table table-striped table-hover table-bordered dt-responsive" style="width: 100%;" id="tbl-data-pelanggan">
+    <table class="table table-hover dt-responsive" style="width: 100%;" id="tbl-data-pelanggan">
         <thead>
-            <tr class="table-success">
+            <tr class="table-secondary">
                 <td class="text-center" width="3%">No</td>
                 <td class="text-center" width="9%">Nama</td>
                 <td class="text-center" width="12%">Alamat</td>
@@ -17,7 +17,7 @@
                 <td class="text-center">{{ $no++ }}</td>
                 <td class="text-center">{{ $item->nama }}</td>
                 <td class="text-center">{{ $item->alamat }}</td>
-                <td class="text-center">{{ $item->tlp }}</td>
+                <td width="9.6%" class="text-center">{{ $item->tlp }}</td>
                 {{-- <td>{{ $item->nama_perusahaan }}</td> --}}
                 <td class="text-center">
                     <button class="btn btn-xs btn-warning edit" type="button" style="color: green;" title="Edit" data-mode="edit"

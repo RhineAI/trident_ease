@@ -114,7 +114,7 @@ Laporan Stok
         table = $('.table-stok').DataTable({
         searching: false,
         info: false,
-        paging:false,
+        // paging:false,
         bFilter:false,
         processing: false,
         responsive: true,

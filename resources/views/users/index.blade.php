@@ -132,7 +132,12 @@
             $('#modal-form [name=jenis_kelamin]').val(data.jenis_kelamin);
             $('#modal-form [name=hak_akses]').val(data.hak_akses);
             $('#modal-form [name=username]').val(data.username);
-            // $('#modal-form [name=password]').val(data.password);
+            $('#modal-form [name=password]').attr("type", "hidden");
+            $('#modal-form [name=password_confirmation]').attr("type", "hidden");
+            
+            $('[id=pass]').hide();
+            // alert(password);
+            // $('#modal-form .password').style.visibility="hidden";
             // modal.find('.modal-body form').attr('action', data.url);
             // modal.find('.modal-body #method').html('{{ method_field('PATCH') }}');
         }

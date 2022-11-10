@@ -35,7 +35,7 @@
                     <h5 class="my-2">Telepon</h5>
                 </label>
                 <div class="col-md-9">
-                    <input type="text" placeholder="Telepon / No Hp" name="tlp" id="tlp" class="form-control" aria-label="Telepon" aria-describedby="basic-addon1" required>
+                    <input type="text" minlength="11" maxlength="14" placeholder="Telepon / No Hp" name="tlp" id="tlp" class="form-control" aria-label="Telepon" aria-describedby="basic-addon1" required>
                     <span class="help-block with-errors"></span>
                 </div>
             </div>

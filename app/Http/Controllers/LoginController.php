@@ -52,10 +52,14 @@ class LoginController extends Controller
     }
 
     public function regSuccess() {
-        return view('auth.success');
+        $data['perusahaan'] = Perusahaan::select('*')->orderBy('id', 'DESC')->first();
+        $data['user'] = User::select('*')->orderBy('id', 'DESC')->first();
+        // return $kontol;
+        return view('auth.success')->with($data);
     }
 
     public function register(Request $request) {
+        // dd($request);
         $validate = $request->validate([
             'email' => 'required|max:50|email:dns',
         ]);
@@ -64,7 +68,7 @@ class LoginController extends Controller
 
         if($request->logo){
             $request->validate([
-                'logo' => 'image|mimes:jpg,png,jpeg,gif,svg',
+                'image' => 'image|mimes:jpg,png,jpeg,gif,svg',
             ]);
 
             $getMime = $request->file('logo')->getMimeType(); 
@@ -89,19 +93,22 @@ class LoginController extends Controller
         $perusahaan->grade = 1;
         $perusahaan->save();
         
-        $id = Perusahaan::latest()->first();
+        // $id = Perusahaan::latest()->first();
         // return $id;
 
         $user = new User();
         $user->id_perusahaan = $perusahaan->id;
-        $user->nama = $id->pemilik;
-        $user->username = $id->nama;
+        $user->nama = $perusahaan->pemilik;
+        $user->username = $perusahaan->nama;
         $user->password = bcrypt('12345');
-        $user->tlp = $id->tlp;
+        $user->tlp = $perusahaan->tlp;
         $user->hak_akses = 1;
         $user->save();
 
-        \Mail::to($id->email)->send(new NotifikasiRegisterPerusahaan);
+        $data['perusahaan'] = $perusahaan;
+        $data['user'] = $user;
+
+        // \Mail::to($id->email)->send(new NotifikasiRegisterPerusahaan);
          
         // return $user;
 

@@ -138,7 +138,7 @@
                         <div class="row mt-4">
                             <div class="col-lg-7">
                                 <div class="tampil-bayar bg-default mb-4" id="total_bayar_gede">Rp. 0</div>
-                                <div class="tampil-terbilang">Nol Rupiah</div>
+                                {{-- <div class="tampil-terbilang">Nol Rupiah</div> --}}
                             </div>
                             <div class="col-lg-5">
                                        	<!-- TOTAL pembelian  -->

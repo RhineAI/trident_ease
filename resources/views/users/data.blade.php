@@ -1,6 +1,6 @@
 <div class="box-body table-responsive">
-    <table class="table table-striped table-hover table-bordered dt-responsive" style="width: 100%;" id="tbl-data-pegawai">
-        <thead class="table-success">
+    <table class="table table-hover dt-responsive" style="width: 100%;" id="tbl-data-pegawai">
+        <thead class="table-secondary">
             <tr>
                 <td class="text-center" width="4%">ID</td>
                 <td class="text-center" width="8.7%">Nama</td>
@@ -11,6 +11,7 @@
             </tr>
         </thead>
         <tbody>
+            <small style="visibility: hidden">{{ $no = 1 }}</small>
             @foreach ($pegawai as $item)
             <tr>
                 <td class="text-center">{{ $item->id }}</td>

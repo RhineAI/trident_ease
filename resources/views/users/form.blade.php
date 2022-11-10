@@ -35,7 +35,7 @@
                     <h5 class="my-2">Telepon</h5>
                 </label>
                 <div class="col-md-8">
-                    <input type="text" placeholder="Telepon / No Hp" name="tlp" id="tlp" class="form-control" aria-label="Username" aria-describedby="basic-addon1" required>
+                    <input type="number" minlength="11" maxlength="14" placeholder="Telepon / No Hp" name="tlp" id="tlp" class="form-control" aria-label="Username" aria-describedby="basic-addon1" required>
                     <span class="help-block with-errors"></span>
                 </div>
             </div>
@@ -62,7 +62,7 @@
                     <span class="help-block with-errors"></span>
                 </div>
             </div>
-            <div class="form-group row">
+            <div class="form-group row" id="pass">
                 <label for="password" class="col-md-4 col-md-offset-1 control-label">
                     <h5 class="my-2">Password</h5>
                 </label>
@@ -71,7 +71,7 @@
                     <span class="help-block with-errors"></span>
                 </div>
             </div>
-            <div class="form-group row">
+            <div class="form-group row" id="pass">
                 <label for="password_confirmation" class="col-md-4 col-md-offset-1 control-label">
                     <h5 class="my-2">Konfirmasi Password</h5>
                 </label>

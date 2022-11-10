@@ -291,6 +291,7 @@
                                   <p>Data Retur Penjualan</p>
                               </a>
                           </li>
+                          <hr>
                           <li class="nav-item">
                               <a href="{{ route('retur-pembelian.index') }}" class="nav-link">
                                   <p>Tambah Retur Pembelian</p>

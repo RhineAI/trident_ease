@@ -50,15 +50,18 @@ Data Retur Penjualan
                             <button type="" class="btn btn-sm btn-flat btn-primary"><i class="fa fa-search"></i> Cari</button>
                          
                         </div>
-                        <div class="form-group row mt-4 ml-2">
+                        {{-- <div class="form-group row mt-4 ml-2">
                             <a href="{{ route('retur-penjualan.index') }}" class="btn btn-primary">Tambah Retur</a>
-                        </div>
+                        </div> --}}
                     </form>
 
                     <br>
-                    <h5 style="text-align:center;">Laporan {{ tanggal_indonesia($tanggalAwal) }} s/d {{ tanggal_indonesia($tanggalAkhir) }}</h5>
+                    <h5 style="text-align:center;">Retur Penjualan {{ tanggal_indonesia($tanggalAwal) }}</h5>
+                    <h5 style="text-align:center;" >s/d {{ tanggal_indonesia($tanggalAkhir) }}</h5>
                     <br>
-                {{-- <a href="{{ route('list-transaksi.export_pdf', [$tanggalAwal, $tanggalAkhir] ) }}" target="_blank" class="btn btn-danger btn-sm btn-flat" ><i class="bi bi-filetype-pdf"></i> Export PDF</a> --}}
+                    <div class="button-group mb-1">          
+                        <a href="{{ route('retur-penjualan.index') }}" class="mx-4 mb-3 btn btn-sm btn-info text-end"><i class="fa fa-plus"></i> Retur Barang</a>
+                    </div>
 
                     <!-- DataTable with Hover -->
                     <div class="col-lg-12">

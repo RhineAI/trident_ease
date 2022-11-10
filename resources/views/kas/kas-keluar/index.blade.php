@@ -34,8 +34,8 @@
                     <!-- DataTable with Hover -->
                     <div class="col-lg-12">
                             <div class="table-responsive ">
-                                <table class="table table-bordered table-striped align-items-center table-flush table-hover text-center" id="dataTableHover">
-                                    <thead class="thead-secondary">
+                                <table class="table align-items-center table-flush table-hover text-center" id="dataTableHover">
+                                    <thead class="table-secondary">
                                         <tr>
                                             <th width="2.5%" class="text-center">No</th>
                                             <th width="2.5%" class="text-center">Tanggal</th>

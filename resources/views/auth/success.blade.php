@@ -3,7 +3,7 @@
 <html lang="en" dir="ltr">
    <head>
       <meta charset="utf-8">
-      <title>3D Flip Card on Hover | CodingLab</title>
+      <title>Thanks | ZiePOS</title>
       <link rel="stylesheet" href="style.css">
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
       <style>
@@ -115,13 +115,6 @@
       </style>
    </head>
    <body>
-    @php
-       use App\Models\User;
-       use App\Models\Perusahaan;
-
-       $cPerusahaan = Perusahaan::latest()->first();
-       $user = User::latest()->first();
-   @endphp
       <div class="wrapper">
           <div class="card front-face">
             {{-- <img height="90%" src="{{ $cPerusahaan->logo }}"> --}}
@@ -133,10 +126,10 @@
               <div class="title">
                   Thanks For Register!
               </div>
-              <img src="{{ $cPerusahaan->logo }}">
+              <img src="{{ $perusahaan->logo }}">
               <div class="info mb-4">
                   <div class="title">
-                      {{ $cPerusahaan->nama }}
+                      {{ $perusahaan->nama }}
                   </div>
                   <p>
                       Username : {{ str_replace(' ', '', $user->username) }}

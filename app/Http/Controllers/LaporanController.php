@@ -958,7 +958,7 @@ class LaporanController extends Controller
         $category = Kategori::where('id', $kategori)->first();
         // return $category;
         $cPerusahaan = Perusahaan::select('*')->where('id', auth()->user()->id_perusahaan)->first();
-        return view('laporan.laporan-stok.print', compact('tglAwal' ,'awal', 'akhir', 'stok', 'merk', 'category', 'cPerusahaan'));
+        return view('laporan.laporan-stok.print', compact('stok', 'merk', 'category', 'cPerusahaan'));
     }
      
 

@@ -27,8 +27,8 @@
                     <!-- DataTable with Hover -->
                     <div class="col-lg-12">
                         <div class="table-responsive p-3">
-                            <table class="table table-striped table-bordered" id="tbl-data-pembayaran">
-                                <thead>
+                            <table class="table table-hover table-bordered" id="tbl-data-pembayaran">
+                                <thead class="table-secondary">
                                     <tr>
                                         <td>No</td>
                                         <td>No Pembelian</td>
