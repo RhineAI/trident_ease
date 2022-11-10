@@ -102,19 +102,37 @@ class ReturPenjualanController extends Controller
             foreach ($detailPenjualan as $key => $row) {
                 $i++;
                 $subtotal = $row->jumlah_beli_barang * $row->harga_jual;
-                if(!isset($qtyRetur[$key])) {
-                    $qtySekarang = $row->jumlah_beli_barang;
-                    $cekBarang = $row->jumlah_beli_barang;
-                } else {
-                    $qtySekarang = $row->jumlah_beli_barang - $qtyRetur[$key]->jumlah_kembali_barang;
+
+                if(isset($qtyRetur[$key])) {
                     // return $qtyRetur[$key]->id_barang;
                     if($row->id_barang === $qtyRetur[$key]->id_barang){
+                        $qtySekarang = $row->jumlah_beli_barang - $qtyRetur[$key]->jumlah_kembali_barang;
                         $cekBarang = $row->jumlah_beli_barang - $qtyRetur[$key]->jumlah_kembali_barang;
                     } else {
                         $cekBarang = $row->jumlah_beli_barang;
+                        $qtySekarang = $row->jumlah_beli_barang;
                     }
                     // return $cekBarang;
+                } else {
+                    $qtySekarang = $row->jumlah_beli_barang;
+                    $cekBarang = $row->jumlah_beli_barang;
                 }
+
+                // Original    
+                // if(!isset($qtyRetur[$key])) {
+                //     $qtySekarang = $row->jumlah_beli_barang;
+                //     $cekBarang = $row->jumlah_beli_barang;
+                // } else {
+                    // return $qtyRetur[$key]->id_barang;
+                    // if($row->id_barang === $qtyRetur[$key]->id_barang){
+                    //     $qtySekarang = $row->jumlah_beli_barang - $qtyRetur[$key]->jumlah_kembali_barang;
+                    //     $cekBarang = $row->jumlah_beli_barang - $qtyRetur[$key]->jumlah_kembali_barang;
+                    // } else {
+                    //     $cekBarang = $row->jumlah_beli_barang;
+                    //     $qtySekarang = $row->jumlah_beli_barang;
+                    // }
+                    // return $cekBarang;
+                // }
 
                 $html.="<tr>";
                 $html.="<td style='text-align:center;'><input type='hidden' value='$row->id_barang' id='id_barang$i'> <input class='form-control' type='text' value='$row->kode' readonly='true' id='kode$i'></td>";

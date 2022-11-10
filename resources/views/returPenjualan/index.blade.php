@@ -276,7 +276,7 @@
                     },
                     cache: false,
                     success:function(response){
-                        // console.log(response)
+                        console.log(response)
                         $('#t_penjualan').html(response);
                     }
                 })
