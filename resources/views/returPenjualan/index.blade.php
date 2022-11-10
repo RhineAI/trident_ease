@@ -218,12 +218,16 @@
         }
 
         function cekQty(qty) {
+            let id = qty.getAttribute("data-idbuffer")
             if(Number(qty.value) < 0){
                 qty.value = 1;
                 Swal.fire('QTY tidak boleh kurang dari 0!')
                 return false;
             } else if (Number(qty.value) > Number(qty.max)){
                 qty.value = qty.max;
+                var harga_jual=$('#harga_jual_retur'+id).val();
+                var qty=$('#qty_retur'+id).val();
+                $('#subtotal_retur'+id).val(harga_jual*qty);
                 Swal.fire('QTY melebihi produk yang dibeli!');
                 GetTotalBayar()
                 return false;
@@ -290,8 +294,9 @@
                 var harga_beli=$('#harga_beli'+id).val();
                 var harga_jual=$('#harga_jual'+id).val();
                 var qty=$('#qty'+id).val();
+                var cQty = 0;
                 var subtotal=$('#subtotal'+id).val();
-                console.log(id_barang, kode, nama_barang, harga_beli, harga_jual, qty, subtotal)
+                // console.log(id_barang, kode, nama_barang, harga_beli, harga_jual, qty, subtotal)
 
                 var search=CariIdBarang(id_barang);
                 if(search==false){
@@ -304,7 +309,7 @@
                 html_code+="<td style='text-align:center'><input class='form-control' type='text' name='item["+count+"][nama_barang_retur]' value='"+nama_barang+"' readonly='true'></td>";
                 html_code+="<td><input class='form-control' style='text-align:right' type='text' name='item["+count+"][harga_jual_retur]' value='"+harga_jual+"' id='harga_jual_retur"+count+"' readonly='true'><input type='hidden' name='item["+count+"][harga_beli_retur]' value='"+harga_beli+"'  id='harga_beli_retur"+count+"' ></td>";
                 html_code+="<td style='text-align:center; width: 8%;'><input type='number' class='form-control qty_retur' data-idbuffer='"+count+"' name='item["+count+"][qty_retur]' value='1' max='"+qty+"' id='qty_retur"+count+"' onkeypress='cek_number()' onchange='cekQty(this)'></td>";
-                html_code+="<td style='text-align:center;'><input style='text-align:right' type='number' class='form-control' name='item["+count+"][subtotal_retur]' value='"+harga_jual*qty+"' readonly='true' id='subtotal_retur"+count+"'></td>";
+                html_code+="<td style='text-align:center;'><input style='text-align:right' type='number' class='form-control' name='item["+count+"][subtotal_retur]' value='"+harga_jual*1+"' readonly='true' id='subtotal_retur"+count+"'></td>";
                 html_code+="<td style='text-align:center;'><button type='button' class='btn btn-danger hapus_retur' data-idbuffer='"+count+"' ><i class='fas fa-minus'></i></button></td>";
                 html_code+="</tr>";
                 //alert (html_code);
@@ -361,11 +366,11 @@
             function CariIdBarang(cari){
                 var found = false;
                 var x = 1;
-                while((x<=count) && ($("input[name='item["+x+"][id_barang]']").val()!=cari)){
+                while((x<=count) && ($("input[name='item["+x+"][id_barang_retur]']").val()!=cari)){
                     x++
                 }
 
-                if($("input[name='item["+x+"][id_barang]']").val()==cari){
+                if($("input[name='item["+x+"][id_barang_retur]']").val()==cari){
                     found=true;
                 }
 
@@ -400,11 +405,11 @@
                 var found=false;
                 var x=1;
 
-                while((x<=count) && ($("input[name='item["+x+"][id_barang]']").val()!=cari)){
+                while((x<=count) && ($("input[name='item["+x+"][id_barang_retur]']").val()!=cari)){
                     x++
                 }
 
-                if($("input[name='item["+x+"][id_barang]']").val()==cari){
+                if($("input[name='item["+x+"][id_barang_retur]']").val()==cari){
                     found=true;
                 }
 
@@ -414,7 +419,7 @@
 
             $(document).on('click','.hapus_retur',function(){
                 var delete_row=$(this).data("idbuffer");
-                console.log(delete_row)
+                // console.log(delete_row)
                 $('#buffer'+delete_row).remove(); 
                 count--;
                 GetTotalBayar();
@@ -425,8 +430,8 @@
                 var id=$(this).data("idbuffer");
                 var harga_jual=$('#harga_jual_retur'+id).val();
                 var qty=$('#qty_retur'+id).val();
-                console.log(qty)
                 $('#subtotal_retur'+id).val(harga_jual*qty);
+                // console.log(qty)
                 GetTotalBayar();
                 GetKeuntungan();
             //alert(harga_jual);
