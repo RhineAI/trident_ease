@@ -276,7 +276,7 @@
                     },
                     cache: false,
                     success:function(response){
-                        console.log(response)
+                        // console.log(response)
                         $('#t_penjualan').html(response);
                     }
                 })
@@ -311,6 +311,11 @@
                 $('#t_retur').append(html_code);
                 GetTotalBayar();
                 GetKeuntungan();
+                } else {
+                    var posisi = CariPosisi(id_barang);
+                    var qty = Number($('#qty_retur'+posisi).val())+1;
+                    $('#qty_retur'+posisi).val(qty);
+                    $('#subtotal_retur'+posisi).val(harga_beli*qty);
                 }
 
 
