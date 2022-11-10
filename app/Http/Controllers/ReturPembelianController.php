@@ -7,6 +7,7 @@ use App\Http\Requests\StoreReturPembelianRequest;
 use App\Http\Requests\UpdateReturPembelianRequest;
 use App\Models\Barang;
 use App\Models\DetailReturPembelian;
+use App\Models\KasMasuk;
 use App\Models\Pembelian;
 use App\Models\Perusahaan;
 use Illuminate\Http\Request;
@@ -153,41 +154,64 @@ class ReturPembelianController extends Controller
         // return $request;
         $detailPembelian = Pembelian::leftJoin('t_detail_pembelian AS DT', 'DT.id_pembelian', 't_transaksi_pembelian.id')
         ->leftJoin('t_barang AS B', 'B.id', 'DT.id_barang')
-        ->select('DT.harga_beli', 'DT.qty AS jumlah_beli_barang', 't_transaksi_pembelian.id AS id_pembelian', 't_transaksi_pembelian.tgl AS tanggal', 'B.nama AS nama_barang', 'DT.id_barang AS id_barang_pembelian', 'B.id AS id_barang', 'B.harga_beli', 'B.kode')
+        ->select('DT.harga_beli', 'DT.qty AS jumlah_beli_barang', 'DT.id_barang', 't_transaksi_pembelian.id AS id_pembelian', 't_transaksi_pembelian.tgl AS tanggal', 'B.nama AS nama_barang', 'DT.id_barang AS id_barang_pembelian', 'B.id AS id_barang', 'B.harga_beli', 'B.kode')
         ->where('t_transaksi_pembelian.id', $request->id) 
         ->where('t_transaksi_pembelian.id_perusahaan', auth()->user()->id_perusahaan) 
-        ->orderBy('t_transaksi_pembelian.id', 'desc')
+        ->orderBy('DT.id_barang', 'desc')
         ->get();	
 
-        $qtyRetur = ReturPembelian::leftJoin('t_detail_retur_pembelian AS DRP', 'DRP.id_retur_pembelian', 't_retur_pembelian.id')->select(DB::raw('sum(DRP.qty) AS jumlah_kembali_barang'))
+        $qtyRetur = ReturPembelian::leftJoin('t_detail_retur_pembelian AS DRP', 'DRP.id_retur_pembelian', 't_retur_pembelian.id')->select('DRP.qty AS jumlah_kembali_barang', 'DRP.id_barang')
         ->where('t_retur_pembelian.id_pembelian', $request->id) 
         ->where('t_retur_pembelian.id_perusahaan', auth()->user()->id_perusahaan) 
-        ->orderBy('t_retur_pembelian.id_pembelian', 'desc')
+        ->orderBy('DRP.id_barang', 'desc')
         ->get();
+
         $i=0;
         $html="";
         // return count($qtyRetur);
-        if($detailPembelian){
-            foreach ($detailPembelian as $key => $row) {
+        if(count($qtyRetur) == 0){
+            foreach ($detailPembelian as $row) {
                 $i++;
                 $subtotal = $row->jumlah_beli_barang * $row->harga_beli;
-                $qtySekarang = $row->jumlah_beli_barang - $qtyRetur[$key]->jumlah_kembali_barang;
+                $qtySekarang = $row->jumlah_beli_barang;
                 $html.="<tr>";
                 $html.="<td style='text-align:center;'><input type='hidden' value='$row->id_barang' id='id_barang$i'> <input class='form-control' type='text' value='$row->kode' readonly='true' id='kode$i'></td>";
                 $html.="<td style='text-align:center;'><input class='form-control' type='text' value='$row->nama_barang' readonly='true' id='nama_barang$i'></td>";
                 $html.="<td style='text-align:center;'><input class='form-control' type='number' value='$row->harga_beli' readonly='true' id='harga_beli$i' style='text-align:right'></td>";
                 $html.="<td style='text-align:center; width: 8%;'><input class='form-control' type='number' value='$qtySekarang' readonly='true' id='qty$i'></td>";
                 $html.="<td style='text-align:center;'><input class='form-control' type='number' value='$subtotal' readonly='true' id='subtotal$i' style='text-align:right'></td>";
+                $html.="<td style='text-align:center;'><button type='button' class='btn btn-info add_retur' data-idbuffer='$i' data-id_barang='$row->id_barang' data-nama_barang='$row->nama_barang' data-harga_beli='$row->harga_beli' data-qty='$row->jumlah_beli_barang'><i class='fas fa-plus'></i></button></td>";
+    
+                $html.="</tr>";
                 
-            //    return ['id_barang_retur' => $row->id_barang_retur, 'id_barang' => $row->id_barang];
-            //    if($row->id_barang_retur == $row->id_barang_pembelian){
-                if(count($qtyRetur) > 0){
-                    $cekBarang = $row->jumlah_beli_barang - $qtyRetur[$key]->jumlah_kembali_barang;
-                    if($cekBarang == 0){
-                        $html.="<td style='text-align:center;'><button type='button' class='btn btn-info restrict-retur'><i class='fas fa-plus'></i></button></td>";
+            }  
+            return $html;
+        } else {
+            foreach ($detailPembelian as $key => $row) {
+                $i++;
+                $subtotal = $row->jumlah_beli_barang * $row->harga_beli;
+                if(!isset($qtyRetur[$key])) {
+                    $qtySekarang = $row->jumlah_beli_barang;
+                    $cekBarang = $row->jumlah_beli_barang;
+                } else {
+                    $qtySekarang = $row->jumlah_beli_barang - $qtyRetur[$key]->jumlah_kembali_barang;
+                    if($row->id_barang === $qtyRetur[$key]->id_barang){
+                        $cekBarang = $row->jumlah_beli_barang - $qtyRetur[$key]->jumlah_kembali_barang;
                     } else {
-                        $html.="<td style='text-align:center;'><button type='button' class='btn btn-info add_retur' data-idbuffer='$i' data-id_barang='$row->id_barang' data-nama_barang='$row->nama_barang' data-harga_beli='$row->harga_beli' data-qty='$row->jumlah_beli_barang'><i class='fas fa-plus'></i></button></td>";
+                        $cekBarang = $row->jumlah_beli_barang;
                     }
+                }
+                // return $cekBarang;
+                // $qtySekarang = $row->jumlah_beli_barang - $qtyRetur[$key]->jumlah_kembali_barang;
+                $html.="<tr>";
+                $html.="<td style='text-align:center;'><input type='hidden' value='$row->id_barang' id='id_barang$i'> <input class='form-control' type='text' value='$row->kode' readonly='true' id='kode$i'></td>";
+                $html.="<td style='text-align:center;'><input class='form-control' type='text' value='$row->nama_barang' readonly='true' id='nama_barang$i'></td>";
+                $html.="<td style='text-align:center;'><input class='form-control' type='number' value='$row->harga_beli' readonly='true' id='harga_beli$i' style='text-align:right'></td>";
+                $html.="<td style='text-align:center; width: 8%;'><input class='form-control' type='number' value='$qtySekarang' readonly='true' id='qty$i'></td>";
+                $html.="<td style='text-align:center;'><input class='form-control' type='number' value='$subtotal' readonly='true' id='subtotal$i' style='text-align:right'></td>";
+            
+                if($cekBarang == 0){
+                    $html.="<td style='text-align:center;'><button type='button' class='btn btn-info restrict-retur'><i class='fas fa-plus'></i></button></td>";
                 } else {
                     $html.="<td style='text-align:center;'><button type='button' class='btn btn-info add_retur' data-idbuffer='$i' data-id_barang='$row->id_barang' data-nama_barang='$row->nama_barang' data-harga_beli='$row->harga_beli' data-qty='$row->jumlah_beli_barang'><i class='fas fa-plus'></i></button></td>";
                 }
@@ -196,16 +220,7 @@ class ReturPembelianController extends Controller
                 $html.="</tr>";
                 
             }  
-            return $html;
-        } else {
-            return "<tr id='buffer100' height='50px'>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>";         
+            return $html;      
         }
         // $response['data'] = $html;
         // return response()->json($response);
@@ -257,9 +272,17 @@ class ReturPembelianController extends Controller
             $detReturBaru->save();
 
             $barangUpdate = Barang::find($barang['id_barang_retur']);
-            $barangUpdate->stock += $barang['qty_retur'];
+            $barangUpdate->stock -= $barang['qty_retur'];
             $barangUpdate->update();
         }
+        $kasMasuk = new KasMasuk();
+        $kasMasuk->tgl = now();
+        $kasMasuk->jumlah = $this->checkPrice($request->total_retur);
+        $kasMasuk->keperluan = 'Retur Barang Pada Transaksi '. $request->id_pembelian;
+        $kasMasuk->id_user = auth()->user()->id;
+        $kasMasuk->id_perusahaan = auth()->user()->id_perusahaan;
+        $kasMasuk->save();
+
         return redirect()->route('list-retur-pembelian.index')->with(['success' => 'Retur Pembelian Berhasil']);
     }
 

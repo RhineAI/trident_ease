@@ -81,7 +81,7 @@
                                         <th class="text-center">Kode</th>
                                         <th class="text-center">Nama Barang</th>
                                         <th class="text-center">Harga</th>
-                                        <th class="text-center">QTY</th>
+                                        <th class="text-center">QTY Penjualan</th>
                                         <th class="text-center">Sub Total</th>
                                         <th class="text-center">Aksi</th>
                                 </tr>
@@ -106,7 +106,7 @@
                                         <th class="text-center">Kode</th>
                                         <th class="text-center">Nama Barang</th>
                                         <th class="text-center">Harga</th>
-                                        <th class="text-center">QTY</th>
+                                        <th class="text-center">QTY Penjualan</th>
                                         <th class="text-center">Sub Total</th>
                                         <th class="text-center">Aksi</th>
                                     </tr>
@@ -298,7 +298,7 @@
                 //HAPUS BARIS 1
                 $('#t_retur #buffer100').remove();
                 count++;
-                var html_code="<tr id='buffer"+count+" retur'>";
+                var html_code="<tr id='buffer"+count+"'>";
 
                 html_code+="<td style='text-align:center'><input type='hidden' name='item["+count+"][id_barang_retur]' value='"+id_barang+"' > <input class='form-control' type='text' name='item["+count+"][kode_retur]' value='"+kode+"' readonly='true'></td>";
                 html_code+="<td style='text-align:center'><input class='form-control' type='text' name='item["+count+"][nama_barang_retur]' value='"+nama_barang+"' readonly='true'></td>";
@@ -409,6 +409,7 @@
 
             $(document).on('click','.hapus_retur',function(){
                 var delete_row=$(this).data("idbuffer");
+                console.log(delete_row)
                 $('#buffer'+delete_row).remove(); 
                 count--;
                 GetTotalBayar();
