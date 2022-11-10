@@ -1,38 +1,158 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    {{-- Toastr --}}
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css" integrity="sha512-3pIirOrwegjM6erE5gPSwkUzO+3cTjpnV9lexlNZqvupR64iZBnOOTiiLPb9M36zpMScbmUNIcHUqKD47M719g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<!-- Created By CodingNepal -->
+<html lang="en" dir="ltr">
+   <head>
+      <meta charset="utf-8">
+      <title>3D Flip Card on Hover | CodingLab</title>
+      <link rel="stylesheet" href="style.css">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+      <style>
+          @import url('https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap');
+          *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+          }
+          html,body{
+            display: grid;
+            height: 100%;
+            width: 100%;
+            place-items: center;
+            background: linear-gradient(375deg, #1cc7d0, #2ede98);
+          }
+          ::selection{
+            color: #fff;
+            background: #1cc7d0;
+          }
+          .wrapper{
+            height: 400px;
+            width: 320px;
+            position: relative;
+            transform-style: preserve-3d;
+          perspective: 1000px;
+          }
+          .wrapper .card{
+            position: absolute;
+            height: 100%;
+            width: 100%;
+            padding: 5px;
+            background: #fff;
+            border-radius: 10px;
+            transform: translateY(0deg);
+            transform-style: preserve-3d;
+            backface-visibility: hidden;
+            box-shadow: 0px 10px 15px rgba(0,0,0,0.1);
+            transition: transform 0.7s cubic-bezier(0.4,0.2,0.2,1);
+          }
+          .wrapper:hover > .front-face{
+            transform: rotateY(-180deg);
+          }
+          .wrapper .card img{
+            height: 100%;
+            width: 100%;
+            object-fit: cover;
+            border-radius: 10px;
+          }
+          .wrapper .back-face{
+            display: flex;
+            align-items: center;
+            justify-content: space-evenly;
+            flex-direction: column;
+            transform: rotateY(180deg);
+          }
+          .wrapper:hover > .back-face{
+            transform: rotateY(0deg);
+          }
+          .wrapper .back-face img{
+            height: 150px;
+            width: 150px;
+            padding: 5px;
+            border-radius: 50%;
+            background: linear-gradient(375deg, #1cc7d0, #2ede98);
+          }
+          .wrapper .back-face .info{
+            text-align: center;
+          }
+          .back-face .info .title{
+            font-size: 30px;
+            font-weight: 500;
+          }
+          .back-face ul{
+            display: flex;
+          }
+          .back-face ul a{
+            display: block;
+            height: 40px;
+            width: 40px;
+            color: #fff;
+            text-align: center;
+            margin: 0 5px;
+            line-height: 38px;
+            border: 2px solid transparent;
+            border-radius: 50%;
+            background: linear-gradient(375deg, #1cc7d0, #2ede98);
+            transition: all 0.5s ease;
+          }
+          .back-face ul a:hover{
+            color: #1cc7d0;
+            border-color: #1cc7d0;
+            background: linear-gradient(375deg, transparent, transparent);
+          }
+          a {
+            text-decoration: none;
+            color:#1cc7d0;
+          }
+          .hover {
+            margin : 0 auto;
+            font-size: 30px;
+            font-weight: 500;
+            display: flex;
+            position: relative;
+            top: 45%;
+            left: 25%;
+          }
+      </style>
+   </head>
+   <body>
+    @php
+       use App\Models\User;
+       use App\Models\Perusahaan;
 
-    <title>Terima Kasih</title>
-</head>
-<body>
-    <div class="jumbotron text-center">
-        <h1 class="display-3">Terima Kasih Telah Mendaftar!</h1>
-        <p class="lead"><strong>Silahkan Cek Email</strong> Untuk melanjutkan ke halaman login.</p>
-        <hr>
-        <p>
-          Ada Masalah? <a href="https://wa.wizard.id/31a293">Contact us</a>
-        </p>
-        <p class="lead">
-          <a class="btn btn-primary btn-sm" href="{{ route('login') }}" role="button">Melanjutkan Ke halaman <strong>Login</strong></a>
-        </p>
+       $cPerusahaan = Perusahaan::latest()->first();
+       $user = User::latest()->first();
+   @endphp
+      <div class="wrapper">
+          <div class="card front-face">
+            {{-- <img height="90%" src="{{ $cPerusahaan->logo }}"> --}}
+              <div class="title text-center hover" style="margin: 0 auto;">
+                  Hover me!
+              </div>
+          </div>
+          <div class="card back-face">
+              <div class="title">
+                  Thanks For Register!
+              </div>
+              <img src="{{ $cPerusahaan->logo }}">
+              <div class="info mb-4">
+                  <div class="title">
+                      {{ $cPerusahaan->nama }}
+                  </div>
+                  <p>
+                      Username : {{ str_replace(' ', '', $user->username) }}
+                      <br>
+                      Password = 12345
+                  </p>
+              </div>
+              <div></div>
+              <p class="">
+                  Any Problem?<a href="https://wa.wizard.id/31a293"> Contact us</a>
+              </p>
+              <p>
+                <a class="text-center" href="{{ route('login') }}">Click to Login </a>
+              </p>
+          </div>
       </div>
-
-      {{-- Toastr --}}
-     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-
-     <script>
-         @if(session()->has('success'))
-             toastr.success('{{ session('success') }}', 'TERIMA KASIH!'); 
- 
-         @elseif(session()->has('error'))
- 
-             toastr.error('{{ session('error') }}', 'GAGAL!'); 
-         @endif
-     </script>
-</body>
+   </body>
 </html>
+

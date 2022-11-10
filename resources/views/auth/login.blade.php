@@ -30,16 +30,15 @@
     <div class="main">
         <!-- Sing in  Form -->
         <section class="sign-in">
-            <div class="container">
+            <div class="container" style="border: 0.3px solid black">
                 <div class="signin-content">
                     <div class="signin-image">
                         <figure><img src="{{ asset('templates') }}/images/signin-image.jpg" alt="sing up image"></figure>
-                        <a href="{{ route('reg') }}" class="signup-image-link">Create an account</a>
                     </div>
 
                     <div class="signin-form">
                         <h2 class="form-title">Sign in</h2>
-                        <form method="POST" class="register-form" id="login-form">
+                        <form method="POST" class="register-form mb-5" id="login-form">
                             @csrf
                             <div class="form-group">
                                 <label for="username"><i class="zmdi zmdi-account material-icons-name"></i></label>
@@ -53,6 +52,9 @@
                                 <input type="submit" name="signin" id="signin" class="form-submit" value="Log in"/>
                             </div>
                         </form>
+                        <p>
+                            Don't Have Account?<a href="{{ route('reg') }}" style="color:burlywood" > Create one for free!</a>
+                        </p>
                     </div>
                 </div>
             </div>

@@ -86,7 +86,7 @@ class LoginController extends Controller
         $perusahaan->bank = $request->bank;
         $perusahaan->no_rekening = $request->no_rekening;
         $perusahaan->slogan = $request->slogan;
-        $perusahaan->level = 1;
+        $perusahaan->grade = 1;
         $perusahaan->save();
         
         $id = Perusahaan::latest()->first();
