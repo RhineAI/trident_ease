@@ -495,7 +495,7 @@
                     var harga_beli = $(this).data("harga_beli");
                     var harga_jual = $(this).data("harga_jual");
                     var stock = $(this).data("stock");
-                    var keuntungan = $(this).data("harga_jual") - $(this).data("harga_beli");
+                    var keuntungan = ($(this).data("harga_jual") - $(this).data("harga_beli")) * stock;
                     // function getStock(){
                     //     return stock;
                     // }

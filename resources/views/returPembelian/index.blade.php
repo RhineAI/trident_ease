@@ -278,7 +278,7 @@
                     },
                     cache: false,
                     success:function(response){
-                        console.log(response)
+                        // console.log(response)
                         $('#t_pembelian').html(response);
                     }
                 })
