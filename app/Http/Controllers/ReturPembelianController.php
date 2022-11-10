@@ -190,16 +190,32 @@ class ReturPembelianController extends Controller
             foreach ($detailPembelian as $key => $row) {
                 $i++;
                 $subtotal = $row->jumlah_beli_barang * $row->harga_beli;
-                if(!isset($qtyRetur[$key])) {
-                    $qtySekarang = $row->jumlah_beli_barang;
-                    $cekBarang = $row->jumlah_beli_barang;
-                } else {
-                    $qtySekarang = $row->jumlah_beli_barang - $qtyRetur[$key]->jumlah_kembali_barang;
+                // Original
+                // if(!isset($qtyRetur[$key])) {
+                //     $qtySekarang = $row->jumlah_beli_barang;
+                //     $cekBarang = $row->jumlah_beli_barang;
+                // } else {
+                //     $qtySekarang = $row->jumlah_beli_barang - $qtyRetur[$key]->jumlah_kembali_barang;
+                //     if($row->id_barang === $qtyRetur[$key]->id_barang){
+                //         $cekBarang = $row->jumlah_beli_barang - $qtyRetur[$key]->jumlah_kembali_barang;
+                //     } else {
+                //         $cekBarang = $row->jumlah_beli_barang;
+                //     }
+                // }
+
+                if(isset($qtyRetur[$key])) {
+                    // return $qtyRetur[$key]->id_barang;
                     if($row->id_barang === $qtyRetur[$key]->id_barang){
+                        $qtySekarang = $row->jumlah_beli_barang - $qtyRetur[$key]->jumlah_kembali_barang;
                         $cekBarang = $row->jumlah_beli_barang - $qtyRetur[$key]->jumlah_kembali_barang;
                     } else {
                         $cekBarang = $row->jumlah_beli_barang;
+                        $qtySekarang = $row->jumlah_beli_barang;
                     }
+                    // return $cekBarang;
+                } else {
+                    $qtySekarang = $row->jumlah_beli_barang;
+                    $cekBarang = $row->jumlah_beli_barang;
                 }
                 // return $cekBarang;
                 // $qtySekarang = $row->jumlah_beli_barang - $qtyRetur[$key]->jumlah_kembali_barang;
@@ -224,6 +240,21 @@ class ReturPembelianController extends Controller
         }
         // $response['data'] = $html;
         // return response()->json($response);
+    }
+
+    public function checkPrice($value)
+    {
+        if (gettype($value) == "string") {
+            $temp = 0;
+            for ($i = 0; $i < strlen($value); $i++) {
+                if ((isset($value[$i]) == true && $value[$i] != ".") && $value[$i] != ",") {
+                    $temp = ($temp * 10) + (int)$value[$i];
+                }
+            }
+            return $temp;
+        } else {
+            return $value;
+        }
     }
 
     /**
@@ -278,7 +309,7 @@ class ReturPembelianController extends Controller
         $kasMasuk = new KasMasuk();
         $kasMasuk->tgl = now();
         $kasMasuk->jumlah = $this->checkPrice($request->total_retur);
-        $kasMasuk->keperluan = 'Retur Barang Pada Transaksi '. $request->id_pembelian;
+        $kasMasuk->keterangan = 'Retur Barang Pada Transaksi '. $request->id_pembelian;
         $kasMasuk->id_user = auth()->user()->id;
         $kasMasuk->id_perusahaan = auth()->user()->id_perusahaan;
         $kasMasuk->save();

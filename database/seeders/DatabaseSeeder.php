@@ -16,19 +16,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('t_perusahaan')->insert([
-            'nama' => 'IDK',
-            'alamat' => 'asdsadsadf',
-            'tlp' => '3213213',
-            'pemilik' => 'I dont know',
-            'bank' => 'Syariah',
-            'no_rekening' => '213123',
-            'npwp' => '21312312312',
-            'slogan' => '213123',
-            'email' => 'asdsakdjkasjdsakh',
-            'logo' => '213123',
-            'grade' => 1
-        ]);
+        $this->call(PublishSeeder::class);
 
         Perusahaan::Create([
             'nama' => 'Nur',
