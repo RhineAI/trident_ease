@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 
 class User extends Authenticatable
 {
@@ -47,7 +48,24 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function scopeIsNotAdmin() {
-        return $query->where('hak_akses', '!=' , 1);
+    protected function role(): Attribute 
+    {
+        return new Attribute(
+            get: fn($value) => ['super-admin']['$value']
+        );
     }
+
+    public function scopeIsNotAdmin() {
+        // if($querry['hak_akses'] != 1) {
+        //     return $query;
+        // } elseif($querry['hak_akses'] !=3) {
+        //     return $query;
+        // }
+        return $querry->where('hak_akses', '!=' , 1)->orWhere('hak_akses', '!=', 3);
+    }
+
+    // public function scopeIsNotSuperAdmin() {
+    //     return $query->where('hak_akses', '!=' , 3);
+    // }
+
 }

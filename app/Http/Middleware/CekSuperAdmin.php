@@ -4,8 +4,9 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Auth;
 
-class CekHakAkses
+class CekSuperAdmin
 {
     /**
      * Handle an incoming request.
@@ -14,13 +15,15 @@ class CekHakAkses
      * @param  \Closure(\Illuminate\Http\Request): (\Illuminate\Http\Response|\Illuminate\Http\RedirectResponse)  $next
      * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse
      */
-    public function handle(Request $request, Closure $next, $hak_akses)
+    public function handle(Request $request, Closure $next, $role)
     {   
-        // return $hak_akses;
-        if(auth()->user() && $hak_akses == auth()->user()->hak_akses) {
-            return $next($request);
+        // $p = Auth::user->role;
+        // return $p;
+        if(Auth::check() && Auth::user->role == $role) 
+        {
+            return $next($request);    
         }
 
-        return redirect()->route('dashboard');
+        return response()->json(["You Don't have permission to access this page"]);
     }
 }

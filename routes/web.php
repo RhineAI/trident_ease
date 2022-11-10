@@ -1,5 +1,9 @@
 <?php
 
+//SUPER ADMIN
+use App\Http\Controllers\SuperAdminController;
+
+
 use App\Http\Controllers\BarangController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DetailPembelianController;
@@ -160,7 +164,9 @@ Route::group(['middleware' => 'hak_akses:1'], function () {
         Route::post('/laporan-pembelian/data/{awal}/{akhir}', [LaporanController::class, 'dataLaporanPembelian'])->name('laporan-pembelian.data');
         Route::post('/laporan-retur-penjualan/data/{awal}/{akhir}', [LaporanController::class, 'dataLaporanReturPenjualan'])->name('laporan-retur-penjualan.data');
         Route::post('/laporan-retur-pembelian/data/{awal}/{akhir}', [LaporanController::class, 'dataLaporanReturPembelian'])->name('laporan-retur-pembelian.data');
-   
+        
+        Route::resource('/manage-perusahaan', SuperAdminController::class);
+        Route::post('/manage-perusahaan/data', [SuperAdminController::class, 'data'])->name('manage-perusahaan.data');
         
         Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 });
@@ -180,10 +186,17 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('/changePW', [UsersController::class, 'chawngePWUpdate']);
         Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 
+        Route::resource('/manage-perusahaan', SuperAdminController::class);
+        Route::post('/manage-perusahaan/data', [SuperAdminController::class, 'data'])->name('manage-perusahaan.data');
+
         // Route::get('/list-pelanggan-terbaik', [LaporanController::class, 'indexBestPelanggan'])->name('list-b-pelanggan.index');
         // Route::post('/list-pelanggan-terbaik/data/{awal}/{akhir}', [LaporanController::class, 'getDataBPelanggan'])->name('list-b-pelanggan.data');
         // Route::get('/list-pelanggan-terbaik/pdf/{awal}/{akhir}', [LaporanController::class, 'exportPDFBPelanggan'])->name('list-b-pelanggan.export_pdf');
 });
+
+// Route::group(['middleware' => 'hak_akses:1'], function () {
+//         Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
+// });
 
 
 Route::middleware('guest')->group(function(){
@@ -193,3 +206,5 @@ Route::middleware('guest')->group(function(){
     Route::post('/register', [LoginController::class, 'register'])->name('register');
     Route::get('/success', [LoginController::class, 'regSuccess'])->name('regSuccess');
 });
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

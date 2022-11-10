@@ -2,7 +2,7 @@
   <div class="float-right d-none d-sm-block">
     <b>Version</b> 3.1.0
   </div>
-  <strong>Copyright &copy; <script>document.write(/\d{4}/.exec(Date())[0])</script> <a href="https://www.instagram.com/smooth_0702/">Muhamad Fadhil Allifah</a>.</strong> All rights reserved.
+  <strong>Copyright &copy; <script>document.write(/\d{4}/.exec(Date())[0])</script> <a href="https://www.instagram.com/smooth_0702/">Muhamad Fadhil Allifah</a> n <a href="https://www.instagram.com/_syahid.lhs/?hl=id">Luhung Lugina</a> .</strong> All rights not reserved.
 </footer>
 
 <!-- Control Sidebar -->

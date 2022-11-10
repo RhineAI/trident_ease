@@ -387,7 +387,25 @@
                       </ul>
                   </li>
               
-
+                @elseif(auth()->user()->hak_akses == 3)
+                   {{-- DASHBOARD --}}
+                   <li class="nav-item">
+                        <a href="{{ route('dashboard') }}" class="nav-link">
+                            <i class="nav-icon fas fa-solid fa-home"></i>
+                            <p>
+                                Dashboard
+                            </p>
+                        </a>
+                    </li>   
+                     {{-- Manage Perusahaan --}}
+                   <li class="nav-item">
+                    <a href="{{ route('manage-perusahaan.index') }}" class="nav-link">
+                        <i class="nav-icon fas fa-solid fa-people-roof"></i>
+                        <p>
+                            Manage Perusahaan
+                        </p>
+                    </a>
+                </li>  
                 @endif
             </ul>
         </nav>
