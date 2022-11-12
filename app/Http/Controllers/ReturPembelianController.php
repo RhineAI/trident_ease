@@ -304,7 +304,7 @@ class ReturPembelianController extends Controller
         $kasMasuk = new KasMasuk();
         $kasMasuk->tgl = now();
         $kasMasuk->jumlah = $this->checkPrice($request->total_retur);
-        $kasMasuk->keterangan = 'Retur Barang Pada Transaksi '. $request->id_pembelian;
+        $kasMasuk->keterangan = 'Retur Pembelian Pada Transaksi '. $request->id_pembelian;
         $kasMasuk->id_user = auth()->user()->id;
         $kasMasuk->id_perusahaan = auth()->user()->id_perusahaan;
         $kasMasuk->save();

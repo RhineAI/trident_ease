@@ -13,6 +13,9 @@ use Carbon\Carbon;
 
 class DashboardController extends Controller
 {
+    public function __construct() {
+        $this->middleware('auth');
+    }
     public function index(){
         $lastMonth = date('m', strtotime('-1month'));
         $month = date('m');
@@ -158,6 +161,18 @@ class DashboardController extends Controller
         $data['cPerusahaan'] = Perusahaan::select('*')->where('id', auth()->user()->id_perusahaan)->first();
 
         // return $data;
-        return view('dashboard', $data);
+
+        if(auth()->user()->hak_akses == '3'){
+            return view('dashboard', $data);
+        } else {
+            $data['cPerusahaan'] = Perusahaan::select('*')->where('id', auth()->user()->id_perusahaan)->first();
+            return view('dashboardKasir', $data);
+        }
+        // return view('dashboard', $data);
     }
+
+    // public function indexKasir(){
+    //     $data['cPerusahaan'] = Perusahaan::select('*')->where('id', auth()->user()->id_perusahaan)->first();
+    //     return view('dashboardKasir', $data);
+    // }
 }

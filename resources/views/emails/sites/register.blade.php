@@ -13,7 +13,7 @@ Password = 12345
 
 Pastikan username dan password default untuk segera diganti!
 
-@component('mail::button', ['url' => 'http://youtube.com' ])
+@component('mail::button', ['url' => '{{ url('/') }}' ])
 Silahkan Klik Disini 
 @endcomponent
 

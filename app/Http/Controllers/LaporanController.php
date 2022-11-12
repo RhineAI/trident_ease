@@ -1045,12 +1045,10 @@ class LaporanController extends Controller
                 // $row['tgl'] = $item['tgl'];
                 $row['stock_awal'] = $item['stock_awal'];
                 $row['stock_baru'] = $item['stock_baru'];
-                $row['selisih'] = $item['stock_awal'] - $item['stock_akhir'];
+                $row['selisih'] = $item['stock_awal'] - $item['stock_baru'];
     
                 $data[] = $row;
-            }         
-            // return $data;   
-    
+            }             
         }
     
         return $data;
@@ -1069,7 +1067,40 @@ class LaporanController extends Controller
 
     public function DownloadKesesuaianStok($merek, $kategori, $awal, $akhir) 
     {
-        $kesesuaian_stok = $this->stok($awal, $akhir, $merek, $kategori);
+        $no = 1;
+        $kesesuaian_stok = array(); 
+    
+        while (strtotime($awal) <= strtotime($akhir)) {
+            $tanggal = $awal;
+            $awal = date('Y-m-d', strtotime("+1day", strtotime($awal)));
+            
+            $kesesuaianBarang = Penyesuaian::Where('t_penyesuaian.tgl', 'LIKE', '%'.$tanggal.'%')
+                                            ->where('id_merek', $merek)
+                                            ->Where('id_kategori', $kategori)
+                                            ->leftJoin('t_barang AS B', 'B.id', 't_penyesuaian.id_barang')
+                                            ->leftJoin('t_kategori AS K', 'K.id', 'B.id_kategori')
+                                            ->leftJoin('t_merek AS M', 'M.id', 'B.id_merek')
+                                            ->select('B.*', 'M.nama AS nama_merek', 'K.nama AS nama_kategori', 't_penyesuaian.tgl', 't_penyesuaian.stock_awal', 't_penyesuaian.stock_baru')
+                                            ->where('t_penyesuaian.id_perusahaan', auth()->user()->id_perusahaan)
+                                            ->orderBy('id', 'DESC')->get();
+    
+            foreach($kesesuaianBarang as $item) {
+                // return $key;
+                $row = array();
+                // $row['DT_RowIndex'] = $no++;
+                $row['kode'] = $item->kode;
+                $row['nama_barang'] = $item['nama'];
+                $row['merek'] = $item['nama_merek'];
+                $row['kategori'] = $item['nama_kategori'];
+                // $row['tgl'] = $item['tgl'];
+                $row['stock_awal'] = $item['stock_awal'];
+                $row['stock_baru'] = $item['stock_baru'];
+                $row['selisih'] = $item['stock_awal'] - $item['stock_baru'];
+    
+                $kesesuaian_stok[] = $row;
+            }             
+        }
+
         $cPerusahaan = Perusahaan::select('*')->where('id', auth()->user()->id_perusahaan)->first();
         $tglAwal = $awal;
         $akhir = $akhir;
@@ -1085,7 +1116,39 @@ class LaporanController extends Controller
 
     public function PrintPDFKesesuaianStok($merek, $kategori, $awal, $akhir) 
     {
-        $kesesuaian_stok = $this->stok($awal, $akhir, $merek, $kategori);
+          $no = 1;
+        $kesesuaian_stok = array(); 
+    
+        while (strtotime($awal) <= strtotime($akhir)) {
+            $tanggal = $awal;
+            $awal = date('Y-m-d', strtotime("+1day", strtotime($awal)));
+            
+            $kesesuaianBarang = Penyesuaian::Where('t_penyesuaian.tgl', 'LIKE', '%'.$tanggal.'%')
+                                            ->where('id_merek', $merek)
+                                            ->Where('id_kategori', $kategori)
+                                            ->leftJoin('t_barang AS B', 'B.id', 't_penyesuaian.id_barang')
+                                            ->leftJoin('t_kategori AS K', 'K.id', 'B.id_kategori')
+                                            ->leftJoin('t_merek AS M', 'M.id', 'B.id_merek')
+                                            ->select('B.*', 'M.nama AS nama_merek', 'K.nama AS nama_kategori', 't_penyesuaian.tgl', 't_penyesuaian.stock_awal', 't_penyesuaian.stock_baru')
+                                            ->where('t_penyesuaian.id_perusahaan', auth()->user()->id_perusahaan)
+                                            ->orderBy('id', 'DESC')->get();
+    
+            foreach($kesesuaianBarang as $item) {
+                // return $key;
+                $row = array();
+                // $row['DT_RowIndex'] = $no++;
+                $row['kode'] = $item->kode;
+                $row['nama_barang'] = $item['nama'];
+                $row['merek'] = $item['nama_merek'];
+                $row['kategori'] = $item['nama_kategori'];
+                // $row['tgl'] = $item['tgl'];
+                $row['stock_awal'] = $item['stock_awal'];
+                $row['stock_baru'] = $item['stock_baru'];
+                $row['selisih'] = $item['stock_awal'] - $item['stock_baru'];
+    
+                $kesesuaian_stok[] = $row;
+            }             
+        }
         $cPerusahaan = Perusahaan::select('*')->where('id', auth()->user()->id_perusahaan)->first();
         $tglAwal = $awal;
         $akhir = $akhir;
