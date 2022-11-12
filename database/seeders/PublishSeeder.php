@@ -35,8 +35,8 @@ class PublishSeeder extends Seeder
             'tlp' => '082118356193',
             'jenis_kelamin' => 'L',
             'username' => 'SuperAdmin',
-            'password' => bcrypt('palakaumeledak123'),
-            'hak_akses' => 3,
+            'password' => bcrypt('123'),
+            'hak_akses' => 1,
             'id_perusahaan' => 1,
         ]);
     }

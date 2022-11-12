@@ -48,24 +48,48 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    protected function role(): Attribute 
+    protected function type(): Attribute 
     {
+        // dd($value);
         return new Attribute(
-            get: fn($value) => ['super-admin']['$value']
+            get: fn($value) => ['super-admin', 'owner', 'admin', 'cashier']
         );
     }
 
-    public function scopeIsNotAdmin() {
-        // if($querry['hak_akses'] != 1) {
-        //     return $query;
-        // } elseif($querry['hak_akses'] !=3) {
-        //     return $query;
-        // }
-        return $querry->where('hak_akses', '!=' , 1)->orWhere('hak_akses', '!=', 3);
-    }
-
-    // public function scopeIsNotSuperAdmin() {
-    //     return $query->where('hak_akses', '!=' , 3);
+    // public function scopeIsNotAdmin() {
+    //     return $querry->where('hak_akses', '!=' , 1);
     // }
+
+//    public function isSuperAdmin() {
+//         if($this->hak_akses == 1) {
+//             return true;
+//         } else {
+//             return false;
+//         }
+//    }
+
+//    public function isOwner() {
+//         if($this->hak_akses == 2) {
+//             return true;
+//         } else {
+//             return false;
+//         }
+//     }
+
+//     public function isAdmin() {
+//         if($this->hak_akses == 3) {
+//             return true;
+//         } else {
+//             return false;
+//         }
+//     }
+
+//     public function isCashier() {
+//         if($this->hak_akses == 4) {
+//             return true;
+//         } else {
+//             return false;
+//         }
+//     }
 
 }

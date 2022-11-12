@@ -1,4 +1,4 @@
-@if (auth()->user()->hak_akses == 3) 
+@if (auth()->user()->hak_akses == 1) 
     @extends('templates.layout')
 
     @section('title')

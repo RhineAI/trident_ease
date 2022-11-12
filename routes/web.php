@@ -40,6 +40,7 @@ use App\Http\Controllers\ReturPembelianController;
 use App\Http\Controllers\StokOpnameController;
 use Illuminate\Support\Facades\Route;
 
+
 Route::group(['middleware' => 'hak_akses:1'], function () {
         Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
         Route::resource('/kategori', KategoriController::class);
@@ -206,5 +207,12 @@ Route::middleware('guest')->group(function(){
     Route::post('/register', [LoginController::class, 'register'])->name('register');
     Route::get('/success', [LoginController::class, 'regSuccess'])->name('regSuccess');
 });
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+
+// Route::middleware('guest')->group(function(){
+    
+// });
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

@@ -18,6 +18,10 @@ class LoginController extends Controller
         return view('auth.login');
     }
 
+    public function __construct() {
+        $this->middleware('guest')->except('logout');
+    }
+
     public function login(Request $request){
         $user = $request->validate([
             'username' => ['required'],
@@ -26,7 +30,17 @@ class LoginController extends Controller
         
         if(Auth::attempt($user)){
             $request->session()->regenerate();
-            return redirect()->intended('/')->with('success', 'Login Success');
+            if(auth()->user()->type == 'super-admin') {
+                return redirect()->intended('/')->with('success', 'Login as Super Admin Success');
+            } elseif(auth()->user()->type == 'owner') {
+                return redirect()->intended('/')->with('success', 'Login as Owner Success');
+            } elseif(auth()->user()->type == 'admin') {
+                return redirect()->intended('/')->with('success', 'Login as Admin Success');
+            } elseif(auth()->user()->type == 'cashier') {
+                return redirect()->intended('/')->with('success', 'Login as Cashier Success');
+            } else {
+                return redirect()->route('login');
+            }
         }
 
         throw ValidationException::withMessages([
@@ -108,7 +122,7 @@ class LoginController extends Controller
         $data['perusahaan'] = $perusahaan;
         $data['user'] = $user;
 
-        // \Mail::to($id->email)->send(new NotifikasiRegisterPerusahaan);
+        \Mail::to($perusahaan->email)->send(new NotifikasiRegisterPerusahaan);
          
         // return $user;
 

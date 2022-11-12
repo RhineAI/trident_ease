@@ -152,3 +152,37 @@ function persentasePerbandinganHarga($getLatestTotal, $getNowTotal ) {
     }
     return $percentage;
 }
+
+function getPermission($role) {
+    switch($role){
+        case '1': 
+            return 1; 
+            break;
+        case '2': 
+            return 2;
+            break;
+        case '3': 
+            return 3;
+            break;
+        case '4': 
+            return 4;
+            break;
+        default: 
+            return 0;
+            break;
+    }
+} 
+
+function checkPermission($roles) 
+{
+    $authRole = getPermission(auth()->user()->hak_akses);
+    foreach ($roles as $key => $value) {
+        // $value = $authRole;
+        // dd($value);
+
+        if ($authRole == $value) {
+            return true;
+        }
+    }
+    return false;
+}
