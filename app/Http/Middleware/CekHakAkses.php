@@ -16,11 +16,10 @@ class CekHakAkses
      */
     public function handle(Request $request, Closure $next, $hak_akses)
     {   
-        // return $hak_akses;
-        if(auth()->user() && $hak_akses == auth()->user()->hak_akses) {
+        $akses = explode('|', $hak_akses);
+        if (checkPermission($akses)) {
             return $next($request);
         }
-
-        return redirect()->route('dashboard');
+        return redirect('404');
     }
 }
