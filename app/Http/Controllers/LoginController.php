@@ -27,20 +27,12 @@ class LoginController extends Controller
             'username' => ['required'],
             'password' => ['required'],
         ]);
-        
+
+        $getUser = User::where('username', $request->username)->first();
+
         if(Auth::attempt($user)){
             $request->session()->regenerate();
-            if(auth()->user()->type == 'super-admin') {
-                return redirect()->intended('/')->with('success', 'Login as Super Admin Success');
-            } elseif(auth()->user()->type == 'owner') {
-                return redirect()->intended('/')->with('success', 'Login as Owner Success');
-            } elseif(auth()->user()->type == 'admin') {
-                return redirect()->intended('/')->with('success', 'Login as Admin Success');
-            } elseif(auth()->user()->type == 'cashier') {
-                return redirect()->intended('/')->with('success', 'Login as Cashier Success');
-            } else {
-                return redirect()->route('login');
-            }
+            return redirect()->intended('/'.$getUser->hak_akses)->with('success', 'Login Success');
         }
 
         throw ValidationException::withMessages([

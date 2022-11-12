@@ -63,12 +63,6 @@ class Kernel extends HttpKernel
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
-        'hak_akses' => \App\Http\Middleware\CekHakAkses::class,
-        'check-role' => \App\Http\Middleware\CheckRole::class,
-
-        'super_admin' => \App\Http\Middleware\IsSuperAdmin::class,
-        'owner' => \App\Http\Middleware\IsOwner::class,
-        'admin' => \App\Http\Middleware\IsAdmin::class,
-        'cashier' => \App\Http\Middleware\IsCashier::class,
+        'cek-hak-akses' => \App\Http\Middleware\CekHakAkses::class,
     ];
 }

@@ -60,36 +60,31 @@ class User extends Authenticatable
     //     return $querry->where('hak_akses', '!=' , 1);
     // }
 
-//    public function isSuperAdmin() {
-//         if($this->hak_akses == 1) {
-//             return true;
-//         } else {
-//             return false;
-//         }
-//    }
+    public function isSuperAdmin() {
+        if ($this->hak_akses == 'super_admin') {
+            return true;
+        }
+        return false;
+    }
 
-//    public function isOwner() {
-//         if($this->hak_akses == 2) {
-//             return true;
-//         } else {
-//             return false;
-//         }
-//     }
+    public function isAdmin() {
+        if ($this->hak_akses == 'admin') {
+            return true;
+        }
+        return false;
+    }
 
-//     public function isAdmin() {
-//         if($this->hak_akses == 3) {
-//             return true;
-//         } else {
-//             return false;
-//         }
-//     }
+    public function isOwner() {
+        if ($this->hak_akses == 'owner') {
+            return true;
+        }
+        return false;
+    }
 
-//     public function isCashier() {
-//         if($this->hak_akses == 4) {
-//             return true;
-//         } else {
-//             return false;
-//         }
-//     }
-
+    public function isCashier() {
+        if ($this->hak_akses == 'kasir') {
+            return true;
+        }
+        return false;
+    }
 }
