@@ -50,7 +50,7 @@
                         </label>
                         <div class="col-md-4">
                             <select name="id_kategori" id="id_kategori" class="form-control" required>
-                                <option value="">Pilih Kategori</option>
+                                <option value="" disabled selected>Pilih Kategori</option>
                                 @foreach ($categories as $item )
                                     <option value="{{ $item->id }}">{{ $item->nama }}</option>
                                 @endforeach
@@ -63,7 +63,7 @@
                         </label>
                         <div class="col-md-4">
                             <select name="id_satuan" id="id_satuan" class="form-control" required>
-                                <option value="">Pilih Satuan</option>
+                                <option value="" disabled selected>Pilih Satuan</option>
                                 @foreach ($satuan as $item )
                                     <option value="{{ $item->id }}">{{ $item->nama }}</option>
                                 @endforeach
@@ -79,7 +79,7 @@
                         </label>
                         <div class="col-md-4">
                             <select name="id_supplier" id="id_supplier" class="form-control" required>
-                                <option value="">Pilih Supplier</option>
+                                <option value=""  disabled selected>Pilih Supplier</option>
                                 @foreach ($supplier as $item )
                                     <option value="{{ $item->id }}">{{ $item->nama }}</option>
                                 @endforeach
@@ -92,7 +92,7 @@
                         </label>
                         <div class="col-md-4">
                             <select name="id_merek" id="id_merek" class="form-control" required>
-                                <option value="">Pilih Merek</option>
+                                <option value="" disabled selected>Pilih Merek</option>
                                 @foreach ($merek as $item )
                                     <option value="{{ $item->id }}">{{ $item->nama }}</option>
                                 @endforeach
