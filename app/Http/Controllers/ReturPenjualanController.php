@@ -195,7 +195,7 @@ class ReturPenjualanController extends Controller
         $kasKeluar = new KasKeluar;
         $kasKeluar->tgl = now();
         $kasKeluar->jumlah = $this->checkPrice($request->total_retur);
-        $kasKeluar->keperluan = 'Retur Barang Pada Transaksi '. $request->id_penjualan;
+        $kasKeluar->keperluan = 'Retur Penjualan Pada Transaksi '. $request->id_penjualan;
         $kasKeluar->id_user = auth()->user()->id;
         $kasKeluar->id_perusahaan = auth()->user()->id_perusahaan;
         $kasKeluar->save();

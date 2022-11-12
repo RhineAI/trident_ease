@@ -511,6 +511,38 @@
                         </ul>
                     </li>
 
+                    {{-- RETUR --}}
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                            <i class="nav-icon fas fa-solid fa-rotate-left"></i>
+                            <p>
+                                Retur
+                                <i class="right fas fa-angle-right"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview ml-4 ml-4">
+                            <li class="nav-item">
+                                <a href="{{ route('retur-penjualan.index') }}" class="nav-link">
+                                    <p>Tambah Retur Penjualan</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('list-retur-penjualan.index') }}" class="nav-link">
+                                    <p>Data Retur Penjualan</p>
+                                </a>
+                            </li>
+                            </ul>
+                    </li>
+
+                    {{-- LAPORAN
+                    <li class="nav-item">
+                        <a href="{{ route('list-b-pelanggan.index') }}" class="nav-link">
+                            <i class="nav-icon fas fa-solid fa-list-check"></i>
+                                <p>Pelanggan Terbaik</p>
+                            </a>      
+                        </a>
+                    </li> --}}
+
                 @endif
             </ul>
         </nav>
