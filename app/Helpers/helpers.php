@@ -1,5 +1,33 @@
 <?php
 
+function checkPermission($akses) {
+    $userAkses = getPermission(auth()->user()->hak_akses);
+    foreach ($akses as $key => $value) {
+        if ($value == $userAkses) {
+            return true;
+        }
+    }
+    return false;
+}
+
+function getPermission($akses) {
+    switch ($akses) {
+        case 'super_admin':
+            return 'super_admin';
+            break;
+        case 'owner':
+            return 'owner';
+            break;
+        case 'admin':
+            return 'admin';
+        case 'kasir':
+            return 'kasir';
+        default:
+            return 'user';
+            break;
+    }
+}
+
 function format_uang ($angka) {
     return number_format($angka, 0, ',', '.');
 }

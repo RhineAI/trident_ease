@@ -68,4 +68,31 @@ class User extends Authenticatable
     //     return $query->where('hak_akses', '!=' , 3);
     // }
 
+    public function isSuperAdmin() {
+        if ($this->hak_akses == 'super_admin') {
+            return true;
+        }
+        return false;
+    }
+
+    public function isAdmin() {
+        if ($this->hak_akses == 'admin') {
+            return true;
+        }
+        return false;
+    }
+
+    public function isOwner() {
+        if ($this->hak_akses == 'owner') {
+            return true;
+        }
+        return false;
+    }
+
+    public function isCashier() {
+        if ($this->hak_akses == 'kasir') {
+            return true;
+        }
+        return false;
+    }
 }

@@ -57,11 +57,11 @@
             @endif
         </button>
         <div class="dropdowns-content shadow animated--grow-in" id="dropdowns-content" aria-labelledby="userDropdown">
-            <a class="dropdown-item" href="{{ route('profile') }}">
+            <a class="dropdown-item" href="{{ route(Auth::user()->hak_akses.'.profile') }}">
                 <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                 Profile
             </a>
-            <a class="dropdown-item" href="{{ route('changePW') }}">
+            <a class="dropdown-item" href="{{ route(Auth::user()->hak_akses.'.changePW') }}">
                 <i class="fas fa-key fa-sm fa-fw mr-2 text-gray-400"></i>
                  Ganti Password
             </a>

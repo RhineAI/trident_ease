@@ -23,10 +23,12 @@ class LoginController extends Controller
             'username' => ['required'],
             'password' => ['required'],
         ]);
-        
+
+        $getUser = User::where('username', $request->username)->first();
+
         if(Auth::attempt($user)){
             $request->session()->regenerate();
-            return redirect()->intended('/')->with('success', 'Login Success');
+            return redirect()->intended('/'.$getUser->hak_akses)->with('success', 'Login Success');
         }
 
         throw ValidationException::withMessages([
