@@ -54,9 +54,9 @@ class KasMasukController extends Controller
                     <button data-mode ="edit"
                             data-jumlah="'.$kasMasuk->jumlah.'" 
                             data-keterangan="'.$kasMasuk->keterangan.'"
-                            data-tambah = "'.route('kas-masuk.store').'"
-                            data-route="' . route('kas-masuk.update', $kasMasuk->id) . '" class="edit btn btn-xs btn-success"><i class="fas fa-pencil-square"></i></button>
-                    <button onclick="deleteForm(`'. route('kas-masuk.destroy', $kasMasuk->id) .'`)" class="btn btn-xs btn-danger delete"><i class="fas fa-trash"></i></button>
+                            data-tambah = "'.route('admin.kas-masuk.store').'"
+                            data-route="' . route('admin.kas-masuk.update', $kasMasuk->id) . '" class="edit btn btn-xs btn-success"><i class="fas fa-pencil-square"></i></button>
+                    <button onclick="deleteForm(`'. route('admin.kas-masuk.destroy', $kasMasuk->id) .'`)" class="btn btn-xs btn-danger delete"><i class="fas fa-trash"></i></button>
                 ';
             })
             ->rawColumns(['action'])
@@ -97,7 +97,7 @@ class KasMasukController extends Controller
         $kasMasuk->keterangan = $request->keterangan;
         $kasMasuk->save();
 
-        return redirect()->route('kas-masuk.index')->with(['success' => 'Berhasil Disimpan!']);
+        return redirect()->route('admin.kas-masuk.index')->with(['success' => 'Berhasil Disimpan!']);
     }
 
     /**
@@ -144,7 +144,7 @@ class KasMasukController extends Controller
         $kasMasuk->keterangan = $request->keterangan;
         $kasMasuk->update();
 
-        return redirect()->route('kas-masuk.index')->with(['success' => 'Berhasil Diupdate!']);
+        return redirect()->route('admin.kas-masuk.index')->with(['success' => 'Berhasil Diupdate!']);
     }
 
     /**
@@ -158,6 +158,6 @@ class KasMasukController extends Controller
         $kasMasuk = KasMasuk::find($id);
         $kasMasuk->delete();
 
-        return redirect()->route('kas-masuk.index')->with(['success' => 'Berhasil Dihapus!']);
+        return redirect()->route('admin.kas-masuk.index')->with(['success' => 'Berhasil Dihapus!']);
     }
 }

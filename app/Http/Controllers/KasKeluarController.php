@@ -73,8 +73,8 @@ class KasKeluarController extends Controller
                 return '
                     <button data-keperluan="'.$kasKeluar->keperluan.'" 
                             data-jumlah="'.$kasKeluar->jumlah.'" "
-                            data-route="' . route('kas-keluar.update', $kasKeluar->id) . '" class="edit btn btn-xs btn-success"><i class="fas fa-pencil-square"></i></button>
-                    <button onclick="deleteForm(`'. route('kas-keluar.destroy', $kasKeluar->id) .'`)" class="btn btn-xs btn-danger delete"><i class="fas fa-trash"></i></button>
+                            data-route="' . route('admin.kas-keluar.update', $kasKeluar->id) . '" class="edit btn btn-xs btn-success"><i class="fas fa-pencil-square"></i></button>
+                    <button onclick="deleteForm(`'. route('admin.kas-keluar.destroy', $kasKeluar->id) .'`)" class="btn btn-xs btn-danger delete"><i class="fas fa-trash"></i></button>
                 ';
             })
             ->rawColumns(['action'])
@@ -118,7 +118,7 @@ class KasKeluarController extends Controller
         $kasKeluar->id_perusahaan = auth()->user()->id_perusahaan;
         $kasKeluar->save();
 
-        return redirect()->route('kas-keluar.index')->with(['success' => 'Berhasil Disimpan!']);
+        return redirect()->route('admin.kas-keluar.index')->with(['success' => 'Berhasil Disimpan!']);
     }
 
     /**

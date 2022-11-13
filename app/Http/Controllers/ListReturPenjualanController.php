@@ -57,7 +57,7 @@ class ListReturPenjualanController extends Controller
                 $row['nama_pelanggan'] = $item->nama_pelanggan;
                 $row['total_retur'] = 'RP. '. format_uang($item->total_retur);
                 
-                $row['action'] = '<a href="'. route('list-retur-penjualan.print_nota', $item->id) .'" class="btn btn-xs btn-secondary rounded delete"><i class="fa-solid fa-print"></i></a>';
+                $row['action'] = '<a href="'. route('admin.list-retur-penjualan.print_nota', $item->id) .'" class="btn btn-xs btn-secondary rounded delete"><i class="fa-solid fa-print"></i></a>';
 
                 $data[] = $row;
             }         

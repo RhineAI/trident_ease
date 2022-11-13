@@ -110,6 +110,7 @@
                                 <div class="mb-3">
                                     <p style="color:#636060;">LOGO PERUSAHAAN</p><br>
                                     <input class="form-control" type="file" id="image" name="logo" onchange="previewImage()">
+                                    <small style="color:grey; font-size:11px;" class="text-muted">Max 4mb</small>
                                 </div>
                             </div>
                             <br>

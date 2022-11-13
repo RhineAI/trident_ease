@@ -134,25 +134,25 @@ class TransaksiPenjualanController extends Controller
                         $penjualanBaru->save();
                         // return redirect()->route('list-transaksi.index')->with(['success' => 'Data Transaksi Penjualan Berhasil Disimpan']);
                     }else {
-                        return redirect()->route('dashboard')->with(['error' => 'Sudah mencapai limit transaksi, Naikan levelmu terlebih!']);
+                        return view('dashboard')->with(['error' => 'Sudah mencapai limit barang, Naikan levelmu terlebih dahulu!']);
                     }
                 } elseif($perusahaan->grade == 2) {
                     if($limit < 50 ) {
                         $penjualanBaru->save();
                         // return redirect()->route('list-transaksi.index')->with(['success' => 'Data Transaksi Penjualan Berhasil Disimpan']);
                     }else {
-                        return redirect()->route('dashboard')->with(['error' => 'Sudah mencapai limit transaksi, Naikan levelmu terlebih!']);
+                        return view('dashboard')->with(['error' => 'Sudah mencapai limit barang, Naikan levelmu terlebih dahulu!']);
                     }
                 } elseif($perusahaan->grade == 3) {
                     if($limit < 10000 ) {
                         $penjualanBaru->save();
                         // return redirect()->route('list-transaksi.index')->with(['success' => 'Data Transaksi Penjualan Berhasil Disimpan']);
                     }else {
-                        return redirect()->route('dashboard')->with(['success' => 'Laku kah?']);
+                        return view('dashboard')->with(['error' => 'Sudah mencapai limit barang, Naikan levelmu terlebih dahulu!']);
                     }
                 } 
                 else{
-                    return redirect()->route('logout')->with(['error' => 'Lu siapa??']);
+                    return view('dashboard')->with(['error' => 'Laku kah?']);
                 }
          
                 $detPenjualanBaru = new DetailPenjualan(); 
@@ -197,7 +197,7 @@ class TransaksiPenjualanController extends Controller
                 $kasMasuk->save();
             }
             // dd($penjualanBaru->id); die;
-            return redirect()->route('list-transaksi.index')->with(['success' => 'Transaksi Berhasil!']);
+            return redirect()->route('admin.list-transaksi.index')->with(['success' => 'Transaksi Berhasil!']);
         }
     }
 

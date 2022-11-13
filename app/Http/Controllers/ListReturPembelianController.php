@@ -54,7 +54,7 @@ class ListReturPembelianController extends Controller
                 $row['nama_supplier'] = $item->nama_supplier;
                 $row['total_retur'] = 'RP. '. format_uang($item->total_retur);
                 
-                $row['action'] = '<a href="'. route('list-retur-pembelian.print_nota', $item->id) .'" class="btn btn-xs btn-secondary rounded delete"><i class="fa-solid fa-print"></i></a>';
+                $row['action'] = '<a href="'. route('admin.list-retur-pembelian.print_nota', $item->id) .'" class="btn btn-xs btn-secondary rounded delete"><i class="fa-solid fa-print"></i></a>';
 
                 $data[] = $row;
             }         

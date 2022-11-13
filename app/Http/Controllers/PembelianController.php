@@ -93,7 +93,7 @@ class PembelianController extends Controller
     //         $produk->update();
     //     }
 
-    //     return redirect()->route('pembelian.index');
+    //     return redirect()->route('admin.pembelian.index');
     // }
 
     public function store(StorePembelianRequest $request)

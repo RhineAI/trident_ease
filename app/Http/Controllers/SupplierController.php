@@ -58,7 +58,7 @@ class SupplierController extends Controller
         
         $input = Supplier::create($request->all());
         // return redirect('/supplier')->with('success', 'Input data Supplier berhasil!');
-        return redirect()->route('supplier.index')->with(['success' => 'Data Berhasil Disimpan!']);
+        return redirect()->route('admin.supplier.index')->with(['success' => 'Data Berhasil Disimpan!']);
     }
 
     /**
@@ -103,7 +103,7 @@ class SupplierController extends Controller
 
         $supplier->update($request->all());
         // return redirect('/supplier')->with('success', 'Update Data berhasil');
-        return redirect()->route('supplier.index')->with(['success' => 'Data Berhasil Diupdate!']);
+        return redirect()->route('admin.supplier.index')->with(['success' => 'Data Berhasil Diupdate!']);
     }
 
     /**
@@ -116,6 +116,6 @@ class SupplierController extends Controller
     {
         $supplier->delete();
         // return redirect('/supplier')->with('delete', 'Delete Data berhasil');
-        return redirect()->route('supplier.index')->with(['success' => 'Data Berhasil Dihapus!']);
+        return redirect()->route('admin.supplier.index')->with(['success' => 'Data Berhasil Dihapus!']);
     }
 }

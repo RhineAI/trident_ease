@@ -55,7 +55,7 @@ class PelangganController extends Controller
         $input = Pelanggan::create($request->all());
         // return $request;
         // return redirect('/pelanggan')->with('success', 'Input data Supplier berhasil!');
-        return redirect()->route('pelanggan.index')->with(['success' => 'Data Berhasil Disimpan!']);
+        return redirect()->route('admin.pelanggan.index')->with(['success' => 'Data Berhasil Disimpan!']);
     }
 
     /**
@@ -91,7 +91,7 @@ class PelangganController extends Controller
     {
         $pelanggan->update($request->all());
         // return redirect('/pelanggan')->with('success', 'Update Data berhasil');
-        return redirect()->route('pelanggan.index')->with(['success' => 'Data Berhasil Diupdate!']);
+        return redirect()->route('admin.pelanggan.index')->with(['success' => 'Data Berhasil Diupdate!']);
     }
 
     /**
@@ -104,6 +104,6 @@ class PelangganController extends Controller
     {
         $pelanggan->delete();
         // return redirect('/pelanggan')->with('delete', 'Delete Data berhasil');
-        return redirect()->route('pelanggan.index')->with(['success' => 'Data Berhasil Dihapus!']);
+        return redirect()->route('admin.pelanggan.index')->with(['success' => 'Data Berhasil Dihapus!']);
     }
 }

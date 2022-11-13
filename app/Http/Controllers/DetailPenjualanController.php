@@ -48,7 +48,12 @@ class DetailPenjualanController extends Controller
         $newTransaksi->id_perusahaan = auth()->user()->id_perusahaan;
         $newTransaksi->save();
 
-        return redirect()->route('transaksi.index');
+        if(auth()->user()->hak_akses == 'admin' or auth()->user()->hak_akses == 'kasir') {
+            return redirect()->route('admin.transaksi.index');
+        } else {
+            return back()->with(['errors' => "You don't have permission to access this page"]);
+        }
+
     }
 
     /**

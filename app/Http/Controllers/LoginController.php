@@ -64,7 +64,6 @@ class LoginController extends Controller
     public function regSuccess() {
         $data['perusahaan'] = Perusahaan::select('*')->orderBy('id', 'DESC')->first();
         $data['user'] = User::select('*')->orderBy('id', 'DESC')->first();
-        // return $kontol;
         return view('auth.success')->with($data);
     }
 
@@ -78,7 +77,7 @@ class LoginController extends Controller
 
         if($request->logo){
             $request->validate([
-                'image' => 'image|mimes:jpg,png,jpeg,gif,svg',
+                'image' => 'image|mimes:jpg,png,jpeg,gif,svg|max:4096',
             ]);
 
             $getMime = $request->file('logo')->getMimeType(); 

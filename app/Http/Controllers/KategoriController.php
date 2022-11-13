@@ -40,7 +40,7 @@ class KategoriController extends Controller
     {
         $input = Kategori::create($request->all());
         // return redirect('/kategori')->with('success', 'Input data Kategori berhasil!');
-        return redirect()->route('kategori.index')->with(['success' => 'Data Berhasil Disimpan!']);
+        return redirect()->route('admin.kategori.index')->with(['success' => 'Data Berhasil Disimpan!']);
     }
 
     /**
@@ -76,7 +76,7 @@ class KategoriController extends Controller
     {
         $kategori->update($request->all());
         // return redirect('/kategori')->with('success', 'Update Data berhasil');
-        return redirect()->route('kategori.index')->with(['success' => 'Data Berhasil Diupdate!']);
+        return redirect()->route('admin.kategori.index')->with(['success' => 'Data Berhasil Diupdate!']);
     }
 
     /**
@@ -89,9 +89,9 @@ class KategoriController extends Controller
     {
         $kategori->delete();
         // if (response()->json(500)){
-        //     return redirect()->route('kategori.index')->with(['error' => 'Data Gagal Dihapus!']);
+        //     return redirect()->route('admin.kategori.index')->with(['error' => 'Data Gagal Dihapus!']);
         // } else {
-        //     return redirect()->route('kategori.index')->with(['success' => 'Data Berhasil Dihapus!']);
+        //     return redirect()->route('admin.kategori.index')->with(['success' => 'Data Berhasil Dihapus!']);
         // }
         return response(null, 204);
         // return redirect('/kategori')->with('delete', 'Delete Data berhasil');

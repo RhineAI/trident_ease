@@ -57,7 +57,7 @@ class ListTransaksiPembelianController extends Controller
                 $row['nama_supplier'] = ucfirst($item->nama_supplier);
                 $row['invoice'] = '<span class="badge badge-info">'. $item->kode_invoice .'</span>';
                 $row['total_pembelian'] = 'RP. '. format_uang($item->total_pembelian);   
-                $row['action'] = '<a href="'. route('list-pembelian.print_nota', $item->id) .'" class="btn btn-xs btn-secondary rounded delete"><i class="fa-solid fa-print"></i></a>';
+                $row['action'] = '<a href="'. route('admin.list-pembelian.print_nota', $item->id) .'" class="btn btn-xs btn-secondary rounded delete"><i class="fa-solid fa-print"></i></a>';
 
                 $data[] = $row;
             }         

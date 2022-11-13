@@ -132,10 +132,13 @@
                       {{ $perusahaan->nama }}
                   </div>
                   <p>
+                    Pendaftaran berhasil, silahkan cek email anda!
+                  </p>
+                  {{-- <p>
                       Username : {{ str_replace(' ', '', $user->username) }}
                       <br>
                       Password = 12345
-                  </p>
+                  </p> --}}
               </div>
               <div></div>
               <p class="">

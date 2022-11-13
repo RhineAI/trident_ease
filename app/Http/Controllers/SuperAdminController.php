@@ -49,7 +49,7 @@ class SuperAdminController extends Controller
                             data-npwp="'.$perusahaan->npwp.'"
                             data-email="'.$perusahaan->email.'"
                             data-grade="'.$perusahaan->grade.'"
-                            data-route="' . route('manage-perusahaan.update', $perusahaan->id) . '" class="edit btn btn-xs btn-warning"><i class="fas fa-light fa-pencil-square"></i></button>
+                            data-route="' . route('super_admin.manage-perusahaan.update', $perusahaan->id) . '" class="edit btn btn-xs btn-warning"><i class="fas fa-light fa-pencil-square"></i></button>
                 ';
             })
             ->rawColumns(['action', 'grade'])
@@ -112,7 +112,7 @@ class SuperAdminController extends Controller
         $perusahaan->update($request->all());
 
         // return response(null, 204);
-        return redirect()->route('manage-perusahaan.index')->with(['success' => 'Perusahaan Berhasil Diupdate!']);
+        return redirect()->route('super_admin.manage-perusahaan.index')->with(['success' => 'Perusahaan Berhasil Diupdate!']);
     }
     public function update(Request $request, $id)
     {
@@ -121,7 +121,7 @@ class SuperAdminController extends Controller
         $perusahaan->update($request->all());
 
         // return response(null, 204);
-        return redirect()->route('manage-perusahaan.index')->with(['success' => 'Perusahaan Berhasil Diupdate!']);
+        return redirect()->route('super_admin.manage-perusahaan.index')->with(['success' => 'Perusahaan Berhasil Diupdate!']);
     }
 
     /**
