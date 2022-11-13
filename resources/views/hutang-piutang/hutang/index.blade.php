@@ -119,7 +119,7 @@
              // $('#tbl-data-bayar').DataTable();
         // });
         $(document).on('change', '#tgl', function(){
-            console.log($('#tgl').val());
+            // console.log($('#tgl').val());
         })
 
         let nama_pelanggan = $(this).data('nama_pelanggan')

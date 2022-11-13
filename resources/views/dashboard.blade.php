@@ -10,7 +10,7 @@
 
 @section('breadcrumb')
 @parent
-    Pemasok
+    Dashboard
 @endsection
 
 @push('styles')

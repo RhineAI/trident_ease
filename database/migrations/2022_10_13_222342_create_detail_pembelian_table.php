@@ -21,7 +21,7 @@ return new class extends Migration
             $table->integer('id_barang');
             $table->double('harga_beli');
             $table->integer('qty');
-            $table->double('diskon');
+            $table->float('diskon')->default(0);
             $table->integer('id_perusahaan');
             $table->foreign('id_perusahaan')->references('id')->on('t_perusahaan')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('id_pembelian')->references('id')->on('t_transaksi_pembelian')->onDelete('cascade')->onUpdate('cascade');

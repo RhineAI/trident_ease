@@ -24,7 +24,7 @@ return new class extends Migration
             $table->double('total_bayar');
             $table->double('keuntungan');
             $table->double('kembalian');
-            $table->integer('jenis_pembayaran');
+            $table->integer('jenis_pembayaran')->comment('1:Cash, 2:Credits');
             $table->double('dp');
             $table->double('sisa');
             $table->integer('id_user');

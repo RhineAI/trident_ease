@@ -22,7 +22,7 @@ return new class extends Migration
             $table->double('total_pembelian');
             $table->double('bayar');
             $table->double('kembali');
-            $table->integer('jenis_pembayaran');
+            $table->integer('jenis_pembayaran')->comment('1:Cash, 2:Credits, 3:Transfer');
             $table->double('dp');
             $table->double('sisa');
             $table->integer('id_user');

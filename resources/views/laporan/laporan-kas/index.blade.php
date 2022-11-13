@@ -112,7 +112,7 @@ Laporan Kas
 
     $(document).on('click', '.firstdate', function() {
         let firstdate = $('.firstdate').text();
-        console.log(firstdate);
+        // console.log(firstdate);
         $('#tanggalAwal').val(firstdate);
     });
 

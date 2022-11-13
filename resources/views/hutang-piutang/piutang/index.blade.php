@@ -105,7 +105,7 @@
         var tb = $(this).val();
         var sisa = $("#sisa").val();
         var dp = $("#dp").val();
-        console.log(sisa, tb, sisa-tb)
+        // console.log(sisa, tb, sisa-tb)
         var total_harga = $('#total_harga').val()
         // var harga = String(dp).replaceAll(".", '');
         // console.log(harga)
@@ -127,7 +127,7 @@
              // $('#tbl-data-bayar').DataTable();
         // });
         $(document).on('change', '#tgl', function(){
-            console.log($('#tgl').val());
+            // console.log($('#tgl').val());
         })
 
         let nama_pelanggan = $(this).data('nama_pelanggan')
