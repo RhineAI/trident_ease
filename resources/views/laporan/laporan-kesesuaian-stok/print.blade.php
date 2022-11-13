@@ -88,7 +88,7 @@
 </head>
   <body onload="window.print()">
     <div class="button ml-4 align-items-end">
-        <a href="{{ route('laporan-kesesuaian-stok.index') }}" class="mb-3 mt-3 btn btn-sm btn-secondary ml-4 d-print-none"><i class="fas fa-arrow-rotate-left"></i> Back</a>
+        <a href="{{ route('admin.laporan-kesesuaian-stok.index') }}" class="mb-3 mt-3 btn btn-sm btn-secondary ml-4 d-print-none"><i class="fas fa-arrow-rotate-left"></i> Back</a>
         <button onclick="window.print()" class="mb-3 mt-3 btn btn-sm btn-danger ml-4 d-print-none"><i class="fa-solid fa-print"></i> Print PDF</button>
     </div>
 

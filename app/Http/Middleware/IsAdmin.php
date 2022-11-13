@@ -17,7 +17,7 @@ class IsAdmin
      */
     public function handle(Request $request, Closure $next)
     {   
-        dd(Auth::check());
+        // dd(Auth::check());
         if(Auth::check() && Auth::user()->hak_akses == 3) {
             return $next($request);
         } else {

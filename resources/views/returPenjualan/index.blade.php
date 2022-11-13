@@ -273,7 +273,7 @@
 
                 $.ajax({
                     type: 'POST',
-                    url:"{{ route('retur-penjualan.data') }}",
+                    url:"{{ route('admin.retur-penjualan.data') }}",
                     data: {
                         id: id,
                         _token: "{{ csrf_token() }}"

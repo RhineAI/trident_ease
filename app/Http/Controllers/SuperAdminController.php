@@ -14,11 +14,13 @@ class SuperAdminController extends Controller
      */
     public function index()
     {
+        $data['no'] = 1;
+        $data['perusahaan'] = Perusahaan::orderBy('id', 'DESC')->get();
         $data['cPerusahaan'] = Perusahaan::select('*')->where('id', auth()->user()->id_perusahaan)->first();
         return view('super-admin.perusahaan.index')->with($data);
     }
 
-    public function data()
+    public function table()
     {
         $perusahaan = Perusahaan::orderBy('id', 'DESC')->get();
         return datatables()
@@ -104,6 +106,14 @@ class SuperAdminController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+    public function perbarui(Request $request, $id) {
+        $perusahaan = Perusahaan::find($id);
+        $perusahaan['grade'] = $request->grade;
+        $perusahaan->update($request->all());
+
+        // return response(null, 204);
+        return redirect()->route('manage-perusahaan.index')->with(['success' => 'Perusahaan Berhasil Diupdate!']);
+    }
     public function update(Request $request, $id)
     {
         $perusahaan = Perusahaan::find($id);

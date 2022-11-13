@@ -18,9 +18,9 @@ class IsOwner
     public function handle(Request $request, Closure $next)
     {
         // dd(Auth::user());
-        dd(Auth::check());
+        // dd(Auth::check());
 
-        dd($request);
+        // dd($request);
 
         if(Auth::check() && Auth::user()->hak_akses == 2) {
             return $next($request);

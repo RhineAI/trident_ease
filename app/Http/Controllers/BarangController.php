@@ -128,9 +128,9 @@ class BarangController extends Controller
                                 data-keuntungan="'.$barang->keuntungan.'"
                                 data-keterangan="'.$barang->keterangan.'"
                                 data-status="'.$barang->status.'"
-                                data-route="'. route('barang.update', $barang->id) .'" 
+                                data-route="'. route('admin.barang.update', $barang->id) .'" 
                         class="edit btn btn-xs btn-success"><i class="fa fa-pencil"></i></button>     
-                        <button onclick="deleteForm(`'. route('barang.destroy', $barang->id) .'`)" class="btn btn-xs btn-danger"><i class="fa fa-trash"></i></button>
+                        <button onclick="deleteForm(`'. route('admin.barang.destroy', $barang->id) .'`)" class="btn btn-xs btn-danger"><i class="fa fa-trash"></i></button>
                     '; 
                 })
             ->rawColumns(['action', 'kode', 'stock', 'status'])
@@ -194,29 +194,29 @@ class BarangController extends Controller
             if($perusahaan->grade == 1) {
                 if($limit < 10 ) {
                     $barang->save();
-                    return redirect()->route('barang.index')->with(['success' => 'Berhasil Disimpan']);
+                    return redirect()->route('admin.barang.index')->with(['success' => 'Berhasil Disimpan']);
                 }else {
-                    return redirect()->route('dashboard')->with(['error' => 'Sudah mencapai limit barang, Naikan levelmu terlebih dahulu!']);
+                    return view('dashboard')->with(['error' => 'Sudah mencapai limit barang, Naikan levelmu terlebih dahulu!']);
                 }
             } elseif($perusahaan->grade == 2) {
                 if($limit < 50 ) {
                     $barang->save();
-                    return redirect()->route('barang.index')->with(['success' => 'Berhasil Disimpan']);
+                    return redirect()->route('admin.barang.index')->with(['success' => 'Berhasil Disimpan']);
                 }else {
-                    return redirect()->route('dashboard')->with(['error' => 'Sudah mencapai limit barang, Naikan levelmu terlebih dahulu!']);
+                    return view('dashboard')->with(['error' => 'Sudah mencapai limit barang, Naikan levelmu terlebih dahulu!']);
                 }
             } elseif($perusahaan->grade == 3) {
                 if($limit < 10000 ) {
                     $barang->save();
-                    return redirect()->route('barang.index')->with(['success' => 'Berhasil Disimpan']);
+                    return redirect()->route('admin.barang.index')->with(['success' => 'Berhasil Disimpan']);                    
                 }else {
-                    return redirect()->route('dashboard')->with(['success' => 'Laku kah?']);
+                    return view('dashboard')->with(['error' => 'Sudah mencapai limit barang, Naikan levelmu terlebih dahulu!']);
                 }
             } else{
                 return redirect()->route('logout')->with(['error' => 'Lu siapa??']);
             }
 
-        return redirect()->route('barang.index')->with(['success' => 'Berhasil Disimpan']);
+        return redirect()->route('admin.barang.index')->with(['success' => 'Berhasil Disimpan']);
 
     }
 

@@ -18,10 +18,10 @@
                         data-nama_satuan="{{ $item->nama }}">
                         <i class="fas fa-edit"></i>
                     </button>
-                    <form action="{{ route('satuan.destroy', $item->id) }}" style="display: inline;" method="post">
+                    <form action="{{ route('admin.satuan.destroy', $item->id) }}" style="display: inline;" method="post">
                         @csrf
                         @method('DELETE')
-                        <button onclick="deleteData('{{ route('satuan.destroy', $item->id) }}')" class="btn btn-xs btn-danger delete-data" type="button" title="Delete">
+                        <button onclick="deleteData('{{ route('admin.satuan.destroy', $item->id) }}')" class="btn btn-xs btn-danger delete-data" type="button" title="Delete">
                             <i class="fas fa-trash"></i>
                         </button>
                     </form>

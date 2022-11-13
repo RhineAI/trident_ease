@@ -65,7 +65,7 @@
                         </button>
                     </div>
                 @endif
-                <a href="{{ route('pembelian.create') }}" class="btn btn-primary">
+                <a href="{{ route('admin.pembelian.create') }}" class="btn btn-primary">
                     <i class="fas fa-plus"></i>&nbsp; Tambah Data
                 </a>
                 <br><br>

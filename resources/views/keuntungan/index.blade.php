@@ -24,7 +24,7 @@ Keuntungan
             <div class="box mb-4">
                 <div class="box-body table-responsive ">
                     <h2 class="text-center mt-3 mb-4">Set Keuntungan</h2>
-                    <form action="{{ route('keuntungan.store') }}" method="POST">
+                    <form action="{{ route('admin.keuntungan.store') }}" method="POST">
                         @csrf
                         <div class="form-group row">
                             <div class="form-group col-md-11" style="margin: auto;" >

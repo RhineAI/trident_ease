@@ -25,7 +25,7 @@
             <div class="box">
     
                 <div class="box-header with-border mb-3">
-                    <button data-mode="tambah" onclick="addForm('{{ route('kas-masuk.store') }}')" class="btn btn-primary mx-2 my-3"><i
+                    <button data-mode="tambah" onclick="addForm('{{ route('admin.kas-masuk.store') }}')" class="btn btn-primary mx-2 my-3"><i
                             class="fa fa-plus-circle"></i>
                         Tambah</button>
                 </div>
@@ -104,7 +104,7 @@
             autoWidth: false,
             serverSide: true,
             ajax: {
-                url: "{{ route('kas-masuk.data') }}",
+                url: "{{ route('admin.kas-masuk.data') }}",
                 type: "POST",
                 data: {  
                     _token: '{{ csrf_token() }}'
@@ -143,7 +143,7 @@
            $('document').ready(function() {
                 if (data.mode == 'edit') {
                     $('#modal-form').modal('show')
-                    $('#modal-form .modal-title').text('Edit Kas Masuk');
+                    $('#modal-form .modal-title').text('Edit admin.Kas Masuk');
 
                     $('#modal-form form')[0].reset();
                     $('#modal-form form').attr('action', data.url);

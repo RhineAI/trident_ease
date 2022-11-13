@@ -27,7 +27,7 @@
                 </td>
                 <td>
                     <button class="btn btn-xs btn-warning" id="edit" style="color: green;" type="button" title="Edit" 
-                        data-route="{{ route('users.update', $item->id) }}" 
+                        data-route="{{ route('admin.users.update', $item->id) }}" 
                         data-id_pegawai="{{ $item->id }}"
                         data-nama="{{ $item->nama }}" 
                         data-alamat="{{ $item->alamat }}" 
@@ -38,7 +38,7 @@
                         data-password="{{ $item->password }}">
                         <i class="fas fa-edit"></i>
                     </button>
-                    <form action="{{ route('users.destroy', $item->id) }}" style="display: inline;" method="post">
+                    <form action="{{ route('admin.users.destroy', $item->id) }}" style="display: inline;" method="post">
                         @csrf
                         @method('DELETE')
                         <button class="btn btn-xs btn-danger delete-data" type="button" title="Delete">

@@ -24,7 +24,7 @@ Data Pembelian
         <div class="col-md-12 p-2 mb-3" style="background-color: white">
             <div class="box">
                 <div class="box-body table-responsive">
-                    <form action="{{ route('list-pembelian.index') }}" method="get">
+                    <form action="{{ route('admin.list-pembelian.index') }}" method="get">
                         {{-- @csrf --}}
                         {{-- @method('get') --}}
                         <div class="form-group row mt-4">
@@ -98,7 +98,7 @@ Data Pembelian
         autoWidth: false,
         serverSide: true,
         ajax: {
-            url: "{{ route('list-pembelian.data', [$tanggalAwal, $tanggalAkhir]) }}",
+            url: "{{ route('admin.list-pembelian.data', [$tanggalAwal, $tanggalAkhir]) }}",
             type: "POST",
             data: {  
                 _token: '{{ csrf_token() }}'

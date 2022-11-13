@@ -25,7 +25,7 @@
             <div class="box">
     
                 <div class="box-header with-border mb-3">
-                    <button onclick="addForm('{{ route('kas-keluar.store') }}')" class="btn btn-primary mx-2 my-3"><i
+                    <button onclick="addForm('{{ route('admin.kas-keluar.store') }}')" class="btn btn-primary mx-2 my-3"><i
                             class="fa fa-plus-circle"></i>
                         Tambah</button>
                 </div>
@@ -103,7 +103,7 @@
             autoWidth: false,
             serverSide: true,
             ajax: {
-                url: "{{ route('kas-keluar.data') }}",
+                url: "{{ route('admin.kas-keluar.data') }}",
                 type: "POST",
                 data: {  
                     _token: '{{ csrf_token() }}'

@@ -42,6 +42,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth'])->group(function () {
         Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
+        // Route::patch('/manage-perusahaan/perbarui/{id}', [SuperAdminController::class, 'perbarui'])->name('manage.perbarui');
 
         Route::group(['prefix' => 'super_admin', 'middleware' => 'cek-hak-akses:super_admin', 'as' => 'super_admin.'], function () {
                 Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
@@ -55,11 +56,12 @@ Route::middleware(['auth'])->group(function () {
                 Route::post('/changePW', [UsersController::class, 'chawngePWUpdate']);
 
                 Route::resource('/manage-perusahaan', SuperAdminController::class);
-                Route::post('/manage-perusahaan/data', [SuperAdminController::class, 'data'])->name('manage-perusahaan.data');
+                Route::post('/manage-perusahaan/data', [SuperAdminController::class, 'table'])->name('manage.data');
                 Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
         });
 
         Route::group(['prefix' => 'admin', 'middleware' => 'cek-hak-akses:owner', 'as' => 'owner.'], function () {
+                Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
                 Route::get('/profile', [UsersController::class, 'profile'])->name('profile');
                 Route::post('/profile', [UsersController::class, 'profileUpdate']);
                 Route::get('/changePW', [UsersController::class, 'changePW'])->name('changePW');
@@ -280,5 +282,3 @@ Route::post('/login', [LoginController::class, 'login']);
 Route::get('/register', [LoginController::class, 'reg'])->name('reg');
 Route::post('/register', [LoginController::class, 'register'])->name('register');
 Route::get('/success', [LoginController::class, 'regSuccess'])->name('regSuccess');
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

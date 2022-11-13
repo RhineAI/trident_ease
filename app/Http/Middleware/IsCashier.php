@@ -18,8 +18,8 @@ class IsCashier
     public function handle(Request $request, Closure $next)
     {
         // dd(Auth::user());
-        dd(Auth::check());
-        dd(Auth::user());
+        // dd(Auth::check());
+        // dd(Auth::user());
 
         if(Auth::check() && Auth::user()->hak_akses == 4) {
             return $next($request);

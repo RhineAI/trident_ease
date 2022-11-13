@@ -26,7 +26,7 @@ Produk
             <div class="box">
     
                 <div class="box-header with-border mb-3">
-                    <button onclick="addForm('{{ route('barang.store') }}')" class="btn btn-primary mx-2 my-3"><i
+                    <button onclick="addForm('{{ route('admin.barang.store') }}')" class="btn btn-primary mx-2 my-3"><i
                             class="fa fa-plus-circle"></i>
                         Tambah</button>
                 </div>
@@ -115,7 +115,7 @@ Produk
             autoWidth: false,
             serverSide: true,
             ajax: {
-                url: "{{ route('barang.data') }}",
+                url: "{{ route('admin.barang.data') }}",
                 type: "POST",
                 data: {  
                     _token: '{{ csrf_token() }}'

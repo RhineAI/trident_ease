@@ -32,7 +32,11 @@ class LoginController extends Controller
 
         if(Auth::attempt($user)){
             $request->session()->regenerate();
-            return redirect()->intended('/'.$getUser->hak_akses)->with('success', 'Login Success');
+            // if (Auth::user()->hak_akses == 'super_admin') {
+                return redirect()->intended('/'.$getUser->hak_akses)->with('success', 'Login Success');
+            // } elseif(Auth::user()->hak_akses == 'admin') {
+                // return redirect()->intended('/'.$getUser->hak_akses)->with('success', 'Login Success');
+            // }
         }
 
         throw ValidationException::withMessages([

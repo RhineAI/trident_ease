@@ -70,11 +70,11 @@
                                                     data-total_pembelian="{{ $item->total_pembelian }}" 
                                                     data-dp="{{ $item->dp }}" 
                                                     data-sisa="{{ $item->sisa }}" 
-                                                    data-route="{{ route('data-hutang.store')}}"
+                                                    data-route="{{ route('admin.data-hutang.store')}}"
                                                     data-toggle="modal" data-target="#formModalPembayaranPBL" data-mode="edit"> <i class="fa fa-pencil"></i>
                                                     </button>
                                                 @else 
-                                                    <a href="{{ route('data-hutang.print_nota', $item->id) }}" class="btn btn-xs btn-secondary rounded delete"><i class="fa-solid fa-print"></i></a>
+                                                    <a href="{{ route('admin.data-hutang.print_nota', $item->id) }}" class="btn btn-xs btn-secondary rounded delete"><i class="fa-solid fa-print"></i></a>
                                                 @endif
                                             </td>
                                         </tr>

@@ -21,7 +21,7 @@
           <div class="box mb-4">
               <div class="box-body table-responsive">
                 <h2 class="text-center mt-3 mb-2">Data Pegawai</h2>
-                <button onclick="addForm('{{ route('users.store') }}')" class="btn btn-primary mx-2 my-3"><i
+                <button onclick="addForm('{{ route('admin.users.store') }}')" class="btn btn-primary mx-2 my-3"><i
                     class="fa fa-plus-circle"></i>
                 Tambah</button>
                   <!-- DataTable with Hover -->

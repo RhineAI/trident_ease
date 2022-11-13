@@ -24,7 +24,7 @@ Data Penjualan
         <div class="col-md-12 p-2 mb-3" style="background-color: white">
             <div class="box mb-4">
                 <div class="box-body table-responsive ">
-                    <form action="{{ route('list-transaksi.index') }}" method="get">
+                    <form action="{{ route('admin.list-transaksi.index') }}" method="get">
                         {{-- @csrf --}}
                         {{-- @method('get') --}}
                         <div class="form-group row mt-4">
@@ -56,7 +56,7 @@ Data Penjualan
                     <h3 class="text-center">Data Penjualan</h3>
                     <h5 style="text-align:center;">{{ tanggal_indonesia($tanggalAwal) }} s/d {{ tanggal_indonesia($tanggalAkhir) }}</h5>
                     <br>
-                {{-- <a href="{{ route('list-transaksi.export_pdf', [$tanggalAwal, $tanggalAkhir] ) }}" target="_blank" class="btn btn-danger btn-sm btn-flat" ><i class="bi bi-filetype-pdf"></i> Export PDF</a> --}}
+                {{-- <a href="{{ route('admin.list-transaksi.export_pdf', [$tanggalAwal, $tanggalAkhir] ) }}" target="_blank" class="btn btn-danger btn-sm btn-flat" ><i class="bi bi-filetype-pdf"></i> Export PDF</a> --}}
 
                     <!-- DataTable with Hover -->
                     <div class="col-lg-12">
@@ -100,7 +100,7 @@ Data Penjualan
         autoWidth: false,
         serverSide: true,
         ajax: {
-            url: "{{ route('list-transaksi.data', [$tanggalAwal, $tanggalAkhir]) }}",
+            url: "{{ route('admin.list-transaksi.data', [$tanggalAwal, $tanggalAkhir]) }}",
             type: "POST",
             data: {  
                 _token: '{{ csrf_token() }}'

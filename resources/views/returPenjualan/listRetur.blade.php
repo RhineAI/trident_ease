@@ -24,7 +24,7 @@ Data Retur Penjualan
         <div class="col-md-12 p-2 mb-3" style="background-color: white">
             <div class="box mb-4">
                 <div class="box-body table-responsive ">
-                    <form action="{{ route('list-retur-penjualan.index') }}" method="get">
+                    <form action="{{ route('admin.list-retur-penjualan.index') }}" method="get">
                         {{-- @csrf --}}
                         {{-- @method('get') --}}
                         <div class="form-group row mt-4">
@@ -51,7 +51,7 @@ Data Retur Penjualan
                          
                         </div>
                         {{-- <div class="form-group row mt-4 ml-2">
-                            <a href="{{ route('retur-penjualan.index') }}" class="btn btn-primary">Tambah Retur</a>
+                            <a href="{{ route('admin.retur-penjualan.index') }}" class="btn btn-primary">Tambah Retur</a>
                         </div> --}}
                     </form>
 
@@ -60,7 +60,7 @@ Data Retur Penjualan
                     <h5 style="text-align:center;" >s/d {{ tanggal_indonesia($tanggalAkhir) }}</h5>
                     <br>
                     <div class="button-group mb-1">          
-                        <a href="{{ route('retur-penjualan.index') }}" class="mx-4 mb-3 btn btn-sm btn-info text-end"><i class="fa fa-plus"></i> Retur Barang</a>
+                        <a href="{{ route('admin.retur-penjualan.index') }}" class="mx-4 mb-3 btn btn-sm btn-info text-end"><i class="fa fa-plus"></i> Retur Barang</a>
                     </div>
 
                     <!-- DataTable with Hover -->
@@ -105,7 +105,7 @@ Data Retur Penjualan
         autoWidth: false,
         serverSide: true,
         ajax: {
-            url: "{{ route('list-retur-penjualan.data', [$tanggalAwal, $tanggalAkhir]) }}",
+            url: "{{ route('admin.list-retur-penjualan.data', [$tanggalAwal, $tanggalAkhir]) }}",
             type: "POST",
             data: {  
                 _token: '{{ csrf_token() }}'

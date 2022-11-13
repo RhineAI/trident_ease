@@ -22,7 +22,7 @@ return new class extends Migration
             $table->enum('jenis_kelamin', ['L', 'P', 'Other']);
             $table->string('username', 100);
             $table->string('password');
-            $table->integer('hak_akses')->comment('1:Super Admin, 2:Owner, 3:Admin, 4:Cashier');
+            $table->string('hak_akses')->comment('1:Super Admin, 2:Owner, 3:Admin, 4:Cashier');
             $table->integer('id_perusahaan');
             $table->foreign('id_perusahaan')->references('id')->on('t_perusahaan')->onDelete('cascade')->onUpdate('cascade');
             $table->rememberToken();

@@ -128,7 +128,7 @@
                                     <div class="tampil-terbilang terbilang">Nol Rupiah</div>
                                 </div>
                                 <div class="col-lg-4">
-                                    <form action="{{ route('pembelian.store') }}" class="form-pembelian" method="post">
+                                    <form action="{{ route('admin.pembelian.store') }}" class="form-pembelian" method="post">
                                         @csrf
                                         <input type="hidden" name="id_pembelian">
                                         <input type="hidden" name="total" id="total">
@@ -177,7 +177,7 @@
                         </div>
                 
                         <div class="box-footer mb-4 btn-submit">
-                            {{-- <a href=""{{ route('pembelian.cancel', $pembelian->id_pembelian ) }} class="btn btn-outline-danger btn-sm"><i class="fa-solid fa-cart-shopping"></i> Batalkan Transaksi</a> --}}
+                            {{-- <a href=""{{ route('admin.pembelian.cancel', $pembelian->id_pembelian ) }} class="btn btn-outline-danger btn-sm"><i class="fa-solid fa-cart-shopping"></i> Batalkan Transaksi</a> --}}
                             <button type="submit" class="btn btn-outline-primary btn-sm btn-flat pull-right btn-simpan"><i class="fa-solid fa-floppy-disk"></i> Simpan Transaksi</button>
                         </div>
                     </div>
@@ -226,7 +226,7 @@
     }
 
     function tambahProduk() {
-        $.post('{{ route('pembelian.store') }}', $('.form-produk').serialize())
+        $.post("{{ route('admin.pembelian.store') }}", $('.form-produk').serialize())
             .done(response => {
                 $('#barcode').focus();
                 table.ajax.reload(() => loadForm($('#diskon').val()));
@@ -259,7 +259,7 @@
             serverSide: true,
             autoWidth: false,
             ajax: {
-                url: '{{ route('pembelian.data', $id_pembelian) }}',
+                url: "{{ route('admin.pembelian.data', $id_pembelian) }}",
             },
             columns: [
                 {data: 'DT_RowIndex', searchable: false, sortable: false},

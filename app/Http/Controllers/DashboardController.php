@@ -162,7 +162,7 @@ class DashboardController extends Controller
 
         // return $data;
 
-        if(auth()->user()->hak_akses == '3'){
+        if(auth()->user()->hak_akses == 'admin' or auth()->user()->hak_akses == 'super_admin'){
             return view('dashboard', $data);
         } else {
             $data['cPerusahaan'] = Perusahaan::select('*')->where('id', auth()->user()->id_perusahaan)->first();

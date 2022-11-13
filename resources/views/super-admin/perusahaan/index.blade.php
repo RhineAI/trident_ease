@@ -1,4 +1,4 @@
-@if (auth()->user()->hak_akses == 1) 
+@if (auth()->user()->hak_akses == 'super_admin') 
     @extends('templates.layout')
 
     @section('title')
@@ -48,6 +48,34 @@
                                                 <td class="text-center">Action</td>
                                             </tr>
                                         </thead>
+                                        <tbody>
+                                            @foreach ($perusahaan as $item)
+                                                <tr>
+                                                    <td>{{ $no++ }}</td>
+                                                    <td>{{ $item->nama }}</td>
+                                                    <td>{{ $item->pemilik }}</td>
+                                                    <td>{{ $item->email }}</td>
+                                                    <td>{{ $item->tlp }}</td>
+                                                    @if ($item->grade == 1) 
+                                                        <td><span class="badge badge-primary">Free</span></td>
+                                                    @elseif($item->grade == 2) 
+                                                        <td><span class="badge" style="background-color:#81d6b0;">Intermediate</span></td>
+                                                    @elseif($item->grade == 3) 
+                                                        <td><span class="badge badge-danger">Premium</span></td>
+                                                    @endif
+                                                    <td>{{ $item->created_at->diffForHumans() }}</td>
+                                                    <td><button data-mode ="edit"
+                                                        data-nama="{{ $item->nama }}" 
+                                                        data-pemilik="{{ $item->pemilik }}"
+                                                        data-tlp="{{ $item->tlp }}"
+                                                        data-npwp="{{ $item->npwp }}"
+                                                        data-email="{{ $item->email }}"
+                                                        data-grade="{{ $item->grade }}"
+                                                        data-route="{{ route('super_admin.manage-perusahaan.update', $item->id) }}" class="edit btn btn-xs btn-warning"><i class="fas fa-light fa-pencil-square"></i></button>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
                                     </table>
                                 </div>
                             </div>
@@ -62,30 +90,31 @@
 
     @push('scripts')
         <script>
-            let table;
-                table = $('.table').DataTable({
-                processing: true,
-                responsive: true,
-                autoWidth: false,
-                serverSide: true,
-                ajax: {
-                    url: "{{ route('manage-perusahaan.data') }}",
-                    type: "POST",
-                    data: {  
-                        _token: '{{ csrf_token() }}'
-                    }
-                },
-                columns: [
-                    {data:'DT_RowIndex', searchable: false, sortable: false},
-                    {data:'nama'},
-                    {data:'pemilik'},
-                    {data:'email'},
-                    {data:'tlp'},
-                    {data:'grade'},
-                    {data:'created_at'},
-                    {data:'action', searchable: false, sortable: false},
-                ]
-            });
+            $('.table').DataTable();
+            // let table;
+            //     table = $('.table').DataTable({
+            //     processing: true,
+            //     responsive: true,
+            //     autoWidth: false,
+            //     serverSide: true,
+            //     ajax: {
+            //         url: "",
+            //         type: "POST",
+            //         data: {  
+            //             _token: '{{ csrf_token() }}'
+            //         }
+            //     },
+            //     columns: [
+            //         {data:'DT_RowIndex', searchable: false, sortable: false},
+            //         {data:'nama'},
+            //         {data:'pemilik'},
+            //         {data:'email'},
+            //         {data:'tlp'},
+            //         {data:'grade'},
+            //         {data:'created_at'},
+            //         {data:'action', searchable: false, sortable: false},
+            //     ]
+            // });
 
             $(document).on('click', '.edit', function (event) {
                 let nama = $(this).data('nama')
@@ -112,7 +141,7 @@
 
                 // $('#modal-form form')[0].reset();
                 $('#modal-form form').attr('action', data.url);
-                $('#modal-form [name=_method]').val('put');
+                $('#modal-form [name=_method]').val('patch');
                 
                 $('#modal-form [name=nama]').val(data.nama);
                 $('#modal-form [name=pemilik]').val(data.pemilik);

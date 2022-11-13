@@ -24,7 +24,7 @@ Laporan Kas
         <div class="col-md-12 p-2 mb-3" style="background-color: white">
             <div class="box mb-4">
                 <div class="box-body table-responsive ">
-                    <form action="{{ route('laporan-kas.index') }}" method="get">
+                    <form action="{{ route('admin.laporan-kas.index') }}" method="get">
                         <div class="form-group row mt-4 ml-3 ">
                             <label for="tanggal_awal" class="col-lg-1 control-label mr-3">Tanggal Awal</label>
                             <div class="col-md-3 mr-5 mt-3">
@@ -52,8 +52,8 @@ Laporan Kas
                     </div>
                     
                     <div class="button-group mb-2">          
-                        <a href="{{ route('laporan-kas.print', [$tanggalAwal, $tanggalAkhir]) }}" class="ml-2 mb-3 mt-3 btn btn-sm btn-danger text-end"><i class="fa fa-file-pdf"></i> Print PDF</a>
-                        <a href="{{ route('laporan-kas.download', [$tanggalAwal, $tanggalAkhir] ) }}" class="ml-2 mb-3 mt-3 btn btn-sm btn-success text-end"><i class="fa fa-download"></i> Download PDF</a>           
+                        <a href="{{ route('admin.laporan-kas.print', [$tanggalAwal, $tanggalAkhir]) }}" class="ml-2 mb-3 mt-3 btn btn-sm btn-danger text-end"><i class="fa fa-file-pdf"></i> Print PDF</a>
+                        <a href="{{ route('admin.laporan-kas.download', [$tanggalAwal, $tanggalAkhir] ) }}" class="ml-2 mb-3 mt-3 btn btn-sm btn-success text-end"><i class="fa fa-download"></i> Download PDF</a>           
                     </div>
 
                     <br>
@@ -62,7 +62,7 @@ Laporan Kas
                     <h5 style="text-align:center;" >s/d {{ tanggal_indonesia($tanggalAkhir) }}</h5>
                     <br>
 
-                {{-- <a href="{{ route('list-transaksi.export_pdf', [$tanggalAwal, $tanggalAkhir] ) }}" target="_blank" class="btn btn-danger btn-sm btn-flat" ><i class="bi bi-filetype-pdf"></i> Export PDF</a> --}}
+                {{-- <a href="{{ route('admin.list-transaksi.export_pdf', [$tanggalAwal, $tanggalAkhir] ) }}" target="_blank" class="btn btn-danger btn-sm btn-flat" ><i class="bi bi-filetype-pdf"></i> Export PDF</a> --}}
 
                     <!-- DataTable with Hover -->
                     <div class="col-lg-12">
@@ -133,7 +133,7 @@ Laporan Kas
         autoWidth: false,
         serverSide: true,
         ajax: {
-            url: "{{ route('laporan-kas-masuk.data', [$tanggalAwal, $tanggalAkhir]) }}",
+            url: "{{ route('admin.laporan-kas-masuk.data', [$tanggalAwal, $tanggalAkhir]) }}",
             type: "POST",
             data: {  
                 _token: '{{ csrf_token() }}'
@@ -159,7 +159,7 @@ Laporan Kas
         autoWidth: false,
         serverSide: true,
         ajax: {
-            url: "{{ route('laporan-kas-keluar.data', [$tanggalAwal, $tanggalAkhir]) }}",
+            url: "{{ route('admin.laporan-kas-keluar.data', [$tanggalAwal, $tanggalAkhir]) }}",
             type: "POST",
             data: {  
                 _token: '{{ csrf_token() }}'

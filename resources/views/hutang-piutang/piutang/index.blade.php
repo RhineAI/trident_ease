@@ -68,11 +68,19 @@
                                                     data-total_harga="{{ $item->total_harga }}" 
                                                     data-dp="{{ $item->dp }}" 
                                                     data-sisa="{{ $item->sisa }}" 
-                                                    data-route="{{ route('data-piutang.store')}}"
+                                                    @if (auth()->user()->hak_akses == 'admin')
+                                                        data-route="{{ route('admin.data-piutang.store')}}"
+                                                    @elseif(auth()->user()->hak_akses == 'kasir')
+                                                        data-route="{{ route('kasir.data-piutang.store')}}"
+                                                    @endif
                                                     data-toggle="modal" data-target="#formModalPelanggan" data-mode="edit"> <i class="fa fa-pencil"></i>
                                                     </button>
                                                 @else 
-                                                    <a href="{{ route('data-piutang.print_nota', $item->id) }}" class="btn btn-xs btn-secondary rounded delete"><i class="fa-solid fa-print"></i></a>
+                                                    @if (auth()->user()->hak_akses == 'admin')
+                                                        <a href="{{ route('admin.data-piutang.print_nota', $item->id) }}" class="btn btn-xs btn-secondary rounded delete"><i class="fa-solid fa-print"></i></a>
+                                                    @elseif(auth()->user()->hak_akses == 'kasir')
+                                                        <a href="{{ route('kasir.data-piutang.print_nota', $item->id) }}" class="btn btn-xs btn-secondary rounded delete"><i class="fa-solid fa-print"></i></a>
+                                                    @endif
                                                 @endif
                                                 
                                             </td>

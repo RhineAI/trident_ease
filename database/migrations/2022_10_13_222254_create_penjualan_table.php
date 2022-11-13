@@ -21,9 +21,9 @@ return new class extends Migration
             $table->string('kode_invoice');
             $table->integer('total_harga');
             // $table->float('diskon')->default(0);
-            $table->integer('total_bayar');
+            $table->double('total_bayar');
             $table->double('keuntungan');
-            $table->integer('kembalian');
+            $table->double('kembalian');
             $table->integer('jenis_pembayaran');
             $table->double('dp');
             $table->double('sisa');

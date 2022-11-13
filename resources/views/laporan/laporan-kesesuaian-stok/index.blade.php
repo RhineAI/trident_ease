@@ -24,7 +24,7 @@ Laporan Kesesuaian Stok
         <div class="col-md-12 p-2 mb-3" style="background-color: white">
             <div class="box mb-4">
                 <div class="box-body table-responsive ">
-                    <form action="{{ route('laporan-kesesuaian-stok.index') }}" method="get">
+                    <form action="{{ route('admin.laporan-kesesuaian-stok.index') }}" method="get">
                         <div class="form-group row mt-4 ml-3">
                             <label for="tanggal_awal" class="col-lg-1 control-label mr-3">Tanggal Awal</label>
                             <div class="col-md-3 mr-5 mt-3">
@@ -78,8 +78,8 @@ Laporan Kesesuaian Stok
                     </div>
                     
                     <div class="button-group mb-2">          
-                        <a href="{{ route('laporan-kesesuaian-stok.print', [$merk, $category, $tanggalAwal, $tanggalAkhir]) }}" class="ml-2 mb-3 mt-3 btn btn-sm btn-danger text-end"><i class="fa fa-file-pdf"></i> Print PDF</a>
-                        <a href="{{ route('laporan-kesesuaian-stok.download', [$merk, $category, $tanggalAwal, $tanggalAkhir] ) }}" class="ml-2 mb-3 mt-3 btn btn-sm btn-success text-end"><i class="fa fa-download"></i> Download PDF</a>           
+                        <a href="{{ route('admin.laporan-kesesuaian-stok.print', [$merk, $category, $tanggalAwal, $tanggalAkhir]) }}" class="ml-2 mb-3 mt-3 btn btn-sm btn-danger text-end"><i class="fa fa-file-pdf"></i> Print PDF</a>
+                        <a href="{{ route('admin.laporan-kesesuaian-stok.download', [$merk, $category, $tanggalAwal, $tanggalAkhir] ) }}" class="ml-2 mb-3 mt-3 btn btn-sm btn-success text-end"><i class="fa fa-download"></i> Download PDF</a>           
                     </div>
 
                     <br>
@@ -87,7 +87,7 @@ Laporan Kesesuaian Stok
                     <h5 style="text-align:center;">Laporan Kesesuaian Stok {{ tanggal_indonesia($tanggalAwal, false) }}</h5>
                     <h5 style="text-align:center;" >s/d {{ tanggal_indonesia($tanggalAkhir, false) }}</h5>
                     <br>
-                {{-- <a href="{{ route('list-transaksi.export_pdf', [$tanggalAwal, $tanggalAkhir] ) }}" target="_blank" class="btn btn-danger btn-sm btn-flat" ><i class="bi bi-filetype-pdf"></i> Export PDF</a> --}}
+                {{-- <a href="{{ route('admin.list-transaksi.export_pdf', [$tanggalAwal, $tanggalAkhir] ) }}" target="_blank" class="btn btn-danger btn-sm btn-flat" ><i class="bi bi-filetype-pdf"></i> Export PDF</a> --}}
 
                     <!-- DataTable with Hover -->
                     <div class="col-lg-12">
@@ -143,7 +143,7 @@ Laporan Kesesuaian Stok
         autoWidth: false,
         serverSide: true,
         ajax: {
-            url: "{{ route('laporan-kesesuaian-stok.data', [$tanggalAwal, $tanggalAkhir ,$merk, $category]) }}",
+            url: "{{ route('admin.laporan-kesesuaian-stok.data', [$tanggalAwal, $tanggalAkhir ,$merk, $category]) }}",
             type: "POST",
             data: {  
                 _token: '{{ csrf_token() }}'

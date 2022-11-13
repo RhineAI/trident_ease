@@ -11,7 +11,7 @@
             <div class="modal-body">
                 <form action="" method="POST">
                     @csrf
-                    @method('put')
+                    @method('patch')
                     <div class="form-group row">
                         <label for="nama" class="col-md-2 col-md-offset-1 control-label">
                             <h5 class="my-2">Nama</h5>

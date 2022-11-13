@@ -28,10 +28,10 @@
                         data-alamat="{{ $item->alamat }}"
                         data-tlp="{{ $item->tlp }}" 
                         data-jenis_kelamin="{{ $item->jenis_kelamin }}"
-                        data-route="{{ route('pelanggan.update', $item->id) }}"
+                        data-route="{{ route('admin.pelanggan.update', $item->id) }}"
                         ><i class="fas fa-edit"></i>
                     </button>
-                    <form action="{{ route('pelanggan.destroy', $item->id) }}" method="post" class="d-inline">
+                    <form action="{{ route('admin.pelanggan.destroy', $item->id) }}" method="post" class="d-inline">
                         @csrf
                         @method('DELETE')
                         <button class="btn btn-xs btn-danger delete-data" type="button" title="Delete">

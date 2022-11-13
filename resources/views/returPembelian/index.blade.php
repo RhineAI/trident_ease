@@ -275,7 +275,7 @@
 
                 $.ajax({
                     type: 'POST',
-                    url:"{{ route('retur-pembelian.data') }}",
+                    url:"{{ route('admin.retur-pembelian.data') }}",
                     data: {
                         id: id,
                         _token: "{{ csrf_token() }}"
