@@ -30,23 +30,23 @@
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                 {{-- @yield('templates.menu.sidebar-admin') --}}
                 @if(auth()->user()->hak_akses == 'super_admin')
-                  @include('menu.sidebar-super-admin')
+                  @include('templates.menu.sidebar-super-admin')
                 @endif
                 
 
                 @if(auth()->user()->hak_akses == 'owner')
-                    @include('menu.sidebar-owner')
+                    @include('templates.menu.sidebar-owner')
                 @endif
                 
 
                 @if (auth()->user()->hak_akses == 'admin')
-                    @include('menu.sidebar-admin')
+                    @include('templates.menu.sidebar-admin')
                 @endif
                 
 
 
                 @if(auth()->user()->hak_akses == 'kasir') 
-                   @include('menu.sidebar-kasir')
+                   @include('templates.menu.sidebar-kasir')
                 @endif
             </ul>
         </nav>
