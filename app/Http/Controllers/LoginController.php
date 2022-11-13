@@ -96,7 +96,11 @@ class LoginController extends Controller
         $perusahaan->npwp = $request->npwp;
         $perusahaan->pemilik = $request->pemilik;
         $perusahaan->tlp = $request->telepon;
-        $perusahaan->bank = $request->bank;
+        if($request->bank == 'Other'){
+            $perusahaan->bank = $request->other;
+        } else {
+            $perusahaan->bank = $request->bank;
+        }
         $perusahaan->no_rekening = $request->no_rekening;
         $perusahaan->slogan = $request->slogan;
         $perusahaan->grade = 1;

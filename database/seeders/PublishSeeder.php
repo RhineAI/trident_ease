@@ -29,6 +29,17 @@ class PublishSeeder extends Seeder
             'grade' => 3
         ]);
 
+        // DB::table('t_users')->insert([
+        //     'nama' => 'ZiePos',
+        //     'alamat' => 'Jl.Kh Shaleh',
+        //     'tlp' => '082118356193',
+        //     'jenis_kelamin' => 'L',
+        //     'username' => 'SuperAdmin',
+        //     'password' => bcrypt('palakaumeledak123'),
+        //     'hak_akses' => 3,
+        //     'id_perusahaan' => 1,
+        // ]);
+
         DB::table('t_users')->insert([
             'nama' => 'ZiePos',
             'alamat' => 'Jl.Kh Shaleh',
