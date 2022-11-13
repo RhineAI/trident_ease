@@ -189,7 +189,7 @@ class ReturPembelianController extends Controller
         } else {
             foreach ($detailPembelian as $row) {
                 $i++;
-                $subtotal = $row->jumlah_beli_barang * $row->harga_beli;
+                // $subtotal = $row->jumlah_beli_barang * $row->harga_beli;
 
                 $qtySisa = ReturPembelian::leftJoin('t_detail_retur_pembelian AS DRP', 'DRP.id_retur_pembelian', 't_retur_pembelian.id')->select('DRP.id_barang', 'DRP.qtySisa')
                 ->where('t_retur_pembelian.id_perusahaan', auth()->user()->id_perusahaan) 
@@ -270,7 +270,7 @@ class ReturPembelianController extends Controller
         // return $request;
         $returBaru = new ReturPembelian();
 
-        if(ReturPembelian::select("id")->where('id', 'like', '%'. date('Ymd') . '%')->first() == null){
+        if(ReturPembelian::select("id")->where('id_perusahaan', auth()->user()->id_perusahaan)->where('id', 'like', '%'. date('Ymd') . '%')->first() == null){
             $indexTransaksi = sprintf("%05d", 1);
             $returBaru->id = date('Ymd'). $indexTransaksi;
         }
@@ -310,7 +310,7 @@ class ReturPembelianController extends Controller
         $kasMasuk->id_perusahaan = auth()->user()->id_perusahaan;
         $kasMasuk->save();
 
-        return redirect()->route('list-retur-pembelian.index')->with(['success' => 'Retur Pembelian Berhasil']);
+        return redirect()->route('admin.list-retur-pembelian.index')->with(['success' => 'Retur Pembelian Berhasil']);
     }
 
     /**

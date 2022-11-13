@@ -200,7 +200,7 @@ class ReturPenjualanController extends Controller
         $kasKeluar->id_perusahaan = auth()->user()->id_perusahaan;
         $kasKeluar->save();
         
-        return redirect()->route('list-retur-penjualan.index')->with(['success' => 'Retur Penjualan Berhasil']);
+        return redirect()->route('admin.list-retur-penjualan.index')->with(['success' => 'Retur Penjualan Berhasil']);
         
     }
 
