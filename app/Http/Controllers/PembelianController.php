@@ -194,7 +194,7 @@ class PembelianController extends Controller
                 $kasMasuk->save();
             }
             
-            return redirect('/list-pembelian')->with(['success' => 'Input data Transaksi Berhasil!']);
+            return redirect('/admin/list-pembelian')->with(['success' => 'Input data Transaksi Berhasil!']);
     }
 
 

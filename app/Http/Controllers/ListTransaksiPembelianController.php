@@ -46,6 +46,7 @@ class ListTransaksiPembelianController extends Controller
             $pembelian = Pembelian::where('tgl', 'Like', '%'.$tanggal.'%')
                                             ->leftJoin('t_supplier AS P', 'P.id', 't_transaksi_pembelian.id_supplier')
                                             ->select('t_transaksi_pembelian.*', 'P.nama AS nama_supplier')         
+                                            ->where('t_transaksi_pembelian.id_perusahaan', auth()->user()->id_perusahaan)
                                             ->orderBy('id', 'desc')->get();
                                             // return $pembelian;
 

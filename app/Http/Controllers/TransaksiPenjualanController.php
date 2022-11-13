@@ -27,7 +27,7 @@ class TransaksiPenjualanController extends Controller
      */
     public function index()
     {
-         $data['barang'] = Barang::orderBy('nama')->get();
+         $data['barang'] = Barang::orderBy('nama')->where('id', auth()->user()->id_perusahaan)->get();
         //  $diskon = TransaksiPenjualan::first()->diskon ?? 0;
  
         //  $detail = DetailPenjualan::orderBy('id_penjualan_detail', 'DESC');
@@ -86,7 +86,7 @@ class TransaksiPenjualanController extends Controller
             $penjualanBaru = new TransaksiPenjualan();
             // "select max(id)+1 as nextid from t_pembayaran where id like '".$tgl."%'"
             // dd(TransaksiPenjualan::select("id")->where('id', 'like', '%'. date('Ymd') . '%')->first()); die;
-            if(TransaksiPenjualan::select("id")->where('id', 'like', '%'. date('Ymd') . '%')->first() == null){
+            if(TransaksiPenjualan::select("id")->where('id_perusahaan', auth()->user()->id_perusahaan)->where('id', 'like', '%'. date('Ymd') . '%')->first() == null){
                 $indexTransaksi = sprintf("%05d", 1);
                 $penjualanBaru->id = date('Ymd'). $indexTransaksi;
             }

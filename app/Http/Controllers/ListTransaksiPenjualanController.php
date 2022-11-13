@@ -46,7 +46,7 @@ class ListTransaksiPenjualanController extends Controller
             $penjualan = TransaksiPenjualan::where('tgl', 'Like', '%'.$tanggal.'%')
                                             ->leftJoin('t_pelanggan AS P', 'P.id', 't_transaksi_penjualan.id_pelanggan')
                                             ->select('t_transaksi_penjualan.*', 'P.nama AS nama_pelanggan')
-                                            
+                                            ->where('t_transaksi_penjualan.id_perusahaan', auth()->user()->id_perusahaan)
                                             ->orderBy('id', 'desc')->get();
                                             // return $penjualan;
 

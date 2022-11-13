@@ -41,7 +41,7 @@ class ListReturPembelianController extends Controller
                                             ->leftJoin('t_transaksi_pembelian AS TP', 'TP.id', 't_retur_pembelian.id_pembelian')
                                             ->leftJoin('t_supplier AS S', 'S.id', 'TP.id_supplier')
                                             ->select('t_retur_pembelian.*', 'S.nama AS nama_supplier')
-                                            
+                                            ->where('t_retur_pembelian.id_perusahaan', auth()->user()->id_perusahaan)
                                             ->orderBy('t_retur_pembelian.id', 'desc')->get();
                                             // return $retur;
 

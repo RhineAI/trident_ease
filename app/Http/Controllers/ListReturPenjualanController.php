@@ -44,7 +44,7 @@ class ListReturPenjualanController extends Controller
                                             ->leftJoin('t_transaksi_penjualan AS TP', 'TP.id', 't_retur_penjualan.id_penjualan')
                                             ->leftJoin('t_pelanggan AS P', 'P.id', 'TP.id_pelanggan')
                                             ->select('t_retur_penjualan.*', 'P.nama AS nama_pelanggan')
-                                            
+                                            ->where('t_retur_penjualan.id_perusahaan', auth()->user()->id_perusahaan)
                                             ->orderBy('t_retur_penjualan.id', 'desc')->get();
                                             // return $retur;
 
