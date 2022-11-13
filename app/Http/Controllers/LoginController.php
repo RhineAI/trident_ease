@@ -108,14 +108,14 @@ class LoginController extends Controller
         
         // $id = Perusahaan::latest()->first();
         // return $id;
-
+        // $withoutspace = str_replace(' ', '', $perusahaan->nama);
         $user = new User();
         $user->id_perusahaan = $perusahaan->id;
         $user->nama = $perusahaan->pemilik;
-        $user->username = $perusahaan->nama;
-        $user->password = bcrypt('12345');
+        $user->username = str_replace(' ', '', $perusahaan->nama);
+        $user->password = bcrypt($perusahaan->npwp);
         $user->tlp = $perusahaan->tlp;
-        $user->hak_akses = 1;
+        $user->hak_akses = 'admin';
         $user->save();
 
         $data['perusahaan'] = $perusahaan;

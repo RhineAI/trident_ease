@@ -7,12 +7,14 @@ Terima Kasih Sudah Mendaftar, Silahkan Login Menggunakan Username dan Password d
 
 @php
     use app\Models\User;
-    $user = User::latest()->first();
+    use app\Models\Perusahaan;
+    $user = User::select('*')->orderBy('id', 'DESC')->first();
+    $perusahaan = perusahaan::select('*')->orderBy('id', 'DESC')->first();
 @endphp
 
 Username = {{ str_replace(' ', '', $user->username) }}
 <br>
-Password = 12345
+Password = {{ $perusahaan->npwp }}
 
 <b>Pastikan username dan password untuk segera diganti!</b>
 <br><br>
@@ -30,7 +32,7 @@ Jika Ada Masalah<a href="https://wa.wizard.id/31a293" style="text-decoration:non
     border-radius:20px;
     margin: 4px 2px;
     cursor: pointer;">
-        <a href="{{ url('/') }}" style="font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif; padding-top:20px; color:white;  text-decoration:none;">
+        <a href="{{ url('/login') }}" style="font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif; padding-top:20px; color:white;  text-decoration:none;">
             Silahkan Klik Disini Untuk Melanjutkan
         </a>
     </div>

@@ -164,6 +164,8 @@ class DashboardController extends Controller
 
         if(auth()->user()->hak_akses == 'admin' or auth()->user()->hak_akses == 'super_admin'){
             return view('dashboard', $data);
+        } elseif(auth()->user()->hak_akses == 'owner') {
+            return view('dashboard', $data);
         } else {
             $data['cPerusahaan'] = Perusahaan::select('*')->where('id', auth()->user()->id_perusahaan)->first();
             return view('dashboardKasir', $data);

@@ -2,14 +2,9 @@
 <aside class="main-sidebar sidebar-primary elevation-4" id="bgBlueLightWhiteColor">
     <!-- Brand Logo -->
     <a href="/" class="brand-link">
-        @if ($cPerusahaan->logo == null)
-        <img src="{{ asset('assets') }}/img/buildings.png" alt="AdminLTE Logo"
-            class="brand-image img-circle  elevation-3 border border-white" style="opacity: .8">
-        @else
-        <img src="{{ $cPerusahaan->logo }}" alt="AdminLTE Logo"
-            class="brand-image img-circle  elevation-3 border border-white" style="opacity: .8">
-        @endif
-        <span class="brand-text">{{ $cPerusahaan->nama }}</span>
+        <img src="{{ asset('assets') }}/img/ziepos.png" alt="AdminLTE Logo"
+            class="brand-image img-circle  elevation-3 border border-white">
+        <span class="brand-text">ZiePOS</span>
     </a>
 
     <!-- Sidebar -->
@@ -17,11 +12,16 @@
         <!-- Sidebar user (optional) -->
         <div class="user-panel mt-3 pb-3 mb-3 d-flex divider">
             <div class="image">
-                <img src="{{ asset('assets') }}/img/admin.png" class="img-circle elevation-2 border border-white"
-                    alt="User Image">
+                @if ($cPerusahaan->logo == null)
+                    <img src="{{ asset('assets') }}/img/admin.png" class="img-circle elevation-3 border border-white" style="opacity: .9;"
+                        alt="User Image">
+                @else
+                    <img src="{{ $cPerusahaan->logo }}" alt="AdminLTE Logo"
+                    class="brand-image img-circle elevation-3 border border-white" style="opacity: .9">
+                @endif
             </div>
             <div class="info">
-                <a href="#" class="d-block">{{ auth()->user()->nama }}</a>
+                <a href="#" class="d-block">{{ $cPerusahaan->nama }}</a>
             </div>
         </div>
 

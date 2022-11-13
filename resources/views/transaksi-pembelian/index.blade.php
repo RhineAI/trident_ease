@@ -225,7 +225,8 @@
             let id_supplier = $('#id_supplier').val();
             let produk = $('.produk').val();
             let dp = $('#bayar_kredit').val();
-            let cash = $('#uang_bayar').val();
+            let uang_bayar = $('#uang_bayar').val();
+            let cash = String(uang_bayar).replaceAll(".", '');
             let jenis_pembayaran = $('#jenis_pembayaran').val();
 
             let tb = $("#total_bayar").val();
@@ -352,6 +353,20 @@
                     var discount = $('#discount' + id).val();
                     var convert = String(harga_beli).replaceAll(".", '');
                     
+                    var hasil = (parseInt(convert) *qty) * discount/100;
+                    $('#subtotal' + id).val((parseInt(convert) * qty) - hasil);
+                    GetTotalBayar();
+                    //GetKeuntungan();
+                    //alert(id);
+                });
+
+                $(document).on('change', '.discount', function () {
+                    var id = $(this).data("idbuffer");
+                    var harga_beli = $('#harga_beli' + id).val();
+                    var qty = $('#qty' + id).val();
+                    var discount = $('#discount' + id).val();
+                    var convert = String(harga_beli).replaceAll(".", '');
+
                     var hasil = (parseInt(convert) *qty) * discount/100;
                     $('#subtotal' + id).val((parseInt(convert) * qty) - hasil);
                     GetTotalBayar();

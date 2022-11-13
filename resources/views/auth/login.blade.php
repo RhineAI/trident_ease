@@ -26,15 +26,28 @@
             <span aria-hidden="true">&times;</span>
         </div>
     @endif --}}
+    <style>
+        /* Logo Terbaru 1 */
+    img{
+        width: 100%;
+        height: 310px;
+        background-color:white;
+        margin-left:8.5%;
+    }
+
+        background: url(.png);
+
+    </style>
 
     <div class="main">
         <!-- Sing in  Form -->
         <section class="sign-in">
             <div class="container" style="border: 0.3px solid black">
                 <div class="signin-content">
-                    <div class="signin-image">
-                        <figure><img src="{{ asset('templates') }}/images/signin-image.jpg" alt="sing up image"></figure>
-                    </div>
+                    {{-- <div class="signin-image"> --}}
+                        {{-- <figure><img src="{{ asset('templates') }}/img/zielogin.jpg" alt="sing up image"></figure> --}}
+                        <figure><img src="{{ asset('assets') }}/img/zielogin.png" alt="sing up image"></figure>
+                    {{-- </div>s --}}
 
                     <div class="signin-form">
                         <h2 class="form-title">Sign in</h2>
