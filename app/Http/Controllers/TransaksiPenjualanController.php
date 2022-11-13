@@ -89,23 +89,23 @@ class TransaksiPenjualanController extends Controller
             if(TransaksiPenjualan::select("id")->where('id_perusahaan', auth()->user()->id_perusahaan)->where('id', 'like', '%'. date('Ymd') . '%')->first() == null){
                 $indexTransaksi = sprintf("%05d", 1);
                 $penjualanBaru->id = date('Ymd'). $indexTransaksi;
+                $penjualanBaru->kode_invoice = date('Ymd'). $indexTransaksi;
             }
 
-        $kode = '';
-        $date = (date('Ymd'));
-        // return $date;
-        if($penjualanBaru == NULL) {
-            $kode = $date . '0001';
-        } 
-        else {
-            $kode = sprintf($date.'%04d', intval(substr($penjualanBaru->kode, 8)) + 1);
-            $kode = strval($kode);
-        }
+        // $kode = '';
+        // $date = (date('Ymd'));
+        // // return $date;
+        // if($penjualanBaru == NULL) {
+        //     $kode = $date . '0001';
+        // } 
+        // else {
+        //     $kode = sprintf($date.'%04d', intval(substr($penjualanBaru->kode, 8)) + 1);
+        //     $kode = strval($kode);
+        // }
 
             $penjualanBaru->tgl = date('Y-m-d');
             $penjualanBaru->id_pelanggan = $request->id_pelanggan;
             $penjualanBaru->total_harga = $request->total_bayar;
-            $penjualanBaru->kode_invoice = $kode;
             if($request->jenis_pembayaran == '1') {
                 $penjualanBaru->total_bayar = $this->checkPrice($request->bayar);
                 $penjualanBaru->sisa = 0;

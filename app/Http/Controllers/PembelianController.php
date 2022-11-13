@@ -105,21 +105,21 @@ class PembelianController extends Controller
             if(Pembelian::select("id")->where('id', 'like', '%'. date('Ymd') . '%')->first() == null){
                 $indexTransaksi = sprintf("%05d", 1);
                 $pembelianBaru->id = date('Ymd'). $indexTransaksi;
+                $pembelianBaru->kode_invoice = date('Ymd'). $indexTransaksi;
             }
 
-            $kode = '';
-            $date = (date('Ymd'));
-            // return $date;
-            if($pembelianBaru == NULL) {
-                $kode = $date . '0001';
-            } 
-            else {
-                $kode = sprintf($date.'%04d', intval(substr($pembelianBaru->kode, 8)) + 1);
-                $kode = strval($kode);
-            }
+            // $kode = '';
+            // $date = (date('Ymd'));
+            // // return $date;
+            // if($pembelianBaru == NULL) {
+            //     $kode = $date . '0001';
+            // } 
+            // else {
+            //     $kode = sprintf($date.'%04d', intval(substr($pembelianBaru->kode, 8)) + 1);
+            //     $kode = strval($kode);
+            // }
 
             $pembelianBaru->tgl = date('Y-m-d');
-            $pembelianBaru->kode_invoice = $kode;
             $pembelianBaru->id_supplier = $request->id_supplier;
             $pembelianBaru->total_pembelian = $this->checkPrice($request->total_pembelian);
             $pembelianBaru->jenis_pembayaran = $request->jenis_pembayaran;
