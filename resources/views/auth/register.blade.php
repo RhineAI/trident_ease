@@ -70,15 +70,15 @@
                             <div class="col-2">
                                 <div class="input-group">
                                     <div class="rs-select2 js-select-simple select--no-search">
-                                        <select name="bank" required>
+                                        <select name="bank" required id="bank">
                                             <option disabled="disabled" selected="selected">BANK</option>
-                                            <option>Bank BRI</option>
-                                            <option>Bank BNI</option>
-                                            <option>Bank BJB</option>
-                                            <option>Bank BCA</option>
-                                            <option>Bank Permata</option>
-                                            <option>Bank Muamalat</option>
-                                            <option>Other</option>
+                                            <option value="Bank BRI">Bank BRI</option>
+                                            <option value="Bank BNI">Bank BNI</option>
+                                            <option value="Bank BJB">Bank BJB</option>
+                                            <option value="Bank BCA">Bank BCA</option>
+                                            <option value="Bank Permata">Bank Permata</option>
+                                            <option value="Bank Muamalat">Bank Muamalat</option>
+                                            <option value="Other">Other</option>
                                         </select>
                                         <div class="select-dropdown"></div>
                                     </div>
@@ -90,7 +90,9 @@
                                 </div>
                             </div>
                         </div>
-
+                        <div class="input-group other" style="padding-top:-50px;">
+                            <input type="text" name="other" id="other" placeholder="BANK PERUSAHAAN" class="input--style-1">
+                        </div>
                         {{-- <div class="input-group">
                             <div class="rs-select2 js-select-simple select--no-search">
                                 <select name="class">
@@ -137,6 +139,21 @@
 
     {{-- Toastr --}}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+    <script>
+        $('div.other').hide();
+        $(document).on('change', '#bank', function () {  
+            var isiSelect = $("#bank").val();
+
+            // console.log(isiSelect)
+            if (isiSelect == 'Other') {
+                // console.log(isiSelect)
+                $('div.other').show();
+            } else {
+                $('div.other').hide();
+            }
+        });
+    </script>
 
     <script>
         function previewImage() {
