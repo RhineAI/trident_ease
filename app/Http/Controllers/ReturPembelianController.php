@@ -301,6 +301,7 @@ class ReturPembelianController extends Controller
             $barangUpdate->stock -= $barang['qty_retur'];
             $barangUpdate->update();
         }
+
         $kasMasuk = new KasMasuk();
         $kasMasuk->tgl = now();
         $kasMasuk->jumlah = $this->checkPrice($request->total_retur);
