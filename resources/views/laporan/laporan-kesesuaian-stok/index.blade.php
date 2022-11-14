@@ -24,7 +24,11 @@ Laporan Kesesuaian Stok
         <div class="col-md-12 p-2 mb-3" style="background-color: white">
             <div class="box mb-4">
                 <div class="box-body table-responsive ">
-                    <form action="{{ route('admin.laporan-kesesuaian-stok.index') }}" method="get">
+                    @if (auth()->user()->hak_akses == 'admin')
+                        <form action="{{ route('admin.laporan-kesesuaian-stok.index') }}" method="get">
+                    @elseif(auth()->user()->hak_akses == 'owner')             
+                        <form action="{{ route('owner.laporan-kesesuaian-stok.index') }}" method="get">
+                    @endif  
                         <div class="form-group row mt-4 ml-3">
                             <label for="tanggal_awal" class="col-lg-1 control-label mr-3">Tanggal Awal</label>
                             <div class="col-md-3 mr-5 mt-3">
@@ -77,9 +81,14 @@ Laporan Kesesuaian Stok
                         {{-- <hr style="height:2px"> --}}
                     </div>
                     
-                    <div class="button-group mb-2">          
-                        <a href="{{ route('admin.laporan-kesesuaian-stok.print', [$merk, $category, $tanggalAwal, $tanggalAkhir]) }}" class="ml-2 mb-3 mt-3 btn btn-sm btn-danger text-end"><i class="fa fa-file-pdf"></i> Print PDF</a>
-                        <a href="{{ route('admin.laporan-kesesuaian-stok.download', [$merk, $category, $tanggalAwal, $tanggalAkhir] ) }}" class="ml-2 mb-3 mt-3 btn btn-sm btn-success text-end"><i class="fa fa-download"></i> Download PDF</a>           
+                    <div class="button-group mb-2">   
+                        @if (auth()->user()->hak_akses == 'admin')
+                            <a href="{{ route('admin.laporan-kesesuaian-stok.print', [$merk, $category, $tanggalAwal, $tanggalAkhir]) }}" class="ml-2 mb-3 mt-3 btn btn-sm btn-danger text-end"><i class="fa fa-file-pdf"></i> Print PDF</a>
+                            <a href="{{ route('admin.laporan-kesesuaian-stok.download', [$merk, $category, $tanggalAwal, $tanggalAkhir] ) }}" class="ml-2 mb-3 mt-3 btn btn-sm btn-success text-end"><i class="fa fa-download"></i> Download PDF</a>           
+                        @elseif(auth()->user()->hak_akses == 'owner') 
+                            <a href="{{ route('owner.laporan-kesesuaian-stok.print', [$merk, $category, $tanggalAwal, $tanggalAkhir]) }}" class="ml-2 mb-3 mt-3 btn btn-sm btn-danger text-end"><i class="fa fa-file-pdf"></i> Print PDF</a>
+                            <a href="{{ route('owner.laporan-kesesuaian-stok.download', [$merk, $category, $tanggalAwal, $tanggalAkhir] ) }}" class="ml-2 mb-3 mt-3 btn btn-sm btn-success text-end"><i class="fa fa-download"></i> Download PDF</a>                
+                        @endif            
                     </div>
 
                     <br>
@@ -131,7 +140,11 @@ Laporan Kesesuaian Stok
     let lastdate = $('.lastdate').val();
     $('#tanggalAkhir').val(lastdate);
 
-    
+    @if(auth()->user()->hak_akses == 'owner') 
+        var kesesuaian = "{{ route('owner.laporan-kesesuaian-stok.data', [$tanggalAwal, $tanggalAkhir]) }}";
+    @elseif(auth()->user()->hak_akses == 'admin') 
+        var kesesuaian = "{{ route('admin.laporan-kesesuaian-stok.data', [$tanggalAwal, $tanggalAkhir]) }}";
+    @endif
    let table;
         table = $('.table-kesesuaian-stok').DataTable({
         searching: false,
@@ -143,7 +156,7 @@ Laporan Kesesuaian Stok
         autoWidth: false,
         serverSide: true,
         ajax: {
-            url: "{{ route('admin.laporan-kesesuaian-stok.data', [$tanggalAwal, $tanggalAkhir ,$merk, $category]) }}",
+            url: kesesuaian,
             type: "POST",
             data: {  
                 _token: '{{ csrf_token() }}'
