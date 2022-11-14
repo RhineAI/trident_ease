@@ -24,7 +24,11 @@ Laporan Stok
         <div class="col-md-12 p-2 mb-3" style="background-color: white">
             <div class="box mb-4">
                 <div class="box-body table-responsive ">
-                    <form action="{{ route('admin.laporan-stok.index') }}" method="get">
+                    @if (auth()->user()->hak_akses == 'admin')
+                        <form action="{{ route('admin.laporan-stok.index') }}" method="get">
+                    @elseif(auth()->user()->hak_akses == 'owner')             
+                        <form action="{{ route('owner.laporan-stok.index') }}" method="get">
+                    @endif  
                         <div class="form-group row mt-4 ml-3 ">
                             <label for="tanggal_awal" class="col-lg-1 control-label mr-3">Pilih Merek</label>
                             <div class="col-md-3 mr-5 mt-3">
@@ -62,9 +66,15 @@ Laporan Stok
                         {{-- <hr style="height:2px"> --}}
                     </div>
                     
-                    <div class="button-group mb-2">          
-                        <a href="{{ route('admin.laporan-stok.print', [$merk, $category]) }}" class="ml-2 mb-3 mt-3 btn btn-sm btn-danger text-end"><i class="fa fa-file-pdf"></i> Print PDF</a>
-                        <a href="{{ route('admin.laporan-stok.download', [$merk, $category] ) }}" class="ml-2 mb-3 mt-3 btn btn-sm btn-success text-end"><i class="fa fa-download"></i> Download PDF</a>           
+                    <div class="button-group mb-2">   
+                        @if (auth()->user()->hak_akses == 'admin')
+                            <a href="{{ route('admin.laporan-stok.print', [$merk, $category]) }}" class="ml-2 mb-3 mt-3 btn btn-sm btn-danger text-end"><i class="fa fa-file-pdf"></i> Print PDF</a>
+                            <a href="{{ route('admin.laporan-stok.download', [$merk, $category] ) }}" class="ml-2 mb-3 mt-3 btn btn-sm btn-success text-end"><i class="fa fa-download"></i> Download PDF</a>             
+                        @elseif(auth()->user()->hak_akses == 'owner') 
+                            <a href="{{ route('owner.laporan-stok.print', [$merk, $category]) }}" class="ml-2 mb-3 mt-3 btn btn-sm btn-danger text-end"><i class="fa fa-file-pdf"></i> Print PDF</a>
+                            <a href="{{ route('owner.laporan-stok.download', [$merk, $category] ) }}" class="ml-2 mb-3 mt-3 btn btn-sm btn-success text-end"><i class="fa fa-download"></i> Download PDF</a>  
+                        @endif             
+                                 
                     </div>
 
                     <br>
@@ -109,7 +119,11 @@ Laporan Stok
         autoclose: true,
     });
 
-    
+    @if(auth()->user()->hak_akses == 'owner') 
+        var stok = "{{ route('owner.laporan-stok.data', [$merk, $category]) }}";
+    @elseif(auth()->user()->hak_akses == 'admin') 
+        var stok = "{{ route('admin.laporan-stok.data', [$merk, $category]) }}";
+    @endif
    let table;
         table = $('.table-stok').DataTable({
         searching: false,
@@ -121,7 +135,7 @@ Laporan Stok
         autoWidth: false,
         serverSide: true,
         ajax: {
-            url: "{{ route('admin.laporan-stok.data', [$merk, $category]) }}",
+            url: stok,
             type: "POST",
             data: {  
                 _token: '{{ csrf_token() }}'

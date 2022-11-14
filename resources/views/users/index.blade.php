@@ -21,9 +21,16 @@
           <div class="box mb-4">
               <div class="box-body table-responsive">
                 <h2 class="text-center mt-3 mb-2">Data Pegawai</h2>
-                <button onclick="addForm('{{ route('admin.users.store') }}')" class="btn btn-primary mx-2 my-3"><i
-                    class="fa fa-plus-circle"></i>
-                Tambah</button>
+                @if (auth()->user()->hak_akses == 'admin')
+                    <button onclick="addForm('{{ route('admin.users.store') }}')" class="btn btn-primary mx-2 my-3"><i
+                        class="fa fa-plus-circle"></i>
+                    Tambah</button>
+                @elseif(auth()->user()->hak_akses == 'owner')             
+                    <button onclick="addForm('{{ route('owner.users.store') }}')" class="btn btn-primary mx-2 my-3"><i
+                        class="fa fa-plus-circle"></i>
+                    Tambah</button>
+                @endif  
+                
                   <!-- DataTable with Hover -->
                   <div class="col-lg-12">
                       <div class="table-responsive p-3">
