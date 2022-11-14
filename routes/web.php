@@ -60,8 +60,12 @@ Route::middleware(['auth'])->group(function () {
                 Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
         });
 
-        Route::group(['prefix' => 'admin', 'middleware' => 'cek-hak-akses:owner', 'as' => 'owner.'], function () {
+        Route::group(['prefix' => 'owner', 'middleware' => 'cek-hak-akses:owner', 'as' => 'owner.'], function () {
                 Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+                
+                Route::resource('/users', UsersController::class);
+                Route::get('/users-tambah', [UsersController::class, 'index2'])->name('pegawai2');
+                Route::post('/users-tambah', [UsersController::class, 'store']);
                 Route::get('/profile', [UsersController::class, 'profile'])->name('profile');
                 Route::post('/profile', [UsersController::class, 'profileUpdate']);
                 Route::get('/changePW', [UsersController::class, 'changePW'])->name('changePW');

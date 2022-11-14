@@ -24,7 +24,11 @@ Laporan Harian
         <div class="col-md-12 p-2 mb-3" style="background-color: white">
             <div class="box mb-4">
                 <div class="box-body table-responsive ">
-                    <form action="{{ route('admin.laporan-harian.index') }}" method="get">
+                    @if (auth()->user()->hak_akses == 'admin')
+                        <form action="{{ route('admin.laporan-harian.index') }}" method="get">
+                    @elseif(auth()->user()->hak_akses == 'owner') 
+                        <form action="{{ route('owner.laporan-harian.index') }}" method="get">
+                    @endif  
                         <div class="form-group row mt-4 ml-3 ">
                             <label for="tanggal_awal" class="col-lg-1 control-label mr-3">Tanggal Awal</label>
                             <div class="col-md-3 mr-5 mt-3">
@@ -50,9 +54,14 @@ Laporan Harian
                         {{-- <hr style="height:2px"> --}}
                     </div>
                     
-                    <div class="button-group mb-2">          
-                        <a href="{{ route('admin.laporan-harian.print', [$tanggalAwal, $tanggalAkhir]) }}" class="ml-2 mb-3 mt-3 btn btn-sm btn-danger text-end"><i class="fa fa-file-pdf"></i> Print PDF</a>
-                        <a href="{{ route('admin.laporan-harian.download', [$tanggalAwal, $tanggalAkhir] ) }}" class="mb-3 ml-2 mt-3 btn btn-sm btn-success text-end"><i class="fa fa-download"></i> Download PDF</a>           
+                    <div class="button-group mb-2">
+                        @if (auth()->user()->hak_akses == 'admin')
+                            <a href="{{ route('admin.laporan-harian.print', [$tanggalAwal, $tanggalAkhir]) }}" class="ml-2 mb-3 mt-3 btn btn-sm btn-danger text-end"><i class="fa fa-file-pdf"></i> Print PDF</a>
+                            <a href="{{ route('admin.laporan-harian.download', [$tanggalAwal, $tanggalAkhir] ) }}" class="mb-3 ml-2 mt-3 btn btn-sm btn-success text-end"><i class="fa fa-download"></i> Download PDF</a>           
+                        @elseif(auth()->user()->hak_akses == 'owner') 
+                            <a href="{{ route('owner.laporan-harian.print', [$tanggalAwal, $tanggalAkhir]) }}" class="ml-2 mb-3 mt-3 btn btn-sm btn-danger text-end"><i class="fa fa-file-pdf"></i> Print PDF</a>
+                            <a href="{{ route('owner.laporan-harian.download', [$tanggalAwal, $tanggalAkhir] ) }}" class="mb-3 ml-2 mt-3 btn btn-sm btn-success text-end"><i class="fa fa-download"></i> Download PDF</a>           
+                        @endif          
                     </div>
                 {{-- <a href="{{ route('list-transaksi.export_pdf', [$tanggalAwal, $tanggalAkhir] ) }}" target="_blank" class="btn btn-danger btn-sm btn-flat" ><i class="bi bi-filetype-pdf"></i> Export PDF</a> --}}
                     <br>
@@ -176,10 +185,15 @@ Laporan Harian
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
+    <span style="visibility: hidden" class="url-penjualan-admin">
+        {{ route('admin.laporan-penjualan.data', [$tanggalAwal, $tanggalAkhir]) }}
+    </span>
+    <span style="visibility: hidden" class="url-penjualan-owner">
+        {{ route('owner.laporan-penjualan.data', [$tanggalAwal, $tanggalAkhir]) }}
+    </span>
 </section>
 @endsection
 
@@ -191,8 +205,12 @@ Laporan Harian
         autoclose: true,
     });
 
-    
-   let table_penjualan;
+    @if(auth()->user()->hak_akses == 'owner') 
+        var penjualan = "{{ route('owner.laporan-penjualan.data', [$tanggalAwal, $tanggalAkhir]) }}";
+    @elseif(auth()->user()->hak_akses == 'admin') 
+        var penjualan = "{{ route('admin.laporan-penjualan.data', [$tanggalAwal, $tanggalAkhir]) }}";
+    @endif
+    let table_penjualan;
         table = $('.table-penjualan').DataTable({
         searching: false,
         info: false,
@@ -203,7 +221,7 @@ Laporan Harian
         autoWidth: false,
         serverSide: true,
         ajax: {
-            url: "{{ route('admin.laporan-penjualan.data', [$tanggalAwal, $tanggalAkhir]) }}",
+            url: penjualan,
             type: "POST",
             data: {  
                 _token: '{{ csrf_token() }}'
@@ -220,7 +238,11 @@ Laporan Harian
         ]
     });
 
-
+    @if(auth()->user()->hak_akses == 'owner') 
+        var pembelian = "{{ route('owner.laporan-pembelian.data', [$tanggalAwal, $tanggalAkhir]) }}";
+    @elseif(auth()->user()->hak_akses == 'admin') 
+        var pembelian = "{{ route('admin.laporan-pembelian.data', [$tanggalAwal, $tanggalAkhir]) }}";
+    @endif
     let table_pembelian;
         table = $('.table-pembelian').DataTable({
         searching: false,
@@ -232,7 +254,7 @@ Laporan Harian
         autoWidth: false,
         serverSide: true,
         ajax: {
-            url: "{{ route('admin.laporan-pembelian.data', [$tanggalAwal, $tanggalAkhir]) }}",
+            url: pembelian,
             type: "POST",
             data: {  
                 _token: '{{ csrf_token() }}'
@@ -248,7 +270,11 @@ Laporan Harian
     });
 
 
-
+    @if(auth()->user()->hak_akses == 'owner') 
+        var retur_penjualan = "{{ route('owner.laporan-retur-penjualan.data', [$tanggalAwal, $tanggalAkhir]) }}";
+    @elseif(auth()->user()->hak_akses == 'admin') 
+        var retur_penjualan = "{{ route('admin.laporan-retur-penjualan.data', [$tanggalAwal, $tanggalAkhir]) }}";
+    @endif
     let table_retur_penjualan;
         table = $('.table-retur-penjualan').DataTable({
         searching: false,
@@ -260,7 +286,7 @@ Laporan Harian
         autoWidth: false,
         serverSide: true,
         ajax: {
-            url: "{{ route('admin.laporan-retur-penjualan.data', [$tanggalAwal, $tanggalAkhir]) }}",
+            url: retur_penjualan,
             type: "POST",
             data: {  
                 _token: '{{ csrf_token() }}'
@@ -275,7 +301,11 @@ Laporan Harian
         ]
     });
 
-
+    @if(auth()->user()->hak_akses == 'owner') 
+        var retur_pembelian = "{{ route('owner.laporan-retur-pembelian.data', [$tanggalAwal, $tanggalAkhir]) }}";
+    @elseif(auth()->user()->hak_akses == 'admin') 
+        var retur_pembelian = "{{ route('admin.laporan-retur-pembelian.data', [$tanggalAwal, $tanggalAkhir]) }}";
+    @endif
     let table_retur_pembelian;
         table = $('.table-retur-pembelian').DataTable({
         searching: false,
@@ -287,7 +317,7 @@ Laporan Harian
         autoWidth: false,
         serverSide: true,
         ajax: {
-            url: "{{ route('admin.laporan-retur-pembelian.data', [$tanggalAwal, $tanggalAkhir]) }}",
+            url: retur_pembelian,
             type: "POST",
             data: {  
                 _token: '{{ csrf_token() }}'
@@ -304,7 +334,11 @@ Laporan Harian
 
 
 
-
+    @if(auth()->user()->hak_akses == 'owner') 
+        var hutang = "{{ route('owner.laporan-hutang.data', [$tanggalAwal, $tanggalAkhir]) }}";
+    @elseif(auth()->user()->hak_akses == 'admin') 
+        var hutang = "{{ route('admin.laporan-hutang.data', [$tanggalAwal, $tanggalAkhir]) }}";
+    @endif
     let table_hutang;
         table = $('.table-hutang').DataTable({
         searching: false,
@@ -316,7 +350,7 @@ Laporan Harian
         autoWidth: false,
         serverSide: true,
         ajax: {
-            url: "{{ route('admin.laporan-hutang.data', [$tanggalAwal, $tanggalAkhir]) }}",
+            url: hutang,
             type: "POST",
             data: {  
                 _token: '{{ csrf_token() }}'
@@ -332,7 +366,13 @@ Laporan Harian
         ]
     });
 
-    let piutang;
+
+    @if(auth()->user()->hak_akses == 'owner') 
+        var piutang = "{{ route('owner.laporan-piutang.data', [$tanggalAwal, $tanggalAkhir]) }}";
+    @elseif(auth()->user()->hak_akses == 'admin') 
+        var piutang = "{{ route('admin.laporan-piutang.data', [$tanggalAwal, $tanggalAkhir]) }}";
+    @endif
+    let table_piutang;
         table = $('.table-piutang').DataTable({
         searching: false,
         info: false,
@@ -343,7 +383,7 @@ Laporan Harian
         autoWidth: false,
         serverSide: true,
         ajax: {
-            url: "{{ route('admin.laporan-piutang.data', [$tanggalAwal, $tanggalAkhir]) }}",
+            url: piutang,
             type: "POST",
             data: {  
                 _token: '{{ csrf_token() }}'
@@ -362,7 +402,11 @@ Laporan Harian
 
 
 
-
+    @if(auth()->user()->hak_akses == 'owner') 
+        var kas_masuk = "{{ route('owner.laporan-kas-masuk.data', [$tanggalAwal, $tanggalAkhir]) }}";
+    @elseif(auth()->user()->hak_akses == 'admin') 
+        var kas_masuk = "{{ route('admin.laporan-kas-masuk.data', [$tanggalAwal, $tanggalAkhir]) }}";
+    @endif
     let table_kas_masuk;
         table = $('.table-kas-masuk').DataTable({
         searching: false,
@@ -374,7 +418,7 @@ Laporan Harian
         autoWidth: false,
         serverSide: true,
         ajax: {
-            url: "{{ route('admin.laporan-kas-masuk.data', [$tanggalAwal, $tanggalAkhir]) }}",
+            url: kas_masuk,
             type: "POST",
             data: {  
                 _token: '{{ csrf_token() }}'
@@ -390,6 +434,11 @@ Laporan Harian
     });
 
 
+    @if(auth()->user()->hak_akses == 'owner') 
+        var kas_keluar = "{{ route('owner.laporan-kas-keluar.data', [$tanggalAwal, $tanggalAkhir]) }}";
+    @elseif(auth()->user()->hak_akses == 'admin') 
+        var kas_keluar = "{{ route('admin.laporan-kas-keluar.data', [$tanggalAwal, $tanggalAkhir]) }}";
+    @endif
     let table_kas_keluar;
         table = $('.table-kas-keluar').DataTable({
         searching: false,
@@ -401,7 +450,7 @@ Laporan Harian
         autoWidth: false,
         serverSide: true,
         ajax: {
-            url: "{{ route('admin.laporan-kas-keluar.data', [$tanggalAwal, $tanggalAkhir]) }}",
+            url: kas_keluar,
             type: "POST",
             data: {  
                 _token: '{{ csrf_token() }}'
@@ -415,8 +464,6 @@ Laporan Harian
             {data:'oleh'},
         ]
     });
-
-
 
 </script>
 @endpush
