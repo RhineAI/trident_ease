@@ -289,7 +289,7 @@ class ReturPembelianController extends Controller
             $detReturBaru->id_barang = $barang['id_barang_retur'];
             $detReturBaru->qty = $barang['qty_retur'];
             $qtyBeli = Pembelian::leftJoin('t_detail_pembelian AS DT', 'DT.id_pembelian', 't_transaksi_pembelian.id')->select(DB::raw('DT.qty'), 'DT.id_barang')->where('t_transaksi_pembelian.id_perusahaan', auth()->user()->id_perusahaan)->where('t_transaksi_pembelian.id', $request->id_pembelian)->where('DT.id_barang', $barang['id_barang_retur'])->first();
-            // return $qtyBeli->id_barang;
+            // return $qtyBeli->qty;
             $detReturBaru->qtySisa = $qtyBeli->qty - $barang['qty_retur'];
             $detReturBaru->harga_beli = $barang['harga_beli_retur'];
             $detReturBaru->sub_total = $barang['harga_beli_retur'] * $barang['qty_retur'];

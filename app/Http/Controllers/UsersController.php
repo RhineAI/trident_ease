@@ -19,7 +19,7 @@ class UsersController extends Controller
     public function index()
     {
         $data['cPerusahaan'] = Perusahaan::select('*')->where('id', auth()->user()->id_perusahaan)->first();
-        $data['pegawai'] = User::orderBy('id', 'DESC')->where('id', '!=', auth()->user()->id) ->get();
+        $data['pegawai'] = User::orderBy('id', 'DESC')->where('id_perusahaan', auth()->user()->id_perusahaan)->where('id', '!=', auth()->user()->id) ->get();
 
         // return $data;
         return view('users.index', $data);
@@ -86,7 +86,11 @@ class UsersController extends Controller
         // dd($user);
         
         // return redirect('/users')->with('success', 'Input data Pegawai berhasil!');
-        return redirect()->route('admin.users.index')->with(['success' => 'Input data Pegawai berhasil!']);
+        if(auth()->user()->hak_akses == 'admin'){
+            return redirect()->route('admin.users.index')->with(['success' => 'Input data Pegawai berhasil!']);
+        } elseif(auth()->user()->hak_akses == 'owner') {
+            return redirect()->route('owner.users.index')->with(['success' => 'Input data Pegawai berhasil!']);
+        }
     }
 
     /**
