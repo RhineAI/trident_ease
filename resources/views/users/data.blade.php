@@ -19,9 +19,9 @@
                 <td>{{ ucfirst($item->alamat) }}</td>
                 <td>{{ $item->tlp }}</td>
                 <td class="text-center">
-                    @if ($item->hak_akses == 1)
+                    @if ($item->hak_akses == 'admin')
                     <span class="badge badge-dark">Admin</span>
-                    @elseif($item->hak_akses == 2)
+                    @elseif($item->hak_akses == 'kasir')
                     <span class="badge badge-success">Kasir</span>
                     @endif
                 </td>

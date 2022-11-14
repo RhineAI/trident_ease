@@ -90,8 +90,8 @@
                       <label for="hak_akses">Hak Akses User</label>
                       <select class="form-control" name="hak_akses" id="hak_akses">
                           <option value="" disabled="disabled" selected="true">Choose Hak Akses User</option>
-                          <option value="1">Admnistrator</option>
-                          <option value="2">Kasir</option>
+                          <option value="admin">Admnistrator</option>
+                          <option value="kasir">Kasir</option>
                           {{-- <option value="owner">Owner</option> --}}
                       </select>
                   </div>
