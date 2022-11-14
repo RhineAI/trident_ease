@@ -56,7 +56,7 @@ class ListTransaksiPembelianController extends Controller
                 $row['DT_RowIndex'] = $no++;
                 $row['tgl'] = tanggal_indonesia($tanggal, false);
                 $row['nama_supplier'] = ucfirst($item->nama_supplier);
-                $row['invoice'] = '<span class="badge badge-info">'. $item->kode_invoice .'</span>';
+                $row['invoice'] = '<span class="badge badge-info">'. $item->id .'</span>';
                 $row['total_pembelian'] = 'RP. '. format_uang($item->total_pembelian);   
                 $row['action'] = '<a href="'. route('admin.list-pembelian.print_nota', $item->id) .'" class="btn btn-xs btn-secondary rounded delete"><i class="fa-solid fa-print"></i></a>';
 
@@ -101,7 +101,7 @@ class ListTransaksiPembelianController extends Controller
 
     public function printNota($id){
         $data['cPerusahaan'] = Perusahaan::select('*')->where('id', auth()->user()->id_perusahaan)->first();
-        $data['cPembelian'] = Pembelian::leftJoin('t_detail_pembelian AS DTP', 'DTP.id_pembelian', 't_transaksi_pembelian.id')->leftJoin('t_supplier AS S', 'S.id', 't_transaksi_pembelian.id_supplier')->select('S.nama AS nama_supplier', 't_transaksi_pembelian.id AS id_transaksi', 't_transaksi_pembelian.tgl AS tgl_transaksi', 't_transaksi_pembelian.kode_invoice', 't_transaksi_pembelian.jenis_pembayaran', 't_transaksi_pembelian.total_pembelian', 't_transaksi_pembelian.bayar', 't_transaksi_pembelian.kembali', 't_transaksi_pembelian.dp', 't_transaksi_pembelian.sisa')->where('t_transaksi_pembelian.id', $id)->where('t_transaksi_pembelian.id_perusahaan', auth()->user()->id_perusahaan)->first();
+        $data['cPembelian'] = Pembelian::leftJoin('t_detail_pembelian AS DTP', 'DTP.id_pembelian', 't_transaksi_pembelian.id')->leftJoin('t_supplier AS S', 'S.id', 't_transaksi_pembelian.id_supplier')->select('S.nama AS nama_supplier', 't_transaksi_pembelian.id AS id_transaksi', 't_transaksi_pembelian.tgl AS tgl_transaksi', 't_transaksi_pembelian.jenis_pembayaran', 't_transaksi_pembelian.total_pembelian', 't_transaksi_pembelian.bayar', 't_transaksi_pembelian.kembali', 't_transaksi_pembelian.dp', 't_transaksi_pembelian.sisa')->where('t_transaksi_pembelian.id', $id)->where('t_transaksi_pembelian.id_perusahaan', auth()->user()->id_perusahaan)->first();
         $data['cDetailPembelian'] = Pembelian::leftJoin('t_detail_pembelian AS DTP', 'DTP.id_pembelian', 't_transaksi_pembelian.id')->leftJoin('t_barang AS B', 'B.id', 'DTP.id_barang')->select('DTP.qty', 'DTP.harga_beli', 'DTP.diskon', 'B.nama AS nama_barang')->where('t_transaksi_pembelian.id', $id)->where('t_transaksi_pembelian.id_perusahaan', auth()->user()->id_perusahaan)->get();
         // dd($data['cPembelian']); die;
         return view('transaksi-pembelian.printNota', $data);

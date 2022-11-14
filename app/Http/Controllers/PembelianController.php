@@ -105,7 +105,7 @@ class PembelianController extends Controller
             if(Pembelian::select("id")->where('id', 'like', '%'. date('Ymd') . '%')->first() == null){
                 $indexTransaksi = sprintf("%05d", 1);
                 $pembelianBaru->id = date('Ymd'). $indexTransaksi;
-                $pembelianBaru->kode_invoice = date('Ymd'). $indexTransaksi;
+                // $pembelianBaru->kode_invoice = date('Ymd'). $indexTransaksi;
             }
 
             // $kode = '';

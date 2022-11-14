@@ -17,7 +17,7 @@ return new class extends Migration
         Schema::create('t_transaksi_pembelian', function (Blueprint $table) {
             $table->bigInteger('id')->autoIncrement();
             $table->date('tgl');
-            $table->string('kode_invoice');
+            // $table->string('kode_invoice');
             $table->integer('id_supplier');
             $table->double('total_pembelian');
             $table->double('bayar');

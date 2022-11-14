@@ -75,7 +75,7 @@
         <p>Admin: {{ strtoupper(auth()->user()->nama) }}</p>
     </div>
     <div class="clear-both" style="clear: both;"></div>
-    <p>No Faktur: {{ $cPenjualan->kode_invoice }}</p>
+    <p>No Faktur: {{ $cPenjualan->id_transaksi }}</p>
     <p>Pelanggan: {{ $cPenjualan->nama_pelanggan }}</p>
     <p class="text-center">===================================</p>
     

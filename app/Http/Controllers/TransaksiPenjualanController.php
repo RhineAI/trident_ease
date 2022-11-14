@@ -89,7 +89,7 @@ class TransaksiPenjualanController extends Controller
             if(TransaksiPenjualan::select("id")->where('id_perusahaan', auth()->user()->id_perusahaan)->where('id', 'like', '%'. date('Ymd') . '%')->first() == null){
                 $indexTransaksi = sprintf("%05d", 1);
                 $penjualanBaru->id = date('Ymd'). $indexTransaksi;
-                $penjualanBaru->kode_invoice = date('Ymd'). $indexTransaksi;
+                // $penjualanBaru->kode_invoice = date('Ymd'). $indexTransaksi;
             }
 
         // $kode = '';
