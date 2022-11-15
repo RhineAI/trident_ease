@@ -271,7 +271,8 @@ class BarangController extends Controller
         $barang->update();
         // return $barang;
 
-        return redirect('/barang')->with('success', 'Update Data berhasil');
+        return back()->with('success', 'Update Data berhasil');
+        // return redirect('/barang')->with('success', 'Update Data berhasil');
     }
 
     /**
@@ -283,6 +284,7 @@ class BarangController extends Controller
     public function destroy(Barang $barang)
     {
         $barang->delete();
-        return redirect('/barang')->with('delete', 'Delete Data berhasil');
+        return back()->with('success', 'Update Data berhasil');
+        // return redirect('/barang')->with('delete', 'Delete Data berhasil');
     }
 }

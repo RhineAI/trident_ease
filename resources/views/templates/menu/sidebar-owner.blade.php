@@ -39,6 +39,11 @@
             </a>
         </li>
         <li class="nav-item">
+            <a href="{{ route('owner.laporan-pembelian.index') }}" class="nav-link">
+                <p>Laporan Pembelian</p>
+            </a>
+        </li>
+        <li class="nav-item">
             <a href="{{ route('owner.laporan-hutang.index') }}" class="nav-link">
                 <p>Laporan Hutang</p>
             </a>

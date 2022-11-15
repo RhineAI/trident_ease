@@ -52,6 +52,8 @@ Route::middleware(['auth'])->group(function () {
                 Route::post('/users-tambah', [UsersController::class, 'store']);
                 Route::get('/profile', [UsersController::class, 'profile'])->name('profile');
                 Route::post('/profile', [UsersController::class, 'profileUpdate']);
+                Route::get('/profile/cards', [UsersController::class, 'card'])->name('profile.cards');
+
                 Route::get('/changePW', [UsersController::class, 'changePW'])->name('changePW');
                 Route::post('/changePW', [UsersController::class, 'chawngePWUpdate']);
 
@@ -68,6 +70,8 @@ Route::middleware(['auth'])->group(function () {
                 Route::post('/users-tambah', [UsersController::class, 'store']);
                 Route::get('/profile', [UsersController::class, 'profile'])->name('profile');
                 Route::post('/profile', [UsersController::class, 'profileUpdate']);
+                Route::get('/profile/cards', [UsersController::class, 'card'])->name('profile.cards');
+
                 Route::get('/changePW', [UsersController::class, 'changePW'])->name('changePW');
                 Route::post('/changePW', [UsersController::class, 'chawngePWUpdate']);
 
@@ -91,6 +95,11 @@ Route::middleware(['auth'])->group(function () {
                 Route::post('/laporan-penjualan/data/{awal}/{akhir}', [LaporanController::class, 'dataLaporanPenjualan'])->name('laporan-penjualan.data');
                 Route::get('/laporan-penjualan/download/{awal}/{akhir}', [LaporanController::class, 'DownloadPenjualan'])->name('laporan-penjualan.download');
                 Route::get('/laporan-penjualan/pdf/{awal}/{akhir}', [LaporanController::class, 'PrintPDFPenjualan'])->name('laporan-penjualan.print');
+
+                Route::get('/laporan-pembelian', [LaporanController::class, 'indexLaporanPembelian'])->name('laporan-pembelian.index');
+                Route::post('/laporan-pembelian/data/{awal}/{akhir}', [LaporanController::class, 'dataLaporanPembelian'])->name('laporan-pembelian.data');
+                Route::get('/laporan-pembelian/download/{awal}/{akhir}', [LaporanController::class, 'DownloadPembelian'])->name('laporan-pembelian.download');
+                Route::get('/laporan-pembelian/pdf/{awal}/{akhir}', [LaporanController::class, 'PrintPDFPembelian'])->name('laporan-pembelian.print');
 
                 Route::get('/laporan-stok', [LaporanController::class, 'indexLaporanStok'])->name('laporan-stok.index');
                 Route::post('/laporan-stok/data/{merek}/{kategori}', [LaporanController::class, 'dataLaporanStok'])->name('laporan-stok.data');
@@ -116,7 +125,6 @@ Route::middleware(['auth'])->group(function () {
                 Route::get('/laporan-harian', [LaporanController::class, 'indexLaporanHarian'])->name('laporan-harian.index');
                 Route::get('/laporan-harian/download/{awal}/{akhir}', [LaporanController::class, 'DownloadHarian'])->name('laporan-harian.download');
                 Route::get('/laporan-harian/pdf/{awal}/{akhir}', [LaporanController::class, 'PrintPDFHarian'])->name('laporan-harian.print');
-                Route::post('/laporan-pembelian/data/{awal}/{akhir}', [LaporanController::class, 'dataLaporanPembelian'])->name('laporan-pembelian.data');
                 Route::post('/laporan-retur-penjualan/data/{awal}/{akhir}', [LaporanController::class, 'dataLaporanReturPenjualan'])->name('laporan-retur-penjualan.data');
                 Route::post('/laporan-retur-pembelian/data/{awal}/{akhir}', [LaporanController::class, 'dataLaporanReturPembelian'])->name('laporan-retur-pembelian.data');   
         });
@@ -146,6 +154,8 @@ Route::middleware(['auth'])->group(function () {
                 Route::post('/users-tambah', [UsersController::class, 'store']);
                 Route::get('/profile', [UsersController::class, 'profile'])->name('profile');
                 Route::post('/profile', [UsersController::class, 'profileUpdate']);
+                Route::get('/profile/cards', [UsersController::class, 'card'])->name('profile.cards');
+
                 Route::get('/changePW', [UsersController::class, 'changePW'])->name('changePW');
                 Route::post('/changePW', [UsersController::class, 'chawngePWUpdate']);
 
@@ -163,7 +173,6 @@ Route::middleware(['auth'])->group(function () {
                 // Transaksi Pembelian
                 Route::resource('/transaksi-pembelian', PembelianController::class);    
                 Route::get('/list-pembelian', [ListTransaksiPembelianController::class, 'index'])->name('list-pembelian.index');
-                Route::post('/list-pembelian/data/{awal}/{akhir}', [ListTransaksiPembelianController::class, 'getData'])->name('list-pembelian.data');
                 Route::get('/list-pembelian/pdf/{awal}/{akhir}', [ListTransaksiPembelianController::class, 'exportPDF'])->name('list-pembelian.export_pdf');
                 Route::get('/list-pembelian/nota/{id}', [ListTransaksiPembelianController::class, 'printNota'])->name('list-pembelian.print_nota');
 
@@ -219,6 +228,11 @@ Route::middleware(['auth'])->group(function () {
                 Route::get('/laporan-penjualan/download/{awal}/{akhir}', [LaporanController::class, 'DownloadPenjualan'])->name('laporan-penjualan.download');
                 Route::get('/laporan-penjualan/pdf/{awal}/{akhir}', [LaporanController::class, 'PrintPDFPenjualan'])->name('laporan-penjualan.print');
 
+                Route::get('/laporan-pembelian', [LaporanController::class, 'indexLaporanPembelian'])->name('laporan-pembelian.index');
+                Route::post('/laporan-pembelian/data/{awal}/{akhir}', [LaporanController::class, 'dataLaporanPembelian'])->name('laporan-pembelian.data');
+                Route::get('/laporan-pembelian/download/{awal}/{akhir}', [LaporanController::class, 'DownloadPembelian'])->name('laporan-pembelian.download');
+                Route::get('/laporan-pembelian/pdf/{awal}/{akhir}', [LaporanController::class, 'PrintPDFPembelian'])->name('laporan-pembelian.print');
+
                 Route::get('/laporan-stok', [LaporanController::class, 'indexLaporanStok'])->name('laporan-stok.index');
                 Route::post('/laporan-stok/data/{merek}/{kategori}', [LaporanController::class, 'dataLaporanStok'])->name('laporan-stok.data');
                 Route::get('/laporan-stok/download/{merek}/{kategori}', [LaporanController::class, 'DownloadStok'])->name('laporan-stok.download');
@@ -243,7 +257,6 @@ Route::middleware(['auth'])->group(function () {
                 Route::get('/laporan-harian', [LaporanController::class, 'indexLaporanHarian'])->name('laporan-harian.index');
                 Route::get('/laporan-harian/download/{awal}/{akhir}', [LaporanController::class, 'DownloadHarian'])->name('laporan-harian.download');
                 Route::get('/laporan-harian/pdf/{awal}/{akhir}', [LaporanController::class, 'PrintPDFHarian'])->name('laporan-harian.print');
-                Route::post('/laporan-pembelian/data/{awal}/{akhir}', [LaporanController::class, 'dataLaporanPembelian'])->name('laporan-pembelian.data');
                 Route::post('/laporan-retur-penjualan/data/{awal}/{akhir}', [LaporanController::class, 'dataLaporanReturPenjualan'])->name('laporan-retur-penjualan.data');
                 Route::post('/laporan-retur-pembelian/data/{awal}/{akhir}', [LaporanController::class, 'dataLaporanReturPembelian'])->name('laporan-retur-pembelian.data');                
         });
@@ -259,6 +272,8 @@ Route::middleware(['auth'])->group(function () {
                 
                 Route::get('/profile', [UsersController::class, 'profile'])->name('profile');
                 Route::post('/profile', [UsersController::class, 'profileUpdate']);
+                Route::get('/profile/cards', [UsersController::class, 'card'])->name('profile.cards');
+
                 Route::get('/changePW', [UsersController::class, 'changePW'])->name('changePW');
                 Route::post('/changePW', [UsersController::class, 'chawngePWUpdate']);
 
@@ -281,8 +296,8 @@ Route::middleware(['auth'])->group(function () {
         });
 });
 
-Route::get('/login', [LoginController::class, 'index'])->name('login');
-Route::post('/login', [LoginController::class, 'login']);
+Route::get('/', [LoginController::class, 'index'])->name('login');
+Route::post('/', [LoginController::class, 'login']);
 Route::get('/register', [LoginController::class, 'reg'])->name('reg');
 Route::post('/register', [LoginController::class, 'register'])->name('register');
 Route::get('/success', [LoginController::class, 'regSuccess'])->name('regSuccess');

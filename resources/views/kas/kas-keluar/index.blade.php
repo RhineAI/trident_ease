@@ -61,6 +61,11 @@
 <script>
     // $('body').addClass('sidebar-collapse');
 
+    $('document').ready(function() {
+        
+        // if(jumlah)
+    })
+
     function formatRupiah(angka, prefix){
             var number_string   = angka.replace(/[^,\d]/g, '').toString(),
             split               = number_string.split(','),
@@ -89,6 +94,19 @@
         function addForm(url) {
             $('#modal-form').modal('show')
             $('#modal-form .modal-title').text('Tambah Kas Keluar');
+
+            // $('#modal-form').on('submit', '#jumlah', function() {
+            //     // let jumlah = );
+            //     // let harga = ;
+            //     let biaya = String($('#jumlah').val()).replaceAll(".", '');
+            //     let jumlah_kas = String($('#jumlah_kas').val()).replaceAll(".", '');
+            //     // console.log(juml);
+
+            //     if(biaya >= jumlah_kas) {
+            //         Swal.fire('Pengeluaran melebihi pemasukan!')
+            //         return false;
+            //     }
+            // })
 
             $('#modal-form form')[0].reset();
             $('#modal-form form').attr('action', url);
@@ -141,7 +159,7 @@
         
         function editForm(data) {
             $('#modal-form').modal('show')
-            $('#modal-form .modal-title').text('Edit Kas Masuk');
+            $('#modal-form .modal-title').text('Edit Kas Keluar');
 
             $('#modal-form form')[0].reset();
             $('#modal-form form').attr('action', data.url);

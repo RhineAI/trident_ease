@@ -31,6 +31,13 @@ class UsersController extends Controller
         return view('users.tambah', $data);
     }
 
+    public function card() 
+    {
+        $perusahaan = Perusahaan::select('*')->where('id', auth()->user()->id_perusahaan)->first();
+
+        return view('templates.cards', compact('perusahaan'));
+    }
+
     /**
      * Show the form for creating a new resource.
      *

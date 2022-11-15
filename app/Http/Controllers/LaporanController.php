@@ -548,17 +548,40 @@ class LaporanController extends Controller
 
 
     // LAPORAN PEMBELIAN
+    public function indexLaporanPembelian(Request $request)
+     {   
+       
+
+         $data['tanggal'] = date('Y-m-d');
+         // return $kasMasuk;
+         $tanggalAwal = date('Y-m-d', mktime(0, 0, 0, date('m'), 1, date('Y')));
+         $tanggalAkhir = date('Y-m-d');
+         $now = date('Y-m-d');
+ 
+         if ($request->has('tanggal_awal') && $request->tanggal_awal != $now && $request->has('tanggal_akhir') && $request->tanggal_akhir != "") {
+             $tanggalAwal = date('Y-m-d', strtotime($request->tanggal_awal));
+             $tanggalAkhir = date('Y-m-d', strtotime($request->tanggal_akhir));
+         } else {
+             $tanggalAwal = date('Y-m-d', strtotime($now));
+             $tanggalAkhir = date('Y-m-d', strtotime($now));
+         }
+ 
+         $data['cPerusahaan'] = Perusahaan::select('*')->where('id', auth()->user()->id_perusahaan)->first();
+ 
+         return view('laporan.laporan-pembelian.index', compact('tanggalAwal', 'tanggalAkhir', 'now'))->with($data);
+     }
+
     public function pembelian($awal, $akhir)
     {
-        // return $awal;
         $no = 1;
         $data = array();
+
 
         while (strtotime($awal) <= strtotime($akhir)) {
             $tanggal = $awal;
             $awal = date('Y-m-d', strtotime("+1day", strtotime($awal)));
 
-            $detPembelian= DetailPembelian::where('t_detail_pembelian.tgl', 'Like','%$tanggal%')
+            $detPembelian= DetailPembelian::where('t_detail_pembelian.tgl', 'Like','%'.$tanggal.'%')
                                         ->leftJoin('t_barang AS B', 'B.id', 't_detail_pembelian.id_barang')
                                         ->select('t_detail_pembelian.*', 'B.nama AS nama_barang', 'B.kode')    
                                         ->where('t_detail_pembelian.id_perusahaan', auth()->user()->id_perusahaan)
@@ -574,7 +597,6 @@ class LaporanController extends Controller
                 $data[] = $row;
             }         
         }
-
         return $data;
     }
 
@@ -587,6 +609,73 @@ class LaporanController extends Controller
         ->addIndexColumn()
         ->rawColumns(['kode'])
         ->make(true);
+    }
+
+    public function DownloadPembelian($awal, $akhir) 
+    {
+        $pembelian = array();
+        $tglAwal = $awal;
+
+        while (strtotime($awal) <= strtotime($akhir)) {
+            $tanggal = $awal;
+            $awal = date('Y-m-d', strtotime("+1day", strtotime($awal)));
+
+            $detPembelian = DetailPembelian::where('t_detail_pembelian.tgl', 'Like', '%'.$tanggal.'%')
+                                        ->leftJoin('t_barang AS B', 'B.id', 't_detail_pembelian.id_barang')
+                                        ->select('t_detail_pembelian.*', 'B.nama AS nama_barang', 'B.kode')    
+                                        ->where('t_detail_pembelian.id_perusahaan', auth()->user()->id_perusahaan)
+                                        ->orderBy('id', 'desc')->get();
+    
+            foreach($detPembelian as $item) {
+                $row = array();
+                $row['tgl'] = tanggal_indonesia($tanggal, false);
+                $row['kode'] = $item->kode;
+                $row['nama_barang'] = $item->nama_barang ;
+                $row['qty'] = $item->qty;
+                $row['total_pembelian'] = 'Rp. '. format_uang($item->qty * $item->harga_beli);
+
+                $pembelian[] = $row;
+            }         
+        }
+        $cPerusahaan = Perusahaan::select('*')->where('id', auth()->user()->id_perusahaan)->first();
+
+
+        // return $data;
+        // return view('laporan.laporan-pembelian.pdf', compact('tglAwal' ,'awal', 'akhir', 'pembelian', 'cPerusahaan'));
+        $pdf = PDF::loadView('laporan.laporan-pembelian.pdf', compact('tglAwal', 'awal', 'akhir', 'pembelian', 'cPerusahaan'));
+        $pdf->setPaper('a4', 'potrait');
+        return $pdf->stream('Laporan Pembelian-'. $cPerusahaan->nama .' '. date('Y-m-d-h.i.s') );
+    }
+
+    public function PrintPDFPembelian($awal, $akhir) 
+    {
+        $pembelian = array();
+        $tglAwal = $awal;
+
+        while (strtotime($awal) <= strtotime($akhir)) {
+            $tanggal = $awal;
+            $awal = date('Y-m-d', strtotime("+1day", strtotime($awal)));
+
+            $detPembelian = DetailPembelian::where('t_detail_pembelian.tgl', 'Like', '%'.$tanggal.'%')
+                                        ->leftJoin('t_barang AS B', 'B.id', 't_detail_pembelian.id_barang')
+                                        ->select('t_detail_pembelian.*', 'B.nama AS nama_barang', 'B.kode')    
+                                        ->where('t_detail_pembelian.id_perusahaan', auth()->user()->id_perusahaan)
+                                        ->orderBy('id', 'desc')->get();
+    
+            foreach($detPembelian as $item) {
+                $row = array();
+                $row['tgl'] = tanggal_indonesia($tanggal, false);
+                $row['kode'] = $item->kode;
+                $row['nama_barang'] = $item->nama_barang ;
+                $row['qty'] = $item->qty;
+                $row['total_pembelian'] = 'Rp. '. format_uang($item->qty * $item->harga_beli);
+
+                $pembelian[] = $row;
+            }         
+        }
+
+        $cPerusahaan = Perusahaan::select('*')->where('id', auth()->user()->id_perusahaan)->first();
+        return view('laporan.laporan-pembelian.print', compact('tglAwal' ,'awal', 'akhir', 'pembelian', 'cPerusahaan'));
     }
 
 
@@ -1199,7 +1288,7 @@ class LaporanController extends Controller
             $hutang= Hutang::where('t_data_hutang.tgl', 'Like', '%'.$tanggal.'%')
                             ->leftJoin('t_transaksi_pembelian AS TP', 'TP.id', 't_data_hutang.id_pembelian')
                             ->leftJoin('t_supplier AS S', 'S.id', 'TP.id_supplier')
-                            ->select('t_data_hutang.*', 'TP.kode_invoice', 'TP.sisa', 'S.nama AS nama_supplier')  
+                            ->select('t_data_hutang.*', 'TP.id as kode_invoice', 'TP.sisa', 'S.nama AS nama_supplier')  
                             ->where('t_data_hutang.id_perusahaan', auth()->user()->id_perusahaan)
                             ->orderBy('id', 'desc')->get();
             
@@ -1271,7 +1360,7 @@ class LaporanController extends Controller
             $piutang= Piutang::where('t_data_piutang.tgl', 'Like', '%'.$tanggal.'%')
                             ->leftJoin('t_transaksi_penjualan AS TP', 'TP.id', 't_data_piutang.id_penjualan')
                             ->leftJoin('t_pelanggan AS P', 'P.id', 'TP.id_pelanggan')
-                            ->select('t_data_piutang.*', 'TP.kode_invoice', 'TP.sisa', 'P.nama AS nama_pelanggan')  
+                            ->select('t_data_piutang.*', 'TP.id as kode_invoice', 'TP.sisa', 'P.nama AS nama_pelanggan')  
                             ->where('t_data_piutang.id_perusahaan', auth()->user()->id_perusahaan)
                             ->orderBy('id', 'desc')->get();
             

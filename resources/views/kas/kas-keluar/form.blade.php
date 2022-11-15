@@ -7,7 +7,7 @@
 
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title"></h4>
+                    <h4 class="modal-title">Kas Masuk</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -63,7 +63,7 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default btn-sm" data-dismiss="modal"><i
                             class="fa fa-circle-xmark"></i> Batal</button>
-                    <button type="submit" class="btn btn-primary btn-sm"><i class="fa fa-circle-check"></i>
+                    <button type="submit" id="submit" class="btn btn-primary btn-sm"><i class="fa fa-circle-check"></i>
                         Simpan</button>
                 </div>
             </div>

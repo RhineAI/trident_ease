@@ -164,8 +164,8 @@ class KasKeluarController extends Controller
         $kasKeluar = KasKeluar::find($id);
         $kasKeluar->tgl = now();
         if( $this->checkPrice($request->jumlah) > $sisaKas ) {
-            // return redirect()->back()->withInput(Input::all());
-            return redirect()->back()->withInput($request->only('keperluan'))->with(['errorKasKeluar' => 'Biaya melebihi Uang Kas!']);
+            // return back()->withInput(Input::all());
+            return back()->withInput($request->only('keperluan'))->with(['errorKasKeluar' => 'Biaya melebihi Uang Kas!']);
         } else {
             $kasKeluar->jumlah = $this->checkPrice($jumlah);
         }

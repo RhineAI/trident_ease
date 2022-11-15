@@ -1,5 +1,5 @@
 <!-- Main Sidebar Container -->
-<aside class="main-sidebar sidebar-primary elevation-4" id="bgBlueLightWhiteColor">
+<aside class="main-sidebar sidebar-primary elevation-4" id="bgBlueLightWhiteColor" style="">
     <!-- Brand Logo -->
     <a href="/" class="brand-link">
         <img src="{{ asset('assets') }}/img/ziepos.png" alt="AdminLTE Logo"
@@ -21,7 +21,7 @@
                 @endif
             </div>
             <div class="info">
-                <a href="#" class="d-block">{{ $cPerusahaan->nama }}</a>
+                <a href="{{ route(Auth::user()->hak_akses.'.profile.cards') }}" class="d-block">{{ $cPerusahaan->nama }}</a>
             </div>
         </div>
 
