@@ -103,7 +103,7 @@ class PembelianController extends Controller
             // "select max(id)+1 as nextid from t_pembayaran where id like '".$tgl."%'"
             // dd(Pembelian::select("id")->where('id', 'like', '%'. date('Ymd') . '%')->first()); die;
             if(Pembelian::select("id")->where('id', 'like', '%'. date('Ymd') . '%')->first() == null){
-                $indexTransaksi = sprintf("%05d", 1);
+                $indexTransaksi = sprintf("%03d", 1);
                 $pembelianBaru->id = date('Ymd'). $indexTransaksi;
                 // $pembelianBaru->kode_invoice = date('Ymd'). $indexTransaksi;
             }

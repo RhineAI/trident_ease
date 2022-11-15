@@ -79,7 +79,7 @@ Laporan Pembelian
                             <table class="table align-items-center mb-5 table-bordered table-striped table-flush table-hover text-center table-pembelian" id="dataTableHover">
                                 <thead class="table-primary">
                                     <tr>
-                                        <th width="4%" class="text-center">No</th>
+                                        <th width="11%" class="text-center">Tanggal</th>
                                         <th width="8%" class="text-center">Kode</th>
                                         <th width="16%" class="text-center">Nama Barang</th>
                                         <th width="8%" class="text-center">QTY</th>
@@ -128,7 +128,8 @@ Laporan Pembelian
             }
         },
         columns: [
-            {data:'DT_RowIndex', searchable: false, sortable: false},
+            // {data:'DT_RowIndex', searchable: false, sortable: false},
+            {data:'tgl'},
             {data:'kode'},
             {data:'nama_barang'},
             {data:'qty'},

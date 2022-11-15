@@ -67,12 +67,12 @@
                     <h5 class="my-2">Password</h5>
                 </label>
                 <div class="col-md-8">
-                    <input type="password" minlengt="6" placeholder="Ketik Password" name="password" id="password" class="form-control" aria-label="Username" aria-describedby="basic-addon1" required>
+                    <input type="password" minlength="6" placeholder="Ketik Password" name="password" id="password" class="form-control" aria-label="Username" aria-describedby="basic-addon1" required>
                     <span class="help-block with-errors"></span>
                 </div>
             </div>
             <div class="form-group row" id="pass">
-                <label for="password_confirmation" class="col-md-4 col-md-offset-1 control-label">
+                <label for="password_confirmation" minlength="6" class="col-md-4 col-md-offset-1 control-label">
                     <h5 class="my-2">Konfirmasi Password</h5>
                 </label>
                 <div class="col-md-8">

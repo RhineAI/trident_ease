@@ -589,6 +589,7 @@ class LaporanController extends Controller
     
             foreach($detPembelian as $item) {
                 $row = array();
+                $row['tgl'] = tanggal_indonesia($item->tgl, false) ;
                 $row['kode'] = '<span class="badge" style="background-color:#2f3d57; color:white;">'. $item->kode .'</span>';
                 $row['nama_barang'] = $item->nama_barang ;
                 $row['qty'] = $item->qty;

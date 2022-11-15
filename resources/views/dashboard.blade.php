@@ -170,19 +170,19 @@
                 <div class="card-body">
                     <div class="mb-3">
                         <div class="small text-gray-500">Barang
-                            <div class="small float-right"><b>{{ $barangHarian/20 }} of 5 Items</b></div>
+                            <div class="small float-right"><b>{{ $barangHarian }} of 5 Items</b></div>
                         </div>
                         <div class="progress" style="height: 12px;">
-                            <div class="progress-bar bg-warning" role="progressbar" style="width: {{ $barangHarian }}%" aria-valuenow="{{ $barangHarian }}"
+                            <div class="progress-bar bg-warning" role="progressbar" style="width: {{ $barangHarian*20 }}%" aria-valuenow="{{ $barangHarian }}"
                                 aria-valuemin="0" aria-valuemax="5"></div>
                         </div>
                     </div>
                     <div class="mb-3">
                         <div class="small text-gray-500">Transaksi 
-                            <div class="small float-right"><b>{{ $penjualanHarian/20 }} of 5 Items</b></div>
+                            <div class="small float-right"><b>{{ $penjualanHarian }} of 5 Items</b></div>
                         </div>
                         <div class="progress" style="height: 12px;">
-                            <div class="progress-bar bg-success" role="progressbar" style="width: {{ $penjualanHarian }}%" aria-valuenow="{{ $penjualanHarian }}"
+                            <div class="progress-bar bg-success" role="progressbar" style="width: {{ $penjualanHarian*20 }}%" aria-valuenow="{{ $penjualanHarian }}"
                                 aria-valuemin="0" aria-valuemax="5"></div>
                         </div>
                     </div>                    
@@ -195,19 +195,19 @@
                 <div class="card-body">
                     <div class="mb-3">
                         <div class="small text-gray-500">Barang
-                            <div class="small float-right"><b>{{ $barangHarian/2 }} of 50 Items</b></div>
+                            <div class="small float-right"><b>{{ $barangHarian }} of 50 Items</b></div>
                         </div>
                         <div class="progress" style="height: 12px;">
-                            <div class="progress-bar bg-warning" role="progressbar" style="width: {{ $barangHarian }}%" aria-valuenow="{{ $barangHarian }}"
+                            <div class="progress-bar bg-warning" role="progressbar" style="width: {{ $barangHarian*2 }}%" aria-valuenow="{{ $barangHarian }}"
                                 aria-valuemin="0" aria-valuemax="50"></div>
                         </div>
                     </div>
                     <div class="mb-3">
                         <div class="small text-gray-500">Transaksi 
-                            <div class="small float-right"><b>{{ $penjualanHarian/2 }} of 50 Items</b></div>
+                            <div class="small float-right"><b>{{ $penjualanHarian }} of 50 Items</b></div>
                         </div>
                         <div class="progress" style="height: 12px;">
-                            <div class="progress-bar bg-success" role="progressbar" style="width: {{ $penjualanHarian }}%" aria-valuenow="{{ $penjualanHarian }}"
+                            <div class="progress-bar bg-success" role="progressbar" style="width: {{ $penjualanHarian*2 }}%" aria-valuenow="{{ $penjualanHarian }}"
                                 aria-valuemin="0" aria-valuemax="50"></div>
                         </div>
                     </div>                    
@@ -223,7 +223,7 @@
                             <div class="small float-right"><b>{{ $barangHarian }} of 10000 Items</b></div>
                         </div>
                         <div class="progress" style="height: 12px;">
-                            <div class="progress-bar bg-warning" role="progressbar" style="width: {{ $barangHarian }}%" aria-valuenow="{{ $barangHarian }}"
+                            <div class="progress-bar bg-warning" role="progressbar" style="width: {{ $barangHarian/100 }}%" aria-valuenow="{{ $barangHarian }}"
                                 aria-valuemin="0" aria-valuemax="10000"></div>
                         </div>
                     </div>
@@ -232,7 +232,7 @@
                             <div class="small float-right"><b>{{ $penjualanHarian }} of 10000 Items</b></div>
                         </div>
                         <div class="progress" style="height: 12px;">
-                            <div class="progress-bar bg-success" role="progressbar" style="width: {{ $penjualanHarian }}%" aria-valuenow="{{ $penjualanHarian }}"
+                            <div class="progress-bar bg-success" role="progressbar" style="width: {{ $penjualanHarian/100 }}%" aria-valuenow="{{ $penjualanHarian }}"
                                 aria-valuemin="0" aria-valuemax="10000"></div>
                         </div>
                     </div>                    

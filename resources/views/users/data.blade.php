@@ -27,7 +27,11 @@
                 </td>
                 <td>
                     <button class="btn btn-xs btn-warning" id="edit" style="color: green;" type="button" title="Edit" 
+                    @if (auth()->user()->hak_akses == 'admin')
                         data-route="{{ route('admin.users.update', $item->id) }}" 
+                    @elseif(auth()->user()->hak_akses == 'owner')
+                        data-route="{{ route('owner.users.update', $item->id) }}" 
+                    @endif
                         data-id_pegawai="{{ $item->id }}"
                         data-nama="{{ $item->nama }}" 
                         data-alamat="{{ $item->alamat }}" 
@@ -38,7 +42,11 @@
                         data-password="{{ $item->password }}">
                         <i class="fas fa-edit"></i>
                     </button>
-                    <form action="{{ route('admin.users.destroy', $item->id) }}" style="display: inline;" method="post">
+                    @if (auth()->user()->hak_akses == 'admin')
+                        <form action="{{ route('admin.users.destroy', $item->id) }}" style="display: inline;" method="post">
+                    @elseif (auth()->user()->hak_akses == 'owner')
+                        <form action="{{ route('owner.users.destroy', $item->id) }}" style="display: inline;" method="post">
+                    @endif
                         @csrf
                         @method('DELETE')
                         <button class="btn btn-xs btn-danger delete-data" type="button" title="Delete">

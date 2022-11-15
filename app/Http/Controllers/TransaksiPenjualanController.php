@@ -87,7 +87,7 @@ class TransaksiPenjualanController extends Controller
             // "select max(id)+1 as nextid from t_pembayaran where id like '".$tgl."%'"
             // dd(TransaksiPenjualan::select("id")->where('id', 'like', '%'. date('Ymd') . '%')->first()); die;
             if(TransaksiPenjualan::select("id")->where('id_perusahaan', auth()->user()->id_perusahaan)->where('id', 'like', '%'. date('Ymd') . '%')->first() == null){
-                $indexTransaksi = sprintf("%05d", 1);
+                $indexTransaksi = sprintf("%03d", 1);
                 $penjualanBaru->id = date('Ymd'). $indexTransaksi;
                 // $penjualanBaru->kode_invoice = date('Ymd'). $indexTransaksi;
             }

@@ -55,7 +55,7 @@ Route::middleware(['auth'])->group(function () {
                 Route::get('/profile/cards', [UsersController::class, 'card'])->name('profile.cards');
 
                 Route::get('/changePW', [UsersController::class, 'changePW'])->name('changePW');
-                Route::post('/changePW', [UsersController::class, 'chawngePWUpdate']);
+                Route::post('/changePW', [UsersController::class, 'changePWUpdate']);
 
                 Route::resource('/manage-perusahaan', SuperAdminController::class);
                 Route::post('/manage-perusahaan/data', [SuperAdminController::class, 'table'])->name('manage.data');
@@ -73,7 +73,7 @@ Route::middleware(['auth'])->group(function () {
                 Route::get('/profile/cards', [UsersController::class, 'card'])->name('profile.cards');
 
                 Route::get('/changePW', [UsersController::class, 'changePW'])->name('changePW');
-                Route::post('/changePW', [UsersController::class, 'chawngePWUpdate']);
+                Route::post('/changePW', [UsersController::class, 'changePWUpdate']);
 
                 // Stok opname
                 Route::get('/stock-opname', [StokOpnameController::class, 'index'])->name('stockOpname');
@@ -157,7 +157,7 @@ Route::middleware(['auth'])->group(function () {
                 Route::get('/profile/cards', [UsersController::class, 'card'])->name('profile.cards');
 
                 Route::get('/changePW', [UsersController::class, 'changePW'])->name('changePW');
-                Route::post('/changePW', [UsersController::class, 'chawngePWUpdate']);
+                Route::post('/changePW', [UsersController::class, 'changePWUpdate']);
 
                 Route::get('/keuntungan', [KeuntunganController::class, 'index'])->name('keuntungan');
                 Route::post('/keuntungan', [KeuntunganController::class, 'store'])->name('keuntungan.store');
@@ -276,7 +276,7 @@ Route::middleware(['auth'])->group(function () {
                 Route::get('/profile/cards', [UsersController::class, 'card'])->name('profile.cards');
 
                 Route::get('/changePW', [UsersController::class, 'changePW'])->name('changePW');
-                Route::post('/changePW', [UsersController::class, 'chawngePWUpdate']);
+                Route::post('/changePW', [UsersController::class, 'changePWUpdate']);
 
                 Route::resource('/data-piutang', PiutangController::class);
                 Route::get('/data-piutang/nota/{id}', [PiutangController::class, 'printNota'])->name('data-piutang.print_nota');

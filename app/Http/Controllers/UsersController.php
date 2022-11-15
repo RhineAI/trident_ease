@@ -133,7 +133,7 @@ class UsersController extends Controller
     {
         $user->update($request->all());
         // return redirect('/users')->with('success', 'Update Data berhasil');
-        return redirect()->route('admin.users.index')->with(['success' => 'Update data Pegawai berhasil!']);
+        return redirect()->back()->with(['success' => 'Update data Pegawai berhasil!']);
     }
 
     /**
@@ -146,7 +146,7 @@ class UsersController extends Controller
     {
         $user->delete();
         // return redirect('/users')->with('delete', 'Delete Data berhasil');
-        return redirect()->route('admin.users.index')->with(['success' => 'Delete data Pegawai berhasil!']);
+        return redirect()->back()->with(['success' => 'Delete data Pegawai berhasil!']);
     }
 
 
@@ -163,7 +163,7 @@ class UsersController extends Controller
                 'tlp' => $request->tlp,
                 'username' => $request->username,
             ]);
-            return redirect('/profile')->with('success', 'Update Data berhasil');
+            return redirect()->back()->with('success', 'Update Data berhasil');
         } else {
             return back()->with('error', 'Password salah!');
         }
@@ -191,7 +191,7 @@ class UsersController extends Controller
             $request->session()->regenerateToken();
 
             // return redirect('/login')->with('success', 'Password Berhasil Diubah');
-            return redirect('/auth/login')->with(['success' => 'Password Berhasil Diubah!']);
+            return redirect()->route('login')->with(['success' => 'Password Berhasil Diubah!']);
         } else {
             return back()->with('error', 'Password lama salah!');
         }
