@@ -56,8 +56,8 @@ class KasMasukController extends Controller
                             data-keterangan="'.$kasMasuk->keterangan.'"
                             data-tambah = "'.route('admin.kas-masuk.store').'"
                             data-route="' . route('admin.kas-masuk.update', $kasMasuk->id) . '" class="edit btn btn-xs btn-success"><i class="fas fa-pencil-square"></i></button>
-                    <button onclick="deleteForm(`'. route('admin.kas-masuk.destroy', $kasMasuk->id) .'`)" class="btn btn-xs btn-danger delete"><i class="fas fa-trash"></i></button>
                 ';
+                // <button onclick="deleteForm(`'. route('admin.kas-masuk.destroy', $kasMasuk->id) .'`)" class="btn btn-xs btn-danger delete"><i class="fas fa-trash"></i></button>
             })
             ->rawColumns(['action'])
             ->make(true);

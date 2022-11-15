@@ -171,7 +171,7 @@
                                         <div class="col-lg-8 ">
                                             <div class="input-group-prepend input-primary"> 
                                                 <span class="input-group-text">RP.</span> 
-                                                <input type="text" data-bv-trigger="blur" id="bayar" name="bayar" class="form-control" min="">
+                                                <input type="text" data-bv-trigger="blur" id="bayar" name="bayar" class="form-control" autocomplete="off">
                                             </div>
                                         </div>
                                     </div>
@@ -190,7 +190,7 @@
                                         <div class="col-lg-8 ">
                                             <div class="input-group-prepend input-primary"> 
                                                 <span class="input-group-text">RP.</span> 
-                                                <input type="text" data-bv-trigger="blur" id="dp" name="dp" class="form-control">
+                                                <input type="text" data-bv-trigger="blur" id="dp" name="dp" class="form-control" autocomplete="off">
                                             </div>
                                         </div>
                                     </div>

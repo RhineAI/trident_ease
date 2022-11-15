@@ -110,7 +110,7 @@ Laporan Piutang
     @elseif(auth()->user()->hak_akses == 'admin') 
         var piutang = "{{ route('admin.laporan-piutang.data', [$tanggalAwal, $tanggalAkhir]) }}";
     @endif
-    let piutang;
+    let tablePiutang;
         table = $('.table-piutang').DataTable({
         searching: false,
         info: false,
@@ -123,7 +123,7 @@ Laporan Piutang
         ajax: {
             url: piutang,
             type: "POST",
-            data: {  
+            data: {     
                 _token: '{{ csrf_token() }}'
             }
         },

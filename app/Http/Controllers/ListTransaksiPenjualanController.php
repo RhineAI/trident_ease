@@ -51,13 +51,19 @@ class ListTransaksiPenjualanController extends Controller
                                             // return $penjualan;
 
             foreach($penjualan as $item) {
-                // return $item;
+                if($item->jenis_pembayaran == 1) {
+                    $jenis = '<span class="badge badge-info">Cash</span>';
+                } elseif($item->jenis_pembayaran == 2) {
+                    $jenis = '<span class="badge badge-danger">Kredit</span>';
+                } 
+
                 $row = array();
                 $row['DT_RowIndex'] = $no++;
                 $row['tgl'] = tanggal_indonesia($tanggal, false);
                 $row['nama_pelanggan'] = ucfirst($item->nama_pelanggan);
                 $row['invoice'] = '<span class="badge badge-info">'. $item->id .'</span>';
                 $row['total_harga'] = 'RP. '. format_uang($item->total_harga);
+                $row['jenis_pembayaran'] = $jenis;   
                 
                 $row['action'] = '<a href="'. route('admin.list-transaksi.print_nota', $item->id) .'" class="btn btn-xs btn-secondary rounded delete"><i class="fa-solid fa-print"></i></a>';
 
@@ -66,28 +72,12 @@ class ListTransaksiPenjualanController extends Controller
             // return $data;   
 
         }
-
-        // return $data;
-
-
-        // $data[] = [
-        //     'DT_RowIndex' => '',
-        //     'tgl' => '',
-        //     'invoice' => '',
-        //     'total_harga' => '',
-        //     'nama_pelanggan' => '',
-        //     'action' => '',
-        // ];
-
-        // return $data;
-
         return datatables()
             ->of($data)
-            ->rawColumns(['action', 'invoice'])
+            ->rawColumns(['action', 'invoice', 'jenis_pembayaran'])
             ->make(true);
 
         return $data;
-
     }
 
     public function data($awal, $akhir)
@@ -96,7 +86,7 @@ class ListTransaksiPenjualanController extends Controller
 
         return datatables()
             ->of($data)
-            ->rawColumns(['action', 'invoice'])
+            ->rawColumns(['action', 'invoice', 'jenis_pembayaran'])
             ->make(true);
     }
 

@@ -143,7 +143,7 @@ class LaporanController extends Controller
             $hoetang = Hutang::where('t_data_hutang.tgl', 'Like', '%'.$tanggal.'%')
                             ->leftJoin('t_transaksi_pembelian AS TP', 'TP.id', 't_data_hutang.id_pembelian')
                             ->leftJoin('t_supplier AS S', 'S.id', 'TP.id_supplier')
-                            ->select('t_data_hutang.*', 'TP.kode_invoice', 'TP.sisa', 'S.nama AS nama_supplier')  
+                            ->select('t_data_hutang.*', 'TP.id as kode_invoice', 'TP.sisa', 'S.nama AS nama_supplier')  
                             ->where('t_data_hutang.id_perusahaan', auth()->user()->id_perusahaan)
                             ->orderBy('id', 'desc')->get();
 
@@ -168,7 +168,7 @@ class LaporanController extends Controller
             $pioetang = Piutang::where('t_data_piutang.tgl', 'Like', '%'.$tanggal.'%')
                                 ->leftJoin('t_transaksi_penjualan AS TP', 'TP.id', 't_data_piutang.id_penjualan')
                                 ->leftJoin('t_pelanggan AS P', 'P.id', 'TP.id_pelanggan')
-                                ->select('t_data_piutang.*', 'TP.kode_invoice', 'TP.sisa', 'P.nama AS nama_pelanggan')  
+                                ->select('t_data_piutang.*', 'TP.id as kode_invoice', 'TP.sisa', 'P.nama AS nama_pelanggan')  
                                 ->where('t_data_piutang.id_perusahaan', auth()->user()->id_perusahaan)
                                 ->orderBy('id', 'desc')->get();
 
@@ -326,7 +326,7 @@ class LaporanController extends Controller
             $hoetang = Hutang::where('t_data_hutang.tgl', 'Like', '%'.$tanggal.'%')
                             ->leftJoin('t_transaksi_pembelian AS TP', 'TP.id', 't_data_hutang.id_pembelian')
                             ->leftJoin('t_supplier AS S', 'S.id', 'TP.id_supplier')
-                            ->select('t_data_hutang.*', 'TP.kode_invoice', 'TP.sisa', 'S.nama AS nama_supplier')  
+                            ->select('t_data_hutang.*', 'TP.id as kode_invoice', 'TP.sisa', 'S.nama AS nama_supplier')  
                             ->where('t_data_hutang.id_perusahaan', auth()->user()->id_perusahaan)
                             ->orderBy('id', 'desc')->get();
 
@@ -351,7 +351,7 @@ class LaporanController extends Controller
             $pioetang = Piutang::where('t_data_piutang.tgl', 'Like', '%'.$tanggal.'%')
                                 ->leftJoin('t_transaksi_penjualan AS TP', 'TP.id', 't_data_piutang.id_penjualan')
                                 ->leftJoin('t_pelanggan AS P', 'P.id', 'TP.id_pelanggan')
-                                ->select('t_data_piutang.*', 'TP.kode_invoice', 'TP.sisa', 'P.nama AS nama_pelanggan')  
+                                ->select('t_data_piutang.*', 'TP.id as kode_invoice', 'TP.sisa', 'P.nama AS nama_pelanggan')  
                                 ->where('t_data_piutang.id_perusahaan', auth()->user()->id_perusahaan)
                                 ->orderBy('id', 'desc')->get();
 
@@ -943,23 +943,23 @@ class LaporanController extends Controller
  
     public function stok($merek, $kategori)
     {
-    //  return $merek;
-        $no = 1;
-        $data = array();
+        //  return $merek;
+            $no = 1;
+            $data = array();
 
-    //  while ($merek && $kategori != '') {
-        //  $tanggal = $awal;
-        //  $awal = date('Y-m-d', strtotime("+1day", strtotime($awal)));
+        //  while ($merek && $kategori != '') {
+            //  $tanggal = $awal;
+            //  $awal = date('Y-m-d', strtotime("+1day", strtotime($awal)));
 
-        $barang = Barang::where('id_merek', $merek)
-                        ->orWhere('id_kategori', $kategori)
-                        ->leftJoin('t_merek AS M', 'M.id', 't_barang.id_merek')
-                        ->leftJoin('t_kategori AS K', 'K.id', 't_barang.id_kategori')
-                        ->select('t_barang.*', 'M.nama AS nama_merek', 'K.nama AS nama_kategori')    
-                        ->where('t_barang.id_perusahaan', auth()->user()->id_perusahaan)
-                        ->orderBy('kode', 'asc')->get();
+            $barang = Barang::where('id_merek', $merek)
+                            ->orWhere('id_kategori', $kategori)
+                            ->leftJoin('t_merek AS M', 'M.id', 't_barang.id_merek')
+                            ->leftJoin('t_kategori AS K', 'K.id', 't_barang.id_kategori')
+                            ->select('t_barang.*', 'M.nama AS nama_merek', 'K.nama AS nama_kategori')    
+                            ->where('t_barang.id_perusahaan', auth()->user()->id_perusahaan)
+                            ->orderBy('kode', 'asc')->get();
 
-    // return $barang;
+        // return $barang;
             foreach($barang as $item) {
                 $row = array();
                 $row['kode'] = '<span class="badge" style="background-color:#2f3d57; color:white;">'. $item->kode .'</span>';
@@ -976,13 +976,13 @@ class LaporanController extends Controller
 
     public function dataLaporanStok($merek, $kategori) 
     {
-    $data = $this->stok($merek, $kategori);
+        $data = $this->stok($merek, $kategori);
 
-    return datatables()
-    ->of($data)
-    ->addIndexColumn()
-    ->rawColumns(['kode'])
-    ->make(true);
+        return datatables()
+        ->of($data)
+        ->addIndexColumn()
+        ->rawColumns(['kode'])
+        ->make(true);
     }
 
     public function DownloadStok($merek, $kategori) 
@@ -1064,6 +1064,7 @@ class LaporanController extends Controller
         $now = date('Y-m-d');
         // $condition = '';
 
+
         $merek1st = Merek::select('*')->where('id_perusahaan', auth()->user()->id_perusahaan)->first();
         $kategori1st = Kategori::select('*')->where('id_perusahaan', auth()->user()->id_perusahaan)->first();
         $merek2nd = Merek::select('*')->where('id', $request->merek)->where('id_perusahaan', auth()->user()->id_perusahaan)->first();
@@ -1113,9 +1114,9 @@ class LaporanController extends Controller
             //     $condition = "b.kategori == $kategori AND b.merek == $merek";
             // }
             
-            $kesesuaianBarang = Penyesuaian::Where('t_penyesuaian.tgl', 'LIKE', '%'.$tanggal.'%')
+            $kesesuaianBarang = Penyesuaian::where('t_penyesuaian.tgl', 'LIKE', '%'.$tanggal.'%')
                                             ->where('id_merek', $merek)
-                                            ->Where('id_kategori', $kategori)
+                                            ->where('id_kategori', $kategori)
                                             ->leftJoin('t_barang AS B', 'B.id', 't_penyesuaian.id_barang')
                                             ->leftJoin('t_kategori AS K', 'K.id', 'B.id_kategori')
                                             ->leftJoin('t_merek AS M', 'M.id', 'B.id_merek')
@@ -1154,24 +1155,26 @@ class LaporanController extends Controller
             ->make(true);
     }
 
-    public function DownloadKesesuaianStok($merek, $kategori, $awal, $akhir) 
+    public function DownloadKesesuaianStok($awal, $akhir,  $merek, $kategori) 
     {
         $no = 1;
         $kesesuaian_stok = array(); 
+        $tglAwal = $awal;
+        $akhir = $akhir;
     
         while (strtotime($awal) <= strtotime($akhir)) {
             $tanggal = $awal;
             $awal = date('Y-m-d', strtotime("+1day", strtotime($awal)));
             
-            $kesesuaianBarang = Penyesuaian::Where('t_penyesuaian.tgl', 'LIKE', '%'.$tanggal.'%')
+            $kesesuaianBarang = Penyesuaian::where('t_penyesuaian.tgl', 'LIKE', '%'.$tanggal.'%')
                                             ->where('id_merek', $merek)
-                                            ->Where('id_kategori', $kategori)
+                                            ->where('id_kategori', $kategori)
                                             ->leftJoin('t_barang AS B', 'B.id', 't_penyesuaian.id_barang')
                                             ->leftJoin('t_kategori AS K', 'K.id', 'B.id_kategori')
                                             ->leftJoin('t_merek AS M', 'M.id', 'B.id_merek')
                                             ->select('B.*', 'M.nama AS nama_merek', 'K.nama AS nama_kategori', 't_penyesuaian.tgl', 't_penyesuaian.stock_awal', 't_penyesuaian.stock_baru')
                                             ->where('t_penyesuaian.id_perusahaan', auth()->user()->id_perusahaan)
-                                            ->orderBy('id', 'DESC')->get();
+                                            ->orderBy('t_penyesuaian.id', 'DESC')->get();
     
             foreach($kesesuaianBarang as $item) {
                 // return $key;
@@ -1191,8 +1194,7 @@ class LaporanController extends Controller
         }
 
         $cPerusahaan = Perusahaan::select('*')->where('id', auth()->user()->id_perusahaan)->first();
-        $tglAwal = $awal;
-        $akhir = $akhir;
+      
         $merk = Merek::orderBy('id', 'ASC')->where('id', $merek)->first();
         $category = Kategori::orderBy('id', 'ASC')->where('id', $kategori)->first();
         // return $merk;
@@ -1203,18 +1205,20 @@ class LaporanController extends Controller
         return $pdf->stream('Laporan Kesesuaian Stok-'. $cPerusahaan->nama .' '. date('Y-m-d h.i.s') );
     }
 
-    public function PrintPDFKesesuaianStok($merek, $kategori, $awal, $akhir) 
+    public function PrintPDFKesesuaianStok($awal, $akhir, $merek, $kategori) 
     {
-          $no = 1;
-        $kesesuaian_stok = array(); 
-    
+        // return $awal;
+        $tglAwal = $awal;
+
+        $no = 1;
+        $kesesuaian_stok = array();     
         while (strtotime($awal) <= strtotime($akhir)) {
             $tanggal = $awal;
             $awal = date('Y-m-d', strtotime("+1day", strtotime($awal)));
             
-            $kesesuaianBarang = Penyesuaian::Where('t_penyesuaian.tgl', 'LIKE', '%'.$tanggal.'%')
+            $kesesuaianBarang = Penyesuaian::where('t_penyesuaian.tgl', 'LIKE', '%'.$tanggal.'%')
                                             ->where('id_merek', $merek)
-                                            ->Where('id_kategori', $kategori)
+                                            ->where('id_kategori', $kategori)
                                             ->leftJoin('t_barang AS B', 'B.id', 't_penyesuaian.id_barang')
                                             ->leftJoin('t_kategori AS K', 'K.id', 'B.id_kategori')
                                             ->leftJoin('t_merek AS M', 'M.id', 'B.id_merek')
@@ -1223,14 +1227,12 @@ class LaporanController extends Controller
                                             ->orderBy('id', 'DESC')->get();
     
             foreach($kesesuaianBarang as $item) {
-                // return $key;
                 $row = array();
                 // $row['DT_RowIndex'] = $no++;
                 $row['kode'] = $item->kode;
                 $row['nama_barang'] = $item['nama'];
                 $row['merek'] = $item['nama_merek'];
                 $row['kategori'] = $item['nama_kategori'];
-                // $row['tgl'] = $item['tgl'];
                 $row['stock_awal'] = $item['stock_awal'];
                 $row['stock_baru'] = $item['stock_baru'];
                 $row['selisih'] = $item['stock_awal'] - $item['stock_baru'];
@@ -1238,11 +1240,15 @@ class LaporanController extends Controller
                 $kesesuaian_stok[] = $row;
             }             
         }
+
+        // $merek = $merek;
+        // $kategori = $kategori;
         $cPerusahaan = Perusahaan::select('*')->where('id', auth()->user()->id_perusahaan)->first();
-        $tglAwal = $awal;
         $akhir = $akhir;
-        $merk = Merek::orderBy('id', 'ASC')->where('id', $merek)->first();
-        $category = Kategori::orderBy('id', 'ASC')->where('id', $kategori)->first();
+        $merk = Merek::orderBy('id', 'DESC')->where('id', $merek)->first();
+        $category = Kategori::orderBy('id', 'DESC')->where('id', $kategori)->first();
+       
+        // return $akhir;
 
         return view('laporan.laporan-kesesuaian-stok.print', compact('tglAwal' ,'awal', 'akhir', 'kesesuaian_stok', 'merk', 'category', 'cPerusahaan'));
     }
@@ -1411,7 +1417,7 @@ class LaporanController extends Controller
             $h = Hutang::where('t_data_hutang.tgl', 'Like', '%'.$tanggal.'%')
                         ->leftJoin('t_transaksi_pembelian AS TP', 'TP.id', 't_data_hutang.id_pembelian')
                         ->leftJoin('t_supplier AS S', 'S.id', 'TP.id_supplier')
-                        ->select('t_data_hutang.*', 'TP.kode_invoice', 'TP.sisa', 'S.nama AS nama_supplier')  
+                        ->select('t_data_hutang.*', 'TP.id as kode_invoice', 'TP.sisa', 'S.nama AS nama_supplier')  
                         ->where('t_data_hutang.id_perusahaan', auth()->user()->id_perusahaan)
                         ->orderBy('id', 'desc')->get();
             
@@ -1457,7 +1463,7 @@ class LaporanController extends Controller
             $p = Piutang::where('t_data_piutang.tgl', $tanggal)
                 ->leftJoin('t_transaksi_penjualan AS TP', 'TP.id', 't_data_piutang.id_penjualan')
                 ->leftJoin('t_pelanggan AS P', 'P.id', 'TP.id_pelanggan')
-                ->select('t_data_piutang.*', 'TP.kode_invoice', 'TP.sisa', 'P.nama AS nama_pelanggan')  
+                ->select('t_data_piutang.*', 'TP.id as kode_invoice', 'TP.sisa', 'P.nama AS nama_pelanggan')  
                 ->where('t_data_piutang.id_perusahaan', auth()->user()->id_perusahaan)
                 ->orderBy('id', 'desc')->get();
             
@@ -1501,7 +1507,7 @@ class LaporanController extends Controller
             $h = Hutang::where('t_data_hutang.tgl', 'Like', '%'.$tanggal.'%')
                         ->leftJoin('t_transaksi_pembelian AS TP', 'TP.id', 't_data_hutang.id_pembelian')
                         ->leftJoin('t_supplier AS S', 'S.id', 'TP.id_supplier')
-                        ->select('t_data_hutang.*', 'TP.kode_invoice', 'TP.sisa', 'S.nama AS nama_supplier')  
+                        ->select('t_data_hutang.*', 'TP.id as kode_invoice', 'TP.sisa', 'S.nama AS nama_supplier')  
                         ->where('t_data_hutang.id_perusahaan', auth()->user()->id_perusahaan)
                         ->orderBy('id', 'desc')->get();
             
@@ -1540,7 +1546,7 @@ class LaporanController extends Controller
             $p = Piutang::where('t_data_piutang.tgl', $tanggal)
                 ->leftJoin('t_transaksi_penjualan AS TP', 'TP.id', 't_data_piutang.id_penjualan')
                 ->leftJoin('t_pelanggan AS P', 'P.id', 'TP.id_pelanggan')
-                ->select('t_data_piutang.*', 'TP.kode_invoice', 'TP.sisa', 'P.nama AS nama_pelanggan')  
+                ->select('t_data_piutang.*', 'TP.id as kode_invoice', 'TP.sisa', 'P.nama AS nama_pelanggan')  
                 ->where('t_data_piutang.id_perusahaan', auth()->user()->id_perusahaan)
                 ->orderBy('id', 'desc')->get();
             
@@ -1575,32 +1581,31 @@ class LaporanController extends Controller
         $tanggalAwal = date('Y-m-d', mktime(0, 0, 0, date('m'), 1, date('Y')));
         $tanggalAkhir = date('Y-m-d');
         $now = date('Y-m-d');
-        $kategori = $request->kategori;
-        $merek = $request->merek;
 
         if ($request->has('tanggal_awal') && $request->tanggal_awal != $now && $request->has('tanggal_akhir') && $request->tanggal_akhir != "") {
             $tanggalAwal = date('Y-m-d', strtotime($request->tanggal_awal));
             $tanggalAkhir = date('Y-m-d', strtotime($request->tanggal_akhir));
-            if($kategori == 'semua' && $merek == 'semua'){
-                $condition = '';
-            } else if ($kategori == 'semua' && $merek != 'semua'){
-                $condition = 'b.merek, ' . $merek; 
-            } else if ($kategori != 'semua' && $merek == 'semua'){
-                $condition = 'b.kategori, ' . $kategori; 
-            } else {
-                $condition = "b.kategori == $kategori AND b.merek == $merek";
-            }
+            // if($kategori == 'semua' && $merek == 'semua'){
+            //     $condition = '';
+            // } else if ($kategori == 'semua' && $merek != 'semua'){
+            //     $condition = 'b.merek, ' . $merek; 
+            // } else if ($kategori != 'semua' && $merek == 'semua'){
+            //     $condition = 'b.kategori, ' . $kategori; 
+            // } else {
+            //     $condition = "b.kategori == $kategori AND b.merek == $merek";
+            // }
         } else {
             $tanggalAwal = date('Y-m-d', strtotime($now));
             $tanggalAkhir = date('Y-m-d', strtotime($now));
         }
 
-        $data['bestPelanggan'] = TransaksiPenjualan::leftJoin('t_detail_penjualan AS DTP', 'DTP.id_penjualan', 't_transaksi_penjualan.id')->select('t_transaksi_penjualan.id_pelanggan', DB::raw('sum(qty) as jumlahBeliBarang'))->where('t_transaksi_penjualan.id_perusahaan', auth()->user()->id_perusahaan)->groupBy('t_transaksi_penjualan.id_pelanggan')->get();    
+        // $data['bestPelanggan'] = Pelanggan::leftJoin('t_transaksi_penjualan AS TP', 'TP.id_pelanggan', 't_pelanggan.id')->leftJoin('t_detail_penjualan AS DTP', 'DTP.id_penjualan', 'TP.id')->select('t_pelanggan.id AS id_pelanggan', 't_pelanggan.nama AS nama_pelanggan', 't_pelanggan.tlp AS tlp_pelanggan', 't_pelanggan.alamat AS alamat_pelanggan', DB::raw('sum(DTP.qty) as jumlahBeliBarang'), DB::raw('sum(DTP.qty*DTP.harga_jual) as jumlahBayarBarang'))->where('TP.id_perusahaan', auth()->user()->id_perusahaan)->groupBy('t_pelanggan.id')->orderBy('jumlahBayarBarang', 'DESC')->get();
+        // $data['bestPelanggan'] = TransaksiPenjualan::leftJoin('t_detail_penjualan AS DTP', 'DTP.id_penjualan', 't_transaksi_penjualan.id')->select('t_transaksi_penjualan.id_pelanggan', DB::raw('sum(qty) as jumlahBeliBarang'))->where('t_transaksi_penjualan.id_perusahaan', auth()->user()->id_perusahaan)->groupBy('t_transaksi_penjualan.id_pelanggan')->get();    
         // dd($data['bestPelanggan']); die;
-        $data['transaksi'] = TransaksiPenjualan::select('*')->where('id', auth()->user()->id_perusahaan)->get();
-        $data['pelanggan'] = Pelanggan::where('id_perusahaan', auth()->user()->id_perusahaan)->get();    
+        // $data['transaksi'] = TransaksiPenjualan::select('*')->where('id', auth()->user()->id_perusahaan)->get();
+        // $data['pelanggan'] = Pelanggan::where('id_perusahaan', auth()->user()->id_perusahaan)->get();    
         // $data['produk'] = Barang::where('stock', '>', 0)->where('status', '==', '1')->get();    
-        $data['produk'] = Barang::where('stock', '>', 0)->where('status', '=', '1')->where('id_perusahaan', auth()->user()->id_perusahaan)->get();  
+        // $data['produk'] = Barang::where('stock', '>', 0)->where('status', '=', '1')->where('id_perusahaan', auth()->user()->id_perusahaan)->get();  
         $data['cPerusahaan'] = Perusahaan::select('*')->where('id', auth()->user()->id_perusahaan)->first();
         return view('laporan.laporan-pelanggan.index', $data, compact('tanggalAwal', 'tanggalAkhir', 'now'));
     }
@@ -1614,7 +1619,7 @@ class LaporanController extends Controller
             $tanggal = $awal;
             $awal = date('Y-m-d', strtotime("+1day", strtotime($awal)));
 
-            $pelangganTerbaik = Pelanggan::leftJoin('t_transaksi_penjualan AS TP', 'TP.id_pelanggan', 't_pelanggan.id')->leftJoin('t_detail_penjualan AS DTP', 'DTP.id_penjualan', 'TP.id')->select('t_pelanggan.id AS id_pelanggan', 't_pelanggan.nama AS nama_pelanggan', 't_pelanggan.tlp AS tlp_pelanggan', 't_pelanggan.alamat AS alamat_pelanggan', DB::raw('sum(DTP.qty) as jumlahBeliBarang'), DB::raw('sum(DTP.qty*DTP.harga_jual) as jumlahBayarBarang'))->where('TP.id_perusahaan', auth()->user()->id_perusahaan)->groupBy('t_pelanggan.id')->orderBy('jumlahBayarBarang', 'DESC')->get();
+            $pelangganTerbaik = Pelanggan::where('TP.tgl', 'Like', '%'.$tanggal.'%')->leftJoin('t_transaksi_penjualan AS TP', 'TP.id_pelanggan', 't_pelanggan.id')->leftJoin('t_detail_penjualan AS DTP', 'DTP.id_penjualan', 'TP.id')->select('t_pelanggan.id AS id_pelanggan', 't_pelanggan.nama AS nama_pelanggan', 't_pelanggan.tlp AS tlp_pelanggan', 't_pelanggan.alamat AS alamat_pelanggan', DB::raw('sum(DTP.qty) as jumlahBeliBarang'), DB::raw('sum(DTP.qty*DTP.harga_jual) as jumlahBayarBarang'))->where('TP.id_perusahaan', auth()->user()->id_perusahaan)->groupBy('t_pelanggan.id')->orderBy('jumlahBayarBarang', 'DESC')->get();
             // return $pelangganTerbaik;
 
             foreach($pelangganTerbaik as $item) {

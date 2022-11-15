@@ -52,16 +52,18 @@
             const nama_kategori = btn.data('nama_kategori')
             const mode = btn.data('mode')
             const modal = $(this)
+            const url = btn.data('route')
         
             if(mode === 'edit'){
                 modal.find('#modal-title').text("Edit Data Kategori")
                 modal.find('.modal-body #nama').val(nama_kategori)
                 modal.find('.modal-footer #btn-submit').text('Update')
-                modal.find('.modal-body form').attr('action', '/kategori/' + id_kategori)
+                $('#formModalKategori form').attr('action', url);
+                // modal.find('.modal-body form').attr('action', '/kategori/' + id_kategori)
                 modal.find('.modal-body #method').html('{{ method_field('PATCH') }}')
             } else {
                 $('#formModalKategori form')[0].reset();
-                $('#formModalKategori form').attr('action', url);
+                // $('#formModalKategori form').attr('action', url);
                 $('#formModalKategori [name=_method]').val('post');
                 modal.find('#modal-title').text("Tambah Data Kategori")
                 modal.find('.modal-body #id_kategori').val('')

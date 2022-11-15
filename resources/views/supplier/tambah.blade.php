@@ -60,7 +60,7 @@
                 <div class="form-group row">
                     <div class="form-group" style="width: 95%; margin: auto;">
                         <label for="alamat">Alamat Supplier</label>
-                        <textarea class="form-control" name="alamat" id="alamat" cols="30" rows="10"></textarea>
+                        <textarea class="form-control" name="alamat" id="alamat" cols="3" rows="4"></textarea>
                     </div>
                 </div>
                 <div class="form-group row">
@@ -81,14 +81,14 @@
                         <input type="text" class="form-control" id="bank" placeholder="Bank" name="bank">
                     </div>
                 </div>
-                <div class="form-group row">
+                <div class="form-group row mb-4">
                     <div class="form-group" style="width: 95%; margin: auto;">
                         <label for="no_rekening">No Rekening</label>
                         <input type="number" class="form-control" id="no_rekening" placeholder="No Rekening" name="no_rekening">
                     </div>
                 </div>
                 <input type="text" name="id_perusahaan" value="{{ $cPerusahaan->id }}" style="display: none;">
-                <button type="submit" class="btn btn-primary" id="btn-submit" style="margin-left: 0.25rem;">Simpan Data</button>
+                <button type="submit" class="btn btn-primary mt-2" id="btn-submit" style="margin-left: 0.25rem;">Simpan Data</button>
             </form>
           </div>
           <!-- /.card-footer-->

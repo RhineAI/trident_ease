@@ -36,7 +36,7 @@
        dan kategori {{ $category->nama }}
     </h5>
     <h5  class="text-center mb-4">
-        Dari Tanggal {{ tanggal_indonesia($awal, false) }}
+        Dari Tanggal {{ tanggal_indonesia($tglAwal, false) }}
         s/d
         Tanggal {{ tanggal_indonesia($akhir, false) }}
     </h5>

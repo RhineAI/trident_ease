@@ -47,7 +47,7 @@
                 <div class="form-group row">
                     <div class="form-group" style="width: 95%; margin: auto;">
                         <label for="alamat">Alamat Pegawai</label>
-                        <textarea class="form-control" name="alamat" id="alamat" cols="30" rows="10"></textarea>
+                        <textarea class="form-control" name="alamat" id="alamat" cols="3" rows="4"></textarea>
                     </div>
                 </div>
                 <div class="form-group row">
@@ -85,7 +85,7 @@
                       <input type="password" minlength="6" class="form-control" id="password_confirmation" placeholder="Password" name="password_confirmation">
                   </div>
               </div>
-                <div class="form-group row">
+                <div class="form-group row mb-4">
                   <div class="form-group" style="width: 95%; margin: auto;">
                       <label for="hak_akses">Hak Akses User</label>
                       <select class="form-control" name="hak_akses" id="hak_akses">
@@ -97,7 +97,7 @@
                   </div>
                 </div>
                 <input type="hidden" name="id_perusahaan" value="{{ $cPerusahaan->id }}">
-                <button type="submit" class="btn btn-primary" id="btn-submit" style="margin-left: 1rem;">Simpan Data</button>
+                <button type="submit" class="btn btn-primary mt-2" id="btn-submit" style="margin-left: 1rem;">Simpan Data</button>
             </form>
           </div>
           <!-- /.card-footer-->

@@ -59,6 +59,7 @@
             const id_perusahaan = btn.data('id_perusahaan')
             const mode = btn.data('mode')
             const modal = $(this)
+            const url = btn.data('route')
         
             if(mode === 'edit'){
                 modal.find('#modal-title').text("Edit Data pelanggan")
@@ -67,11 +68,11 @@
                 modal.find('.modal-body #tlp').val(tlp)
                 modal.find('.modal-body #jenis_kelamin').val(jenis_kelamin)
                 modal.find('.modal-footer #btn-submit').text('Update')
-                modal.find('.modal-body form').attr('action', '/pelanggan/' + id_pelanggan)
+                $('#formModalPelanggan form').attr('action', url);
                 modal.find('.modal-body #method').html('{{ method_field('PATCH') }}')
             } else {
                 $('#formModalPelanggan form')[0].reset();
-                $('#formModalPelanggan form').attr('action', url);
+                // $('#formModalPelanggan form').attr('action', url);
                 $('#formModalPelanggan [name=_method]').val('post');
                 modal.find('#modal-title').text("Tambah Data pelanggan")
                 modal.find('.modal-body #id_pelanggan').val('')

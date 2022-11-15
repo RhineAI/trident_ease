@@ -8,14 +8,15 @@
             </tr>
         </thead>
         <tbody>
+            <p style="visibility: hidden">{{ $no = 1 }}</p>
             @foreach ($merek as $item)
-            <tr>
-                <td class="text-center">{{ $item->id }}</td>
+            <tr>          
+                <td class="text-center">{{ $no++ }}</td>
                 <td>{{ $item->nama }}</td>
                 <td>
                     <button class="btn btn-xs btn-warning" type="button" style="color: green;" title="Edit" data-mode="edit"
                         data-toggle="modal" data-target="#formModalMerek" data-id_merek="{{ $item->id }}"
-                        data-nama_merek="{{ $item->nama }}">
+                        data-nama_merek="{{ $item->nama }}" data-route="{{ route('admin.merek.update', $item->id) }}">
                         <i class="fas fa-edit"></i>
                     </button>
                     <form action="{{ route('admin.merek.destroy', $item->id) }}" style="display: inline;" method="post">

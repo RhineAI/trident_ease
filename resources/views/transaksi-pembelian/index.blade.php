@@ -138,7 +138,7 @@
                         <div class="row mt-4">
                             <div class="col-lg-7">
                                 <div class="tampil-bayar bg-default mb-4" id="total_bayar_gede">Rp. 0</div>
-                                {{-- <div class="tampil-terbilang">Nol Rupiah</div> --}}
+                                <div class="tampil-terbilang"></div>
                             </div>
                             <div class="col-lg-5">
                                        	<!-- TOTAL pembelian  -->
@@ -170,7 +170,7 @@
                                         <div class="col-lg-8 ">
                                             <div class="input-group-prepend input-primary"> 
                                                 <span class="input-group-text">RP.</span> 
-                                                <input type="text" data-bv-trigger="blur" id="uang_bayar" name="uang_bayar" class="form-control">
+                                                <input type="text" data-bv-trigger="blur" id="uang_bayar" name="uang_bayar" class="form-control" autocomplete="off">
                                             </div>
                                         </div>
                                     </div>
@@ -188,7 +188,7 @@
                                         <div class="col-lg-8 ">
                                             <div class="input-group-prepend input-primary"> 
                                                 <span class="input-group-text">RP.</span> 
-                                                <input type="text" data-bv-trigger="blur" id="bayar_kredit" name="bayar_kredit" class="form-control">
+                                                <input type="text" data-bv-trigger="blur" id="bayar_kredit" name="bayar_kredit" class="form-control" autocomplete="off">
                                             </div>
                                         </div>
                                     </div>
@@ -438,6 +438,7 @@
                     var dp = $(this).val();
                     var total = $('#total_bayar').val();
                     var bayardp = String(dp).replaceAll(".", '');
+                    // console.log(bayardp);
                     var sisa = total - parseInt(bayardp);
                     let formatRupiah = Number(sisa).toLocaleString("id-ID", {
                                         style:"currency",
@@ -446,7 +447,7 @@
                                     });
                     let ubah_int = formatRupiah.replace(/Rp/g, '');
                     let sisabayar = ubah_int.replaceAll('.', '');
-
+                    
                     $('#sisa_kredit').val(formatRupiah.replace(/Rp/g, '').substr(1));
                 });
                     

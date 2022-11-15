@@ -173,6 +173,7 @@ Route::middleware(['auth'])->group(function () {
                 // Transaksi Pembelian
                 Route::resource('/transaksi-pembelian', PembelianController::class);    
                 Route::get('/list-pembelian', [ListTransaksiPembelianController::class, 'index'])->name('list-pembelian.index');
+                Route::post('/list-pembelian/data/{awal}/{akhir}', [ListTransaksiPembelianController::class, 'data'])->name('list-pembelian.data');
                 Route::get('/list-pembelian/pdf/{awal}/{akhir}', [ListTransaksiPembelianController::class, 'exportPDF'])->name('list-pembelian.export_pdf');
                 Route::get('/list-pembelian/nota/{id}', [ListTransaksiPembelianController::class, 'printNota'])->name('list-pembelian.print_nota');
 

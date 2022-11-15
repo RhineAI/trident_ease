@@ -52,16 +52,17 @@
             const nama_satuan = btn.data('nama_satuan')
             const mode = btn.data('mode')
             const modal = $(this)
+            const url = btn.data('route')
         
             if(mode === 'edit'){
                 modal.find('#modal-title').text("Edit Data Satuan")
                 modal.find('.modal-body #nama').val(nama_satuan)
                 modal.find('.modal-footer #btn-submit').text('Update')
-                modal.find('.modal-body form').attr('action', '/satuan/' + id_satuan)
+                $('#formModalSatuan form').attr('action', url);
+                // modal.find('.modal-body form').attr('action', '/satuan/' + id_satuan)
                 modal.find('.modal-body #method').html('{{ method_field('PATCH') }}')
             } else {
                 $('#formModalSatuan form')[0].reset();
-                $('#formModalSatuan form').attr('action', url);
                 $('#formModalSatuan [name=_method]').val('post');
                 modal.find('#modal-title').text("Tambah Data Satuan")
                 modal.find('.modal-body #id_satuan').val('')

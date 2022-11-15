@@ -8,14 +8,15 @@
             </tr>
         </thead>
         <tbody>
+            <p style="visibility: hidden">{{ $no = 1 }}</p>
             @foreach ($satuan as $item)
             <tr>
-                <td class="text-center">{{ $item->id }}</td>
+                <td class="text-center">{{ $no++}}</td>
                 <td>{{ $item->nama }}</td>
                 <td>
                     <button class="btn btn-xs btn-warning" type="button" style="color: green;" title="Edit" data-mode="edit"
                         data-toggle="modal" data-target="#formModalSatuan" data-id_satuan="{{ $item->id }}"
-                        data-nama_satuan="{{ $item->nama }}">
+                        data-nama_satuan="{{ $item->nama }}" data-route="{{ route('admin.satuan.update', $item->id) }}">
                         <i class="fas fa-edit"></i>
                     </button>
                     <form action="{{ route('admin.satuan.destroy', $item->id) }}" style="display: inline;" method="post">

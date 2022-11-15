@@ -62,6 +62,7 @@
             const id_perusahaan = btn.data('id_perusahaan')
             const mode = btn.data('mode')
             const modal = $(this)
+            const url = btn.data('route')
         
             if(mode === 'edit'){
                 modal.find('#modal-title').text("Edit Data supplier")
@@ -73,11 +74,12 @@
                 modal.find('.modal-body #no_rekening').val(no_rekening)
                 modal.find('.modal-body #id_perusahaan').val(id_perusahaan)
                 modal.find('.modal-footer #btn-submit').text('Update')
-                modal.find('.modal-body form').attr('action', '/supplier/' + id_supplier)
+                $('#formModalSupplier form').attr('action', url);
+                // modal.find('.modal-body form').attr('action', '/supplier/' + id_supplier)
                 modal.find('.modal-body #method').html('{{ method_field('PATCH') }}')
             } else {
                 $('#formModalSupplier form')[0].reset();
-                $('#formModalSupplier form').attr('action', url);
+                // $('#formModalSupplier form').attr('action', url);
                 $('#formModalSupplier [name=_method]').val('post');
                 modal.find('#modal-title').text("Tambah Data supplier")
                 modal.find('.modal-body #id_supplier').val('')

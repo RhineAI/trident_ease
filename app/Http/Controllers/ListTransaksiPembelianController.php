@@ -51,13 +51,21 @@ class ListTransaksiPembelianController extends Controller
                                             // return $pembelian;
 
             foreach($pembelian as $item) {
-                // return $item;
+                if($item->jenis_pembayaran == 1) {
+                    $jenis = '<span class="badge badge-info">Cash</span>';
+                } elseif($item->jenis_pembayaran == 2) {
+                    $jenis = '<span class="badge badge-danger">Kredit</span>';
+                } elseif($item->jenis_pembayaran == 3) {
+                    $jenis = '<span class="badge badge-success">Transfer</span>';
+                }
+
                 $row = array();
                 $row['DT_RowIndex'] = $no++;
                 $row['tgl'] = tanggal_indonesia($tanggal, false);
                 $row['nama_supplier'] = ucfirst($item->nama_supplier);
                 $row['invoice'] = '<span class="badge badge-info">'. $item->id .'</span>';
                 $row['total_pembelian'] = 'RP. '. format_uang($item->total_pembelian);   
+                $row['jenis_pembayaran'] = $jenis;   
                 $row['action'] = '<a href="'. route('admin.list-pembelian.print_nota', $item->id) .'" class="btn btn-xs btn-secondary rounded delete"><i class="fa-solid fa-print"></i></a>';
 
                 $data[] = $row;
@@ -66,27 +74,7 @@ class ListTransaksiPembelianController extends Controller
 
         }
 
-        // return $data;
-
-
-        // $data[] = [
-        //     'DT_RowIndex' => '',
-        //     'tgl' => '',
-        //     'invoice' => '',
-        //     'total_harga' => '',
-        //     'nama_pelanggan' => '',
-        //     'action' => '',
-        // ];
-
-        // return $data;
-
-        return datatables()
-            ->of($data)
-            ->rawColumns(['action', 'invoice'])
-            ->make(true);
-
         return $data;
-
     }
 
     public function data($awal, $akhir)
@@ -95,7 +83,7 @@ class ListTransaksiPembelianController extends Controller
 
         return datatables()
             ->of($data)
-            ->rawColumns(['action', 'invoice'])
+            ->rawColumns(['action', 'invoice', 'jenis_pembayaran'])
             ->make(true);
     }
 

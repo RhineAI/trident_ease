@@ -143,7 +143,7 @@
            $('document').ready(function() {
                 if (data.mode == 'edit') {
                     $('#modal-form').modal('show')
-                    $('#modal-form .modal-title').text('Edit admin.Kas Masuk');
+                    $('#modal-form .modal-title').text('Edit Kas Masuk');
 
                     $('#modal-form form')[0].reset();
                     $('#modal-form form').attr('action', data.url);

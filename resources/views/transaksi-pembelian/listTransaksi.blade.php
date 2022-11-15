@@ -69,6 +69,7 @@ Data Pembelian
                                         <th width="10%" class="text-center">Invoice</th>
                                         <th width="15%" class="text-center">Supplier</th>
                                         <th width="14%" class="text-center">Total Pembelian</th>
+                                        <th width="8%" class="text-center">Jenis Pembayaran</th>
                                         <th width="7%" class="text-center">Aksi</th>
                                 </thead>
                             </table>
@@ -110,6 +111,7 @@ Data Pembelian
             {data:'invoice'},
             {data:'nama_supplier'},
             {data:'total_pembelian'},
+            {data:'jenis_pembayaran'},
             {data:'action', searchable: false, sortable: false},
         ]
     });

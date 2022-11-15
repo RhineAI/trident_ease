@@ -140,7 +140,7 @@ class PerusahaanController extends Controller
         $perusahaan->save();
 
         // return redirect('/perusahaan')->with('success', 'Ubah Data Perusahan berhasil!');
-        return redirect()->route('admin.perusahaan.index')->with(['success' => 'Update data Supplier berhasil!']);
+        return redirect()->route('admin.perusahaan.index')->with(['success' => 'Update data Perusahaan berhasil!']);
     }
 
     /**

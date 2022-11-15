@@ -70,6 +70,7 @@ Data Penjualan
                                         <th width="9%" class="text-center">Invoice</th>
                                         <th width="14%" class="text-center">Pelanggan</th>
                                         <th width="14%" class="text-center">Total Penjualan</th>
+                                        <th width="8%" class="text-center">Jenis Pembayaran</th>
                                         <th width="7%" class="text-center">Aksi</th>
                                     </tr>
                                 </thead>
@@ -112,6 +113,7 @@ Data Penjualan
             {data:'invoice'},
             {data:'nama_pelanggan'},
             {data:'total_harga'},
+            {data:'jenis_pembayaran'},
             {data:'action', searchable: false, sortable: false},
         ]
     });

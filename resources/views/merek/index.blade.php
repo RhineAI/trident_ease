@@ -55,16 +55,18 @@
             const nama_merek = btn.data('nama_merek')
             const mode = btn.data('mode')
             const modal = $(this)
+            const url = btn.data('route')
         
             if(mode === 'edit'){
                 modal.find('#modal-title').text("Edit Data Merek")
                 modal.find('.modal-body #nama').val(nama_merek)
                 modal.find('.modal-footer #btn-submit').text('Update')
-                modal.find('.modal-body form').attr('action', '/merek/' + id_merek)
+                $('#formModalMerek form').attr('action', url);
+                
+                // modal.find('.modal-body form').attr('action', '/merek/' + id_merek)
                 modal.find('.modal-body #method').html('{{ method_field('PATCH') }}')
             } else {
                 $('#formModalMerek form')[0].reset();
-                $('#formModalMerek form').attr('action', url);
                 $('#formModalMerek [name=_method]').val('post');
                 modal.find('#modal-title').text("Tambah Data Merek")
                 modal.find('.modal-body #id_merek').val('')
