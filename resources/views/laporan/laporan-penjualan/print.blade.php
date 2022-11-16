@@ -88,7 +88,11 @@
 </head>
   <body onload="window.print()">
     <div class="button ml-4 align-items-end">
-        <a href="{{ route('admin.laporan-penjualan.index') }}" class="mb-3 mt-3 btn btn-sm btn-secondary ml-4 d-print-none"><i class="fas fa-arrow-rotate-left"></i> Back</a>
+        @if (auth()->user()->hak_akses == 'admin')
+            <a href="{{ route('admin.laporan-penjualan.index') }}" class="mb-3 mt-3 btn btn-sm btn-secondary ml-4 d-print-none"><i class="fas fa-arrow-rotate-left"></i> Back</a>
+        @elseif (auth()->user()->hak_akses == 'owner')
+            <a href="{{ route('owner.laporan-penjualan.index') }}" class="mb-3 mt-3 btn btn-sm btn-secondary ml-4 d-print-none"><i class="fas fa-arrow-rotate-left"></i> Back</a>
+        @endif
         <button onclick="window.print()" class="mb-3 mt-3 btn btn-sm btn-danger ml-4 d-print-none"><i class="fa-solid fa-print"></i> Print PDF</button>
     </div>
 

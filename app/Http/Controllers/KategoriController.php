@@ -40,7 +40,7 @@ class KategoriController extends Controller
     {
         $input = Kategori::create($request->all());
         // return redirect('/kategori')->with('success', 'Input data Kategori berhasil!');
-        return redirect()->route('admin.kategori.index')->with(['success' => 'Data Berhasil Disimpan!']);
+        return redirect()->back()->with(['success' => 'Data Berhasil Disimpan!']);
     }
 
     /**
@@ -76,7 +76,7 @@ class KategoriController extends Controller
     {
         $kategori->update($request->all());
         // return redirect('/kategori')->with('success', 'Update Data berhasil');
-        return redirect()->route('admin.kategori.index')->with(['success' => 'Data Berhasil Diupdate!']);
+        return redirect()->back()->with(['success' => 'Data Berhasil Diupdate!']);
     }
 
     /**

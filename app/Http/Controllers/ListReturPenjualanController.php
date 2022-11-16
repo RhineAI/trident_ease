@@ -47,20 +47,36 @@ class ListReturPenjualanController extends Controller
                                             ->where('t_retur_penjualan.id_perusahaan', auth()->user()->id_perusahaan)
                                             ->orderBy('t_retur_penjualan.id', 'desc')->get();
                                             // return $retur;
-
-            foreach($retur as $item) {
-                // dd($item); die;
-                $row = array();
-                $row['DT_RowIndex'] = $no++;
-                $row['id'] = '<span class="badge badge-info">'. $item->id .'</span>';
-                $row['tgl'] = tanggal_indonesia($tanggal, false);
-                $row['nama_pelanggan'] = $item->nama_pelanggan;
-                $row['total_retur'] = 'RP. '. format_uang($item->total_retur);
-                
-                $row['action'] = '<a href="'. route('admin.list-retur-penjualan.print_nota', $item->id) .'" class="btn btn-xs btn-secondary rounded delete"><i class="fa-solid fa-print"></i></a>';
-
-                $data[] = $row;
-            }         
+            if(auth()->user()->hak_akses == 'admin'){
+                foreach($retur as $item) {
+                    // dd($item); die;
+                    $row = array();
+                    $row['DT_RowIndex'] = $no++;
+                    $row['id'] = '<span class="badge badge-info">'. $item->id .'</span>';
+                    $row['tgl'] = tanggal_indonesia($tanggal, false);
+                    $row['nama_pelanggan'] = $item->nama_pelanggan;
+                    $row['total_retur'] = 'RP. '. format_uang($item->total_retur);
+                    
+                    $row['action'] = '<a href="'. route('admin.list-retur-penjualan.print_nota', $item->id) .'" class="btn btn-xs btn-secondary rounded delete"><i class="fa-solid fa-print"></i></a>';
+    
+                    $data[] = $row;
+                }         
+            } elseif (auth()->user()->hak_akses == 'kasir'){
+                foreach($retur as $item) {
+                    // dd($item); die;
+                    $row = array();
+                    $row['DT_RowIndex'] = $no++;
+                    $row['id'] = '<span class="badge badge-info">'. $item->id .'</span>';
+                    $row['tgl'] = tanggal_indonesia($tanggal, false);
+                    $row['nama_pelanggan'] = $item->nama_pelanggan;
+                    $row['total_retur'] = 'RP. '. format_uang($item->total_retur);
+                    
+                    $row['action'] = '<a href="'. route('kasir.list-retur-penjualan.print_nota', $item->id) .'" class="btn btn-xs btn-secondary rounded delete"><i class="fa-solid fa-print"></i></a>';
+    
+                    $data[] = $row;
+                }    
+            }
+            
             // return $data;   
 
         }

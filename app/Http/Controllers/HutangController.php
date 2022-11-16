@@ -142,7 +142,7 @@ class HutangController extends Controller
 
     public function printNota($id){
         $data['cPerusahaan'] = Perusahaan::select('*')->where('id', auth()->user()->id_perusahaan)->first();
-        $data['cHutang'] = Hutang::leftJoin('t_transaksi_pembelian AS TP', 'TP.id', 't_data_hutang.id_pembelian')->leftJoin('t_supplier AS S', 'S.id', 'TP.id_supplier')->select('S.nama AS nama_supplier', 't_data_hutang.id AS id_hutang', 'TP.kode_invoice AS no_faktur', 't_data_hutang.tgl AS tgl_bayar', 't_data_hutang.total_bayar', 'TP.total_pembelian', 'TP.dp', 'TP.sisa')->where('t_data_hutang.id', $id)->where('t_data_hutang.id_perusahaan', auth()->user()->id_perusahaan)->first();
+        $data['cHutang'] = Hutang::leftJoin('t_transaksi_pembelian AS TP', 'TP.id', 't_data_hutang.id_pembelian')->leftJoin('t_supplier AS S', 'S.id', 'TP.id_supplier')->select('S.nama AS nama_supplier', 't_data_hutang.id AS id_hutang', 'TP.id AS no_faktur', 't_data_hutang.tgl AS tgl_bayar', 't_data_hutang.total_bayar', 'TP.total_pembelian', 'TP.dp', 'TP.sisa')->where('t_data_hutang.id', $id)->where('t_data_hutang.id_perusahaan', auth()->user()->id_perusahaan)->first();
         $data['cDetailHutang'] = Hutang::leftJoin('t_transaksi_pembelian AS TP', 'TP.id', 't_data_hutang.id_pembelian')
         ->leftJoin('t_detail_pembelian AS DTP', 'DTP.id_pembelian', 'TP.id')->leftJoin('t_barang AS B', 'B.id', 'DTP.id_barang')->select('DTP.qty', 'DTP.harga_beli', 'B.nama AS nama_barang')->where('t_data_hutang.id', $id)->where('t_data_hutang.id_perusahaan', auth()->user()->id_perusahaan)->get();
         // dd($data['cDetailPembelian']); die;

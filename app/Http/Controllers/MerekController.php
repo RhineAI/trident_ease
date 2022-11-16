@@ -40,7 +40,7 @@ class MerekController extends Controller
     {
         $input = Merek::create($request->all());
         // return redirect('/merek')->with('success', 'Input data Merek berhasil!');
-        return redirect()->route('admin.merek.index')->with(['success' => 'Data Berhasil Disimpan!']);
+        return redirect()->back()->with(['success' => 'Data Berhasil Disimpan!']);
     }
 
     /**
@@ -76,7 +76,7 @@ class MerekController extends Controller
     {
         $merek->update($request->all());
         // return redirect('/merek')->with('success', 'Update Data berhasil');
-        return redirect()->route('admin.merek.index')->with(['success' => 'Data Berhasil Diupdate!']);
+        return redirect()->back()->with(['success' => 'Data Berhasil Diupdate!']);
 
     }
 

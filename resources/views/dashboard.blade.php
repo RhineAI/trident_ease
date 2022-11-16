@@ -14,7 +14,14 @@
 @endsection
 
 @push('styles')
-    
+    <style>
+        span .text-success {
+            margin-left: 30px;
+            vertical-align: middle;
+            -webkit-transition: all 0.2s linear;
+            transition: all 0.2s linear; 
+        }
+    </style>
 @endpush
 @section('contents')
     

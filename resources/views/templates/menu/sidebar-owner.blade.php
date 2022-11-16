@@ -95,3 +95,46 @@
         </li>
     </ul>
 </li>
+
+{{-- SETUP PERUSAHAAN --}}
+<li class="nav-item">
+    <a href="#" class="nav-link">
+        <i class="nav-icon fas fa-solid fa-gears"></i>
+        <p>
+            Setup Perusahaan
+            <i class="right fas fa-angle-right"></i>
+        </p>
+    </a>
+    <ul class="nav nav-treeview ml-4">
+        <li class="nav-item">
+            <a href="{{ route('owner.perusahaan.index') }}" class="nav-link">
+                {{-- <i class="far fa-circle nav-icon"></i> --}}
+                <p>Set Perusahaan</p>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="{{ route('owner.keuntungan') }}" class="nav-link">
+                {{-- <i class="far fa-circle nav-icon"></i> --}}
+                <p>Set Keuntungan</p>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="{{ route('owner.kategori.index') }}" class="nav-link">
+                {{-- <i class="far fa-circle nav-icon"></i> --}}
+                <p>Set Kategori</p>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="{{ route('owner.merek.index') }}" class="nav-link">
+                {{-- <i class="far fa-circle nav-icon"></i> --}}
+                <p>Set Merek</p>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="{{ route('owner.satuan.index') }}" class="nav-link">
+                {{-- <i class="far fa-circle nav-icon"></i> --}}
+                <p>Set Satuan</p>
+            </a>
+        </li>
+    </ul>
+</li>

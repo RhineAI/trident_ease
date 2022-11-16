@@ -27,38 +27,38 @@
                     <!-- DataTable with Hover -->
                     <div class="col-lg-12">
                         <div class="table-responsive p-3">
-                            <table class="table table-hover table-bordered" id="tbl-data-pembayaran">
+                            <table class="table table-hover table-flush" id="tbl-data-pembayaran">
                                 <thead class="table-secondary">
                                     <tr>
-                                        <td>No</td>
-                                        <td>No Pembelian</td>
-                                        <td>Tanggal</td>
-                                        <td>Supplier</td>
-                                        <td>Total Bayar</td>
-                                        <td>DP</td>
-                                        <td>Sisa</td>
-                                        <td>Status</td>
-                                        <td>Action</td>
+                                        {{-- <td>No</td> --}}
+                                        <td class="text-center" style="vertical-align: middle;" width="6%">No Penjualan</td>
+                                        <td class="text-center" style="vertical-align: middle;" width="6%">Tanggal</td>
+                                        <td class="text-center" style="vertical-align: middle;" width="5%">Pelanggan</td>
+                                        <td class="text-center" style="vertical-align: middle;" width="10%">Total Beli</td>
+                                        <td class="text-center" style="vertical-align: middle;" width="9%">Dibayar</td>
+                                        <td class="text-center" style="vertical-align: middle;" width="8%">Sisa</td>
+                                        <td class="text-center" style="vertical-align: middle;" width="8%">Status</td>
+                                        <td class="text-center" style="vertical-align: middle;" width="1%">Action</td>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach ($pembayaran as $item)
                                         <tr>
-                                            <td>{{ $i = (isset($i)?++$i:$i=1) }}</td>
-                                            <td><span class="badge badge-info">{{ $item->id_pembelian }}</span></td>
+                                            {{-- <td>{{ $i = (isset($i)?++$i:$i=1) }}</td> --}}
+                                            <td class="text-center"><span class="badge badge-info">{{ $item->id_pembelian }}</span></td>
                                             <td>{{ $item->tgl }}</td>
-                                            <td>{{ $item->nama_supplier }}</td>
-                                            <td>{{ $item->total_bayar }}</td>
-                                            <td>{{ $item->dp }}</td>
-                                            <td>{{ $item->sisa  }}</td>
-                                            <td>
+                                            <td class="text-center">{{ $item->nama_supplier }}</td>
+                                            <td>{{ 'Rp. '. format_uang($item->total_pembelian) }}</td>
+                                            <td>{{ 'Rp. '. format_uang($item->total_bayar) }}</td>
+                                            <td>{{ 'Rp. '. format_uang($item->sisa)  }}</td>
+                                            <td class="text-center">
                                                 @if ($item->sisa <= 0)
                                                     <span class="badge badge-success">Lunas</span>
                                                 @else
                                                     <span class="badge badge-danger">Belum Lunas</span>
                                                 @endif
                                             </td>
-                                            <td>
+                                            <td class="text-center">
                                                 @if ($item->sisa > 0 && $item->jenis_pembayaran === 2)
                                                     <button type="button" class="btn btn-info edit_pembayaran" 
                                                     data-id_pembelian="{{ $item->id_pembelian }}" 
@@ -95,8 +95,8 @@
 @push('scripts') 
 <script>
     $(document).on('change', '#bayar', function(e) {
-        var tb = $(this).val();
-        var sisa = $("#sisa").val();
+        var tb = String($(this).val()).replaceAll(".", '');
+        var sisa = String($("#sisa").val()).replaceAll(".", '');
         var dp = $("#dp").val();
         var total_harga = $('#total_harga').val()
         // var harga = String(dp).replaceAll(".", '');
@@ -153,6 +153,31 @@
                 $('.modal-body #sisa').val(sisa)
         });
     });
+
+    function formatRupiah(angka, prefix){
+            var number_string   = angka.replace(/[^,\d]/g, '').toString(),
+                split               = number_string.split(','),
+                sisa                = split[0].length % 3,
+                rupiah              = split[0].substr(0, sisa),
+                ribuan              = split[0].substr(sisa).match(/\d{3}/gi);
+
+            if(ribuan){
+                separator = sisa ? '.' : '';
+                rupiah += separator + ribuan.join('.');
+            }
+
+            rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
+            return prefix == undefined ? rupiah : (rupiah ? '' + rupiah : '');
+        }
+
+        function generateRupiah(elemValue) {
+            return $(elemValue).val(formatRupiah($(elemValue).val(), 'Rp. '))
+        }
+
+    $(document).on('keyup', '#bayar', function(e){
+        generateRupiah(this);
+    })
+    
 </script>
 <script>
     $('#tbl-data-pembayaran').DataTable();

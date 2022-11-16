@@ -61,7 +61,7 @@ class ListTransaksiPenjualanController extends Controller
                 $row['DT_RowIndex'] = $no++;
                 $row['tgl'] = tanggal_indonesia($tanggal, false);
                 $row['nama_pelanggan'] = ucfirst($item->nama_pelanggan);
-                $row['invoice'] = '<span class="badge badge-info">'. $item->id .'</span>';
+                $row['pegawai'] = auth()->user()->nama;
                 $row['total_harga'] = 'RP. '. format_uang($item->total_harga);
                 $row['jenis_pembayaran'] = $jenis;   
                 
@@ -74,7 +74,7 @@ class ListTransaksiPenjualanController extends Controller
         }
         return datatables()
             ->of($data)
-            ->rawColumns(['action', 'invoice', 'jenis_pembayaran'])
+            ->rawColumns(['action', 'jenis_pembayaran'])
             ->make(true);
 
         return $data;

@@ -115,7 +115,7 @@ class LoginController extends Controller
         $user->username = str_replace(' ', '', $perusahaan->nama);
         $user->password = bcrypt($perusahaan->npwp);
         $user->tlp = $perusahaan->tlp;
-        $user->hak_akses = 'admin';
+        $user->hak_akses = 'owner';
         $user->save();
 
         $data['perusahaan'] = $perusahaan;

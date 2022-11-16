@@ -9,7 +9,11 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form action="" method="POST">
+                @if (auth()->user()->hak_akses == 'admin')
+                    <form action="{{ route('admin.merek.store') }}" method="POST"> 
+                @elseif (auth()->user()->hak_akses == 'owner') 
+                    <form action="{{ route('owner.merek.store') }}" method="POST">
+                @endif
                     @csrf
                     <div id="method"></div>
                     <div class="form-group row">

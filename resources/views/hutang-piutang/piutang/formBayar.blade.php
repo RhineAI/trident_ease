@@ -9,7 +9,11 @@
             </button>
         </div>
         <div class="modal-body">
-            <form action="" method="POST">
+            @if (Auth::user()->hak_akses == 'admin')
+                 <form action="{{ route('admin.data-piutang.store') }}" method="POST">
+            @elseif (Auth::user()->hak_akses == 'kasir')
+                <form action="{{ route('kasir.data-piutang.store') }}" method="POST">
+            @endif
                 @csrf
                 <div id="method"></div>
                 <div class="form-group row">
@@ -58,7 +62,7 @@
                 <div class="form-group row">
                     <div class="form-group" style="width: 95%; margin: auto;">
                         <label for="bayar">Bayar</label>
-                        <input type="number" class="form-control" name="bayar" id="bayar">
+                        <input type="text" class="form-control" name="bayar" id="bayar" autocomplete="off">
                     </div>
                 </div>
                 <div class="form-group row">

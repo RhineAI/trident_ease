@@ -64,7 +64,11 @@ Route::middleware(['auth'])->group(function () {
 
         Route::group(['prefix' => 'owner', 'middleware' => 'cek-hak-akses:owner', 'as' => 'owner.'], function () {
                 Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
-                
+                Route::resource('/kategori', KategoriController::class);
+                Route::resource('/merek', MerekController::class);
+                Route::resource('/satuan', SatuanController::class);
+                Route::resource('/perusahaan', PerusahaanController::class);    
+
                 Route::resource('/users', UsersController::class);
                 Route::get('/users-tambah', [UsersController::class, 'index2'])->name('pegawai2');
                 Route::post('/users-tambah', [UsersController::class, 'store']);
@@ -75,6 +79,9 @@ Route::middleware(['auth'])->group(function () {
                 Route::get('/changePW', [UsersController::class, 'changePW'])->name('changePW');
                 Route::post('/changePW', [UsersController::class, 'changePWUpdate']);
 
+                Route::get('/keuntungan', [KeuntunganController::class, 'index'])->name('keuntungan');
+                Route::post('/keuntungan', [KeuntunganController::class, 'store'])->name('keuntungan.store');
+                
                 // Stok opname
                 Route::get('/stock-opname', [StokOpnameController::class, 'index'])->name('stockOpname');
                 Route::post('/stock-opname', [StokOpnameController::class, 'updateStock']);      

@@ -102,16 +102,28 @@ class ReturPenjualanController extends Controller
             foreach ($detailPenjualan as $row) {
                 $i++;
                 // return $row->id_barang;
+                // Original
+                // $qtySisa = ReturPenjualan::leftJoin('t_detail_retur_penjualan AS DRP', 'DRP.id_retur_penjualan', 't_retur_penjualan.id')->select('DRP.id_barang', 'DRP.qtySisa')
+                // ->where('t_retur_penjualan.id_perusahaan', auth()->user()->id_perusahaan) 
+                // ->where('t_retur_penjualan.id_penjualan', $request->id) 
+                // ->where('DRP.id_barang', $row->id_barang) 
+                // ->orderBy('DRP.id_barang', 'asc')
+                // ->first(); 
+
+                // if(isset($qtySisa->qtySisa)){
+                //     $subtotal = $qtySisa->qtySisa * $row->harga_jual;
+                //     $qtySekarang = $qtySisa->qtySisa;
+                // } else {
+                //     $subtotal = $row->jumlah_beli_barang * $row->harga_jual;
+                //     $qtySekarang = $row->jumlah_beli_barang;
+                // }
+
                 $qtySisa = ReturPenjualan::leftJoin('t_detail_retur_penjualan AS DRP', 'DRP.id_retur_penjualan', 't_retur_penjualan.id')->select('DRP.id_barang', 'DRP.qtySisa')
                 ->where('t_retur_penjualan.id_perusahaan', auth()->user()->id_perusahaan) 
                 ->where('t_retur_penjualan.id_penjualan', $request->id) 
                 ->where('DRP.id_barang', $row->id_barang) 
-                ->orderBy('DRP.id_barang', 'asc')
-                // ->toSql();
+                ->orderBy('DRP.id', 'desc')
                 ->first(); 
-                // $subtotal = 0;
-                // $qtySekarang = 0;
-                // return $qtySisa->qtySisa;
 
                 if(isset($qtySisa->qtySisa)){
                     $subtotal = $qtySisa->qtySisa * $row->harga_jual;
@@ -175,7 +187,19 @@ class ReturPenjualanController extends Controller
             $detReturBaru->qty = $barang['qty_retur'];
             $qtyBeli = TransaksiPenjualan::leftJoin('t_detail_penjualan AS DT', 'DT.id_penjualan', 't_transaksi_penjualan.id')->select(DB::raw('DT.qty'), 'DT.id_barang')->where('t_transaksi_penjualan.id_perusahaan', auth()->user()->id_perusahaan)->where('t_transaksi_penjualan.id', $request->id_penjualan)->where('DT.id_barang', $barang['id_barang_retur'])->first();
             // return $qtyBeli->id_barang;
-            $detReturBaru->qtySisa = $qtyBeli->qty - $barang['qty_retur'];
+            // $detReturBaru->qtySisa = $qtyBeli->qty - $barang['qty_retur];
+
+            $qtyRetur = ReturPenjualan::leftJoin('t_detail_retur_penjualan AS DRP', 'DRP.id_retur_penjualan', 't_retur_penjualan.id')->select('DRP.qtySisa')->where('t_retur_penjualan.id_perusahaan', auth()->user()->id_perusahaan)->where('t_retur_penjualan.id_penjualan', $request->id_penjualan)->where('DRP.id_barang', $barang['id_barang_retur']) 
+            ->orderBy('DRP.id', 'desc')
+            // ->latest()
+            ->first(); 
+            // dd($qtyRetur) die;;
+            if(isset($qtyRetur->qtySisa)){
+                // return $qtyRetur;
+                $detReturBaru->qtySisa = $qtyRetur->qtySisa - $barang['qty_retur'];
+            } elseif(!isset($qtyRetur->qtySisa)){
+                $detReturBaru->qtySisa = $qtyBeli->qty - $barang['qty_retur'];
+            }
             $detReturBaru->harga_beli = $barang['harga_beli_retur'];
             $detReturBaru->harga_jual = $barang['harga_jual_retur'];
             $detReturBaru->sub_total = $barang['harga_jual_retur'] * $barang['qty_retur'];
@@ -200,8 +224,11 @@ class ReturPenjualanController extends Controller
         $kasKeluar->id_perusahaan = auth()->user()->id_perusahaan;
         $kasKeluar->save();
         
-        return redirect()->route('admin.list-retur-penjualan.index')->with(['success' => 'Retur Penjualan Berhasil']);
-        
+        if(auth()->user()->hak_akses == 'admin'){
+            return redirect()->route('admin.list-retur-penjualan.index')->with(['success' => 'Retur Penjualan Berhasil']);
+        } elseif(auth()->user()->hak_akses == 'kasir') {
+            return redirect()->route('kasir.list-retur-penjualan.index')->with(['success' => 'Retur Penjualan Berhasil']);
+        }   
     }
 
     public function checkPrice($value)

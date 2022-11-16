@@ -259,7 +259,12 @@
                 Swal.fire('Seluruh Barang Ini Telah Di Retur')
                 return false;   
             }); 
-
+            
+            @if(auth()->user()->hak_akses == 'admin') 
+                var routeM = "{{ route('admin.retur-penjualan.data') }}";
+            @elseif(auth()->user()->hak_akses == 'kasir') 
+                var routeM = "{{ route('kasir.retur-penjualan.data') }}";
+            @endif 
             $(document).on('click','.add_penjualan',function(){
                 var id = $(this).data("id_penjualan");
                 var tgl = $(this).data("tgl");
@@ -273,7 +278,7 @@
 
                 $.ajax({
                     type: 'POST',
-                    url:"{{ route('admin.retur-penjualan.data') }}",
+                    url: routeM,
                     data: {
                         id: id,
                         _token: "{{ csrf_token() }}"

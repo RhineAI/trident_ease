@@ -14,18 +14,33 @@
                 <td class="text-center">{{ $no++}}</td>
                 <td>{{ $item->nama }}</td>
                 <td>
-                    <button class="btn btn-xs btn-warning" type="button" style="color: green;" title="Edit" data-mode="edit"
-                        data-toggle="modal" data-target="#formModalSatuan" data-id_satuan="{{ $item->id }}"
-                        data-nama_satuan="{{ $item->nama }}" data-route="{{ route('admin.satuan.update', $item->id) }}">
-                        <i class="fas fa-edit"></i>
-                    </button>
-                    <form action="{{ route('admin.satuan.destroy', $item->id) }}" style="display: inline;" method="post">
-                        @csrf
-                        @method('DELETE')
-                        <button onclick="deleteData('{{ route('admin.satuan.destroy', $item->id) }}')" class="btn btn-xs btn-danger delete-data" type="button" title="Delete">
-                            <i class="fas fa-trash"></i>
+                    @if (auth()->user()->hak_akses == 'admin')
+                        <button class="btn btn-xs btn-warning" type="button" style="color: green;" title="Edit" data-mode="edit"
+                            data-toggle="modal" data-target="#formModalSatuan" data-id_satuan="{{ $item->id }}"
+                            data-nama_satuan="{{ $item->nama }}" data-route="{{ route('admin.satuan.update', $item->id) }}">
+                            <i class="fas fa-edit"></i>
                         </button>
-                    </form>
+                        <form action="{{ route('admin.satuan.destroy', $item->id) }}" style="display: inline;" method="post">
+                            @csrf
+                            @method('DELETE')
+                            <button onclick="deleteData('{{ route('admin.satuan.destroy', $item->id) }}')" class="btn btn-xs btn-danger delete-data" type="button" title="Delete">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </form>
+                    @elseif (auth()->user()->hak_akses == 'owner') 
+                        <button class="btn btn-xs btn-warning" type="button" style="color: green;" title="Edit" data-mode="edit"
+                        data-toggle="modal" data-target="#formModalSatuan" data-id_satuan="{{ $item->id }}"
+                        data-nama_satuan="{{ $item->nama }}" data-route="{{ route('owner.satuan.update', $item->id) }}">
+                        <i class="fas fa-edit"></i>
+                        </button>
+                        <form action="{{ route('owner.satuan.destroy', $item->id) }}" style="display: inline;" method="post">
+                            @csrf
+                            @method('DELETE')
+                            <button onclick="deleteData('{{ route('owner.satuan.destroy', $item->id) }}')" class="btn btn-xs btn-danger delete-data" type="button" title="Delete">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </form>
+                    @endif
                 </td>
             </tr>
             @endforeach

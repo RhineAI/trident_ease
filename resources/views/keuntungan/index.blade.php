@@ -24,14 +24,18 @@ Keuntungan
             <div class="box mb-4">
                 <div class="box-body table-responsive ">
                     <h2 class="text-center mt-3 mb-4">Set Keuntungan</h2>
-                    <form action="{{ route('admin.keuntungan.store') }}" method="POST">
+                    @if (auth()->user()->hak_akses == 'admin')
+                        <form action="{{ route('admin.keuntungan.store') }}" method="POST">
+                    @elseif (auth()->user()->hak_akses == 'owner')
+                        <form action="{{ route('owner.keuntungan.store') }}" method="POST">
+                    @endif
                         @csrf
                         <div class="form-group row">
                             <div class="form-group col-md-11" style="margin: auto;" >
                                 <label for="keuntungan">Persen Keuntungan</label>
                                 <div class='input-group-prepend input-primary'>
                                     <input type="number" min="1" max="100" class="form-control" id="keuntungan"
-                                        placeholder="Jumlah keuntungan yang ingin anda ambil" name="keuntungan"><span
+                                        placeholder="Jumlah keuntungan yang ingin anda ambil" name="keuntungan"  autocomplete="off"><span
                                         class='input-group-text'>%</span>
                                 </div>
                             </div>

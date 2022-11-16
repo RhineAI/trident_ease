@@ -24,7 +24,11 @@ Data Penjualan
         <div class="col-md-12 p-2 mb-3" style="background-color: white">
             <div class="box mb-4">
                 <div class="box-body table-responsive ">
-                    <form action="{{ route('admin.list-transaksi.index') }}" method="get">
+                    @if (Auth::user()->hak_akses == 'admin')
+                        <form action="{{ route('admin.list-transaksi.index') }}" method="get">
+                    @elseif (Auth::user()->hak_akses == 'kasir')
+                        <form action="{{ route('kasir.list-transaksi.index') }}" method="get">
+                    @endif
                         {{-- @csrf --}}
                         {{-- @method('get') --}}
                         <div class="form-group row mt-4">
@@ -66,11 +70,11 @@ Data Penjualan
                                 <thead class="table-secondary">
                                     <tr>
                                         <th width="5%" class="text-center">No</th>
-                                        <th width="13%" class="text-center">Tanggal</th>
                                         <th width="9%" class="text-center">Invoice</th>
                                         <th width="14%" class="text-center">Pelanggan</th>
                                         <th width="14%" class="text-center">Total Penjualan</th>
                                         <th width="8%" class="text-center">Jenis Pembayaran</th>
+                                        <th width="13%" class="text-center">Pegawai</th>
                                         <th width="7%" class="text-center">Aksi</th>
                                     </tr>
                                 </thead>
@@ -94,6 +98,11 @@ Data Penjualan
         // ubahPeriode();
     });
     
+    @if(auth()->user()->hak_akses == 'kasir') 
+        var list_transaksi = "{{ route('kasir.list-transaksi.data', [$tanggalAwal, $tanggalAkhir]) }}";
+    @elseif(auth()->user()->hak_akses == 'admin') 
+        var list_transaksi = "{{ route('admin.list-transaksi.data', [$tanggalAwal, $tanggalAkhir]) }}";
+    @endif 
    let table;
         table = $('.table').DataTable({
         processing: true,
@@ -101,7 +110,7 @@ Data Penjualan
         autoWidth: false,
         serverSide: true,
         ajax: {
-            url: "{{ route('admin.list-transaksi.data', [$tanggalAwal, $tanggalAkhir]) }}",
+            url: list_transaksi,
             type: "POST",
             data: {  
                 _token: '{{ csrf_token() }}'
@@ -110,10 +119,10 @@ Data Penjualan
         columns: [
             {data:'DT_RowIndex', searchable: false, sortable: false},
             {data:'tgl'},
-            {data:'invoice'},
             {data:'nama_pelanggan'},
             {data:'total_harga'},
             {data:'jenis_pembayaran'},
+            {data:'pegawai'},
             {data:'action', searchable: false, sortable: false},
         ]
     });

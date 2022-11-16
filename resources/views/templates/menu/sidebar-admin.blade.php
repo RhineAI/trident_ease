@@ -282,7 +282,7 @@
 {{-- SETUP PERUSAHAAN --}}
 <li class="nav-item">
     <a href="#" class="nav-link">
-        <i class="nav-icon fas fa-solid fa-cog"></i>
+        <i class="nav-icon fas fa-solid fa-gears"></i>
         <p>
             Setup Perusahaan
             <i class="right fas fa-angle-right"></i>

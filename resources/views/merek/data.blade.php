@@ -14,18 +14,33 @@
                 <td class="text-center">{{ $no++ }}</td>
                 <td>{{ $item->nama }}</td>
                 <td>
-                    <button class="btn btn-xs btn-warning" type="button" style="color: green;" title="Edit" data-mode="edit"
+                    @if (auth()->user()->hak_akses == 'admin')
+                        <button class="btn btn-xs btn-warning" type="button" style="color: green;" title="Edit" data-mode="edit"
                         data-toggle="modal" data-target="#formModalMerek" data-id_merek="{{ $item->id }}"
                         data-nama_merek="{{ $item->nama }}" data-route="{{ route('admin.merek.update', $item->id) }}">
                         <i class="fas fa-edit"></i>
-                    </button>
-                    <form action="{{ route('admin.merek.destroy', $item->id) }}" style="display: inline;" method="post">
-                        @csrf
-                        @method('DELETE')
-                        <button onclick="deleteData('{{ route('admin.merek.destroy', $item->id) }}')" class="btn btn-xs btn-danger delete-data" type="button" title="Delete">
-                            <i class="fas fa-trash"></i>
                         </button>
-                    </form>
+                        <form action="{{ route('admin.merek.destroy', $item->id) }}" style="display: inline;" method="post">
+                            @csrf
+                            @method('DELETE')
+                            <button onclick="deleteData('{{ route('admin.merek.destroy', $item->id) }}')" class="btn btn-xs btn-danger delete-data" type="button" title="Delete">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </form>
+                    @elseif (auth()->user()->hak_akses == 'owner') 
+                        <button class="btn btn-xs btn-warning" type="button" style="color: green;" title="Edit" data-mode="edit"
+                        data-toggle="modal" data-target="#formModalMerek" data-id_merek="{{ $item->id }}"
+                        data-nama_merek="{{ $item->nama }}" data-route="{{ route('owner.merek.update', $item->id) }}">
+                        <i class="fas fa-edit"></i>
+                        </button>
+                        <form action="{{ route('owner.merek.destroy', $item->id) }}" style="display: inline;" method="post">
+                            @csrf
+                            @method('DELETE')
+                            <button onclick="deleteData('{{ route('owner.merek.destroy', $item->id) }}')" class="btn btn-xs btn-danger delete-data" type="button" title="Delete">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </form>
+                    @endif
                 </td>
             </tr>
             @endforeach

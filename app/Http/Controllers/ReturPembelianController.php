@@ -191,11 +191,27 @@ class ReturPembelianController extends Controller
                 $i++;
                 // $subtotal = $row->jumlah_beli_barang * $row->harga_beli;
 
+                // Original
+                // $qtySisa = ReturPembelian::leftJoin('t_detail_retur_pembelian AS DRP', 'DRP.id_retur_pembelian', 't_retur_pembelian.id')->select('DRP.id_barang', 'DRP.qtySisa')
+                // ->where('t_retur_pembelian.id_perusahaan', auth()->user()->id_perusahaan) 
+                // ->where('t_retur_pembelian.id_pembelian', $request->id) 
+                // ->where('DRP.id_barang', $row->id_barang) 
+                // ->orderBy('DRP.id_barang', 'asc')
+                // ->first(); 
+
+                // if(isset($qtySisa->qtySisa)){
+                //     $subtotal = $qtySisa->qtySisa * $row->harga_beli;
+                //     $qtySekarang = $qtySisa->qtySisa;
+                // } else {
+                //     $subtotal = $row->jumlah_beli_barang * $row->harga_beli;
+                //     $qtySekarang = $row->jumlah_beli_barang;
+                // }
+
                 $qtySisa = ReturPembelian::leftJoin('t_detail_retur_pembelian AS DRP', 'DRP.id_retur_pembelian', 't_retur_pembelian.id')->select('DRP.id_barang', 'DRP.qtySisa')
                 ->where('t_retur_pembelian.id_perusahaan', auth()->user()->id_perusahaan) 
                 ->where('t_retur_pembelian.id_pembelian', $request->id) 
                 ->where('DRP.id_barang', $row->id_barang) 
-                ->orderBy('DRP.id_barang', 'asc')
+                ->orderBy('DRP.id', 'desc')
                 // ->toSql();
                 ->first(); 
 
@@ -288,9 +304,22 @@ class ReturPembelianController extends Controller
             $detReturBaru->id_retur_pembelian = $returBaru->id;
             $detReturBaru->id_barang = $barang['id_barang_retur'];
             $detReturBaru->qty = $barang['qty_retur'];
+            // original
             $qtyBeli = Pembelian::leftJoin('t_detail_pembelian AS DT', 'DT.id_pembelian', 't_transaksi_pembelian.id')->select(DB::raw('DT.qty'), 'DT.id_barang')->where('t_transaksi_pembelian.id_perusahaan', auth()->user()->id_perusahaan)->where('t_transaksi_pembelian.id', $request->id_pembelian)->where('DT.id_barang', $barang['id_barang_retur'])->first();
             // return $qtyBeli->qty;
-            $detReturBaru->qtySisa = $qtyBeli->qty - $barang['qty_retur'];
+            // $detReturBaru->qtySisa = $qtyBeli->qty - $barang['qty_retur'];
+
+            $qtyRetur = ReturPembelian::leftJoin('t_detail_retur_pembelian AS DRP', 'DRP.id_retur_pembelian', 't_retur_pembelian.id')->select('DRP.qtySisa')->where('t_retur_pembelian.id_perusahaan', auth()->user()->id_perusahaan)->where('t_retur_pembelian.id_pembelian', $request->id_pembelian)->where('DRP.id_barang', $barang['id_barang_retur']) 
+            ->orderBy('DRP.id', 'desc')
+            // ->latest()
+            ->first(); 
+            // dd($qtyRetur) die;;
+            if(isset($qtyRetur->qtySisa)){
+                // return $qtyRetur;
+                $detReturBaru->qtySisa = $qtyRetur->qtySisa - $barang['qty_retur'];
+            } elseif(!isset($qtyRetur->qtySisa)){
+                $detReturBaru->qtySisa = $qtyBeli->qty - $barang['qty_retur'];
+            }
             $detReturBaru->harga_beli = $barang['harga_beli_retur'];
             $detReturBaru->sub_total = $barang['harga_beli_retur'] * $barang['qty_retur'];
             $detReturBaru->keuntungan = $barang['harga_beli_retur'] - $barang['harga_beli_retur'];

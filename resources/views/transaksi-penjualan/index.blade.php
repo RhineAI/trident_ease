@@ -70,7 +70,11 @@
         
                     <div class="box-body mx-2 my-2">
 
-                        <form class="form-pelanggan" method="post" id="form-transaksi">
+                        @if (Auth::user()->hak_akses == 'admin')
+                            <form class="form-pelanggan" method="post" id="form-transaksi" action="">
+                        @elseif (Auth::user()->hak_akses == 'kasir')
+                            <form class="form-pelanggan" method="post" id="form-transaksi" action="{{ route('kasir.transaksi-penjualan.store') }}">
+                        @endif
                             @csrf
                             <div class="form-group row">
                                 <label for="nama_pelanggan" class="col-lg-2">Pelanggan</label>
@@ -92,7 +96,7 @@
                                     </div>
                                 </div>
                             </div>
-                        <br>
+                            <br>
                             
                             <div class="form-group row">
                                 <label for="kode_produk" class="col-lg-2">Tambah Produk</label>
@@ -109,130 +113,130 @@
                                 </div>
                             </div>
         
-                        <div class="table-responsive">
-                            <table cellpaddong="0" cellspacing="0" class="table table-striped table-bordered" id="buffer_table">
-                                <thead>
-                                   <tr>
-                                        <th class="text-center" width="8.2%"> Kode</th>
-                                        <th class="text-center" width="18%">Nama</th>
-                                        <th class="text-center" width="12%">Harga</th>
-                                        <th class="text-center" width="9%">Jumlah</th>
-                                        <th class="text-center" width="10.7%">Diskon</th>
-                                        <th class="text-center" width="13%">Subtotal</th>
-                                        <th class="text-center" width="9%">Aksi</th>
-                                   </tr>
-                                </thead>
-                                <tbody id="t_penjualan">
-                                    <tr id="buffer100" height="50px">
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
+                            <div class="table-responsive">
+                                <table cellpaddong="0" cellspacing="0" class="table table-striped table-bordered" id="buffer_table">
+                                    <thead>
+                                    <tr>
+                                            <th class="text-center" width="8.2%"> Kode</th>
+                                            <th class="text-center" width="18%">Nama</th>
+                                            <th class="text-center" width="12%">Harga</th>
+                                            <th class="text-center" width="9%">Jumlah</th>
+                                            <th class="text-center" width="10.7%">Diskon</th>
+                                            <th class="text-center" width="13%">Subtotal</th>
+                                            <th class="text-center" width="9%">Aksi</th>
                                     </tr>
-                                </tbody>
-                            </table>
-                        </div>
-        
-                        <div class="row mt-4">
-                            <div class="col-lg-7">
-                                <div class="tampil-bayar bg-default mb-4" id="total_bayar_gede">RP. 0</div>
-                                <div class="tampil-terbilang"></div>
+                                    </thead>
+                                    <tbody id="t_penjualan">
+                                        <tr id="buffer100" height="50px">
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
-                            <div class="col-lg-5">
-                                       	<!-- TOTAL PENJUALAN  -->
-                                    <input class="form-control" type="hidden" name="total_penjualan" data-bv-trigger="blur"
-                                    id="total_penjualan" readonly="true">
-
-                                    <input type="hidden" data-bv-trigger="blur" id="total_bayar" name="total_bayar" class="form-control" readonly>
-
-                                    <div class="form-group row">
-                                        <label for="inputEmail3" class="col-lg-3 control-label">Jenis Pembayaran</label>
-                                        <div class="col-lg-8">
-                                            <select class="form-control" name="jenis_pembayaran" data-bv-trigger="blur" id="jenis_pembayaran">
-                                                <option value="1" selected="selected">CASH</option>';
-                                                <option value="2">KREDIT</option>';
-                                            </select>
-                                        </div>
-                                    </div>
-                             
-                                    {{-- <div class="form-group row mt-4">
-                                        <label for="bayar" class="col-lg-3 control-label">Total</label>
-                                        <div class="col-lg-8 ">
-                                            <div class="input-group-prepend input-primary"> 
-                                                <span class="input-group-text">RP.</span> 
-                                                <input type="text" data-bv-trigger="blur" id="total_bayar" name="total_bayar" class="form-control" readonly>
-                                            </div>
-                                        </div>
-                                    </div> --}}
-                                    <div class="form-group row mt-4" id="tampil_bayar">
-                                        <label for="diterima" class="col-lg-3 control-label">Bayar</label>
-                                        <div class="col-lg-8 ">
-                                            <div class="input-group-prepend input-primary"> 
-                                                <span class="input-group-text">RP.</span> 
-                                                <input type="text" data-bv-trigger="blur" id="bayar" name="bayar" class="form-control" autocomplete="off">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="form-group row mt-4" id="tampil_kembali">
-                                        <label for="diterima" class="col-lg-3 control-label">Kembalian</label>
-                                        <div class="col-lg-8 ">
-                                            <div class="input-group-prepend input-primary"> 
-                                                <span class="input-group-text">RP.</span> 
-                                                <input type="text" data-bv-trigger="blur" id="kembali" readonly name="kembali" class="form-control" value="0">
-                                            </div>
-                                        </div>
-                                    </div>
         
-                                    <div class="form-group row mt-4" id="tampil_dp">
-                                        <label for="inputEmail3" class="col-lg-3 control-label">DP</label>
-                                        <div class="col-lg-8 ">
-                                            <div class="input-group-prepend input-primary"> 
-                                                <span class="input-group-text">RP.</span> 
-                                                <input type="text" data-bv-trigger="blur" id="dp" name="dp" class="form-control" autocomplete="off">
-                                            </div>
-                                        </div>
-                                    </div>
+                            <div class="row mt-4">
+                                <div class="col-lg-7">
+                                    <div class="tampil-bayar bg-default mb-4" id="total_bayar_gede">RP. 0</div>
+                                    <div class="tampil-terbilang"></div>
+                                </div>
+                                <div class="col-lg-5">
+                                            <!-- TOTAL PENJUALAN  -->
+                                        <input class="form-control" type="hidden" name="total_penjualan" data-bv-trigger="blur"
+                                        id="total_penjualan" readonly="true">
 
-                                    <div class="form-group row mt-4" id="tampil_sisa">
-                                        <label for="inputEmail3" class="col-lg-3 control-label">Sisa</label>
-                                        <div class="col-lg-8 ">
-                                            <div class="input-group-prepend input-primary"> 
-                                                <span class="input-group-text">RP.</span> 
-                                                <input type="number" data-bv-trigger="blur" id="sisa" name="sisa" class="form-control" readonly value="0">
-                                            </div>
-                                        </div>
-                                    </div>
+                                        <input type="hidden" data-bv-trigger="blur" id="total_bayar" name="total_bayar" class="form-control" readonly>
 
-                                    {{-- <div class="form-group row" style="display: none;" id="tampil_dp">
-                                        <label for="inputEmail3" class="col-lg-3 control-label">DP</label>
-                                        <div class="col-lg-8">
-                                            <div class="input-group-prepend input-primary"> 
-                                                <span class="input-group-text">RP.</span> 
-                                                <input type="text" id="dp" class="form-control" name="dp">
+                                        <div class="form-group row">
+                                            <label for="inputEmail3" class="col-lg-3 control-label">Jenis Pembayaran</label>
+                                            <div class="col-lg-8">
+                                                <select class="form-control" name="jenis_pembayaran" data-bv-trigger="blur" id="jenis_pembayaran">
+                                                    <option value="1" selected="selected">CASH</option>';
+                                                    <option value="2">KREDIT</option>';
+                                                </select>
                                             </div>
                                         </div>
-                                    </div> --}}
-                
-                                    {{-- <div class="form-group" style="display: none;" id="tampil_sisa">
-                                        <label for="inputEmail3" class="col-lg-3 control-label">SISA</label>
-                                        <div class="col-lg-8">
-                                            <div class="input-group-prepend input-primary"> 
-                                                <span class="input-group-text">RP.</span> 
-                                                <input type="text" id="sisa" class="form-control" name="sisa">
+                                
+                                        {{-- <div class="form-group row mt-4">
+                                            <label for="bayar" class="col-lg-3 control-label">Total</label>
+                                            <div class="col-lg-8 ">
+                                                <div class="input-group-prepend input-primary"> 
+                                                    <span class="input-group-text">RP.</span> 
+                                                    <input type="text" data-bv-trigger="blur" id="total_bayar" name="total_bayar" class="form-control" readonly>
+                                                </div>
+                                            </div>
+                                        </div> --}}
+                                        <div class="form-group row mt-4" id="tampil_bayar">
+                                            <label for="diterima" class="col-lg-3 control-label">Bayar</label>
+                                            <div class="col-lg-8 ">
+                                                <div class="input-group-prepend input-primary"> 
+                                                    <span class="input-group-text">RP.</span> 
+                                                    <input type="text" data-bv-trigger="blur" id="bayar" name="bayar" class="form-control" autocomplete="off">
+                                                </div>
                                             </div>
                                         </div>
-                                    </div> --}}
+                                        <div class="form-group row mt-4" id="tampil_kembali">
+                                            <label for="diterima" class="col-lg-3 control-label">Kembalian</label>
+                                            <div class="col-lg-8 ">
+                                                <div class="input-group-prepend input-primary"> 
+                                                    <span class="input-group-text">RP.</span> 
+                                                    <input type="text" data-bv-trigger="blur" id="kembali" readonly name="kembali" class="form-control" value="0">
+                                                </div>
+                                            </div>
+                                        </div>
+            
+                                        <div class="form-group row mt-4" id="tampil_dp">
+                                            <label for="inputEmail3" class="col-lg-3 control-label">DP</label>
+                                            <div class="col-lg-8 ">
+                                                <div class="input-group-prepend input-primary"> 
+                                                    <span class="input-group-text">RP.</span> 
+                                                    <input type="text" data-bv-trigger="blur" id="dp" name="dp" class="form-control" autocomplete="off">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row mt-4" id="tampil_sisa">
+                                            <label for="inputEmail3" class="col-lg-3 control-label">Sisa</label>
+                                            <div class="col-lg-8 ">
+                                                <div class="input-group-prepend input-primary"> 
+                                                    <span class="input-group-text">RP.</span> 
+                                                    <input type="number" data-bv-trigger="blur" id="sisa" name="sisa" class="form-control" readonly value="0">
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        {{-- <div class="form-group row" style="display: none;" id="tampil_dp">
+                                            <label for="inputEmail3" class="col-lg-3 control-label">DP</label>
+                                            <div class="col-lg-8">
+                                                <div class="input-group-prepend input-primary"> 
+                                                    <span class="input-group-text">RP.</span> 
+                                                    <input type="text" id="dp" class="form-control" name="dp">
+                                                </div>
+                                            </div>
+                                        </div> --}}
+                    
+                                        {{-- <div class="form-group" style="display: none;" id="tampil_sisa">
+                                            <label for="inputEmail3" class="col-lg-3 control-label">SISA</label>
+                                            <div class="col-lg-8">
+                                                <div class="input-group-prepend input-primary"> 
+                                                    <span class="input-group-text">RP.</span> 
+                                                    <input type="text" id="sisa" class="form-control" name="sisa">
+                                                </div>
+                                            </div>
+                                        </div> --}}
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-md-11"></div>
+                        <div class="col-md-11"></div>
                     <div class="box-footer mb-4 btn-submit">
                         <button type="submit" id="submit" class="col-md-3 btn btn-outline-primary btn-sm pull-right btn-simpan" onkeypress="preventEnter(this)"><i class="fa-solid fa-floppy-disk"></i> Simpan Transaksi</button>
                     </div>
                 </div>
-            </div>
+            </div>  
         </div>
     </form>
   

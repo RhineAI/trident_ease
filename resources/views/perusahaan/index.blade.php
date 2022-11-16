@@ -24,8 +24,12 @@ Perusahaan
             <div class="box mb-4">
               <h2 class="text-center mt-3 mb-5">Set Perusahaan</h2>
                 <div class="box-body table-responsive d-flex">
-                    <div class="col-lg-12 justify-content-center" >
-                        <form action="" method="POST" enctype="multipart/form-data">
+                    <div class="col-lg-12 justify-content-center">
+                        @if (Auth::user()->hak_akses == 'owner') 
+                            <form action="{{ route('owner.perusahaan.store') }}" method="POST" enctype="multipart/form-data">
+                        @elseif ((Auth::user()->hak_akses == 'admin'))
+                            <form action="{{ route('admin.perusahaan.store') }}" method="POST" enctype="multipart/form-data">
+                        @endif
                             @csrf
                             <input type="hidden" name="id" value="{{ $cPerusahaan->id }}">
                             <div class="form-group row">

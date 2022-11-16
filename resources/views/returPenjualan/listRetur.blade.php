@@ -98,6 +98,11 @@ Data Retur Penjualan
         // ubahPeriode();
     });
     
+    @if(auth()->user()->hak_akses == 'admin') 
+        var routeM = "{{ route('admin.list-retur-penjualan.data', [$tanggalAwal, $tanggalAkhir]) }}";
+    @elseif(auth()->user()->hak_akses == 'kasir') 
+        var routeM = "{{ route('kasir.list-retur-penjualan.data', [$tanggalAwal, $tanggalAkhir]) }}";
+    @endif 
    let table;
         table = $('.table').DataTable({
         processing: true,
@@ -105,7 +110,7 @@ Data Retur Penjualan
         autoWidth: false,
         serverSide: true,
         ajax: {
-            url: "{{ route('admin.list-retur-penjualan.data', [$tanggalAwal, $tanggalAkhir]) }}",
+            url: routeM,
             type: "POST",
             data: {  
                 _token: '{{ csrf_token() }}'

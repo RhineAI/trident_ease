@@ -14,7 +14,21 @@
 @endsection
 
 @push('styles')
-    
+    <style>
+         @import url("https://fonts.googleapis.com/css?family=Open+Sans:400,600,700");
+
+      body {
+        font-family: 'Open Sans'; 
+      }
+      .slogan {
+          font-family: Monotype Corsiva, Times, Serif;
+          font-size: 20px;
+      }
+      strong {
+        font-size: 20px;
+      }
+      
+    </style>
 @endpush
 @section('contents')
     
@@ -26,16 +40,19 @@
               Selamat Datang {{ auth()->user()->nama }}
             </div>
             <div class="card-body text-center">
-              <h5>Di Aplikasi ZiePOS</h5>
-              <p class="card-text mb-3">Aplikasi penyedia layanan point of sale</p>
+              {{-- <h5>Di Aplikasi ZiePOS</h5> --}}
+              {{-- <p class="card-text mb-3">Aplikasi penyedia layanan point of sale</p> --}}
 
               <div>
+                Anda saat ini login sebagai pegawai perusahaan
+                <br>
                 <strong>{{ $cPerusahaan->nama }}</strong>
                 <br>
                 <img src="{{ $cPerusahaan->logo }}" alt="{{ $cPerusahaan->nama }}" width="200">
-                <p>{{ $cPerusahaan->slogan }}</p>
               </div>
             </div>
+            <br>
+            <p class="slogan">{{ $cPerusahaan->slogan }}</p>
             <div class="card-footer text-muted">
               {{ $cPerusahaan->nama }} telah bergabung sejak {{ $cPerusahaan->created_at->diffForHumans() }}
             </div>

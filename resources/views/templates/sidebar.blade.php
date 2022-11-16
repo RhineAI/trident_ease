@@ -1,5 +1,5 @@
 <!-- Main Sidebar Container -->
-<aside class="main-sidebar sidebar-primary elevation-4" id="bgBlueLightWhiteColor" style="">
+<aside class="main-sidebar sidebar-primary elevation-4" id="bgBlueLightWhiteColor" style="position:fixed; overflow:auto; height:30em">
     <!-- Brand Logo -->
     <a href="/" class="brand-link">
         <img src="{{ asset('assets') }}/img/ziepos.png" alt="AdminLTE Logo"

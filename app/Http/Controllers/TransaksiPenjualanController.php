@@ -197,7 +197,11 @@ class TransaksiPenjualanController extends Controller
                 $kasMasuk->save();
             }
             // dd($penjualanBaru->id); die;
-            return redirect()->route('admin.list-transaksi.index')->with(['success' => 'Transaksi Berhasil!']);
+            if(auth()->user()->hak_akses == 'admin') {
+                return redirect()->route('admin.list-transaksi.index')->with(['success' => 'Transaksi Berhasil!']);
+            }elseif(auth()->user()->hak_akses == 'kasir') {
+                return redirect()->route('kasir.list-transaksi.index')->with(['success' => 'Transaksi Berhasil!']);
+            }
         }
     }
 
