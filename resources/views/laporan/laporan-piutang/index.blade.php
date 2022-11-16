@@ -75,7 +75,7 @@ Laporan Piutang
                     <div class="col-lg-12">
                         <div class="table-responsive p-3">
                             <h5 class="mt-4 mb-3">Piutang</h5>
-                            <table class="table align-items-center mb-5 table-bordered table-striped table-flush table-hover text-center table-piutang" id="dataTableHover">
+                            <table class="table align-items-center mb-5 table-bordered table-striped table-flush table-hover text-center table-responsive dt-responsive table-piutang" id="dataTableHover">
                                 <thead class="table-primary">
                                     <tr>
                                         <th width="4%" class="text-center" style="vertical-align:middle;">No</th>

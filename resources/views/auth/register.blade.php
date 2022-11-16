@@ -50,7 +50,7 @@
                             <input class="input--style-1" required type="email" placeholder="EMAIL PERUSAHAAN" name="email">
                         </div>
                         <div class="input-group">
-                            <input class="input--style-1" required type="number" placeholder="NPWP" name="npwp">
+                            <input class="input--style-1" minlength="6" required type="number" placeholder="NPWP" name="npwp">
                         </div>
              
                         <div class="row row-space">

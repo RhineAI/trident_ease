@@ -9,12 +9,12 @@ Terima Kasih Sudah Mendaftar, Silahkan Login Menggunakan Username dan Password d
     use app\Models\User;
     use app\Models\Perusahaan;
     $user = User::select('*')->orderBy('id', 'DESC')->first();
-    $perusahaan = perusahaan::select('*')->orderBy('id', 'DESC')->first();
+    $perusahaan = Perusahaan::select('*')->orderBy('id', 'DESC')->first();
 @endphp
 
 Username = {{ str_replace(' ', '', $user->username) }}
 <br>
-Password = {{ $perusahaan->npwp }}
+Password = {{ str_replace(' ', '', strtolower($perusahaan->pemilik).'123') }}
 
 <b>Pastikan username dan password untuk segera diganti!</b>
 <br><br>

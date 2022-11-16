@@ -87,7 +87,7 @@ Laporan Stok
                     <!-- DataTable with Hover -->
                     <div class="col-lg-12">
                         <div class="table-responsive p-3">
-                            <table class="table align-items-center mb-5 table-bordered table-striped table-flush table-hover text-center table-stok" id="dataTableHover">
+                            <table class="table align-items-center mb-5 table-bordered table-striped table-flush table-hover text-center table-responsive dt-responsive  table-stok" id="dataTableHover">
                                 <thead class="table-primary">
                                     <tr class="">
                                         <th width="7%" class="text-center" style="vertical-align:middle; margin:auto; text-align:center;">No</th>

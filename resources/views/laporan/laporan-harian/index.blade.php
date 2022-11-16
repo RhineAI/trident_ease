@@ -75,7 +75,7 @@ Laporan Harian
                     <div class="col-lg-12">
                         <div class="table-responsive p-2">
                             <h5 class="mb-3">Penjualan Barang</h5>
-                            <table class="table align-items-center mb-5 table-bordered table-striped table-flush table-hover text-center table-penjualan" id="dataTableHover">
+                            <table class="table align-items-center mb-5 table-bordered table-striped table-flush table-hover text-center table-responsive dt-responsive table-penjualan" id="dataTableHover">
                                 <thead class="table-primary">
                                     <tr>
                                         <th width="4%" class="text-center">No</th>
@@ -90,7 +90,7 @@ Laporan Harian
                             </table>
 
                             <h5 class="mt-4 mb-3">Pembelian Barang</h5>
-                            <table class="table align-items-center mb-5 table-bordered table-striped table-flush table-hover text-center table-pembelian" id="dataTableHover">
+                            <table class="table align-items-center mb-5 table-bordered table-striped table-flush table-hover text-center table-responsive dt-responsive table-pembelian" id="dataTableHover">
                                 <thead class="table-primary">
                                     <tr>
                                         <th width="4%" class="text-center">No</th>
@@ -103,7 +103,7 @@ Laporan Harian
                             </table>
 
                             <h5 class="mt-4 mb-3">Retur Penjualan</h5>
-                            <table class="table align-items-center mb-5 table-bordered table-striped table-flush table-hover text-center table-retur-penjualan" id="dataTableHover">
+                            <table class="table align-items-center mb-5 table-bordered table-striped table-flush table-hover text-center table-responsive dt-responsive table-retur-penjualan" id="dataTableHover">
                                 <thead class="table-primary">
                                     <tr>
                                         <th width="4%" class="text-center">No</th>
@@ -116,7 +116,7 @@ Laporan Harian
                             </table>
 
                             <h5 class="mt-4 mb-3">Retur Pembelian</h5>
-                            <table class="table align-items-center mb-5 table-bordered table-striped table-flush table-hover text-center table-retur-pembelian" id="dataTableHover">
+                            <table class="table align-items-center mb-5 table-bordered table-striped table-flush table-hover text-center table-responsive dt-responsive table-retur-pembelian" id="dataTableHover">
                                 <thead class="table-primary">
                                     <tr>
                                         <th width="4%" class="text-center">No</th>
@@ -129,7 +129,7 @@ Laporan Harian
                             </table>
 
                             <h5 class="mt-4 mb-3">Hutang</h5>
-                            <table class="table align-items-center mb-5 table-bordered table-striped table-flush table-hover text-center table-hutang" id="dataTableHover">
+                            <table class="table align-items-center mb-5 table-bordered table-striped table-flush table-hover text-center table-responsive dt-responsive table-hutang" id="dataTableHover">
                                 <thead class="table-primary">
                                     <tr>
                                         <th width="4%" class="text-center">No</th>
@@ -143,7 +143,7 @@ Laporan Harian
                             </table>
 
                             <h5 class="mt-4 mb-3">Piutang</h5>
-                            <table class="table align-items-center mb-5 table-bordered table-striped table-flush table-hover text-center table-piutang" id="dataTableHover">
+                            <table class="table align-items-center mb-5 table-bordered table-striped table-flush table-hover text-center table-responsive dt-responsive table-piutang" id="dataTableHover">
                                 <thead class="table-primary">
                                     <tr>
                                         <th width="4%" class="text-center">No</th>
@@ -157,7 +157,7 @@ Laporan Harian
                             </table>
 
                             <h5 class="mt-4 mb-3">Kas Masuk</h5>
-                            <table class="table align-items-center mb-5 table-bordered table-striped table-flush table-hover text-center table-kas-masuk" id="dataTableHover">
+                            <table class="table align-items-center mb-5 table-bordered table-striped table-flush table-hover text-center table-responsive dt-responsive table-kas-masuk" id="dataTableHover">
                                 <thead class="table-primary">
                                     <tr>
                                         <th width="4%" class="text-center">No</th>
@@ -170,7 +170,7 @@ Laporan Harian
                             </table>
 
                             <h5 class="mt-4 mb-3">Kas Keluar</h5>
-                            <table class="table align-items-center mb-5 table-bordered table-striped table-flush table-hover text-center table-kas-keluar" id="dataTableHover">
+                            <table class="table align-items-center mb-5 table-bordered table-striped table-flush table-hover text-center table-responsive dt-responsive table-kas-keluar" id="dataTableHover">
                                 <thead class="table-info">
                                     <tr>
                                         <th width="4%" class="text-center">No</th>

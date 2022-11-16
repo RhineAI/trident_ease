@@ -309,3 +309,13 @@ Route::post('/', [LoginController::class, 'login']);
 Route::get('/register', [LoginController::class, 'reg'])->name('reg');
 Route::post('/register', [LoginController::class, 'register'])->name('register');
 Route::get('/success', [LoginController::class, 'regSuccess'])->name('regSuccess');
+
+Route::get('/route-clear', function() {
+        Artisan::call('route:clear');
+        return 'Route cache cleared!';
+});
+
+Route::get('/config-clear', function() {
+        Artisan::call('config:clear'); 
+        return 'Configuration cache cleared!';
+});

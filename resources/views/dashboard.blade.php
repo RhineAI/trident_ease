@@ -35,16 +35,16 @@
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
                             <div class="text-xs font-weight-bold text-uppercase mb-1">Product Added</div>
-                            <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">{{ $cardBarang }}</div>
+                            <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800 count" id="count" data-val="{{ $cardBarang }}">{{ $cardBarang }}</div>
                             <div class="mt-2 mb-0 text-muted text-xs">
                                 @if($todaybarang >= $cekupordownbarang) 
-                                    <span class="text-success mr-2"><i class="fas fa-arrow-up"></i> {{ $percentage_barang }}%</span>
+                                    <span class="text-success mr-2"><i class="fas fa-arrow-up"></i>{{ $percentage_barang }}%</span>
                                     <span>Since last Added (+{{ $totalBarangYesterday }})</span>
                                 @elseif($todaybarang <= $cekupordownbarang)
-                                    <span class="text-danger mr-2"><i class="fas fa-arrow-down"></i> {{ $percentage_barang }}%</span>
+                                    <span class="text-danger mr-2"><i class="fas fa-arrow-down"></i>{{ $percentage_barang }}%</span>
                                     <span>Since last Added (-{{ $cekupordownbarang - $totalBarangYesterday }})</span>
                                 @else
-                                    <span class="text-success mr-2"><i class="fas fa-arrow-up"></i> {{ $percentage_barang }}%</span>
+                                    <span class="text-success mr-2"><i class="fas fa-arrow-up"></i>{{ $percentage_barang }}%</span>
                                     <span>Since last Added (+{{ $totalBarangYesterday }})</span>
                                 @endif
                             </div>
@@ -63,16 +63,16 @@
                     <div class="row align-items-center">
                         <div class="col mr-2">
                             <div class="text-xs font-weight-bold text-uppercase mb-1">Earnings (Monthly)</div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">Rp.{{ format_uang($penjualan) }}</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">RP. {{ format_uang($penjualan) }}</div>
                             <div class="mt-2 mb-0 text-muted text-xs">
                                 @if($upordownpenghasilan >= $cekupordownpenghasilan) 
-                                    <span class="text-success mr-2"><i class="fas fa-arrow-up"></i> {{ $percentage_penghasilan }}%</span>
+                                    <span class="text-success mr-2"><i class="fas fa-arrow-up"></i>{{ $percentage_penghasilan }}%</span>
                                     <span>Since last Month</span>
                                 @elseif($upordownpenghasilan <= $cekupordownpenghasilan)
-                                    <span class="text-danger mr-2"><i class="fas fa-arrow-down"></i> {{ $percentage_penghasilan }}%</span>
+                                    <span class="text-danger mr-2"><i class="fas fa-arrow-down"></i>{{ $percentage_penghasilan }}%</span>
                                     <span>Since last Month</span>
                                 @else
-                                    <span class="text-success mr-2"><i class="fas fa-arrow-up"></i> {{ $percentage_penghasilan }}%</span>
+                                    <span class="text-success mr-2"><i class="fas fa-arrow-up"></i>{{ $percentage_penghasilan }}%</span>
                                     <span>Since last Month</span>
                                 @endif
                             </div>
@@ -91,17 +91,17 @@
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
                             <div class="text-xs font-weight-bold text-uppercase mb-1">Sales</div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $cardPenjualan }}</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800 count" id="count" data-val="{{ $cardPenjualan }}">0</div>
                             <div class="mt-2 mb-0 text-muted text-xs">
                                 @if($upordowntransaksi >= $cekupordowntransaksi) 
-                                    <span class="text-success mr-2"><i class="fas fa-arrow-up"></i> {{ $percentage_transaksi }}%</span>
-                                    <span>Since last (+{{ $totalBarangYesterday }})</span>
-                                @elseif($upordowntransaksi <= $cekupordowntransaksi)
-                                    <span class="text-danger mr-2"><i class="fas fa-arrow-down"></i> {{ $percentage_transaksi }}%</span>
-                                    <span>Since last (-{{ $cekupordowntransaksi - $totalTransaksiYesterday }})</span>
-                                @else
-                                    <span class="text-success mr-2"><i class="fas fa-arrow-up"></i> {{ $percentage_transaksi }}%</span>
+                                    <span class="text-success mr-2"><i class="fas fa-arrow-up" ></i>{{ $percentage_transaksi }}%</span>
                                     <span>Since last (+{{ $totalTransaksiYesterday }})</span>
+                                @elseif($upordowntransaksi <= $cekupordowntransaksi)
+                                    <span class="text-danger mr-2"><i class="fas fa-arrow-down"></i>{{ $percentage_transaksi }}%</span>
+                                    <span>Since last transaction (-{{ $cekupordowntransaksi - $totalTransaksiYesterday }})</span>
+                                @else
+                                    <span class="text-success mr-2"><i class="fas fa-arrow-up"></i>{{ $percentage_transaksi }}%</span>
+                                    <span>Since last transaction (+{{ $totalTransaksiYesterday }})</span>
                                 @endif
                             </div>
                         </div>
@@ -119,16 +119,16 @@
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
                             <div class="text-xs font-weight-bold text-uppercase mb-1">Kas Masuk</div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">Rp.{{ format_uang($kas) }}</div>          
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">Rp. {{ format_uang($kas) }}</div>          
                             <div class="mt-2 mb-0 text-muted text-xs">
                                 @if($upordownkasmasuk >= $cekupordownkasmasuk) 
-                                    <span class="text-success mr-2"><i class="fas fa-arrow-up"></i> {{ $percentage_kas_masuk }}%</span>
+                                    <span class="text-success mr-2"><i class="fas fa-arrow-up"></i>{{ $percentage_kas_masuk }}%</span>
                                     <span>Since last Month</span>
                                 @elseif($upordownkasmasuk <= $cekupordownkasmasuk)
-                                    <span class="text-danger mr-2"><i class="fas fa-arrow-down"></i> {{ $percentage_kas_masuk }}%</span>
+                                    <span class="text-danger mr-2"><i class="fas fa-arrow-down"></i>{{ $percentage_kas_masuk }}%</span>
                                     <span>Since last Month</span>
                                 @else
-                                    <span class="text-success mr-2"><i class="fas fa-arrow-up"></i> {{ $percentage_kas_masuk }}%</span>
+                                    <span class="text-success mr-2"><i class="fas fa-arrow-up"></i>{{ $percentage_kas_masuk }}%</span>
                                     <span>Since last Month</span>
                                 @endif
                             </div>
@@ -269,5 +269,42 @@
     </script>
     <script src="{{ asset('assets') }}/vendor/chart.js/Chart.min.js"></script>
     <script src="{{ asset('assets') }}/js/chart-area-demo.js"></script> 
+    <script>
+        let valueDisplays = document.querySelectorAll('#count');
+        let interval = 500;
+
+        valueDisplays.forEach((valueDisplay) => {
+            let startValue = 0;
+            let endValue = parseInt(valueDisplay.getAttribute("data-val"));
+            if(endValue == 0) {
+                return false;
+                // let duration = Math.floor(interval / 1);
+            } else {
+                let duration = Math.floor(interval / endValue);
+                let counter = setInterval(function() {
+                startValue += 1;
+                valueDisplay.textContent = startValue;
+                if(startValue == endValue) {
+                    clearInterval(counter);
+                    }
+                }, duration);
+            }
+           
+        });
+
+        // Counter Number
+        // console.log($('#count').val());
+        // $('.count').each(function () {
+        //     $(this).prop('Counter',0).animate({
+        //         Counter: $(this).text()
+        //     }, {
+        //         duration: 300,
+        //         easing: 'swing',
+        //         step: function (now) {
+        //             $(this).text(Math.ceil(now));
+        //         }
+        //     });
+        // });
+    </script>
   
 @endpush

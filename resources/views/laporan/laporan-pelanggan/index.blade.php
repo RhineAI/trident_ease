@@ -69,7 +69,7 @@ Data Pelanggan Terbaik
                     <!-- DataTable with Hover -->
                     <div class="col-lg-12">
                         <div class="table-responsive p-3">
-                            <table class="table align-items-center table-bordered table-striped table-flush table-hover text-center"
+                            <table class="table align-items-center table-bordered table-striped table-flush table-hover text-center table-responsive dt-responsive"
                                 id="dataTableHover">
                                 <thead class="table-danger">
                                     <tr>

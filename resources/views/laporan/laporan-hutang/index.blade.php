@@ -75,7 +75,7 @@ Laporan Hutang
                     <div class="col-lg-12">
                         <div class="table-responsive p-3">
                             <h5 class="mt-4 mb-3">Hutang</h5>
-                            <table class="table align-items-center mb-5 table-bordered table-striped table-flush table-hover text-center table-hutang" id="dataTableHover">
+                            <table class="table align-items-center mb-5 table-bordered table-striped table-flush table-hover text-center table-responsive dt-responsive table-hutang" id="dataTableHover">
                                 <thead class="table-primary">
                                     <tr>
                                         <th width="4%" class="text-center">No</th>

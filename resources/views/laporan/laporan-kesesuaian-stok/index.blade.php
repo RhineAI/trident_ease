@@ -101,7 +101,7 @@ Laporan Kesesuaian Stok
                     <!-- DataTable with Hover -->
                     <div class="col-lg-12">
                         <div class="table-responsive p-3">
-                            <table class="table align-items-center mb-5 table-bordered table-striped table-flush table-hover text-center table-kesesuaian-stok" id="dataTableHover">
+                            <table class="table align-items-center mb-5 table-bordered table-striped table-flush table-hover text-center table-responsive dt-responsive table-kesesuaian-stok" id="dataTableHover">
                                 <thead class="table-primary">
                                     <tr class="">
                                         <th width="7%" class="text-center" style="vertical-align:middle; margin:auto; text-align:center;">No</th>
