@@ -624,9 +624,9 @@
             $(document).on('keyup', '#bayar', function(e){
                 generateRupiah(this);
             })
-            $(document).on('keyup', '#dp', function(e){
-                generateRupiah(this);
-            })
+            // $(document).on('keyup', '#dp', function(e){
+            //     generateRupiah(this);
+            // })
 
            //DP
             $(document).on('keyup', '#dp', function(e) {

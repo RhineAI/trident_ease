@@ -13,60 +13,96 @@
                 @csrf
                 <div id="method"></div>
                 <div class="form-group row">
-                    <div class="form-group" style="width: 95%; margin: auto;">
-                        <label for="nama">Tanggal</label>
-                        <input type="date" class="form-control" id="tgl" name="tgl" readonly>
+                    <label for="tgl" class="col-md-3 col-md-offset-1 control-label">
+                        <h5 class="my-2">Tanggal</h5>
+                    </label>
+                    <div class="col-md-9">
+                        <input type="text" name="tgl" id="tgl" class="form-control" readonly>
+                        <span class="help-block with-errors"></span>
                     </div>
                 </div>
+
                 <div class="form-group row">
-                    <div class="form-group" style="width: 95%; margin: auto;">
-                        <label for="id_pembelian">No Pembelian</label>
-                        <input type="number" class="form-control" id="id_pembelian" name="id_pembelian" readonly>
+                    <label for="id_pembelian" class="col-md-3 col-md-offset-1 control-label">
+                        <h5 class="my-2">No Pembelian</h5>
+                    </label>
+                    <div class="col-md-9">
+                        <input type="text" name="id_pembelian" id="id_pembelian" class="form-control" readonly>
+                        <span class="help-block with-errors"></span>
                     </div>
                 </div>
+
                 <div class="form-group row">
-                    <div class="form-group" style="width: 95%; margin: auto;">
-                        <label for="nama_supplier">Nama Supplier</label>
+                    <label for="nama_supplier" class="col-md-3 col-md-offset-1 control-label">
+                        <h5 class="my-2">No Supplier</h5>
+                    </label>
+                    <div class="col-md-9">
                         <input type="hidden" name="id_pelanggan" id="id_pelanggan">
-                        <input type="text" class="form-control" id="nama_supplier" name="nama_supplier" readonly>
+                        <input type="text" name="nama_supplier" id="nama_supplier" class="form-control" readonly>
+                        <span class="help-block with-errors"></span>
                     </div>
                 </div>
+
                 <div class="form-group row">
-                    <div class="form-group" style="width: 95%; margin: auto;">
-                        <label for="tlp">Telepon</label>
-                        <input type="text" class="form-control" id="tlp" name="tlp" readonly>
+                    <label for="tlp" class="col-md-3 col-md-offset-1 control-label">
+                        <h5 class="my-2">Telepon</h5>
+                    </label>
+                    <div class="col-md-9">
+                        <input type="text" name="tlp" id="tlp" class="form-control" readonly>
+                        <span class="help-block with-errors"></span>
                     </div>
                 </div>
+
                 <div class="form-group row">
-                    <div class="form-group" style="width: 95%; margin: auto;">
-                        <label for="total_pembelian">Total Pembayaran</label>
-                        <input type="number" class="form-control" name="total_pembelian" id="total_pembelian" readonly>
+                    <label for="total_pembelian" class="col-md-3 col-md-offset-1 control-label">
+                        <h5 class="my-2">Total Pembayaran</h5>
+                    </label>
+                    <div class="col-md-9">
+                        <input type="text" name="total_pembelian" id="total_pembelian" class="form-control" readonly>
+                        <span class="help-block with-errors"></span>
                     </div>
                 </div>
+
                 <div class="form-group row">
-                    <div class="form-group" style="width: 95%; margin: auto;">
-                        <label for="dp">DP</label>
-                        <input type="number" class="form-control" name="dp" id="dp" readonly>
+                    <label for="dp" class="col-md-3 col-md-offset-1 control-label">
+                        <h5 class="my-2">DP</h5>
+                    </label>
+                    <div class="col-md-9">
+                        <input type="text" name="dp" id="dp" class="form-control" readonly>
+                        <span class="help-block with-errors"></span>
                     </div>
                 </div>
+
                 <div class="form-group row">
-                    <div class="form-group" style="width: 95%; margin: auto;">
-                        <label for="sisa">Sisa bayar</label>
-                        <input type="number" class="form-control" name="sisa" id="sisa" readonly>
+                    <label for="sisa" class="col-md-3 col-md-offset-1 control-label">
+                        <h5 class="my-2">Sisa Bayar</h5>
+                    </label>
+                    <div class="col-md-9">
+                        <input type="number" name="sisa" id="sisa" class="form-control" readonly>
+                        <span class="help-block with-errors"></span>
                     </div>
                 </div>
+
                 <div class="form-group row">
-                    <div class="form-group" style="width: 95%; margin: auto;">
-                        <label for="bayar">Bayar</label>
-                        <input type="number" class="form-control" name="bayar" id="bayar">
+                    <label for="bayar" class="col-md-3 col-md-offset-1 control-label">
+                        <h5 class="my-2">Bayar</h5>
+                    </label>
+                    <div class="col-md-9">
+                        <input type="text" name="bayar" id="bayar" class="form-control" autofocus autocomplete="off">
+                        <span class="help-block with-errors"></span>
                     </div>
                 </div>
+
                 <div class="form-group row">
-                    <div class="form-group" style="width: 95%; margin: auto;">
-                        <label for="kembalian">Kembalian</label>
-                        <input type="number" class="form-control" name="kembalian" id="kembalian" readonly>
+                    <label for="kembalian" class="col-md-3 col-md-offset-1 control-label">
+                        <h5 class="my-2">Kembalian</h5>
+                    </label>
+                    <div class="col-md-9">
+                        <input type="text" name="kembalian" id="kembalian" class="form-control" readonly>
+                        <span class="help-block with-errors"></span>
                     </div>
                 </div>
+
                 <input type="text" name="id_perusahaan" value="{{ $cPerusahaan->id }}" style="display: none;">
                 <input type="text" name="id_supplier" style="display: none;">
     

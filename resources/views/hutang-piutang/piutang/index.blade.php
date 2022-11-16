@@ -34,8 +34,8 @@
                                         <td class="text-center" style="vertical-align: middle;" width="6%">Tanggal</td>
                                         <td class="text-center" style="vertical-align: middle;" width="5%">Pelanggan</td>
                                         <td class="text-center" style="vertical-align: middle;" width="10%">Total Harga</td>
-                                        <td class="text-center" style="vertical-align: middle;" width="9%">Dibayar</td>
-                                        <td class="text-center" style="vertical-align: middle;" width="8%">Sisa</td>
+                                        <td class="text-center" style="vertical-align: middle;" width="10%">Dibayar</td>
+                                        <td class="text-center" style="vertical-align: middle;" width="10%">Sisa</td>
                                         <td class="text-center" style="vertical-align: middle;" width="8%">Status</td>
                                         <td class="text-center" style="vertical-align: middle;" width="1%">Action</td>
                                     </tr>
@@ -65,9 +65,9 @@
                                                     data-nama_pelanggan="{{ $item->nama_pelanggan }}" 
                                                     data-id_pelanggan="{{ $item->id_pelanggan }}" 
                                                     data-tlp="{{ $item->tlp }}" 
-                                                    data-total_harga="{{ format_uang($item->total_harga) }}" 
-                                                    data-dp="{{ format_uang($item->dp) }}" 
-                                                    data-sisa="{{ format_uang($item->sisa) }}" 
+                                                    data-total_harga="{{ 'Rp. '. format_uang($item->total_harga) }}" 
+                                                    data-dp="{{ 'Rp. '. format_uang($item->dp) }}" 
+                                                    data-sisa="{{ 'Rp. '. format_uang($item->sisa) }}" 
                                                     @if (auth()->user()->hak_akses == 'admin')
                                                         data-route="{{ route('admin.data-piutang.store')}}"
                                                     @elseif(auth()->user()->hak_akses == 'kasir')
@@ -103,7 +103,8 @@
 <script>
     $(document).on('change', '#bayar', function(e) {
         var tb = String($(this).val()).replaceAll(".", '');
-        var sisa = String($("#sisa").val()).replaceAll(".", '');
+        var sisa = Math.round(String($("#sisa").val()).replaceAll(".", ''));
+        // console.log(sisa)
         var dp = $("#dp").val();
         // console.log(sisa, tb, sisa-tb)
         var total_harga = $('#total_harga').val()
@@ -150,7 +151,7 @@
                 $('.modal-body form')[0].reset();
                 $('.modal-body form').attr('action', url);
                 
-                $('#modal-title').text("Edit Data Pembayaran")
+                $('#modal-title').text("Form Pembayaran")
                 $('.modal-body #tgl').val(today)
                 $('.modal-body #id_penjualan').val(id_penjualan)
                 $('.modal-body #nama_pelanggan').val(nama_pelanggan)
@@ -186,7 +187,9 @@
     })
 </script>
 <script>
-    $('#tbl-data-pembayaran').DataTable();
+    $('#tbl-data-pembayaran').DataTable({
+        order: [[7, 'desc']]
+    });
 </script>
     
 @endpush

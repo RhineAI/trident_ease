@@ -35,8 +35,8 @@
                                         <td class="text-center" style="vertical-align: middle;" width="6%">Tanggal</td>
                                         <td class="text-center" style="vertical-align: middle;" width="5%">Pelanggan</td>
                                         <td class="text-center" style="vertical-align: middle;" width="10%">Total Beli</td>
-                                        <td class="text-center" style="vertical-align: middle;" width="9%">Dibayar</td>
-                                        <td class="text-center" style="vertical-align: middle;" width="8%">Sisa</td>
+                                        <td class="text-center" style="vertical-align: middle;" width="10%">Dibayar</td>
+                                        <td class="text-center" style="vertical-align: middle;" width="10%">Sisa</td>
                                         <td class="text-center" style="vertical-align: middle;" width="8%">Status</td>
                                         <td class="text-center" style="vertical-align: middle;" width="1%">Action</td>
                                     </tr>
@@ -66,10 +66,10 @@
                                                     data-nama_supplier="{{ $item->nama_supplier }}" 
                                                     data-id_supplier="{{ $item->id_supplier }}" 
                                                     data-tlp="{{ $item->tlp }}" 
-                                                    data-total_bayar="{{ $item->total_bayar }}" 
-                                                    data-total_pembelian="{{ $item->total_pembelian }}" 
-                                                    data-dp="{{ $item->dp }}" 
-                                                    data-sisa="{{ $item->sisa }}" 
+                                                    data-total_bayar="{{ 'Rp. '. format_uang($item->total_bayar) }}" 
+                                                    data-total_pembelian="{{ 'Rp. '. format_uang($item->total_pembelian) }}" 
+                                                    data-dp="{{ 'Rp. '. format_uang($item->dp) }}" 
+                                                    data-sisa="{{ format_uang($item->sisa) }}" 
                                                     data-route="{{ route('admin.data-hutang.store')}}"
                                                     data-toggle="modal" data-target="#formModalPembayaranPBL" data-mode="edit"> <i class="fa fa-pencil"></i>
                                                     </button>
@@ -94,9 +94,13 @@
 
 @push('scripts') 
 <script>
+    // var getSisa = $("#sisa").val();
+    // var sisa = Math.ceil(parseInt(getSisa));
+    // console.log(getSisa)
     $(document).on('change', '#bayar', function(e) {
         var tb = String($(this).val()).replaceAll(".", '');
         var sisa = String($("#sisa").val()).replaceAll(".", '');
+        
         var dp = $("#dp").val();
         var total_harga = $('#total_harga').val()
         // var harga = String(dp).replaceAll(".", '');
@@ -143,7 +147,7 @@
                 $('.modal-body form')[0].reset();
                 $('.modal-body form').attr('action', url);
                 
-                $('#modal-title').text("Edit Data Pembayaran")
+                $('#modal-title').text("Form Pembayaran")
                 $('.modal-body #tgl').val(today)
                 $('.modal-body #id_pembelian').val(id_pembelian)
                 $('.modal-body #nama_supplier').val(nama_supplier)
@@ -180,7 +184,9 @@
     
 </script>
 <script>
-    $('#tbl-data-pembayaran').DataTable();
+    $('#tbl-data-pembayaran').DataTable({
+        order: [[7, 'desc']]
+    });
 </script>
     
 @endpush

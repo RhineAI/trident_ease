@@ -70,16 +70,16 @@ class HutangController extends Controller
         $hutang = new Hutang();
         $hutang->id_pembelian = $request->id_pembelian;
         $hutang->tgl = date('Y-m-d');
-        $hutang->total_bayar = $request->bayar;
+        $hutang->total_bayar = $this->checkPrice($request->bayar);
         $hutang->id_user = auth()->user()->id;
         $hutang->id_perusahaan = auth()->user()->id_perusahaan;
         $hutang->save();
         $updateSisa = Pembelian::find($request->id_pembelian);
-        if(($updateSisa->sisa - $request->bayar) >= 0){
-            $updateSisa->sisa -= $request->bayar;
+        if(($updateSisa->sisa - $this->checkPrice($request->bayar)) >= 0){
+            $updateSisa->sisa -= $this->checkPrice($request->bayar);
         } else {
             $updateSisa->sisa = 0;
-            $updateSisa->kembalian = $request->kembalian;
+            $updateSisa->kembalian = $this->checkPrice($request->kembalian);
         }
         $updateSisa->update();
 
