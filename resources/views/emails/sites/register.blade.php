@@ -18,7 +18,8 @@ Password = {{ $perusahaan->npwp }}
 
 <b>Pastikan username dan password untuk segera diganti!</b>
 <br><br>
-Jika Ada Masalah<a href="https://wa.wizard.id/31a293" style="text-decoration:none; color:#3cded8;"> Hubungi Kami</a>
+{{-- Jika Ada Masalah<a href="https://wa.wizard.id/31a293" style="text-decoration:none; color:#3cded8;"> Hubungi Kami</a> --}}
+Jika Ada Masalah<a href="https://wa.wizard.id/4080b2" style="text-decoration:none; color:#3cded8;"> Hubungi Kami</a>
 
 <div class="button" style="  background-color: black; /* Green */
     border: none;

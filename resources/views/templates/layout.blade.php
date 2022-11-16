@@ -4,6 +4,11 @@
 <head>
     @include('templates.header')
 </head>
+<style>
+    body {
+        font-family: 'Open Sans'; 
+    }
+</style>
 
 <body class="hold-transition sidebar-mini">
     <!-- Site wrapper -->

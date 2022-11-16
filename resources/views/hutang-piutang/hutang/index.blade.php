@@ -108,8 +108,8 @@
         // tanpa memakai sisa dari table penjualan
         // $('#kembalian').val(tb-(total_harga - dp));
         // $('#sisa').val((total_harga - dp)-tb)
-        $('#kembalian').val(tb-sisa);
-        $('#sisa').val(sisa-tb)
+        $('#kembalian').val(parseInt(tb)-parseInt(sisa));
+        $('#sisa').val(parseInt(sisa)-parseInt(tb))
     })
 
     $(document).ready(function(){

@@ -103,8 +103,9 @@
 <script>
     $(document).on('change', '#bayar', function(e) {
         var tb = String($(this).val()).replaceAll(".", '');
-        var sisa = Math.round(String($("#sisa").val()).replaceAll(".", ''));
-        // console.log(sisa)
+        var sisa = String($("#sisa").val()).replaceAll(".", '').replace(/Rp /g, '');
+        console.log(tb)
+        console.log(sisa)
         var dp = $("#dp").val();
         // console.log(sisa, tb, sisa-tb)
         var total_harga = $('#total_harga').val()
@@ -113,8 +114,8 @@
         // tanpa memakai sisa dari table penjualan
         // $('#kembalian').val(tb-(total_harga - dp));
         // $('#sisa').val((total_harga - dp)-tb)
-        $('#kembalian').val(tb-sisa);
-        $('#sisa').val(sisa-tb)
+        $('#kembalian').val(parseInt(tb)-parseInt(sisa));
+        $('#sisa').val(parseInt(sisa)-parseInt(tb))
     })
 
     $(document).ready(function(){
