@@ -6,6 +6,8 @@
       <title>Thanks | ZiePOS</title>
       <link rel="stylesheet" href="style.css">
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+      <link rel="icon" href="{{ asset('assets') }}/img/ziepos.png" type="image/png">
+
       <style>
           @import url('https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap');
           *{
@@ -128,7 +130,7 @@
               </div>
               <img src="{{ $perusahaan->logo }}">
               <div class="info mb-4">
-                  <div class="title">
+                  <div class="title mx-5">
                       {{ $perusahaan->nama }}
                   </div>
                   <p>

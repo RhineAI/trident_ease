@@ -428,10 +428,29 @@ class LaporanController extends Controller
              $tanggalAwal = date('Y-m-d', strtotime($now));
              $tanggalAkhir = date('Y-m-d', strtotime($now));
          }
- 
+
+         while (strtotime($tanggalAwal) <= strtotime($tanggalAkhir)) {
+            $tanggal = $tanggalAwal;
+            $tanggalAwal = date('Y-m-d', strtotime("+1day", strtotime($tanggalAwal)));
+
+            $detPenjualan= DetailPenjualan::where('t_detail_penjualan.tgl', 'Like', '%'.$tanggal.'%')
+                                            ->leftJoin('t_barang AS B', 'B.id', 't_detail_penjualan.id_barang')
+                                            ->select('t_detail_penjualan.*', 'B.nama AS nama_barang', 'B.kode')    
+                                            ->where('t_detail_penjualan.id_perusahaan', auth()->user()->id_perusahaan)
+                                            ->orderBy('id', 'desc')->get();
+
+            $harga_jual = DetailPenjualan::where('tgl', 'LIKE', '%'.$tanggal.'%')->where('id_perusahaan', auth()->user()->id_perusahaan)->sum('harga_jual');
+            $harga_beli = DetailPenjualan::where('tgl', 'LIKE', '%'.$tanggal.'%')->where('id_perusahaan', auth()->user()->id_perusahaan)->sum('harga_beli');
+            $qty = DetailPenjualan::where('tgl', 'LIKE', '%'.$tanggal.'%')->where('id_perusahaan', auth()->user()->id_perusahaan)->sum('qty');
+            $diskon = DetailPenjualan::where('tgl', 'LIKE', '%'.$tanggal.'%')->where('id_perusahaan', auth()->user()->id_perusahaan)->sum('diskon');
+
+            $omset = $harga_jual - $qty;
+            $keuntungan = (($harga_jual - $harga_beli) * $qty) - ( ($harga_jual - $harga_beli) * $qty) * $diskon/100;
+                                
+         }
          $data['cPerusahaan'] = Perusahaan::select('*')->where('id', auth()->user()->id_perusahaan)->first();
  
-         return view('laporan.laporan-penjualan.index', compact('tanggalAwal', 'tanggalAkhir', 'now'))->with($data);
+         return view('laporan.laporan-penjualan.index', compact('tanggalAwal', 'tanggalAkhir', 'omset', 'keuntungan', 'now', 'detPenjualan'))->with($data);
      }
   
     public function penjualan($awal, $akhir)
@@ -440,16 +459,11 @@ class LaporanController extends Controller
         $no = 1;
         $data = array();
 
-        while (strtotime($awal) <= strtotime($akhir)) {
-            $tanggal = $awal;
-            $awal = date('Y-m-d', strtotime("+1day", strtotime($awal)));
+        
 
-            $detPenjualan= DetailPenjualan::where('t_detail_penjualan.tgl', 'Like', '%'.$tanggal.'%')
-                                        ->leftJoin('t_barang AS B', 'B.id', 't_detail_penjualan.id_barang')
-                                        ->select('t_detail_penjualan.*', 'B.nama AS nama_barang', 'B.kode')    
-                                        ->where('t_detail_penjualan.id_perusahaan', auth()->user()->id_perusahaan)
-                                        ->orderBy('id', 'desc')->get();
-    
+           
+        
+        
             foreach($detPenjualan as $item) {
                 $row = array();
                 $row['tgl'] = tanggal_indonesia($tanggal, false);
@@ -457,11 +471,12 @@ class LaporanController extends Controller
                 $row['nama_barang'] = $item->nama_barang ;
                 $row['qty'] = $item->qty;
                 $row['total_penjualan'] = 'Rp. '. format_uang($item->qty * $item->harga_jual);
-                $row['keuntungan'] = 'Rp. '. format_uang(($item->harga_jual - $item->harga_beli) * $item->qty);
+                $row['keuntungan'] = 'Rp. '. format_uang(($item->harga_jual - $item->harga_beli) * $item->qty * $item->diskon);
 
                 $data[] = $row;
-            }         
-        }
+            }        
+            // $row['sum'] = $sum; 
+        // }
 
         return $data;
     }

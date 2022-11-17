@@ -37,6 +37,8 @@ class LoginController extends Controller
             // } elseif(Auth::user()->hak_akses == 'admin') {
                 // return redirect()->intended('/'.$getUser->hak_akses)->with('success', 'Login Success');
             // }
+        } else {
+            return back()->with(['error' => 'Username atau Password tidak sesuai']);
         }
 
         throw ValidationException::withMessages([
@@ -68,7 +70,10 @@ class LoginController extends Controller
     }
 
     public function register(Request $request) {
-        // dd($request);
+        // $replace = array(' ', '.', ',', 'PT', 'Pt', 'pt', 'pT', 'CV', 'Cv', 'cv', 'cV');
+
+        // $user= str_replace($replace, '', $request->nama);
+        // return $user;
         $validate = $request->validate([
             'email' => 'required|max:50|email:dns',
         ]);
@@ -109,10 +114,11 @@ class LoginController extends Controller
         // $id = Perusahaan::latest()->first();
         // return $id;
         // $withoutspace = str_replace(' ', '', $perusahaan->nama);
+        $replace = array(' ', '.', ',', 'PT', 'Pt', 'pt', 'pT', 'CV', 'Cv', 'cv', 'cV');
         $user = new User();
         $user->id_perusahaan = $perusahaan->id;
         $user->nama = $perusahaan->pemilik;
-        $user->username = str_replace(' ', '', $perusahaan->nama);
+        $user->username = str_replace($replace, '', $perusahaan->nama);
         $user->password = bcrypt(str_replace(' ', '', strtolower($perusahaan->pemilik).'123'));
         $user->tlp = $perusahaan->tlp;
         $user->hak_akses = 'owner';

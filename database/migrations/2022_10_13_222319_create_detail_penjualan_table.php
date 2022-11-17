@@ -20,7 +20,7 @@ return new class extends Migration
             $table->bigInteger('id_penjualan');
             $table->integer('id_barang')->nullable();
             $table->integer('qty')->nullable();
-            $table->float('diskon')->default(0);
+            $table->double('diskon')->default(0);
             $table->double('harga_beli')->nullable();
             $table->double('harga_jual')->nullable();
             $table->integer('id_perusahaan');

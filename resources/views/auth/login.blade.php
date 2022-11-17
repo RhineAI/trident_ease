@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Login | Aplikasi POS</title>
-
+    <link rel="icon" href="{{ asset('assets') }}/img/ziepos.png" type="image/png">
     <!-- Font Icon -->
     <link rel="stylesheet" href="{{ asset('templates') }}/fonts/material-icon/css/material-design-iconic-font.min.css">
     <link rel="stylesheet" href="{{ asset('assets') }}/plugins/fontawesome-free/css/all.min.css">
