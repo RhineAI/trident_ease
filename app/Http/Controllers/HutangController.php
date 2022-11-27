@@ -79,7 +79,7 @@ class HutangController extends Controller
             $updateSisa->sisa -= $this->checkPrice($request->bayar);
         } else {
             $updateSisa->sisa = 0;
-            $updateSisa->kembalian = $this->checkPrice($request->kembalian);
+            $updateSisa->kembali = $this->checkPrice($request->kembalian);
         }
         $updateSisa->update();
 

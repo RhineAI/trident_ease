@@ -159,6 +159,40 @@
     </ul>
 </li>
 
+{{-- RETUR --}}
+<li class="nav-item">
+    <a href="#" class="nav-link">
+        <i class="nav-icon fas fa-solid fa-rotate-left"></i>
+        <p>
+            Retur
+            <i class="right fas fa-angle-right"></i>
+        </p>
+    </a>
+    <ul class="nav nav-treeview ml-4 ml-4">
+        <li class="nav-item">
+            <a href="{{ route('admin.retur-penjualan.index') }}" class="nav-link">
+                <p>Tambah Retur Penjualan</p>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="{{ route('admin.list-retur-penjualan.index') }}" class="nav-link">
+                <p>Data Retur Penjualan</p>
+            </a>
+        </li>
+        <hr>
+        <li class="nav-item">
+            <a href="{{ route('admin.retur-pembelian.index') }}" class="nav-link">
+                <p>Tambah Retur Pembelian</p>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="{{ route('admin.list-retur-pembelian.index') }}" class="nav-link">
+                <p>Data Retur Pembelian</p>
+            </a>
+        </li>
+    </ul>
+</li>
+
 {{-- KAS --}}
 <li class="nav-item">
     <a href="#" class="nav-link">
@@ -245,40 +279,6 @@
     </ul>
 </li>
 
-{{-- RETUR --}}
-<li class="nav-item">
-    <a href="#" class="nav-link">
-        <i class="nav-icon fas fa-solid fa-rotate-left"></i>
-        <p>
-            Retur
-            <i class="right fas fa-angle-right"></i>
-        </p>
-    </a>
-    <ul class="nav nav-treeview ml-4 ml-4">
-        <li class="nav-item">
-            <a href="{{ route('admin.retur-penjualan.index') }}" class="nav-link">
-                <p>Tambah Retur Penjualan</p>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a href="{{ route('admin.list-retur-penjualan.index') }}" class="nav-link">
-                <p>Data Retur Penjualan</p>
-            </a>
-        </li>
-        <hr>
-        <li class="nav-item">
-            <a href="{{ route('admin.retur-pembelian.index') }}" class="nav-link">
-                <p>Tambah Retur Pembelian</p>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a href="{{ route('admin.list-retur-pembelian.index') }}" class="nav-link">
-                <p>Data Retur Pembelian</p>
-            </a>
-        </li>
-    </ul>
-</li>
-
 {{-- SETUP PERUSAHAAN --}}
 <li class="nav-item">
     <a href="#" class="nav-link">
@@ -320,4 +320,11 @@
             </a>
         </li>
     </ul>
+</li>
+
+<li class="nav-item">
+    <a href="{{ route('logout') }}" class="nav-link">
+        <i class="nav-icon fas fa-solid fa-right-from-bracket"></i>
+        <p>Logout</p>
+    </a>
 </li>

@@ -111,60 +111,88 @@
     <div class="col-md-12 mt-3">
         <div class="table-responsive p-2">
             <h5 class="mb-2 mt-5">Kas Masuk</h5>
-            <table border="1" class="table mb-5 table-bordered table-striped table-kas-masuk" id="dataTableHover">
-                <thead class="table-secondary">
+            <table border="1" class="table mb-5 table-bordered  table-kas-masuk" id="dataTableHover">
+                {{-- <thead class="table-secondary">
                     <tr>
                         <th width="6%" class="text-center">No</th>
                         <th width="11.1%" class="text-center">Tanggal</th>
-                        <th width="13%" class="text-center">Jumlah</th>
                         <th width="18%" class="text-center">Keterangan</th>
                         <th width="10.2%" class="text-center">Oleh</th>
+                        <th width="13%" class="text-center">Jumlah</th>
                     </tr>
-                </thead>
+                </thead> --}}
                 <tbody>
-                    @if ($kasMasuk != NULL) 
-                        @foreach ($kasMasuk as $km)
-                            <tr>
-                                <td class="text-center">{{ $noKasMasuk++ }}</td>
-                                @foreach ($km as $item)
-                                    <td class="text-center">{{ $item }}</td>
-                                @endforeach
-                            </tr>
-                        @endforeach
-                    @else
-                        <tr>
-                            <td colspan="6" class="text-center" style="color:grey; font-size:17px;">Tidak ada data</td>    
-                        </tr>    
-                    @endif
-                </tbody>
-            </table>
-
-            <h5 class="mt-5 mb-2">Kas Keluar</h5>
-            <table border="1" class="table mb-5 table-bordered table-striped table-kas-keluar" id="dataTableHover">
-                <thead class="table-secondary">
-                    <tr>
+                    {{-- <tr> --}}
                         <th width="6%" class="text-center">No</th>
                         <th width="11.1%" class="text-center">Tanggal</th>
-                        <th width="13%" class="text-center">Jumlah</th>
-                        <th width="18%" class="text-center">Keperluan</th>
+                        <th width="18%" class="text-center">Keterangan</th>
                         <th width="10.2%" class="text-center">Oleh</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @if ($kasKeluar != NULL)
-                        @foreach ($kasKeluar as $kk)
+                        <th width="13%" class="text-center">Jumlah</th>
+                    {{-- </tr> --}}
+                    @if ($kasMasuk != NULL)
+                        @foreach ($kasMasuk as $item)
                             <tr>
-                                <td class="text-center">{{ $noKasKeluar++ }}</td>
-                                @foreach ($kk as $item)   
-                                    <td class="text-center">{{ $item }}</td>
-                                @endforeach
+                                <tr>
+                                    <td class="text-center">{{ $noKasMasuk++ }}</td>
+                                    <td class="text-center">{{ tanggal_indonesia($item->tgl, false) }}</td>
+                                    <td class="text-center">{{ $item->keterangan }}</td>
+                                    <td class="text-center">{{ ucfirst($item->nama_user) }}</td>
+                                    <td class="text-center">{{ 'RP. '. format_uang($item->jumlah) }}</td>
+                                </tr>
                             </tr>
                         @endforeach
                     @else
                         <tr>
                             <td colspan="5" class="text-center" style="color:grey; font-size:17px;">Tidak ada data kas yang keluar</td>    
                         </tr> 
-                    @endif    
+                    @endif
+                    <tr>
+                        <td class="text-center" colspan="4"><b>Total</b></td>
+                        <td id="totalO" class="text-center">{{ 'Rp. '. format_uang($totalKasMasuk) }}</td>
+                    </tr>
+                </tbody>
+                {{-- <tfoot>
+                    <tr>
+                        <td class="text-center" colspan="4"><b>Total</b></td>
+                        <td id="totalO" class="text-center">{{ 'Rp. '. format_uang($totalKasMasuk) }}</td>
+                    </tr>
+                </tfoot> --}}
+            </table>
+
+            <h5 class="mt-5 mb-2">Kas Keluar</h5>
+            <table border="1" class="table mb-5 table-bordered  table-kas-keluar" id="dataTableHover">
+                {{-- <thead class="table-secondary">
+                    <tr>
+                      
+                    </tr>
+                </thead> --}}
+                <tbody>
+                    <th width="6%" class="text-center">No</th>
+                    <th width="11.1%" class="text-center">Tanggal</th>
+                    <th width="18%" class="text-center">Keterangan</th>
+                    <th width="10.2%" class="text-center">Oleh</th>
+                    <th width="13%" class="text-center">Jumlah</th>
+                    @if ($kasKeluar != NULL)
+                        @foreach ($kasKeluar as $item)
+                            <tr>
+                                <tr>
+                                    <td width="6%" class="text-center">{{ $noKasKeluar++ }}</td>
+                                    <td width="11.1%" class="text-center">{{ tanggal_indonesia($item->tgl, false) }}</td>
+                                    <td width="18%" class="text-center">{{ $item->keperluan }}</td>
+                                    <td width="10.2%" class="text-center">{{ ucfirst($item->nama_user) }}</td>
+                                    <td width="13%" class="text-center">{{ 'RP. '. format_uang($item->jumlah) }}</td>
+                                </tr>
+                            </tr>
+                        @endforeach
+                    @else
+                        <tr>
+                            <td colspan="5" class="text-center" style="color:grey; font-size:17px;">Tidak ada data kas yang keluar</td>    
+                        </tr> 
+                    @endif
+                    <tr>
+                        <td class="text-center" colspan="4"><b>Total</b></td>
+                        <td id="totalO" class="text-center">{{ 'Rp. '. format_uang($totalKasKeluar) }}</td>
+                    </tr>
                 </tbody>
             </table>
         </div>

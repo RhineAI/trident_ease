@@ -38,9 +38,10 @@
 					<div></div>
 					<h1>404</h1>
 				</div>
-				<h2>Page not found</h2>
-				<p>The page you are looking for might have been removed had its name changed or is temporarily unavailable.</p>
-					<a href="javascript:history.back()">Go Back</a>
+				<h2>Halaman Tidak Ditemukan</h2>
+				<p>Halaman yang Anda cari mungkin telah dihapus jika namanya diubah atau untuk sementara tidak tersedia.</p>
+				<a href="javascript:history.back()">Kembali</a>
+				<a href="{{ route('logout') }}">Ke Halaman Login</a>
 
 					{{-- <a href="{{ route('login') }}">Home page</a> --}}
 				{{-- @if(Auth::check() && auth()->user()->hak_akses == 'super_admin') --}}

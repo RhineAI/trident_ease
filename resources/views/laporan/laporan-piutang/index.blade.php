@@ -76,16 +76,47 @@ Laporan Piutang
                         <div class="table-responsive p-3">
                             <h5 class="mt-4 mb-3">Piutang</h5>
                             <table class="table align-items-center mb-5 table-bordered table-striped table-flush table-hover text-center table-responsive dt-responsive table-piutang" id="dataTableHover">
-                                <thead class="table-primary">
+                                <thead class="table-dark">
                                     <tr>
                                         <th width="4%" class="text-center" style="vertical-align:middle;">No</th>
                                         <th width="10.5%" class="text-center" style="vertical-align:middle;">Kode Penjualan</th>
                                         <th width="8%" class="text-center" style="vertical-align:middle;">Tanggal</th>
                                         <th width="16%" class="text-center" style="vertical-align:middle;">Nama Pelanggan</th>
-                                        <th width="13%" class="text-center" style="vertical-align:middle;">Total Bayar</th>
                                         <th width="9%" class="text-center" style="vertical-align:middle;">Status</th>
+                                        <th width="13%" class="text-center" style="vertical-align:middle;">Total Bayar</th>
                                     </tr>
                                 </thead>
+                                <tbody>
+                                    <span style="visibility: hidden">{{ $no = 1 }}</span>
+                                    @if ($piutang != NULL)
+                                        @foreach ($piutang as $item)
+                                            <tr>
+                                                <tr>    
+                                                    <td class="text-center">{{ $no++ }}</td>
+                                                    <td class="text-center"><span class="badge" style="background-color:#2f3d57; color:white;">{{ $item->kode_invoice }} </span></td>
+                                                    <td class="text-center">{{ tanggal_indonesia($item->tgl, false) }}</td>
+                                                    <td class="text-center">{{ $item->nama_pelanggan }}</td>
+                                                    @if ($item->sisa == 0) 
+                                                        <td class="text-center"><span class="badge badge-success" style="color:white;">Lunas</span></td>
+                                                    @else 
+                                                        <td class="text-center"><span class="badge badge-danger" style="color:white;">Belum Lunas</span></td>
+                                                    @endif
+                                                    <td class="text-center">{{ 'Rp. '. format_uang($item->total_bayar) }}</td>
+                                                </tr>
+                                            </tr>
+                                        @endforeach
+                                    @else
+                                        <tr>
+                                            <td colspan="5" class="text-center" style="color:grey; font-size:17px;">Tidak ada data kas yang keluar</td>    
+                                        </tr> 
+                                    @endif
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td class="text-center" colspan="5"><b>Total Terbayarkan</b></td>
+                                        <td id="totalO" class="text-center">{{ 'Rp. '. format_uang($totalPiutang) }}</td>
+                                    </tr>
+                                </tfoot>
                             </table>
                         </div>
                     </div>
@@ -105,6 +136,17 @@ Laporan Piutang
         autoclose: true,
     });
 
+    // $('.table-piutang').DataTable({
+    //     searching: false,
+    //     info: false,
+    //     paging:false,
+    //     bFilter:false,
+    //     processing: false,
+    //     language: {
+    //         emptyTable: "Tidak Ada Data"
+    //     }
+    // });
+
     @if(auth()->user()->hak_akses == 'owner') 
         var piutang = "{{ route('owner.laporan-piutang.data', [$tanggalAwal, $tanggalAkhir]) }}";
     @elseif(auth()->user()->hak_akses == 'admin') 
@@ -120,6 +162,9 @@ Laporan Piutang
         responsive: true,
         autoWidth: false,
         serverSide: true,
+        language: {
+            emptyTable: "Tidak Ada Data"
+        },
         ajax: {
             url: piutang,
             type: "POST",
@@ -132,8 +177,8 @@ Laporan Piutang
             {data:'no_penjualan'},
             {data:'tgl'},
             {data:'nama_pelanggan'},
-            {data:'total_bayar'},
             {data:'status'},
+            {data:'total_bayar'},
         ]
     });
 </script>

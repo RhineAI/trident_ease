@@ -76,8 +76,8 @@ Laporan Pembelian
                     <div class="col-lg-12">
                         <div class="table-responsive p-3">
                             <h5 class="mb-3">Pembelian</h5>
-                            <table class="table align-items-center mb-5 table-bordered table-striped table-flush table-hover text-center table-responsive dt-responsive table-pembelian" id="dataTableHover">
-                                <thead class="table-primary">
+                            <table style="border-left: 0.02px solid lightgrey" class="table align-items-center mb-5 table-bordered table-striped table-flush table-hover text-center table-responsive dt-responsive table-pembelian" id="dataTableHover">
+                                <thead class="table-dark">
                                     <tr>
                                         <th width="11%" class="text-center">Tanggal</th>
                                         <th width="8%" class="text-center">Kode</th>
@@ -86,6 +86,31 @@ Laporan Pembelian
                                         <th width="17%" class="text-center">Total Pembelian</th>
                                     </tr>
                                 </thead>
+                                <tbody>
+                                    @if ($detPembelian != NULL)
+                                        @foreach ($detPembelian as $dp)
+                                            <tr>
+                                                <td class="text-center">{{ tanggal_indonesia($dp->tgl, false) }}</td>
+                                                <td class="text-center"><span class="badge" style="background-color:#2f3d57; color:white;">{{ $dp->kode }}</span></td>
+                                                <td class="text-center">{{ $dp->nama_barang }}</td>
+                                                <td class="text-center">{{ $dp->qty }}</td>
+                                                @if ($dp->diskon == 0)
+                                                    <td class="text-center" id="">{{ 'Rp.' . format_uang($dp->qty * $dp->harga_beli) }}</td>
+                                                @else
+                                                    <td class="text-center" id="">{{ 'Rp.' . format_uang($dp->qty * $dp->harga_beli - (($dp->qty * $dp->harga_beli) * $dp->diskon/100)) }}</td>
+                                                @endif
+                                            </tr>
+                                        @endforeach
+                                        <tr class="table-info">
+                                            <td class="text-center" colspan="4">Total</td>
+                                            <td class="text-center total-omset">{{ 'Rp. '. format_uang($totalBeli) }}</td>
+                                        </tr>
+                                    @else
+                                        <tr>
+                                            <td colspan="5" class="text-center" style="color:grey; font-size:17px;">Tidak ada data</td>    
+                                        </tr>  
+                                    @endif
+                                </tbody>
                             </table>
                         </div>
                     </div>
@@ -105,37 +130,44 @@ Laporan Pembelian
         autoclose: true,
     });
 
-    @if(auth()->user()->hak_akses == 'owner') 
-        var pembelian = "{{ route('owner.laporan-pembelian.data', [$tanggalAwal, $tanggalAkhir]) }}";
-    @elseif(auth()->user()->hak_akses == 'admin') 
-        var pembelian = "{{ route('admin.laporan-pembelian.data', [$tanggalAwal, $tanggalAkhir]) }}";
-    @endif
-    let table_pembelian;
-        table = $('.table-pembelian').DataTable({
+    $('.table-pembelian').DataTable({
         searching: false,
         info: false,
         paging:false,
-        bFilter:false,
-        processing: false,
-        responsive: true,
-        autoWidth: false,
-        serverSide: true,
-        ajax: {
-            url: pembelian,
-            type: "POST",
-            data: {  
-                _token: '{{ csrf_token() }}'
-            }
-        },
-        columns: [
-            // {data:'DT_RowIndex', searchable: false, sortable: false},
-            {data:'tgl'},
-            {data:'kode'},
-            {data:'nama_barang'},
-            {data:'qty'},
-            {data:'total_pembelian'},
-        ]
+        processing:false,
+        language: {
+            emptyTable: "Tidak Ada Data"
+        }
     });
+
+    // @if(auth()->user()->hak_akses == 'owner') 
+    //     var pembelian = "{{ route('owner.laporan-pembelian.data', [$tanggalAwal, $tanggalAkhir]) }}";
+    // @elseif(auth()->user()->hak_akses == 'admin') 
+    //     var pembelian = "{{ route('admin.laporan-pembelian.data', [$tanggalAwal, $tanggalAkhir]) }}";
+    // @endif
+    // let table_pembelian;
+        // $('.table-pembelian').DataTable({
+                // searching: false,
+                // info: false,
+                // paging:false,
+                // bFilter:false,
+        // });
+    //     ajax: {
+    //         url: pembelian,
+    //         type: "POST",
+    //         data: {  
+    //             _token: '{{ csrf_token() }}'
+    //         }
+    //     },
+    //     columns: [
+    //         // {data:'DT_RowIndex', searchable: false, sortable: false},
+    //         {data:'tgl'},
+    //         {data:'kode'},
+    //         {data:'nama_barang'},
+    //         {data:'qty'},
+    //         {data:'total_pembelian'},
+    //     ]
+    // });
 
 </script>
 @endpush

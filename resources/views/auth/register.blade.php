@@ -38,7 +38,7 @@
             <div class="card card-1">
                 <div class="card-heading"></div>
                 <div class="card-body">
-                    <h2 class="title">Registration Info</h2>
+                    <h2 class="title">Form Registrasi</h2>
                     <form method="POST" enctype="multipart/form-data" action="{{ route('register') }}">
                         @csrf
                         @method('post')

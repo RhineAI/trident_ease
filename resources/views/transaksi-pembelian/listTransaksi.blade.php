@@ -25,30 +25,26 @@ Data Pembelian
             <div class="box">
                 <div class="box-body table-responsive">
                     <form action="{{ route('admin.list-pembelian.index') }}" method="get">
-                        {{-- @csrf --}}
+                        @csrf
                         {{-- @method('get') --}}
-                        <div class="form-group row mt-4">
-                            <label for="tanggal_awal" class="col-lg-2 control-label">Tanggal Awal</label>
-                            <div class="col-md-3">
-                                <input type="date" name="tanggal_awal" id="tanggal_awal" class="form-control flatpickr" required autofocus readonly
-                                    value="{{ request('tanggal_awal') }}"
-                                    style="border-radius: 0 !important;">
+                        <div class="form-group row mt-4 ml-3 ">
+                            <label for="tanggal_awal" class="col-lg-1 control-label mr-3">Tanggal Awal</label>
+                            <div class="col-md-3 mr-5 mt-3">
+                                <input type="date" name="tanggal_awal" id="tanggal_awal" class="flatpickr form-control" required autofocus readonly value="{{ request('tanggal_awal') }}" style="border-radius: 0 !important;">
                                 <span class="help-block with-errors"></span>
                             </div>
                             
-                            <label class="mx-3" for="" class="col-md-2 col-form-label">s/d</label>
-    
-                            <label for="tanggal_akhir" class="col-lg-2 control-label">Tanggal Akhir</label>
-                            <div class="col-md-3">
-                                <input type="date" name="tanggal_akhir" id="tanggal_akhir" class="form-control flatpickr" required readonly             
-                                value="{{ request('tanggal_akhir') }}"
-                                style="border-radius: 0 !important;">
-    
+                            <h5 class="mr-5 mx-3 my-2 mt-3" for="" class="col-md-2"><b>s/d</b></h5>
+
+                            <label for="tanggal_akhir" class="col-lg-1 mr-2 control-label">Tanggal Akhir</label>
+                            <div class="col-md-3 mr-5 mt-3">
+                                <input type="date" name="tanggal_akhir" id="tanggal_akhir" class="flatpickr form-control" required readonly value="{{ request('tanggal_akhir') }}" style="border-radius: 0 !important;">
                                 <span class="help-block with-errors"></span>
                             </div>
 
-                            <button type="" class="btn btn-sm btn-flat btn-primary"><i class="fa fa-search"></i> Cari</button>
-                         
+                            <div class="form-group row ml-3 mb-3 mt-3">
+                                <button type="" class="btn btn-xs btn-primary"><i class="fa fa-search"></i> Cari</button>
+                            </div>
                         </div>
                     </form>
 

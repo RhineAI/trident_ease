@@ -26,7 +26,7 @@
                     @endif
                 </td>
                 <td>
-                    <button class="btn btn-xs btn-warning" id="edit" style="color: green;" type="button" title="Edit" 
+                    <button class="btn btn-xs btn-success" id="edit" type="button" title="Edit" 
                     @if (auth()->user()->hak_akses == 'admin')
                         data-route="{{ route('admin.users.update', $item->id) }}" 
                     @elseif(auth()->user()->hak_akses == 'owner')

@@ -59,6 +59,13 @@
         </ul>
 </li>
 
+
+<li class="nav-item">
+    <a href="{{ route('logout') }}" class="nav-link">
+        <i class="nav-icon fas fa-solid fa-right-from-bracket"></i>
+        <p>Logout</p>
+    </a>
+</li>
 {{-- LAPORAN
 <li class="nav-item">
     <a href="{{ route('list-b-pelanggan.index') }}" class="nav-link">

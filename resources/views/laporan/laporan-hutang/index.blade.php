@@ -75,17 +75,48 @@ Laporan Hutang
                     <div class="col-lg-12">
                         <div class="table-responsive p-3">
                             <h5 class="mt-4 mb-3">Hutang</h5>
-                            <table class="table align-items-center mb-5 table-bordered table-striped table-flush table-hover text-center table-responsive dt-responsive table-hutang" id="dataTableHover">
-                                <thead class="table-primary">
+                            <table style="border-left: 0.02px solid lightgrey" class="table align-items-center mb-5 table-bordered table-striped table-flush table-hover text-center table-responsive dt-responsive table-hutang dataTable" id="dataTableHover">
+                                <thead class="table-dark">
                                     <tr>
                                         <th width="4%" class="text-center">No</th>
                                         <th width="10.5%" class="text-center">Kode Pembelian</th>
                                         <th width="8%" class="text-center">Tanggal</th>
                                         <th width="16%" class="text-center">Nama Supplier</th>
-                                        <th width="13%" class="text-center">Total Bayar</th>
                                         <th width="9%" class="text-center">Status</th>
+                                        <th width="13%" class="text-center">Dibayar</th>
                                     </tr>
                                 </thead>
+                                <tbody>
+                                    <span style="visibility: hidden">{{ $no = 1 }}</span>
+                                    @if ($hutang != NULL)
+                                        @foreach ($hutang as $item)
+                                            <tr>
+                                                <tr>
+                                                    <td class="text-center">{{ $no++ }}</td>
+                                                    <td class="text-center"><span class="badge" style="background-color:#2f3d57; color:white;">{{ $item->kode_invoice }} </span></td>
+                                                    <td class="text-center">{{ tanggal_indonesia($item->tgl, false) }}</td>
+                                                    <td class="text-center">{{ $item->nama_supplier }}</td>
+                                                    @if ($item->sisa == 0) 
+                                                        <td class="text-center"><span class="badge badge-success" style="color:white;">Lunas</span></td>
+                                                    @else 
+                                                        <td class="text-center"><span class="badge badge-danger" style="color:white;">Belum Lunas</span></td>
+                                                    @endif
+                                                    <td class="text-center">{{ 'Rp. '. format_uang($item->total_bayar) }}</td>
+                                                </tr>
+                                            </tr>
+                                        @endforeach
+                                    @else
+                                        <tr>
+                                            <td colspan="5" class="text-center" style="color:grey; font-size:17px;">Tidak ada data kas yang keluar</td>    
+                                        </tr> 
+                                    @endif
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td class="text-center" colspan="5"><b>Total Terbayarkan</b></td>
+                                        <td id="totalO" class="text-center">{{ 'Rp. '. format_uang($totalHutang) }}</td>
+                                    </tr>
+                                </tfoot>
                             </table>                           
                         </div>
                     </div>
@@ -105,37 +136,47 @@ Laporan Hutang
         autoclose: true,
     });
 
+    $('.table-hutang').DataTable({
+        searching: false,
+        info: false,
+        paging:false,
+        processing:false,
+        language: {
+            emptyTable: "Tidak Ada Data"
+        }
+    });
+
     @if(auth()->user()->hak_akses == 'owner') 
         var hutang = "{{ route('owner.laporan-hutang.data', [$tanggalAwal, $tanggalAkhir]) }}";
     @elseif(auth()->user()->hak_akses == 'admin') 
         var hutang = "{{ route('admin.laporan-hutang.data', [$tanggalAwal, $tanggalAkhir]) }}";
     @endif
-    let table_hutang;
-        table = $('.table-hutang').DataTable({
-        searching: false,
-        info: false,
-        paging:false,
-        bFilter:false,
-        processing: false,
-        responsive: true,
-        autoWidth: false,
-        serverSide: true,
-        ajax: {
-            url: hutang,
-            type: "POST",
-            data: {  
-                _token: '{{ csrf_token() }}'
-            }
-        },
-        columns: [
-            {data:'DT_RowIndex', searchable: false, sortable: false},
-            {data:'no_pembelian'},
-            {data:'tgl'},
-            {data:'nama_supplier'},
-            {data:'total_bayar'},
-            {data:'status'},
-        ]
-    });
+    // let table_hutang;
+    //     table = $('.table-hutang').DataTable({
+    //     searching: false,
+    //     info: false,
+    //     paging:false,
+    //     bFilter:false,
+    //     processing: false,
+    //     responsive: true,
+    //     autoWidth: false,
+    //     serverSide: true,
+    //     ajax: {
+    //         url: hutang,
+    //         type: "POST",
+    //         data: {  
+    //             _token: '{{ csrf_token() }}'
+    //         }
+    //     },
+    //     columns: [
+    //         {data:'DT_RowIndex', searchable: false, sortable: false},
+    //         {data:'no_pembelian'},
+    //         {data:'tgl'},
+    //         {data:'nama_supplier'},
+    //         {data:'total_bayar'},
+    //         {data:'status'},
+    //     ]
+    // });
 
 </script>
 @endpush

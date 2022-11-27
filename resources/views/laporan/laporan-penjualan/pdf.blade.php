@@ -40,7 +40,7 @@
     <div class="col-md-12">
         <div class="table-responsive p-2">
             <table class="table align-items-center mb-5 table-bordered table-striped table-flush table-hover text-center table-penjualan" id="dataTableHover">
-                <thead class="table-primary">
+                {{-- <thead class="table-primary">
                     <tr>
                         <th width="5.12%" class="text-center">No</th>
                         <th width="13%" class="text-center">Tanggal</th>
@@ -50,24 +50,49 @@
                         <th width="14%" class="text-center">Omset</th>
                         <th width="11%" class="text-center">Keuntungan</th>
                     </tr>
-                </thead>
+                </thead> --}}
                 <tbody>
-                    @if ($penjualan != NULL)
-                        @foreach ($penjualan as $p)
+                    <th width="5.12%" class="text-center">No</th>
+                    <th width="13%" class="text-center">Tanggal</th>
+                    <th width="8.2%" class="text-center">Kode</th>
+                    <th width="16%" class="text-center">Nama Barang</th>
+                    <th width="7.15%" class="text-center">QTY</th>
+                    <th width="14%" class="text-center">Omset</th>
+                    <th width="11%" class="text-center">Keuntungan</th>
+                    @if ($detPenjualan != NULL)
+                        @foreach ($detPenjualan as $dp)
                             <tr>
                                 <td class="text-center">{{ $no++ }}</td>
-                                @foreach ($p as $item)
-                                    <td class="text-center">{{ $item }}</td>
-                                @endforeach
+                                <td class="text-center">{{ tanggal_indonesia($dp->tgl,false) }}</td>
+                                <td class="text-center">{{ $dp->kode }}</td>
+                                <td class="text-center">{{ $dp->nama_barang }}</td>
+                                <td class="text-center">{{ $dp->qty }}</td>
+                                <td class="text-center" id="omset">{{ 'Rp.' . format_uang($dp->qty * $dp->harga_jual) }}</td>
+                                @if ($dp->diskon == 0)
+                                    <td class="text-center ">{{ 'Rp. ' . format_uang(($dp->harga_jual - $dp->harga_beli) * $dp->qty) }}</td>
+                                @else 
+                                    <td class="text-center" >{{ 'Rp. ' . format_uang((($dp->harga_jual - $dp->harga_beli) * $dp->qty) - ( ($dp->harga_jual - $dp->harga_beli) * $dp->qty) * $dp->diskon/100) }}</td>
+                                @endif
                             </tr>
-                        @endforeach
+                        @endforeach 
                     @else
                         <tr>
-                            <td colspan="7" class="text-center" style="color:grey; font-size:17px;">Tidak ada data</td>    
+                            <td colspan="5" class="text-center" style="color:grey; font-size:17px;">Tidak ada data</td>    
                         </tr>  
                     @endif
-                   
+                    <tr>
+                        <td class="text-center" colspan="5"><b>Total</b></td>
+                        <td id="totalO" class="text-center">{{ 'Rp. '. format_uang($totalO) }}</td>
+                        <td id="totalU" class="text-center">{{ 'Rp. '. format_uang($totalU) }}</td>
+                    </tr>
                 </tbody>
+                {{-- <tfoot>
+                    <tr>
+                        <td class="text-center" colspan="5"><b>Total</b></td>
+                        <td id="totalO" class="text-center">{{ 'Rp. '. format_uang($totalO) }}</td>
+                        <td id="totalU" class="text-center">{{ 'Rp. '. format_uang($totalU) }}</td>
+                    </tr>
+                </tfoot> --}}
             </table>
             
         </div>

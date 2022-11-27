@@ -68,14 +68,14 @@
             <div class="col-lg-12" style="background-color: white;">
                 <div class="box-body">
         
-                    <div class="box-body mx-2 my-2">
+                    <div class="box-body">
 
-                        @if (Auth::user()->hak_akses == 'admin')
-                            <form class="form-pelanggan" method="post" id="form-transaksi" action="">
-                        @elseif (Auth::user()->hak_akses == 'kasir')
-                            <form class="form-pelanggan" method="post" id="form-transaksi" action="{{ route('kasir.transaksi-penjualan.store') }}">
-                        @endif
-                            @csrf
+                            @if (Auth::user()->hak_akses == 'admin')
+                                <form class="form-pelanggan mt-3" method="post" id="form-transaksi" action="">
+                            @elseif (Auth::user()->hak_akses == 'kasir')
+                                <form class="form-pelanggan mt-3" method="post" id="form-transaksi" action="{{ route('kasir.transaksi-penjualan.store') }}">
+                            @endif
+                                @csrf
                             <div class="form-group row">
                                 <label for="nama_pelanggan" class="col-lg-2">Pelanggan</label>
                                 <div class="col-lg-3">
@@ -114,9 +114,9 @@
                             </div>
         
                             <div class="table-responsive">
-                                <table cellpaddong="0" cellspacing="0" class="table table-striped table-bordered" id="buffer_table">
+                                <table cellpadding="0" cellspacing="0" class="table table-striped table-bordered dt-responsive" id="buffer_table">
                                     <thead>
-                                    <tr>
+                                    <tr width="90%">
                                             <th class="text-center" width="8.2%"> Kode</th>
                                             <th class="text-center" width="18%">Nama</th>
                                             <th class="text-center" width="12%">Harga</th>
@@ -151,7 +151,7 @@
 
                                         <input type="hidden" data-bv-trigger="blur" id="total_bayar" name="total_bayar" class="form-control" readonly>
 
-                                        <div class="form-group row">
+                                        <div class="form-group row mt-4">
                                             <label for="inputEmail3" class="col-lg-3 control-label">Jenis Pembayaran</label>
                                             <div class="col-lg-8">
                                                 <select class="form-control" name="jenis_pembayaran" data-bv-trigger="blur" id="jenis_pembayaran">
@@ -228,13 +228,16 @@
                                                 </div>
                                             </div>
                                         </div> --}}
-                                </div>
+                                        <div class="box-footer mb-4 btn-submit">
+                                            <button type="submit" id="submit" class="btn btn-outline-primary btn-sm pull-right btn-simpan" onkeypress="preventEnter(this)"><i class="fa-solid fa-floppy-disk"></i> Simpan Transaksi</button>
+                                        </div>
+                                    </div>
                             </div>
                         </div>
-                        <div class="col-md-11"></div>
-                    <div class="box-footer mb-4 btn-submit">
-                        <button type="submit" id="submit" class="col-md-3 btn btn-outline-primary btn-sm pull-right btn-simpan" onkeypress="preventEnter(this)"><i class="fa-solid fa-floppy-disk"></i> Simpan Transaksi</button>
-                    </div>
+                        {{-- <div class="col-md-11"></div> --}}
+                        {{-- <div class="box-footer mb-4 btn-submit">
+                            <button type="submit" id="submit" class="col-md-3 btn btn-outline-primary btn-sm btn-simpan" onkeypress="preventEnter(this)"><i class="fa-solid fa-floppy-disk"></i> Simpan Transaksi</button>
+                        </div> --}}
                 </div>
             </div>  
         </div>
@@ -550,13 +553,20 @@
                         $('#buffer100').remove();
                         count++;
                         //alert(count);
+                        // <th class="text-center"> Kode</th>
+                        //                     <th class="text-center" width="18%">Nama</th>
+                        //                     <th class="text-center" width="12%">Harga</th>
+                        //                     <th class="text-center" width="9%">Jumlah</th>
+                        //                     <th class="text-center" width="10.7%">Diskon</th>
+                        //                     <th class="text-center" width="13%">Subtotal</th>
+                        //                     <th class="text-center" width="9%">Aksi</th>
                         var rowBarang="<tr class='barang' id='buffer"+count+"'>";
-                        rowBarang+="<td style='text-align:center'><input type='hidden' name='item["+count+"][id_barang]' value='"+id_barang+"'> <input class='form-control' type='text' name='item["+count+"][kode]' value='"+kode_barang+"' readonly='true'></td>";
-                        rowBarang+="<td style='text-align:center'><input class='form-control' type='text' name='item["+count+"][nama_barang]' value='"+nama_barang+"' readonly='true'></td>";
-                        rowBarang+="<td><input class='form-control' style='text-align:right' type='text' name='item["+count+"][harga_jual]' value='"+harga_jual+"' id='harga_jual"+count+"' readonly='true'><input type='hidden' name='item["+count+"][harga_beli]' value='"+harga_beli+"'></td>";
-                        rowBarang+="<td style='text-align:center'><input type='number' class='form-control qty_penjualan' name='item["+count+"][qty]' max='"+stock+"' value='1' id='qty"+count+"' data-idbuffer='"+count+"' onchange='cekQty(this)' ></td>";
-                        rowBarang+="<td style='text-align:center'><div class='input-group-prepend input-primary'><input onchange='cekDiscount(this)' max='100' style='text-align:right' type='number' class='form-control discount' name='item["+count+"][discount]' value='0' id='discount"+count+"' onkeypress='cek_number()' data-idbuffer='"+count+"'><span class='input-group-text'>%</span></div></td>";
-                        rowBarang+="<td style='text-align:center'><input style='text-align:right' type='number' class='form-control' name='item["+count+"][subtotal]' value='"+harga_jual+"' readonly='true' id='subtotal"+count+"'></td>";
+                        rowBarang+="<td style='text-align:center'><input type='hidden' name='item["+count+"][id_barang]' value='"+id_barang+"'> <input class='form-control' type='text' name='item["+count+"][kode]' value='"+kode_barang+"' readonly='true'' style='width: 130px;'></td>";
+                        rowBarang+="<td style='text-align:center'><input class='form-control' type='text' name='item["+count+"][nama_barang]' value='"+nama_barang+"' readonly='true' style='width: 150px;'></td>";
+                        rowBarang+="<td><input class='form-control' style='text-align:right; width: 200px;' type='text' name='item["+count+"][harga_jual]' value='"+harga_jual+"' id='harga_jual"+count+"' readonly='true'><input type='hidden' name='item["+count+"][harga_beli]' value='"+harga_beli+"'></td>";
+                        rowBarang+="<td style='text-align:center'><input type='number' class='form-control qty_penjualan' name='item["+count+"][qty]' max='"+stock+"' value='1' id='qty"+count+"' data-idbuffer='"+count+"' onchange='cekQty(this)' style='width: 90px;'></td>";
+                        rowBarang+="<td style='text-align:center'><div class='input-group-prepend input-primary'><input onchange='cekDiscount(this)' max='100' style='text-align:right; width: 70px;' type='number' class='form-control discount' name='item["+count+"][discount]' value='0' id='discount"+count+"' onkeypress='cek_number()' data-idbuffer='"+count+"'><span class='input-group-text'>%</span></div></td>";
+                        rowBarang+="<td style='text-align:center'><input style='text-align:right; width: 200px;' type='number' class='form-control' name='item["+count+"][subtotal]' value='"+harga_jual+"' readonly='true' id='subtotal"+count+"'></td>";
                         rowBarang+="<input style='text-align:right' type='hidden' class='form-control' name='item["+count+"][keuntungan]' value='"+keuntungan+"' readonly='true' id='keuntungan"+count+"'>";
                         rowBarang+="<td style='text-align:center;'><button type='button' class='btn btn-danger hapus_penjualan' data-idbuffer='"+count+"' ><i class='fa fa-trash'></i></button></td>";
                         rowBarang+="</tr>";

@@ -441,8 +441,11 @@ input {
 }
 
 .card-1 .card-heading {
-  background: url("../images/bg-head-02.jpg") center center/cover no-repeat;
+  background: url("/assets/img/register.png") center center/cover no-repeat;
   padding-top: 210px;
+  margin-left: 30px;
+  margin-right: 30px;
+  border-bottom: 1px solid grey;
 }
 
 .card-1 .card-body {

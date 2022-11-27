@@ -127,7 +127,7 @@ class LoginController extends Controller
         $data['perusahaan'] = $perusahaan;
         $data['user'] = $user;
 
-        \Mail::to($perusahaan->email)->send(new NotifikasiRegisterPerusahaan);
+        // \Mail::to($perusahaan->email)->send(new NotifikasiRegisterPerusahaan);
          
         // return $user;
 

@@ -11,10 +11,12 @@
         background-color: #f9f9f9;
         min-width: 190px;
         box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-        margin-top: 18px;
-        padding: 8px 1px;
+        margin-top: 1em;
+        padding: 12px 9px;
         z-index: 1;
     }
+
+    
 
     #dropdowns-toggle {
         outline: none;
@@ -36,27 +38,20 @@
             <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
         </li>
     </ul>
-    {{-- <div class="dropdowns">
-        <button class="btn" type="button">
-            {{ ucFirst(auth()->user()->nama) }}
-        </button>
-        <div class="dropdowns-content" aria-labelledby="dropdownMenuButton">
-            <a class="dropdown-item" href="#">Action</a>
-            <a class="dropdown-item" href="#">Another action</a>
-            <a class="dropdown-item" href="{{ route('logout') }}">Logout</a>
-          </div>
-    </div> --}}
-    <div class="nav-item dropdowns" id="dropdowns">
-        <button class="btn nav-link dropdown-toggle" id="dropdowns-toggle" style="margin-top:-20px;" type="button">
-            <img class="img-profile rounded-circle" src="{{ asset('assets') }}/img/admin.png"
-            style="max-width: 35px;">
+    <div class="dropdown show">
+        {{-- <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Dropdown link
+        </a> --}}
+        <a class="btn nav-link dropdown-toggle" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <img class="img-profile rounded-circle" src="{{ asset('assets') }}/img/admin.png" style="max-width: 28px;">
             @if (auth()->user()->nama == NULL) 
-                <span class="ml-2 d-none d-lg-inline text-dark small" style="font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif">User</span>
+                <span class="ml-2 d-none d-lg-inline text-dark small" style="font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif"><b>User</b></span>
             @else 
-                <span class="ml-2 d-none d-lg-inline text-dark small" style="font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif">{{ ucFirst(auth()->user()->nama) }}</span>
+                <span class="ml-2 d-none d-lg-inline text-dark small" style="font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif"><strong>{{ ucFirst(auth()->user()->nama) }}</strong></span>
             @endif
-        </button>
-        <div class="dropdowns-content shadow animated--grow-in" id="dropdowns-content" aria-labelledby="userDropdown">
+        </a>
+
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
             <a class="dropdown-item" href="{{ route(Auth::user()->hak_akses.'.profile') }}">
                 <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                 Profile
@@ -66,15 +61,44 @@
                  Ganti Password
             </a>
             <div class="dropdown-divider"></div>
-            <form action="{{ route('logout') }}">
-                <button class="dropdown-item" data-toggle="modal">
-                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                    Logout
-                </button>
-            </form>
-            
+                <form action="{{ route('logout') }}">
+                    <button class="dropdown-item" data-toggle="modal">
+                        <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                        Logout
+                    </button>
+                </form>
+            </div>
         </div>
     </div>
+    {{-- <div class="nav-item dropdowns" id="dropdowns">
+        <button class="btn nav-link dropdown-toggle" id="dropdowns-toggle" style="margin-top:-20px;" type="button">
+            <img class="img-profile rounded-circle" src="{{ asset('assets') }}/img/admin.png"
+            style="max-width: 35px;">
+            @if (auth()->user()->nama == NULL) 
+                <span class="ml-2 d-none d-lg-inline text-dark small" style="font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif">User</span>
+            @else 
+                <span class="ml-2 d-none d-lg-inline text-dark small" style="font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif">{{ ucFirst(auth()->user()->nama) }}</span>
+            @endif
+        </button>
+    </div>
+    <div class="dropdowns-content shadow animated--grow-in" id="dropdowns-content" aria-labelledby="userDropdown">
+        <a class="dropdown-item" href="{{ route(Auth::user()->hak_akses.'.profile') }}">
+            <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+            Profile
+        </a>
+        <a class="dropdown-item" href="{{ route(Auth::user()->hak_akses.'.changePW') }}">
+            <i class="fas fa-key fa-sm fa-fw mr-2 text-gray-400"></i>
+             Ganti Password
+        </a>
+        <div class="dropdown-divider"></div>
+        <form action="{{ route('logout') }}">
+            <button class="dropdown-item" data-toggle="modal">
+                <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                Logout
+            </button>
+        </form>
+        
+    </div> --}}
 </nav>
 <!-- /.navbar -->
 
@@ -140,14 +164,14 @@
     //     $('.dropdowns-content').style.display="block";
     // })
 
-    var button = document.getElementById('dropdowns-toggle');
-    var content = document.getElementById('dropdowns-content');
+    // var button = document.getElementById('dropdowns-toggle');
+    // var content = document.getElementById('dropdowns-content');
 
-    button.addEventListener('click', function() {
-        if(content.style.display == "none"){
-            content.style.display="block";
-        } else {
-            content.style.display = "none";
-        }
-    })
+    // button.addEventListener('click', function() {
+    //     if(content.style.display == "none"){
+    //         content.style.display="block";
+    //     } else {
+    //         content.style.display = "none";
+    //     }
+    // })
 </script>

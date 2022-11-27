@@ -1,5 +1,5 @@
 <!-- Modal -->
-<div class="modal fade" id="modal-form" style="width:575px; margin:auto;" tabindex="-1" role="dialog" aria-labelledby="modal-form">
+<div class="modal fade" id="modal-form" style="width:95%; margin:auto;" tabindex="-1" role="dialog" aria-labelledby="modal-form">
     <div class="modal-dialog modal-lg" role="document">
         <form action="" method="post" class="form-horizontal">
             @csrf

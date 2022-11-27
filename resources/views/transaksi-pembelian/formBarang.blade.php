@@ -1,6 +1,6 @@
 <!-- Modal -->
 <div class="modal fade" id="formModalBarangPembelian" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-dialog modal-lg" role="document" style="width: 95%;">
         <div class="modal-content">
         <div class="modal-header">
             <h5 class="modal-title" id="modal-title">Pilih Produk</h5>
@@ -9,7 +9,7 @@
             </button>
         </div>
         <div class="modal-body">
-            <table id="tbl-data-barang-pembelian" class="table table-striped table-bordered table-hover table-compact" style="width: 100%;">
+            <table id="tbl-data-barang-pembelian" class="table table-striped table-bordered table-hover table-compact dt-resposive table-responsive" style="width: 100%;">
                 <thead>
                     <tr>
                         <td>No</td>

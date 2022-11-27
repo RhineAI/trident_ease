@@ -46,11 +46,11 @@
                 <div class="signin-content">
                     {{-- <div class="signin-image"> --}}
                         {{-- <figure><img src="{{ asset('templates') }}/img/zielogin.jpg" alt="sing up image"></figure> --}}
-                        <figure><img src="{{ asset('assets') }}/img/zielogin.png" alt="sing up image"></figure>
+                        <figure style="width: 80%; height: 100%;"><img src="{{ asset('assets') }}/img/zielogin.png" alt="sing up image"></figure>
                     {{-- </div>s --}}
 
                     <div class="signin-form">
-                        <h2 class="form-title">Sign in</h2>
+                        <h2 class="form-title">Log in</h2>
                         <form method="POST" class="register-form mb-5" id="login-form">
                             @csrf
                             <div class="form-group">
@@ -66,7 +66,7 @@
                             </div>
                         </form>
                         <p>
-                            Don't Have Account?<a href="{{ route('reg') }}" style="color:burlywood" > Create one for free!</a>
+                           Belum Punya Akun?<a href="{{ route('reg') }}" style="color:burlywood" > Buat 1 Secara Gratis!</a>
                         </p>
                     </div>
                 </div>

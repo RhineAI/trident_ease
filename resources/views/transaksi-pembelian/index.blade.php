@@ -70,7 +70,7 @@
         
                     <div class="box-body mx-2 my-2">
 
-                        <form class="form-supplier" method="post">
+                        <form class="form-supplier mt-3" method="post">
                             @csrf
                             <div class="form-group row">
                                 <label for="nama_supplier" class="col-lg-2">Supplier</label>
@@ -145,7 +145,7 @@
                                     <input class="form-control" type="hidden" name="total_pembelian" value="" data-bv-trigger="blur"
                                     id="total_pembelian" readonly="true">
 
-                                    <div class="form-group row">
+                                    <div class="form-group row mt-4">
                                         <label for="inputEmail3" class="col-lg-3 control-label">Jenis Pembayaran</label>
                                         <div class="col-lg-8">
                                             <select class="form-control" name="jenis_pembayaran" data-bv-trigger="blur" id="jenis_pembayaran">
@@ -516,12 +516,12 @@
                         count++;
                         //alert(count);
                         var rowBarang="<tr id='buffer"+count+"'>";
-                        rowBarang+="<td style='text-align:center'><input type='hidden' name='item["+count+"][id_barang]' value='"+id_barang+"'> <input class='form-control' type='text' name='item["+count+"][kode]' value='"+kode_barang+"' readonly='true'></td>";
-                        rowBarang+="<td style='text-align:center'><input class='form-control' type='text' name='item["+count+"][nama_barang]' value='"+nama_barang+"' readonly='true'></td>";
-                        rowBarang+="<td style='text-align:center'><div class='input-group-prepend input-primary'><span class='input-group-text'>Rp.</span><input autocomplete='off' style='text-align:right' type='text' class='form-control harga_beli' name='item["+count+"][harga_beli]' value='0' id='harga_beli"+count+"' data-idbuffer='"+count+"'></div></td>";
-                        rowBarang+="<td style='text-align:center'><input autocomplete='off' type='text' class='form-control qty_pembelian' name='item["+count+"][qty]' value='1' id='qty"+count+"' data-idbuffer='"+count+"' onchange='cekQty(this)' ></td>";
-                        rowBarang+="<td style='text-align:center'><div class='input-group-prepend input-primary'><input autocomplete='off' onchange='cekDiscount(this)' max='100' style='text-align:right' type='text' class='form-control discount' name='item["+count+"][discount]' value='0' id='discount"+count+"' data-idbuffer='"+count+"'><span class='input-group-text'>%</span></div></td>";
-                        rowBarang+="<td style='text-align:center'><input style='text-align:right' type='number' class='form-control' name='item["+count+"][subtotal]' value='0' readonly='true' id='subtotal"+count+"'></td>";
+                        rowBarang+="<td style='text-align:center'><input type='hidden' name='item["+count+"][id_barang]' value='"+id_barang+"'> <input class='form-control' type='text' name='item["+count+"][kode]' value='"+kode_barang+"' readonly='true'style=' width: 130px;'></td>";
+                        rowBarang+="<td style='text-align:center'><input class='form-control' type='text' name='item["+count+"][nama_barang]' value='"+nama_barang+"' readonly='true' style='width: 150px;'></td>";
+                        rowBarang+="<td style='text-align:center'><div class='input-group-prepend input-primary'><span class='input-group-text'>Rp.</span><input autocomplete='off' style='text-align:right; width: 200px;' type='text' class='form-control harga_beli' name='item["+count+"][harga_beli]' value='0' id='harga_beli"+count+"' data-idbuffer='"+count+"'></div></td>";
+                        rowBarang+="<td style='text-align:center'><input autocomplete='off' type='text' class='form-control qty_pembelian' name='item["+count+"][qty]' value='1' id='qty"+count+"' data-idbuffer='"+count+"' onchange='cekQty(this)' style='width: 90px;'></td>";
+                        rowBarang+="<td style='text-align:center'><div class='input-group-prepend input-primary'><input autocomplete='off' onchange='cekDiscount(this)' max='100' style='text-align:right; width: 70px;' type='text' class='form-control discount' name='item["+count+"][discount]' value='0' id='discount"+count+"' data-idbuffer='"+count+"'><span class='input-group-text'>%</span></div></td>";
+                        rowBarang+="<td style='text-align:center'><input style='text-align:right; width: 200px;' type='number' class='form-control' name='item["+count+"][subtotal]' value='0' readonly='true' id='subtotal"+count+"'></td>";
                         rowBarang+="<td style='text-align:center;'><button type='button' class='btn btn-danger hapus_pembelian' data-idbuffer='"+count+"' ><i class='fa fa-trash'></i></button></td>";
                         rowBarang+="</tr>";
                         $('#t_pembelian').append(rowBarang);

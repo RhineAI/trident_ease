@@ -3,7 +3,13 @@
 <html lang="en" dir="ltr">
    <head>
       <meta charset="utf-8">
-      <title>Thanks | ZiePOS</title>
+      <?php
+        use App\Models\Perusahaan;
+
+        $perusahaan = Perusahaan::select('*')->where('id', auth()->user()->id_perusahaan)->first();
+
+      ?>
+      <title>Profile | {{ $perusahaan->nama }}</title>
       <link rel="stylesheet" href="style.css">
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
       <style>

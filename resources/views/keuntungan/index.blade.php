@@ -22,7 +22,7 @@ Keuntungan
     <div class="row mx-3">
         <div class="col-md-12 p-2 mb-3" style="background-color: white">
             <div class="box mb-4">
-                <div class="box-body table-responsive ">
+                <div class="box-body table-responsive dt-responsive">
                     <h2 class="text-center mt-3 mb-4">Set Keuntungan</h2>
                     @if (auth()->user()->hak_akses == 'admin')
                         <form action="{{ route('admin.keuntungan.store') }}" method="POST">
@@ -33,7 +33,7 @@ Keuntungan
                         <div class="form-group row">
                             <div class="form-group col-md-11" style="margin: auto;" >
                                 <label for="keuntungan">Persen Keuntungan</label>
-                                <div class='input-group-prepend input-primary'>
+                                <div class='input-group-prepend input-primary '>
                                     <input type="number" min="1" max="100" class="form-control" id="keuntungan"
                                         placeholder="Jumlah keuntungan yang ingin anda ambil" name="keuntungan"  autocomplete="off"><span
                                         class='input-group-text'>%</span>

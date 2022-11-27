@@ -43,6 +43,108 @@ class LaporanController extends Controller
             $tanggalAkhir = date('Y-m-d', strtotime($now));
         }
 
+        $detPenjualan = DetailPenjualan::leftJoin('t_barang AS B', 'B.id', 't_detail_penjualan.id_barang')
+                                        ->select('t_detail_penjualan.*', 'B.nama AS nama_barang', 'B.kode')
+                                        ->whereBetween('t_detail_penjualan.tgl', [$tanggalAwal, $tanggalAkhir])
+                                        ->where('t_detail_penjualan.id_perusahaan', auth()->user()->id_perusahaan)
+                                        ->orderBy('id', 'asc')->get();
+        $data['totalU'] = 0;
+        $data['totalO'] = 0;
+        foreach($detPenjualan as $item) {
+            if($item->diskon != 0) {
+                $countUntung = (($item->harga_jual - $item->harga_beli) * $item->qty) - ( ($item->harga_jual - $item->harga_beli) * $item->qty) * $item->diskon/100;
+                $data['totalU'] += $countUntung;
+            } else {
+                $countUntung = ($item->harga_jual - $item->harga_beli) * $item->qty;
+                $data['totalU'] += $countUntung;
+            }
+            $countOmset = $item->harga_jual * $item->qty;
+            $data['totalO'] += $countOmset;
+        }   
+        
+        $detPembelian= DetailPembelian::whereBetween('t_detail_pembelian.tgl', [$tanggalAwal, $tanggalAkhir])
+                                        ->leftJoin('t_barang AS B', 'B.id', 't_detail_pembelian.id_barang')
+                                        ->select('t_detail_pembelian.*', 'B.nama AS nama_barang', 'B.kode')    
+                                        ->where('t_detail_pembelian.id_perusahaan', auth()->user()->id_perusahaan)
+                                        ->orderBy('id', 'asc')->get();
+        $data['totalBeli'] = 0; 
+        foreach($detPembelian as $item) {
+            if($item->diskon != 0) {
+                $countOmset = ($item->harga_beli * $item->qty) - (($item->harga_beli * $item->qty) * $item->diskon/100);
+                $data['totalBeli'] += $countOmset;
+            } else {
+                $countOmset = ($item->harga_beli * $item->qty);
+                $data['totalBeli'] += $countOmset;
+            }
+        }   
+
+        $returPenjualan = ReturPenjualan::leftJoin('t_detail_retur_penjualan AS DRP', 'DRP.id_retur_penjualan', 't_retur_penjualan.id')
+                                    ->leftJoin('t_barang AS B', 'B.id', 'DRP.id_barang')
+                                    ->whereBetween('t_retur_penjualan.tgl', [$tanggalAwal, $tanggalAkhir])
+                                    ->select('DRP.*' ,'B.nama AS nama_barang', 'B.kode')    
+                                    ->where('DRP.id_perusahaan', auth()->user()->id_perusahaan)
+                                    ->orderBy('id', 'desc')->get();
+        // return $returPenjualan;
+        $data['totalReturPenjualan'] = 0;
+        foreach($returPenjualan as $item) {
+            $countReturJual = $item->harga_jual * $item->qty;
+            $data['totalReturPenjualan'] += $countReturJual;
+        }  
+
+        $returPembelian = ReturPembelian::leftJoin('t_detail_retur_pembelian AS DRP', 'DRP.id_retur_pembelian', 't_retur_pembelian.id')
+                                        ->leftJoin('t_barang AS B', 'B.id', 'DRP.id_barang')
+                                        ->whereBetween('t_retur_pembelian.tgl', [$tanggalAwal, $tanggalAkhir])
+                                        ->select('DRP.*' ,'B.nama AS nama_barang', 'B.kode')    
+                                        ->where('DRP.id_perusahaan', auth()->user()->id_perusahaan)
+                                        ->orderBy('id', 'desc')->get();
+        $data['totalReturPembelian'] = 0;
+        foreach($returPembelian as $item) {
+            $countReturBeli = $item->harga_beli * $item->qty;
+            $data['totalReturPembelian'] += $countReturBeli;
+        }  
+
+        $kasMasuk= KasMasuk::whereBetween('tgl', [$tanggalAwal, $tanggalAkhir])
+                            ->leftJoin('t_users AS U', 'U.id', 't_kas_masuk.id_user')
+                            ->select('t_kas_masuk.*', 'U.nama AS nama_user')  
+                            ->where('t_kas_masuk.id_perusahaan', auth()->user()->id_perusahaan)
+                            ->orderBy('id', 'asc')->get();
+        $data['totalKasMasuk'] = 0;
+        foreach($kasMasuk as $item) {
+            $data['totalKasMasuk'] += $item->jumlah;
+        }   
+
+        $kasKeluar= KasKeluar::whereBetween('tgl', [$tanggalAwal, $tanggalAkhir])
+                            ->leftJoin('t_users AS U', 'U.id', 't_kas_keluar.id_user')
+                            ->select('t_kas_keluar.*', 'U.nama AS nama_user')    
+                            ->where('t_kas_keluar.id_perusahaan', auth()->user()->id_perusahaan)
+                            ->orderBy('id', 'asc')->get();
+        $data['totalKasKeluar'] = 0;
+        foreach($kasKeluar as $item) {
+            $data['totalKasKeluar'] += $item->jumlah;
+        } 
+
+        $hutang= Hutang::whereBetween('t_data_hutang.tgl', [$tanggalAwal, $tanggalAkhir])
+                        ->leftJoin('t_transaksi_pembelian AS TP', 'TP.id', 't_data_hutang.id_pembelian')
+                        ->leftJoin('t_supplier AS S', 'S.id', 'TP.id_supplier')
+                        ->select('t_data_hutang.*', 'TP.id as kode_invoice', 'TP.sisa', 'S.nama AS nama_supplier')  
+                        ->where('t_data_hutang.id_perusahaan', auth()->user()->id_perusahaan)
+                        ->orderBy('id', 'desc')->get();
+        $data['totalHutang'] = 0;
+        foreach($hutang as $item) {
+            $data['totalHutang'] += $item->total_bayar;
+        } 
+
+        $piutang= Piutang::whereBetween('t_data_piutang.tgl', [$tanggalAwal, $tanggalAkhir])
+                            ->leftJoin('t_transaksi_penjualan AS TP', 'TP.id', 't_data_piutang.id_penjualan')
+                            ->leftJoin('t_pelanggan AS P', 'P.id', 'TP.id_pelanggan')
+                            ->select('t_data_piutang.*', 'TP.id as kode_invoice', 'TP.sisa', 'P.nama AS nama_pelanggan')  
+                            ->where('t_data_piutang.id_perusahaan', auth()->user()->id_perusahaan)
+                            ->orderBy('id', 'desc')->get();                       
+        $data['totalPiutang'] = 0;
+        foreach($piutang as $item) {
+            $data['totalPiutang'] += $item->total_bayar;
+        } 
+
         $data['cPerusahaan'] = Perusahaan::select('*')->where('id', auth()->user()->id_perusahaan)->first();
 
         return view('laporan.laporan-harian.index', compact('tanggalAwal', 'tanggalAkhir', 'now'))->with($data);
@@ -51,184 +153,120 @@ class LaporanController extends Controller
     public function DownloadHarian($awal, $akhir) 
     {
         $tglAwal = $awal;
-        $penjualan = array();
-        $pembelian = array();
-        $returPenjualan = array();
-        $returPembelian = array();
-        $hutang = array();
-        $piutang = array();
-        $kasMasuk = array();
-        $kasKeluar = array();
+        $tanggalAwal = $awal;
+        $tanggalAkhir = $akhir;
         $no = 1;   
         
-        // return $returPenjualan;
-
-        while (strtotime($awal) <= strtotime($akhir)) {
-            $tanggal = $awal;
-            $awal = date('Y-m-d', strtotime("+1day", strtotime($awal)));
-
-            $detPenjualan= DetailPenjualan::where('t_detail_penjualan.tgl', 'Like', '%'.$tanggal.'%')
-                                        ->leftJoin('t_barang AS B', 'B.id', 't_detail_penjualan.id_barang')
-                                        ->select('t_detail_penjualan.*', 'B.nama AS nama_barang', 'B.kode')    
+        $penjualan = DetailPenjualan::leftJoin('t_barang AS B', 'B.id', 't_detail_penjualan.id_barang')
+                                        ->select('t_detail_penjualan.*', 'B.nama AS nama_barang', 'B.kode')
+                                        ->whereBetween('t_detail_penjualan.tgl', [$tanggalAwal, $tanggalAkhir])
                                         ->where('t_detail_penjualan.id_perusahaan', auth()->user()->id_perusahaan)
-                                        ->orderBy('id', 'desc')->get();
-    
-            foreach($detPenjualan as $item) {
-                $rowPenjualan = array();
-                // $rowPenjualan['DT_RowIndex'] = $no++;
-                $rowPenjualan['tgl'] = tanggal_indonesia($tanggal, false);
-                $rowPenjualan['kode'] = $item->kode;
-                $rowPenjualan['nama_barang'] = $item->nama_barang ;
-                $rowPenjualan['qty'] = $item->qty;
-                $rowPenjualan['total_penjualan'] = 'Rp. '. format_uang($item->qty * $item->harga_jual);
-                $rowPenjualan['keuntungan'] = 'Rp. '. format_uang(($item->harga_jual - $item->harga_beli) * $item->qty);
-
-                $penjualan[] = $rowPenjualan;
-            }  
-
-            
-            $detPembelian= DetailPembelian::where('t_detail_pembelian.tgl', 'Like','%$tanggal%')
+                                        ->orderBy('id', 'asc')->get();
+        $totalU = 0;
+        $totalO = 0;
+        foreach($penjualan as $item) {
+            if($item->diskon != 0) {
+                $countUntung = (($item->harga_jual - $item->harga_beli) * $item->qty) - ( ($item->harga_jual - $item->harga_beli) * $item->qty) * $item->diskon/100;
+                $totalU += $countUntung;
+            } else {
+                $countUntung = ($item->harga_jual - $item->harga_beli) * $item->qty;
+                $totalU += $countUntung;
+            }
+            $countOmset = $item->harga_jual * $item->qty;
+            $totalO += $countOmset;
+        }   
+        
+        $pembelian= DetailPembelian::whereBetween('t_detail_pembelian.tgl', [$tanggalAwal, $tanggalAkhir])
                                         ->leftJoin('t_barang AS B', 'B.id', 't_detail_pembelian.id_barang')
                                         ->select('t_detail_pembelian.*', 'B.nama AS nama_barang', 'B.kode')    
                                         ->where('t_detail_pembelian.id_perusahaan', auth()->user()->id_perusahaan)
-                                        ->orderBy('id', 'desc')->get();
-    
-            foreach($detPembelian as $item) {
-                $rowPembelian = array();
-                $rowPembelian['kode'] = $item->kode;
-                $rowPembelian['nama_barang'] = $item->nama_barang ;
-                $rowPembelian['qty'] = $item->qty;
-                $rowPembelian['total_pembelian'] = 'Rp. '. format_uang($item->qty * $item->harga_beli);
+                                        ->orderBy('id', 'asc')->get();
+        $totalBeli = 0; 
+        foreach($pembelian as $item) {
+            if($item->diskon != 0) {
+                $countOmset = ($item->harga_beli * $item->qty) - (($item->harga_beli * $item->qty) * $item->diskon/100);
+                $totalBeli += $countOmset;
+            } else {
+                $countOmset = ($item->harga_beli * $item->qty);
+                $totalBeli += $countOmset;
+            }
+        }   
 
-                $pembelian[] = $rowPembelian;
-            }    
-
-            
-            $retPenj = ReturPenjualan::leftJoin('t_detail_retur_penjualan AS DRP', 'DRP.id_retur_penjualan', 't_retur_penjualan.id')
-                                                ->leftJoin('t_barang AS B', 'B.id', 'DRP.id_barang')
-                                                ->where('t_retur_penjualan.tgl', 'LIKE', '%'.$tanggal.'%')
-                                                ->select('DRP.*' ,'B.nama AS nama_barang', 'B.kode')    
-                                                ->where('DRP.id_perusahaan', auth()->user()->id_perusahaan)
-                                                ->orderBy('id', 'desc')->get();
-
-            foreach($retPenj as $item) {
-                $rowReturPenjualan = array();
-                $rowReturPenjualan['kode'] = $item->kode;
-                $rowReturPenjualan['nama_barang'] = $item->nama_barang ;
-                $rowReturPenjualan['qty'] = $item->qty;
-                $rowReturPenjualan['total_retur'] = 'Rp. '. format_uang($item->qty * $item->harga_jual);
-
-                $returPenjualan[] = $rowReturPenjualan;
-            }     
-
-
-            $retPemb = ReturPembelian::leftJoin('t_detail_retur_pembelian AS DRP', 'DRP.id_retur_pembelian', 't_retur_pembelian.id')
-                                            ->leftJoin('t_barang AS B', 'B.id', 'DRP.id_barang')
-                                            ->where('t_retur_pembelian.tgl', 'LIKE', '%'.$tanggal.'%')
-                                            ->select('DRP.*' ,'B.nama AS nama_barang', 'B.kode')    
-                                            ->where('DRP.id_perusahaan', auth()->user()->id_perusahaan)
-                                            ->orderBy('id', 'desc')->get();
-          
-            foreach($retPemb as $item) {
-                $rowReturPembelian = array();
-                $rowReturPembelian['kode'] = $item->kode;
-                $rowReturPembelian['nama_barang'] = $item->nama_barang ;
-                $rowReturPembelian['qty'] = $item->qty;
-                $rowReturPembelian['total_retur'] = 'Rp. '. format_uang($item->qty * $item->harga_beli);
-
-                $returPembelian[] = $rowReturPembelian;
-            }     
-            
-            
-            $hoetang = Hutang::where('t_data_hutang.tgl', 'Like', '%'.$tanggal.'%')
-                            ->leftJoin('t_transaksi_pembelian AS TP', 'TP.id', 't_data_hutang.id_pembelian')
-                            ->leftJoin('t_supplier AS S', 'S.id', 'TP.id_supplier')
-                            ->select('t_data_hutang.*', 'TP.id as kode_invoice', 'TP.sisa', 'S.nama AS nama_supplier')  
-                            ->where('t_data_hutang.id_perusahaan', auth()->user()->id_perusahaan)
-                            ->orderBy('id', 'desc')->get();
-
-            foreach($hoetang as $item) {
-                $rowHoetang = array();
-                // $rowHoetang['DT_RowIndex'] = $no++;
-                $rowHoetang['no_pembelian'] = $item->kode_invoice;
-                $rowHoetang['tgl'] = tanggal_indonesia($tanggal, false);
-                $rowHoetang['nama_supplier'] = $item->nama_supplier ;
-                $rowHoetang['total_bayar'] = 'Rp. '. format_uang($item->total_bayar );
-                if ($item->sisa == 0) {
-                    $rowHoetang['status'] = 'Lunas';
-                } else {
-                    $rowHoetang['status'] = 'Belum Lunas';
-                }
-
-
-                $hutang[] = $rowHoetang;
-            }     
-            
-            
-            $pioetang = Piutang::where('t_data_piutang.tgl', 'Like', '%'.$tanggal.'%')
-                                ->leftJoin('t_transaksi_penjualan AS TP', 'TP.id', 't_data_piutang.id_penjualan')
-                                ->leftJoin('t_pelanggan AS P', 'P.id', 'TP.id_pelanggan')
-                                ->select('t_data_piutang.*', 'TP.id as kode_invoice', 'TP.sisa', 'P.nama AS nama_pelanggan')  
-                                ->where('t_data_piutang.id_perusahaan', auth()->user()->id_perusahaan)
-                                ->orderBy('id', 'desc')->get();
-
-            foreach($pioetang as $item) {
-                $rowPioetang = array();
-                // $rowPioetang['DT_RowIndex'] = $no++;
-                $rowPioetang['no_penjualan'] = $item->kode_invoice;
-                $rowPioetang['tgl'] = tanggal_indonesia($tanggal, false);
-                $rowPioetang['nama_pelanggan'] = $item->nama_pelanggan ;
-                $rowPioetang['total_bayar'] = 'Rp. '. format_uang($item->total_bayar );
-                if ($item->sisa == 0) {
-                    $rowPioetang['status'] = 'Lunas';
-                } else {
-                    $rowPioetang['status'] = 'Belum Lunas';
-                }
-
-                $piutang[] = $rowPioetang;
-            }     
-
-            
-            $kasMasoek = KasMasuk::where('tgl', 'Like', '%'.$tanggal.'%')
-                                ->leftJoin('t_users AS U', 'U.id', 't_kas_masuk.id_user')
-                                ->select('t_kas_masuk.*', 'U.nama AS nama_user')  
-                                ->where('t_kas_masuk.id_perusahaan', auth()->user()->id_perusahaan)
-                                ->orderBy('id', 'desc')->get();
-            
-            foreach($kasMasoek as $item) {
-                $rowKasMasoek = array();
-                $rowKasMasoek['tgl'] = tanggal_indonesia($tanggal, false);
-                $rowKasMasoek['jumlah'] = 'RP. '. format_uang($item->jumlah);
-                $rowKasMasoek['keterangan'] = $item->keterangan ;
-                $rowKasMasoek['oleh'] = ucfirst($item->nama_user) ;
-
-                $kasMasuk[] = $rowKasMasoek;
-            }   
-
-
-            $kasKeloar = KasKeluar::where('tgl', 'Like', '%'.$tanggal.'%')
-                                    ->leftJoin('t_users AS U', 'U.id', 't_kas_keluar.id_user')
-                                    ->select('t_kas_keluar.*', 'U.nama AS nama_user')    
-                                    ->where('t_kas_keluar.id_perusahaan', auth()->user()->id_perusahaan)
+        $returPenjualan = ReturPenjualan::leftJoin('t_detail_retur_penjualan AS DRP', 'DRP.id_retur_penjualan', 't_retur_penjualan.id')
+                                    ->leftJoin('t_barang AS B', 'B.id', 'DRP.id_barang')
+                                    ->whereBetween('t_retur_penjualan.tgl', [$tanggalAwal, $tanggalAkhir])
+                                    ->select('DRP.*' ,'B.nama AS nama_barang', 'B.kode')    
+                                    ->where('DRP.id_perusahaan', auth()->user()->id_perusahaan)
                                     ->orderBy('id', 'desc')->get();
+        // return $returPenjualan;
+        $totalReturPenjualan = 0;
+        foreach($returPenjualan as $item) {
+            $countReturJual = $item->harga_jual * $item->qty;
+            $totalReturPenjualan += $countReturJual;
+        }  
 
-            foreach($kasKeloar as $item) {
-                $rowKasKeloar = array();
-                $rowKasKeloar['tgl'] = tanggal_indonesia($tanggal, false);
-                $rowKasKeloar['jumlah'] = 'RP. '. format_uang($item->jumlah);
-                $rowKasKeloar['keperluan'] = $item->keperluan ;
-                $rowKasKeloar['oleh'] = ucfirst($item->nama_user) ;
+        $returPembelian = ReturPembelian::leftJoin('t_detail_retur_pembelian AS DRP', 'DRP.id_retur_pembelian', 't_retur_pembelian.id')
+                                        ->leftJoin('t_barang AS B', 'B.id', 'DRP.id_barang')
+                                        ->whereBetween('t_retur_pembelian.tgl', [$tanggalAwal, $tanggalAkhir])
+                                        ->select('DRP.*' ,'B.nama AS nama_barang', 'B.kode')    
+                                        ->where('DRP.id_perusahaan', auth()->user()->id_perusahaan)
+                                        ->orderBy('id', 'desc')->get();
+        $totalReturPembelian = 0;
+        foreach($returPembelian as $item) {
+            $countReturBeli = $item->harga_beli * $item->qty;
+            $totalReturPembelian += $countReturBeli;
+        }  
 
-                $kasKeluar[] = $rowKasKeloar;
-            }         
-        }
+        $kasMasuk= KasMasuk::whereBetween('tgl', [$tanggalAwal, $tanggalAkhir])
+                            ->leftJoin('t_users AS U', 'U.id', 't_kas_masuk.id_user')
+                            ->select('t_kas_masuk.*', 'U.nama AS nama_user')  
+                            ->where('t_kas_masuk.id_perusahaan', auth()->user()->id_perusahaan)
+                            ->orderBy('id', 'asc')->get();
+        $totalKasMasuk = 0;
+        foreach($kasMasuk as $item) {
+            $totalKasMasuk += $item->jumlah;
+        }   
+
+        $kasKeluar= KasKeluar::whereBetween('tgl', [$tanggalAwal, $tanggalAkhir])
+                            ->leftJoin('t_users AS U', 'U.id', 't_kas_keluar.id_user')
+                            ->select('t_kas_keluar.*', 'U.nama AS nama_user')    
+                            ->where('t_kas_keluar.id_perusahaan', auth()->user()->id_perusahaan)
+                            ->orderBy('id', 'asc')->get();
+        $totalKasKeluar = 0;
+        foreach($kasKeluar as $item) {
+            $totalKasKeluar += $item->jumlah;
+        } 
+
+        $hutang= Hutang::whereBetween('t_data_hutang.tgl', [$tanggalAwal, $tanggalAkhir])
+                        ->leftJoin('t_transaksi_pembelian AS TP', 'TP.id', 't_data_hutang.id_pembelian')
+                        ->leftJoin('t_supplier AS S', 'S.id', 'TP.id_supplier')
+                        ->select('t_data_hutang.*', 'TP.id as kode_invoice', 'TP.sisa', 'S.nama AS nama_supplier')  
+                        ->where('t_data_hutang.id_perusahaan', auth()->user()->id_perusahaan)
+                        ->orderBy('id', 'desc')->get();
+        $totalHutang = 0;
+        foreach($hutang as $item) {
+            $totalHutang += $item->total_bayar;
+        } 
+
+        $piutang= Piutang::whereBetween('t_data_piutang.tgl', [$tanggalAwal, $tanggalAkhir])
+                            ->leftJoin('t_transaksi_penjualan AS TP', 'TP.id', 't_data_piutang.id_penjualan')
+                            ->leftJoin('t_pelanggan AS P', 'P.id', 'TP.id_pelanggan')
+                            ->select('t_data_piutang.*', 'TP.id as kode_invoice', 'TP.sisa', 'P.nama AS nama_pelanggan')  
+                            ->where('t_data_piutang.id_perusahaan', auth()->user()->id_perusahaan)
+                            ->orderBy('id', 'desc')->get();                       
+        $totalPiutang = 0;
+        foreach($piutang as $item) {
+            $totalPiutang += $item->total_bayar;
+        } 
+
+       
 
         // return $returPenjualan;
         $cPerusahaan = Perusahaan::select('*')->where('id', auth()->user()->id_perusahaan)->first();
 
         // return $data;
-        // return view('laporan.laporan-harian.pdf', compact('tglAwal' ,'awal', 'akhir', 'penjualan', 'pembelian', 'returPenjualan', 'returPembelian', 'hutang', 'piutang', 'kasMasuk', 'kasKeluar', 'cPerusahaan'));
-        $pdf = PDF::loadView('laporan.laporan-harian.pdf', compact('tglAwal' ,'awal', 'akhir', 'penjualan', 'pembelian', 'returPenjualan', 'returPembelian', 'hutang', 'piutang', 'kasMasuk', 'kasKeluar', 'cPerusahaan'));
+        // return view('laporan.laporan-harian.pdf', compact('tglAwal' ,'awal', 'akhir', 'penjualan', 'pembelian', 'returPenjualan', 'returPembelian', 'hutang', 'piutang', 'kasMasuk', 'kasKeluar', 'cPerusahaan', 'totalU', 'totalO', 'totalBeli', 'totalReturPenjualan', 'totalReturPembelian', 'totalHutang', 'totalPiutang', 'totalKasMasuk', 'totalKasKeluar'));
+        $pdf = PDF::loadView('laporan.laporan-harian.pdf', compact('tglAwal' ,'awal', 'akhir', 'penjualan', 'pembelian', 'returPenjualan', 'returPembelian', 'hutang', 'piutang', 'kasMasuk', 'kasKeluar', 'cPerusahaan', 'totalU', 'totalO', 'totalBeli', 'totalReturPenjualan', 'totalReturPembelian', 'totalHutang', 'totalPiutang', 'totalKasMasuk', 'totalKasKeluar'));
         $pdf->setPaper('a4', 'potrait');
         return $pdf->stream('Laporan Harian-'. $cPerusahaan->nama .' '. date('Y-m-d h.i.s') );
     }
@@ -236,337 +274,313 @@ class LaporanController extends Controller
     public function PrintPDFHarian($awal, $akhir)
     {
         $tglAwal = $awal;
-        $penjualan = array();
-        $pembelian = array();
-        $returPenjualan = array();
-        $returPembelian = array();
-        $hutang = array();
-        $piutang = array();
-        $kasMasuk = array();
-        $kasKeluar = array();
         $no = 1;   
-        
-        while (strtotime($awal) <= strtotime($akhir)) {
-            $tanggal = $awal;
-            $awal = date('Y-m-d', strtotime("+1day", strtotime($awal)));
 
-            $detPenjualan= DetailPenjualan::where('t_detail_penjualan.tgl', 'Like', '%'.$tanggal.'%')
-                                        ->leftJoin('t_barang AS B', 'B.id', 't_detail_penjualan.id_barang')
-                                        ->select('t_detail_penjualan.*', 'B.nama AS nama_barang', 'B.kode')    
+        $penjualan = DetailPenjualan::leftJoin('t_barang AS B', 'B.id', 't_detail_penjualan.id_barang')
+                                        ->select('t_detail_penjualan.*', 'B.nama AS nama_barang', 'B.kode')
+                                        ->whereBetween('t_detail_penjualan.tgl', [$awal, $akhir])
                                         ->where('t_detail_penjualan.id_perusahaan', auth()->user()->id_perusahaan)
-                                        ->orderBy('id', 'desc')->get();
-    
-            foreach($detPenjualan as $item) {
-                $rowPenjualan = array();
-                // $rowPenjualan['DT_RowIndex'] = $no++;
-                $rowPenjualan['tgl'] = tanggal_indonesia($tanggal, false);
-                $rowPenjualan['kode'] = $item->kode;
-                $rowPenjualan['nama_barang'] = $item->nama_barang ;
-                $rowPenjualan['qty'] = $item->qty;
-                $rowPenjualan['total_penjualan'] = 'Rp. '. format_uang($item->qty * $item->harga_jual);
-                $rowPenjualan['keuntungan'] = 'Rp. '. format_uang(($item->harga_jual - $item->harga_beli) * $item->qty);
-
-                $penjualan[] = $rowPenjualan;
-            }  
-
-            
-            $detPembelian= DetailPembelian::where('t_detail_pembelian.tgl', 'Like','%$tanggal%')
+                                        ->orderBy('id', 'asc')->get();
+        $data['totalU'] = 0;
+        $data['totalO'] = 0;
+        foreach($penjualan as $item) {
+            if($item->diskon != 0) {
+                $countUntung = (($item->harga_jual - $item->harga_beli) * $item->qty) - ( ($item->harga_jual - $item->harga_beli) * $item->qty) * $item->diskon/100;
+                $data['totalU'] += $countUntung;
+            } else {
+                $countUntung = ($item->harga_jual - $item->harga_beli) * $item->qty;
+                $data['totalU'] += $countUntung;
+            }
+            $countOmset = $item->harga_jual * $item->qty;
+            $data['totalO'] += $countOmset;
+        }   
+        
+        $pembelian= DetailPembelian::whereBetween('t_detail_pembelian.tgl', [$awal, $akhir])
                                         ->leftJoin('t_barang AS B', 'B.id', 't_detail_pembelian.id_barang')
                                         ->select('t_detail_pembelian.*', 'B.nama AS nama_barang', 'B.kode')    
                                         ->where('t_detail_pembelian.id_perusahaan', auth()->user()->id_perusahaan)
-                                        ->orderBy('id', 'desc')->get();
-    
-            foreach($detPembelian as $item) {
-                $rowPembelian = array();
-                $rowPembelian['kode'] = $item->kode;
-                $rowPembelian['nama_barang'] = $item->nama_barang ;
-                $rowPembelian['qty'] = $item->qty;
-                $rowPembelian['total_pembelian'] = 'Rp. '. format_uang($item->qty * $item->harga_beli);
+                                        ->orderBy('id', 'asc')->get();
+        $data['totalBeli'] = 0; 
+        foreach($pembelian as $item) {
+            if($item->diskon != 0) {
+                $countOmset = ($item->harga_beli * $item->qty) - (($item->harga_beli * $item->qty) * $item->diskon/100);
+                $data['totalBeli'] += $countOmset;
+            } else {
+                $countOmset = ($item->harga_beli * $item->qty);
+                $data['totalBeli'] += $countOmset;
+            }
+        }   
 
-                $pembelian[] = $rowPembelian;
-            }    
-
-            
-            $retPenj = ReturPenjualan::leftJoin('t_detail_retur_penjualan AS DRP', 'DRP.id_retur_penjualan', 't_retur_penjualan.id')
-                                                ->leftJoin('t_barang AS B', 'B.id', 'DRP.id_barang')
-                                                ->where('t_retur_penjualan.tgl', 'LIKE', '%'.$tanggal.'%')
-                                                ->select('DRP.*' ,'B.nama AS nama_barang', 'B.kode')    
-                                                ->where('DRP.id_perusahaan', auth()->user()->id_perusahaan)
-                                                ->orderBy('id', 'desc')->get();
-
-            foreach($retPenj as $item) {
-                $rowReturPenjualan = array();
-                $rowReturPenjualan['kode'] = $item->kode;
-                $rowReturPenjualan['nama_barang'] = $item->nama_barang ;
-                $rowReturPenjualan['qty'] = $item->qty;
-                $rowReturPenjualan['total_retur'] = 'Rp. '. format_uang($item->qty * $item->harga_jual);
-
-                $returPenjualan[] = $rowReturPenjualan;
-            }     
-
-
-            $retPemb = ReturPembelian::leftJoin('t_detail_retur_pembelian AS DRP', 'DRP.id_retur_pembelian', 't_retur_pembelian.id')
-                                            ->leftJoin('t_barang AS B', 'B.id', 'DRP.id_barang')
-                                            ->where('t_retur_pembelian.tgl', 'LIKE', '%'.$tanggal.'%')
-                                            ->select('DRP.*' ,'B.nama AS nama_barang', 'B.kode')    
-                                            ->where('DRP.id_perusahaan', auth()->user()->id_perusahaan)
-                                            ->orderBy('id', 'desc')->get();
-          
-            foreach($retPemb as $item) {
-                $rowReturPembelian = array();
-                $rowReturPembelian['kode'] = $item->kode;
-                $rowReturPembelian['nama_barang'] = $item->nama_barang ;
-                $rowReturPembelian['qty'] = $item->qty;
-                $rowReturPembelian['total_retur'] = 'Rp. '. format_uang($item->qty * $item->harga_beli);
-
-                $returPembelian[] = $rowReturPembelian;
-            }     
-            
-            
-            $hoetang = Hutang::where('t_data_hutang.tgl', 'Like', '%'.$tanggal.'%')
-                            ->leftJoin('t_transaksi_pembelian AS TP', 'TP.id', 't_data_hutang.id_pembelian')
-                            ->leftJoin('t_supplier AS S', 'S.id', 'TP.id_supplier')
-                            ->select('t_data_hutang.*', 'TP.id as kode_invoice', 'TP.sisa', 'S.nama AS nama_supplier')  
-                            ->where('t_data_hutang.id_perusahaan', auth()->user()->id_perusahaan)
-                            ->orderBy('id', 'desc')->get();
-
-            foreach($hoetang as $item) {
-                $rowHoetang = array();
-                // $rowHoetang['DT_RowIndex'] = $no++;
-                $rowHoetang['no_pembelian'] = $item->kode_invoice;
-                $rowHoetang['tgl'] = tanggal_indonesia($tanggal, false);
-                $rowHoetang['nama_supplier'] = $item->nama_supplier ;
-                $rowHoetang['total_bayar'] = 'Rp. '. format_uang($item->total_bayar );
-                if ($item->sisa == 0) {
-                    $rowHoetang['status'] = 'Lunas';
-                } else {
-                    $rowHoetang['status'] = 'Belum Lunas';
-                }
-
-
-                $hutang[] = $rowHoetang;
-            }     
-            
-            
-            $pioetang = Piutang::where('t_data_piutang.tgl', 'Like', '%'.$tanggal.'%')
-                                ->leftJoin('t_transaksi_penjualan AS TP', 'TP.id', 't_data_piutang.id_penjualan')
-                                ->leftJoin('t_pelanggan AS P', 'P.id', 'TP.id_pelanggan')
-                                ->select('t_data_piutang.*', 'TP.id as kode_invoice', 'TP.sisa', 'P.nama AS nama_pelanggan')  
-                                ->where('t_data_piutang.id_perusahaan', auth()->user()->id_perusahaan)
-                                ->orderBy('id', 'desc')->get();
-
-            foreach($pioetang as $item) {
-                $rowPioetang = array();
-                // $rowPioetang['DT_RowIndex'] = $no++;
-                $rowPioetang['no_penjualan'] = $item->kode_invoice;
-                $rowPioetang['tgl'] = tanggal_indonesia($tanggal, false);
-                $rowPioetang['nama_pelanggan'] = $item->nama_pelanggan ;
-                $rowPioetang['total_bayar'] = 'Rp. '. format_uang($item->total_bayar );
-                if ($item->sisa == 0) {
-                    $rowPioetang['status'] = 'Lunas';
-                } else {
-                    $rowPioetang['status'] = 'Belum Lunas';
-                }
-
-                $piutang[] = $rowPioetang;
-            }     
-
-            
-            $kasMasoek = KasMasuk::where('tgl', 'Like', '%'.$tanggal.'%')
-                                ->leftJoin('t_users AS U', 'U.id', 't_kas_masuk.id_user')
-                                ->select('t_kas_masuk.*', 'U.nama AS nama_user')  
-                                ->where('t_kas_masuk.id_perusahaan', auth()->user()->id_perusahaan)
-                                ->orderBy('id', 'desc')->get();
-            
-            foreach($kasMasoek as $item) {
-                $rowKasMasoek = array();
-                $rowKasMasoek['tgl'] = tanggal_indonesia($tanggal, false);
-                $rowKasMasoek['jumlah'] = 'RP. '. format_uang($item->jumlah);
-                $rowKasMasoek['keterangan'] = $item->keterangan ;
-                $rowKasMasoek['oleh'] = ucfirst($item->nama_user) ;
-
-                $kasMasuk[] = $rowKasMasoek;
-            }   
-
-
-            $kasKeloar = KasKeluar::where('tgl', 'Like', '%'.$tanggal.'%')
-                                    ->leftJoin('t_users AS U', 'U.id', 't_kas_keluar.id_user')
-                                    ->select('t_kas_keluar.*', 'U.nama AS nama_user')    
-                                    ->where('t_kas_keluar.id_perusahaan', auth()->user()->id_perusahaan)
+        $returPenjualan = ReturPenjualan::leftJoin('t_detail_retur_penjualan AS DRP', 'DRP.id_retur_penjualan', 't_retur_penjualan.id')
+                                    ->leftJoin('t_barang AS B', 'B.id', 'DRP.id_barang')
+                                    ->whereBetween('t_retur_penjualan.tgl', [$awal, $akhir])
+                                    ->select('DRP.*' ,'B.nama AS nama_barang', 'B.kode')    
+                                    ->where('DRP.id_perusahaan', auth()->user()->id_perusahaan)
                                     ->orderBy('id', 'desc')->get();
+        // return $returPenjualan;
+        $data['totalReturPenjualan'] = 0;
+        foreach($returPenjualan as $item) {
+            $countReturJual = $item->harga_jual * $item->qty;
+            $data['totalReturPenjualan'] += $countReturJual;
+        }  
 
-            foreach($kasKeloar as $item) {
-                $rowKasKeloar = array();
-                $rowKasKeloar['tgl'] = tanggal_indonesia($tanggal, false);
-                $rowKasKeloar['jumlah'] = 'RP. '. format_uang($item->jumlah);
-                $rowKasKeloar['keperluan'] = $item->keperluan ;
-                $rowKasKeloar['oleh'] = ucfirst($item->nama_user) ;
+        $returPembelian = ReturPembelian::leftJoin('t_detail_retur_pembelian AS DRP', 'DRP.id_retur_pembelian', 't_retur_pembelian.id')
+                                        ->leftJoin('t_barang AS B', 'B.id', 'DRP.id_barang')
+                                        ->whereBetween('t_retur_pembelian.tgl', [$awal, $akhir])
+                                        ->select('DRP.*' ,'B.nama AS nama_barang', 'B.kode')    
+                                        ->where('DRP.id_perusahaan', auth()->user()->id_perusahaan)
+                                        ->orderBy('id', 'desc')->get();
+        $data['totalReturPembelian'] = 0;
+        foreach($returPembelian as $item) {
+            $countReturBeli = $item->harga_beli * $item->qty;
+            $data['totalReturPembelian'] += $countReturBeli;
+        }  
 
-                $kasKeluar[] = $rowKasKeloar;
-            }         
-        }
+        $kasMasuk= KasMasuk::whereBetween('tgl', [$awal, $akhir])
+                            ->leftJoin('t_users AS U', 'U.id', 't_kas_masuk.id_user')
+                            ->select('t_kas_masuk.*', 'U.nama AS nama_user')  
+                            ->where('t_kas_masuk.id_perusahaan', auth()->user()->id_perusahaan)
+                            ->orderBy('id', 'asc')->get();
+        $data['totalKasMasuk'] = 0;
+        foreach($kasMasuk as $item) {
+            $data['totalKasMasuk'] += $item->jumlah;
+        }   
+
+        $kasKeluar= KasKeluar::whereBetween('tgl', [$awal, $akhir])
+                            ->leftJoin('t_users AS U', 'U.id', 't_kas_keluar.id_user')
+                            ->select('t_kas_keluar.*', 'U.nama AS nama_user')    
+                            ->where('t_kas_keluar.id_perusahaan', auth()->user()->id_perusahaan)
+                            ->orderBy('id', 'asc')->get();
+        $data['totalKasKeluar'] = 0;
+        foreach($kasKeluar as $item) {
+            $data['totalKasKeluar'] += $item->jumlah;
+        } 
+
+        $hutang= Hutang::whereBetween('t_data_hutang.tgl', [$awal, $akhir])
+                        ->leftJoin('t_transaksi_pembelian AS TP', 'TP.id', 't_data_hutang.id_pembelian')
+                        ->leftJoin('t_supplier AS S', 'S.id', 'TP.id_supplier')
+                        ->select('t_data_hutang.*', 'TP.id as kode_invoice', 'TP.sisa', 'S.nama AS nama_supplier')  
+                        ->where('t_data_hutang.id_perusahaan', auth()->user()->id_perusahaan)
+                        ->orderBy('id', 'desc')->get();
+        $data['totalHutang'] = 0;
+        foreach($hutang as $item) {
+            $data['totalHutang'] += $item->total_bayar;
+        } 
+
+        $piutang= Piutang::whereBetween('t_data_piutang.tgl', [$awal, $akhir])
+                            ->leftJoin('t_transaksi_penjualan AS TP', 'TP.id', 't_data_piutang.id_penjualan')
+                            ->leftJoin('t_pelanggan AS P', 'P.id', 'TP.id_pelanggan')
+                            ->select('t_data_piutang.*', 'TP.id as kode_invoice', 'TP.sisa', 'P.nama AS nama_pelanggan')  
+                            ->where('t_data_piutang.id_perusahaan', auth()->user()->id_perusahaan)
+                            ->orderBy('id', 'desc')->get();  
+                            // return $piutang;                     
+        $data['totalPiutang'] = 0;
+        foreach($piutang as $item) {
+            $data['totalPiutang'] += $item->total_bayar;
+        } 
 
         $cPerusahaan = Perusahaan::select('*')->where('id', auth()->user()->id_perusahaan)->first();
-        return view('laporan.laporan-harian.print', compact('tglAwal' ,'awal', 'akhir', 'penjualan', 'pembelian', 'returPenjualan', 'returPembelian', 'hutang', 'piutang', 'kasMasuk', 'kasKeluar', 'cPerusahaan'));
+        return view('laporan.laporan-harian.print', compact('tglAwal' ,'awal', 'akhir', 'penjualan', 'pembelian', 'returPenjualan', 'returPembelian', 'hutang', 'piutang', 'kasMasuk', 'kasKeluar', 'cPerusahaan'))->with($data);
     }
 
 
 
      // LAPORAN PENJUALAN
-     public function indexLaporanPenjualan(Request $request)
-     {   
-         $data['tanggal'] = date('Y-m-d');
-         // return $kasMasuk;
-         $tanggalAwal = date('Y-m-d', mktime(0, 0, 0, date('m'), 1, date('Y')));
-         $tanggalAkhir = date('Y-m-d');
-         $now = date('Y-m-d');
- 
-         if ($request->has('tanggal_awal') && $request->tanggal_awal != $now && $request->has('tanggal_akhir') && $request->tanggal_akhir != "") {
-             $tanggalAwal = date('Y-m-d', strtotime($request->tanggal_awal));
-             $tanggalAkhir = date('Y-m-d', strtotime($request->tanggal_akhir));
-         } else {
-             $tanggalAwal = date('Y-m-d', strtotime($now));
-             $tanggalAkhir = date('Y-m-d', strtotime($now));
-         }
-
-         while (strtotime($tanggalAwal) <= strtotime($tanggalAkhir)) {
-            $tanggal = $tanggalAwal;
-            $tanggalAwal = date('Y-m-d', strtotime("+1day", strtotime($tanggalAwal)));
-
-            $detPenjualan= DetailPenjualan::where('t_detail_penjualan.tgl', 'Like', '%'.$tanggal.'%')
-                                            ->leftJoin('t_barang AS B', 'B.id', 't_detail_penjualan.id_barang')
-                                            ->select('t_detail_penjualan.*', 'B.nama AS nama_barang', 'B.kode')    
-                                            ->where('t_detail_penjualan.id_perusahaan', auth()->user()->id_perusahaan)
-                                            ->orderBy('id', 'desc')->get();
-
-            $harga_jual = DetailPenjualan::where('tgl', 'LIKE', '%'.$tanggal.'%')->where('id_perusahaan', auth()->user()->id_perusahaan)->sum('harga_jual');
-            $harga_beli = DetailPenjualan::where('tgl', 'LIKE', '%'.$tanggal.'%')->where('id_perusahaan', auth()->user()->id_perusahaan)->sum('harga_beli');
-            $qty = DetailPenjualan::where('tgl', 'LIKE', '%'.$tanggal.'%')->where('id_perusahaan', auth()->user()->id_perusahaan)->sum('qty');
-            $diskon = DetailPenjualan::where('tgl', 'LIKE', '%'.$tanggal.'%')->where('id_perusahaan', auth()->user()->id_perusahaan)->sum('diskon');
-
-            $omset = $harga_jual - $qty;
-            $keuntungan = (($harga_jual - $harga_beli) * $qty) - ( ($harga_jual - $harga_beli) * $qty) * $diskon/100;
-                                
-         }
-         $data['cPerusahaan'] = Perusahaan::select('*')->where('id', auth()->user()->id_perusahaan)->first();
- 
-         return view('laporan.laporan-penjualan.index', compact('tanggalAwal', 'tanggalAkhir', 'omset', 'keuntungan', 'now', 'detPenjualan'))->with($data);
-     }
-  
     public function penjualan($awal, $akhir)
     {
-        // return $awal;
-        $no = 1;
-        $data = array();
+    $data = array();
+        while (strtotime($awal) <= strtotime($akhir)) {
+            $tanggal = $awal;
+            $awal = date('Y-m-d', strtotime("+1day", strtotime($awal)));
 
-        
+            $detail = DetailPenjualan::where('t_detail_penjualan.tgl', 'Like', '%'.$tanggal.'%')
+                                        ->leftJoin('t_barang AS B', 'B.id', 't_detail_penjualan.id_barang')
+                                        ->select('t_detail_penjualan.*', 'B.nama AS nama_barang', 'B.kode')    
+                                        ->where('t_detail_penjualan.id_perusahaan', auth()->user()->id_perusahaan)
+                                        ->orderBy('id', 'desc')->get();
+            
+            foreach($detail as $item) {
+            $row = array();
+            $row['tgl'] = tanggal_indonesia($tanggal, false);
+            $row['kode'] = '<span class="badge" style="background-color:#2f3d57; color:white;">'. $item->kode .'</span>';
+            $row['nama_barang'] = $item->nama_barang ;
+            $row['qty'] = $item->qty;
+            $row['total_penjualan'] = 'Rp. '. format_uang($item->qty * $item->harga_jual);
+            $countUntung = (($item->harga_jual - $item->harga_beli) * $item->qty) - ( ($item->harga_jual - $item->harga_beli) * $item->qty) * $item->diskon/100;
 
-           
-        
-        
-            foreach($detPenjualan as $item) {
-                $row = array();
-                $row['tgl'] = tanggal_indonesia($tanggal, false);
-                $row['kode'] = '<span class="badge" style="background-color:#2f3d57; color:white;">'. $item->kode .'</span>';
-                $row['nama_barang'] = $item->nama_barang ;
-                $row['qty'] = $item->qty;
-                $row['total_penjualan'] = 'Rp. '. format_uang($item->qty * $item->harga_jual);
-                $row['keuntungan'] = 'Rp. '. format_uang(($item->harga_jual - $item->harga_beli) * $item->qty * $item->diskon);
-
-                $data[] = $row;
-            }        
-            // $row['sum'] = $sum; 
-        // }
-
+            $row['keuntungan'] = 'Rp. '. format_uang($countUntung); 
+            $data[] = $row; 
+        }
+        }
         return $data;
     }
- 
+
+    public function indexLaporanPenjualan(Request $request)
+    {   
+        $data['tanggal'] = date('Y-m-d');
+        // return $kasMasuk;
+        $tanggalAwal = date('Y-m-d', mktime(0, 0, 0, date('m'), 1, date('Y')));
+        $tanggalAkhir = date('Y-m-d');
+        $now = date('Y-m-d');
+
+        if ($request->has('tanggal_awal') && $request->tanggal_awal != $now && $request->has('tanggal_akhir') && $request->tanggal_akhir != "") {
+        $tanggalAwal = date('Y-m-d', strtotime($request->tanggal_awal));
+        $tanggalAkhir = date('Y-m-d', strtotime($request->tanggal_akhir));
+        } else {
+            $tanggalAwal = date('Y-m-d', strtotime($now));
+            $tanggalAkhir = date('Y-m-d', strtotime($now));
+        }
+
+        $detPenjualan = DetailPenjualan::leftJoin('t_barang AS B', 'B.id', 't_detail_penjualan.id_barang')
+                                        ->select('t_detail_penjualan.*', 'B.nama AS nama_barang', 'B.kode')
+                                        ->whereBetween('t_detail_penjualan.tgl', [$tanggalAwal, $tanggalAkhir])
+                                        ->where('t_detail_penjualan.id_perusahaan', auth()->user()->id_perusahaan)
+                                        ->orderBy('id', 'asc')->get();
+        $totalU = 0;
+        $totalO = 0;
+        foreach($detPenjualan as $item) {
+            if($item->diskon != 0) {
+                $countUntung = (($item->harga_jual - $item->harga_beli) * $item->qty) - ( ($item->harga_jual - $item->harga_beli) * $item->qty) * $item->diskon/100;
+                $totalU += $countUntung;
+            } else {
+                $countUntung = ($item->harga_jual - $item->harga_beli) * $item->qty;
+                $totalU += $countUntung;
+            }
+            $countOmset = $item->harga_jual * $item->qty;
+            $totalO += $countOmset;
+        }       
+
+        $data['cPerusahaan'] = Perusahaan::select('*')->where('id', auth()->user()->id_perusahaan)->first();
+        return view('laporan.laporan-penjualan.index', compact('tanggalAwal', 'tanggalAkhir', 'now', 'detPenjualan', 'totalU', 'totalO'))->with($data);
+    }
+  
+
     public function dataLaporanPenjualan($awal, $akhir) 
     {
         $data = $this->penjualan($awal, $akhir);
+        // return view('laporan.laporan-penjualan.index', compact('data'));
         return datatables()
                 ->of($data)
                 ->addIndexColumn()
                 ->rawColumns(['kode'])
                 ->make(true);
     }
+
  
     public function DownloadPenjualan($awal, $akhir) 
     {
-        $penjualan = array();
+        $detPenjualan = DetailPenjualan::leftJoin('t_barang AS B', 'B.id', 't_detail_penjualan.id_barang')
+                                        ->select('t_detail_penjualan.*', 'B.nama AS nama_barang', 'B.kode')
+                                        ->whereBetween('t_detail_penjualan.tgl', [$awal, $akhir])
+                                        ->where('t_detail_penjualan.id_perusahaan', auth()->user()->id_perusahaan)
+                                        ->orderBy('id', 'asc')->get();
+        $totalU = 0;
+        $totalO = 0;
+        $no = 0;
+
+        foreach($detPenjualan as $item) {
+        if($item->diskon != 0) {
+            $countUntung = (($item->harga_jual - $item->harga_beli) * $item->qty) - ( ($item->harga_jual - $item->harga_beli) * $item->qty) * $item->diskon/100;
+            $totalU += $countUntung;
+        } else {
+            $countUntung = ($item->harga_jual - $item->harga_beli) * $item->qty;
+            $totalU += $countUntung;
+        }
+            $countOmset = $item->harga_jual * $item->qty;
+            $totalO += $countOmset;
+        }   
+
         $tglAwal = $awal;
 
-        while (strtotime($awal) <= strtotime($akhir)) {
-            $tanggal = $awal;
-            $awal = date('Y-m-d', strtotime("+1day", strtotime($awal)));
+        // while (strtotime($awal) <= strtotime($akhir)) {
+        //     $tanggal = $awal;
+        //     $awal = date('Y-m-d', strtotime("+1day", strtotime($awal)));
 
-            $detPenjualan= DetailPenjualan::where('t_detail_penjualan.tgl', 'Like', '%'.$tanggal.'%')
-                                        ->leftJoin('t_barang AS B', 'B.id', 't_detail_penjualan.id_barang')
-                                        ->select('t_detail_penjualan.*', 'B.nama AS nama_barang', 'B.kode')    
-                                        ->where('t_detail_penjualan.id_perusahaan', auth()->user()->id_perusahaan)
-                                        ->orderBy('id', 'desc')->get();
+        //     $detPenjualan= DetailPenjualan::where('t_detail_penjualan.tgl', 'Like', '%'.$tanggal.'%')
+        //                                 ->leftJoin('t_barang AS B', 'B.id', 't_detail_penjualan.id_barang')
+        //                                 ->select('t_detail_penjualan.*', 'B.nama AS nama_barang', 'B.kode')    
+        //                                 ->where('t_detail_penjualan.id_perusahaan', auth()->user()->id_perusahaan)
+        //                                 ->orderBy('id', 'desc')->get();
     
-            foreach($detPenjualan as $item) {
-                $row = array();
-                $row['tgl'] = tanggal_indonesia($tanggal, false);
-                $row['kode'] = $item->kode;
-                $row['nama_barang'] = $item->nama_barang ;
-                $row['qty'] = $item->qty;
-                $row['total_penjualan'] = 'Rp. '. format_uang($item->qty * $item->harga_jual);
-                $row['keuntungan'] = 'Rp. '. format_uang(($item->harga_jual - $item->harga_beli) * $item->qty);
+        //     foreach($detPenjualan as $item) {
+        //         $row = array();
+        //         $row['tgl'] = tanggal_indonesia($tanggal, false);
+        //         $row['kode'] = $item->kode;
+        //         $row['nama_barang'] = $item->nama_barang ;
+        //         $row['qty'] = $item->qty;
+        //         $row['total_penjualan'] = 'Rp. '. format_uang($item->qty * $item->harga_jual);
+        //         $row['keuntungan'] = 'Rp. '. format_uang(($item->harga_jual - $item->harga_beli) * $item->qty);
 
-                $penjualan[] = $row;
-            }         
-        }
+        //         $penjualan[] = $row;
+        //     }         
+        // }
         $cPerusahaan = Perusahaan::select('*')->where('id', auth()->user()->id_perusahaan)->first();
 
 
         // return $data;
         // return view('laporan.laporan-penjualan.pdf', compact('tglAwal' ,'awal', 'akhir', 'penjualan', 'cPerusahaan'));
-        $pdf = PDF::loadView('laporan.laporan-penjualan.pdf', compact('tglAwal', 'awal', 'akhir', 'penjualan', 'cPerusahaan'));
+        $pdf = PDF::loadView('laporan.laporan-penjualan.pdf', compact('no', 'totalO', 'totalU','tglAwal', 'awal', 'akhir', 'cPerusahaan', 'detPenjualan'));
         $pdf->setPaper('a4', 'potrait');
         return $pdf->stream('Laporan Penjualan-'. $cPerusahaan->nama .' '. date('Y-m-d-h.i.s') );
     }
 
     public function PrintPDFPenjualan($awal, $akhir) 
     {
-        $penjualan = array();
+        $tglAwal = $awal;
+        $detPenjualan = DetailPenjualan::leftJoin('t_barang AS B', 'B.id', 't_detail_penjualan.id_barang')
+                                ->select('t_detail_penjualan.*', 'B.nama AS nama_barang', 'B.kode')
+                                ->whereBetween('t_detail_penjualan.tgl', [$awal, $akhir])
+                                ->where('t_detail_penjualan.id_perusahaan', auth()->user()->id_perusahaan)
+                                ->orderBy('id', 'asc')->get();
+        $data['no'] = 0;
+        $data['totalU'] = 0;
+        $data['totalO'] = 0;
+        foreach($detPenjualan as $item) {
+            if($item->diskon != 0) {
+                $countUntung = (($item->harga_jual - $item->harga_beli) * $item->qty) - ( ($item->harga_jual - $item->harga_beli) * $item->qty) * $item->diskon/100;
+                $data['totalU'] += $countUntung;
+            } else {
+                $countUntung = ($item->harga_jual - $item->harga_beli) * $item->qty;
+                $data['totalU'] += $countUntung;
+            }
+            $countOmset = $item->harga_jual * $item->qty;
+            $data['totalO'] += $countOmset;
+        }   
+
         $tglAwal = $awal;
 
-        while (strtotime($awal) <= strtotime($akhir)) {
-            $tanggal = $awal;
-            $awal = date('Y-m-d', strtotime("+1day", strtotime($awal)));
+        // while (strtotime($awal) <= strtotime($akhir)) {
+        //     $tanggal = $awal;
+        //     $awal = date('Y-m-d', strtotime("+1day", strtotime($awal)));
 
-            $detPenjualan= DetailPenjualan::where('t_detail_penjualan.tgl', 'Like', '%'.$tanggal.'%')
-                                        ->leftJoin('t_barang AS B', 'B.id', 't_detail_penjualan.id_barang')
-                                        ->select('t_detail_penjualan.*', 'B.nama AS nama_barang', 'B.kode')    
-                                        ->where('t_detail_penjualan.id_perusahaan', auth()->user()->id_perusahaan)
-                                        ->orderBy('id', 'desc')->get();
+        //     $detPenjualan= DetailPenjualan::where('t_detail_penjualan.tgl', 'Like', '%'.$tanggal.'%')
+        //                                 ->leftJoin('t_barang AS B', 'B.id', 't_detail_penjualan.id_barang')
+        //                                 ->select('t_detail_penjualan.*', 'B.nama AS nama_barang', 'B.kode')    
+        //                                 ->where('t_detail_penjualan.id_perusahaan', auth()->user()->id_perusahaan)
+        //                                 ->orderBy('id', 'desc')->get();
     
-            foreach($detPenjualan as $item) {
-                $row = array();
-                $row['tgl'] = tanggal_indonesia($tanggal, false);
-                $row['kode'] = $item->kode;
-                $row['nama_barang'] = $item->nama_barang ;
-                $row['qty'] = $item->qty;
-                $row['total_penjualan'] = 'Rp. '. format_uang($item->qty * $item->harga_jual);
-                $row['keuntungan'] = 'Rp. '. format_uang(($item->harga_jual - $item->harga_beli) * $item->qty);
+        //     foreach($detPenjualan as $item) {
+        //         $row = array();
+        //         $row['tgl'] = tanggal_indonesia($tanggal, false);
+        //         $row['kode'] = $item->kode;
+        //         $row['nama_barang'] = $item->nama_barang ;
+        //         $row['qty'] = $item->qty;
+        //         $row['total_penjualan'] = 'Rp. '. format_uang($item->qty * $item->harga_jual);
+        //         $row['keuntungan'] = 'Rp. '. format_uang(($item->harga_jual - $item->harga_beli) * $item->qty);
 
-                $penjualan[] = $row;
-            }         
-        }
+        //         $penjualan[] = $row;
+        //     }         
+        // }
 
         $cPerusahaan = Perusahaan::select('*')->where('id', auth()->user()->id_perusahaan)->first();
-        return view('laporan.laporan-penjualan.print', compact('tglAwal' ,'awal', 'akhir', 'penjualan', 'cPerusahaan'));
+        return view('laporan.laporan-penjualan.print', compact('detPenjualan' ,'tglAwal' ,'awal', 'akhir', 'cPerusahaan'))->with($data);
     }
  
 
 
     // LAPORAN PEMBELIAN
     public function indexLaporanPembelian(Request $request)
-     {   
-       
-
+    {   
          $data['tanggal'] = date('Y-m-d');
          // return $kasMasuk;
          $tanggalAwal = date('Y-m-d', mktime(0, 0, 0, date('m'), 1, date('Y')));
@@ -580,18 +594,32 @@ class LaporanController extends Controller
              $tanggalAwal = date('Y-m-d', strtotime($now));
              $tanggalAkhir = date('Y-m-d', strtotime($now));
          }
- 
+
+            $detPembelian= DetailPembelian::whereBetween('t_detail_pembelian.tgl', [$tanggalAwal, $tanggalAkhir])
+                                        ->leftJoin('t_barang AS B', 'B.id', 't_detail_pembelian.id_barang')
+                                        ->select('t_detail_pembelian.*', 'B.nama AS nama_barang', 'B.kode')    
+                                        ->where('t_detail_pembelian.id_perusahaan', auth()->user()->id_perusahaan)
+                                        ->orderBy('id', 'asc')->get(); 
+        $totalBeli = 0;
+        $no = 0;
+
+        foreach($detPembelian as $item) {
+            if($item->diskon != 0) {
+                $countOmset = ($item->harga_beli * $item->qty) - (($item->harga_beli * $item->qty) * $item->diskon/100);
+                $totalBeli += $countOmset;
+            } else {
+                $countOmset = ($item->harga_beli * $item->qty);
+                $totalBeli += $countOmset;
+            }
+        }   
+            
          $data['cPerusahaan'] = Perusahaan::select('*')->where('id', auth()->user()->id_perusahaan)->first();
  
-         return view('laporan.laporan-pembelian.index', compact('tanggalAwal', 'tanggalAkhir', 'now'))->with($data);
-     }
+         return view('laporan.laporan-pembelian.index', compact('tanggalAwal', 'tanggalAkhir', 'now', 'totalBeli', 'detPembelian'))->with($data);
+    }
 
     public function pembelian($awal, $akhir)
     {
-        $no = 1;
-        $data = array();
-
-
         while (strtotime($awal) <= strtotime($akhir)) {
             $tanggal = $awal;
             $awal = date('Y-m-d', strtotime("+1day", strtotime($awal)));
@@ -601,14 +629,19 @@ class LaporanController extends Controller
                                         ->select('t_detail_pembelian.*', 'B.nama AS nama_barang', 'B.kode')    
                                         ->where('t_detail_pembelian.id_perusahaan', auth()->user()->id_perusahaan)
                                         ->orderBy('id', 'desc')->get();
-    
+
             foreach($detPembelian as $item) {
                 $row = array();
                 $row['tgl'] = tanggal_indonesia($item->tgl, false) ;
                 $row['kode'] = '<span class="badge" style="background-color:#2f3d57; color:white;">'. $item->kode .'</span>';
                 $row['nama_barang'] = $item->nama_barang ;
                 $row['qty'] = $item->qty;
-                $row['total_pembelian'] = 'Rp. '. format_uang($item->qty * $item->harga_beli);
+                if($item->diskon != 0) {
+                    $totalBeli= 'Rp.' . format_uang($item->qty * $item->harga_beli - (($item->qty * $item->harga_beli) * $item->diskon/100));
+                } else {
+                    $totalBeli= 'Rp. '. format_uang($item->qty * $item->harga_beli);
+                }
+                $row['total_pembelian'] = $totalBeli;
 
                 $data[] = $row;
             }         
@@ -629,69 +662,58 @@ class LaporanController extends Controller
 
     public function DownloadPembelian($awal, $akhir) 
     {
-        $pembelian = array();
-        $tglAwal = $awal;
+        $detPembelian = DetailPembelian::leftJoin('t_barang AS B', 'B.id', 't_detail_pembelian.id_barang')
+                                                ->select('t_detail_pembelian.*', 'B.nama AS nama_barang', 'B.kode')
+                                                ->whereBetween('t_detail_pembelian.tgl', [$awal, $akhir])
+                                                ->where('t_detail_pembelian.id_perusahaan', auth()->user()->id_perusahaan)
+                                                ->orderBy('id', 'asc')->get();
+        $totalBeli = 0;
+        $no = 0;
 
-        while (strtotime($awal) <= strtotime($akhir)) {
-            $tanggal = $awal;
-            $awal = date('Y-m-d', strtotime("+1day", strtotime($awal)));
+        foreach($detPembelian as $item) {
+            if($item->diskon != 0) {
+                $countOmset = ($item->harga_beli * $item->qty) - (($item->harga_beli * $item->qty) * $item->diskon/100);
+                $totalBeli += $countOmset;
+            } else {
+                $countOmset = ($item->harga_beli * $item->qty);
+                $totalBeli += $countOmset;
+            }
+        }   
 
-            $detPembelian = DetailPembelian::where('t_detail_pembelian.tgl', 'Like', '%'.$tanggal.'%')
-                                        ->leftJoin('t_barang AS B', 'B.id', 't_detail_pembelian.id_barang')
-                                        ->select('t_detail_pembelian.*', 'B.nama AS nama_barang', 'B.kode')    
-                                        ->where('t_detail_pembelian.id_perusahaan', auth()->user()->id_perusahaan)
-                                        ->orderBy('id', 'desc')->get();
-    
-            foreach($detPembelian as $item) {
-                $row = array();
-                $row['tgl'] = tanggal_indonesia($tanggal, false);
-                $row['kode'] = $item->kode;
-                $row['nama_barang'] = $item->nama_barang ;
-                $row['qty'] = $item->qty;
-                $row['total_pembelian'] = 'Rp. '. format_uang($item->qty * $item->harga_beli);
-
-                $pembelian[] = $row;
-            }         
-        }
         $cPerusahaan = Perusahaan::select('*')->where('id', auth()->user()->id_perusahaan)->first();
 
+        $tglAwal = $awal;
 
         // return $data;
-        // return view('laporan.laporan-pembelian.pdf', compact('tglAwal' ,'awal', 'akhir', 'pembelian', 'cPerusahaan'));
-        $pdf = PDF::loadView('laporan.laporan-pembelian.pdf', compact('tglAwal', 'awal', 'akhir', 'pembelian', 'cPerusahaan'));
+        // return view('laporan.laporan-pembelian.pdf', compact('tglAwal' ,'awal', 'akhir', 'cPerusahaan'))->with($data);
+        $pdf = PDF::loadView('laporan.laporan-pembelian.pdf', compact('totalBeli' ,'no' ,'tglAwal', 'awal', 'akhir', 'cPerusahaan', 'detPembelian'));
         $pdf->setPaper('a4', 'potrait');
         return $pdf->stream('Laporan Pembelian-'. $cPerusahaan->nama .' '. date('Y-m-d-h.i.s') );
     }
 
     public function PrintPDFPembelian($awal, $akhir) 
     {
-        $pembelian = array();
+        $data['detPembelian'] = DetailPembelian::leftJoin('t_barang AS B', 'B.id', 't_detail_pembelian.id_barang')
+                                                ->select('t_detail_pembelian.*', 'B.nama AS nama_barang', 'B.kode')
+                                                ->whereBetween('t_detail_pembelian.tgl', [$awal, $akhir])
+                                                ->where('t_detail_pembelian.id_perusahaan', auth()->user()->id_perusahaan)
+                                                ->orderBy('id', 'asc')->get();
+        $data['totalBeli'] = 0;
+        $data['no'] = 0;
+
+        foreach($data['detPembelian'] as $item) {
+            if($item->diskon != 0) {
+                $countOmset = ($item->harga_beli * $item->qty) - (($item->harga_beli * $item->qty) * $item->diskon/100);
+                $data['totalBeli'] += $countOmset;
+            } else {
+                $countOmset = ($item->harga_beli * $item->qty);
+                $data['totalBeli'] += $countOmset;
+            }
+        }   
         $tglAwal = $awal;
 
-        while (strtotime($awal) <= strtotime($akhir)) {
-            $tanggal = $awal;
-            $awal = date('Y-m-d', strtotime("+1day", strtotime($awal)));
-
-            $detPembelian = DetailPembelian::where('t_detail_pembelian.tgl', 'Like', '%'.$tanggal.'%')
-                                        ->leftJoin('t_barang AS B', 'B.id', 't_detail_pembelian.id_barang')
-                                        ->select('t_detail_pembelian.*', 'B.nama AS nama_barang', 'B.kode')    
-                                        ->where('t_detail_pembelian.id_perusahaan', auth()->user()->id_perusahaan)
-                                        ->orderBy('id', 'desc')->get();
-    
-            foreach($detPembelian as $item) {
-                $row = array();
-                $row['tgl'] = tanggal_indonesia($tanggal, false);
-                $row['kode'] = $item->kode;
-                $row['nama_barang'] = $item->nama_barang ;
-                $row['qty'] = $item->qty;
-                $row['total_pembelian'] = 'Rp. '. format_uang($item->qty * $item->harga_beli);
-
-                $pembelian[] = $row;
-            }         
-        }
-
         $cPerusahaan = Perusahaan::select('*')->where('id', auth()->user()->id_perusahaan)->first();
-        return view('laporan.laporan-pembelian.print', compact('tglAwal' ,'awal', 'akhir', 'pembelian', 'cPerusahaan'));
+        return view('laporan.laporan-pembelian.print', compact('tglAwal' ,'awal', 'akhir', 'cPerusahaan'))->with($data);
     }
 
 
@@ -808,9 +830,29 @@ class LaporanController extends Controller
             $tanggalAkhir = date('Y-m-d', strtotime($now));
         }
 
+        $kasMasuk= KasMasuk::whereBetween('tgl', [$tanggalAwal, $tanggalAkhir])
+                            ->leftJoin('t_users AS U', 'U.id', 't_kas_masuk.id_user')
+                            ->select('t_kas_masuk.*', 'U.nama AS nama_user')  
+                            ->where('t_kas_masuk.id_perusahaan', auth()->user()->id_perusahaan)
+                            ->orderBy('id', 'asc')->get();
+        $totalKasMasuk = 0;
+        foreach($kasMasuk as $item) {
+            $totalKasMasuk += $item->jumlah;
+        }   
+
+        $kasKeluar= KasKeluar::whereBetween('tgl', [$tanggalAwal, $tanggalAkhir])
+                            ->leftJoin('t_users AS U', 'U.id', 't_kas_keluar.id_user')
+                            ->select('t_kas_keluar.*', 'U.nama AS nama_user')    
+                            ->where('t_kas_keluar.id_perusahaan', auth()->user()->id_perusahaan)
+                            ->orderBy('id', 'asc')->get();
+        $totalKasKeluar = 0;
+        foreach($kasKeluar as $item) {
+            $totalKasKeluar += $item->jumlah;
+        }    
+
         $data['cPerusahaan'] = Perusahaan::select('*')->where('id', auth()->user()->id_perusahaan)->first();
    
-       return view('laporan.laporan-kas.index', compact('tanggalAwal', 'tanggalAkhir', 'now'))->with($data);
+       return view('laporan.laporan-kas.index', compact('tanggalAwal', 'tanggalAkhir', 'now', 'kasMasuk', 'kasKeluar', 'totalKasMasuk', 'totalKasKeluar'))->with($data);
     }
 
     public function kasMasuk($awal, $akhir)
@@ -899,27 +941,65 @@ class LaporanController extends Controller
 
     public function DownloadKas($awal, $akhir) 
     {
-        $kas_masuk = $this->kasMasuk($awal, $akhir);
-        $kas_keluar = $this->kasKeluar($awal, $akhir);
+        // $kas_masuk = $this->kasMasuk($awal, $akhir);
+        // $kas_keluar = $this->kasKeluar($awal, $akhir);
         $cPerusahaan = Perusahaan::select('*')->where('id', auth()->user()->id_perusahaan)->first();
         $tglAwal = $awal;
 
+        $kasMasuk= KasMasuk::whereBetween('tgl', [$awal, $akhir])
+                            ->leftJoin('t_users AS U', 'U.id', 't_kas_masuk.id_user')
+                            ->select('t_kas_masuk.*', 'U.nama AS nama_user')  
+                            ->where('t_kas_masuk.id_perusahaan', auth()->user()->id_perusahaan)
+                            ->orderBy('id', 'asc')->get();
+        $totalKasMasuk = 0;
+        foreach($kasMasuk as $item) {
+            $totalKasMasuk += $item->jumlah;
+        }   
+
+        $kasKeluar= KasKeluar::whereBetween('tgl', [$awal, $akhir])
+                            ->leftJoin('t_users AS U', 'U.id', 't_kas_keluar.id_user')
+                            ->select('t_kas_keluar.*', 'U.nama AS nama_user')    
+                            ->where('t_kas_keluar.id_perusahaan', auth()->user()->id_perusahaan)
+                            ->orderBy('id', 'asc')->get();
+        $totalKasKeluar = 0;
+        foreach($kasKeluar as $item) {
+            $totalKasKeluar += $item->jumlah;
+        } 
 
         // return $data;
-        // return view('laporan.laporan-kas.pdf', compact('tglAwal' ,'awal', 'akhir', 'kas_masuk', 'kas_keluar', 'cPerusahaan'));
-        $pdf = PDF::loadView('laporan.laporan-kas.pdf', compact('tglAwal', 'awal', 'akhir', 'kas_masuk', 'kas_keluar', 'cPerusahaan'));
+        // return view('laporan.laporan-kas.pdf', compact('totalKasMasuk', 'totalKasKeluar', 'tglAwal' ,'awal', 'akhir', 'kasMasuk', 'kasKeluar', 'cPerusahaan'));
+        $pdf = PDF::loadView('laporan.laporan-kas.pdf', compact('totalKasMasuk', 'totalKasKeluar','tglAwal', 'awal', 'akhir', 'kasMasuk', 'kasKeluar', 'cPerusahaan'));
         $pdf->setPaper('a4', 'potrait');
         return $pdf->stream('Laporan KAS-'. $cPerusahaan->nama .' '. date('Y-m-d h.i.s') );
     }
 
     public function PrintPDFKas($awal, $akhir) 
     {
-        $kasMasuk = $this->kasMasuk($awal, $akhir);
-        $kasKeluar = $this->kasKeluar($awal, $akhir);
+        // $kasMasuk = $this->kasMasuk($awal, $akhir);
+        // $kasKeluar = $this->kasKeluar($awal, $akhir);
+        $kasMasuk= KasMasuk::whereBetween('tgl', [$awal, $akhir])
+                            ->leftJoin('t_users AS U', 'U.id', 't_kas_masuk.id_user')
+                            ->select('t_kas_masuk.*', 'U.nama AS nama_user')  
+                            ->where('t_kas_masuk.id_perusahaan', auth()->user()->id_perusahaan)
+                            ->orderBy('id', 'asc')->get();
+        $totalKasMasuk = 0;
+        foreach($kasMasuk as $item) {
+            $totalKasMasuk += $item->jumlah;
+        }   
+
+        $kasKeluar= KasKeluar::whereBetween('tgl', [$awal, $akhir])
+                            ->leftJoin('t_users AS U', 'U.id', 't_kas_keluar.id_user')
+                            ->select('t_kas_keluar.*', 'U.nama AS nama_user')    
+                            ->where('t_kas_keluar.id_perusahaan', auth()->user()->id_perusahaan)
+                            ->orderBy('id', 'asc')->get();
+        $totalKasKeluar = 0;
+        foreach($kasKeluar as $item) {
+            $totalKasKeluar += $item->jumlah;
+        } 
         $tglAwal = $awal;
         $cPerusahaan = Perusahaan::select('*')->where('id', auth()->user()->id_perusahaan)->first();
 
-        return view('laporan.laporan-kas.print', compact('tglAwal' ,'awal', 'akhir', 'kasMasuk','kasKeluar', 'cPerusahaan'));
+        return view('laporan.laporan-kas.print', compact('tglAwal' ,'awal', 'akhir', 'totalKasMasuk', 'totalKasKeluar', 'kasMasuk','kasKeluar', 'cPerusahaan'));
     }
 
 
@@ -1292,9 +1372,21 @@ class LaporanController extends Controller
             $tanggalAkhir = date('Y-m-d', strtotime($now));
         }
 
+        $hutang= Hutang::whereBetween('t_data_hutang.tgl', [$tanggalAwal, $tanggalAkhir])
+                        ->leftJoin('t_transaksi_pembelian AS TP', 'TP.id', 't_data_hutang.id_pembelian')
+                        ->leftJoin('t_supplier AS S', 'S.id', 'TP.id_supplier')
+                        ->select('t_data_hutang.*', 'TP.id as kode_invoice', 'TP.sisa', 'S.nama AS nama_supplier')  
+                        ->where('t_data_hutang.id_perusahaan', auth()->user()->id_perusahaan)
+                        ->orderBy('id', 'desc')->get();
+
+        $totalHutang = 0;
+        foreach($hutang as $item) {
+            $totalHutang += $item->total_bayar;
+        }    
+
         $data['cPerusahaan'] = Perusahaan::select('*')->where('id', auth()->user()->id_perusahaan)->first();
    
-       return view('laporan.laporan-hutang.index', compact('tanggalAwal', 'tanggalAkhir', 'now'))->with($data);
+       return view('laporan.laporan-hutang.index', compact('totalHutang','tanggalAwal', 'tanggalAkhir', 'now', 'hutang'))->with($data);
     }
 
     public function hutang($awal, $akhir)
@@ -1327,7 +1419,6 @@ class LaporanController extends Controller
                     $row['status'] = '<span class="badge badge-danger" color:white;">Belum Lunas</span>';
                 }
 
-
                 $data[] = $row;
             }         
 
@@ -1349,10 +1440,7 @@ class LaporanController extends Controller
     public function indexLaporanPiutang(Request $request)
     {   
         $data['tanggal'] = date('Y-m-d');
-        // $perusahaan = Perusahaan::select('id')->get();
 
-
-        // return $kasMasuk;
         $tanggalAwal = date('Y-m-d', mktime(0, 0, 0, date('m'), 1, date('Y')));
         $tanggalAkhir = date('Y-m-d');
         $now = date('Y-m-d');
@@ -1365,9 +1453,21 @@ class LaporanController extends Controller
             $tanggalAkhir = date('Y-m-d', strtotime($now));
         }
 
+        $piutang= Piutang::whereBetween('t_data_piutang.tgl', [$tanggalAwal, $tanggalAkhir])
+                        ->leftJoin('t_transaksi_penjualan AS TP', 'TP.id', 't_data_piutang.id_penjualan')
+                        ->leftJoin('t_pelanggan AS P', 'P.id', 'TP.id_pelanggan')
+                        ->select('t_data_piutang.*', 'TP.id as kode_invoice', 'TP.sisa', 'P.nama AS nama_pelanggan')  
+                        ->where('t_data_piutang.id_perusahaan', auth()->user()->id_perusahaan)
+                        ->orderBy('id', 'desc')->get();
+                           
+        $totalPiutang = 0;
+        foreach($piutang as $item) {
+            $totalPiutang += $item->total_bayar;
+        }    
+
         $data['cPerusahaan'] = Perusahaan::select('*')->where('id', auth()->user()->id_perusahaan)->first();
    
-       return view('laporan.laporan-piutang.index', compact('tanggalAwal', 'tanggalAkhir', 'now'))->with($data);
+       return view('laporan.laporan-piutang.index', compact('tanggalAwal', 'tanggalAkhir', 'now', 'piutang', 'totalPiutang'))->with($data);
     }
 
     public function piutang($awal, $akhir)
@@ -1421,46 +1521,55 @@ class LaporanController extends Controller
     {
         $no = 1;
 
-        // $hutang = $this->hutang($awal, $akhir);
-        // $piutang = $this->piutang($awal, $akhir);
         $tglAwal = $awal;
-        $hutang = array();
-
-        while (strtotime($awal) <= strtotime($akhir)) {
-            $tanggal = $awal;
-            $awal = date('Y-m-d', strtotime("+1day", strtotime($awal)));
-
-            $h = Hutang::where('t_data_hutang.tgl', 'Like', '%'.$tanggal.'%')
+        $hutang= Hutang::whereBetween('t_data_hutang.tgl', [$awal, $akhir])
                         ->leftJoin('t_transaksi_pembelian AS TP', 'TP.id', 't_data_hutang.id_pembelian')
                         ->leftJoin('t_supplier AS S', 'S.id', 'TP.id_supplier')
                         ->select('t_data_hutang.*', 'TP.id as kode_invoice', 'TP.sisa', 'S.nama AS nama_supplier')  
                         ->where('t_data_hutang.id_perusahaan', auth()->user()->id_perusahaan)
                         ->orderBy('id', 'desc')->get();
+        $totalHutang = 0;
+        foreach($hutang as $item) {
+            $totalHutang += $item->total_bayar;
+        } 
+
+        // $hutang = array();
+
+        // while (strtotime($awal) <= strtotime($akhir)) {
+        //     $tanggal = $awal;
+        //     $awal = date('Y-m-d', strtotime("+1day", strtotime($awal)));
+
+        //     $h = Hutang::where('t_data_hutang.tgl', 'Like', '%'.$tanggal.'%')
+        //                 ->leftJoin('t_transaksi_pembelian AS TP', 'TP.id', 't_data_hutang.id_pembelian')
+        //                 ->leftJoin('t_supplier AS S', 'S.id', 'TP.id_supplier')
+        //                 ->select('t_data_hutang.*', 'TP.id as kode_invoice', 'TP.sisa', 'S.nama AS nama_supplier')  
+        //                 ->where('t_data_hutang.id_perusahaan', auth()->user()->id_perusahaan)
+        //                 ->orderBy('id', 'desc')->get();
             
-            foreach($h as $item) {
-                $row = array();
-                $row['DT_RowIndex'] = $no++;
-                $row['no_pembelian'] = $item->kode_invoice;
-                $row['tgl'] = tanggal_indonesia($tanggal, false);
-                $row['nama_supplier'] = $item->nama_supplier ;
-                $row['total_bayar'] = 'Rp. '. format_uang($item->total_bayar );
-                if ($item->sisa == 0) {
-                    $row['status'] = 'Lunas';
-                } else {
-                    $row['status'] = 'Belum Lunas';
-                }
+        //     foreach($h as $item) {
+        //         $row = array();
+        //         $row['DT_RowIndex'] = $no++;
+        //         $row['no_pembelian'] = $item->kode_invoice;
+        //         $row['tgl'] = tanggal_indonesia($tanggal, false);
+        //         $row['nama_supplier'] = $item->nama_supplier ;
+        //         $row['total_bayar'] = 'Rp. '. format_uang($item->total_bayar );
+        //         if ($item->sisa == 0) {
+        //             $row['status'] = 'Lunas';
+        //         } else {
+        //             $row['status'] = 'Belum Lunas';
+        //         }
 
 
-                $hutang[] = $row;
-            }         
+        //         $hutang[] = $row;
+        //     }         
 
-        }
+        // }
     
         $cPerusahaan = Perusahaan::select('*')->where('id', auth()->user()->id_perusahaan)->first();
 
         // return $data;
-        // return view('laporan.laporan-hutang.pdf', compact('tglAwal' ,'awal', 'akhir', 'hutang', 'cPerusahaan'));
-        $pdf = PDF::loadView('laporan.laporan-hutang.pdf', compact('tglAwal', 'awal', 'akhir', 'hutang', 'cPerusahaan'));
+        // return view('laporan.laporan-hutang.pdf', compact('tglAwal', 'totalHutang' ,'awal', 'akhir', 'hutang', 'cPerusahaan'));
+        $pdf = PDF::loadView('laporan.laporan-hutang.pdf', compact('tglAwal', 'totalHutang', 'awal', 'akhir', 'hutang', 'cPerusahaan'));
         $pdf->setPaper('a4', 'potrait');
         return $pdf->stream('Laporan Hutang-'. $cPerusahaan->nama .' '. date('Y-m-d h.i.s'));
     }
@@ -1470,42 +1579,52 @@ class LaporanController extends Controller
         $no = 1;
         $tglAwal = $awal;
 
-        $piutang = array();
+        // $piutang = array();
 
-        while (strtotime($awal) <= strtotime($akhir)) {
-            $tanggal = $awal;
-            $awal = date('Y-m-d', strtotime("+1day", strtotime($awal)));
+        $piutang= Piutang::whereBetween('t_data_piutang.tgl', [$awal, $akhir])
+                        ->leftJoin('t_transaksi_penjualan AS TP', 'TP.id', 't_data_piutang.id_penjualan')
+                        ->leftJoin('t_pelanggan AS P', 'P.id', 'TP.id_pelanggan')
+                        ->select('t_data_piutang.*', 'TP.id as kode_invoice', 'TP.sisa', 'P.nama AS nama_pelanggan')  
+                        ->where('t_data_piutang.id_perusahaan', auth()->user()->id_perusahaan)
+                        ->orderBy('id', 'desc')->get();                       
+        $totalPiutang = 0;
+        foreach($piutang as $item) {
+            $totalPiutang += $item->total_bayar;
+        } 
+        // while (strtotime($awal) <= strtotime($akhir)) {
+        //     $tanggal = $awal;
+        //     $awal = date('Y-m-d', strtotime("+1day", strtotime($awal)));
 
-            $p = Piutang::where('t_data_piutang.tgl', $tanggal)
-                ->leftJoin('t_transaksi_penjualan AS TP', 'TP.id', 't_data_piutang.id_penjualan')
-                ->leftJoin('t_pelanggan AS P', 'P.id', 'TP.id_pelanggan')
-                ->select('t_data_piutang.*', 'TP.id as kode_invoice', 'TP.sisa', 'P.nama AS nama_pelanggan')  
-                ->where('t_data_piutang.id_perusahaan', auth()->user()->id_perusahaan)
-                ->orderBy('id', 'desc')->get();
+        //     $p = Piutang::where('t_data_piutang.tgl', $tanggal)
+        //         ->leftJoin('t_transaksi_penjualan AS TP', 'TP.id', 't_data_piutang.id_penjualan')
+        //         ->leftJoin('t_pelanggan AS P', 'P.id', 'TP.id_pelanggan')
+        //         ->select('t_data_piutang.*', 'TP.id as kode_invoice', 'TP.sisa', 'P.nama AS nama_pelanggan')  
+        //         ->where('t_data_piutang.id_perusahaan', auth()->user()->id_perusahaan)
+        //         ->orderBy('id', 'desc')->get();
             
-            foreach($p as $item) {
-                $row = array();
-                $row['DT_RowIndex'] = $no++;
-                $row['no_penjualan'] = $item->kode_invoice ;
-                $row['tgl'] = tanggal_indonesia($tanggal, false);
-                $row['nama_pelanggan'] = $item->nama_pelanggan ;
-                $row['total_bayar'] = 'Rp. '. format_uang($item->total_bayar );
-                if ($item->sisa == 0) {
-                    $row['status'] = 'Lunas';
-                } else {
-                    $row['status'] = 'Belum Lunas';
-                }
+        //     foreach($p as $item) {
+        //         $row = array();
+        //         $row['DT_RowIndex'] = $no++;
+        //         $row['no_penjualan'] = $item->kode_invoice ;
+        //         $row['tgl'] = tanggal_indonesia($tanggal, false);
+        //         $row['nama_pelanggan'] = $item->nama_pelanggan ;
+        //         $row['total_bayar'] = 'Rp. '. format_uang($item->total_bayar );
+        //         if ($item->sisa == 0) {
+        //             $row['status'] = 'Lunas';
+        //         } else {
+        //             $row['status'] = 'Belum Lunas';
+        //         }
 
-                $piutang[] = $row;
-            }         
+        //         $piutang[] = $row;
+        //     }         
 
-        }
+        // }
         
         $cPerusahaan = Perusahaan::select('*')->where('id', auth()->user()->id_perusahaan)->first();
 
         // return $data;
-        // return view('laporan.laporan-piutang.pdf', compact('tglAwal' ,'awal', 'akhir', 'piutang', 'cPerusahaan'));
-        $pdf = PDF::loadView('laporan.laporan-piutang.pdf', compact('awal', 'akhir', 'piutang', 'tglAwal', 'cPerusahaan'));
+        // return view('laporan.laporan-piutang.pdf', compact('tglAwal', 'totalPiutang' ,'awal', 'akhir', 'piutang', 'cPerusahaan'));
+        $pdf = PDF::loadView('laporan.laporan-piutang.pdf', compact('awal', 'totalPiutang', 'akhir', 'piutang', 'tglAwal', 'cPerusahaan'));
         $pdf->setPaper('a4', 'potrait');
         return $pdf->stream('Laporan Piutang-'. $cPerusahaan->nama .' '. date('Y-m-d h.i.s'));
     }
@@ -1514,39 +1633,49 @@ class LaporanController extends Controller
     {
         $no = 1;
         $tglAwal = $awal;
-        $hutang = array();
-
-        while (strtotime($awal) <= strtotime($akhir)) {
-            $tanggal = $awal;
-            $awal = date('Y-m-d', strtotime("+1day", strtotime($awal)));
-
-            $h = Hutang::where('t_data_hutang.tgl', 'Like', '%'.$tanggal.'%')
+        $hutang= Hutang::whereBetween('t_data_hutang.tgl', [$awal, $akhir])
                         ->leftJoin('t_transaksi_pembelian AS TP', 'TP.id', 't_data_hutang.id_pembelian')
                         ->leftJoin('t_supplier AS S', 'S.id', 'TP.id_supplier')
                         ->select('t_data_hutang.*', 'TP.id as kode_invoice', 'TP.sisa', 'S.nama AS nama_supplier')  
                         ->where('t_data_hutang.id_perusahaan', auth()->user()->id_perusahaan)
-                        ->orderBy('id', 'desc')->get();
+                        ->orderBy('id', 'desc')->get();                       
+        $totalHutang = 0;
+        foreach($hutang as $item) {
+        $totalHutang += $item->total_bayar;
+        } 
+        // $hutang = array();
+
+        // while (strtotime($awal) <= strtotime($akhir)) {
+        //     $tanggal = $awal;
+        //     $awal = date('Y-m-d', strtotime("+1day", strtotime($awal)));
+
+        //     $h = Hutang::where('t_data_hutang.tgl', 'Like', '%'.$tanggal.'%')
+        //                 ->leftJoin('t_transaksi_pembelian AS TP', 'TP.id', 't_data_hutang.id_pembelian')
+        //                 ->leftJoin('t_supplier AS S', 'S.id', 'TP.id_supplier')
+        //                 ->select('t_data_hutang.*', 'TP.id as kode_invoice', 'TP.sisa', 'S.nama AS nama_supplier')  
+        //                 ->where('t_data_hutang.id_perusahaan', auth()->user()->id_perusahaan)
+        //                 ->orderBy('id', 'desc')->get();
             
-            foreach($h as $item) {
-                $row = array();
-                $row['DT_RowIndex'] = $no++;
-                $row['no_pembelian'] = $item->kode_invoice;
-                $row['tgl'] = tanggal_indonesia($tanggal, false);
-                $row['nama_supplier'] = $item->nama_supplier ;
-                $row['total_bayar'] = 'Rp. '. format_uang($item->total_bayar );
-                if ($item->sisa == 0) {
-                    $row['status'] = 'Lunas';
-                } else {
-                    $row['status'] = 'Belum Lunas';
-                }
+        //     foreach($h as $item) {
+        //         $row = array();
+        //         $row['DT_RowIndex'] = $no++;
+        //         $row['no_pembelian'] = $item->kode_invoice;
+        //         $row['tgl'] = tanggal_indonesia($tanggal, false);
+        //         $row['nama_supplier'] = $item->nama_supplier ;
+        //         $row['total_bayar'] = 'Rp. '. format_uang($item->total_bayar );
+        //         if ($item->sisa == 0) {
+        //             $row['status'] = 'Lunas';
+        //         } else {
+        //             $row['status'] = 'Belum Lunas';
+        //         }
 
-                $hutang[] = $row;
-            }         
+        //         $hutang[] = $row;
+        //     }         
 
-        }
+        // }
     
         $cPerusahaan = Perusahaan::select('*')->where('id', auth()->user()->id_perusahaan)->first();
-        return view('laporan.laporan-hutang.print', compact('tglAwal' ,'awal', 'akhir', 'hutang', 'cPerusahaan'));
+        return view('laporan.laporan-hutang.print', compact('totalHutang', 'tglAwal' ,'awal', 'akhir', 'hutang', 'cPerusahaan'));
     }
 
     public function PrintPDFPiutang($awal, $akhir) 
@@ -1555,36 +1684,47 @@ class LaporanController extends Controller
         $no = 1;
         $piutang = array();
 
-        while (strtotime($awal) <= strtotime($akhir)) {
-            $tanggal = $awal;
-            $awal = date('Y-m-d', strtotime("+1day", strtotime($awal)));
+        $piutang= Piutang::whereBetween('t_data_piutang.tgl', [$awal, $akhir])
+                        ->leftJoin('t_transaksi_penjualan AS TP', 'TP.id', 't_data_piutang.id_penjualan')
+                        ->leftJoin('t_pelanggan AS P', 'P.id', 'TP.id_pelanggan')
+                        ->select('t_data_piutang.*', 'TP.id as kode_invoice', 'TP.sisa', 'P.nama AS nama_pelanggan')  
+                        ->where('t_data_piutang.id_perusahaan', auth()->user()->id_perusahaan)
+                        ->orderBy('id', 'desc')->get();                       
+        $totalPiutang = 0;
+        foreach($piutang as $item) {
+            $totalPiutang += $item->total_bayar;
+        } 
 
-            $p = Piutang::where('t_data_piutang.tgl', $tanggal)
-                ->leftJoin('t_transaksi_penjualan AS TP', 'TP.id', 't_data_piutang.id_penjualan')
-                ->leftJoin('t_pelanggan AS P', 'P.id', 'TP.id_pelanggan')
-                ->select('t_data_piutang.*', 'TP.id as kode_invoice', 'TP.sisa', 'P.nama AS nama_pelanggan')  
-                ->where('t_data_piutang.id_perusahaan', auth()->user()->id_perusahaan)
-                ->orderBy('id', 'desc')->get();
+        // while (strtotime($awal) <= strtotime($akhir)) {
+        //     $tanggal = $awal;
+        //     $awal = date('Y-m-d', strtotime("+1day", strtotime($awal)));
+
+        //     $p = Piutang::where('t_data_piutang.tgl', $tanggal)
+        //         ->leftJoin('t_transaksi_penjualan AS TP', 'TP.id', 't_data_piutang.id_penjualan')
+        //         ->leftJoin('t_pelanggan AS P', 'P.id', 'TP.id_pelanggan')
+        //         ->select('t_data_piutang.*', 'TP.id as kode_invoice', 'TP.sisa', 'P.nama AS nama_pelanggan')  
+        //         ->where('t_data_piutang.id_perusahaan', auth()->user()->id_perusahaan)
+        //         ->orderBy('id', 'desc')->get();
             
-            foreach($p as $item) {
-                $row = array();
-                $row['DT_RowIndex'] = $no++;
-                $row['no_penjualan'] = $item->kode_invoice ;
-                $row['tgl'] = tanggal_indonesia($tanggal, false);
-                $row['nama_pelanggan'] = $item->nama_pelanggan ;
-                $row['total_bayar'] = 'Rp. '. format_uang($item->total_bayar );
-                if ($item->sisa == 0) {
-                    $row['status'] = 'Lunas';
-                } else {
-                    $row['status'] = 'Belum Lunas';
-                }
+        //     foreach($p as $item) {
+        //         $row = array();
+        //         $row['DT_RowIndex'] = $no++;
+        //         $row['no_penjualan'] = $item->kode_invoice ;
+        //         $row['tgl'] = tanggal_indonesia($tanggal, false);
+        //         $row['nama_pelanggan'] = $item->nama_pelanggan ;
+        //         $row['total_bayar'] = 'Rp. '. format_uang($item->total_bayar );
+        //         if ($item->sisa == 0) {
+        //             $row['status'] = 'Lunas';
+        //         } else {
+        //             $row['status'] = 'Belum Lunas';
+        //         }
 
-                $piutang[] = $row;
-            }         
-        }
+        //         $piutang[] = $row;
+        //     }         
+        // }
 
         $cPerusahaan = Perusahaan::select('*')->where('id', auth()->user()->id_perusahaan)->first();
-        return view('laporan.laporan-piutang.print', compact('tglAwal' ,'awal', 'akhir', 'piutang', 'cPerusahaan'));
+        return view('laporan.laporan-piutang.print', compact('totalPiutang', 'tglAwal' ,'awal', 'akhir', 'piutang', 'cPerusahaan'));
     }
 
 

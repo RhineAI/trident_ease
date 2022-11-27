@@ -1,6 +1,6 @@
 <!-- Modal -->
 <div class="modal fade" id="formModalPelangganPenjualan" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-dialog modal-lg" role="document" style="width: 95%">
         <div class="modal-content">
         <div class="modal-header">
             <h5 class="modal-title" id="modal-title">Pilih Pelanggan</h5>

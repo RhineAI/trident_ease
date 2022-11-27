@@ -109,33 +109,60 @@
 
     <div class="col-md-12 mt-3">
         <div class="table-responsive p-2">
-            <table border="1" class="table mb-5 table-bordered table-striped table-piutang" id="dataTableHover">
-                <thead class="table-secondary">
+            <table class="table align-items-center mb-5 table-bordered table-flush table-hover text-center table-responsive dt-responsive table-piutang" id="dataTableHover">
+                {{-- <thead class="table-dark">
                     <tr>
-                        <th width="5.8%" class="text-center">No</th>
-                        <th width="9%" class="text-center">Kode Penjualan</th>
-                        <th width="10%" class="text-center">Tanggal</th>
-                        <th width="13%" class="text-center">Nama Pelanggan</th>
-                        <th width="12.8%" class="text-center">Total Bayar</th>
-                        <th width="7.4%" class="text-center">Status</th>
+                        <th width="4%" class="text-center" style="vertical-align:middle;">No</th>
+                        <th width="10.5%" class="text-center" style="vertical-align:middle;">Kode Penjualan</th>
+                        <th width="8%" class="text-center" style="vertical-align:middle;">Tanggal</th>
+                        <th width="16%" class="text-center" style="vertical-align:middle;">Nama Pelanggan</th>
+                        <th width="9%" class="text-center" style="vertical-align:middle;">Status</th>
+                        <th width="13%" class="text-center" style="vertical-align:middle;">Total Bayar</th>
                     </tr>
-                </thead>
+                </thead> --}}
                 <tbody>
+                    {{-- <tr> --}}
+                        <th width="4%" class="text-center" style="vertical-align:middle;">No</th>
+                        <th width="10.5%" class="text-center" style="vertical-align:middle;">Kode Penjualan</th>
+                        <th width="9%" class="text-center" style="vertical-align:middle;">Tanggal</th>
+                        <th width="16%" class="text-center" style="vertical-align:middle;">Nama Pelanggan</th>
+                        <th width="9%" class="text-center" style="vertical-align:middle;">Status</th>
+                        <th width="13%" class="text-center" style="vertical-align:middle;">Total Bayar</th>
+                    {{-- </tr> --}}
+                    <span style="visibility: hidden">{{ $no = 1 }}</span>
                     @if ($piutang != NULL)
-                        @foreach ($piutang as $p)
+                        @foreach ($piutang as $item)
                             <tr>
-                                {{-- <td class="text-center">{{ $no++ }}</td> --}}
-                                @foreach ($p as $item)   
-                                    <td class="text-center">{{ $item }}</td>
-                                @endforeach
+                                <tr>    
+                                    <td class="text-center">{{ $no++ }}</td>
+                                    <td class="text-center">{{ $item->kode_invoice }} </td>
+                                    <td class="text-center">{{ tanggal_indonesia($item->tgl, false) }}</td>
+                                    <td class="text-center">{{ $item->nama_pelanggan }}</td>
+                                    @if ($item->sisa == 0) 
+                                        <td class="text-center">Lunas</td>
+                                    @else 
+                                        <td class="text-center">Belum Lunas</td>
+                                    @endif
+                                    <td class="text-center">{{ 'Rp. '. format_uang($item->total_bayar) }}</td>
+                                </tr>
                             </tr>
                         @endforeach
                     @else
                         <tr>
-                            <td colspan="7" class="text-center" style="color:grey; font-size:17px;">Tidak ada data</td>    
-                        </tr>  
-                    @endif     
+                            <td colspan="5" class="text-center" style="color:grey; font-size:17px;">Tidak ada data kas yang keluar</td>    
+                        </tr> 
+                    @endif
+                    <tr>
+                        <td class="text-center" colspan="5"><b>Total Terbayarkan</b></td>
+                        <td id="totalO" class="text-center">{{ 'Rp. '. format_uang($totalPiutang) }}</td>
+                    </tr>
                 </tbody>
+                {{-- <tfoot>
+                    <tr>
+                        <td class="text-center" colspan="5"><b>Total Terbayarkan</b></td>
+                        <td id="totalO" class="text-center">{{ 'Rp. '. format_uang($totalPiutang) }}</td>
+                    </tr>
+                </tfoot> --}}
             </table>
         </div>
     </div>

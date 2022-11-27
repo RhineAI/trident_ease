@@ -1,5 +1,5 @@
-<div class="table-responsive">
-    <table class="table table-hover dt-responsive" style="width: 100%;" id="tbl-data-pelanggan">
+<div class="table-responsive" >
+    <table class="table table-hover dt-responsive" id="tbl-data-pelanggan">
         <thead>
             <tr class="table-secondary">
                 <td class="text-center" width="3%">No</td>
@@ -20,7 +20,7 @@
                 <td width="9.6%" class="text-center">{{ $item->tlp }}</td>
                 {{-- <td>{{ $item->nama_perusahaan }}</td> --}}
                 <td class="text-center">
-                    <button class="btn btn-xs btn-warning edit" type="button" style="color: green;" title="Edit" data-mode="edit"
+                    <button class="btn btn-xs btn-success edit" type="button" title="Edit" data-mode="edit"
                         data-toggle="modal" 
                         data-target="#formModalPelanggan" 
                         data-id_pelanggan="{{ $item->id }}"

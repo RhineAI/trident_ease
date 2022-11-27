@@ -25,7 +25,7 @@
                 <td>{{ $item->no_rekening }}</td>
                 {{-- <td>{{ $item->nama_perusahaan }}</td> --}}
                 <td>
-                    <button class="btn btn-xs btn-warning" type="button" style="color: green;" title="Edit" data-mode="edit" data-toggle="modal" data-target="#formModalSupplier" data-id_supplier="{{ $item->id }}" data-nama="{{ $item->nama }}" data-alamat="{{ $item->alamat }}" data-tlp="{{ $item->tlp }}" data-salesman="{{ $item->salesman }}" data-bank="{{ $item->bank }}" data-no_rekening="{{ $item->no_rekening }}" data-id_perusahaan="{{ $item->id_perusahaan }}" data-route="{{ route('admin.supplier.update', $item->id) }}">
+                    <button class="btn btn-xs btn-success" type="button" title="Edit" data-mode="edit" data-toggle="modal" data-target="#formModalSupplier" data-id_supplier="{{ $item->id }}" data-nama="{{ $item->nama }}" data-alamat="{{ $item->alamat }}" data-tlp="{{ $item->tlp }}" data-salesman="{{ $item->salesman }}" data-bank="{{ $item->bank }}" data-no_rekening="{{ $item->no_rekening }}" data-id_perusahaan="{{ $item->id_perusahaan }}" data-route="{{ route('admin.supplier.update', $item->id) }}">
                         <i class="fas fa-edit"></i>
                     </button>
                     <form action="{{ route('admin.supplier.destroy', $item->id) }}" style="display: inline;" method="post">

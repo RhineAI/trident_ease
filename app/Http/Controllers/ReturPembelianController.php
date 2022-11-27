@@ -175,11 +175,11 @@ class ReturPembelianController extends Controller
                 $subtotal = $row->jumlah_beli_barang * $row->harga_beli;
                 $qtySekarang = $row->jumlah_beli_barang;
                 $html.="<tr>";
-                $html.="<td style='text-align:center;'><input type='hidden' value='$row->id_barang' id='id_barang$i'> <input class='form-control' type='text' value='$row->kode' readonly='true' id='kode$i'></td>";
-                $html.="<td style='text-align:center;'><input class='form-control' type='text' value='$row->nama_barang' readonly='true' id='nama_barang$i'></td>";
-                $html.="<td style='text-align:center;'><input class='form-control' type='number' value='$row->harga_beli' readonly='true' id='harga_beli$i' style='text-align:right'></td>";
-                $html.="<td style='text-align:center; width: 8%;'><input class='form-control' type='number' value='$qtySekarang' readonly='true' id='qty$i'></td>";
-                $html.="<td style='text-align:center;'><input class='form-control' type='number' value='$subtotal' readonly='true' id='subtotal$i' style='text-align:right'></td>";
+                $html.="<td style='text-align:center;'><input type='hidden' value='$row->id_barang' id='id_barang$i'> <input class='form-control' type='text' value='$row->kode' readonly='true' id='kode$i' style='width: 130px;'></td>";
+                $html.="<td style='text-align:center;'><input class='form-control' type='text' value='$row->nama_barang' readonly='true' id='nama_barang$i' style='width: 175px;'></td>";
+                $html.="<td style='text-align:center;'><input class='form-control' type='number' value='$row->harga_beli' readonly='true' id='harga_beli$i' style='text-align:right; width: 170px;'></td>";
+                $html.="<td style='text-align:center; width: 8%;'><input class='form-control' type='number' value='$qtySekarang' readonly='true' id='qty$i' style='width: 90px;'></td>";
+                $html.="<td style='text-align:center;'><input class='form-control' type='number' value='$subtotal' readonly='true' id='subtotal$i' style='text-align:right; width: 200px;'></td>";
                 $html.="<td style='text-align:center;'><button type='button' class='btn btn-info add_retur' data-idbuffer='$i' data-id_barang='$row->id_barang' data-nama_barang='$row->nama_barang' data-harga_beli='$row->harga_beli' data-qty='$row->jumlah_beli_barang'><i class='fas fa-plus'></i></button></td>";
     
                 $html.="</tr>";
@@ -226,11 +226,11 @@ class ReturPembelianController extends Controller
                 // return $cekBarang;
                 // $qtySekarang = $row->jumlah_beli_barang - $qtyRetur[$key]->jumlah_kembali_barang;
                 $html.="<tr>";
-                $html.="<td style='text-align:center;'><input type='hidden' value='$row->id_barang' id='id_barang$i'> <input class='form-control' type='text' value='$row->kode' readonly='true' id='kode$i'></td>";
-                $html.="<td style='text-align:center;'><input class='form-control' type='text' value='$row->nama_barang' readonly='true' id='nama_barang$i'></td>";
-                $html.="<td style='text-align:center;'><input class='form-control' type='number' value='$row->harga_beli' readonly='true' id='harga_beli$i' style='text-align:right'></td>";
-                $html.="<td style='text-align:center; width: 8%;'><input class='form-control' type='number' value='$qtySekarang' readonly='true' id='qty$i'></td>";
-                $html.="<td style='text-align:center;'><input class='form-control' type='number' value='$subtotal' readonly='true' id='subtotal$i' style='text-align:right'></td>";
+                $html.="<td style='text-align:center;'><input type='hidden' value='$row->id_barang' id='id_barang$i'> <input class='form-control' type='text' value='$row->kode' readonly='true' id='kode$i' style='width: 130px;'></td>";
+                $html.="<td style='text-align:center;'><input class='form-control' type='text' value='$row->nama_barang' readonly='true' id='nama_barang$i' style='width: 175px;'></td>";
+                $html.="<td style='text-align:center;'><input class='form-control' type='number' value='$row->harga_beli' readonly='true' id='harga_beli$i' style='text-align:right; width: 170px;'></td>";
+                $html.="<td style='text-align:center; width: 8%;'><input class='form-control' type='number' value='$qtySekarang' readonly='true' id='qty$i' style='width: 90px;'></td>";
+                $html.="<td style='text-align:center;'><input class='form-control' type='number' value='$subtotal' readonly='true' id='subtotal$i' style='text-align:right; width: 200px;'></td>";
             
                 if(isset($qtySisa->qtySisa) && $qtySisa->qtySisa == 0){
                     $html.="<td style='text-align:center;'><button type='button' class='btn btn-info restrict-retur'><i class='fas fa-plus'></i></button></td>";

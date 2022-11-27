@@ -82,24 +82,70 @@ Laporan Kas
                                     <tr>
                                         {{-- <th width="5%" class="text-center">No</th> --}}
                                         <th width="10%" class="text-center">Tanggal</th>
-                                        <th width="11%" class="text-center">Jumlah</th>
                                         <th width="16%" class="text-center">Keterangan</th>
                                         <th width="10%" class="text-center">Oleh</th>
+                                        <th width="11%" class="text-center">Jumlah</th>
                                     </tr>
                                 </thead>
+                                <tbody>
+                                    @if ($kasMasuk != NULL)
+                                        @foreach ($kasMasuk as $item)
+                                            <tr>
+                                                <td class="text-center">{{ tanggal_indonesia($item->tgl, false) }}</td>
+                                                <td class="text-center">{{ $item->keterangan }}</td>
+                                                <td class="text-center">{{ ucfirst($item->nama_user) }}</td>
+                                                <td class="text-center">{{ 'RP. '. format_uang($item->jumlah) }}</td>
+                                            </tr>
+                                        @endforeach
+                                    @else
+                                        <tr>
+                                            <td colspan="5" class="text-center" style="color:grey; font-size:17px;">Tidak ada data kas yang masuk </td>    
+                                        </tr>  
+                                    @endif  
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td class="text-center" colspan="3"><b>Total</b></td>
+                                        <td id="totalO" class="text-center">{{ 'Rp. '. format_uang($totalKasMasuk) }}</td>
+                                    </tr>
+                                </tfoot>
                             </table>
 
                             <h5 class="mt-5 mb-3">Kas Keluar</h5>
-                            <table class="table align-items-center mb-5 table-bordered table-striped table-flush table-hover text-center table-responsive dt-responsive  table-kas-keluar" id="dataTableHover">
+                            <table style="border-left: 0.02px solid lightgrey" class="table align-items-center mb-5 table-bordered table-striped table-flush table-hover text-center table-responsive dt-responsive  table-kas-keluar" id="dataTableHover">
                                 <thead class="table-info">
                                     <tr>
                                         {{-- <th width="5%" class="text-center">No</th> --}}
                                         <th width="10%" class="text-center">Tanggal</th>
-                                        <th width="11%" class="text-center">Jumlah</th>
                                         <th width="16%" class="text-center">Keperluan</th>
                                         <th width="10%" class="text-center">Oleh</th>
+                                        <th width="11%" class="text-center">Jumlah</th>
                                     </tr>
                                 </thead>
+                                <tbody>
+                                    @if ($kasKeluar != NULL)
+                                        @foreach ($kasKeluar as $item)
+                                            <tr>
+                                                <tr>
+                                                    <td class="text-center">{{ tanggal_indonesia($item->tgl, false) }}</td>
+                                                    <td class="text-center">{{ $item->keperluan }}</td>
+                                                    <td class="text-center">{{ ucfirst($item->nama_user) }}</td>
+                                                    <td class="text-center">{{ 'RP. '. format_uang($item->jumlah) }}</td>
+                                                </tr>
+                                            </tr>
+                                        @endforeach
+                                    @else
+                                        <tr>
+                                            <td colspan="5" class="text-center" style="color:grey; font-size:17px;">Tidak ada data kas yang keluar</td>    
+                                        </tr> 
+                                    @endif
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td class="text-center" colspan="3"><b>Total</b></td>
+                                        <td id="totalO" class="text-center">{{ 'Rp. '. format_uang($totalKasKeluar) }}</td>
+                                    </tr>
+                                </tfoot>
                             </table>
                         </div>
                     </div>
@@ -119,6 +165,26 @@ Laporan Kas
         autoclose: true,
     });
 
+    $('.table-kas-masuk').DataTable({
+        searching: false,
+        info: false,
+        paging:false,
+        processing:false,
+        language: {
+            emptyTable: "Tidak Ada Data"
+        }
+    });
+
+    $('.table-kas-keluar').DataTable({
+        searching: false,
+        info: false,
+        paging:false,
+        processing:false,
+        language: {
+            emptyTable: "Tidak Ada Data"
+        }
+    });
+
     $(document).on('click', '.firstdate', function() {
         let firstdate = $('.firstdate').text();
         // console.log(firstdate);
@@ -136,61 +202,61 @@ Laporan Kas
     @elseif(auth()->user()->hak_akses == 'admin') 
         var kasMasuk = "{{ route('admin.laporan-kas-masuk.data', [$tanggalAwal, $tanggalAkhir]) }}";
     @endif
-   let table;
-        table = $('.table-kas-masuk').DataTable({
-        searching: false,
-        info: false,
-        paging:false,
-        bFilter:false,
-        processing: false,
-        responsive: true,
-        autoWidth: false,
-        serverSide: true,
-        ajax: {
-            url: kasMasuk,
-            type: "POST",
-            data: {  
-                _token: '{{ csrf_token() }}'
-            }
-        },
-        columns: [
-            // {data:'DT_RowIndex', searchable: false, sortable: false},
-            {data:'tgl'},
-            {data:'jumlah'},
-            {data:'keterangan'},
-            {data:'oleh'},
-        ]
-    });
+//    let table;
+//         table = $('.table-kas-masuk').DataTable({
+//         searching: false,
+//         info: false,
+//         paging:false,
+//         bFilter:false,
+//         processing: false,
+//         responsive: true,
+//         autoWidth: false,
+//         serverSide: true,
+//         ajax: {
+//             url: kasMasuk,
+//             type: "POST",
+//             data: {  
+//                 _token: '{{ csrf_token() }}'
+//             }
+//         },
+//         columns: [
+//             // {data:'DT_RowIndex', searchable: false, sortable: false},
+//             {data:'tgl'},
+//             {data:'jumlah'},
+//             {data:'keterangan'},
+//             {data:'oleh'},
+//         ]
+//     });
 
     @if(auth()->user()->hak_akses == 'owner') 
         var kasKeluar = "{{ route('owner.laporan-kas-keluar.data', [$tanggalAwal, $tanggalAkhir]) }}";
     @elseif(auth()->user()->hak_akses == 'admin') 
         var kasKeluar = "{{ route('admin.laporan-kas-keluar.data', [$tanggalAwal, $tanggalAkhir]) }}";
     @endif
-    let table2;
-        table = $('.table-kas-keluar').DataTable({
-        searching: false,
-        info: false,
-        paging:false,
-        bFilter:false,
-        processing: false,
-        responsive: true,
-        autoWidth: false,
-        serverSide: true,
-        ajax: {
-            url: kasKeluar,
-            type: "POST",
-            data: {  
-                _token: '{{ csrf_token() }}'
-            }
-        },
-        columns: [
-            // {data:'DT_RowIndex', searchable: false, sortable: false},
-            {data:'tgl'},
-            {data:'jumlah'},
-            {data:'keperluan'},
-            {data:'oleh'},
-        ]
-    });
+    // let table2;
+    //     table = $('.table-kas-keluar').DataTable({
+    //     searching: false,
+    //     info: false,
+    //     paging:false,
+    //     bFilter:false,
+    //     processing: false,
+    //     responsive: true,
+    //     autoWidth: false,
+    //     serverSide: true,
+    //     ajax: {
+    //         url: kasKeluar,
+    //         type: "POST",
+    //         data: {  
+    //             _token: '{{ csrf_token() }}'
+    //         }
+    //     },
+    //     columns: [
+    //         // {data:'DT_RowIndex', searchable: false, sortable: false},
+    //         {data:'tgl'},
+    //         {data:'jumlah'},
+    //         {data:'keperluan'},
+    //         {data:'oleh'},
+    //     ]
+    // });
 </script>
 @endpush

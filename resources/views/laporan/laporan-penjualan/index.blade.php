@@ -28,11 +28,12 @@ Laporan Penjualan
                         <form action="{{ route('admin.laporan-penjualan.index') }}" method="get">
                     @elseif(auth()->user()->hak_akses == 'owner')             
                         <form action="{{ route('owner.laporan-penjualan.index') }}" method="get">
-                    @endif    
+                    @endif   
+                    {{-- @csrf  --}}
                         <div class="form-group row mt-4 ml-3 ">
                             <label for="tanggal_awal" class="col-lg-1 control-label mr-3">Tanggal Awal</label>
                             <div class="col-md-3 mr-5 mt-3">
-                                <input type="date" name="tanggal_awal" id="tanggal_awal" class="flatpickr form-control" required autofocus readonly value="{{ request('tanggal_awal') }}" style="border-radius: 0 !important;">
+                                <input type="date" name="tanggal_awal" id="tanggal_awal" class="flatpickr form-control" required autofocus readonly style="border-radius: 0 !important;">
                                 <span class="help-block with-errors"></span>
                             </div>
                             
@@ -40,7 +41,7 @@ Laporan Penjualan
 
                             <label for="tanggal_akhir" class="col-lg-1 mr-2 control-label">Tanggal Akhir</label>
                             <div class="col-md-3 mr-5 mt-3">
-                                <input type="date" name="tanggal_akhir" id="tanggal_akhir" class="flatpickr form-control" required readonly value="{{ request('tanggal_akhir') }}" style="border-radius: 0 !important;">
+                                <input type="date" name="tanggal_akhir" id="tanggal_akhir" class="flatpickr form-control" required readonly style="border-radius: 0 !important;">
                                 <span class="help-block with-errors"></span>
                             </div>
 
@@ -68,6 +69,12 @@ Laporan Penjualan
                 {{-- <a href="{{ route('admin.list-transaksi.export_pdf', [$tanggalAwal, $tanggalAkhir] ) }}" target="_blank" class="btn btn-danger btn-sm btn-flat" ><i class="bi bi-filetype-pdf"></i> Export PDF</a> --}}
                     <br>
                     <h3 class="text-center">{{ $cPerusahaan->nama }}</h3>
+                    <small style="visibility: hidden">
+                        @php
+                            // $awal = strtotime("-1day", strtotime($tanggalAwal));
+                            // $awal = date('Ymd', strtotime($awal));
+                        @endphp
+                    </small>
                     <h5 style="text-align:center;">Laporan Penjualan {{ tanggal_indonesia($tanggalAwal) }}</h5>
                     <h5 style="text-align:center;" >s/d {{ tanggal_indonesia($tanggalAkhir) }}</h5>
                     <br>
@@ -77,7 +84,7 @@ Laporan Penjualan
                         <div class="table-responsive p-3">
                             <h5 class="mb-3">Penjualan</h5>
                             <table class="table align-items-center mb-5 table-bordered table-striped table-flush table-hover text-center table-responsive dt-responsive table-penjualan" id="dataTableHover">
-                                <thead class="table-primary">
+                                <thead class="table-dark">
                                     <tr>
                                         {{-- <th width="5%" class="text-center">No</th> --}}
                                         <th width="15%" class="text-center">Tanggal</th>
@@ -88,40 +95,60 @@ Laporan Penjualan
                                         <th width="11%" class="text-center">Keuntungan</th>
                                     </tr>
                                 </thead>
-                                <tbody>
+                                <tbody> 
                                     @if ($detPenjualan != NULL)
                                         @foreach ($detPenjualan as $dp)
                                             <tr>
-                                                <td class="text-center">{{ tanggal_indonesia($dp->tgl) }}</td>
+                                                <td class="text-center">{{ tanggal_indonesia($dp->tgl,false) }}</td>
                                                 <td class="text-center"><span class="badge" style="background-color:#2f3d57; color:white;">{{ $dp->kode }}</span></td>
                                                 <td class="text-center">{{ $dp->nama_barang }}</td>
                                                 <td class="text-center">{{ $dp->qty }}</td>
                                                 <td class="text-center" id="omset">{{ 'Rp.' . format_uang($dp->qty * $dp->harga_jual) }}</td>
                                                 @if ($dp->diskon == 0)
-                                                    <td class="text-center" id="keuntungan">{{ 'Rp. ' . format_uang(($dp->harga_jual - $dp->harga_beli) * $dp->qty) }}</td>
+                                                    <td class="text-center ">{{ 'Rp. ' . format_uang(($dp->harga_jual - $dp->harga_beli) * $dp->qty) }}</td>
                                                 @else 
-                                                    <td class="text-center" id="keuntungan">{{ 'Rp. ' . format_uang((($dp->harga_jual - $dp->harga_beli) * $dp->qty) - ( ($dp->harga_jual - $dp->harga_beli) * $dp->qty) * $dp->diskon/100) }}</td>
+                                                    <td class="text-center" >{{ 'Rp. ' . format_uang((($dp->harga_jual - $dp->harga_beli) * $dp->qty) - ( ($dp->harga_jual - $dp->harga_beli) * $dp->qty) * $dp->diskon/100) }}</td>
                                                 @endif
-                                                {{-- <input type="hidden" id="omset" value="{{ $dp->qty * $dp->harga_jual }}" style="visibility: hidden"> --}}
-                                                {{-- <input type="hidden" id="keuntungan" value="{{ ($dp->harga_jual - $dp->harga_beli) * $dp->qty * $dp->diskon }}" style="visibility: hidden"> --}}
                                             </tr>
-                                            @endforeach
-                                            <tr>
-                                                <td class="text-center" colspan="4">Total</td>
-                                                <td class="text-center total-omset">{{ 'Rp. '. format_uang($omset) }}</td>
-                                                <td class="text-center total-keuntungan">{{ 'Rp. '. format_uang($keuntungan) }}</td>
-                                            </tr>
+                                        @endforeach 
                                     @else
                                         <tr>
-                                            <td colspan="7" class="text-center" style="color:grey; font-size:17px;">Tidak ada data</td>    
+                                            <td colspan="5" class="text-center" style="color:grey; font-size:17px;">Tidak ada data</td>    
                                         </tr>  
                                     @endif
-                                </tbody>
+                                {{-- @else --}}
+                                    {{-- @if ($detPenjualan != NULL)
+                                        @foreach ($detPenjualan as $dp)
+                                            <tr>
+                                                <td class="text-center">{{ tanggal_indonesia($dp->tgl,false) }}</td>
+                                                <td class="text-center"><span class="badge" style="background-color:#2f3d57; color:white;">{{ $dp->kode }}</span></td>
+                                                <td class="text-center">{{ $dp->nama_barang }}</td>
+                                                <td class="text-center">{{ $dp->qty }}</td>
+                                                <td class="text-center" id="omset">{{ 'Rp.' . format_uang($dp->qty * $dp->harga_jual) }}</td>
+                                                @if ($dp->diskon == 0)
+                                                    <td class="text-center ">{{ 'Rp. ' . format_uang(($dp->harga_jual - $dp->harga_beli) * $dp->qty) }}</td>
+                                                @else 
+                                                    <td class="text-center" >{{ 'Rp. ' . format_uang((($dp->harga_jual - $dp->harga_beli) * $dp->qty) - ( ($dp->harga_jual - $dp->harga_beli) * $dp->qty) * $dp->diskon/100) }}</td>
+                                                @endif
+                                            </tr>
+                                        @endforeach 
+                                    @else
+                                    @endif --}}
+                                {{-- @endif --}}
+                                        
+                                </tbody> 
+                                <tfoot>
+                                    <tr>
+                                        <td class="text-center" colspan="4"><b>Total</b></td>
+                                        <td id="totalO" class="text-center">{{ 'Rp. '. format_uang($totalO) }}</td>
+                                        <td id="totalU" class="text-center">{{ 'Rp. '. format_uang($totalU) }}</td>
+                                    </tr>
+                                </tfoot>
                             </table>
                         </div>
                     </div>
                 </div>
-
+                {{-- <span class="untung">10000</span> --}}
             </div>
         </div>
     </div>
@@ -136,9 +163,23 @@ Laporan Penjualan
         autoclose: true,
     });
 
-    // let val = $("[id='omset']").val();
+    // $('.table-penjualan').DataTable({
+    //     searching: false,
+    //     info: false,
+    //     paging:false,
+    //     processing:false,
+    //     language: {
+    //         emptyTable: "Tidak Ada Data"
+    //     }
+    // });
 
-    // let value = $("[id='omset']").text();
+
+    // let get = document.getElementsByClassName('keuntungan');
+    // let val = get.attr('val');
+    // let val = $(this).closest('tr').find('.keuntungan').val();
+    // console.log(get)
+    // let value = $('.total').text();
+    // console.log(value);
     // let value2 = document.querySelectorAll('#omset');
     // value2.forEach((value2) => {
     //     let value = parseInt(value2.getAttribute("data-val"));
@@ -153,42 +194,45 @@ Laporan Penjualan
     // $('.total_omset').text(make_num);
 
     @if(auth()->user()->hak_akses == 'owner') 
-        var penjualan = "{{ route('owner.laporan-penjualan.data', [$tanggalAwal, $tanggalAkhir]) }}";
+        var penjualan = "{{ route('owner.laporan-penjualan.data', [$tanggalAwal, $tanggaltanggalAkhir]) }}";
     @elseif(auth()->user()->hak_akses == 'admin') 
         var penjualan = "{{ route('admin.laporan-penjualan.data', [$tanggalAwal, $tanggalAkhir]) }}";
     @endif
 
-    // $('.table-penjualan').dataTable();
-//    let table 
-        // table = $('.table-penjualan').DataTable({
-        // searching: false,
-        // info: false,
-        // paging:false,
-        // bFilter:false,
-        // processing: false,
-        // responsive: true,
-        // autoWidth: false,
-        // serverSide: true,
-        // ajax: {
-        //     url: penjualan,
-        //     type: "POST",
-        //     data: {  
-        //         _token: '{{ csrf_token() }}'
-        //     }
-        // },
-        // columns: [
-        //     // {data:'DT_RowIndex', searchable: false, sortable: false},
-        //     {data:'tgl'},
-        //     {data:'kode'},
-        //     {data:'nama_barang'},
-        //     {data:'qty'},
-        //     {data:'total_penjualan'},
-        //     {data:'keuntungan'},
-        // ],
-        // rows: [
-        //     {data: 'sum'}
-        // ],
-    // });
+
+//    let table_penjualan
+//         table : $('.table-penjualan').DataTable({
+//         searching: false,
+//         info: false,
+//         paging:false,
+//         bFilter:false,
+//         processing: false,
+//         responsive: true,
+//         autoWidth: false,
+//         serverSide: true,
+//         ajax: {
+//             url: penjualan,
+//             type: "POST",
+//             data: {  
+//                 _token: '{{ csrf_token() }}',
+//             }
+//         },
+//         columns: [
+//             // {data:'DT_RowIndex', searchable: false, sortable: false},
+//             {data:'tgl'},
+//             {data:'kode'},
+//             {data:'nama_barang'},
+//             {data:'qty'},
+//             {data:'total_penjualan'},
+//             {data:'keuntungan'},
+//             // {data:'totals'},
+//         ],
+//     });
+
+    // $(document).ready(function() {
+    //     let value = $('span.untung').text();
+    //     console.log(value);
+    // })
 
 </script>
 @endpush

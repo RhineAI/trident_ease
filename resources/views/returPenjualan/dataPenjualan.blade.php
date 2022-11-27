@@ -9,7 +9,7 @@
             </button>
         </div>
         <div class="modal-body">
-            <table id="tbl-data-retur-penjualan" class="table table-striped table-bordered table-hover table-compact" style="width: 100%;">
+            <table id="tbl-data-retur-penjualan" class="table table-responsive dt-responsive table-striped table-bordered table-hover table-compact" style="width: 100%;">
                 <thead>
                     <tr>
                         <td>No</td>

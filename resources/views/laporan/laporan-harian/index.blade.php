@@ -87,6 +87,13 @@ Laporan Harian
                                         <th width="11%" class="text-center">Keuntungan</th>
                                     </tr>
                                 </thead>
+                                <tfoot>
+                                    <tr>
+                                        <td class="text-center" colspan="5"><b>Total Penjualan</b></td>
+                                        <td id="totalO" class="text-center">{{ 'Rp. '. format_uang($totalO) }}</td>
+                                        <td id="totalU" class="text-center">{{ 'Rp. '. format_uang($totalU) }}</td>
+                                    </tr>
+                                </tfoot>
                             </table>
 
                             <h5 class="mt-4 mb-3">Pembelian Barang</h5>
@@ -94,12 +101,20 @@ Laporan Harian
                                 <thead class="table-primary">
                                     <tr>
                                         <th width="4%" class="text-center">No</th>
+                                        <th width="15%" class="text-center">Tanggal</th>
                                         <th width="8%" class="text-center">Kode</th>
                                         <th width="16%" class="text-center">Nama Barang</th>
                                         <th width="8%" class="text-center">QTY</th>
                                         <th width="17%" class="text-center">Total Pembelian</th>
                                     </tr>
                                 </thead>
+                                <tfoot>
+                                    <tr>
+                                        <td class="text-center" colspan="5"><b>Total Pembelian</b></td>
+                                        <td id="totalO" class="text-center">{{ 'Rp. '. format_uang($totalBeli) }}</td>
+                                        
+                                    </tr>
+                                </tfoot>
                             </table>
 
                             <h5 class="mt-4 mb-3">Retur Penjualan</h5>
@@ -113,6 +128,12 @@ Laporan Harian
                                         <th width="13%" class="text-center">Total Retur</th>
                                     </tr>
                                 </thead>
+                                <tfoot>
+                                    <tr>
+                                        <td class="text-center" colspan="4"><b>Total Retur Penjualan</b></td>
+                                        <td id="totalO" class="text-center">{{ 'Rp. '. format_uang($totalReturPenjualan) }}</td>
+                                    </tr>
+                                </tfoot>
                             </table>
 
                             <h5 class="mt-4 mb-3">Retur Pembelian</h5>
@@ -126,6 +147,12 @@ Laporan Harian
                                         <th width="13%" class="text-center">Total Retur</th>
                                     </tr>
                                 </thead>
+                                <tfoot>
+                                    <tr>
+                                        <td class="text-center" colspan="4"><b>Total Retur Pembelian</b></td>
+                                        <td id="totalO" class="text-center">{{ 'Rp. '. format_uang($totalReturPembelian) }}</td>
+                                    </tr>
+                                </tfoot>
                             </table>
 
                             <h5 class="mt-4 mb-3">Hutang</h5>
@@ -136,10 +163,16 @@ Laporan Harian
                                         <th width="6%" class="text-center">Invoice</th>
                                         <th width="11%" class="text-center">Tanggal</th>
                                         <th width="16%" class="text-center">Nama Supplier</th>
-                                        <th width="13%" class="text-center">Total Bayar</th>
                                         <th width="9%" class="text-center">Status</th>
+                                        <th width="13%" class="text-center">Total Dubayar</th>
                                     </tr>
                                 </thead>
+                                <tfoot>
+                                    <tr>
+                                        <td class="text-center" colspan="5"><b>Total Hutang</b></td>
+                                        <td id="totalO" class="text-center">{{ 'Rp. '. format_uang($totalHutang) }}</td>
+                                    </tr>
+                                </tfoot>
                             </table>
 
                             <h5 class="mt-4 mb-3">Piutang</h5>
@@ -150,10 +183,16 @@ Laporan Harian
                                         <th width="6%" class="text-center">Invoice</th>
                                         <th width="11%" class="text-center">Tanggal</th>
                                         <th width="14%" class="text-center">Nama Pelanggan</th>
-                                        <th width="13%" class="text-center">Total Bayar</th>
                                         <th width="9%" class="text-center">Status</th>
+                                        <th width="13%" class="text-center">Total Dibayar</th>
                                     </tr>
                                 </thead>
+                                <tfoot>
+                                    <tr>
+                                        <td class="text-center" colspan="5"><b>Total Piutang</b></td>
+                                        <td id="totalO" class="text-center">{{ 'Rp. '. format_uang($totalPiutang) }}</td>
+                                    </tr>
+                                </tfoot>
                             </table>
 
                             <h5 class="mt-4 mb-3">Kas Masuk</h5>
@@ -162,11 +201,17 @@ Laporan Harian
                                     <tr>
                                         <th width="4%" class="text-center">No</th>
                                         <th width="13%" class="text-center">Tanggal</th>
-                                        <th width="14%" class="text-center">Jumlah</th>
                                         <th width="14%" class="text-center">Keterangan</th>
                                         <th width="14%" class="text-center">Oleh</th>
+                                        <th width="14%" class="text-center">Jumlah</th>
                                     </tr>
                                 </thead>
+                                <tfoot>
+                                    <tr>
+                                        <td class="text-center" colspan="4"><b>Total Kas Masuk</b></td>
+                                        <td id="totalO" class="text-center">{{ 'Rp. '. format_uang($totalKasMasuk) }}</td> 
+                                    </tr>
+                                </tfoot>
                             </table>
 
                             <h5 class="mt-4 mb-3">Kas Keluar</h5>
@@ -175,11 +220,17 @@ Laporan Harian
                                     <tr>
                                         <th width="4%" class="text-center">No</th>
                                         <th width="13%" class="text-center">Tanggal</th>
-                                        <th width="14%" class="text-center">Jumlah</th>
                                         <th width="14%" class="text-center">Keperluan</th>
                                         <th width="14%" class="text-center">Oleh</th>
+                                        <th width="14%" class="text-center">Jumlah</th>
                                     </tr>
                                 </thead>
+                                <tfoot>
+                                    <tr>
+                                        <td class="text-center" colspan="4"><b>Total Kas Keluar</b></td>
+                                        <td id="totalO" class="text-center">{{ 'Rp. '. format_uang($totalKasKeluar) }}</td>
+                                    </tr>
+                                </tfoot>
                             </table>
 
                         </div>
@@ -262,6 +313,7 @@ Laporan Harian
         },
         columns: [
             {data:'DT_RowIndex', searchable: false, sortable: false},
+            {data:'tgl'},
             {data:'kode'},
             {data:'nama_barang'},
             {data:'qty'},
@@ -361,8 +413,8 @@ Laporan Harian
             {data:'no_pembelian'},
             {data:'tgl'},
             {data:'nama_supplier'},
-            {data:'total_bayar'},
             {data:'status'},
+            {data:'total_bayar'},
         ]
     });
 
@@ -394,8 +446,8 @@ Laporan Harian
             {data:'no_penjualan'},
             {data:'tgl'},
             {data:'nama_pelanggan'},
-            {data:'total_bayar'},
             {data:'status'},
+            {data:'total_bayar'},
         ]
     });
 
