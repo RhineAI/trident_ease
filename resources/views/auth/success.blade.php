@@ -144,7 +144,7 @@
               </div>
               <div></div>
               <p class="">
-                  Any Problem?<a href="https://wa.wizard.id/31a293"> Contact us</a>
+                  Any Problem?<a href="https://wa.wizard.id/17fae7"> Contact us</a>
               </p>
               <p>
                 <a class="text-center" href="{{ route('login') }}">Click to Login </a>

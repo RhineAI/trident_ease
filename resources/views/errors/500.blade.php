@@ -6,7 +6,9 @@
                 <!--BEGIN CONTENT-->
                 <div class="inner-circle"><i class="fa fa-cogs"></i><span>500</span></div>
                 <span class="inner-status">Opps! Kesalahan Server x_x</span>
-                <span class="inner-detail">Sayangnya, kami mengalami masalah saat memuat laman yang Anda cari. Silakan kembali sebentar lagi Atau hubungi kami di <a href="https://wa.wizard.id/31a293">Whatsapp</a>.</span>
+                <span class="inner-detail">Sayangnya, kami mengalami masalah saat memuat laman yang Anda cari. Silakan kembali sebentar lagi Atau hubungi kami di 
+                    {{-- <a href="https://wa.wizard.id/31a293">Whatsapp</a>.</span> --}}
+                    <a href="https://wa.wizard.id/6d8c12">Whatsapp</a>.</span>
                 <!--END CONTENT-->
             </div>
         </div>
