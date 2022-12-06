@@ -29,10 +29,10 @@
     <style>
         /* Logo Terbaru 1 */
     img{
-        width: 100%;
+        width: 82%;
         height: 310px;
         background-color:white;
-        margin-left:8.5%;
+        margin-left:20.2%;
     }
 
         background: url(.png);
@@ -46,7 +46,7 @@
                 <div class="signin-content">
                     {{-- <div class="signin-image"> --}}
                         {{-- <figure><img src="{{ asset('templates') }}/img/zielogin.jpg" alt="sing up image"></figure> --}}
-                        <figure style="width: 80%; height: 100%;"><img src="{{ asset('assets') }}/img/zielogin.png" alt="sing up image"></figure>
+                        <figure style="width: 75%; height: 100%;"><img src="{{ asset('assets') }}/img/zielogin.png" alt="sing up image"></figure>
                     {{-- </div>s --}}
 
                     <div class="signin-form">
