@@ -152,6 +152,10 @@ return [
         'attribute-name' => [
             'rule-name' => 'custom-message',
         ],
+        'new_password' => [
+            'confirmed' => 'Konfirmasi Password Salah!',
+            'min' => 'Password minimal 5 karakter!'
+        ],
     ],
 
     /*

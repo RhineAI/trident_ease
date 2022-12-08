@@ -58,7 +58,7 @@
                             <span class="help-block with-errors"></span>
                         </div>
 
-                        <label for="id_satuan" class=" control-label ml-3" style="margin-right:53.7px">
+                        <label for="id_satuan" class=" control-label ml-3" style="margin-right:61.1px">
                             <h5 class="my-2">Satuan</h5>
                         </label>
                         <div class="col-md-4">
@@ -87,8 +87,8 @@
                             <span class="help-block with-errors"></span>
                         </div>
 
-                        <label for="id_merek" class="control-label ml-3" style="margin-right: 58.5px;">
-                            <h5 class="my-2">Merek</h5>
+                        <label for="id_merek" class="control-label ml-3" style="margin-right: 64px;">
+                            <h5 class="my-2">Merek </h5>
                         </label>
                         <div class="col-md-4">
                             <select name="id_merek" id="id_merek" class="form-control" required>
@@ -103,7 +103,7 @@
 
                     <div class="form-group row">
                         <label for="stock" class="col-md-2 col-md-offset-1 control-label">
-                            <h5 class="my-2">Stok</h5>
+                            <h5 class="my-2">Stok </h5>
                         </label>
                         <div class="col-md-4">
                             <input type="number" name="stock" id="stock" class="form-control" required autofocus>

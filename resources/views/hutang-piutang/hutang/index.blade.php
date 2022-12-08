@@ -69,7 +69,7 @@
                                                     data-total_bayar="{{ 'Rp. '. format_uang($item->total_bayar) }}" 
                                                     data-total_pembelian="{{ 'Rp. '. format_uang($item->total_pembelian) }}" 
                                                     data-dp="{{ 'Rp. '. format_uang($item->dp) }}" 
-                                                    data-sisa="{{ format_uang($item->sisa) }}" 
+                                                    data-sisa="{{ 'Rp. '.format_uang($item->sisa) }}" 
                                                     data-route="{{ route('admin.data-hutang.store')}}"
                                                     data-toggle="modal" data-target="#formModalPembayaranPBL" data-mode="edit"> <i class="fa fa-pencil"></i>
                                                     </button>
@@ -128,33 +128,34 @@
 
         let nama_pelanggan = $(this).data('nama_pelanggan')
         $(document).on('click', '.edit_pembayaran', function (e) {
-                let id_pembelian = $(this).data('id_pembelian')
-                let id_supplier = $(this).data('id_supplier')
-                let nama_supplier = $(this).data('nama_supplier')
-                let tgl = $(this).data('tgl')
-                let tlp = $(this).data('tlp')
-                let total_bayar = $(this).data('total_bayar')
-                let total_pembelian = $(this).data('total_pembelian')
-                let dp = $(this).data('dp')
-                let sisa = $(this).data('sisa')
-                let url = $(this).data('route')
-                var now = new Date();
-                var day = ("0" + now.getDate()).slice(-2)
-                var month = ("0" + (now.getMonth() + 1)).slice(-2)
-                var today = now.getFullYear()+"-"+(month)+"-"+(day) 
+            let id_pembelian = $(this).data('id_pembelian')
+            let id_supplier = $(this).data('id_supplier')
+            let nama_supplier = $(this).data('nama_supplier')
+            let tgl = $(this).data('tgl')
+            let tlp = $(this).data('tlp')
+            let total_bayar = $(this).data('total_bayar')
+            let total_pembelian = $(this).data('total_pembelian')
+            let dp = $(this).data('dp')
+            let sisa = $(this).data('sisa')
+            let url = $(this).data('route')
+            var now = new Date();
+            var day = ("0" + now.getDate()).slice(-2)
+            var month = ("0" + (now.getMonth() + 1)).slice(-2)
+            var today = now.getFullYear()+"-"+(month)+"-"+(day) 
 
-                $('.modal-footer #btn-submit').text('Update')
-                $('.modal-body form')[0].reset();
-                $('.modal-body form').attr('action', url);
-                
-                $('#modal-title').text("Form Pembayaran")
-                $('.modal-body #tgl').val(today)
-                $('.modal-body #id_pembelian').val(id_pembelian)
-                $('.modal-body #nama_supplier').val(nama_supplier)
-                $('.modal-body #tlp').val(tlp)
-                $('.modal-body #total_pembelian').val(total_pembelian)
-                $('.modal-body #dp').val(dp)
-                $('.modal-body #sisa').val(sisa)
+            $('.modal-footer #btn-submit').text('Update')
+            $('.modal-body form')[0].reset();
+            $('.modal-body form').attr('action', url);
+            
+            $('#modal-title').text("Form Pembayaran")
+            $('.modal-body #tgl').val(today)
+            $('.modal-body #id_pembelian').val(id_pembelian)
+            $('.modal-body #nama_supplier').val(nama_supplier)
+            $('.modal-body #tlp').val(tlp)
+            $('.modal-body #total_pembelian').val(total_pembelian)
+            $('.modal-body #dp').val(dp)
+            console.log(sisa)
+            $('.modal-body #sisa').val(sisa)
         });
     });
 

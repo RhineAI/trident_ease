@@ -41,7 +41,22 @@ class TransaksiPenjualanController extends Controller
     }
 
    
-
+    public function NextId($tgl){
+        $pieces = explode("-",$tgl);
+        $yy=$pieces[0]; // piece1
+        $mm=$pieces[1]; //
+        $dd=$pieces[2]; 
+        $tgl=$yy.$mm.$dd;
+        
+        $result= TransaksiPenjualan::select(DB::raw('max(id)+1 AS nextid'))->orderBy('id', 'DESC')->where('t_transaksi_penjualan.id_perusahaan', auth()->user()->id_perusahaan)->first();
+        // dd($result);
+        if($tgl==substr($result->nextid,0,8)){
+            $nextid=$result->nextid;        
+        } else{
+            $nextid=$tgl.'001';
+        }
+        return $nextid;
+    }
     
 
     /**
@@ -77,6 +92,7 @@ class TransaksiPenjualanController extends Controller
 
     public function store(Request $request)
     {
+        DB::statement('SET FOREIGN_KEY_CHECKS=0');
         // return $request;
         // dd($request); die;
         if($request->kembali < 0){
@@ -86,10 +102,13 @@ class TransaksiPenjualanController extends Controller
             $penjualanBaru = new TransaksiPenjualan();
             // "select max(id)+1 as nextid from t_pembayaran where id like '".$tgl."%'"
             // dd(TransaksiPenjualan::select("id")->where('id', 'like', '%'. date('Ymd') . '%')->first()); die;
-            if(TransaksiPenjualan::select("id")->where('id_perusahaan', auth()->user()->id_perusahaan)->where('id', 'like', '%'. date('Ymd') . '%')->first() == null){
-                $indexTransaksi = sprintf("%03d", 1);
-                $penjualanBaru->id = date('Ymd'). $indexTransaksi;
-            }
+
+            $id = $this->NextId(date('Y-m-d'));
+            // return $id;
+            // if(TransaksiPenjualan::select("id")->where('id_perusahaan', auth()->user()->id_perusahaan)->where('id', 'like', '%'. date('Ymd') . '%')->first() == null){
+                // $indexTransaksi = sprintf("%03d", 1);
+            $penjualanBaru->id = $id;
+            // }
                 
             // $penjualanBaru->kode_invoice = date('Ymd'). $indexTransaksi;
 
@@ -113,10 +132,10 @@ class TransaksiPenjualanController extends Controller
 
             } else {
                 $penjualanBaru->total_bayar = $this->checkPrice($request->dp);
-                $penjualanBaru->sisa = $request->sisa;
+                $penjualanBaru->sisa = $this->checkPrice($request->sisa);
 
             }
-            $penjualanBaru->kembalian = $request->kembali;
+            $penjualanBaru->kembalian = $this->checkPrice(request->kembali);
             $penjualanBaru->dp = $this->checkPrice($request->dp);
 
             $penjualanBaru->jenis_pembayaran = $request->jenis_pembayaran;
@@ -147,7 +166,7 @@ class TransaksiPenjualanController extends Controller
                 } elseif($perusahaan->grade == 3) {
                     if($limit < 10000 ) {
                         $penjualanBaru->save();
-                        // return redirect()->route('list-transaksi.index')->with(['success' => 'Data Transaksi Penjualan Berhasil Disimpan']);
+                    // return redirect()->route('list-transaksi.index')->with(['success' => 'Data Transaksi Penjualan Berhasil Disimpan']);
                     }else {
                         return view('dashboard')->with(['error' => 'Sudah mencapai limit barang, Naikan levelmu terlebih dahulu!']);
                     }
@@ -155,22 +174,26 @@ class TransaksiPenjualanController extends Controller
                 else{
                     return view('dashboard')->with(['error' => 'Laku kah?']);
                 }
-         
+                // return $penjualanBaru;
+                
                 $detPenjualanBaru = new DetailPenjualan(); 
                 $detPenjualanBaru->tgl = date('Y-m-d');
-                $detPenjualanBaru->id_penjualan = $penjualanBaru->id;
+                $detPenjualanBaru->id_penjualan = $id;
+                // return $detPenjualanBaru;
                 $detPenjualanBaru->id_barang = $barang['id_barang'];
                 $detPenjualanBaru->qty = $barang['qty'];
                 $detPenjualanBaru->diskon = $barang['discount'];
                 $detPenjualanBaru->harga_beli = $barang['harga_beli'];
                 $detPenjualanBaru->harga_jual = $barang['harga_jual'];
-                $detPenjualanBaru->id_perusahaan = auth()->user()->id_perusahaan;
+                $detPenjualanBaru->id_perusahaan =  $penjualanBaru->id_perusahaan;
+                // return $detPenjualanBaru;
                 $detPenjualanBaru->save();
+                
+                $barangUpdate = Barang::find($barang['id_barang']);
+                $barangUpdate->stock -= $barang['qty'];
+                $barangUpdate->update();
             }
 
-            $barangUpdate = Barang::find($barang['id_barang']);
-            $barangUpdate->stock -= $barang['qty'];
-            $barangUpdate->update();
             
             if($request->jenis_pembayaran == 1){
                 $kasMasuk = new KasMasuk();
@@ -182,7 +205,7 @@ class TransaksiPenjualanController extends Controller
                 $kasMasuk->save();
             } else if ($request->jenis_pembayaran == 2){
                 $pembayaranBaru = new Piutang();
-                $pembayaranBaru->id_penjualan = $penjualanBaru->id;
+                $pembayaranBaru->id_penjualan = $id;
                 $pembayaranBaru->tgl = date('Ymd');
                 $pembayaranBaru->total_bayar = $this->checkPrice($request->dp);
                 $pembayaranBaru->id_user = auth()->user()->id;
@@ -191,7 +214,7 @@ class TransaksiPenjualanController extends Controller
 
                 $kasMasuk = new KasMasuk();
                 $kasMasuk->tgl = now();
-                $kasMasuk->jumlah = $request->dp; 
+                $kasMasuk->jumlah = $this->checkPrice(request->dp); 
                 $kasMasuk->id_user = auth()->user()->id;
                 $kasMasuk->id_perusahaan = auth()->user()->id_perusahaan;
                 $kasMasuk->keterangan = 'DP Transaksi Penjualan';

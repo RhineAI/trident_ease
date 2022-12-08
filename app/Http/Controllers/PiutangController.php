@@ -25,7 +25,7 @@ class PiutangController extends Controller
                                     ->select('P.nama AS nama_pelanggan', 'P.tlp', 'P.id as id_pelanggan', 't_data_piutang.*', 'TP.dp', 'TP.total_harga', 'TP.sisa', 'TP.jenis_pembayaran')
                                     ->where('TP.jenis_pembayaran', 2)
                                     ->where('TP.id_perusahaan', auth()->user()->id_perusahaan)    
-                                    ->orderBy('id', 'desc')
+                                    ->orderBy('TP.id', 'desc')
                                     ->get();
         // $data['total_bayar'] = Pembayaran::where('id_penjualan', 'id_penjualan')->sum('total_bayar');
         $data['cDate'] = date('d-m-Y');

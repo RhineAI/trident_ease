@@ -46,25 +46,25 @@
                 <div class="form-group row">
                     <div class="form-group" style="width: 95%; margin: auto;">
                         <label for="nama">Nama Pelanggan</label>
-                        <input type="text" class="form-control" id="nama" placeholder="Nama Pelanggan" name="nama">
+                        <input type="text" class="form-control" id="nama" placeholder="Nama Pelanggan" name="nama" required>
                     </div>
                 </div>
                 <div class="form-group row">
                     <div class="form-group" style="width: 95%; margin: auto;">
                         <label for="alamat">Alamat Pelanggan</label>
-                        <textarea class="form-control" name="alamat" id="alamat" cols="3" rows="4"></textarea>
+                        <textarea class="form-control" name="alamat" id="alamat" cols="3" rows="4" required></textarea>
                     </div>
                 </div>
                 <div class="form-group row">
                     <div class="form-group" style="width: 95%; margin: auto;">
                         <label for="tlp">Telepon</label>
-                        <input type="text" class="form-control" id="tlp" placeholder="Telepon" name="tlp">
+                        <input type="text" class="form-control" id="tlp" placeholder="Telepon" name="tlp"  required>
                     </div>
                 </div>
                 <div class="form-group row mb-4">
                     <div class="form-group" style="width: 95%; margin: auto;">
                         <label for="jenis_kelamin">Jenis Kelamin</label>
-                        <select class="form-control" name="jenis_kelamin" id="jenis_kelamin">
+                        <select class="form-control" name="jenis_kelamin" id="jenis_kelamin" required>
                             <option value="" disabled="disabled" selected="true">Pilih Jenis Kelamin</option>
                             <option value="L">Laki-Laki</option>
                             <option value="P">Perempuan</option>

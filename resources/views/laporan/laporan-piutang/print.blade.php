@@ -87,6 +87,7 @@
 {!! $style !!}
 </head>
   <body onload="window.print()">
+    <span style="visibility: hidden">{{ $no = 1 }}</span>
     <div class="button ml-4 align-items-end">
         @if (auth()->user()->hak_akses == 'admin')
             <a href="{{ route('admin.laporan-piutang.index') }}" class="mb-3 mt-3 btn btn-sm btn-secondary ml-4 d-print-none"><i class="fas fa-arrow-rotate-left"></i> Back</a>
@@ -129,7 +130,6 @@
                         <th width="9%" class="text-center" style="vertical-align:middle;">Status</th>
                         <th width="13%" class="text-center" style="vertical-align:middle;">Total Bayar</th>
                     {{-- </tr> --}}
-                    <span style="visibility: hidden">{{ $no = 1 }}</span>
                     @if ($piutang != NULL)
                         @foreach ($piutang as $item)
                             <tr>

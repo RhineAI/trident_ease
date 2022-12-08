@@ -159,6 +159,7 @@
                 $('.modal-body #tlp').val(tlp)
                 $('.modal-body #total_harga').val(total_harga)
                 $('.modal-body #dp').val(dp)
+                console.log(sisa)
                 $('.modal-body #sisa').val(sisa)
         });
     });

@@ -19,7 +19,7 @@ class UsersController extends Controller
     public function index()
     {
         $data['cPerusahaan'] = Perusahaan::select('*')->where('id', auth()->user()->id_perusahaan)->first();
-        $data['pegawai'] = User::orderBy('id', 'DESC')->where('id_perusahaan', auth()->user()->id_perusahaan)->where('id', '!=', auth()->user()->id) ->get();
+        $data['pegawai'] = User::orderBy('id', 'DESC')->where('id_perusahaan', auth()->user()->id_perusahaan)->where('id', '!=', auth()->user()->id)->where('hak_akses', '!=', 'super_admin')->where('hak_akses', '!=', 'owner')->get();
 
         // return $data;
         return view('users.index', $data);
@@ -177,7 +177,7 @@ class UsersController extends Controller
     public function changePWUpdate(Request $request){
         $request->validate([
             'password' => 'required',
-            'new_password' => 'required|confirmed',
+            'new_password' => 'required|confirmed|min:5',
         ]);
 
         if(Hash::check($request->password, auth()->user()->password) == true) {
@@ -193,7 +193,7 @@ class UsersController extends Controller
             // return redirect('/login')->with('success', 'Password Berhasil Diubah');
             return redirect()->route('login')->with(['success' => 'Password Berhasil Diubah!']);
         } else {
-            return back()->with('error', 'Password lama salah!');
+            return back()->with(['error' => 'Password lama salah!']);
         }
     }
 }

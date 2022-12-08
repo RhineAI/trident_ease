@@ -23,7 +23,7 @@ class HutangController extends Controller
         ->select('S.nama AS nama_supplier', 'S.tlp', 'S.id as id_supplier', 't_data_hutang.*', 'TP.dp', 'TP.total_pembelian', 'TP.sisa', 'TP.jenis_pembayaran')
         ->where('TP.jenis_pembayaran', 2)
         ->where('TP.id_perusahaan', auth()->user()->id_perusahaan)    
-        ->orderBy('id', 'desc')
+        ->orderBy('TP.id', 'desc')
         ->get();
         // $data['total_bayar'] = Pembayaran::where('id_pembelian', 'id_pembelian')->sum('total_bayar');
         $data['cDate'] = date('d-m-Y');

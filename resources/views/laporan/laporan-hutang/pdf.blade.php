@@ -26,6 +26,7 @@
     </style>
   </head>
   <body>
+    <span style="visibility: hidden">{{ $no = 1 }}</span>
     <small class="convert-tgl" style="visibility: hidden">
         {{ $no = 1 }}
     </small>
@@ -58,7 +59,6 @@
                     <th width="16%" class="text-center">Nama Supplier</th>
                     <th width="9%" class="text-center">Status</th>
                     <th width="13%" class="text-center">Dibayar</th>
-                    <span style="visibility: hidden">{{ $no = 1 }}</span>
                     @if ($hutang != NULL)
                         @foreach ($hutang as $item)
                             <tr>

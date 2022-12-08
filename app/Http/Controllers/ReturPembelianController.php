@@ -265,6 +265,23 @@ class ReturPembelianController extends Controller
         }
     }
 
+    public function NextId($tgl){
+        $pieces = explode("-",$tgl);
+        $yy=$pieces[0]; // piece1
+        $mm=$pieces[1]; //
+        $dd=$pieces[2]; 
+        $tgl=$yy.$mm.$dd;
+        
+        $result= ReturPembelian::select(DB::raw('max(id)+1 AS nextid'))->orderBy('id', 'DESC')->where('t_retur_pembelian.id_perusahaan', auth()->user()->id_perusahaan)->first();
+        // dd($result);
+        if($tgl==substr($result->nextid,0,8)){
+            $nextid=$result->nextid;        
+        } else{
+            $nextid=$tgl.'001';
+        }
+        return $nextid;
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -283,14 +300,12 @@ class ReturPembelianController extends Controller
      */
     public function store(StoreReturPembelianRequest $request)
     {
+        DB::statement('SET FOREIGN_KEY_CHECKS=0');
         // return $request;
         $returBaru = new ReturPembelian();
 
-        if(ReturPembelian::select("id")->where('id_perusahaan', auth()->user()->id_perusahaan)->where('id', 'like', '%'. date('Ymd') . '%')->first() == null){
-            $indexTransaksi = sprintf("%05d", 1);
-            $returBaru->id = date('Ymd'). $indexTransaksi;
-        }
-
+        $id = $this->NextId(date('Y-m-d'));
+        $returBaru->id = $id;
         $returBaru->id_pembelian = $request->id_pembelian;
         $returBaru->tgl = date('Y-m-d');
         $returBaru->total_retur = $request->total_retur;
@@ -301,7 +316,7 @@ class ReturPembelianController extends Controller
 
         foreach($request->item as $barang){
             $detReturBaru = new DetailReturPembelian();
-            $detReturBaru->id_retur_pembelian = $returBaru->id;
+            $detReturBaru->id_retur_pembelian = $id;
             $detReturBaru->id_barang = $barang['id_barang_retur'];
             $detReturBaru->qty = $barang['qty_retur'];
             // original

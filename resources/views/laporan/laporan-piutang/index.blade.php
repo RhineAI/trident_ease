@@ -20,6 +20,7 @@ Laporan Piutang
 
 <!-- Main content -->
 <section class="content">
+    <span style="visibility: hidden">{{ $no = 1 }}</span>
     <div class="row mx-3">
         <div class="col-md-12 p-2 mb-3" style="background-color: white">
             <div class="box mb-4">
@@ -74,7 +75,7 @@ Laporan Piutang
                     <!-- DataTable with Hover -->
                     <div class="col-lg-12">
                         <div class="table-responsive p-3">
-                            <h5 class="mt-4 mb-3">Piutang</h5>
+                            {{-- <h5 class="mt-4 mb-3">Piutang</h5> --}}
                             <table class="table align-items-center mb-5 table-bordered table-striped table-flush table-hover text-center table-responsive dt-responsive table-piutang" id="dataTableHover">
                                 <thead class="table-dark">
                                     <tr>
@@ -87,7 +88,6 @@ Laporan Piutang
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <span style="visibility: hidden">{{ $no = 1 }}</span>
                                     @if ($piutang != NULL)
                                         @foreach ($piutang as $item)
                                             <tr>

@@ -46,24 +46,24 @@
                 <div class="form-group row">
                     <div class="form-group" style="width: 95%; margin: auto;">
                         <label for="kode">Kode Barang</label>
-                        <input type="text" class="form-control" id="kode" placeholder="Kode Barang" name="kode">
+                        <input type="text" class="form-control" id="kode" placeholder="Kode Barang" name="kode" required>
                     </div>
                 </div>
                 <div class="form-group row">
                     <div class="form-group" style="width: 95%; margin: auto;">
                         <label for="nama">Nama Barang</label>
-                        <input type="text" class="form-control" id="nama" placeholder="Nama Barang" name="nama">
+                        <input type="text" class="form-control" id="nama" placeholder="Nama Barang" name="nama" required>
                     </div>
                 </div>
                 <div class="form-group row">
                     <div class="form-group" style="width: 95%; margin: auto;">
                         <label for="barcode">Barcode Barang</label>
-                        <input type="text" class="form-control" id="barcode" placeholder="Barcode Barang" name="barcode">
+                        <input type="text" class="form-control" id="barcode" placeholder="Barcode Barang" name="barcode" required>
                     </div>
                 </div>
                 <div class="form-group" style="width: 97%; margin: auto;">
                     <label for="id_kategori">Kategori Barang</label>
-                    <select class="form-control" name="id_kategori" id="id_kategori">
+                    <select class="form-control" name="id_kategori" id="id_kategori" required>
                         <option value="" disabled="disabled" selected="true">Choose Category</option>
                         @foreach($categories as $item)
                         <option value="{{$item->id}}">{{$item->nama}}</option>
@@ -73,7 +73,7 @@
                 <br>
                 <div class="form-group" style="width: 97%; margin: auto;">
                     <label for="id_supplier">Supplier Barang</label>
-                    <select class="form-control" name="id_supplier" id="id_supplier">
+                    <select class="form-control" name="id_supplier" id="id_supplier" required>
                         <option value="" disabled="disabled" selected="true">Choose Supplier</option>
                         @foreach($supplier as $item)
                         <option value="{{$item->id}}">{{$item->nama}}</option>
@@ -83,7 +83,7 @@
                 <br>
                 <div class="form-group" style="width: 97%; margin: auto;">
                     <label for="id_satuan">Satuan Barang</label>
-                    <select class="form-control" name="id_satuan" id="id_satuan">
+                    <select class="form-control" name="id_satuan" id="id_satuan" required>
                         <option value="" disabled="disabled" selected="true">Choose Satuan</option>
                         @foreach($satuan as $item)
                         <option value="{{$item->id}}">{{$item->nama}}</option>
@@ -93,7 +93,7 @@
                 <br>
                 <div class="form-group" style="width: 97%; margin: auto;">
                     <label for="id_merek">Merek Barang</label>
-                    <select class="form-control" name="id_merek" id="id_merek">
+                    <select class="form-control" name="id_merek" id="id_merek" required>
                         <option value="" disabled="disabled" selected="true">Choose Merek</option>
                         @foreach($merek as $item)
                         <option value="{{$item->id}}">{{$item->nama}}</option>
@@ -105,13 +105,13 @@
                 <div class="form-group row">
                     <div class="form-group" style="width: 95%; margin: auto;">
                         <label for="stock">Stock Barang</label>
-                        <input type="number" class="form-control" id="stock" placeholder="Stock Barang" name="stock">
+                        <input type="number" class="form-control" id="stock" placeholder="Stock Barang" name="stock" required>
                     </div>
                 </div>
                 <div class="form-group row">
                     <div class="form-group" style="width: 95%; margin: auto;">
                         <label for="stock_minimal">Stock Minimal Barang</label>
-                        <input type="number" class="form-control" id="stock_minimal" placeholder="Stock Minimal Barang" name="stock_minimal">
+                        <input type="number" class="form-control" id="stock_minimal" placeholder="Stock Minimal Barang" name="stock_minimal" required>
                     </div>
                 </div>
                 <div class="form-group row">
@@ -119,7 +119,7 @@
                         <label for="harga_beli">Harga Beli Barang</label>
                         <div class="input-group-prepend input-primary"> 
                             <span class="input-group-text">RP.</span> 
-                            <input type="number" class="form-control" id="harga_beli" placeholder="Harga Beli Barang" name="harga_beli">
+                            <input type="number" class="form-control" id="harga_beli" placeholder="Harga Beli Barang" name="harga_beli" required>
                         </div>
                     </div>
                 </div>
@@ -127,7 +127,7 @@
                     <div class="form-group" style="width: 95%; margin: auto;">
                         <label for="keuntungan">Keuntungan Barang</label>
                         <div class="input-group-prepend input-primary"> 
-                            <input type="number" min="1" max="100" class="form-control" id="keuntungan" placeholder="Keuntungan Barang" name="keuntungan">
+                            <input type="number" min="1" max="100" class="form-control" id="keuntungan" placeholder="Keuntungan Barang" name="keuntungan" required>
                             <span class="input-group-text">%</span> 
                         </div>
                     </div>
@@ -135,13 +135,13 @@
                 <div class="form-group row">
                     <div class="form-group" style="width: 95%; margin: auto;">
                         <label for="keterangan">Keterangan Barang</label>
-                        <input type="text" class="form-control" id="keterangan" placeholder="Keterangan Barang" name="keterangan">
+                        <input type="text" class="form-control" id="keterangan" placeholder="Keterangan Barang" name="keterangan" required>
                     </div>
                 </div>
                 <div class="form-group row">
                     <div class="form-group" style="width: 95%; margin: auto;">
                         <label for="status">Status Barang</label>
-                        <select class="form-control" name="status" id="status">
+                        <select class="form-control" name="status" id="status" required>
                             <option value="" disabled="disabled" selected="true">Choose Status</option>
                             <option value="1">Aktif</option>
                             <option value="2">Tidak Aktif</option>

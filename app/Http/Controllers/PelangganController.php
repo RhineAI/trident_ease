@@ -52,6 +52,14 @@ class PelangganController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'nama' => 'required',
+            'alamat' => 'required',
+            'tlp' => 'required',
+            'jenis_kelamin' => 'required',
+            'id_perusahaan' => 'required'
+        ]);
+
         $input = Pelanggan::create($request->all());
         // return $request;
         // return redirect('/pelanggan')->with('success', 'Input data Supplier berhasil!');

@@ -23,6 +23,18 @@
     <div class="row mx-3">
         <div class="col-md-12 p-2 mb-3" style="background-color: white">
             <div class="box mb-4">
+                @if ($errors->any())
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                 @endif
                 <div class="box-body table-responsive ">
                     <h2 class="text-center mt-3 mb-4">Data Pelanggan</h2>
                   <button type="button" class="btn btn-primary ml-4" data-toggle="modal" data-target="#formModalPelanggan">

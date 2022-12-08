@@ -318,8 +318,8 @@
                             <th width="6%" class="text-center">Invoice</th>
                             <th width="11%" class="text-center">Tanggal</th>
                             <th width="16%" class="text-center">Nama Supplier</th>
-                            <th width="14.5%" class="text-center">Total Bayar</th>
-                            <th width="9%" class="text-center">Status</th>
+                            <th width="8%" class="text-center">Status</th>
+                            <th width="16%" class="text-center">Total Bayar</th>
                             @if ($hutang != NULL)
                                 @foreach ($hutang as $item)
                                     <tr>
@@ -368,8 +368,8 @@
                             <th width="6%" class="text-center">Invoice</th>
                             <th width="11%" class="text-center">Tanggal</th>
                             <th width="14%" class="text-center">Nama Pelanggan</th>
-                            <th width="14.5%" class="text-center">Total Bayar</th>
-                            <th width="9%" class="text-center">Status</th>
+                            <th width="8%" class="text-center">Status</th>
+                            <th width="16%" class="text-center">Total Bayar</th>
                             @if ($piutang != NULL)
                                 @foreach ($piutang as $item)
                                     <tr>

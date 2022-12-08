@@ -89,14 +89,19 @@
         $('#tbl-data-pegawai').DataTable();
     </script>
     <script>
+        $('[id=pass]').hide();
 
         function addForm(url) {
             $('#modal-form').modal('show');
             $('#modal-form .modal-title').text('Tambah Pegawai Baru');
 
-            $('#modal-form form')[0].reset();
-            $('#modal-form form').attr('action', url);
-            $('#modal-form [name=_method]').val('post');
+            
+            $('.modal-body form')[0].reset();
+            $('.modal-body form').attr('action', url);
+            $('[id=pass]').show();
+
+            
+            $('.modal-body [name=_method]').val('post');
         }
 
         $(document).on('click', '#edit', function(event) {
@@ -139,10 +144,10 @@
             $('#modal-form [name=jenis_kelamin]').val(data.jenis_kelamin);
             $('#modal-form [name=hak_akses]').val(data.hak_akses);
             $('#modal-form [name=username]').val(data.username);
-            $('#modal-form [name=password]').attr("type", "hidden");
-            $('#modal-form [name=password_confirmation]').attr("type", "hidden");
             
             $('[id=pass]').hide();
+            document.getElementById("password").required = false;
+            document.getElementById("password_confirmation").required = false;
             // alert(password);
             // $('#modal-form .password').style.visibility="hidden";
             // modal.find('.modal-body form').attr('action', data.url);

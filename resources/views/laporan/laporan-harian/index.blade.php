@@ -164,7 +164,7 @@ Laporan Harian
                                         <th width="11%" class="text-center">Tanggal</th>
                                         <th width="16%" class="text-center">Nama Supplier</th>
                                         <th width="9%" class="text-center">Status</th>
-                                        <th width="13%" class="text-center">Total Dubayar</th>
+                                        <th width="13%" class="text-center">Total Dibayar</th>
                                     </tr>
                                 </thead>
                                 <tfoot>

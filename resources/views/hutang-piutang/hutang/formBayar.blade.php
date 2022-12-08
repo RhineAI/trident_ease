@@ -78,7 +78,7 @@
                         <h5 class="my-2">Sisa Bayar</h5>
                     </label>
                     <div class="col-md-9">
-                        <input type="number" name="sisa" id="sisa" class="form-control" readonly>
+                        <input type="text" name="sisa" id="sisa" class="form-control" readonly>
                         <span class="help-block with-errors"></span>
                     </div>
                 </div>

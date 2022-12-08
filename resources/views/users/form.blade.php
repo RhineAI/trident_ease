@@ -35,7 +35,7 @@
                     <h5 class="my-2">Telepon</h5>
                 </label>
                 <div class="col-md-8">
-                    <input type="number" minlength="11" maxlength="14" placeholder="Telepon / No Hp" name="tlp" id="tlp" class="form-control" aria-label="Username" aria-describedby="basic-addon1" required>
+                    <input type="text" minlength="11" maxlength="14" placeholder="Telepon / No Hp" name="tlp" id="tlp" class="form-control" aria-label="Username" aria-describedby="basic-addon1" required>
                     <span class="help-block with-errors"></span>
                 </div>
             </div>
@@ -58,7 +58,7 @@
                     <h5 class="my-2">Username</h5>
                 </label>
                 <div class="col-md-8">
-                    <input type="text" placeholder="Username" name="username" id="username" class="form-control" aria-label="Username" aria-describedby="basic-addon1" required>
+                    <input type="text" placeholder="Username" name="username" id="username" class="form-control" aria-label="Username" aria-describedby="basic-addon1" required  autocomplete="off">
                     <span class="help-block with-errors"></span>
                 </div>
             </div>
@@ -67,7 +67,7 @@
                     <h5 class="my-2">Password</h5>
                 </label>
                 <div class="col-md-8">
-                    <input type="password" minlength="6" placeholder="Ketik Password" name="password" id="password" class="form-control" aria-label="Username" aria-describedby="basic-addon1" required>
+                    <input type="password" minlength="6" placeholder="Ketik Password" name="password" id="password" class="form-control" aria-label="Username" aria-describedby="basic-addon1" required autocomplete="off">
                     <span class="help-block with-errors"></span>
                 </div>
             </div>
@@ -76,7 +76,7 @@
                     <h5 class="my-2">Konfirmasi Password</h5>
                 </label>
                 <div class="col-md-8">
-                    <input type="password" minlengt="6" data-match="#password" placeholder="Ketik Ulang Password" name="password_confirmation" id="password_confirmation" class="form-control" aria-label="Username" aria-describedby="basic-addon1" required>
+                    <input type="password" minlengt="6" data-match="#password" placeholder="Ketik Ulang Password" name="password_confirmation" id="password_confirmation" class="form-control" aria-label="Username" aria-describedby="basic-addon1" required autocomplete="off">
                     <span class="help-block with-errors"></span>
                 </div>
             </div>

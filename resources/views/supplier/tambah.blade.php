@@ -45,33 +45,54 @@
                 <div class="form-group row">
                     <div class="form-group" style="width: 95%; margin: auto;">
                         <label for="nama">Nama Supplier</label>
-                        <input type="text" class="form-control" id="nama" placeholder="Nama Supplier" name="nama">
+                        <input type="text" class="form-control" id="nama" placeholder="Nama Supplier" name="nama" required>
                     </div>
                 </div>
                 <div class="form-group row">
                     <div class="form-group" style="width: 95%; margin: auto;">
                         <label for="alamat">Alamat Supplier</label>
-                        <textarea class="form-control" name="alamat" id="alamat" cols="3" rows="4"></textarea>
+                        <textarea class="form-control" name="alamat" id="alamat" cols="3" rows="4" required></textarea>
                     </div>
                 </div>
                 <div class="form-group row">
                     <div class="form-group" style="width: 95%; margin: auto;">
                         <label for="tlp">Telepon</label>
-                        <input type="text" class="form-control" id="tlp" placeholder="Telepon" name="tlp">
+                        <input type="text" class="form-control" id="tlp" placeholder="Telepon" name="tlp" required>
                     </div>
                 </div>
                 <div class="form-group row">
                     <div class="form-group" style="width: 95%; margin: auto;">
                         <label for="salesman">Salesman</label>
-                        <input type="text" class="form-control" id="salesman" placeholder="Salesman" name="salesman">
+                        <input type="text" class="form-control" id="salesman" placeholder="Salesman" name="salesman" required>
                     </div>
                 </div>
-                <div class="form-group row">
+                {{-- <div class="form-group row">
                     <div class="form-group" style="width: 95%; margin: auto;">
                         <label for="bank">Bank</label>
                         <input type="text" class="form-control" id="bank" placeholder="Bank" name="bank">
                     </div>
+                </div> --}}
+                <div class="form-group row mb-3" style="width: 98%; margin: auto;">
+                    <label for="salesman">Bank</label>
+                    <select name="bank" required id="bank" class="form-control">
+                        <option disabled="disabled" selected="selected">BANK</option>
+                        <option value="Bank BRI">Bank BRI</option>
+                        <option value="Bank BNI">Bank BNI</option>
+                        <option value="Bank BJB">Bank BJB</option>
+                        <option value="Bank BCA">Bank BCA</option>
+                        <option value="Bank Permata">Bank Permata</option>
+                        <option value="Bank Muamalat">Bank Muamalat</option>
+                        <option value="Other">Other</option>
+                    </select>
+                    <div class="select-dropdown"></div>
                 </div>
+
+                <div class="form-group row mb-4 other">
+                    <div class="form-group" style="width: 95%; margin: auto;">
+                        <input type="text" name="other" id="other" placeholder="BANK PERUSAHAAN" class="form-control">
+                    </div>
+                </div>
+
                 <div class="form-group row mb-4">
                     <div class="form-group" style="width: 95%; margin: auto;">
                         <label for="no_rekening">No Rekening</label>
@@ -89,3 +110,19 @@
       </section>
       <!-- /.content -->
 @endsection
+
+@push('scripts')
+    <script>
+        $('div.other').hide();
+        $(document).on('change', '#bank', function () {  
+            var isiSelect = $("#bank").val();
+
+            // console.log(isiSelect)
+            if (isiSelect == 'Other') {
+                $('div.other').show();
+            } else {
+                $('div.other').hide();
+            }
+        });
+    </script>
+@endpush

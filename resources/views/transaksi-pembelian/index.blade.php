@@ -221,21 +221,31 @@
 
 @push('scripts') 
     <script>
-        console.log($('#dp').val())
         $(document).on('click', '#submit', function(){
             let id_supplier = $('#id_supplier').val();
             let produk = $('.produk').val();
-            let dp = $('#bayar_kredit').val();
+            let bayar_kredit = $('#bayar_kredit').val();
             let uang_bayar = $('#uang_bayar').val();
             let cash = String(uang_bayar).replaceAll(".", '');
             let jenis_pembayaran = $('#jenis_pembayaran').val();
 
-            let tb = $("#total_bayar").val();
+            let titikdp = String(bayar_kredit).replaceAll(".", '');
+            let dp = parseFloat(titikdp);
             let bayar = $('#bayar').val();
             let harga = String(bayar).replaceAll(".", '');
-            let total = $('#total_bayar').val();
-            let bayardp = String(dp).replaceAll(".", '');
-            // console.log(jenis_pembayaran)
+            let total = $('#total_pembelian').val();
+            console.log(total)
+            console.log(dp)
+            // let harga_beli = $('[id=harga_beli]').val();
+            // console.log(harga_beli)
+
+            // if(harga_beli == 0) {
+            //     Swal.fire('Tentukan Harga Barang!')
+            //     return false;
+            // } else {
+            //     $('#harga_beli').val();
+            // }
+            
 
             if(id_supplier == 0) {
                 Swal.fire('Isi data supplier terlebih dahulu')
@@ -256,6 +266,7 @@
                     Swal.fire('Masukan jumlah uang dp terlebih dahulu')
                     return false;
                 } else {
+                    // consolo.log(total)
                     if (dp > total) {
                         Swal.fire('Jumlah dp melebihi total harga, Silahkan ubah jenis pembayarn')
                         return false;
@@ -288,16 +299,27 @@
         $(document).on('change', '#jenis_pembayaran', function () {  
             var isiJenis = $("#jenis_pembayaran").val();
             if (isiJenis == '2') {
+                $('#tampil_total').hide();
+                $('#uang_bayar').val(0);
+                $('#uang_kembali').val(0);
                 $('div#tampil_kredit').show();
                 $('div#tampil_sisa').show();
                 $('div#tampil_bayar').hide();
                 $('div#tampil_kembali').hide();
             } else if(isiJenis == '1') {
+                $('#tampil_total').hide();
+                $('#bayar_kredit').val(0);
+                $('#sisa_kredit').val(0);
                 $('div#tampil_kredit').hide();
                 $('div#tampil_sisa').hide();
                 $('div#tampil_bayar').show();
                 $('div#tampil_kembali').show();
             } else {
+                $('#tampil_total').show();
+                $('#bayar_kredit').val(0);
+                $('#sisa_kredit').val(0);
+                $('#uang_bayar').val(0);
+                $('#uang_kembali').val(0);
                 $('div#tampil_kredit').hide();
                 $('div#tampil_sisa').hide();
                 $('div#tampil_bayar').hide();
@@ -354,8 +376,8 @@
                     var discount = $('#discount' + id).val();
                     var convert = String(harga_beli).replaceAll(".", '');
                     
-                    var hasil = (parseInt(convert) *qty) * discount/100;
-                    $('#subtotal' + id).val((parseInt(convert) * qty) - hasil);
+                    var hasil = (parseFloat(convert) *qty) * discount/100;
+                    $('#subtotal' + id).val((parseFloat(convert) * qty) - hasil);
                     GetTotalBayar();
                     //GetKeuntungan();
                     //alert(id);
@@ -368,8 +390,8 @@
                     var discount = $('#discount' + id).val();
                     var convert = String(harga_beli).replaceAll(".", '');
 
-                    var hasil = (parseInt(convert) *qty) * discount/100;
-                    $('#subtotal' + id).val((parseInt(convert) * qty) - hasil);
+                    var hasil = (parseFloat(convert) *qty) * discount/100;
+                    $('#subtotal' + id).val((parseFloat(convert) * qty) - hasil);
                     GetTotalBayar();
                     //GetKeuntungan();
                     //alert(id);
@@ -380,7 +402,7 @@
                     var bayar = $(this).val();
                     var harga = String(bayar).replaceAll(".", '');
 
-                    let pengurangan = parseInt(harga) - tb;
+                    let pengurangan = parseFloat(harga) - tb;
                     let total = Math.round(Number(pengurangan)).toLocaleString("id-ID", {
                                 style:"currency", 
                                 currency:"IDR", 
@@ -394,31 +416,13 @@
                     let ubah_int = cek_bayar.replace(/Rp/g, '');
                     let jadi_harga = ubah_int.replaceAll('.', '');
                     // console.log(jadi_harga)
-                    let pengurangan2 = parseInt(jadi_harga - tb);
+                    let pengurangan2 = parseFloat(jadi_harga - tb);
               
                             // console.log(total)
                     $('#bayar_kredit').val(0);
                     $('#sisa_kredit').val(0);
                     $('#uang_bayar').val(bayar)
                     $('#uang_kembali').val(total.replace(/Rp/g, '').substr(1));
-                    // $(document).on('change', '#bayar', function(){
-                    //     if(bayar <= tb) {
-                    //         $('#bayar_kredit').val(0);
-                    //         $('#sisa_kredit').val(0);
-                    //         $('#uang_bayar').val(cek_bayar.replace(/Rp/g, '').substr(1));
-                    //         $('#uang_kembali').val(pengurangan2);
-                    //     } else {
-                            
-                    //     }
-                    // });   
-                    
-                    // $(document).on('submit', '#submit', function(){ 
-                    //     if(bayar <= tb ) {
-                    //         $('#bayar').val(total);
-                    //     } else {
-                    //         $('#bayar').val(bayar);
-                    //     }
-                    // });
                 });
 
                 $(document).on('keyup', '.harga_beli', function () {
@@ -429,7 +433,7 @@
                     var hasil = (harga_beli *qty) * discount/100;
                     var convert = String(harga_beli).replaceAll(".", '');
 
-                    $('#subtotal' + id).val((parseInt(convert) * qty) - hasil);
+                    $('#subtotal' + id).val((parseFloat(convert) * qty) - hasil);
                     GetTotalBayar();
                     //GetKeuntungan();
                     //alert(id);
@@ -440,7 +444,7 @@
                     var total = $('#total_bayar').val();
                     var bayardp = String(dp).replaceAll(".", '');
                     // console.log(bayardp);
-                    var sisa = total - parseInt(bayardp);
+                    var sisa = total - parseFloat(bayardp);
                     let formatRupiah = Number(sisa).toLocaleString("id-ID", {
                                         style:"currency",
                                         currency:"IDR",
@@ -474,7 +478,7 @@
                     var convert = String(harga_beli).replaceAll(".", '');
                     
                     var discount = $('#discount' + id).val();
-                    $('#subtotal' + id).val((parseInt(convert) * qty) - discount/100);
+                    $('#subtotal' + id).val((parseFloat(convert) * qty) - discount/100);
                     GetTotalBayar();
                 });
 
@@ -518,7 +522,7 @@
                         var rowBarang="<tr id='buffer"+count+"'>";
                         rowBarang+="<td style='text-align:center'><input type='hidden' name='item["+count+"][id_barang]' value='"+id_barang+"'> <input class='form-control' type='text' name='item["+count+"][kode]' value='"+kode_barang+"' readonly='true'style=' width: 130px;'></td>";
                         rowBarang+="<td style='text-align:center'><input class='form-control' type='text' name='item["+count+"][nama_barang]' value='"+nama_barang+"' readonly='true' style='width: 150px;'></td>";
-                        rowBarang+="<td style='text-align:center'><div class='input-group-prepend input-primary'><span class='input-group-text'>Rp.</span><input autocomplete='off' style='text-align:right; width: 200px;' type='text' class='form-control harga_beli' name='item["+count+"][harga_beli]' value='0' id='harga_beli"+count+"' data-idbuffer='"+count+"'></div></td>";
+                        rowBarang+="<td style='text-align:center'><div class='input-group-prepend input-primary'><span class='input-group-text'>Rp.</span><input autocomplete='off' style='text-align:right; width: 200px;' type='text' class='form-control harga_beli' name='item["+count+"][harga_beli]' placeholder='0' id='harga_beli"+count+"' required data-idbuffer='"+count+"'></div></td>";
                         rowBarang+="<td style='text-align:center'><input autocomplete='off' type='text' class='form-control qty_pembelian' name='item["+count+"][qty]' value='1' id='qty"+count+"' data-idbuffer='"+count+"' onchange='cekQty(this)' style='width: 90px;'></td>";
                         rowBarang+="<td style='text-align:center'><div class='input-group-prepend input-primary'><input autocomplete='off' onchange='cekDiscount(this)' max='100' style='text-align:right; width: 70px;' type='text' class='form-control discount' name='item["+count+"][discount]' value='0' id='discount"+count+"' data-idbuffer='"+count+"'><span class='input-group-text'>%</span></div></td>";
                         rowBarang+="<td style='text-align:center'><input style='text-align:right; width: 200px;' type='number' class='form-control' name='item["+count+"][subtotal]' value='0' readonly='true' id='subtotal"+count+"'></td>";
@@ -588,9 +592,9 @@
                 generateRupiah(this);
             })
 
-            // $(document).on('keyup', '#bayar_kredit', function(e){
-            //     generateRupiah(this);
-            // })
+            $(document).on('keyup', '#bayar_kredit', function(e){
+                generateRupiah(this);
+            })
 
             $(document).on('keyup', '.harga_beli', function(e){
                 generateRupiah(this);
@@ -602,7 +606,7 @@
             //     var dp = $(this).val();
             //     var harga = String(dp).replace(".", '');
             //     console.log(harga)
-            //     $('#sisa').val(tb - parseInt(harga) );
+            //     $('#sisa').val(tb - parseFloat(harga) );
             // })
 
             //KEMBALIAN

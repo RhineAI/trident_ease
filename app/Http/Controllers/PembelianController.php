@@ -12,6 +12,8 @@ use App\Models\Piutang;
 use App\Models\Hutang;
 use App\Models\Perusahaan;
 use App\Models\Supplier;
+use Illuminate\Support\Facades\DB;
+
 
 class PembelianController extends Controller
 {
@@ -57,6 +59,23 @@ class PembelianController extends Controller
         }
     }
 
+    public function NextId($tgl){
+        $pieces = explode("-",$tgl);
+        $yy=$pieces[0]; // piece1
+        $mm=$pieces[1]; //
+        $dd=$pieces[2]; 
+        $tgl=$yy.$mm.$dd;
+        
+        $result= Pembelian::select(DB::raw('max(id)+1 AS nextid'))->orderBy('id', 'DESC')->where('t_transaksi_pembelian.id_perusahaan', auth()->user()->id_perusahaan)->first();
+        // dd($result);
+        if($tgl==substr($result->nextid,0,8)){
+            $nextid=$result->nextid;        
+        } else{
+            $nextid=$tgl.'001';
+        }
+        return $nextid;
+    }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -98,15 +117,16 @@ class PembelianController extends Controller
 
     public function store(StorePembelianRequest $request)
     {
+        DB::statement('SET FOREIGN_KEY_CHECKS=0');
         // dd($request); die;
             $pembelianBaru = new Pembelian();
             // "select max(id)+1 as nextid from t_pembayaran where id like '".$tgl."%'"
             // dd(Pembelian::select("id")->where('id', 'like', '%'. date('Ymd') . '%')->first()); die;
-            if(Pembelian::select("id")->where('id', 'like', '%'. date('Ymd') . '%')->first() == null){
-                $indexTransaksi = sprintf("%03d", 1);
-                $pembelianBaru->id = date('Ymd'). $indexTransaksi;
-                // $pembelianBaru->kode_invoice = date('Ymd'). $indexTransaksi;
-            }
+            $id = $this->NextId(date('Y-m-d'));
+            // return $id;
+            // if(TransaksiPenjualan::select("id")->where('id_perusahaan', auth()->user()->id_perusahaan)->where('id', 'like', '%'. date('Ymd') . '%')->first() == null){
+                // $indexTransaksi = sprintf("%03d", 1);
+            $pembelianBaru->id = $id;
 
             // $kode = '';
             // $date = (date('Ymd'));
@@ -169,7 +189,7 @@ class PembelianController extends Controller
 
             if($request->jenis_pembayaran == 2){
                 $pembayaranBaru = new Hutang();
-                $pembayaranBaru->id_pembelian = $pembelianBaru->id;
+                $pembayaranBaru->id_pembelian = $id;
                 $pembayaranBaru->tgl = date('Y-m-d');
                 $pembayaranBaru->total_bayar = $this->checkPrice($request->bayar_kredit);
                 $pembayaranBaru->id_user = auth()->user()->id;

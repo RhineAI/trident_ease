@@ -319,7 +319,7 @@
             let bayardp = String(dp).replaceAll(".", '');
             // console.log(tb)
             // console.log(bayardp)
-            let sisa = tb - parseInt(bayardp);
+            let sisa = tb - parseFloat(bayardp);
             let formatRupiah = Number(sisa).toLocaleString("id-ID", {
                                 style:"currency",
                                 currency:"IDR",
@@ -348,7 +348,7 @@
                     Swal.fire('Masukan jumlah uang bayar terlebih dahulu')
                     return false;
                 } else {
-                    if(parseInt(harga) < tb) {
+                    if(parseFloat(harga) < tb) {
                         Swal.fire('Jumlah uang bayar kurang')
                         return false;
                     } else {
@@ -360,7 +360,7 @@
                     Swal.fire('Masukan jumlah uang dp terlebih dahulu')
                     return false;
                 } else {
-                    if(parseInt(bayardp) > tb) {
+                    if(parseFloat(bayardp) > tb) {
                         Swal.fire('Jumlah dp melebihi total bayar, Silahkan ganti jenis pembayaran')
                         return false;
                     } else {
@@ -449,6 +449,8 @@
             $(document).on('change', '#jenis_pembayaran', function () {  
                 var isiJenis = $("#jenis_pembayaran").val();
                 if (isiJenis == '1') {
+                    $("#bayar").val(0);
+                    $("#kembali").val(0);
                     $("#tampil_dp").val("");
                     $("#tampil_sisa").val("");
                     $('div#tampil_bayar').show();
@@ -457,6 +459,8 @@
                     $('div#tampil_sisa').hide();
 
                 } else {
+                    $("#dp").val(0);
+                    $("#sisa").val(0);
                     $("#tampil_bayar").val("");
                     $("#tampil_kembali").val("");
                     $('div#tampil_bayar').hide();
@@ -634,44 +638,50 @@
             $(document).on('keyup', '#bayar', function(e){
                 generateRupiah(this);
             })
-            // $(document).on('keyup', '#dp', function(e){
-            //     generateRupiah(this);
-            // })
+            $(document).on('keyup', '#dp', function(e){
+                generateRupiah(this);
+            })
 
            //DP
-            $(document).on('keyup', '#dp', function(e) {
-                var tb = $("#total_bayar").val();
-                var dp = $(this).val();
-                var bayardp = String(dp).replaceAll(".", '');
-                // console.log(tb)
-                // console.log(bayardp)
-                var sisa = tb - parseInt(bayardp);
-                let formatRupiah = Number(sisa).toLocaleString("id-ID", {
-                                    style:"currency",
-                                    currency:"IDR",
-                                    maximumSignificantDigits: (sisa + '').replace('.', '').length
-                                });
-                let ubah_int = formatRupiah.replace(/Rp/g, '');
-                let sisabayar = ubah_int.replaceAll('.', '');
-                // console.log(sisabayar)
+            // $(document).on('keyup', '#dp', function(e) {
+            //     var tb = $("#total_bayar").val();
+            //     var dp = $(this).val();
+            //     var bayardp = String(dp).replaceAll(".", '');
+            //     // console.log(tb - bayardp)
+            //     // console.log()
+            //     var sisa = tb - parseFloat(bayardp);
+            //     let formatRupiah = Math.round(Number(sisa)).toLocaleString("id-ID", {
+            //                         style:"currency",
+            //                         currency:"IDR",
+            //                         maximumSignificantDigits: (sisa + '').replace('.', '').length
+            //                     });
+                
+            //     // let ubah_int = formatRupiah.replace(/Rp/g, '');
+            //     // let pengurangan2 = ubah_int.replaceAll('.', '');
+            //     // console.log(makerp)
 
-                // $('#dp').val(parseInt(bayardp));
-                $('#bayar').val(0);
-                $('#sisa').val(parseInt(sisabayar));
+            //     // $('#dp').val(parseFloat(bayardp));
+            //     $('#bayar').val(0);
+            //     $('#sisa').val(formatRupiah.replace(/Rp/g, '').substr(1));
+            //     // $('#sisa').val(tb-bayardp);
+            // })
 
-                // $(document).on('change', '#dp', function(e) {
-                //     if (parseInt(bayardp) > tb) {
-                //         $('#dp').val(tb);
-                //         $('#bayar').val(0);
-                //         $('#sisa').val(parseInt(sisabayar));
-                //     } else {
-                //         $('#dp').val(parseInt(bayardp));
-                //         $('#bayar').val(0);
-                //         $('#sisa').val(parseInt(sisabayar));
-                //     }
-                // })
-             
-            })
+            $(document).on('keyup', '#dp', function () {
+                    var dp = $(this).val();
+                    var total = $('#total_bayar').val();
+                    var bayardp = String(dp).replaceAll(".", '');
+
+                    var sisa = total - parseFloat(bayardp);
+                    let formatRupiah = Number(sisa).toLocaleString("id-ID", {
+                                        style:"currency",
+                                        currency:"IDR",
+                                        maximumSignificantDigits: (sisa + '').replace('.', '').length
+                                    });
+                    let ubah_int = formatRupiah.replace(/Rp/g, '');
+                    let sisabayar = ubah_int.replaceAll('.', '');
+                    
+                    $('#sisa').val(sisa);
+                });
 
             //KEMBALIAN
             $(document).on('keyup', '#bayar', function (e) {
@@ -679,11 +689,19 @@
                 var bayar = $(this).val();
                 var harga = String(bayar).replaceAll(".", '');
 
+                let kembali = parseFloat(harga) - tb;
+                let makerp = Math.round(Number(kembali)).toLocaleString("id-ID", {
+                            style:"currency", 
+                            currency:"IDR", 
+                            maximumSignificantDigits: (kembali + '').replace('.', '').length
+                            });
+
                 $('#dp').val(0);
                 $('#bayar').val(bayar);
-                $('#kembali').val(parseInt(harga) - tb);  
+                $('#kembali').val(makerp.replace(/Rp/g, '').substr(1));
+                // $('#kembali').val(parseFloat(harga) - tb);  
 
-                // let pengurangan = parseInt(harga) - tb;
+                // let pengurangan = parseFloat(harga) - tb;
                 // let dibayar = Math.round(Number(harga)).toLocaleString("id-ID", {
                 //             style:"currency", 
                 //             currency:"IDR", 
@@ -697,7 +715,7 @@
                 // let ubah_int = cek_bayar.replace(/Rp/g, '');
                 // let jadi_harga = ubah_int.replaceAll('.', '');
                 // console.log(jadi_harga)
-                // let pengurangan2 = parseInt(jadi_harga - tb);
+                // let pengurangan2 = parseFloat(jadi_harga - tb);
                 // console.log(pengurangan2)
                 // $('#bayar').val(bayar)
                 // $('#kembali').val(total.replace(/Rp/g, '').substr(1));
@@ -711,11 +729,11 @@
             //     var bayar = $(this).val();
             //     var harga = String(bayar).replaceAll(".", '');
                 
-            //     if(parseInt(harga) >= tb) {
+            //     if(parseFloat(harga) >= tb) {
             //         $('#dp').val(0);
-            //         $('#bayar').val(parseInt(harga));
-            //         $('#kembali').val(parseInt(harga) - tb);      
-            //     } else if(parseInt(harga) <= tb) {
+            //         $('#bayar').val(parseFloat(harga));
+            //         $('#kembali').val(parseFloat(harga) - tb);      
+            //     } else if(parseFloat(harga) <= tb) {
             //         $('#dp').val(0);
             //         $('#bayar').val(tb);
             //         $('#kembali').val(0);

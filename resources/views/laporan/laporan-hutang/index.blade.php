@@ -74,7 +74,7 @@ Laporan Hutang
                     <!-- DataTable with Hover -->
                     <div class="col-lg-12">
                         <div class="table-responsive p-3">
-                            <h5 class="mt-4 mb-3">Hutang</h5>
+                            {{-- <h5 class="mt-4 mb-3">Hutang</h5> --}}
                             <table style="border-left: 0.02px solid lightgrey" class="table align-items-center mb-5 table-bordered table-striped table-flush table-hover text-center table-responsive dt-responsive table-hutang dataTable" id="dataTableHover">
                                 <thead class="table-dark">
                                     <tr>

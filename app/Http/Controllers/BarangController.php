@@ -213,7 +213,7 @@ class BarangController extends Controller
                     return view('dashboard')->with(['error' => 'Sudah mencapai limit barang, Naikan levelmu terlebih dahulu!']);
                 }
             } else{
-                return redirect()->route('logout')->with(['error' => 'Lu siapa??']);
+                return redirect()->route('logout')->with(['error' => 'Anda tidak memiliki akses!']);
             }
 
         return redirect()->route('admin.barang.index')->with(['success' => 'Berhasil Disimpan']);

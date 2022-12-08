@@ -19,7 +19,20 @@ Ganti Password
       <div class="col-md-12 p-2 mb-3" style="background-color: white">
           <div class="box mb-4">
               <div class="box-body table-responsive">
+                @if ($errors->any())
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                 @endif
                   <h2 class="text-center mt-3 mb-5">Ganti Password</h2>
+                  
                   <div class="col-lg-10" style="margin: 0 auto">
                       <form action="" method="POST">
                         @csrf
@@ -33,7 +46,7 @@ Ganti Password
                         </div>
                         <div class="form-group row" id="hpsPassword">
                             <label for="new_password_confirmation">Konfirmasi Password</label>
-                            <input type="password" class="form-control" id="new_password_confirmation" placeholder="Konfirmasi Password" name="new_password_confirmation">
+                            <input type="password" class="form-control" id="new_password_confirmation" placeholder="Konfirmasi Password Baru" name="new_password_confirmation">
                         </div>
                         <div class="btn"  style="float:right; margin-left: 2rem">
                           <button type="submit" class="btn btn-outline-success" id="btn-submit">Simpan Data</button>

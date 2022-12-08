@@ -26,6 +26,7 @@
     </style>
   </head>
   <body>
+    <span style="visibility: hidden">{{ $no = 1 }}</span>
     <small class="convert-tgl" style="visibility: hidden;">
         {{ $no = 1 }}
     </small>
@@ -60,7 +61,6 @@
                         <th width="9%" class="text-center" style="vertical-align:middle;">Status</th>
                         <th width="13%" class="text-center" style="vertical-align:middle;">Total Bayar</th>
                     {{-- </tr> --}}
-                    <span style="visibility: hidden">{{ $no = 1 }}</span>
                     @if ($piutang != NULL)
                         @foreach ($piutang as $item)
                             <tr>

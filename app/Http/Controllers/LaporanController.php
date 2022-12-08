@@ -1211,8 +1211,8 @@ class LaporanController extends Controller
             // }
             
             $kesesuaianBarang = Penyesuaian::where('t_penyesuaian.tgl', 'LIKE', '%'.$tanggal.'%')
-                                            ->where('id_merek', $merek)
-                                            ->where('id_kategori', $kategori)
+                                            ->orWhere('id_merek', $merek)
+                                            ->orWhere('id_kategori', $kategori)
                                             ->leftJoin('t_barang AS B', 'B.id', 't_penyesuaian.id_barang')
                                             ->leftJoin('t_kategori AS K', 'K.id', 'B.id_kategori')
                                             ->leftJoin('t_merek AS M', 'M.id', 'B.id_merek')
@@ -1263,8 +1263,8 @@ class LaporanController extends Controller
             $awal = date('Y-m-d', strtotime("+1day", strtotime($awal)));
             
             $kesesuaianBarang = Penyesuaian::where('t_penyesuaian.tgl', 'LIKE', '%'.$tanggal.'%')
-                                            ->where('id_merek', $merek)
-                                            ->where('id_kategori', $kategori)
+                                            ->orWhere('id_merek', $merek)
+                                            ->orWhere('id_kategori', $kategori)
                                             ->leftJoin('t_barang AS B', 'B.id', 't_penyesuaian.id_barang')
                                             ->leftJoin('t_kategori AS K', 'K.id', 'B.id_kategori')
                                             ->leftJoin('t_merek AS M', 'M.id', 'B.id_merek')
@@ -1313,8 +1313,8 @@ class LaporanController extends Controller
             $awal = date('Y-m-d', strtotime("+1day", strtotime($awal)));
             
             $kesesuaianBarang = Penyesuaian::where('t_penyesuaian.tgl', 'LIKE', '%'.$tanggal.'%')
-                                            ->where('id_merek', $merek)
-                                            ->where('id_kategori', $kategori)
+                                            ->orWhere('id_merek', $merek)
+                                            ->orWhere('id_kategori', $kategori)
                                             ->leftJoin('t_barang AS B', 'B.id', 't_penyesuaian.id_barang')
                                             ->leftJoin('t_kategori AS K', 'K.id', 'B.id_kategori')
                                             ->leftJoin('t_merek AS M', 'M.id', 'B.id_merek')
@@ -1377,7 +1377,7 @@ class LaporanController extends Controller
                         ->leftJoin('t_supplier AS S', 'S.id', 'TP.id_supplier')
                         ->select('t_data_hutang.*', 'TP.id as kode_invoice', 'TP.sisa', 'S.nama AS nama_supplier')  
                         ->where('t_data_hutang.id_perusahaan', auth()->user()->id_perusahaan)
-                        ->orderBy('id', 'desc')->get();
+                        ->orderBy('TP.id', 'desc')->get();
 
         $totalHutang = 0;
         foreach($hutang as $item) {
@@ -1458,7 +1458,7 @@ class LaporanController extends Controller
                         ->leftJoin('t_pelanggan AS P', 'P.id', 'TP.id_pelanggan')
                         ->select('t_data_piutang.*', 'TP.id as kode_invoice', 'TP.sisa', 'P.nama AS nama_pelanggan')  
                         ->where('t_data_piutang.id_perusahaan', auth()->user()->id_perusahaan)
-                        ->orderBy('id', 'desc')->get();
+                        ->orderBy('TP.id', 'desc')->get();
                            
         $totalPiutang = 0;
         foreach($piutang as $item) {
@@ -1484,7 +1484,7 @@ class LaporanController extends Controller
                             ->leftJoin('t_pelanggan AS P', 'P.id', 'TP.id_pelanggan')
                             ->select('t_data_piutang.*', 'TP.id as kode_invoice', 'TP.sisa', 'P.nama AS nama_pelanggan')  
                             ->where('t_data_piutang.id_perusahaan', auth()->user()->id_perusahaan)
-                            ->orderBy('id', 'desc')->get();
+                            ->orderBy('TP.id', 'desc')->get();
             
             foreach($piutang as $item) {
                 $row = array();
@@ -1527,7 +1527,7 @@ class LaporanController extends Controller
                         ->leftJoin('t_supplier AS S', 'S.id', 'TP.id_supplier')
                         ->select('t_data_hutang.*', 'TP.id as kode_invoice', 'TP.sisa', 'S.nama AS nama_supplier')  
                         ->where('t_data_hutang.id_perusahaan', auth()->user()->id_perusahaan)
-                        ->orderBy('id', 'desc')->get();
+                        ->orderBy('TP.id', 'desc')->get();
         $totalHutang = 0;
         foreach($hutang as $item) {
             $totalHutang += $item->total_bayar;
@@ -1586,7 +1586,7 @@ class LaporanController extends Controller
                         ->leftJoin('t_pelanggan AS P', 'P.id', 'TP.id_pelanggan')
                         ->select('t_data_piutang.*', 'TP.id as kode_invoice', 'TP.sisa', 'P.nama AS nama_pelanggan')  
                         ->where('t_data_piutang.id_perusahaan', auth()->user()->id_perusahaan)
-                        ->orderBy('id', 'desc')->get();                       
+                        ->orderBy('TP.id', 'desc')->get();                       
         $totalPiutang = 0;
         foreach($piutang as $item) {
             $totalPiutang += $item->total_bayar;
@@ -1638,7 +1638,7 @@ class LaporanController extends Controller
                         ->leftJoin('t_supplier AS S', 'S.id', 'TP.id_supplier')
                         ->select('t_data_hutang.*', 'TP.id as kode_invoice', 'TP.sisa', 'S.nama AS nama_supplier')  
                         ->where('t_data_hutang.id_perusahaan', auth()->user()->id_perusahaan)
-                        ->orderBy('id', 'desc')->get();                       
+                        ->orderBy('TP.id', 'desc')->get();                       
         $totalHutang = 0;
         foreach($hutang as $item) {
         $totalHutang += $item->total_bayar;
@@ -1689,7 +1689,7 @@ class LaporanController extends Controller
                         ->leftJoin('t_pelanggan AS P', 'P.id', 'TP.id_pelanggan')
                         ->select('t_data_piutang.*', 'TP.id as kode_invoice', 'TP.sisa', 'P.nama AS nama_pelanggan')  
                         ->where('t_data_piutang.id_perusahaan', auth()->user()->id_perusahaan)
-                        ->orderBy('id', 'desc')->get();                       
+                        ->orderBy('TP.id', 'desc')->get();                       
         $totalPiutang = 0;
         foreach($piutang as $item) {
             $totalPiutang += $item->total_bayar;

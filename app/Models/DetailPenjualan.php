@@ -11,5 +11,6 @@ class DetailPenjualan extends Model
 
     protected $table = 't_detail_penjualan';
     protected $primaryKey = 'id';
-    protected $guarded = ['id'];
+    // protected $fillable = ['tgl', 'id_penjualan', 'id_barang', 'harga_jual', 'qty'];
+    protected $guarded = [];
 }

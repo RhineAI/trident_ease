@@ -163,14 +163,17 @@ class ReturPenjualanController extends Controller
      */
     public function store(StoreReturPenjualanRequest $request)
     {
+        DB::statement('SET FOREIGN_KEY_CHECKS=0');
+
         // dd($request); die;
         $returBaru = new ReturPenjualan();
 
-        if(ReturPenjualan::select("id")->where('id', 'like', '%'. date('Ymd') . '%')->first() == null){
-            $indexTransaksi = sprintf("%05d", 1);
-            $returBaru->id = date('Ymd'). $indexTransaksi;
-        }
-        
+        // if(ReturPenjualan::select("id")->where('id', 'like', '%'. date('Ymd') . '%')->first() == null){
+        //     $indexTransaksi = sprintf("%05d", 1);
+        //     $returBaru->id = date('Ymd'). $indexTransaksi;
+        // }
+        $id = $this->NextId(date('Y-m-d'));
+        $returBaru->id = $id;
         $returBaru->id_penjualan = $request->id_penjualan;
         $returBaru->tgl = date('Y-m-d');
         $returBaru->total_retur = $request->total_retur;
@@ -182,7 +185,7 @@ class ReturPenjualanController extends Controller
         
         foreach($request->item as $barang){
             $detReturBaru = new DetailReturPenjualan();
-            $detReturBaru->id_retur_penjualan = $returBaru->id;
+            $detReturBaru->id_retur_penjualan = $id;
             $detReturBaru->id_barang = $barang['id_barang_retur'];
             $detReturBaru->qty = $barang['qty_retur'];
             $qtyBeli = TransaksiPenjualan::leftJoin('t_detail_penjualan AS DT', 'DT.id_penjualan', 't_transaksi_penjualan.id')->select(DB::raw('DT.qty'), 'DT.id_barang')->where('t_transaksi_penjualan.id_perusahaan', auth()->user()->id_perusahaan)->where('t_transaksi_penjualan.id', $request->id_penjualan)->where('DT.id_barang', $barang['id_barang_retur'])->first();
@@ -244,6 +247,23 @@ class ReturPenjualanController extends Controller
         } else {
             return $value;
         }
+    }
+
+    public function NextId($tgl){
+        $pieces = explode("-",$tgl);
+        $yy=$pieces[0]; // piece1
+        $mm=$pieces[1]; //
+        $dd=$pieces[2]; 
+        $tgl=$yy.$mm.$dd;
+        
+        $result= ReturPenjualan::select(DB::raw('max(id)+1 AS nextid'))->orderBy('id', 'DESC')->where('t_retur_penjualan.id_perusahaan', auth()->user()->id_perusahaan)->first();
+        // dd($result);
+        if($tgl==substr($result->nextid,0,8)){
+            $nextid=$result->nextid;        
+        } else{
+            $nextid=$tgl.'001';
+        }
+        return $nextid;
     }
 
     /**
