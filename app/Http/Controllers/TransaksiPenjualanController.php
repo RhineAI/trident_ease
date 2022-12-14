@@ -214,7 +214,7 @@ class TransaksiPenjualanController extends Controller
 
                 $kasMasuk = new KasMasuk();
                 $kasMasuk->tgl = now();
-                $kasMasuk->jumlah = $this->checkPrice(request->dp); 
+                $kasMasuk->jumlah = $this->checkPrice($request->dp); 
                 $kasMasuk->id_user = auth()->user()->id;
                 $kasMasuk->id_perusahaan = auth()->user()->id_perusahaan;
                 $kasMasuk->keterangan = 'DP Transaksi Penjualan';
