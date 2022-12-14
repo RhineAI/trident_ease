@@ -44,7 +44,8 @@
                                                 <td class="text-center">Email</td>
                                                 <td class="text-center">Phone</td>
                                                 <td class="text-center">Grade</td>
-                                                <td class="text-center">Created at</td>
+                                                <td class="text-center">Dibuat</td>
+                                                <td class="text-center">Updated</td>
                                                 <td class="text-center">Action</td>
                                             </tr>
                                         </thead>
@@ -64,6 +65,7 @@
                                                         <td><span class="badge badge-danger">Premium</span></td>
                                                     @endif
                                                     <td>{{ $item->created_at->diffForHumans() }}</td>
+                                                    <td>{{ $item->updated_at->diffForHumans() }}</td>
                                                     <td><button data-mode ="edit"
                                                         data-nama="{{ $item->nama }}" 
                                                         data-pemilik="{{ $item->pemilik }}"
@@ -90,7 +92,11 @@
 
     @push('scripts')
         <script>
-            $('.table').DataTable();
+            // $('.table').DataTable();
+
+            $('.table').DataTable({
+                order: [[5, 'desc']]
+            });
             // let table;
             //     table = $('.table').DataTable({
             //     processing: true,

@@ -135,7 +135,7 @@ class TransaksiPenjualanController extends Controller
                 $penjualanBaru->sisa = $this->checkPrice($request->sisa);
 
             }
-            $penjualanBaru->kembalian = $this->checkPrice(request->kembali);
+            $penjualanBaru->kembalian = $this->checkPrice($request->kembali);
             $penjualanBaru->dp = $this->checkPrice($request->dp);
 
             $penjualanBaru->jenis_pembayaran = $request->jenis_pembayaran;

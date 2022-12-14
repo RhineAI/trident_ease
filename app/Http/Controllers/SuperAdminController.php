@@ -15,14 +15,14 @@ class SuperAdminController extends Controller
     public function index()
     {
         $data['no'] = 1;
-        $data['perusahaan'] = Perusahaan::orderBy('id', 'DESC')->get();
+        $data['perusahaan'] = Perusahaan::orderBy('updated_at', 'ASC')->get();
         $data['cPerusahaan'] = Perusahaan::select('*')->where('id', auth()->user()->id_perusahaan)->first();
         return view('super-admin.perusahaan.index')->with($data);
     }
 
     public function table()
     {
-        $perusahaan = Perusahaan::orderBy('id', 'DESC')->get();
+        $perusahaan = Perusahaan::orderBy('', 'DESC')->get();
         return datatables()
             ->of($perusahaan)
             ->addIndexColumn()
@@ -39,6 +39,9 @@ class SuperAdminController extends Controller
             })
             ->addColumn('created_at', function($perusahaan) {
                 return tanggal_indonesia($perusahaan->created_at);
+            })
+            ->addColumn('updated_at', function($perusahaan) {
+                return tanggal_indonesia($perusahaan->updated_at);
             })
             ->addColumn('action', function ($perusahaan) {
                 return '

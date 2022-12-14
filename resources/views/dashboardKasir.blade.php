@@ -15,11 +15,7 @@
 
 @push('styles')
     <style>
-         @import url("https://fonts.googleapis.com/css?family=Open+Sans:400,600,700");
-
-      body {
-        font-family: 'Open Sans'; 
-      }
+       
       .slogan {
           font-family: Monotype Corsiva, Times, Serif;
           font-size: 20px;

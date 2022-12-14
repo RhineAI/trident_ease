@@ -273,11 +273,12 @@ Route::middleware(['auth'])->group(function () {
         Route::group(['prefix' => 'kasir', 'middleware' => 'cek-hak-akses:kasir', 'as' => 'kasir.'], function () {
                 Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
                 // Transaksi Penjualan
-                Route::resource('/transaksi-penjualan', TransaksiPenjualanController::class);
-                Route::get('/list-penjualan', [ListTransaksiPenjualanController::class, 'index'])->name('list-transaksi.index');
-                Route::post('/list-penjualan/data/{awal}/{akhir}', [ListTransaksiPenjualanController::class, 'getData'])->name('list-transaksi.data');
-                Route::get('/list-penjualan/pdf/{awal}/{akhir}', [ListTransaksiPenjualanController::class, 'exportPDF'])->name('list-transaksi.export_pdf');
-                
+               Route::resource('/transaksi-penjualan', TransaksiPenjualanController::class);
+               Route::get('/list-penjualan', [ListTransaksiPenjualanController::class, 'index'])->name('list-transaksi.index');
+               Route::post('/list-penjualan/data/{awal}/{akhir}', [ListTransaksiPenjualanController::class, 'getData'])->name('list-transaksi.data');
+               Route::get('/list-penjualan/pdf/{awal}/{akhir}', [ListTransaksiPenjualanController::class, 'exportPDF'])->name('list-transaksi.export_pdf');
+               Route::get('/list-penjualan/nota/{id}', [ListTransaksiPenjualanController::class, 'printNota'])->name('list-transaksi.print_nota');
+
                 Route::get('/profile', [UsersController::class, 'profile'])->name('profile');
                 Route::post('/profile', [UsersController::class, 'profileUpdate']);
                 Route::get('/profile/cards', [UsersController::class, 'card'])->name('profile.cards');

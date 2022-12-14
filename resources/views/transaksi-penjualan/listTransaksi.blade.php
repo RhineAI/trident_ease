@@ -99,6 +99,7 @@ Data Penjualan
     @elseif(auth()->user()->hak_akses == 'admin') 
         var list_transaksi = "{{ route('admin.list-transaksi.data', [$tanggalAwal, $tanggalAkhir]) }}";
     @endif 
+    
    let table;
         table = $('.table').DataTable({
         processing: true,

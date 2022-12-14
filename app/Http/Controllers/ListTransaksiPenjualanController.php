@@ -64,8 +64,13 @@ class ListTransaksiPenjualanController extends Controller
                 $row['pegawai'] = auth()->user()->nama;
                 $row['total_harga'] = 'RP. '. format_uang($item->total_harga);
                 $row['jenis_pembayaran'] = $jenis;   
-                
-                $row['action'] = '<a href="'. route('admin.list-transaksi.print_nota', $item->id) .'" class="btn btn-xs btn-secondary rounded delete"><i class="fa-solid fa-print"></i></a>';
+                if(auth()->user()->hak_akses == 'kasir') {
+                    $list_transaksi = '<a href="'. route('kasir.list-transaksi.print_nota', $item->id) .'" class="btn btn-xs btn-secondary rounded delete"><i class="fa-solid fa-print"></i></a>';
+                } elseif(auth()->user()->hak_akses == 'admin') {
+                    $list_transaksi = '<a href="'. route('admin.list-transaksi.print_nota', $item->id) .'" class="btn btn-xs btn-secondary rounded delete"><i class="fa-solid fa-print"></i></a>';
+                }
+
+                $row['action'] = $list_transaksi;
 
                 $data[] = $row;
             }         

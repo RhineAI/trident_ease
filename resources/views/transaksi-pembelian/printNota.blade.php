@@ -36,6 +36,8 @@
 
         @media print {
             html, body {
+                width: 85mm;
+                /* height: 100%; */
                 margin: 0 auto;
             }
 
@@ -134,6 +136,52 @@
 
     <p class="text-center">===================================</p>
     <p class="text-center">-- TERIMA KASIH --</p>
+
+    <table class="mt-4" style='font-size:90%' width='100%' border='0'>
+        <tr>
+            <td width='30%' align='center'>
+            </td>
+            <td width='40%' align='center'>
+                
+            </td>
+            <td width='30%' align='center'>
+                Hormat Kami
+            </td>
+        </tr>
+
+        <tr>
+            <td width='30%' align='right'>
+        </td>
+            <td width='40%'>
+                <br><br>
+            </td>
+            <td width='30%' align='right'>
+            </td>
+        </tr>
+
+        {{-- <tr>
+            <td width='30%' align='left'>
+        </td>
+            <td width='40%'>
+                <br><br>
+            </td>
+            <td width='30%' align='left'>
+            </td>
+        </tr> --}}
+        
+        <tr>
+            <td width='30%' align='center'>
+                {{-- ...................<br> --}}
+                
+            </td>
+            <td width='40%'>
+            </td>
+            <td width='30%' align='center'>
+                ...................<br>
+                {{ strtoupper(auth()->user()->nama) }}
+            </td>
+        </tr> 
+    </table>
 
     <script>
         let body = document.body;

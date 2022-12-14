@@ -27,14 +27,15 @@
         }
 
         @page {
-            size: A5;
-            margin: 0;
+            /* size: 7in 10.5in ; */
+            /* scale: 200; */
+            margin: 87px;
+            
         }
+
 
         @media print {
             html, body {
-                width: 85mm;
-                /* height: 100%; */
                 margin: 0 auto;
             }
 
@@ -76,16 +77,28 @@
     </div>
     <br>
     <div>
-        <p>{{ $cReturPenjualan->tgl_retur }}</p>
+        <p>{{ date('d-m-Y', strtotime($cReturPenjualan->tgl_retur)) }}</p>
         <p>No Penjualan: {{$cReturPenjualan->id_transaksi}}</p>
     </div>
     <div class="clear-both" style="clear: both;"></div>
-    <p>No Retur: {{ $cReturPenjualan->id_retur }}</p>
+    <p>No Faktur: {{ $cReturPenjualan->id_retur }}</p>
     <p>Pelanggan: {{ $cReturPenjualan->nama_pelanggan }}</p>
     <p class="text-center">===================================</p>
     
     <br>
-    <table width="100%" class="bordered">
+    <table width="100%" style="border: 0;">
+        @foreach ($cDetailReturPenjualan as $item)
+            <tr>
+                <td colspan="3">{{ $item->nama_barang }}</td>
+            </tr>
+            <tr>
+                <td>{{ $item->qty }} x Rp. {{ format_uang($item->harga_jual) }}</td>
+                <td></td>
+                <td class="text-right">Rp. {{ format_uang($item->qty * $item->harga_jual) }}</td>
+            </tr>
+        @endforeach
+    </table>
+    {{-- <table width="100%" class="bordered">
         <thead>
             <tr class="text-center">
                 <td>Nama Barang</td>
@@ -104,7 +117,7 @@
                 </tr>
             @endforeach
         </tbody>
-    </table>
+    </table> --}}
     <p class="text-center">-----------------------------------</p>
 
     <table width="100%" style="border: 0;">
@@ -114,16 +127,52 @@
         <tr>
             <td colspan="8"></td>
         </tr>
+    </table>
+    {{-- <p class="text-center">-----------------------------------</p> --}}
+
+    <table class="mt-4" style='font-size:90%' width='100%' border='0'>
         <tr>
-            <td class="text-left" colspan="4">Hormat Kami</td>
-            <td class="text-right" colspan="4">Pelanggan</td>
+            <td width='30%' align='center'>Hormat Kami
+            </td>
+            <td width='40%' align='center'>
+                
+            </td>
+            <td width='30%' align='center'>
+                Penerima Barang
+            </td>
         </tr>
-        <tr class="spaceUnder5">
-            <td colspan="8"></td>
-        </tr>
+
         <tr>
-            <td colspan="4" class="text-left">{{ auth()->user()->nama }}</td>
-            <td colspan="4" class="text-right">{{ $cReturPenjualan->nama_pelanggan }}</td>
+            <td width='30%' align='left'>
+        </td>
+            <td width='40%'>
+                <br><br>
+            </td>
+            <td width='30%' align='left'>
+            </td>
+        </tr>
+
+        <tr>
+            <td width='30%' align='left'>
+        </td>
+            <td width='40%'>
+                <br><br>
+            </td>
+            <td width='30%' align='left'>
+            </td>
+        </tr>
+        
+        <tr>
+            <td width='30%' align='center'>
+                ...................<br>
+                {{ strtoupper($cPerusahaan->nama) }}
+            </td>
+            <td width='40%'>
+            </td>
+            <td width='30%' align='center'>
+                ...................<br>
+                {{ $cReturPenjualan->nama_pelanggan }}
+            </td>
         </tr>
     </table>
 

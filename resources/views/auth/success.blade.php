@@ -118,6 +118,10 @@
    </head>
    <body>
       <div class="wrapper">
+          <?php
+            $replace = array(' ', '.', ',', 'PT', 'Pt', 'pt', 'pT', 'CV', 'Cv', 'cv', 'cV');
+
+          ?>
           <div class="card front-face">
             {{-- <img height="90%" src="{{ $cPerusahaan->logo }}"> --}}
               <div class="title text-center hover" style="margin: 0 auto;">
@@ -133,21 +137,22 @@
                   <div class="title mx-5">
                       {{ $perusahaan->nama }}
                   </div>
-                  <p>
-                    Pendaftaran berhasil, silahkan cek email anda!
-                  </p>
                   {{-- <p>
-                      Username : {{ str_replace(' ', '', $user->username) }}
-                      <br>
-                      Password = 12345
+                    Pendaftaran berhasil, silahkan cek email anda!
                   </p> --}}
+                  <p>
+                      Username : {{ str_replace($replace, '', $perusahaan->nama) }}
+                      <br>
+                      Password = {{ str_replace(' ', '', strtolower($perusahaan->pemilik).'123') }}
+                  </p>
+
               </div>
               <div></div>
               <p class="">
-                  Any Problem?<a href="https://wa.wizard.id/17fae7"> Contact us</a>
+                  Ada Masalah?<a href="https://wa.wizard.id/17fae7"> Hubungi Kami</a>
               </p>
               <p>
-                <a class="text-center" href="{{ route('login') }}">Click to Login </a>
+                <a class="text-center" href="{{ route('login') }}">Login </a>
               </p>
           </div>
       </div>
