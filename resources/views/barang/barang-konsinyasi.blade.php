@@ -1,16 +1,16 @@
 @extends('templates.layout')
 
 @section('title')
-<title>Produk Utama | {{ $cPerusahaan->nama }}</title>
+<title>Produk Konsinyasi | {{ $cPerusahaan->nama }}</title>
 @endsection
 
 @section('page')
-Produk Utama
+Produk Konsinyasi
 @endsection
 
 @section('breadcrumb')
 @parent
-Produk Utama
+Produk Konsinyasi
 @endsection
 
 @push('styles')
@@ -47,7 +47,7 @@ Produk Utama
                                             <th width="6%" class="text-center">Pemasok</th>
                                             <th width="6%" class="text-center">Stock</th>
                                             <th width="80%" class="text-center">Harga Beli</th>
-                                            <th width="8%" class="text-center">Jenis</th>
+                                            <th width="8%" class="text-center">Keterangan</th>
                                             <th width="6%" class="text-center">Status</th>
                                             <th width="4%" class="text-center">Aksi</th>
                                         </tr>
@@ -72,34 +72,6 @@ Produk Utama
     });
 
     $('body').addClass('sidebar-collapse');
-
-    $(document).on('keyup', '#harga_beli', function (e) {
-            var keuntungan = $("#keuntungan").val();
-            var hj;
-            var hb = String($(this).val()).replaceAll(".", '');
-
-            if(keuntungan == 0){
-                hj = hb;
-            } else if(keuntungan > 0){
-                hj = parseFloat(hb) + parseFloat(hb) * keuntungan/100;
-            }
-            $("#harga_jual").val(hj)
-    });
-
-    $(document).on('keyup', '#keuntungan', function (e) {
-            var keuntungan = $(this).val();
-            var hb = String($("#harga_beli").val()).replaceAll(".", '');
-            var hj;
-            console.log(hb)
-
-            if(hb == 0){
-                hj = 0 * keuntungan;
-            } else if(hb > 0){
-                hj = parseFloat(hb) + parseFloat(hb) * keuntungan/100;
-            }
-            $("#harga_jual").val(hj)
-    });
-
 
     function formatRupiah(angka, prefix){
             var number_string   = angka.replace(/[^,\d]/g, '').toString(),
@@ -143,7 +115,7 @@ Produk Utama
             autoWidth: false,
             serverSide: true,
             ajax: {
-                url: "{{ route('admin.barang.data') }}",
+                url: "{{ route('admin.barang.dataKonsinyasi') }}",
                 type: "POST",
                 data: {  
                     _token: '{{ csrf_token() }}'

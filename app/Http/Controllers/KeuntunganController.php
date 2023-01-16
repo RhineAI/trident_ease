@@ -12,8 +12,8 @@ class KeuntunganController extends Controller
 {
     public function index(){
         // $barang = Barang::where('id_merek', '>', 0)->pluck('id_merek')->toArray();
-        $data['kategori'] = Kategori::get();
-        $data['merek'] = Merek::get();
+        $data['kategori'] = Kategori::where('id_perusahaan', auth()->user()->id_perusahaan)->get();
+        $data['merek'] = Merek::where('id_perusahaan', auth()->user()->id_perusahaan)->get();
         $data['cPerusahaan'] = Perusahaan::select('*')->where('id', auth()->user()->id_perusahaan)->first();
         return view('keuntungan.index', $data);
     }

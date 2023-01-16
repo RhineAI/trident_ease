@@ -1,16 +1,16 @@
 @extends('templates.layout')
 
 @section('title')
-    <title>Barang | {{ $cPerusahaan->nama }}</title>
+    <title>Produk Utama | {{ $cPerusahaan->nama }}</title>
 @endsection
 
 @section('page')
-    Barang
+    Produk Utama
 @endsection
 
 @section('breadcrumb')
 @parent
-    Barang
+    Produk Utama
 @endsection
 
 @push('styles')
@@ -134,8 +134,22 @@
                 </div>
                 <div class="form-group row">
                     <div class="form-group" style="width: 95%; margin: auto;">
+                        <label for="harga_jual">Harga Jual Barang</label>
+                        <div class="input-group-prepend input-primary"> 
+                            <span class="input-group-text">RP.</span> 
+                            <input type="number" class="form-control" id="harga_jual" required readonly> 
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="form-group" style="width: 95%; margin: auto;">
                         <label for="keterangan">Keterangan Barang</label>
-                        <input type="text" class="form-control" id="keterangan" placeholder="Keterangan Barang" name="keterangan" required>
+                        {{-- <input type="text" class="form-control" id="keterangan" placeholder="Keterangan Barang" name="keterangan" required> --}}
+                        <select class="form-control" name="status" id="status" required>
+                            <option value="" disabled="disabled" selected="true">Pilih Jenis Produk</option>
+                            <option value="utama">Produk Utama</option>
+                            <option value="konsinyasi">Produk Konsinyasi</option>
+                        </select>
                     </div>
                 </div>
                 <div class="form-group row">
@@ -183,5 +197,32 @@
         $(document).on('keyup', '#harga_beli', function(e){
             generateRupiah(this);
         })
+
+        $(document).on('keyup', '#harga_beli', function (e) {
+                var keuntungan = $("#keuntungan").val();
+                var hj;
+                var hb = String($(this).val()).replaceAll(".", '');
+
+                if(keuntungan == 0){
+                    hj = hb;
+                } else if(keuntungan > 0){
+                    hj = parseFloat(hb) + parseFloat(hb) * keuntungan/100;
+                }
+                $("#harga_jual").val(hj)
+        });
+
+        $(document).on('keyup', '#keuntungan', function (e) {
+                var keuntungan = $(this).val();
+                var hb = String($("#harga_beli").val()).replaceAll(".", '');
+                var hj;
+                console.log(hb)
+
+                if(hb == 0){
+                    hj = 0 * keuntungan;
+                } else if(hb > 0){
+                    hj = parseFloat(hb) + parseFloat(hb) * keuntungan/100;
+                }
+                $("#harga_jual").val(hj)
+        });
     </script>
 @endpush

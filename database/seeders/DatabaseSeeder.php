@@ -105,7 +105,7 @@ class DatabaseSeeder extends Seeder
             'stock_minimal' => 2,
             'harga_beli' => 4500,
             'keuntungan' => 5,
-            'keterangan' => "Anjai Mabar",
+            'keterangan' => "utama",
             'status' => 1,
         ]);
 
@@ -123,7 +123,7 @@ class DatabaseSeeder extends Seeder
             'stock_minimal' => 2,
             'harga_beli' => 4000,
             'keuntungan' => 5,
-            'keterangan' => "Anjai Mabar",
+            'keterangan' => "utama",
             'status' => 1,
         ]);
 
@@ -141,7 +141,7 @@ class DatabaseSeeder extends Seeder
             'stock_minimal' => 2,
             'harga_beli' => 6000,
             'keuntungan' => 5,
-            'keterangan' => "Anjai Mabar",
+            'keterangan' => "utama",
             'status' => 1,
         ]);
 
@@ -159,7 +159,7 @@ class DatabaseSeeder extends Seeder
             'stock_minimal' => 2,
             'harga_beli' => 2300,
             'keuntungan' => 5,
-            'keterangan' => "Anjai Mabar",
+            'keterangan' => "utama",
             'status' => 1,
         ]);
 
@@ -177,7 +177,7 @@ class DatabaseSeeder extends Seeder
             'stock_minimal' => 2,
             'harga_beli' => 3600,
             'keuntungan' => 5,
-            'keterangan' => "Anjai Mabar",
+            'keterangan' => "utama",
             'status' => 1,
         ]);
 
@@ -195,7 +195,7 @@ class DatabaseSeeder extends Seeder
             'stock_minimal' => 2,
             'harga_beli' => 1900,
             'keuntungan' => 5,
-            'keterangan' => "Anjai Mabar",
+            'keterangan' => "utama",
             'status' => 1,
         ]);
 
@@ -213,7 +213,7 @@ class DatabaseSeeder extends Seeder
             'stock_minimal' => 2,
             'harga_beli' => 2500,
             'keuntungan' => 5,
-            'keterangan' => "Anjai Mabar",
+            'keterangan' => "utama",
             'status' => 1,
         ]);
 
@@ -231,7 +231,7 @@ class DatabaseSeeder extends Seeder
             'stock_minimal' => 2,
             'harga_beli' => 2200,
             'keuntungan' => 5,
-            'keterangan' => "Anjai Mabar",
+            'keterangan' => "utama",
             'status' => 1,
         ]);
 
@@ -249,7 +249,7 @@ class DatabaseSeeder extends Seeder
             'stock_minimal' => 2,
             'harga_beli' => 2300,
             'keuntungan' => 5,
-            'keterangan' => "Anjai Mabar",
+            'keterangan' => "utama",
             'status' => 1,
         ]);
 
@@ -267,7 +267,7 @@ class DatabaseSeeder extends Seeder
             'stock_minimal' => 2,
             'harga_beli' => 2500,
             'keuntungan' => 5,
-            'keterangan' => "Anjai Mabar",
+            'keterangan' => "utama",
             'status' => 1,
         ]);
 
@@ -285,7 +285,7 @@ class DatabaseSeeder extends Seeder
         //     'stock_minimal' => 2,
         //     'harga_beli' => 2100,
         //     'keuntungan' => 5,
-        //     'keterangan' => "Anjai Mabar",
+        //     'keterangan' => "utama",
         //     'status' => 1,
         // ]);
 
@@ -303,7 +303,7 @@ class DatabaseSeeder extends Seeder
         //     'stock_minimal' => 2,
         //     'harga_beli' => 4000,
         //     'keuntungan' => 5,
-        //     'keterangan' => "Anjai Mabar",
+        //     'keterangan' => "utama",
         //     'status' => 1,
         // ]);
 
@@ -321,7 +321,7 @@ class DatabaseSeeder extends Seeder
         //     'stock_minimal' => 2,
         //     'harga_beli' => 3000,
         //     'keuntungan' => 5,
-        //     'keterangan' => "Anjai Mabar",
+        //     'keterangan' => "utama",
         //     'status' => 1,
         // ]);
 
@@ -339,7 +339,7 @@ class DatabaseSeeder extends Seeder
         //     'stock_minimal' => 2,
         //     'harga_beli' => 6500,
         //     'keuntungan' => 5,
-        //     'keterangan' => "Anjai Mabar",
+        //     'keterangan' => "utama",
         //     'status' => 1,
         // ]);
 
@@ -357,7 +357,7 @@ class DatabaseSeeder extends Seeder
         //     'stock_minimal' => 2,
         //     'harga_beli' => 8000,
         //     'keuntungan' => 5,
-        //     'keterangan' => "Anjai Mabar",
+        //     'keterangan' => "utama",
         //     'status' => 1,
         // ]);
     }

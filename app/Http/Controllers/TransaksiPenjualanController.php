@@ -148,7 +148,7 @@ class TransaksiPenjualanController extends Controller
             // dd($limit); die;
             foreach($request->item as $barang){
                 // dd($barang['discount']); die;
-                $penjualanBaru->keuntungan += $barang['keuntungan'];
+                $penjualanBaru->keuntungan += $barang['keuntungan'] * $barang['qty'];
                 if($perusahaan->grade == 1) {
                     if($limit < 5 ) {
                         $penjualanBaru->save();

@@ -15,7 +15,7 @@ class MerekController extends Controller
      */
     public function index()
     {
-        $data['merek'] = Merek::get();
+        $data['merek'] = Merek::where('id_perusahaan', auth()->user()->id_perusahaan)->get();
         $data['cPerusahaan'] = Perusahaan::select('*')->where('id', auth()->user()->id_perusahaan)->first();
         return view('merek.index', $data);
     }

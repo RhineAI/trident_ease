@@ -123,11 +123,11 @@
                         <label for="harga_beli" class="col-md-2 col-md-offset-1 control-label">
                             <h5 class="my-2">Harga Beli</h5>
                         </label>
-                        <div class="input-group mb-3 col-md-10">
+                        <div class="input-group mb-3 col-md-6">
                             <div class="input-group-prepend">
                               <span class="input-group-text" id="basic-addon1">Rp.</span>
                             </div>
-                            <input type="text" name="harga_beli" id="harga_beli" class="form-control" aria-label="Username" aria-describedby="basic-addon1">
+                            <input type="text" name="harga_beli" autocomplete="off" id="harga_beli" class="form-control" aria-label="Username" aria-describedby="basic-addon1">
                         </div>
                     </div>
 
@@ -144,7 +144,19 @@
                     </div>
 
                     <div class="form-group row">
-                        <label for="status" class="control-label col-md-2 col-md-offset-1">
+                        <label for="harga_jual" class="col-md-2 col-md-offset-1 control-label">
+                            <h5 class="my-2">Harga Jual</h5>
+                        </label>
+                        <div class="input-group mb-3 col-md-6">
+                            <div class="input-group-prepend">
+                              <span class="input-group-text" id="basic-addon1">Rp.</span>
+                            </div>
+                            <input type="text" autocomplete="off" id="harga_jual" class="form-control" aria-label="Username" readonly aria-describedby="basic-addon1">
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="status" class="col-md-2 col-md-offset-1 control-label">
                             <h5 class="my-2">Status</h5>
                         </label>
                         <div class="col-md-3">
@@ -154,16 +166,24 @@
                             </select>
                             <span class="help-block with-errors"></span>
                         </div>
+
+                        <label for="keterangan" class="control-label ml-5 mr-4">
+                            <h5 class="my-2">Jenis</h5>
+                        </label>
+                        <div class="col-md-3">
+                            <select name="keterangan" id="keterangan" class="form-control" required>
+                                <option selected disabled>Pilih Produk</option>
+                                <option value="utama">Produk Utama</option>
+                                <option value="konsinyasi">Produk Konsinyasi</option>
+                            </select>
+                            <span class="help-block with-errors"></span>
+                        </div>
                     </div>
 
                     <div class="form-group row">
-                        <label for="keterangan" class="col-md-2 col-md-offset-1 control-label">
-                            <h5 class="my-2">Keterangan</h5>
-                        </label>
-                        <div class="mb-3 col-md-6">
-                            <input type="text" name="keterangan" id="keterangan" class="form-control" aria-label="Username" aria-describedby="basic-addon1">
-                        </div>
+                      
                     </div>
+
 
                 </div>
                 <div class="modal-footer">

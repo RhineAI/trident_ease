@@ -144,9 +144,11 @@ Route::middleware(['auth'])->group(function () {
                 Route::resource('/perusahaan', PerusahaanController::class);    
 
                 Route::resource('/barang', BarangController::class);
+                Route::get('/barang-konsinyasi', [BarangController::class, 'indexBarangKonsinyasi'])->name('barang.indexKonsinyasi');
                 Route::get('/barang-tambah', [BarangController::class, 'index2'])->name('barang2');
                 Route::post('/barang-tambah', [BarangController::class, 'store']);
                 Route::post('/barang/data', [BarangController::class, 'data'])->name('barang.data');
+                Route::post('/barang-konsinyasi/data', [BarangController::class, 'dataKonsinyasi'])->name('barang.dataKonsinyasi');
 
                 Route::resource('/supplier', SupplierController::class);
                 Route::get('/supplier-tambah', [SupplierController::class, 'index2'])->name('supplier2');
@@ -184,6 +186,8 @@ Route::middleware(['auth'])->group(function () {
                 Route::get('/list-pembelian/pdf/{awal}/{akhir}', [ListTransaksiPembelianController::class, 'exportPDF'])->name('list-pembelian.export_pdf');
                 Route::get('/list-pembelian/nota/{id}', [ListTransaksiPembelianController::class, 'printNota'])->name('list-pembelian.print_nota');
 
+                Route::post('/barcode/data', [TransaksiPenjualanController::class, 'data'])->name('barcode.data');
+
                 // Tunggakan Pembayaran
                 Route::resource('/data-piutang', PiutangController::class);
                 Route::get('/data-piutang/nota/{id}', [PiutangController::class, 'printNota'])->name('data-piutang.print_nota');
@@ -210,7 +214,6 @@ Route::middleware(['auth'])->group(function () {
                 Route::post('/list-retur-pembelian/data/{awal}/{akhir}', [ListReturPembelianController::class, 'getData'])->name('list-retur-pembelian.data');
                 Route::get('/list-retur-pembelian/pdf/{awal}/{akhir}', [ListReturPembelianController::class, 'exportPDF'])->name('list-retur-pembelian.export_pdf');
                 Route::get('/list-retur-pembelian/nota/{id}', [ListReturPembelianController::class, 'printNota'])->name('list-retur-pembelian.print_nota');
-
 
                 // Informasi KAS
                 Route::resource('kas-masuk', KasMasukController::class);
@@ -278,6 +281,9 @@ Route::middleware(['auth'])->group(function () {
                Route::post('/list-penjualan/data/{awal}/{akhir}', [ListTransaksiPenjualanController::class, 'getData'])->name('list-transaksi.data');
                Route::get('/list-penjualan/pdf/{awal}/{akhir}', [ListTransaksiPenjualanController::class, 'exportPDF'])->name('list-transaksi.export_pdf');
                Route::get('/list-penjualan/nota/{id}', [ListTransaksiPenjualanController::class, 'printNota'])->name('list-transaksi.print_nota');
+
+               // barcode
+               Route::post('/barcode/data', [TransaksiPenjualanController::class, 'data'])->name('barcode.data');
 
                 Route::get('/profile', [UsersController::class, 'profile'])->name('profile');
                 Route::post('/profile', [UsersController::class, 'profileUpdate']);

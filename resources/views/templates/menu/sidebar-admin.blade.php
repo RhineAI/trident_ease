@@ -27,7 +27,13 @@
         <li class="nav-item">
             <a href="{{ route('admin.barang.index') }}" class="nav-link">
                 {{-- <i class="far fa-circle nav-icon"></i> --}}
-                <p>Data Produk</p>
+                <p>Data Produk Utama</p>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="{{ route('admin.barang.indexKonsinyasi') }}" class="nav-link">
+                {{-- <i class="far fa-circle nav-icon"></i> --}}
+                <p>Data Produk Konsinyasi</p>
             </a>
         </li>
     </ul>

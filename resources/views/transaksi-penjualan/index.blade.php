@@ -104,10 +104,11 @@
                                     <div class="input-group">
                                         <input type="hidden" required name="id_produk" id="id_produk">
                                         <input type="hidden" class="form-control" name="kode_produk" id="kode_produk">
-                                        <input type="text"  name="barcode" id="barcode" class="form-control" required autofocus readonly>
+                                        <input type="text"  name="barcode" id="barcode" class="form-control" required autofocus>
                                         <span class="input-group-btn tampil-produk">
                                             {{-- <button onclick="tambahProduk()" class="btn btn-info btn-flat" type="button"><i class="fa fa-arrow-right"></i></button> --}}
                                             <button onclick="tampilProduk()" id="tampil" class="btn btn-info btn-flat" type="button"><i class="fa-solid fa-magnifying-glass"></i></button>
+                                            <button onclick="enterProduk()" id="enter" class="btn btn-info btn-flat add_barang" type="button"><i class="fa-solid fa-arrow-right"></i></button>
                                         </span>
                                     </div>
                                 </div>
@@ -373,6 +374,31 @@
 
         $('body').addClass('sidebar-collapse');
 
+        function enterProduk() {
+            var barcode = $('#barcode').val();
+            var enter = $('#enter').val(barcode);
+
+            @if(auth()->user()->hak_akses == 'admin') 
+                var routeM = "{{ route('admin.barcode.data') }}";
+            @elseif(auth()->user()->hak_akses == 'kasir') 
+                var routeM = "{{ route('kasir.barcode.data') }}";
+            @endif 
+
+            $.ajax({
+                    type: 'POST',
+                    url: routeM,
+                    data: {
+                        id: id,
+                        _token: "{{ csrf_token() }}"
+                    },
+                    cache: false,
+                    success: function(response){
+                        // console.log(response)
+                        $('#t_penjualan').html(response);
+                    }
+                })
+        }
+
         function tampilProduk() {
             $('#formModalBarangPenjualan').modal('show');
             $('#tbl-data-barang-penjualan').DataTable();
@@ -523,7 +549,7 @@
                     var harga_beli = $(this).data("harga_beli");
                     var harga_jual = $(this).data("harga_jual");
                     var stock = $(this).data("stock");
-                    var keuntungan = ($(this).data("harga_jual") - $(this).data("harga_beli")) * stock;
+                    var keuntungan = ($(this).data("harga_jual") - $(this).data("harga_beli"));
                     // function getStock(){
                     //     return stock;
                     // }
@@ -556,14 +582,6 @@
                         //HAPUS BARIS 1
                         $('#buffer100').remove();
                         count++;
-                        //alert(count);
-                        // <th class="text-center"> Kode</th>
-                        //                     <th class="text-center" width="18%">Nama</th>
-                        //                     <th class="text-center" width="12%">Harga</th>
-                        //                     <th class="text-center" width="9%">Jumlah</th>
-                        //                     <th class="text-center" width="10.7%">Diskon</th>
-                        //                     <th class="text-center" width="13%">Subtotal</th>
-                        //                     <th class="text-center" width="9%">Aksi</th>
                         var rowBarang="<tr class='barang' id='buffer"+count+"'>";
                         rowBarang+="<td style='text-align:center'><input type='hidden' name='item["+count+"][id_barang]' value='"+id_barang+"'> <input class='form-control' type='text' name='item["+count+"][kode]' value='"+kode_barang+"' readonly='true'' style='width: 130px;'></td>";
                         rowBarang+="<td style='text-align:center'><input class='form-control' type='text' name='item["+count+"][nama_barang]' value='"+nama_barang+"' readonly='true' style='width: 150px;'></td>";

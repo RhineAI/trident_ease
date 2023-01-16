@@ -388,7 +388,7 @@ class LaporanController extends Controller
      // LAPORAN PENJUALAN
     public function penjualan($awal, $akhir)
     {
-    $data = array();
+        $data = array();
         while (strtotime($awal) <= strtotime($akhir)) {
             $tanggal = $awal;
             $awal = date('Y-m-d', strtotime("+1day", strtotime($awal)));
@@ -400,17 +400,17 @@ class LaporanController extends Controller
                                         ->orderBy('id', 'desc')->get();
             
             foreach($detail as $item) {
-            $row = array();
-            $row['tgl'] = tanggal_indonesia($tanggal, false);
-            $row['kode'] = '<span class="badge" style="background-color:#2f3d57; color:white;">'. $item->kode .'</span>';
-            $row['nama_barang'] = $item->nama_barang ;
-            $row['qty'] = $item->qty;
-            $row['total_penjualan'] = 'Rp. '. format_uang($item->qty * $item->harga_jual);
-            $countUntung = (($item->harga_jual - $item->harga_beli) * $item->qty) - ( ($item->harga_jual - $item->harga_beli) * $item->qty) * $item->diskon/100;
+                $row = array();
+                $row['tgl'] = tanggal_indonesia($tanggal, false);
+                $row['kode'] = '<span class="badge" style="background-color:#2f3d57; color:white;">'. $item->kode .'</span>';
+                $row['nama_barang'] = $item->nama_barang ;
+                $row['qty'] = $item->qty;
+                $row['total_penjualan'] = 'Rp. '. format_uang($item->qty * $item->harga_jual);
+                $countUntung = (($item->harga_jual - $item->harga_beli) * $item->qty) - ( ($item->harga_jual - $item->harga_beli) * $item->qty) * $item->diskon/100;
 
-            $row['keuntungan'] = 'Rp. '. format_uang($countUntung); 
-            $data[] = $row; 
-        }
+                $row['keuntungan'] = 'Rp. '. format_uang($countUntung); 
+                $data[] = $row; 
+            }
         }
         return $data;
     }
@@ -620,6 +620,7 @@ class LaporanController extends Controller
 
     public function pembelian($awal, $akhir)
     {
+        $data = array();
         while (strtotime($awal) <= strtotime($akhir)) {
             $tanggal = $awal;
             $awal = date('Y-m-d', strtotime("+1day", strtotime($awal)));

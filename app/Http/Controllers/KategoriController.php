@@ -15,7 +15,7 @@ class KategoriController extends Controller
      */
     public function index()
     {
-        $data['categories'] = Kategori::get();
+        $data['categories'] = Kategori::where('id_perusahaan', auth()->user()->id_perusahaan)->get();
         $data['cPerusahaan'] = Perusahaan::select('*')->where('id', auth()->user()->id_perusahaan)->first();
         return view('kategori.index', $data);
     }

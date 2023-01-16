@@ -94,9 +94,9 @@
                 <td colspan="3">{{ $item->nama_barang }}</td>
             </tr>
             <tr>
-                <td>{{ $item->qty }} x Rp. {{ format_uang($item->harga_jual) }}</td>
+                <td>{{ $item->qty }} x Rp. {{ format_uang($item->harga_jual) }} x DISC {{$item->diskon}}%</td>
                 <td></td>
-                <td class="text-right">Rp. {{ format_uang($item->qty * $item->harga_jual) }}</td>
+                <td class="text-right">Rp. {{ format_uang(($item->qty * $item->harga_jual) - ($item->qty * $item->harga_jual * $item->diskon/100)) }}</td>
             </tr>
         @endforeach
     </table>
@@ -168,7 +168,7 @@
             <td width='30%' align='left'>
         </td>
             <td width='40%'>
-                {{-- <br><br> --}}
+                <br><br>
             </td>
             <td width='30%' align='left'>
             </td>
