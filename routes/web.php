@@ -187,6 +187,7 @@ Route::middleware(['auth'])->group(function () {
                 Route::get('/list-pembelian/nota/{id}', [ListTransaksiPembelianController::class, 'printNota'])->name('list-pembelian.print_nota');
 
                 Route::post('/barcode/data', [TransaksiPenjualanController::class, 'data'])->name('barcode.data');
+                Route::post('/barcodePembelian/data', [PembelianController::class, 'data'])->name('barcodePembelian.data');
 
                 // Tunggakan Pembayaran
                 Route::resource('/data-piutang', PiutangController::class);
@@ -284,6 +285,7 @@ Route::middleware(['auth'])->group(function () {
 
                // barcode
                Route::post('/barcode/data', [TransaksiPenjualanController::class, 'data'])->name('barcode.data');
+               Route::post('/barcodePembelian/data', [PembelianController::class, 'data'])->name('barcodePembelian.data');
 
                 Route::get('/profile', [UsersController::class, 'profile'])->name('profile');
                 Route::post('/profile', [UsersController::class, 'profileUpdate']);

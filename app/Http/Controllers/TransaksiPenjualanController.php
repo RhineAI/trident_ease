@@ -90,6 +90,22 @@ class TransaksiPenjualanController extends Controller
         }
     }
 
+    public function data(Request $request){
+        $barang = Barang::where('id_perusahaan', auth()->user()->id_perusahaan)->where('barcode', $request->barcode)->first();
+        if($barang != null){
+            $margin=$barang->harga_beli*$barang->keuntungan/100;
+            $harga_jual=$barang->harga_beli+$margin;
+            if($harga_jual<10000){
+                $harga_jual=round($harga_jual,-2);
+            }else{
+                $harga_jual=round($harga_jual,-3);
+            }
+            $barang['harga_jual'] = $harga_jual;
+        }
+        
+        return $barang;
+    }
+
     public function store(Request $request)
     {
         DB::statement('SET FOREIGN_KEY_CHECKS=0');

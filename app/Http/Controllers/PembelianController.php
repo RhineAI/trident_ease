@@ -12,6 +12,7 @@ use App\Models\Piutang;
 use App\Models\Hutang;
 use App\Models\Perusahaan;
 use App\Models\Supplier;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 
@@ -114,6 +115,11 @@ class PembelianController extends Controller
 
     //     return redirect()->route('admin.pembelian.index');
     // }
+
+    public function data(Request $request){
+        $barang = Barang::where('id_perusahaan', auth()->user()->id_perusahaan)->where('barcode', $request->barcode)->first();
+        return $barang;
+    }
 
     public function store(StorePembelianRequest $request)
     {
