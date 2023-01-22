@@ -70,13 +70,13 @@
         
                     <div class="box-body mx-2 my-2">
 
-                        <form class="form-supplier mt-3" method="post">
+                        <form class="form-supplier mt-3" method="post" id="form-transaksi">
                             @csrf
                             <div class="form-group row">
                                 <label for="nama_supplier" class="col-lg-2">Supplier</label>
                                 <div class="col-lg-3">
                                     <div class="input-group">
-                                        <input type="text" name="nama_supplier" id="nama_supplier" class="form-control" required autofocus readonly>
+                                        <input type="text" name="nama_supplier" id="nama_supplier" class="form-control" required readonly>
                                         <span class="input-group-btn tampil-supplier">
                                             <button onclick="tampilSupplier()" class="btn btn-info btn-flat" type="button"><i class="fa-solid fa-magnifying-glass"></i></i></button>
                                         </span>
@@ -207,7 +207,7 @@
                     </div>
         
                     <div class="box-footer mb-4 btn-submit">
-                        <button type="submit" id="submit" class="btn btn-outline-primary btn-sm pull-right btn-simpan" onkeypress="preventEnter(this)"><i class="fa-solid fa-floppy-disk"></i> Simpan Transaksi</button>
+                        <button type="button" id="simpan" class="btn btn-outline-primary btn-sm pull-right btn-simpan" onkeypress="preventEnter(this)"><i class="fa-solid fa-floppy-disk"></i> Simpan Transaksi</button>
                     </div>
                 </div>
             </div>
@@ -222,7 +222,14 @@
 
 @push('scripts') 
     <script>
-        $(document).on('click', '#submit', function(){
+        // $('#simpan').on('click', function(){   
+        $('#barcode').on('keypress',function(e) {
+            if(e.which == 13) {
+                enterProduk()
+            }
+        });
+        
+        $('#simpan').on('click', function(){   
             let id_supplier = $('#id_supplier').val();
             let produk = $('.produk').val();
             let bayar_kredit = $('#bayar_kredit').val();
@@ -287,7 +294,9 @@
                         $('#bayar_kredit').val();
                     }
                 }
-            }     
+            } 
+
+            document.getElementById('form-transaksi').submit();
         });
 
         $('body').addClass('sidebar-collapse');
@@ -329,13 +338,20 @@
         });
 
         function tampilProduk() {
+            const min_stock = $('#stok_minimal').val();
+            const total_stock = $('#stok').val();
+             if (total_stock <= min_stock) {
+                let data_stok = "!"; 
+                $('#alert_stock').addClass('position-absolute top-0 start-100 translate-middle badge rounded-circle bg-danger');       
+                $('#alert_stock').append(data_stok);       
+            }
             $('#formModalBarangPembelian').modal('show');
             $('#tbl-data-barang-pembelian').DataTable();
         }
 
         function preventEnter(e){
             if(e.keyCode === 13){
-                return false
+                return false;
             }
         }
 
@@ -489,9 +505,34 @@
             var nama = $(this).data("nama_barang");
             var harga_beli = $(this).data("harga_beli");
             var stock = $(this).data("stock");
-            // function getStock(){
-            //     return stock;
-            // }
+            // var stock_minimal = $(this).data("stock_minimal");
+            // if (stock <= stock_minimal ) {
+            //     let timerInterval
+            //     Swal.fire({
+            //         title: 'Peringatan!',
+            //         html: 'Pesan akan hilang dalam <b></b> milidetik.',
+            //         timer: 3000,
+            //         timerProgressBar: true,
+            //         didOpen: () => {
+            //             Swal.showLoading()
+            //             const b = Swal.getHtmlContainer().querySelector('b')
+            //             timerInterval = setInterval(() => {
+            //             b.textContent = Swal.getTimerLeft()
+            //             }, 100)
+            //         },
+            //         willClose: () => {
+            //             clearInterval(timerInterval)
+            //         }
+            //     }).then((result) => {
+            //         /* Read more about handling dismissals below */
+            //         if (result.dismiss === Swal.DismissReason.timer) {
+            //             console.log('I was closed by the timer')
+            //         }
+            //     })
+            //     TambahDataPembelian(id,kode,nama,harga_beli,stock);
+            // } else {
+            //     TambahDataPembelian(id,kode,nama,harga_beli,stock);
+            // }            
             TambahDataPembelian(id,kode,nama,harga_beli,stock);
         });
 
@@ -529,6 +570,7 @@
                     }
                     // console.log(response)
                     TambahDataPembelian(response.id,response.kode,response.nama,response.harga_beli,response.stock);
+                    $('#barcode').val('');
                 }
             })
         }
@@ -553,7 +595,7 @@
                 rowBarang+="<td style='text-align:center'><div class='input-group-prepend input-primary'><span class='input-group-text'>Rp.</span><input autocomplete='off' style='text-align:right; width: 200px;' type='text' class='form-control harga_beli' name='item["+count+"][harga_beli]' placeholder='0' id='harga_beli"+count+"' required data-idbuffer='"+count+"'></div></td>";
                 rowBarang+="<td style='text-align:center'><input autocomplete='off' type='text' class='form-control qty_pembelian' name='item["+count+"][qty]' value='1' id='qty"+count+"' data-idbuffer='"+count+"' onchange='cekQty(this)' style='width: 90px;'></td>";
                 rowBarang+="<td style='text-align:center'><div class='input-group-prepend input-primary'><input autocomplete='off' onchange='cekDiscount(this)' max='100' style='text-align:right; width: 70px;' type='text' class='form-control discount' name='item["+count+"][discount]' value='0' id='discount"+count+"' data-idbuffer='"+count+"'><span class='input-group-text'>%</span></div></td>";
-                rowBarang+="<td style='text-align:center'><input style='text-align:right; width: 200px;' type='number' class='form-control' name='item["+count+"][subtotal]' value='0' readonly='true' id='subtotal"+count+"'></td>";
+                rowBarang+="<td style='text-align:center'><input style='text-align:right; width: 200px;' type='number' class='form-control subtotal' name='item["+count+"][subtotal]' value='0' readonly='true' id='subtotal"+count+"'></td>";
                 rowBarang+="<td style='text-align:center;'><button type='button' class='btn btn-danger hapus_pembelian' data-idbuffer='"+count+"' ><i class='fa fa-trash'></i></button></td>";
                 rowBarang+="</tr>";
                 $('#t_pembelian').append(rowBarang);
@@ -661,7 +703,7 @@
             kurangiTotal -= deleted_sub;
             //    hapus pada table
             $('#buffer'+delete_row).remove(); 
-            count--;
+            // count--;
 
             $('#total_bayar').val(Number(kurangiTotal));
                 let total = Math.round(Number(kurangiTotal)).toLocaleString("id-ID", {
@@ -671,25 +713,30 @@
                             });
             $('#total_bayar_gede').text(total);
             $('#total_pembelian').val(Number(kurangiTotal));	
-        // });
+        });
 
 
         function GetTotalBayar(){
-            var total_pembelian=0;
-            //HASILKAN TOTAL BAYAR
-            for(x=1;x<=count;x++){
-                total_pembelian+= Number($("input[name='item["+x+"][subtotal]']").val());
-            }
-                $('#total_bayar').val(Number(total_pembelian));
+            var subtotal = document.querySelectorAll('.subtotal');
+            var totalP = 0;
+            subtotal.forEach(function(item){
+                totalP += parseFloat(item.value);
+            });
+            // var total_pembelian=0;
+              //HASILKAN TOTAL BAYAR
+            // for(x=1;x<=count;x++){
+            //     total_pembelian+= Number($("input[name='item["+x+"][subtotal]']").val());
+            // }
+                $('#total_bayar').val(Number(totalP));
                 // console.log(total_pembelian)
-                var total = Math.round(total_pembelian).toLocaleString("id-ID", {
+                var total = Math.round(totalP).toLocaleString("id-ID", {
                                 style:"currency", 
                                 currency:"IDR", 
-                                maximumSignificantDigits: (total_pembelian + '').replace('.', '').length
+                                maximumSignificantDigits: (totalP + '').replace('.', '').length
                             });
                             // console.log(total)
                 $('#total_bayar_gede').text(total);
-                $('#total_pembelian').val(Number(total_pembelian));	
+                $('#total_pembelian').val(Number(totalP));	
         }
     </script>
 @endpush

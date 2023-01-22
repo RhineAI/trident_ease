@@ -68,7 +68,13 @@
 <body onload="window.print()">
     {{-- <button class="btn-print" id="btn-print" style="position: absolute; right: 0px; top: 0px; padding: 2px; width: 100px; background: #4195D5; border-radius: 15px; color: white; border-color: blue; cursor: pointer;" onclick="window.print()">Print</button> --}}
     <div class="button ml-4 align-items-end">
-        <a href="{{ route('admin.list-transaksi.index') }}" class="mb-3 mt-3 btn btn-sm btn-secondary ml-4 d-print-none btn-print" id="btn-back"><i class="fas fa-arrow-rotate-left"></i> Back</a>
+        @if (auth()->user()->hak_akses == 'admin') 
+            <a href="{{ route('admin.list-transaksi.index') }}" class="mb-3 mt-3 btn btn-sm btn-secondary ml-4 d-print-none btn-print" id="btn-back"><i class="fas fa-arrow-rotate-left"></i> Data Transaksi</a>
+            <a href="{{ route('admin.transaksi-penjualan.index') }}" class="mb-3 mt-3 btn btn-sm btn-secondary ml-4 d-print-none btn-print" target="_blank" rel="noopener noreferrer"><i class="fas fa-plus"></i> Transaksi Baru</a>
+        @elseif (auth()->user()->hak_akses == 'kasir')
+            <a href="{{ route('kasir.list-transaksi.index') }}" class="mb-3 mt-3 btn btn-sm btn-secondary ml-4 d-print-none btn-print" id="btn-back"><i class="fas fa-arrow-rotate-left"></i> Data Transaksi</a>
+            <a href="{{ route('kasir.transaksi-penjualan.index') }}" class="mb-3 mt-3 btn btn-sm btn-secondary ml-4 d-print-none btn-print" target="_blank" rel="noopener noreferrer"><i class="fas fa-plus"></i> Transaksi Baru</a>
+        @endif
         <button onclick="window.print()" class="mb-3 mt-3 btn btn-sm btn-danger ml-4 d-print-none btn-print" id="btn-print"><i class="fa-solid fa-print"></i> Print PDF</button>
     </div>
     <div class="text-center">
@@ -78,7 +84,7 @@
     <br>
     <div>
         <p>{{ date('d-m-Y') }}</p>
-        <p>Admin: {{ strtoupper(auth()->user()->nama) }}</p>
+        <p>Petugas: {{ strtoupper(auth()->user()->nama) }}</p>
     </div>
     <div class="clear-both" style="clear: both;"></div>
     <p>No Faktur: {{ $cPenjualan->id_transaksi }}</p>

@@ -13,6 +13,7 @@
         "laravel/tinker": "^2.7",
         "laravel/ui": "^4.0",
         "nesbot/carbon": "^2.62",
+        "phpoffice/phpspreadsheet": "dev-NumberFormatMask-Helpers",
         "yajra/laravel-datatables-oracle": "~9.0"
     },
     "require-dev": {

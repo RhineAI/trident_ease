@@ -23,7 +23,15 @@ class RedirectIfAuthenticated
 
         foreach ($guards as $guard) {
             if (Auth::guard($guard)->check()) {
-                return redirect(RouteServiceProvider::HOME);
+                if(auth()->user()->hak_akses == 'admin'){
+                    return redirect()->route('admin.dashboard');
+                } elseif(auth()->user()->hak_akses == 'kasir'){
+                    return redirect()->route('kasir.dashboard');
+                } elseif(auth()->user()->hak_akses == 'owner'){
+                    return redirect()->route('owner.dashboard');
+                } elseif(auth()->user()->hak_akses == 'super_admin'){
+                    return redirect()->route('super_admin.dashboard');
+                }
             }
         }
 

@@ -145,7 +145,7 @@
                     <div class="form-group" style="width: 95%; margin: auto;">
                         <label for="keterangan">Keterangan Barang</label>
                         {{-- <input type="text" class="form-control" id="keterangan" placeholder="Keterangan Barang" name="keterangan" required> --}}
-                        <select class="form-control" name="status" id="status" required>
+                        <select class="form-control" name="keterangan" id="keterangan" required>
                             <option value="" disabled="disabled" selected="true">Pilih Jenis Produk</option>
                             <option value="utama">Produk Utama</option>
                             <option value="konsinyasi">Produk Konsinyasi</option>

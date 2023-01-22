@@ -293,30 +293,40 @@ class BarangController extends Controller
             if($perusahaan->grade == 1) {
                 if($limit < 10 ) {
                     $barang->save();
-                    return redirect()->route('admin.barang.index')->with(['success' => 'Berhasil Disimpan']);
+                    if ($barang->keterangan == 'utama') {
+                        return redirect()->route('admin.barang.index')->with(['success' => 'Berhasil Disimpan']);
+                    } elseif ($barang->keterangan == 'konsinyasi') {
+                        return redirect()->route('admin.barang.indexKonsinyasi')->with(['success' => 'Berhasil Disimpan']);
+                    }
                 }else {
                     return view('dashboard')->with(['error' => 'Sudah mencapai limit barang, Naikan levelmu terlebih dahulu!']);
                 }
             } elseif($perusahaan->grade == 2) {
                 if($limit < 50 ) {
                     $barang->save();
-                    return redirect()->route('admin.barang.index')->with(['success' => 'Berhasil Disimpan']);
+                    if ($barang->keterangan == 'utama') {
+                        return redirect()->route('admin.barang.index')->with(['success' => 'Berhasil Disimpan']);
+                    } elseif ($barang->keterangan == 'konsinyasi') {
+                        return redirect()->route('admin.barang.indexKonsinyasi')->with(['success' => 'Berhasil Disimpan']);
+                    }
                 }else {
                     return view('dashboard')->with(['error' => 'Sudah mencapai limit barang, Naikan levelmu terlebih dahulu!']);
                 }
             } elseif($perusahaan->grade == 3) {
                 if($limit < 10000 ) {
                     $barang->save();
-                    return redirect()->route('admin.barang.index')->with(['success' => 'Berhasil Disimpan']);                    
+                    if ($barang->keterangan == 'utama') {
+                        return redirect()->route('admin.barang.index')->with(['success' => 'Berhasil Disimpan']);
+                    } elseif ($barang->keterangan == 'konsinyasi') {
+                        return redirect()->route('admin.barang.indexKonsinyasi')->with(['success' => 'Berhasil Disimpan']);
+                    }                    
                 }else {
                     return view('dashboard')->with(['error' => 'Sudah mencapai limit barang, Naikan levelmu terlebih dahulu!']);
                 }
             } else{
                 return redirect()->route('logout')->with(['error' => 'Anda tidak memiliki akses!']);
             }
-
         return redirect()->route('admin.barang.index')->with(['success' => 'Berhasil Disimpan']);
-
     }
 
     /**

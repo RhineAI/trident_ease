@@ -238,9 +238,11 @@ class TransaksiPenjualanController extends Controller
             }
             // dd($penjualanBaru->id); die;
             if(auth()->user()->hak_akses == 'admin') {
-                return redirect()->route('admin.list-transaksi.index')->with(['success' => 'Transaksi Berhasil!']);
+                return redirect()->route('admin.list-transaksi.print_nota', $penjualanBaru->id)->with(['success' => 'Transaksi Berhasil!']);
+                // return redirect()->route('admin.list-transaksi.index')->with(['success' => 'Transaksi Berhasil!']);
             }elseif(auth()->user()->hak_akses == 'kasir') {
-                return redirect()->route('kasir.list-transaksi.index')->with(['success' => 'Transaksi Berhasil!']);
+                // return redirect()->route('kasir.list-transaksi.index')->with(['success' => 'Transaksi Berhasil!']);
+                return redirect()->route('kasir.list-transaksi.print_nota', $penjualanBaru->id)->with(['success' => 'Transaksi Berhasil!']);
             }
         }
     }

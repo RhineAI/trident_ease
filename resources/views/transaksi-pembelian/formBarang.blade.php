@@ -27,7 +27,17 @@
                             <td width="10%"><span class="badge badge-info">{{ $item->barcode }}</span></td>
                             <td>{{ $item->nama }}</td>
                             <td>{{ 'Rp. '. format_uang($item->harga_beli) }}</td>
-                            <td>{{ $item->stock }}</td>
+                            <td id="cek_stok">
+                                <span class="btn btn-outline-dark position-relative">
+                                    {{ $item->stock }}
+                                    <span id="alert_stock" class="">
+                                      {{-- 99+ --}}
+                                      {{-- <span class="visually-hidden">unread messages</span> --}}
+                                    </span>
+                                  </span>
+                            </td>
+                            <input type="hidden" value="{{ $item->stock }}" id="stok">
+                            <input type="hidden" value="{{ $item->stock_minimal }}" id="stok_minimal">
                             <td width="6%">
                                 <button type="button" class="btn btn-info add_barang" 
                                 data-id_barang="{{ $item->id }}" 
@@ -37,6 +47,7 @@
                                 data-harga_jual="{{ GetHargaJual($item->harga_beli,$item->keuntungan) }}" 
                                 data-qty="1"
                                 data-stock="{{ $item->stock }}" 
+                                {{-- data-stock_minimal="{{ $item->stock_minimal }}"  --}}
                                 data-dismiss="modal"> <i class="fa fa-plus"></i>
                                 </button>
                             </td>

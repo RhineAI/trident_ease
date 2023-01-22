@@ -223,8 +223,16 @@
                 var harga_beli=$('#harga_beli_retur'+id).val();
                 var qty=$('#qty_retur'+id).val();
                 $('#subtotal_retur'+id).val(harga_beli*qty);
+                var subtotal = document.querySelectorAll('.subtotal');
+                var totalP = 0;
+                subtotal.forEach(function(item){
+                    totalP += parseFloat(item.value);
+                });
+                // console.log(totalP)
+                $('#total_retur').val(Number(totalP));
+                
                 Swal.fire('QTY melebihi produk yang dibeli!')
-                GetTotalBayar();
+                // GetTotalBayar();
                 return false;
             } else {
                 qty.value = qty.value;
@@ -305,7 +313,7 @@
                     html_code+="<td style='text-align:center'><input class='form-control' type='text' name='item["+count+"][nama_barang_retur]' value='"+nama_barang+"' readonly='true' style='width: 175px'></td>";
                     html_code+="<td><input class='form-control' style='text-align:right; width: 170px;' type='text' name='item["+count+"][harga_beli_retur]' value='"+harga_beli+"' id='harga_beli_retur"+count+"' readonly='true'></td>";
                     html_code+="<td style='text-align:center; width: 8%;'><input type='number' class='form-control qty_retur' data-idbuffer='"+count+"' name='item["+count+"][qty_retur]' value='1' max='"+qty+"' onchange='cekQty(this)' id='qty_retur"+count+"' style='width: 90px'></td>";
-                    html_code+="<td style='text-align:center;'><input style='text-align:right; width: 200px;' type='number' class='form-control' name='item["+count+"][subtotal_retur]' value='"+harga_beli*1+"' readonly='true' id='subtotal_retur"+count+"'></td>";
+                    html_code+="<td style='text-align:center;'><input style='text-align:right; width: 200px;' type='number' class='form-control subtotal' name='item["+count+"][subtotal_retur]' value='"+harga_beli*1+"' readonly='true' id='subtotal_retur"+count+"'></td>";
                     html_code+="<td style='text-align:center;'><button type='button' class='btn btn-danger hapus_retur' data-idbuffer='"+count+"'><i class='fas fa-minus'></i></button></td>";
                     html_code+="</tr>";
                     //alert (html_code);
@@ -338,13 +346,25 @@
             }
 
             function GetTotalBayar(){
-                var total_retur=0;
-                //HASILKAN TOTAL RETUR
-                for(x=1;x<=count;x++){
-                    total_retur+= Number($("input[name='item["+x+"][subtotal_retur]']").val());
-                }
-                $('#total_retur').val(Number(total_retur));
+                // var subtotal = $("[class='form-control subtotal']").val();
+                var subtotal = document.querySelectorAll('.subtotal');
+                var totalP = 0;
+                subtotal.forEach(function(item){
+                    totalP += parseFloat(item.value);
+                });
+                // console.log(totalP)
+                $('#total_retur').val(Number(totalP));	
+                // $('#tampil-terbilang').text(terbilang(Number(totalP)));
             }
+
+            // function GetTotalBayar(){
+            //     var total_retur=0;
+            //     //HASILKAN TOTAL RETUR
+            //     for(x=1;x<=count;x++){
+            //         total_retur+= Number($("input[name='item["+x+"][subtotal_retur]']").val());
+            //     }
+            //     $('#total_retur').val(Number(total_retur));
+            // }
 
             function GetKeuntungan(){
                 var keuntungan=0;
@@ -380,7 +400,7 @@
                 var delete_row=$(this).data("idbuffer");
                 // console.log(delete_row)
                 $('#t_retur #buffer'+delete_row).remove(); 
-                count--;
+                // count--;
                 GetTotalBayar();
                 GetKeuntungan();
             });

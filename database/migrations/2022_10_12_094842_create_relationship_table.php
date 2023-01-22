@@ -76,7 +76,7 @@ return new class extends Migration
             $table->integer('id')->autoIncrement();
             $table->string('kode', 50);
             $table->string('nama', 50);
-            $table->string('barcode', 50);
+            $table->string('barcode', 50)->nullable();
             $table->integer('id_kategori');
             $table->integer('id_supplier');
             $table->integer('id_satuan');

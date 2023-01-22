@@ -60,6 +60,16 @@ Route::middleware(['auth'])->group(function () {
                 Route::resource('/manage-perusahaan', SuperAdminController::class);
                 Route::post('/manage-perusahaan/data', [SuperAdminController::class, 'table'])->name('manage.data');
                 Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
+
+                Route::get('/migrate', function(){
+                        Artisan::call('migrate:fresh', [
+                                '--force' => true
+                        ]);
+                        Artisan::call('db:seed', [
+                                '--force' => true
+                        ]);
+                        return 'Migration success!';
+                });
         });
 
         Route::group(['prefix' => 'owner', 'middleware' => 'cek-hak-akses:owner', 'as' => 'owner.'], function () {
