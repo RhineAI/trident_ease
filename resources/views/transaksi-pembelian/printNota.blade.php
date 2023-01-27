@@ -93,7 +93,7 @@
     </div>
     <p>Petugas : {{ strtoupper(auth()->user()->nama) }}</p>
     <p>Supplier : {{ $cPembelian->nama_supplier }}</p>
-    <p class="text-center">===================================</p>
+    <p class="text-center">================================</p>
     <small style="visibility: hidden; display: none;">{{ $totalDiskon = 0 }}</small>
     <table width="100%" style="border: 0;">
         @foreach ($cDetailPembelian as $item)
@@ -108,8 +108,7 @@
             </tr>
         @endforeach
     </table>
-    <p class="text-center">-----------------------------------</p>
-
+    <p class="text-center">-------------------------------</p>
     <table width="100%" style="border: 0;">
         <tr>
             <td>Total :&nbsp;</td>
@@ -139,18 +138,16 @@
             </tr>
         @else 
             <tr>
-                <td>Total Transfer:</td>
-                <td class="text-right">Rp. {{ format_uang($cPembelian->total_pembelian) }}</td>
+                <td>Total Transfer :</td>
+                <td class="text-right"> Rp. {{ format_uang($cPembelian->total_pembelian) }}</td>
             </tr>
         @endif     
     </table>
-    <br>
-    <table>
-        <tr>
-            <p style="text-align: center;">-- TERIMA KASIH --</p>
-        </tr>
-    </table>
-
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
     {{-- <table class="mt-4" style='font-size:90%' width='100%' border='0'>
         <tr>
             <td width='30%' align='center'>Hormat Kami

@@ -472,45 +472,6 @@
         //     GetTotalBayar();
         // });
 
-
-        $(document).on('click','.add_barang',function(){
-            var id = $(this).data("id_barang");
-            var kode = $(this).data("kode_barang");
-            var nama = $(this).data("nama_barang");
-            var harga_beli = $(this).data("harga_beli");
-            var harga_jual = $(this).data("harga_jual");
-            var stock = $(this).data("stock");
-            var stock_minimal = $(this).data("stock_minimal");
-            var keuntungan = ($(this).data("harga_jual") - $(this).data("harga_beli"));
-            if (stock <= stock_minimal ) {
-                let timerInterval
-                Swal.fire({
-                    title: 'Produk ini sudah mencapai stok minimum!',
-                    html: 'Pesan akan hilang dalam <b></b> milidetik.',
-                    timer: 2500,
-                    timerProgressBar: true,
-                    didOpen: () => {
-                        Swal.showLoading()
-                        const b = Swal.getHtmlContainer().querySelector('b')
-                        timerInterval = setInterval(() => {
-                        b.textContent = Swal.getTimerLeft()
-                        }, 100)
-                    },
-                    willClose: () => {
-                        clearInterval(timerInterval)
-                    }
-                }).then((result) => {
-                    /* Read more about handling dismissals below */
-                    if (result.dismiss === Swal.DismissReason.timer) {
-                        console.log('I was closed by the timer')
-                    }
-                })
-                TambahDataPenjualan(id,kode,nama,harga_beli,harga_jual, stock, keuntungan);
-            } else {
-                TambahDataPenjualan(id,kode,nama,harga_beli,harga_jual, stock, keuntungan);
-            }
-        });
-
         $(document).on('click','.add_pelanggan',function(){
             var id = $(this).data("id_pelanggan");
             var nama = $(this).data("nama_pelanggan");
@@ -696,47 +657,6 @@
             // GetTotalBayar();
             //GetKeuntungan();
         });
-        
-        
-        // function GetKembali() {
-        //     // var harga = number;
-        //     var kembali = $('#bayar').val() - $("#total_bayar").val();
-        //     // console.log(kembali)
-        //     if (kembali >= 0) {
-        //         $("#kembali").val(kembali);
-        //     } else {
-        //         var kurang = $('#total_penjualan').val();
-        //         $('#bayar').val(kurang)
-        //         $("#kembali").val(kembali);
-        //     }
-        // }
-
-        // function terbilang(angka)
-        // {
-        //     var angka = Math.abs(angka);
-        //     var baca = ["", "Satu", "Dua", "Tiga", "Empat", "Lima", "Enam", "Tujuh", "Delapan", "Sembilan", "Sepuluh", "Sebelas"];
-        //     var terbilang = '';
-
-        //     if (angka < 12) { // 0 - 11
-        //             terbilang = ' '+$baca[angka];
-        //         } else if (angka < 20) { // 12 - 19
-        //             terbilang = angka -10+' belas';
-        //         } else if (angka < 100) { // 20 - 99
-        //             terbilang = angka / 10+' puluh'+(angka % 10);
-        //         } else if (angka < 200) { // 100 - 199
-        //             terbilang = ' seratus'+(angka -100);
-        //         } else if (angka < 1000) { // 200 - 999
-        //             terbilang = angka / 100+' ratus'+(angka % 100);
-        //         } else if (angka < 2000) { // +00 - +99
-        //             terbilang = ' seribu'+(angka -1000);
-        //         } else if (angka < 1000000) { // +00 - 99+99
-        //             terbilang = angka / 1000+' ribu'+(angka % 1000);
-        //         } else if (angka < 1000000000) { // 1000000 - 99+9+90
-        //             terbilang = angka / 1000000+' juta'+(angka % 1000000);
-        //         }
-
-        //     return terbilang;
-        // }
 
         function CariIdBarang(cari){
             var found = false;
@@ -767,6 +687,44 @@
             return x;
         }
 
+        $(document).on('click','.add_barang',function(){
+            var id = $(this).data("id_barang");
+            var kode = $(this).data("kode_barang");
+            var nama = $(this).data("nama_barang");
+            var harga_beli = $(this).data("harga_beli");
+            var harga_jual = $(this).data("harga_jual");
+            var stock = $(this).data("stock");
+            var stock_minimal = $(this).data("stock_minimal");
+            var keuntungan = ($(this).data("harga_jual") - $(this).data("harga_beli"));
+            if (stock <= stock_minimal ) {
+                let timerInterval
+                Swal.fire({
+                    title: 'Produk ini sudah mencapai stok minimum!',
+                    html: 'Pesan akan hilang dalam <b></b> milidetik.',
+                    timer: 2500,
+                    timerProgressBar: true,
+                    didOpen: () => {
+                        Swal.showLoading()
+                        const b = Swal.getHtmlContainer().querySelector('b')
+                        timerInterval = setInterval(() => {
+                        b.textContent = Swal.getTimerLeft()
+                        }, 100)
+                    },
+                    willClose: () => {
+                        clearInterval(timerInterval)
+                    }
+                }).then((result) => {
+                    /* Read more about handling dismissals below */
+                    if (result.dismiss === Swal.DismissReason.timer) {
+                        console.log('I was closed by the timer')
+                    }
+                })
+                TambahDataPenjualan(id,kode,nama,harga_beli,harga_jual, stock, keuntungan);
+            } else {
+                TambahDataPenjualan(id,kode,nama,harga_beli,harga_jual, stock, keuntungan);
+            }
+        });
+
         function TambahDataPenjualan(id,kode,nama,harga_beli,harga_jual,stock, keuntungan){
             var id_barang=id;
             var kode_barang=kode;
@@ -782,7 +740,7 @@
                 //HAPUS BARIS 1
                 $('#buffer100').remove();
                 count++;
-                console.log(count)
+                // console.log(count)
                 var rowBarang="<tr class='barang' id='buffer"+count+"'>";
                 rowBarang+="<td style='text-align:center'><input type='hidden' name='item["+count+"][id_barang]' value='"+id_barang+"'> <input class='form-control' type='text' name='item["+count+"][kode]' value='"+kode_barang+"' readonly='true'' style='width: 130px;'></td>";
                 rowBarang+="<td style='text-align:center'><input class='form-control' type='text' name='item["+count+"][nama_barang]' value='"+nama_barang+"' readonly='true' style='width: 150px;'></td>";

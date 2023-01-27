@@ -139,12 +139,12 @@
             </tr>
         @endif     
     </table>
-    <br>
-    <table>
-        <tr>
-            <p style="text-align: center;">-- TERIMA KASIH --</p>
-        </tr>
-    </table>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+
 
     {{-- <table class="mt-4" style='font-size:90%' width='100%' border='0'>
         <tr>

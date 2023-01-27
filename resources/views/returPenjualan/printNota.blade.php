@@ -116,7 +116,6 @@
         </tbody>
     </table> --}}
     <p class="text-center">-------------------------------</p>
-
     <table width="100%" style="border: 0;">
         <tr class="spaceUnder2">
             <td class="text-right" colspan="8">Total : Rp. {{ format_uang($cReturPenjualan->total_retur) }}</td>
@@ -126,6 +125,12 @@
         </tr> --}}
        
     </table>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+
 
     {{-- <table class="mt-4" style='font-size:90%' width='100%' border='0'>
         <tr>
