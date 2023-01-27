@@ -59,7 +59,7 @@ class ReturPenjualanController extends Controller
 
         $detailPenjualan = TransaksiPenjualan::leftJoin('t_detail_penjualan AS DT', 't_transaksi_penjualan.id', 'DT.id_penjualan')
         ->leftJoin('t_barang AS B', 'B.id', 'DT.id_barang')
-        ->select('DT.harga_jual', 'DT.qty AS jumlah_beli_barang', 'DT.id_barang', 't_transaksi_penjualan.id AS id_penjualan', 't_transaksi_penjualan.tgl AS tanggal', 'B.nama AS nama_barang', 'B.harga_beli', 'B.kode')
+        ->select('DT.harga_jual', 'DT.qty AS jumlah_beli_barang', 'DT.id_barang', 'DT.diskon', 't_transaksi_penjualan.id AS id_penjualan', 't_transaksi_penjualan.tgl AS tanggal', 'B.nama AS nama_barang', 'B.harga_beli', 'B.kode')
         ->where('t_transaksi_penjualan.id', $request->id)     
         ->where('t_transaksi_penjualan.id_perusahaan', auth()->user()->id_perusahaan)     
         ->orderBy('DT.id_barang', 'asc')
@@ -84,11 +84,12 @@ class ReturPenjualanController extends Controller
         if(count($qtyRetur) == 0){
             foreach ($detailPenjualan as $row) {
                 $i++;
-                $subtotal = $row->jumlah_beli_barang * $row->harga_jual;
+                $subtotal = ($row->jumlah_beli_barang * $row->harga_jual) - ($row->jumlah_beli_barang * $row->harga_jual * $row->diskon/100) ;
+                $disc = $row->harga_jual - $row->harga_jual * $row->diskon/100;
                 $html.="<tr>";
                 $html.="<td style='text-align:center;'><input type='hidden' value='$row->id_barang' id='id_barang$i'> <input class='form-control' type='text' value='$row->kode' readonly='true' id='kode$i' style='width: 130px;'></td>";
                 $html.="<td style='text-align:center;'><input class='form-control' type='text' value='$row->nama_barang' readonly='true' id='nama_barang$i' style='width: 175px;'></td>";
-                $html.="<td style='text-align:center;'><input class='form-control' type='number' value='$row->harga_jual' readonly='true' id='harga_jual$i' style='text-align:right; width: 170px;'><input class='form-control' type='hidden' value='$row->harga_beli' readonly='true' id='harga_beli$i' style='text-align:right'></td>";
+                $html.="<td style='text-align:center;'><input class='form-control' type='number' value='$disc' readonly='true' id='harga_jual$i' style='text-align:right; width: 170px;'><input class='form-control' type='hidden' value='$row->harga_beli' readonly='true' id='harga_beli$i' style='text-align:right'></td>";
                 $html.="<td style='text-align:center; width: 8%;'><input class='form-control' type='number' value='$row->jumlah_beli_barang' readonly='true' id='qty$i' style='width: 90px;'></td>";
                 $html.="<td style='text-align:center;'><input class='form-control' type='number' value='$subtotal' readonly='true' id='subtotal$i' style='text-align:right; width: 200px;'></td>";
                 // return $key;
@@ -126,17 +127,19 @@ class ReturPenjualanController extends Controller
                 ->first(); 
 
                 if(isset($qtySisa->qtySisa)){
-                    $subtotal = $qtySisa->qtySisa * $row->harga_jual;
+                    $subtotal = ($qtySisa->qtySisa * $row->harga_jual) - ($qtySisa->qtySisa * $row->harga_jual * $row->diskon/100);
                     $qtySekarang = $qtySisa->qtySisa;
+                    $hargaDisc = $row->harga_jual - ($row->harga_jual * $row->diskon/100);
                 } else {
-                    $subtotal = $row->jumlah_beli_barang * $row->harga_jual;
+                    $subtotal = ($row->jumlah_beli_barang * $row->harga_jual) - ($row->jumlah_beli_barang * $row->harga_jual * $row->diskon);
                     $qtySekarang = $row->jumlah_beli_barang;
+                    $hargaDisc = $row->harga_jual - ($row->harga_jual * $row->diskon/100);
                 }
 
                 $html.="<tr>";
                 $html.="<td style='text-align:center;'><input type='hidden' value='$row->id_barang' id='id_barang$i'> <input class='form-control' type='text' value='$row->kode' readonly='true' id='kode$i' style='width: 130px;'></td>";
                 $html.="<td style='text-align:center;'><input class='form-control' type='text' value='$row->nama_barang' readonly='true' id='nama_barang$i' style='width: 175px;'></td>";
-                $html.="<td style='text-align:center;'><input class='form-control' type='number' value='$row->harga_jual' readonly='true' id='harga_jual$i' style='text-align:right; width: 170px;'><input class='form-control' type='hidden' value='$row->harga_beli' readonly='true' id='harga_beli$i' style='text-align:right'></td>";
+                $html.="<td style='text-align:center;'><input class='form-control' type='number' value='$hargaDisc' readonly='true' id='harga_jual$i' style='text-align:right; width: 170px;'><input class='form-control' type='hidden' value='$row->harga_beli' readonly='true' id='harga_beli$i' style='text-align:right'></td>";
                 $html.="<td style='text-align:center; width: 8%;'><input class='form-control' type='number' value='$qtySekarang' readonly='true' id='qty$i' style='width: 90px;'></td>";
                 $html.="<td style='text-align:center;'><input class='form-control' type='number' value='$subtotal' readonly='true' id='subtotal$i' style='text-align:right; width: 200px;'></td>";
                 // return $key;

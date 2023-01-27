@@ -60,7 +60,11 @@ Data Retur Penjualan
                     <h5 style="text-align:center;" >s/d {{ tanggal_indonesia($tanggalAkhir) }}</h5>
                     <br>
                     <div class="button-group mb-1">          
-                        <a href="{{ route('admin.retur-penjualan.index') }}" class="mx-4 mb-3 btn btn-sm btn-info text-end"><i class="fa fa-plus"></i> Retur Barang</a>
+                        @if (auth()->user()->hak_akses == 'admin')
+                            <a href="{{ route('admin.retur-penjualan.index') }}" class="mx-4 mb-3 btn btn-sm btn-info text-end"><i class="fa fa-plus"></i> Retur Barang</a>
+                        @elseif(auth()->user()->hak_akses == 'kasir')
+                            <a href="{{ route('kasir.retur-penjualan.index') }}" class="mx-4 mb-3 btn btn-sm btn-info text-end"><i class="fa fa-plus"></i> Retur Barang</a>
+                        @endif
                     </div>
 
                     <!-- DataTable with Hover -->

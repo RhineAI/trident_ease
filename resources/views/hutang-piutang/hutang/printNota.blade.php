@@ -86,40 +86,23 @@
     <p>Supplier: {{ $cHutang->nama_supplier }}</p>
     <p>Admin: {{ auth()->user()->nama }}</p>
     <p class="text-center">===================================</p>
-    
     <br>
+    <small style="visibility: hidden; display: none;">{{ $totalDiskon = 0 }}</small>
     <table width="100%" style="border: 0;">
         @foreach ($cDetailHutang as $item)
+            <small style="visibility: hidden; display: none;">{{ $totalDiskon+= $item->qty * $item->harga_beli * $item->diskon/100 }}</small>
+
             <tr>
                 <td colspan="3">{{ $item->nama_barang }}</td>
             </tr>
             <tr>
-              	<td>{{ $item->qty }} x Rp. {{ format_uang($item->harga_beli) }} x DISC {{$item->diskon}}%</td>
+              	<td>{{ $item->qty }} x Rp. {{ format_uang($item->harga_beli) }}</td>
                 <td></td>
-                <td class="text-right">Rp. {{ format_uang(($item->qty * $item->harga_beli) - ($item->qty * $item->harga_beli * $item->diskon/100)) }}</td>
+                <td class="text-right">Rp. {{ format_uang($item->qty * $item->harga_beli) }}</td>
             </tr>
         @endforeach
     </table>
-    {{-- <table width="100%" class="bordered">
-        <thead>
-            <tr class="text-center">
-                <td>Nama Barang</td>
-                <td>Jumlah</td>
-                <td>Harga</td>
-                <td>Sub Total</td>
-            </tr>
-        </thead>
-        <tbody class="text-center">
-            @foreach ($cDetailHutang as $item)
-                <tr>
-                    <td>{{ $item->nama_barang }}</td>
-                    <td>{{ $item->qty }}</td>
-                    <td>Rp. {{ format_uang($item->harga_beli) }}</td> 
-                    <td class="text-right">Rp. {{ format_uang($item->qty * $item->harga_beli) }}</td>
-                </tr>
-            @endforeach
-        </tbody>
-    </table> --}}
+
     <p class="text-center">-----------------------------------</p>
 
     <table width="100%" style="border: 0;">
@@ -135,58 +118,9 @@
         <tr>
             <td class="text-right" colspan="8">Sisa : Rp. {{ format_uang($cHutang->sisa) }}</td>
         </tr>
-        <tr class="spaceUnder2">
-            <td class="text-right" colspan="8">Status : <strong>LUNAS</strong></td>
-        </tr>
         <tr>
             <td colspan="8"></td>
         </tr>
-    </table>
-
-    <table class="mt-4" style='font-size:90%' width='100%' border='0'>
-        <tr>
-            <td width='30%' align='center'>
-            </td>
-            <td width='40%' align='center'>
-                
-            </td>
-            <td width='30%' align='center'>
-                Hormat Kami
-            </td>
-        </tr>
-
-        <tr>
-            <td width='30%' align='right'>
-        </td>
-            <td width='40%'>
-                <br><br>
-            </td>
-            <td width='30%' align='right'>
-            </td>
-        </tr>
-
-        {{-- <tr>
-            <td width='30%' align='left'>
-        </td>
-            <td width='40%'>
-                <br><br>
-            </td>
-            <td width='30%' align='left'>
-            </td>
-        </tr> --}}
-        
-        <tr>
-            <td width='30%' align='center'>
-                {{-- ...................<br> --}}
-                
-            </td>
-            <td width='40%'>
-            </td>
-            <td width='30%' align='center'>
-                ...................<br>
-                {{ strtoupper(auth()->user()->nama) }}
-            </td>
-        </tr> 
     </table>
 
     <script>

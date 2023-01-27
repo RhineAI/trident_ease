@@ -14,7 +14,153 @@ Produk Utama
 @endsection
 
 @push('styles')
+<style>
+    @import "bourbon";
+    @import url(https://fonts.googleapis.com/css?family=Lato:400,700,300);
+    body {
+        font-family: 'Lato', sans-serif;
+    }
+    /* .form {
+        width: 400px;
+    } */
+    .file-upload-wrapper-download {
+        position: relative;
+        width: 90%;
+        height: 60px;
+        margin-top: 20px;
+        margin-left: 20px;
+        background: #ffe;
+    }
+    .file-upload-wrapper-download:after {
+        content: attr(data-text);
+        font-size: 18px;
+        position: absolute;
+        top: 0;
+        left: 0;
+        background: #ffe;
+        padding: 10px 15px;
+        display: block;
+        width: calc(100% - 60px);
+        pointer-events: none;
+        z-index: 20;
+        height: 40px;
+        line-height: 40px;
+        color: #999;
+        border-radius: 5px 10px 10px 5px;
+        font-weight: 300;
+    }
+    .file-upload-wrapper-download:before {
+        content: 'Download';
+        position: absolute;
+        top: 0;
+        right: 0;
+        display: inline-block;
+        height: 60px;
+        background: #4daf7c;
+        color: #fff;
+        font-weight: 500;
+        z-index: 25;
+        font-size: 14px;
+        font-family: 'Poppins';
+        line-height: 60px;
+        padding: 0 7.5px;
+        text-transform: uppercase;
+        pointer-events: none;
+        border-radius: 0 5px 5px 0;
+    }
+    .file-upload-wrapper-download:hover:before {
+        background: #3d8c63;
+    }
+    .file-upload-wrapper-download input {
+        opacity: 0;
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        z-index: 99;
+        height: 40px;
+        margin: 0;
+        padding: 0;
+        display: block;
+        cursor: pointer;
+        width: 100%;
+    }
+</style>
 
+<style>
+    @import "bourbon";
+    @import url(https://fonts.googleapis.com/css?family=Lato:400,700,300);
+    body {
+        font-family: 'Lato', sans-serif;
+    }
+    /* .form {
+        width: 400px;
+    } */
+    .file-upload-wrapper-upload {
+        position: relative;
+        width: 90%;
+        height: 60px;
+        margin-top: 20px;
+        margin-left: 20px;
+        background: #ffe;
+    }
+    .file-upload-wrapper-upload:after {
+        content: attr(data-text);
+        font-size: 18px;
+        position: absolute;
+        top: 0;
+        left: 0;
+        background: #ffe;
+        padding: 10px 15px;
+        display: block;
+        width: calc(100% - 40px);
+        pointer-events: none;
+        z-index: 20;
+        height: 40px;
+        line-height: 40px;
+        color: #999;
+        border-radius: 5px 10px 10px 5px;
+        font-weight: 300;
+    }
+    .file-upload-wrapper-upload:before {
+        content: 'Upload';
+        position: absolute;
+        top: 0;
+        right: 0;
+        display: inline-block;
+        height: 60px;
+        background: #4daf7c;
+        color: #fff;
+        font-weight: 500;
+        z-index: 25;
+        font-size: 14px;
+        font-family: 'Poppins';
+        line-height: 60px;
+        padding: 0 7.5px;
+        text-transform: uppercase;
+        pointer-events: none;
+        border-radius: 0 5px 5px 0;
+    }
+    .file-upload-wrapper-upload:hover:before {
+        background: #3d8c63;
+    }
+    .file-upload-wrapper-upload input {
+        opacity: 0;
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        z-index: 99;
+        height: 40px;
+        margin: 0;
+        padding: 0;
+        display: block;
+        cursor: pointer;
+        width: 100%;
+    }
+</style>
 @endpush
 
 
@@ -29,6 +175,11 @@ Produk Utama
                     <button onclick="addForm('{{ route('admin.barang.store') }}')" class="btn btn-primary mx-2 my-3"><i
                             class="fa fa-plus-circle"></i>
                         Tambah</button>
+                    <button class="btn btn-success mx-2 my-3" data-toggle="modal" data-target="#importBarang"><i class="fa fa-plus-circle"></i>
+                        Import</button>
+                    {{-- <button type="button" class="btn btn-success mx-2 my-3" data-toggle="modal" data-target="#importBarang">
+                        Import Barang
+                    </button> --}}
                 </div>
     
                 <div class="box-body table-responsive">
@@ -63,6 +214,8 @@ Produk Utama
 
 </section>
 @include('barang.form')
+@include('barang.formImport')
+{{-- @include('barang.formImport') --}}
 @endsection
 
 @push('scripts')
@@ -275,6 +428,80 @@ Produk Utama
         }
 
 </script>
+
+{{-- Form JS --}}
+<script>
+    $("form").on("change", ".file-upload-field", function(){ 
+        $(this).parent(".file-upload-wrapper").attr("data-text",        
+        $(this).val().replace(/.*(\/|\\)/, '') );
+    });
+    function _(el) {
+        return document.getElementById(el);
+    }
+
+    function uploadFile() {
+        var file = _("file1").files[0];
+        // alert(file.name+" | "+file.size+" | "+file.type);
+        var formdata = new FormData();
+        formdata.append("file1", file);
+        var ajax = new XMLHttpRequest();
+        ajax.upload.addEventListener("progress", progressHandler, false);
+        ajax.addEventListener("load", completeHandler, false);
+        ajax.addEventListener("error", errorHandler, false);
+        ajax.addEventListener("abort", abortHandler, false);
+        ajax.open("POST", "file_upload_parser.php"); // http://www.developphp.com/video/JavaScript/File-Upload-Progress-Bar-Meter-Tutorial-Ajax-PHP
+        //use file_upload_parser.php from above url
+        ajax.send(formdata);
+    }
+
+    function progressHandler(event) {
+        _("loaded_n_total").innerHTML = "Uploaded " + event.loaded + " bytes of " + event.total;
+        var percent = (event.loaded / event.total) * 100;
+        _("progressBar").value = Math.round(percent);
+        _("status").innerHTML = Math.round(percent) + "% uploaded... please wait";
+    }
+
+    function completeHandler(event) {
+        _("status").innerHTML = event.target.responseText;
+        _("progressBar").value = 0; //wil clear progress bar after successful upload
+    }
+
+    function errorHandler(event) {
+        _("status").innerHTML = "Upload Failed";
+    }
+
+    function abortHandler(event) {
+        _("status").innerHTML = "Upload Aborted";
+    }
+</script>
+
+{{-- <script>
+    const dropArea = document.querySelector(".drop_box"),
+            button = dropArea.querySelector("button"),
+            dragText = dropArea.querySelector("header"),
+            input = dropArea.querySelector("input");
+    let file;
+    var filename;
+
+    button.onclick = () => {
+        input.click();
+    };
+
+    input.addEventListener("change", function (e) {
+    var fileName = e.target.files[0].name;
+    let filedata = `
+        <form action="" method="post">
+        <div class="form">
+        <h4>${fileName}</h4>
+        <input type="email" placeholder="Enter email upload file">
+        <button class="btn">Upload</button>
+        </div>
+        </form>`;
+    dropArea.innerHTML = filedata;
+    });
+
+</script> --}}
+
 {{-- <script>
 
     

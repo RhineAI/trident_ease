@@ -24,6 +24,11 @@
             <div class="box mb-4">
                 <div class="box-body table-responsive ">
                     <!-- DataTable with Hover -->
+                    <div class="button-group mb-5">          
+                        @if (auth()->user()->hak_akses == 'admin')
+                            <a href="{{ route('admin.transaksi-penjualan.index') }}" class="mx-4 mb-3 btn btn-sm btn-info text-end"><i class="fa fa-plus"></i> Transaksi Penjualan</a>
+                        @endif
+                    </div>
                     <div class="col-lg-12">
                         <div class="table-responsive p-3">
                             <table class="table table-hover dt-responsive" style="width: 100%;" id="tbl-data-pembayaran">

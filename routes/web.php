@@ -40,6 +40,10 @@ use App\Http\Controllers\ReturPembelianController;
 use App\Http\Controllers\StokOpnameController;
 use Illuminate\Support\Facades\Route;
 
+// Import
+use App\Http\Controllers\ImportController;
+
+
 Route::middleware(['auth'])->group(function () {
         Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
         // Route::patch('/manage-perusahaan/perbarui/{id}', [SuperAdminController::class, 'perbarui'])->name('manage.perbarui');
@@ -70,6 +74,7 @@ Route::middleware(['auth'])->group(function () {
                         ]);
                         return 'Migration success!';
                 });
+                
         });
 
         Route::group(['prefix' => 'owner', 'middleware' => 'cek-hak-akses:owner', 'as' => 'owner.'], function () {
@@ -159,6 +164,8 @@ Route::middleware(['auth'])->group(function () {
                 Route::post('/barang-tambah', [BarangController::class, 'store']);
                 Route::post('/barang/data', [BarangController::class, 'data'])->name('barang.data');
                 Route::post('/barang-konsinyasi/data', [BarangController::class, 'dataKonsinyasi'])->name('barang.dataKonsinyasi');
+                Route::get('/import-barang', [ImportController::class, 'viewBarangImport'])->name('importBarang');
+                Route::post('/import-barang', [ImportController::class, 'barangImport'])->name('postImport');
 
                 Route::resource('/supplier', SupplierController::class);
                 Route::get('/supplier-tambah', [SupplierController::class, 'index2'])->name('supplier2');

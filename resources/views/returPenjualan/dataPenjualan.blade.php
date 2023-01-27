@@ -13,8 +13,8 @@
                 <thead>
                     <tr>
                         <td>No</td>
-                        <td>No Penjualan</td>
                         <td>Tanggal</td>
+                        <td>No Penjualan</td>
                         <td>Pelanggan</td>
                         <td>Action</td>
                     </tr>
@@ -22,10 +22,10 @@
                 <tbody>
                     @foreach ($penjualan as $item)
                         <tr>
-                            <td width="6%">{{ $i = (isset($i)?++$i:$i=1) }}</td>
-                            <td width="10%"><span class="badge badge-info">{{ $item->id_penjualan }}</span></td>
-                            <td>{{ $item->tanggal }}</td>
-                            <td>{{ $item->nama_pelanggan }}</td>
+                            <td width="4%">{{ $i = (isset($i)?++$i:$i=1) }}</td>
+                            <td width="10%">{{ $item->tanggal }}</td>
+                            <td width="20%">{{ $item->id_penjualan }}</td>
+                            <td width="20%">{{ $item->nama_pelanggan }}</td>
                             <td width="6%">
                                 <button type="button" class="btn btn-info add_penjualan" 
                                 data-id_penjualan="{{ $item->id_penjualan }}" 

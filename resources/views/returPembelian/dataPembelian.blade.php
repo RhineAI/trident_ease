@@ -13,8 +13,8 @@
                 <thead>
                     <tr>
                         <td>No</td>
-                        <td>No Pembelian</td>
                         <td>Tanggal</td>
+                        <td>No Pembelian</td>
                         <td>Supplier</td>
                         <td>Action</td>
                     </tr>
@@ -22,10 +22,10 @@
                 <tbody>
                     @foreach ($pembelian as $item)
                         <tr>
-                            <td width="6%">{{ $i = (isset($i)?++$i:$i=1) }}</td>
-                            <td width="10%"><span class="badge badge-info">{{ $item->id_pembelian }}</span></td>
-                            <td>{{ $item->tanggal }}</td>
-                            <td>{{ $item->nama_supplier }}</td>
+                            <td width="4%" style="text-align: center;">{{ $i = (isset($i)?++$i:$i=1) }}</td>
+                            <td width="10%">{{ $item->tanggal }}</td>
+                            <td width="20%">{{ $item->id_pembelian }}</td>
+                            <td width="20%">{{ $item->nama_supplier }}</td>
                             <td width="6%">
                                 <button type="button" class="btn btn-info add_pembelian" 
                                 data-id_pembelian="{{ $item->id_pembelian }}" 

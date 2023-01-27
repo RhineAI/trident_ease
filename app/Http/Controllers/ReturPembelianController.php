@@ -154,7 +154,7 @@ class ReturPembelianController extends Controller
         // return $request;
         $detailPembelian = Pembelian::leftJoin('t_detail_pembelian AS DT', 'DT.id_pembelian', 't_transaksi_pembelian.id')
         ->leftJoin('t_barang AS B', 'B.id', 'DT.id_barang')
-        ->select('DT.harga_beli', 'DT.qty AS jumlah_beli_barang', 'DT.id_barang', 't_transaksi_pembelian.id AS id_pembelian', 't_transaksi_pembelian.tgl AS tanggal', 'B.nama AS nama_barang', 'DT.id_barang AS id_barang_pembelian', 'B.id AS id_barang', 'B.harga_beli', 'B.kode')
+        ->select('DT.harga_beli', 'DT.qty AS jumlah_beli_barang', 'DT.id_barang', 'DT.diskon','t_transaksi_pembelian.id AS id_pembelian', 't_transaksi_pembelian.tgl AS tanggal', 'B.nama AS nama_barang', 'DT.id_barang AS id_barang_pembelian', 'B.id AS id_barang', 'B.harga_beli', 'B.kode')
         ->where('t_transaksi_pembelian.id', $request->id) 
         ->where('t_transaksi_pembelian.id_perusahaan', auth()->user()->id_perusahaan) 
         ->orderBy('DT.id_barang', 'asc')
@@ -172,12 +172,13 @@ class ReturPembelianController extends Controller
         if(count($qtyRetur) == 0){
             foreach ($detailPembelian as $row) {
                 $i++;
-                $subtotal = $row->jumlah_beli_barang * $row->harga_beli;
+                $subtotal = ($row->jumlah_beli_barang * $row->harga_beli) - ($row->jumlah_beli_barang * $row->harga_beli * $row->diskon/100);
+                $disc= $row->harga_beli - ($row->harga_beli * $row->diskon/100);
                 $qtySekarang = $row->jumlah_beli_barang;
                 $html.="<tr>";
                 $html.="<td style='text-align:center;'><input type='hidden' value='$row->id_barang' id='id_barang$i'> <input class='form-control' type='text' value='$row->kode' readonly='true' id='kode$i' style='width: 130px;'></td>";
                 $html.="<td style='text-align:center;'><input class='form-control' type='text' value='$row->nama_barang' readonly='true' id='nama_barang$i' style='width: 175px;'></td>";
-                $html.="<td style='text-align:center;'><input class='form-control' type='number' value='$row->harga_beli' readonly='true' id='harga_beli$i' style='text-align:right; width: 170px;'></td>";
+                $html.="<td style='text-align:center;'><input class='form-control' type='number' value='$disc' readonly='true' id='harga_beli$i' style='text-align:right; width: 170px;'></td>";
                 $html.="<td style='text-align:center; width: 8%;'><input class='form-control' type='number' value='$qtySekarang' readonly='true' id='qty$i' style='width: 90px;'></td>";
                 $html.="<td style='text-align:center;'><input class='form-control' type='number' value='$subtotal' readonly='true' id='subtotal$i' style='text-align:right; width: 200px;'></td>";
                 $html.="<td style='text-align:center;'><button type='button' class='btn btn-info add_retur' data-idbuffer='$i' data-id_barang='$row->id_barang' data-nama_barang='$row->nama_barang' data-harga_beli='$row->harga_beli' data-qty='$row->jumlah_beli_barang'><i class='fas fa-plus'></i></button></td>";
@@ -216,11 +217,13 @@ class ReturPembelianController extends Controller
                 ->first(); 
 
                 if(isset($qtySisa->qtySisa)){
-                    $subtotal = $qtySisa->qtySisa * $row->harga_beli;
+                    $subtotal = ($qtySisa->qtySisa * $row->harga_beli) - ($qtySisa->qtySisa * $row->harga_beli * $row->diskon/100);
                     $qtySekarang = $qtySisa->qtySisa;
+                    $hargaDisc = $row->harga_beli - ($row->harga_beli * $row->diskon/100);
                 } else {
-                    $subtotal = $row->jumlah_beli_barang * $row->harga_beli;
+                    $subtotal = ($row->jumlah_beli_barang * $row->harga_beli) - ($row->jumlah_beli_barang * $row->harga_beli * $row->diskon);
                     $qtySekarang = $row->jumlah_beli_barang;
+                    $hargaDisc = $row->harga_beli - ($row->harga_beli * $row->diskon/100);
                 }
 
                 // return $cekBarang;
@@ -228,7 +231,7 @@ class ReturPembelianController extends Controller
                 $html.="<tr>";
                 $html.="<td style='text-align:center;'><input type='hidden' value='$row->id_barang' id='id_barang$i'> <input class='form-control' type='text' value='$row->kode' readonly='true' id='kode$i' style='width: 130px;'></td>";
                 $html.="<td style='text-align:center;'><input class='form-control' type='text' value='$row->nama_barang' readonly='true' id='nama_barang$i' style='width: 175px;'></td>";
-                $html.="<td style='text-align:center;'><input class='form-control' type='number' value='$row->harga_beli' readonly='true' id='harga_beli$i' style='text-align:right; width: 170px;'></td>";
+                $html.="<td style='text-align:center;'><input class='form-control' type='number' value='$hargaDisc' readonly='true' id='harga_beli$i' style='text-align:right; width: 170px;'></td>";
                 $html.="<td style='text-align:center; width: 8%;'><input class='form-control' type='number' value='$qtySekarang' readonly='true' id='qty$i' style='width: 90px;'></td>";
                 $html.="<td style='text-align:center;'><input class='form-control' type='number' value='$subtotal' readonly='true' id='subtotal$i' style='text-align:right; width: 200px;'></td>";
             

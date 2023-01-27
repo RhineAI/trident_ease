@@ -52,7 +52,12 @@ Data Pembelian
                     <h3 class="text-center">Data Pembelian</h3>
                     <h5 style="text-align:center;">{{ tanggal_indonesia($tanggalAwal) }} s/d {{ tanggal_indonesia($tanggalAkhir) }}</h5>
                     <br>
-
+                    <div class="button-group mb-1">
+                        @if (auth()->user()->hak_akses == 'admin')
+                            <a href="{{ route('admin.transaksi-pembelian.index') }}" class="mx-4 mb-3 btn btn-sm btn-info text-end"><i class="fa fa-plus"></i> Transaksi Pembelian</a>
+                        @endif
+                    </div>
+                    
                     <!-- DataTable with Hover -->
                     <div class="col-lg-12">
                         <div class="table-responsive p-3">

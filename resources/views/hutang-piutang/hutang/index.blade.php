@@ -27,6 +27,11 @@
                     <!-- DataTable with Hover -->
                     <div class="col-lg-12">
                         <div class="table-responsive p-3">
+                            <div class="button-group mb-5">          
+                                @if (auth()->user()->hak_akses == 'admin')
+                                    <a href="{{ route('admin.transaksi-pembelian.index') }}" class="mx-4 mb-3 btn btn-sm btn-info text-end"><i class="fa fa-plus"></i> Transaksi Pembelian</a>
+                                @endif
+                            </div>
                             <table class="table table-hover table-flush" id="tbl-data-pembayaran">
                                 <thead class="table-secondary">
                                     <tr>

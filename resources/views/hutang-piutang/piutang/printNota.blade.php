@@ -68,11 +68,11 @@
     </style>
 </head>
 <body onload="window.print()">
+    {{-- <button class="btn-print" id="btn-print" style="position: absolute; right: 0px; top: 0px; padding: 2px; width: 100px; background: #4195D5; border-radius: 15px; color: white; border-color: blue; cursor: pointer;" onclick="window.print()">Print</button> --}}
     <div class="button ml-4 align-items-end">
-        <a href="javascript:history.back()" class="mb-3 mt-3 btn btn-sm btn-secondary ml-4 d-print-none btn-print" id="btn-back"><i class="fas fa-arrow-rotate-left"></i> Back</a>
+        <a href="{{ route('admin.data-piutang.index') }}" class="mb-3 mt-3 btn btn-sm btn-secondary ml-4 d-print-none btn-print" id="btn-back"><i class="fas fa-arrow-rotate-left"></i> Back</a>
         <button onclick="window.print()" class="mb-3 mt-3 btn btn-sm btn-danger ml-4 d-print-none btn-print" id="btn-print"><i class="fa-solid fa-print"></i> Print PDF</button>
     </div>
-    {{-- <button class="btn-print" id="btn-print" style="position: absolute; right: 0px; top: 0px; padding: 2px; width: 100px; background: #4195D5; border-radius: 15px; color: white; border-color: blue; cursor: pointer;" onclick="window.print()">Print</button> --}}
     <div class="text-center">
         <h3 style="margin-bottom: 5px;">{{ strtoupper($cPerusahaan->nama) }}</h3>
         <p>{{ strtoupper($cPerusahaan->alamat) }}</p>
@@ -83,43 +83,25 @@
         <p>No Faktur: {{$cPiutang->no_faktur}}</p>
     </div>
     <div class="clear-both" style="clear: both;"></div>
-    <p>Pelanggan: {{ $cPiutang->nama_pelanggan }}</p>
+    <p>Supplier: {{ $cPiutang->nama_supplier }}</p>
     <p>Admin: {{ auth()->user()->nama }}</p>
     <p class="text-center">===================================</p>
-    
     <br>
+    <small style="visibility: hidden; display: none;">{{ $totalDiskon = 0 }}</small>
     <table width="100%" style="border: 0;">
         @foreach ($cDetailPiutang as $item)
+            <small style="visibility: hidden; display: none;">{{ $totalDiskon+= $item->qty * $item->harga_jual * $item->diskon/100 }}</small>
             <tr>
                 <td colspan="3">{{ $item->nama_barang }}</td>
             </tr>
             <tr>
-                <td>{{ $item->qty }} x Rp. {{ format_uang($item->harga_jual) }} x DISC {{$item->diskon}}%</td>
+              	<td>{{ $item->qty }} x Rp. {{ format_uang($item->harga_jual) }}</td>
                 <td></td>
-                <td class="text-right">Rp. {{ format_uang(($item->qty * $item->harga_jual) - ($item->qty * $item->harga_jual * $item->diskon/100)) }}</td>
+                <td class="text-right">Rp. {{ format_uang($item->qty * $item->harga_jual) }}</td>
             </tr>
         @endforeach
     </table>
-    {{-- <table width="100%" class="bordered">
-        <thead>
-            <tr class="text-center">
-                <td>Nama Barang</td>
-                <td>Jumlah</td>
-                <td>Harga</td>
-                <td>Sub Total</td>
-            </tr>
-        </thead>
-        <tbody class="text-center">
-            @foreach ($cDetailPiutang as $item)
-                <tr>
-                    <td>{{ $item->nama_barang }}</td>
-                    <td>{{ $item->qty }}</td>
-                    <td>Rp. {{ format_uang($item->harga_jual) }}</td> 
-                    <td class="text-right">Rp. {{ format_uang($item->qty * $item->harga_jual) }}</td>
-                </tr>
-            @endforeach
-        </tbody>
-    </table> --}}
+
     <p class="text-center">-----------------------------------</p>
 
     <table width="100%" style="border: 0;">
@@ -135,61 +117,21 @@
         <tr>
             <td class="text-right" colspan="8">Sisa : Rp. {{ format_uang($cPiutang->sisa) }}</td>
         </tr>
-        <tr class="spaceUnder2">
-            <td class="text-right" colspan="8">Status : <strong>LUNAS</strong></td>
-        </tr>
         <tr>
             <td colspan="8"></td>
         </tr>
     </table>
-    <table class="mt-4" style='font-size:90%' width='100%' border='0'>
-        <tr>
-            <td width='30%' align='center'>Hormat Kami
-            </td>
-            <td width='40%' align='center'>
-                
-            </td>
-            <td width='30%' align='center'>
-                Penerima Barang
-            </td>
-        </tr>
 
-        <tr>
-            <td width='30%' align='left'>
-        </td>
-            <td width='40%'>
-                <br><br>
-            </td>
-            <td width='30%' align='left'>
-            </td>
-        </tr>
-
-        <tr>
-            <td width='30%' align='left'>
-        </td>
-            <td width='40%'>
-                <br><br>
-            </td>
-            <td width='30%' align='left'>
-            </td>
-        </tr>
-        
-        <tr>
-            <td width='30%' align='center'>
-                ...................<br>
-                {{ strtoupper(auth()->user()->nama) }}
-            </td>
-            <td width='40%'>
-            </td>
-            <td width='30%' align='center'>
-                ...................<br>
-                {{ $cPiutang->nama_pelanggan }}
-            </td>
-        </tr>
-    </table>
-    {{-- <script>
+    <script>
         let body = document.body;
         let html = document.documentElement;
-    </script> --}}
+        // let height = Math.max(
+        //         body.scrollHeight, body.offsetHeight,
+        //         html.clientHeight, html.scrollHeight, html.offsetHeight
+        //     );
+
+        // document.cookie = "innerHeight=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+        // document.cookie = "innerHeight="+ ((height + 20) * 0.264583);
+    </script>
 </body>
 </html>

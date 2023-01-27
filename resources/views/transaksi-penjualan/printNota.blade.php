@@ -4,7 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Print Nota Penjualan</title>
+    <title>Cetak Nota</title>
+    @if ($cPerusahaan->logo == null)
+        <link rel="icon" href="{{ asset('assets') }}/img/buildings.png" type="image/png">
+    @else
+        <link rel="icon" href="{{ $cPerusahaan->logo }}" type="image/png">
+    @endif
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
     <style>
@@ -23,13 +28,13 @@
             text-align: center;
         }
         .text-right {
-            text-align: right;
+            text-align: end;
         }
 
         @page {
             /* size: 7in 10.5in ; */
             /* scale: 200; */
-            margin: 87px;
+            margin: 0.4in;
             
         }
 
@@ -76,67 +81,72 @@
             <a href="{{ route('kasir.transaksi-penjualan.index') }}" class="mb-3 mt-3 btn btn-sm btn-secondary ml-4 d-print-none btn-print" target="_blank" rel="noopener noreferrer"><i class="fas fa-plus"></i> Transaksi Baru</a>
         @endif
         <button onclick="window.print()" class="mb-3 mt-3 btn btn-sm btn-danger ml-4 d-print-none btn-print" id="btn-print"><i class="fa-solid fa-print"></i> Print PDF</button>
-    </div>
+    </div> 
     <div class="text-center">
         <h3 style="margin-bottom: 5px;">{{ strtoupper($cPerusahaan->nama) }}</h3>
         <p>{{ strtoupper($cPerusahaan->alamat) }}</p>
     </div>
-    <br>
+    <br> <br>
     <div>
         <p>{{ date('d-m-Y') }}</p>
-        <p>Petugas: {{ strtoupper(auth()->user()->nama) }}</p>
+        <p>No Faktur : {{ $cPenjualan->id_transaksi }}</p>
     </div>
-    <div class="clear-both" style="clear: both;"></div>
-    <p>No Faktur: {{ $cPenjualan->id_transaksi }}</p>
-    <p>Pelanggan: {{ $cPenjualan->nama_pelanggan }}</p>
-    <p class="text-center">===================================</p>
-    
-    <br>
+    <p>Petugas : {{ strtoupper(auth()->user()->nama) }}</p>
+    <p>Pelanggan : {{ $cPenjualan->nama_pelanggan }}</p>
+    <p class="text-center">================================</p>
+    <small style="visibility: hidden; display: none;">{{ $totalDiskon = 0 }}</small>
     <table width="100%" style="border: 0;">
         @foreach ($cDetailPenjualan as $item)
+            <small style="visibility: hidden; display: none;">{{ $totalDiskon+= $item->qty * $item->harga_jual * $item->diskon/100 }}</small>
             <tr>
                 <td colspan="3">{{ $item->nama_barang }}</td>
             </tr>
             <tr>
-                <td>{{ $item->qty }} x Rp. {{ format_uang($item->harga_jual) }} x DICS {{$item->diskon}}%</td>
+                <td>{{ $item->qty }} x Rp.{{ format_uang($item->harga_jual) }}</td>
                 <td></td>
-                <td class="text-right">Rp. {{ format_uang(($item->qty * $item->harga_jual) - ($item->qty * $item->harga_jual * $item->diskon/100)) }}</td>
+                <td class="text-right"> &nbsp; Rp.{{ format_uang(($item->qty * $item->harga_jual)) }}</td>
             </tr>
         @endforeach
     </table>
-    <p class="text-center">-----------------------------------</p>
-
+    <p class="text-center">-------------------------------</p>
+  
     <table width="100%" style="border: 0;">
         <tr>
-            <td>Total Harga:</td>
-            <td class="text-right">Rp. {{ format_uang($cPenjualan->total_harga) }}</td>
+            <td>Total :&nbsp;</td>
+            <td class="text-right" style="text-align: end"> Rp. {{ format_uang($cPenjualan->total_harga + $totalDiskon) }}</td>
+        </tr>
+        <tr>
+            <td>Diskon :&nbsp;</td>
+            <td class="text-right" style="text-align: end"> Rp. {{ format_uang($totalDiskon) }}</td>
         </tr>
         @if ($cPenjualan->jenis_pembayaran == 1)
             <tr>
-                <td>Total Bayar:</td>
-                <td class="text-right">Rp. {{ format_uang($cPenjualan->total_bayar) }}</td>
+                <td>Bayar :&nbsp;</td>
+                <td class="text-right" style="text-align: end"> Rp. {{ format_uang($cPenjualan->total_bayar) }}</td>
             </tr>
             <tr>
-                <td>Kembalian:</td>
-                <td class="text-right">Rp. {{ format_uang($cPenjualan->total_bayar - $cPenjualan->total_harga ) }}</td>
+                <td>Kembalian :&nbsp;</td>
+                <td class="text-right" style="text-align: end"> Rp. {{ format_uang($cPenjualan->total_bayar - $cPenjualan->total_harga ) }}</td>
             </tr>
         @else
             <tr>
-                <td>DP:</td>
-                <td class="text-right">Rp. {{ format_uang($cPenjualan->dp) }}</td>
+                <td>DP :&nbsp;</td>
+                <td class="text-right" style="text-align: end"> Rp. {{ format_uang($cPenjualan->dp) }}</td>
             </tr>
             <tr>
-                <td>Sisa:</td>
-                <td class="text-right">Rp. {{ format_uang($cPenjualan->total_harga - $cPenjualan->dp) }}</td>
+                <td>Sisa :&nbsp;</td>
+                <td class="text-right" style="text-align: end"> Rp. {{ format_uang($cPenjualan->total_harga - $cPenjualan->dp) }}</td>
             </tr>
-        @endif
-        
+        @endif     
+    </table>
+    <br>
+    <table>
+        <tr>
+            <p style="text-align: center;">-- TERIMA KASIH --</p>
+        </tr>
     </table>
 
-    <p class="text-center">===================================</p>
-    <p class="text-center">-- TERIMA KASIH --</p>
-
-    <table class="mt-4" style='font-size:90%' width='100%' border='0'>
+    {{-- <table class="mt-4" style='font-size:90%' width='100%' border='0'>
         <tr>
             <td width='30%' align='center'>Hormat Kami
             </td>
@@ -180,7 +190,7 @@
                 {{ $cPenjualan->nama_pelanggan }}
             </td>
         </tr>
-    </table>
+    </table> --}}
 
     <script>
         let body = document.body;

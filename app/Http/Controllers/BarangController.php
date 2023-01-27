@@ -110,7 +110,7 @@ class BarangController extends Controller
                     ->leftJoin('t_merek AS M', 'M.id', 't_barang.id_merek')
                     ->select('t_barang.*', 'K.nama AS nama_kategori', 'SP.nama AS nama_supplier', 'ST.nama AS nama_satuan', 'M.nama AS nama_merek')     
                     ->where('t_barang.id_perusahaan', auth()->user()->id_perusahaan) 
-                    ->where('t_barang.keterangan', 'utama')    
+                    ->where('t_barang.keterangan', 'LIKE' ,'%utama%')    
                     ->orderBy('id', 'desc')
                     ->get();
 
@@ -293,9 +293,9 @@ class BarangController extends Controller
             if($perusahaan->grade == 1) {
                 if($limit < 10 ) {
                     $barang->save();
-                    if ($barang->keterangan == 'utama') {
+                    if ($barang->keterangan == 'utama' or $barang->keterangan == 'Utama') {
                         return redirect()->route('admin.barang.index')->with(['success' => 'Berhasil Disimpan']);
-                    } elseif ($barang->keterangan == 'konsinyasi') {
+                    } elseif ($barang->keterangan == 'konsinyasi' or $barang->keterangan == 'Konsinyasi') {
                         return redirect()->route('admin.barang.indexKonsinyasi')->with(['success' => 'Berhasil Disimpan']);
                     }
                 }else {
@@ -304,9 +304,9 @@ class BarangController extends Controller
             } elseif($perusahaan->grade == 2) {
                 if($limit < 50 ) {
                     $barang->save();
-                    if ($barang->keterangan == 'utama') {
+                    if ($barang->keterangan == 'utama' or $barang->keterangan == 'Utama') {
                         return redirect()->route('admin.barang.index')->with(['success' => 'Berhasil Disimpan']);
-                    } elseif ($barang->keterangan == 'konsinyasi') {
+                    } elseif ($barang->keterangan == 'konsinyasi' or $barang->keterangan == 'Konsinyasi') {
                         return redirect()->route('admin.barang.indexKonsinyasi')->with(['success' => 'Berhasil Disimpan']);
                     }
                 }else {
@@ -315,9 +315,9 @@ class BarangController extends Controller
             } elseif($perusahaan->grade == 3) {
                 if($limit < 10000 ) {
                     $barang->save();
-                    if ($barang->keterangan == 'utama') {
+                    if ($barang->keterangan == 'utama' or $barang->keterangan == 'Utama') {
                         return redirect()->route('admin.barang.index')->with(['success' => 'Berhasil Disimpan']);
-                    } elseif ($barang->keterangan == 'konsinyasi') {
+                    } elseif ($barang->keterangan == 'konsinyasi' or $barang->keterangan == 'Konsinyasi') {
                         return redirect()->route('admin.barang.indexKonsinyasi')->with(['success' => 'Berhasil Disimpan']);
                     }                    
                 }else {

@@ -16,6 +16,14 @@
         </p>
     </a>
 </li>
+{{-- <li class="nav-item">
+    <a href="{{ route('super_admin.importBarang') }}" class="nav-link">
+        <i class="nav-icon fas fa-regular fa-file-import"></i>
+        <p>
+            Import Barang
+        </p>
+    </a>
+</li> --}}
 
 
 <li class="nav-item">

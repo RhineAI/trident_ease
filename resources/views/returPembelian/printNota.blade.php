@@ -75,24 +75,21 @@
         <h3 style="margin-bottom: 5px;">{{ strtoupper($cPerusahaan->nama) }}</h3>
         <p>{{ strtoupper($cPerusahaan->alamat) }}</p>
     </div>
-    <br>
+    <br> <br>
     <div>
-        <p>{{ date('d-m-Y', strtotime($cReturPembelian->tgl_retur)) }}</p>
-        <p>No Pembelian: {{$cReturPembelian->id_transaksi}}</p>
+        <p>{{ date('d-m-Y') }}</p>
+        <p>No Faktur : {{ $cReturPembelian->id_transaksi }}</p>
     </div>
-    <div class="clear-both" style="clear: both;"></div>
-    <p>No Faktur: {{ $cReturPembelian->id_retur }}</p>
-    <p>Supplier: {{ $cReturPembelian->nama_supplier }}</p>
-    <p class="text-center">===================================</p>
-    
-    <br>
+    <p>Petugas : {{ strtoupper(auth()->user()->nama) }}</p>
+    <p>Supplier : {{ $cReturPembelian->nama_supplier }}</p>
+    <p class="text-center">================================</p>
     <table width="100%" style="border: 0;">
         @foreach ($cDetailReturPembelian as $item)
             <tr>
                 <td colspan="3">{{ $item->nama_barang }}</td>
             </tr>
             <tr>
-                <td>{{ $item->qty }} x Rp. {{ format_uang($item->harga_beli) }}</td>
+                <td>{{ $item->qty }} x Rp.{{ format_uang($item->harga_beli) }}</td>
                 <td></td>
                 <td class="text-right">Rp. {{ format_uang($item->qty * $item->harga_beli) }}</td>
             </tr>
@@ -118,18 +115,19 @@
             @endforeach
         </tbody>
     </table> --}}
-    {{-- <p class="text-center">-----------------------------------</p> --}}
+    <p class="text-center">-------------------------------</p>
 
     <table width="100%" style="border: 0;">
         <tr class="spaceUnder2">
-            <td class="text-right" colspan="8">Total Retur : Rp. {{ format_uang($cReturPembelian->total_retur) }}</td>
+            <td class="text-right" colspan="8">Total : Rp. {{ format_uang($cReturPembelian->total_retur) }}</td>
         </tr>
-        <tr>
+        {{-- <tr>
             <td colspan="8"></td>
-        </tr>
+        </tr> --}}
        
     </table>
-    <table class="mt-4" style='font-size:90%' width='100%' border='0'>
+
+    {{-- <table class="mt-4" style='font-size:90%' width='100%' border='0'>
         <tr>
             <td width='30%' align='center'>
             </td>
@@ -145,13 +143,12 @@
             <td width='30%' align='right'>
         </td>
             <td width='40%'>
-                {{-- <br><br> --}}
             </td>
             <td width='30%' align='right'>
             </td>
         </tr>
 
-        {{-- <tr>
+        <tr>
             <td width='30%' align='left'>
         </td>
             <td width='40%'>
@@ -159,11 +156,11 @@
             </td>
             <td width='30%' align='left'>
             </td>
-        </tr> --}}
+        </tr>
         
         <tr>
             <td width='30%' align='center'>
-                {{-- ...................<br> --}}
+                ...................<br>
                 
             </td>
             <td width='40%'>
@@ -173,9 +170,8 @@
                 {{ strtoupper($cPerusahaan->nama) }}
             </td>
         </tr> 
-    </table>
+    </table> --}}
     
-
     <script>
         let body = document.body;
         let html = document.documentElement;
