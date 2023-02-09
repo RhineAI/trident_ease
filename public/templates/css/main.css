@@ -158,7 +158,11 @@ h6 {
    #BACKGROUND
    ========================================================================== */
 .bg-blue {
-  background: #c9c6c5;
+  background-image: url('/login/bg.jpg');
+  background-repeat: no-repeat;
+  margin-top:-9.2vh;
+  height:190vh;
+  width:100%;
 }
 
 /* ==========================================================================

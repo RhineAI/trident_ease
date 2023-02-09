@@ -198,7 +198,7 @@ Produk Utama
                                             <th width="6%" class="text-center">Pemasok</th>
                                             <th width="6%" class="text-center">Stock</th>
                                             <th width="80%" class="text-center">Harga Beli</th>
-                                            <th width="8%" class="text-center">Jenis</th>
+                                            {{-- <th width="8%" class="text-center">Jenis</th> --}}
                                             <th width="6%" class="text-center">Status</th>
                                             <th width="4%" class="text-center">Aksi</th>
                                         </tr>
@@ -312,7 +312,7 @@ Produk Utama
                 {data:'nama_supplier'},
                 {data:'stock'},
                 {data:'harga_beli'},
-                {data:'keterangan'},
+                // {data:'keterangan'},
                 {data:'status'},
                 {data:'action', searchable: false, sortable: false},
             ]
@@ -427,6 +427,30 @@ Produk Utama
             })
         }
 
+</script>
+
+<script>
+    $('#product_name').on('keypress', function(e){
+        restrictChar(e);
+    });
+    $('#barcode').on('keypress', function(e){
+        restrictChar(e);
+    });
+    $('#kode').on('keypress', function(e){
+        restrictChar(e);
+    });
+    $('#stock').on('keypress', function(e){
+        restrictWord(e);
+    });
+    $('#stock_minimal').on('keypress', function(e){
+        restrictWord(e);
+    });
+    $('#harga_beli').on('keypress', function(e){
+        restrictWord(e);
+    });
+    $('#keuntungan').on('keypress', function(e){
+        restrictWord(e);
+    });
 </script>
 
 {{-- Form JS --}}

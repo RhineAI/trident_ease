@@ -109,5 +109,37 @@
             }
             })
           });
-      </script>
+        </script>
+        <script>
+            $('div.other').hide();
+            $(document).on('change', '#bank', function () {  
+                var isiSelect = $("#bank").val();
+
+                // console.log(isiSelect)
+                if (isiSelect == 'Other') {
+                    // console.log(isiSelect)
+                    $('div.other').show();
+                } else {
+                    $('div.other').hide();
+                }
+            });
+            $('#nama').on('keypress', function(e){
+                restrictChar(e);
+            });
+            $('#alamat').on('keypress', function(e){
+                restrictChar(e);
+            });
+            $('#salesman').on('keypress', function(e){
+                restrictChar(e);
+            });
+            $('#other').on('keypress', function(e){
+                restrictChar(e);
+            });
+            $('#no_rekening').on('keypress', function(e){
+                restrictWord(e);
+            });
+            $('#tlp').on('keypress', function(e){
+                restrictWord(e);
+            });
+        </script>
 @endpush

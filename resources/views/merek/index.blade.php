@@ -46,6 +46,10 @@
 @push('scripts')
     <script>
         $('#tbl-data-merek').DataTable();
+
+        $('#nama').on('keypress', function(e){
+            restrictChar(e);
+        });
     </script>
     <script>
         $(document).ready(function(){

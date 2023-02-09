@@ -43,6 +43,9 @@
 @push('scripts')
     <script>
         $('#tbl-data-satuan').DataTable();
+        $('#nama').on('keypress', function(e){
+            restrictChar(e);
+        });
     </script>
     <script>
         $(document).ready(function(){

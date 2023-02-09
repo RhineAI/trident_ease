@@ -32,7 +32,7 @@
 
 </head>
 
-<body>
+<body style="">
     <div class="page-wrapper bg-blue p-t-100 p-b-100 font-robo">
         <div class="wrapper wrapper--w680">
             <div class="card card-1">
@@ -43,27 +43,27 @@
                         @csrf
                         @method('post')
                         <div class="input-group">
-                            <input class="input--style-1" required type="text" placeholder="NAMA PERUSAHAAN" name="nama">
+                            <input class="input--style-1" id="nama" required type="text" placeholder="NAMA PERUSAHAAN" name="nama">
                         </div>
                         <div class="input-group">
-                            <input class="input--style-1" required type="text" placeholder="ALAMAT PERUSAHAAN" name="alamat">
+                            <input class="input--style-1" id="alamat" required type="text" placeholder="ALAMAT PERUSAHAAN" name="alamat">
                         </div>
                         <div class="input-group">
-                            <input class="input--style-1" required type="email" placeholder="EMAIL PERUSAHAAN" name="email">
+                            <input class="input--style-1" id="email" required type="email" placeholder="EMAIL PERUSAHAAN" name="email">
                         </div>
                         <div class="input-group">
-                            <input class="input--style-1" minlength="6" required type="number" placeholder="NPWP" name="npwp">
+                            <input class="input--style-1" id="npwp" minlength="6" required type="number" placeholder="NPWP" name="npwp">
                         </div>
              
                         <div class="row row-space">
                             <div class="col-2">
                                 <div class="input-group">
-                                    <input class="input--style-1" required type="text" placeholder="NAMA PEMILIK" name="pemilik">
+                                    <input class="input--style-1" id="pemilik" required type="text" placeholder="NAMA PEMILIK" name="pemilik">
                                 </div>
                             </div>
                             <div class="col-2">
                                 <div class="input-group">
-                                    <input class="input--style-1" required maxlength="13" type="text" placeholder="TELEPON" name="telepon">
+                                    <input class="input--style-1" id="telepon" required maxlength="13" type="number" placeholder="TELEPON" name="telepon">
                                 </div>
                             </div>
                         </div>
@@ -88,7 +88,7 @@
                             </div>
                             <div class="col-2">
                                 <div class="input-group">
-                                    <input class="input--style-1" required type="number" placeholder="NO. REKENING" name="no_rekening">
+                                    <input class="input--style-1" id="rekening" required type="number" placeholder="NO. REKENING" name="no_rekening">
                                 </div>
                             </div>
                         </div>
@@ -107,7 +107,7 @@
                             </div>
                         </div> --}}
                             <div class="input-group" style="padding-top:-50px;">
-                                <input class="input--style-1" type="text" placeholder="SLOGAN (OPSIONAL)" name="slogan">
+                                <input class="input--style-1" id="slogan" type="text" placeholder="SLOGAN (OPSIONAL)" name="slogan">
                             </div>
 
                             <div class="form-group row mb-2">
@@ -179,6 +179,52 @@
 
             toastr.error('{{ session('error') }}', 'GAGAL!'); 
         @endif
+
+        $('#nama').on('keypress', function(e){
+            restrictChar(e);
+        });
+        $('#email').on('keypress', function(e){
+            restrictChar(e);
+        });
+        $('#other').on('keypress', function(e){
+            restrictChar(e);
+        });
+        $('#slogan').on('keypress', function(e){
+            restrictChar(e);
+        });
+        $('#pemilik').on('keypress', function(e){
+            restrictChar(e);
+        });
+        $('#telepon').on('keypress', function(e){
+            restrictWord(e);
+        });
+        $('#npwp').on('keypress', function(e){
+            restrictWord(e);
+        });
+        $('#rekening').on('keypress', function(e){
+            restrictWord(e);
+        });
+
+        function restrictChar(e) {
+            const input = e.target;
+            const regex = new RegExp("^[<>?/|$=:;+}([){#]*$");
+
+            input.addEventListener("beforeinput", (event) => {
+            if (event.data != null && regex.test(event.data)) 
+                event.preventDefault();
+            });
+        }
+        
+        function restrictWord(e) {
+            const input = e.target;
+            const regex = new RegExp("^[0-9_ ]*$");
+
+            input.addEventListener("beforeinput", (event) => {
+            if (event.data != null && !regex.test(event.data)) 
+                event.preventDefault();
+            });
+        }
+
     </script>
 </body><!-- This templates was made by Colorlib (https://colorlib.com) -->
 

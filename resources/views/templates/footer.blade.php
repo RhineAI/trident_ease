@@ -66,4 +66,25 @@
     $(this).find('ul.nav.nav-treeview').show();
   })
 </script>
+<script>
+  function restrictChar(e) {
+      const input = e.target;
+      const regex = new RegExp("^[<>?/|$=:;+}([){#]*$");
+
+      input.addEventListener("beforeinput", (event) => {
+      if (event.data != null && regex.test(event.data)) 
+          event.preventDefault();
+      });
+  }
+  
+  function restrictWord(e) {
+      const input = e.target;
+      const regex = new RegExp("^[0-9_ ]*$");
+
+      input.addEventListener("beforeinput", (event) => {
+      if (event.data != null && !regex.test(event.data)) 
+          event.preventDefault();
+      });
+  }
+</script>
 @stack('scripts')

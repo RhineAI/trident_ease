@@ -77,13 +77,30 @@ Perusahaan
                             <div class="form-group row">
                                 <div class="form-group col-md-5" style="width: 95%; margin: auto;">
                                     <label for="bank">Bank Perusahaan</label>
-                                    <input type="text" class="form-control" id="bank" placeholder="Bank Perusahaan" name="bank"
-                                        value="{{ $cPerusahaan->bank }}">
+                                    <div class="input-group">
+                                        <select name="bank" id="bank" class="form-control" required>
+                                            <option disabled="disabled" selected="selected">BANK</option>
+                                            <option value="Bank BRI">Bank BRI</option>
+                                            <option value="Bank BNI">Bank BNI</option>
+                                            <option value="Bank BJB">Bank BJB</option>
+                                            <option value="Bank BCA">Bank BCA</option>
+                                            <option value="Bank Permata">Bank Permata</option>
+                                            <option value="Bank Muamalat">Bank Muamalat</option>
+                                            <option value="Other">Other</option>
+                                        </select>
+                                    </div>
                                 </div>
                                 <div class="form-group col-md-6" style="width: 95%; margin: auto;">
                                     <label for="no_rekening">No Rekening Perusahaan</label>
                                     <input type="text" class="form-control" id="no_rekening" placeholder="No Rekening Perusahaan"
                                         name="no_rekening" value="{{ $cPerusahaan->no_rekening }}">
+                                </div>
+                            </div>
+
+                            <div class="form-group row other">
+                                <div class="form-group" style="width: 95%; margin:auto;">
+                                    <label for="other">Bank Lainnya</label>
+                                    <input type="text" name="other" id="other" class="form-control" placeholder="BANK PERUSAHAAN" class="input--style-1">
                                 </div>
                             </div>
             
@@ -126,4 +143,46 @@ Perusahaan
 
 @push('scripts')
 <script src="/assets/js/previewImage.js"></script>
+<script>
+    $('div.other').hide();
+    $(document).on('change', '#bank', function () {  
+        var isiSelect = $("#bank").val();
+
+        // console.log(isiSelect)
+        if (isiSelect == 'Other') {
+            // console.log(isiSelect)
+            $('div.other').show();
+        } else {
+            $('div.other').hide();
+        }
+    });
+
+    $('#nama').on('keypress', function(e){
+        restrictChar(e);
+    });
+    $('#alamat').on('keypress', function(e){
+        restrictChar(e);
+    });
+    $('#pemilik').on('keypress', function(e){
+        restrictChar(e);
+    });
+    $('#email').on('keypress', function(e){
+        restrictChar(e);
+    });
+    $('#other').on('keypress', function(e){
+        restrictChar(e);
+    });
+    $('#slogan').on('keypress', function(e){
+        restrictChar(e);
+    });
+    $('#tlp').on('keypress', function(e){
+        restrictWord(e);
+    });
+    $('#no_rekening').on('keypress', function(e){
+        restrictWord(e);
+    });
+    $('#npwp').on('keypress', function(e){
+        restrictWord(e);
+    });
+</script>
 @endpush

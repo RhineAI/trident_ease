@@ -177,4 +177,18 @@
             })
           });
       </script>
+        <script>
+            $('#nama').on('keypress', function(e){
+                restrictChar(e);
+            });
+            $('#alamat').on('keypress', function(e){
+                restrictChar(e);
+            });
+            $('#username').on('keypress', function(e){
+                restrictChar(e);
+            });
+            $('#tlp').on('keypress', function(e){
+                restrictWord(e);
+            });
+        </script>
 @endpush

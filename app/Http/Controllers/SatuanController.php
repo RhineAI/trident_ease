@@ -15,7 +15,7 @@ class SatuanController extends Controller
      */
     public function index()
     {
-        $data['satuan'] = Satuan::get();
+        $data['satuan'] = Satuan::select('*')->where('id', auth()->user()->id_perusahaan)->get();
         $data['cPerusahaan'] = Perusahaan::select('*')->where('id', auth()->user()->id_perusahaan)->first();
         return view('satuan.index', $data);
     }

@@ -48,6 +48,31 @@
                 @if(auth()->user()->hak_akses == 'kasir') 
                    @include('templates.menu.sidebar-kasir')
                 @endif
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <p></p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <p></p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <p></p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <p></p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <p></p>
+                    </a>
+                </li>
             </ul>
         </nav>
         <!-- /.sidebar-menu -->

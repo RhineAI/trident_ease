@@ -80,3 +80,11 @@ Keuntungan
  
 </div> --}}
 @endsection
+
+@push('scripts')
+    <script>
+        $('#keuntungan').on('keypress', function(e){
+            restrictWord(e);
+        });
+    </script>
+@endpush

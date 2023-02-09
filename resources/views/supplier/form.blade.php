@@ -53,7 +53,24 @@
                     <h5 class="my-2">Bank</h5>
                 </label>
                 <div class="col-md-9">
-                    <input type="text" placeholder="Bank" name="bank" id="bank" class="form-control" aria-label="Telepon" aria-describedby="basic-addon1" required>
+                    <select name="bank" class="form-control" required id="bank">
+                        <option disabled="disabled" selected="selected">BANK</option>
+                        <option value="Bank BRI">Bank BRI</option>
+                        <option value="Bank BNI">Bank BNI</option>
+                        <option value="Bank BJB">Bank BJB</option>
+                        <option value="Bank BCA">Bank BCA</option>
+                        <option value="Bank Permata">Bank Permata</option>
+                        <option value="Bank Muamalat">Bank Muamalat</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group row other">
+                <label for="bank" class="col-md-3 col-md-offset-1 control-label">
+                    <h5 class="my-2">Bank Lainnya</h5>
+                </label>
+                <div class="col-md-9">
+                    <input type="text" name="other" id="other" class="form-control" placeholder="BANK PERUSAHAAN" class="input--style-1">
                     <span class="help-block with-errors"></span>
                 </div>
             </div>

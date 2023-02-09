@@ -15,6 +15,7 @@
 
 @push('styles')
 <style>
+    input:focus {outline:none!important;}
     .tampil-bayar {
         font-size: 3em;
         text-align: center;
@@ -49,211 +50,395 @@
     /* input [aria_controls]    { 
         width: 100px; 
     } */
+    @media (min-width: 1025px) {
+        .h-custom {
+            height: 100vh !important;
+        }
+    }
+
+    .number-input input[type="number"] {
+        -webkit-appearance: textfield;
+        -moz-appearance: textfield;
+        appearance: textfield;
+    }
+
+    .number-input input[type=number]::-webkit-inner-spin-button,
+    .number-input input[type=number]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+    }
+
+    .number-input button {
+        -webkit-appearance: none;
+        background-color: transparent;
+        border: none;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        margin: 0;
+        position: relative;
+    }
+
+    .number-input button:before,
+    .number-input button:after {
+        display: inline-block;
+        position: absolute;
+        content: '';
+        height: 2px;
+        transform: translate(-50%, -50%);
+    }
+
+    .number-input button.plus:after {
+        transform: translate(-50%, -50%) rotate(90deg);
+    }
+
+    .number-input input[type=number] {
+        text-align: center;
+    }
+
+    .number-input.number-input {
+        border: 1px solid #ced4da;
+        width: 10rem;
+        border-radius: .25rem;
+    }
+
+    .number-input.number-input button {
+        width: 2.6rem;
+        height: .7rem;
+    }
+
+    .number-input.number-input button.minus {
+        padding-left: 10px;
+    }
+
+    .number-input.number-input button:before,
+    .number-input.number-input button:after {
+        width: .7rem;
+        background-color: #495057;
+    }
+
+    .number-input.number-input input[type=number] {
+        max-width: 4rem;
+        padding: .5rem;
+        border: 1px solid #ced4da;
+        border-width: 0 1px;
+        font-size: 1rem;
+        height: 2rem;
+        color: #495057;
+    }
+
+    @media not all and (min-resolution:.001dpcm) {
+        @supports (-webkit-appearance: none) and (stroke-color:transparent) {
+
+            .number-input.def-number-input.safari_only button:before,
+            .number-input.def-number-input.safari_only button:after {
+                margin-top: -.3rem;
+            }
+        }
+    }
+
+    .shopping-cart .def-number-input.number-input {
+        border: none;
+    }
+
+    .shopping-cart .def-number-input.number-input input[type=number] {
+        max-width: 4rem;
+        border: none;
+    }
+
+    .shopping-cart .def-number-input.number-input input[type=number].black-text,
+    .shopping-cart .def-number-input.number-input input.btn.btn-link[type=number],
+    .shopping-cart .def-number-input.number-input input.md-toast-close-button[type=number]:hover,
+    .shopping-cart .def-number-input.number-input input.md-toast-close-button[type=number]:focus {
+        color: #212529 !important;
+    }
+
+    .shopping-cart .def-number-input.number-input button {
+        width: 1rem;
+    }
+
+    .shopping-cart .def-number-input.number-input button:before,
+    .shopping-cart .def-number-input.number-input button:after {
+        width: .5rem;
+    }
+
+    .shopping-cart .def-number-input.number-input button.minus:before,
+    .shopping-cart .def-number-input.number-input button.minus:after {
+        background-color: #9e9e9e;
+    }
+
+    .shopping-cart .def-number-input.number-input button.plus:before,
+    .shopping-cart .def-number-input.number-input button.plus:after {
+        background-color: #4285f4;
+    }
+
+    .balloon {
+        display: inline-block;
+        width: 100%;
+        margin-right: -140px;
+        padding: 8px 0 2px 5px;
+        font-family: "Open Sans", sans;
+        font-weight: 400;
+        color: #111;
+        direction: rtl;
+        /* background: #ece9e9; */
+        border: 0;
+        border-radius: 3px;
+        outline: 0;
+        text-indent: 2px;
+        transition: all .3s ease-in-out;
+    }
+
+    /*Wide Version - can be applied to more elements*/
+    .balloon.wide {
+        text-indent: 200px;
+    }
+
+    .balloon::-webkit-input-placeholder {
+        color: #747373;
+        text-indent: 0;
+        font-weight: 300;
+    }
+
+    .balloon+label {
+        display: inline-block;
+        position: absolute;
+        top: 8px;
+        left: 0;
+        bottom: 8px;
+        padding: 5px 15px;
+        color: #032429;
+        font-size: 11px;
+        font-weight: 700;
+        text-transform: uppercase;
+        text-shadow: 0 1px 0 rgba(19, 74, 70, 0);
+        transition: all .3s ease-in-out;
+        border-radius: 3px;
+        background: rgba(122, 184, 147, 0);
+    }
+
+    .balloon+label:after {
+        position: absolute;
+        content: "";
+        width: 0;
+        height: 0;
+        top: 100%;
+        /* left: 50%; */
+        margin-left: -3px;
+        border-left: 3px solid transparent;
+        border-right: 3px solid transparent;
+        border-top: 3px solid rgba(122, 184, 147, 0);
+        transition: all .3s ease-in-out;
+    }
+
+    .balloon:focus,
+    .balloon:active {
+        color: #377D6A;
+        /*Note !important*/
+        text-indent: 0 !important;
+        background: #fff;
+    }
+
+    .balloon:focus::-webkit-input-placeholder,
+    .balloon:active::-webkit-input-placeholder {
+        color: #aaa;
+    }
+
+    .balloon:focus+label,
+    .balloon:active+label {
+        color: #fff;
+        text-shadow: 0 1px 0 rgba(19, 74, 70, 0.4);
+        background: #ffffff;
+        transform: translateY(-40px);
+        padding-bottom: 20px;
+    }
+
+    .balloon:focus+label:after,
+    .balloon:active+label:after {
+        border-top: 4px solid #7ab893;
+    }
+
+    label { order: 1; }
+    input { order: 2; }
+
 </style>
 @endpush
 
 @section('contents')
   
-      <!-- Main content -->
-      <section class="content">
-        @if($errors->any())
-            <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                <ul>
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-        @endif
-        <div class="row mx-4">
-            <div class="col-lg-12" style="background-color: white;">
-                <div class="box-body">
-        
-                    <div class="box-body">
+<section class="content" >
+    <div class="row mx-4" >
+        <div class="col-lg-12 rounded" style="background-color: white;">
+            <div class="box-body">
 
-                            @if (Auth::user()->hak_akses == 'admin')
-                                <form class="form-pelanggan mt-3" method="post" id="form-transaksi" action="">
-                            @elseif (Auth::user()->hak_akses == 'kasir')
-                                <form class="form-pelanggan mt-3" method="post" id="form-transaksi" action="{{ route('kasir.transaksi-penjualan.store') }}">
-                            @endif
-                                @csrf
-                            <div class="form-group row">
-                                <label for="nama_pelanggan" class="col-lg-2">Pelanggan</label>
-                                <div class="col-lg-3">
-                                    <div class="input-group">
-                                        <input type="text" name="nama_pelanggan" required id="nama_pelanggan" class="form-control" required readonly>
-                                        <span class="input-group-btn tampil-pelanggan">
-                                            <button onclick="tampilPelanggan()" class="btn btn-info btn-flat" type="button"><i class="fa-solid fa-magnifying-glass"></i></i></button>
-                                        </span>
+                @if (Auth::user()->hak_akses == 'admin')
+                    <form class="form-pelanggan mt-3" method="post" id="form-transaksi" action="">
+                @elseif (Auth::user()->hak_akses == 'kasir')
+                    <form class="form-pelanggan mt-3" method="post" id="form-transaksi" action="{{ route('kasir.transaksi-penjualan.store') }}">
+                @endif
+                    @csrf
+                {{-- <div class="form-group row">
+                    <label for="nama_pelanggan" class="col-lg-2">Pelanggan</label>
+                    <div class="col-lg-3">
+                        <div class="input-group">
+                            <input type="text" name="nama_pelanggan" required id="nama_pelanggan" class="form-control" required readonly>
+                            <span class="input-group-btn tampil-pelanggan">
+                                <button onclick="tampilPelanggan()" class="btn btn-info btn-flat" type="button"><i class="fa-solid fa-magnifying-glass"></i></i></button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="tlp" class="col-lg-2">Telepon Pelanggan</label>
+                    <div class="col-lg-3">
+                        <div class="input-group">
+                            <input type="hidden" name="id_pelanggan" id="id_pelanggan">
+                            <input type="text" name="tlp" id="tlp" class="form-control" required readonly>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                
+                <div class="form-group row">
+                    <label for="kode_produk" class="col-lg-2">Tambah Produk</label>
+                    <div class="col-lg-3">
+                        <div class="input-group">
+                            <input type="hidden" required name="id_produk" id="id_produk">
+                            <input type="hidden" class="form-control" name="kode_produk" id="kode_produk">
+                            <input type="text"  name="barcode" id="barcode" class="form-control" required autofocus placeholder="Masukkan Barcode..">
+                            <span class="input-group-btn tampil-produk">
+                                <button onclick="tampilProduk()" id="tampil" class="btn btn-info btn-flat" type="button"><i class="fa-solid fa-magnifying-glass"></i></button>
+                                <button onclick="enterProduk()" id="enter" class="btn btn-info btn-flat add_barang" type="button"><i class="fa-solid fa-arrow-right"></i></button>
+                            </span>
+                        </div>
+                    </div>
+                </div> --}}
+                <div class="container h-100 py-3">
+                    <div class="row d-flex justify-content-center align-items-center h-100">
+                        <div class="col">
+                            <div class="card shopping-cart" style="border-radius: 15px;">
+                                <div class="card-body text-black">
+
+                                    <div class="row">
+                                        <div class="col-lg-8 px-2 py-2">
+                                            {{-- <h3 class="mb-5 pt-2 text-center fw-bold text-uppercase">Your products</h3> --}}
+                                            <div class="d-flex align-items-center mb-2">
+                                                <div class="table-responsive">
+                                                    <table class="table" id="t_penjualan">
+                                                        <thead>
+                                                            <tr>
+                                                                <th scope="col" class="border-0 bg-light">
+                                                                    <div class="p-1 px-2 text-uppercase">Produk</div>
+                                                                </th>
+                                                                <th scope="col" class="border-0 bg-light">
+                                                                    <div class="py-1 px-2 text-uppercase">Harga</div>
+                                                                </th>
+                                                                <th scope="col" class="border-0 bg-light">
+                                                                    <div class="py-1 text-uppercase">Diskon(%)</div>
+                                                                </th>
+                                                                <th scope="col" class="border-0 bg-light">
+                                                                    <div class="py-1 text-uppercase">Aksi</div>
+                                                                </th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                <th></th>
+                                                                <td></td>
+                                                                <td></td>
+                                                                <td></td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+
+                                                  </div>
+                                            </div>
+                                            <hr class="mb-4" style="height: 2px; background-color: #1266f1; opacity: 1;">
+                                            <p class="text-center align-middle" style="font-size: 14px">List Produk</p>
+                                        </div>
+                                        
+                                        <div class="col-lg-4 py-2">
+                                            <div class="card mb-4">
+                                                <div class="card-header py-3">
+                                                    <h5 class="mb-0">Detail</h5>
+                                                </div>
+                                                <div class="card-body">
+                                                    <h6>Pilih Barang</h6>
+                                                    <div class="input-group">
+                                                        <input type="hidden" required name="id_produk" id="id_produk">
+                                                        <input type="hidden" class="form-control" name="kode_produk" id="kode_produk">
+                                                        <input type="text" style="border-radius: 0 13px 13px 0;"  name="barcode" id="barcode" class="form-control" required autofocus placeholder="Masukkan Barcode..">
+                                                        <span class="input-group-btn tampil-produk">
+                                                            <button style="border-radius: 13px;" onclick="tampilProduk()" id="tampil" class="btn btn-info btn-flat" type="button"><i class="fa-solid fa-magnifying-glass"></i></button>
+                                                            <button style="border-radius: 13px 0 0 13px;" onclick="enterProduk()" id="enter" class="btn btn-info btn-flat add_barang" type="button"><i class="fa-solid fa-arrow-right"></i></button>
+                                                        </span>
+                                                    </div>
+                                                    <br>
+
+                                                    <h6>Pilih Pelanggan</h6>
+                                                    <div class="input-group mb-2">
+                                                        <input type="hidden" name="id_pelanggan" id="id_pelanggan">
+                                                        <input type="text" style="border-radius: 0 13px 13px 0;" name="nama_pelanggan" required id="nama_pelanggan" class="form-control" required readonly value="{{ $pelangganUmum->nama }}">
+                                                        <span class="input-group-btn tampil-pelanggan">
+                                                            <button style="border-radius: 13px 0 0 13px;" onclick="tampilPelanggan()" class="btn btn-info btn-flat" type="button" ><i class="fa-solid fa-magnifying-glass"></i></i></button>
+                                                        </span>
+                                                    </div>
+
+                                                    <div class="input-group mb-2">
+                                                        <input type="text" style="border-radius: 13px;" name="tlp" id="tlp" class="form-control" required readonly value="Telepon : {{ $pelangganUmum->tlp }}">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="card mb-4">
+                                                <div class="card-header py-3">
+                                                    <h5 class="mb-0">Pembayaran</h5>
+                                                </div>
+                                                <div class="card-body">
+                                                    <div class=""> 
+                                                        
+                                                        <div class="d-flex justify-content-between" style="font-weight: 500;">
+                                                            <p class="mb-2">Total</p>
+                                                            <p class="mb-2" id="displayTotal">Rp. 0</p>
+                                                            <input type="hidden" data-bv-trigger="blur" id="total_bayar" name="total_bayar" class="form-control" readonly>
+                                                            <input class="form-control" type="hidden" name="total_penjualan" data-bv-trigger="blur" id="total_penjualan" readonly="true">
+                                                        </div>
+
+                                                        <hr class="my-3">
+
+                                                        <div class="d-flex justify-content-between mb-1" style="font-weight: 500;">
+                                                          <p class="mb-2">Bayar</p>
+                                                          <span>
+                                                            <input class="balloon  bayar" id="bayar" name="bayar" type="text" placeholder="0" />
+                                                          </span>
+                                                        </div>
+
+                                                        <div class="d-flex justify-content-between mb-4" style="font-weight: 500;">
+                                                            <p class="mb-2">Kembalian</p>
+                                                            <span>
+                                                                <input type="text" data-bv-trigger="blur" id="kembali" readonly name="kembali" class="balloon mb-2 kembali" value="0">
+                                                            </span>
+                                                        </div>
+
+                                                        <button type="button" id="simpan" class="submit btn btn-primary btn-lg btn-block">Simpan</button>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="form-group row">
-                                <label for="tlp" class="col-lg-2">Telepon Pelanggan</label>
-                                <div class="col-lg-3">
-                                    <div class="input-group">
-                                        <input type="hidden" name="id_pelanggan" id="id_pelanggan">
-                                        <input type="text" name="tlp" id="tlp" class="form-control" required readonly>
-                                    </div>
-                                </div>
-                            </div>
-                            <br>
-                            
-                            <div class="form-group row">
-                                <label for="kode_produk" class="col-lg-2">Tambah Produk</label>
-                                <div class="col-lg-3">
-                                    <div class="input-group">
-                                        <input type="hidden" required name="id_produk" id="id_produk">
-                                        <input type="hidden" class="form-control" name="kode_produk" id="kode_produk">
-                                        <input type="text"  name="barcode" id="barcode" class="form-control" required autofocus placeholder="Masukkan Barcode..">
-                                        <span class="input-group-btn tampil-produk">
-                                            {{-- <button onclick="tambahProduk()" class="btn btn-info btn-flat" type="button"><i class="fa fa-arrow-right"></i></button> --}}
-                                            <button onclick="tampilProduk()" id="tampil" class="btn btn-info btn-flat" type="button"><i class="fa-solid fa-magnifying-glass"></i></button>
-                                            <button onclick="enterProduk()" id="enter" class="btn btn-info btn-flat add_barang" type="button"><i class="fa-solid fa-arrow-right"></i></button>
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
-        
-                            <div class="table-responsive">
-                                <table cellpadding="0" cellspacing="0" class="table table-striped table-bordered dt-responsive" id="buffer_table">
-                                    <thead>
-                                    <tr width="90%">
-                                            <th class="text-center" width="8.2%"> Kode</th>
-                                            <th class="text-center" width="18%">Nama</th>
-                                            <th class="text-center" width="12%">Harga</th>
-                                            <th class="text-center" width="9%">Jumlah</th>
-                                            <th class="text-center" width="10.7%">Diskon</th>
-                                            <th class="text-center" width="13%">Subtotal</th>
-                                            <th class="text-center" width="9%">Aksi</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody id="t_penjualan">
-                                        <tr id="buffer100" height="50px">
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-        
-                            <div class="row mt-4">
-                                <div class="col-lg-7">
-                                    <div class="tampil-bayar bg-default mb-4" id="total_bayar_gede">RP. 0</div>
-                                    <div class="tampil-terbilang"></div>
-                                </div>
-                                <div class="col-lg-5">
-                                            <!-- TOTAL PENJUALAN  -->
-                                        <input class="form-control" type="hidden" name="total_penjualan" data-bv-trigger="blur"
-                                        id="total_penjualan" readonly="true">
-
-                                        <input type="hidden" data-bv-trigger="blur" id="total_bayar" name="total_bayar" class="form-control" readonly>
-
-                                        <div class="form-group row mt-4">
-                                            <label for="inputEmail3" class="col-lg-3 control-label">Jenis Pembayaran</label>
-                                            <div class="col-lg-8">
-                                                <select class="form-control" name="jenis_pembayaran" data-bv-trigger="blur" id="jenis_pembayaran">
-                                                    <option value="1" selected="selected">CASH</option>';
-                                                    <option value="2">KREDIT</option>';
-                                                </select>
-                                            </div>
-                                        </div>
-                                
-                                        {{-- <div class="form-group row mt-4">
-                                            <label for="bayar" class="col-lg-3 control-label">Total</label>
-                                            <div class="col-lg-8 ">
-                                                <div class="input-group-prepend input-primary"> 
-                                                    <span class="input-group-text">RP.</span> 
-                                                    <input type="text" data-bv-trigger="blur" id="total_bayar" name="total_bayar" class="form-control" readonly>
-                                                </div>
-                                            </div>
-                                        </div> --}}
-                                        <div class="form-group row mt-4" id="tampil_bayar">
-                                            <label for="diterima" class="col-lg-3 control-label">Bayar</label>
-                                            <div class="col-lg-8 ">
-                                                <div class="input-group-prepend input-primary"> 
-                                                    <span class="input-group-text">RP.</span> 
-                                                    <input type="text" data-bv-trigger="blur" id="bayar" name="bayar" class="form-control" autocomplete="off">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="form-group row mt-4" id="tampil_kembali">
-                                            <label for="diterima" class="col-lg-3 control-label">Kembalian</label>
-                                            <div class="col-lg-8 ">
-                                                <div class="input-group-prepend input-primary"> 
-                                                    <span class="input-group-text">RP.</span> 
-                                                    <input type="text" data-bv-trigger="blur" id="kembali" readonly name="kembali" class="form-control" value="0">
-                                                </div>
-                                            </div>
-                                        </div>
-            
-                                        <div class="form-group row mt-4" id="tampil_dp">
-                                            <label for="inputEmail3" class="col-lg-3 control-label">DP</label>
-                                            <div class="col-lg-8 ">
-                                                <div class="input-group-prepend input-primary"> 
-                                                    <span class="input-group-text">RP.</span> 
-                                                    <input type="text" data-bv-trigger="blur" id="dp" name="dp" class="form-control" autocomplete="off">
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group row mt-4" id="tampil_sisa">
-                                            <label for="inputEmail3" class="col-lg-3 control-label">Sisa</label>
-                                            <div class="col-lg-8 ">
-                                                <div class="input-group-prepend input-primary"> 
-                                                    <span class="input-group-text">RP.</span> 
-                                                    <input type="number" data-bv-trigger="blur" id="sisa" name="sisa" class="form-control" readonly value="0">
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        {{-- <div class="form-group row" style="display: none;" id="tampil_dp">
-                                            <label for="inputEmail3" class="col-lg-3 control-label">DP</label>
-                                            <div class="col-lg-8">
-                                                <div class="input-group-prepend input-primary"> 
-                                                    <span class="input-group-text">RP.</span> 
-                                                    <input type="text" id="dp" class="form-control" name="dp">
-                                                </div>
-                                            </div>
-                                        </div> --}}
-                    
-                                        {{-- <div class="form-group" style="display: none;" id="tampil_sisa">
-                                            <label for="inputEmail3" class="col-lg-3 control-label">SISA</label>
-                                            <div class="col-lg-8">
-                                                <div class="input-group-prepend input-primary"> 
-                                                    <span class="input-group-text">RP.</span> 
-                                                    <input type="text" id="sisa" class="form-control" name="sisa">
-                                                </div>
-                                            </div>
-                                        </div> --}}
-                                        <div class="box-footer mb-4 btn-submit">
-                                            <button type="button" id="simpan" class="btn btn-outline-primary btn-sm pull-right btn-simpan" onkeypress="preventEnter(this)"><i class="fa-solid fa-floppy-disk"></i> Simpan Transaksi</button>
-                                        </div>
-                                    </div>
                             </div>
                         </div>
-                        {{-- <div class="col-md-11"></div> --}}
-                        {{-- <div class="box-footer mb-4 btn-submit">
-                            <button type="submit" id="submit" class="col-md-3 btn btn-outline-primary btn-sm btn-simpan" onkeypress="preventEnter(this)"><i class="fa-solid fa-floppy-disk"></i> Simpan Transaksi</button>
-                        </div> --}}
+                    </div>
                 </div>
-            </div>  
-        </div>
-    </form>
-  
-        @include('transaksi-penjualan.formBarang')
-        @include('transaksi-penjualan.formPelanggan')
-      </section>
-      <!-- /.content -->
+            </div>
+        </div>  
+    </div>
+</form>
 
-      @includeIf('transaksi-penjualan.barang')
+@include('transaksi-penjualan.formBarang')
+@include('transaksi-penjualan.formPelanggan')
+</section>
+
+@includeIf('transaksi-penjualan.barang')
 @endsection
 
 @push('scripts')
@@ -427,6 +612,72 @@
             }
         });
 
+        function TambahDataPenjualan(id,kode,nama,harga_beli,harga_jual,stock, keuntungan){
+            var id_barang=id;
+            var kode_barang=kode;
+            var nama_barang=nama;
+            var harga_beli=harga_beli;
+            var harga_jual=harga_jual;
+            var stock=stock;
+            var keuntungan=keuntungan;
+            var item_row = 1;
+            // console.log(id_barang, kode_barang, nama_barang, harga_beli, harga_jual, stock, keuntungan, item_row)
+            var barang=CariIdBarang(id_barang);
+            var format_harga_jual = Math.round(Number(harga_jual)).toLocaleString("id-ID", {
+                                    style:"currency", 
+                                    currency:"IDR", 
+                                    maximumSignificantDigits: (harga_jual + '').replace('.', '').length
+                                    });
+
+            if(barang==false){
+                //HAPUS BARIS 1
+                $('#buffer100').remove();
+                count++;
+                var rowBarang="<tr class='barang' id='buffer"+count+"'>";
+                rowBarang+="<th scope='row' class='border-0'>";
+                rowBarang+="<div class='1'>";
+                rowBarang+="<img src='https://bootstrapious.com/i/snippets/sn-cart/product-1.jpg' alt='' width='70' class='img-fluid rounded shadow-sm'>";
+                rowBarang+="<div class='ml-3 d-inline-block align-middle'>";
+                rowBarang+="<input type='hidden' name='item["+count+"][id_barang]' value='"+id_barang+"'>"
+                rowBarang+="<h5 style='font-size:18.5px;' class='mb-0'><a class='text-dark d-inline-block align-middle'>"+nama_barang+"</a><input type='hidden' name='item["+count+"][nama_barang]' value='"+nama_barang+"' type='number'></h5>";
+                rowBarang+="<div class='def-number-input number-input safari_only'>";
+                rowBarang+="<h6 style='font-size:16px;'><a class='text-dark'>"+format_harga_jual+"</a><input type='hidden' id='harga_jual"+count+"' name='item["+count+"][harga_jual]' value='"+harga_jual+"' type='text'></h6>"
+                rowBarang+="<button data-idbuffer='"+count+"' id='minus' type='button' onclick='this.parentNode.querySelector";
+                rowBarang+='("input[type=number]")';
+                rowBarang+=".stepDown()' class='minus'></button>";
+                rowBarang+="<input class='quantity fw-bold text-black qty_penjualan' name='item["+count+"][qty]' max='"+stock+"' value='1' id='qty"+count+"' data-idbuffer='"+count+"' onchange='cekQty(this)' type='number'>";
+                rowBarang+="<button data-idbuffer='"+count+"' id='plus' type='button' onclick='this.parentNode.querySelector";
+                rowBarang+='("input[type=number]")';
+                rowBarang+=".stepUp()' class='plus'></button>";
+                rowBarang+="</div'></div'></div'></th'>";
+                rowBarang+="<td class='border-0 align-middle'><div class='input-group text-center align-middle'>";
+                rowBarang+="<input class='balloon mb-2 text-center align-middle discount' onchange='cekDiscount(this)' max='100' type='number' class='form-control discount' name='item["+count+"][discount]' id='discount"+count+"' onkeypress='cek_number()' data-idbuffer='"+count+"' placeholder='0' style='max-width: 60%; direction:lrt; text-indent:0px;'/></div></td>";
+                rowBarang+="<td class='border-0 align-middle'><input type='hidden' class='subtotal' type='number' class='form-control subtotal' name='item["+count+"][subtotal]' value='"+harga_jual+"' readonly='true' id='subtotal"+count+"'>";
+                rowBarang+="<strong id='displayST"+count+"'>"+format_harga_jual+"</strong></td>"
+                rowBarang+="<td class='border-0 align-middle'><button type='button' class='text-dark hapus_penjualan' data-idbuffer='"+count+"'><i class='fa fa-trash' style='outline:none;'></i></a></td>";
+                $('#t_penjualan').append(rowBarang);
+            } else{
+                var posisi = CariPosisi(id_barang);
+                var qty = Number($('#qty'+posisi).val())+1;
+                var discount = $('#discount' + posisi).val();
+                const subtotal = harga_jual * qty - ((harga_jual * qty) * discount/100)
+                $('#qty'+posisi).val(qty);
+                $('#subtotal'+posisi).val(subtotal);
+                $('#displayST' + posisi).text(subtotal);
+
+            }
+                GetTotalBayar();
+                // GetKeuntungan();
+                var id = $('.qty_penjualan').data("idbuffer");
+        //     var harga_jual = $('#harga_jual' + id).val();
+
+        //     var qty = $('#qty' + id).val();
+        //     $('#subtotal' + id).val(subtotal);
+        //     console.log(harga_jual * qty)
+
+        //     GetTotalBayar();
+        }
+
         //UBAH DISCOUNT
         $(document).on('keyup', '.discount', function () {
             var id = $(this).data("idbuffer");
@@ -435,8 +686,13 @@
             var discount = $('#discount' + id).val();
             var hasil = (harga_jual *qty) * discount/100;
             $('#subtotal' + id).val((harga_jual * qty) - hasil);
+            var format_subtotal =   Math.round(Number((harga_jual * qty) - hasil)).toLocaleString("id-ID", {
+                                    style:"currency", 
+                                    currency:"IDR", 
+                                    maximumSignificantDigits: ((harga_jual * qty) - hasil + '').replace('.', '').length
+                                    });
+            $('#displayST' + id).text(format_subtotal);
             GetTotalBayar();
-            
         });
 
         // $(document).on('change', '.discount', function () {
@@ -452,25 +708,55 @@
             
 
         //UBAH QTY
-        $(document).on('change', '.qty_penjualan', function () {
+        $(document).on('click', '#plus', function () {
             var id = $(this).data("idbuffer");
             var harga_jual = $('#harga_jual' + id).val();
 
             var qty = $('#qty' + id).val();
             var discount = $('#discount' + id).val();
-            $('#subtotal' + id).val((harga_jual * qty) - discount/100);
+            const subtotal = harga_jual * qty - ((harga_jual * qty) * discount/100)
+            $('#subtotal' + id).val(subtotal);
+            var format_subtotal =   Math.round(Number(subtotal)).toLocaleString("id-ID", {
+                                    style:"currency", 
+                                    currency:"IDR", 
+                                    maximumSignificantDigits: (subtotal + '').replace('.', '').length
+                                    });
+            $('#displayST' + id).text(format_subtotal);
+            // console.log(harga_jual * qty)
             GetTotalBayar();
         });
 
-        // $(document).on('change', '.qty_penjualan', function () {
-        //     var id = $(this).data("idbuffer");
-        //     var harga_jual = $('#harga_jual' + id).val();
+        $(document).on('click', '#minus', function () {
+            var id = $(this).data("idbuffer");
+            var harga_jual = $('#harga_jual' + id).val();
 
-        //     var qty = $('#qty' + id).val();
-        //     var discount = $('#discount' + id).val();
-        //     $('#subtotal' + id).val((harga_jual * qty) - discount/100);
-        //     GetTotalBayar();
-        // });
+            var qty = $('#qty' + id).val();
+            var discount = $('#discount' + id).val();
+            const subtotal = harga_jual * qty - ((harga_jual * qty) * discount/100)
+            $('#subtotal' + id).val(subtotal);
+            var format_subtotal =   Math.round(Number(subtotal)).toLocaleString("id-ID", {
+                                    style:"currency", 
+                                    currency:"IDR", 
+                                    maximumSignificantDigits: (subtotal + '').replace('.', '').length
+                                    });
+            $('#displayST' + id).text(format_subtotal);
+
+            GetTotalBayar();
+        });
+
+        $(document).on('keyup', '.qty_penjualan', function () {
+            var id = $(this).data("idbuffer");
+            var harga_jual = $('#harga_jual' + id).val();
+
+            var qty = $('#qty' + id).val();
+            var discount = $('#discount' + id).val();
+            const subtotal = harga_jual * qty - ((harga_jual * qty) * discount/100)
+            $('#subtotal' + id).val(subtotal);
+            $('#displayST' + id).text(subtotal);
+            console.log(harga_jual * qty)
+
+            GetTotalBayar();
+        });
 
         $(document).on('click','.add_pelanggan',function(){
             var id = $(this).data("id_pelanggan");
@@ -553,7 +839,8 @@
 
         //KEMBALIAN
         $(document).on('keyup', '#bayar', function (e) {
-            var tb = $("#total_bayar").val();
+            var tb = $("#total_penjualan").val();
+            // console.log(tb)
             var bayar = $(this).val();
             var harga = String(bayar).replaceAll(".", '');
 
@@ -616,6 +903,7 @@
             subtotal.forEach(function(item){
                 totalP += parseFloat(item.value);
             });
+            console.log(totalP)
             // console.log(totalP)
             // var total_penjualan = 0;
             //HASILKAN TOTAL BAYAR
@@ -624,15 +912,15 @@
             //         total_penjualan += Number($("input[name='item["+x+"][subtotal]']").val());
             //     }
             // }
-                $('#total_bayar').val(Number(totalP));
                 let total = Math.round(Number(totalP)).toLocaleString("id-ID", {
-                                style:"currency", 
-                                currency:"IDR", 
-                                maximumSignificantDigits: (totalP + '').replace('.', '').length
-                            });
-                $('#total_bayar_gede').text(total);
+                            style:"currency", 
+                            currency:"IDR", 
+                            maximumSignificantDigits: (totalP + '').replace('.', '').length
+                        });
+                $('#displayTotal').text(total)
+                $('#total_bayar').val(Number(totalP));
+                // $('#total_bayar_gede').text(total);
                 $('#total_penjualan').val(Number(totalP));	
-                // $('#tampil-terbilang').text(terbilang(Number(totalP)));
         }
 
 
@@ -701,7 +989,7 @@
                 Swal.fire({
                     title: 'Produk ini sudah mencapai stok minimum!',
                     html: 'Pesan akan hilang dalam <b></b> milidetik.',
-                    timer: 2500,
+                    timer: 1500,
                     timerProgressBar: true,
                     didOpen: () => {
                         Swal.showLoading()
@@ -716,7 +1004,7 @@
                 }).then((result) => {
                     /* Read more about handling dismissals below */
                     if (result.dismiss === Swal.DismissReason.timer) {
-                        console.log('I was closed by the timer')
+                        console.log('Bye')
                     }
                 })
                 TambahDataPenjualan(id,kode,nama,harga_beli,harga_jual, stock, keuntungan);
@@ -725,42 +1013,16 @@
             }
         });
 
-        function TambahDataPenjualan(id,kode,nama,harga_beli,harga_jual,stock, keuntungan){
-            var id_barang=id;
-            var kode_barang=kode;
-            var nama_barang=nama;
-            var harga_beli=harga_beli;
-            var harga_jual=harga_jual;
-            var stock=stock;
-            var keuntungan=keuntungan;
+        // DISABLEEEE
+        // $(document).bind("contextmenu",function(e) {
+        //     e.preventDefault();
+        // });
+            
+        // $(document).keyup(function(b) {     
+        //     if (b.keyCode == 16) {return false;}
+        //     if (b.keyCode == 17) {return false;}
+        // });
 
-            var barang=CariIdBarang(id_barang);
-
-            if(barang==false){
-                //HAPUS BARIS 1
-                $('#buffer100').remove();
-                count++;
-                // console.log(count)
-                var rowBarang="<tr class='barang' id='buffer"+count+"'>";
-                rowBarang+="<td style='text-align:center'><input type='hidden' name='item["+count+"][id_barang]' value='"+id_barang+"'> <input class='form-control' type='text' name='item["+count+"][kode]' value='"+kode_barang+"' readonly='true'' style='width: 130px;'></td>";
-                rowBarang+="<td style='text-align:center'><input class='form-control' type='text' name='item["+count+"][nama_barang]' value='"+nama_barang+"' readonly='true' style='width: 150px;'></td>";
-                rowBarang+="<td><input class='form-control' style='text-align:right; width: 200px;' type='text' name='item["+count+"][harga_jual]' value='"+harga_jual+"' id='harga_jual"+count+"' readonly='true'><input type='hidden' name='item["+count+"][harga_beli]' value='"+harga_beli+"'></td>";
-                rowBarang+="<td style='text-align:center'><input type='number' class='form-control qty_penjualan' name='item["+count+"][qty]' max='"+stock+"' value='1' id='qty"+count+"' data-idbuffer='"+count+"' onchange='cekQty(this)' style='width: 90px;'></td>";
-                rowBarang+="<td style='text-align:center'><div class='input-group-prepend input-primary'><input onchange='cekDiscount(this)' max='100' style='text-align:right; width: 70px;' type='number' class='form-control discount' name='item["+count+"][discount]' value='0' id='discount"+count+"' onkeypress='cek_number()' data-idbuffer='"+count+"'><span class='input-group-text'>%</span></div></td>";
-                rowBarang+="<td style='text-align:center'><input style='text-align:right; width: 200px;' type='number' class='form-control subtotal' name='item["+count+"][subtotal]' value='"+harga_jual+"' readonly='true' id='subtotal"+count+"'></td>";
-                rowBarang+="<input style='text-align:right' type='hidden' class='form-control' name='item["+count+"][keuntungan]' value='"+keuntungan+"' readonly='true' id='keuntungan"+count+"'>";
-                rowBarang+="<td style='text-align:center;'><button type='button' class='btn btn-danger hapus_penjualan' data-idbuffer='"+count+"' ><i class='fa fa-trash'></i></button></td>";
-                rowBarang+="</tr>";
-                $('#t_penjualan').append(rowBarang);
-            } else{
-                var posisi = CariPosisi(id_barang);
-                var qty = Number($('#qty'+posisi).val())+1;
-                $('#qty'+posisi).val(qty);
-                $('#subtotal'+posisi).val(harga_jual*qty);
-            }
-                GetTotalBayar();
-                // GetKeuntungan();
-        }
 
         function enterProduk() {
             var barcode = $('#barcode').val();

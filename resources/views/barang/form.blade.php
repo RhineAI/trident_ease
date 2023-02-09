@@ -9,7 +9,7 @@
 
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabelLogout">Ohh No!</h5>
+                    <h4 class="modal-title" id="exampleModalLabelLogout">Ohh No!</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -17,7 +17,7 @@
                 <div class="modal-body">
                     <div class="form-group row">
                         <label for="nama" class="col-md-2 col-md-offset-1 control-label">
-                            <h5 class="my-2">Nama</h5>
+                            <h6 class="my-2">Nama</h6>
                         </label>
                         <div class="col-md-10">
                             <input type="text" name="nama" id="product_name" class="form-control" required
@@ -28,7 +28,7 @@
 
                     <div class="form-group row">
                         <label for="barcode" class="col-md-2 col-md-offset-1 control-label">
-                            <h5 class="my-2">Barcode</h5>
+                            <h6 class="my-2">Barcode</h6>
                         </label>
                         <div class="col-md-4">
                             <input type="text" name="barcode" id="barcode" class="form-control" required>
@@ -36,7 +36,7 @@
                         </div>
 
                         <label for="kode" class="col-md-2 col-md-offset-1 control-label">
-                            <h5 class="my-2">Kode</h5>
+                            <h6 class="my-2">Kode</h6>
                         </label>
                         <div class="col-md-4">
                             <input type="text" name="kode" id="kode" class="form-control" required>
@@ -46,7 +46,7 @@
 
                     <div class="form-group row">
                         <label for="id_kategori" class="col-md-2 col-md-offset-1 control-label">
-                            <h5 class="my-2">Kategori</h5>
+                            <h6 class="my-2">Kategori</h6>
                         </label>
                         <div class="col-md-4">
                             <select name="id_kategori" id="id_kategori" class="form-control" required>
@@ -58,8 +58,8 @@
                             <span class="help-block with-errors"></span>
                         </div>
 
-                        <label for="id_satuan" class=" control-label ml-3" style="margin-right:61.1px">
-                            <h5 class="my-2">Satuan</h5>
+                        <label for="id_satuan" class=" control-label ml-3" style="margin-right:58px">
+                            <h6 class="my-2">Satuan</h6>
                         </label>
                         <div class="col-md-4">
                             <select name="id_satuan" id="id_satuan" class="form-control" required>
@@ -75,7 +75,7 @@
 
                     <div class="form-group row">
                         <label for="id_supplier" class="col-md-2 col-md-offset-1 control-label">
-                            <h5 class="my-2">Supplier</h5>
+                            <h6 class="my-2">Supplier</h6>
                         </label>
                         <div class="col-md-4">
                             <select name="id_supplier" id="id_supplier" class="form-control" required>
@@ -87,8 +87,8 @@
                             <span class="help-block with-errors"></span>
                         </div>
 
-                        <label for="id_merek" class="control-label ml-3" style="margin-right: 64px;">
-                            <h5 class="my-2">Merek </h5>
+                        <label for="id_merek" class="control-label ml-3" style="margin-right: 68px;">
+                            <h6 class="my-2">Merek </h6>
                         </label>
                         <div class="col-md-4">
                             <select name="id_merek" id="id_merek" class="form-control" required>
@@ -103,7 +103,7 @@
 
                     <div class="form-group row">
                         <label for="stock" class="col-md-2 col-md-offset-1 control-label">
-                            <h5 class="my-2">Stok </h5>
+                            <h6 class="my-2">Stok </h6>
                         </label>
                         <div class="col-md-4">
                             <input type="number" name="stock" id="stock" class="form-control" required autofocus>
@@ -111,7 +111,7 @@
                         </div>
 
                         <label for="stock_minimal" class="col-md-2 col-md-offset-1 control-label">
-                            <h5 class="my-2">Min. Stok</h5>
+                            <h6 class="my-2">Min. Stok</h6>
                         </label>
                         <div class="col-md-4">
                             <input type="number" name="stock_minimal" id="stock_minimal" class="form-control" required autofocus>
@@ -121,7 +121,7 @@
 
                     <div class="form-group row">
                         <label for="harga_beli" class="col-md-2 col-md-offset-1 control-label">
-                            <h5 class="my-2">Harga Beli</h5>
+                            <h6 class="my-2">Harga Beli</h6>
                         </label>
                         <div class="input-group mb-3 col-md-6">
                             <div class="input-group-prepend">
@@ -133,7 +133,7 @@
 
                     <div class="form-group row">
                         <label for="keuntungan" class="col-md-2 col-md-offset-1 control-label">
-                            <h5 class="my-2">Keuntungan</h5>
+                            <h6 class="my-2">Keuntungan</h6>
                         </label>
                         <div class="input-group mb-3 col-md-3">
                             <input max="100" maxlength="3" type="text" name="keuntungan" id="keuntungan" class="form-control" aria-label="Username" aria-describedby="basic-addon1">
@@ -145,7 +145,7 @@
 
                     <div class="form-group row">
                         <label for="harga_jual" class="col-md-2 col-md-offset-1 control-label">
-                            <h5 class="my-2">Harga Jual</h5>
+                            <h6 class="my-2">Harga Jual</h6>
                         </label>
                         <div class="input-group mb-3 col-md-6">
                             <div class="input-group-prepend">
@@ -157,7 +157,7 @@
 
                     <div class="form-group row">
                         <label for="status" class="col-md-2 col-md-offset-1 control-label">
-                            <h5 class="my-2">Status</h5>
+                            <h6 class="my-2">Status</h6>
                         </label>
                         <div class="col-md-3">
                             <select name="status" id="status" class="form-control" required>
@@ -168,7 +168,7 @@
                         </div>
 
                         <label for="keterangan" class="control-label ml-5 mr-4">
-                            <h5 class="my-2">Jenis</h5>
+                            <h6 class="my-2">Jenis</h6>
                         </label>
                         <div class="col-md-3">
                             <select name="keterangan" id="keterangan" class="form-control" required>

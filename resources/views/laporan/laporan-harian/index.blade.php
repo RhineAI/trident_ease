@@ -239,12 +239,12 @@ Laporan Harian
             </div>
         </div>
     </div>
-    <span style="visibility: hidden" class="url-penjualan-admin">
+    {{-- <span style="visibility: hidden" class="url-penjualan-admin">
         {{ route('admin.laporan-penjualan.data', [$tanggalAwal, $tanggalAkhir]) }}
     </span>
     <span style="visibility: hidden" class="url-penjualan-owner">
         {{ route('owner.laporan-penjualan.data', [$tanggalAwal, $tanggalAkhir]) }}
-    </span>
+    </span> --}}
 </section>
 @endsection
 

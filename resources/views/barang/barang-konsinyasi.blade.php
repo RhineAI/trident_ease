@@ -47,7 +47,7 @@ Produk Konsinyasi
                                             <th width="6%" class="text-center">Pemasok</th>
                                             <th width="6%" class="text-center">Stock</th>
                                             <th width="80%" class="text-center">Harga Beli</th>
-                                            <th width="8%" class="text-center">Keterangan</th>
+                                            {{-- <th width="8%" class="text-center">Keterangan</th> --}}
                                             <th width="6%" class="text-center">Status</th>
                                             <th width="4%" class="text-center">Aksi</th>
                                         </tr>
@@ -131,7 +131,7 @@ Produk Konsinyasi
                 {data:'nama_supplier'},
                 {data:'stock'},
                 {data:'harga_beli'},
-                {data:'keterangan'},
+                // {data:'keterangan'},
                 {data:'status'},
                 {data:'action', searchable: false, sortable: false},
             ]

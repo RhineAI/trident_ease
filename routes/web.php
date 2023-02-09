@@ -328,13 +328,28 @@ Route::middleware(['auth'])->group(function () {
         //      Route::get('/list-pelanggan-terbaik/pdf/{awal}/{akhir}', [LaporanController::class, 'PrintPDFBestPelanggan'])->name('list-b-pelanggan.print');
 
         });
+
+        Route::get('/route-clear', function() {
+                Artisan::call('route:clear');
+                return 'Route cache cleared!';
+        });
+        
+        Route::get('/config-clear', function() {
+                Artisan::call('config:clear'); 
+                return 'Configuration cache cleared!';
+        });
+        
+        Route::get('/cache-clear', function() {
+                Artisan::call('cache:clear'); 
+                return 'Cache cleared!';
+        });
 });
 
 Route::get('/', [LoginController::class, 'index'])->name('login');
 Route::post('/', [LoginController::class, 'login']);
 Route::get('/register', [LoginController::class, 'reg'])->name('reg');
 Route::post('/register', [LoginController::class, 'register'])->name('register');
-Route::get('/success', [LoginController::class, 'regSuccess'])->name('regSuccess');
+Route::get('/register/success/{id}/{token}', [LoginController::class, 'regSuccess'])->name('regSuccess');
 
 Route::get('/route-clear', function() {
         Artisan::call('route:clear');
@@ -344,4 +359,9 @@ Route::get('/route-clear', function() {
 Route::get('/config-clear', function() {
         Artisan::call('config:clear'); 
         return 'Configuration cache cleared!';
+});
+
+Route::get('/cache-clear', function() {
+        Artisan::call('cache:clear'); 
+        return 'Cache cleared!';
 });

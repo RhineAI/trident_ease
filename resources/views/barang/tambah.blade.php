@@ -174,6 +174,29 @@
 @endsection
 @push('scripts')
     <script>
+        $('#product_name').on('keypress', function(e){
+            restrictChar(e);
+        });
+        $('#barcode').on('keypress', function(e){
+            restrictChar(e);
+        });
+        $('#kode').on('keypress', function(e){
+            restrictChar(e);
+        });
+        $('#stock').on('keypress', function(e){
+            restrictWord(e);
+        });
+        $('#stock_minimal').on('keypress', function(e){
+            restrictWord(e);
+        });
+        $('#harga_beli').on('keypress', function(e){
+            restrictWord(e);
+        });
+        $('#keuntungan').on('keypress', function(e){
+            restrictWord(e);
+        });
+    </script>
+    <script>
         function formatRupiah(angka, prefix){
         var number_string   = angka.replace(/[^,\d]/g, '').toString(),
         split               = number_string.split(','),

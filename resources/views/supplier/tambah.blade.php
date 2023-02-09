@@ -125,4 +125,24 @@
             }
         });
     </script>
+    <script>
+        $('#nama').on('keypress', function(e){
+            restrictChar(e);
+        });
+        $('#alamat').on('keypress', function(e){
+            restrictChar(e);
+        });
+        $('#salesman').on('keypress', function(e){
+            restrictChar(e);
+        });
+        $('#other').on('keypress', function(e){
+            restrictChar(e);
+        });
+        $('#no_rekening').on('keypress', function(e){
+            restrictWord(e);
+        });
+        $('#tlp').on('keypress', function(e){
+            restrictWord(e);
+        });
+    </script>
 @endpush

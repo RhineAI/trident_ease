@@ -5,8 +5,9 @@
     @include('templates.header')
 </head>
 <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;1,100;1,200;1,300&display=swap');
     body {
-        font-family: 'Open Sans'; 
+        font-family: 'Poppins', sans-serif;
     }
 </style>
 

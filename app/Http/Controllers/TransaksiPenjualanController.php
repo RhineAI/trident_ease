@@ -33,6 +33,7 @@ class TransaksiPenjualanController extends Controller
         //  $detail = DetailPenjualan::orderBy('id_penjualan_detail', 'DESC');
 
         $data['pelanggan'] = Pelanggan::where('id_perusahaan', auth()->user()->id_perusahaan)->get();    
+        $data['pelangganUmum'] = Pelanggan::where('id_perusahaan', auth()->user()->id_perusahaan)->first();    
         // $data['produk'] = Barang::where('stock', '>', 0)->where('status', '==', '1')->get();    
         $data['produk'] = Barang::where('stock', '>', 0)->where('status', '=', '1')->where('id_perusahaan', auth()->user()->id_perusahaan)->get();    
         $data['cPerusahaan'] = Perusahaan::select('*')->where('id', auth()->user()->id_perusahaan)->first();

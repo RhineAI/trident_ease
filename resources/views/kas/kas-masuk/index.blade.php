@@ -212,4 +212,12 @@
 
 
 </script>
+<script>
+    $('#keterangan').on('keypress', function(e){
+        restrictChar(e);
+    });
+    $('#jumlah').on('keypress', function(e){
+        restrictWord(e);
+    });
+</script>
 @endpush

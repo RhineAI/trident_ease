@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Perusahaan;
+use App\Models\Pelanggan;
 use Illuminate\Support\Str;
 
 use Illuminate\Http\Request;
@@ -124,14 +125,24 @@ class LoginController extends Controller
         $user->hak_akses = 'owner';
         $user->save();
 
+        $pelangganUmum = new Pelanggan();
+        $pelangganUmum->nama = 'Pelanggan Umum';
+        $pelangganUmum->alamat = '-';
+        $pelangganUmum->jenis_kelamin = 'L';
+        $pelangganUmum->id_perusahaan = $perusahaan->id;
+        $pelangganUmum->save();
+
         $data['perusahaan'] = $perusahaan;
         $data['user'] = $user;
+        $random = Str::random(20);
+        $random2 = Str::random(20);
+        $randomToken = $random . 'ZiePOS?' . $perusahaan->nama . '?kN7l' . $random2;
 
         // \Mail::to($perusahaan->email)->send(new NotifikasiRegisterPerusahaan);
          
         // return $user;
 
-        return redirect()->route('regSuccess')->with(['success' => 'Registrasi Berhasil!']);
+        return redirect()->route('regSuccess', ['id' => $perusahaan->id, 'token' => $randomToken])->with(['success' => 'Registrasi Berhasil!']);
 
     }
 }
