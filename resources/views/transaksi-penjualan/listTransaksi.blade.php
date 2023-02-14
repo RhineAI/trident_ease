@@ -58,9 +58,9 @@ Data Penjualan
                     <br>
                     <div class="button-group mb-1">          
                         @if (auth()->user()->hak_akses == 'admin')
-                            <a href="{{ route('admin.transaksi-penjualan.index') }}" class="mx-4 mb-3 btn btn-sm btn-info text-end"><i class="fa fa-plus"></i> Transaksi Penjualan</a>
+                            <a href="{{ route('admin.transaksi-penjualan.index') }}" class="mx-4 mb-3 btn btn-sm btn-info text-end"><i class="fa fa-plus"></i> Transaksi Baru</a>
                         @elseif(auth()->user()->hak_akses == 'kasir')
-                            <a href="{{ route('kasir.transaksi-penjualan.index') }}" class="mx-4 mb-3 btn btn-sm btn-info text-end"><i class="fa fa-plus"></i> Transaksi Penjualan</a>
+                            <a href="{{ route('kasir.transaksi-penjualan.index') }}" class="mx-4 mb-3 btn btn-sm btn-info text-end"><i class="fa fa-plus"></i> Transaksi Baru</a>
                         @endif
                     </div>
                 {{-- <a href="{{ route('admin.list-transaksi.export_pdf', [$tanggalAwal, $tanggalAkhir] ) }}" target="_blank" class="btn btn-danger btn-sm btn-flat" ><i class="bi bi-filetype-pdf"></i> Export PDF</a> --}}

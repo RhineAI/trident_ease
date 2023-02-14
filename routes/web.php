@@ -294,15 +294,15 @@ Route::middleware(['auth'])->group(function () {
         Route::group(['prefix' => 'kasir', 'middleware' => 'cek-hak-akses:kasir', 'as' => 'kasir.'], function () {
                 Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
                 // Transaksi Penjualan
-               Route::resource('/transaksi-penjualan', TransaksiPenjualanController::class);
-               Route::get('/list-penjualan', [ListTransaksiPenjualanController::class, 'index'])->name('list-transaksi.index');
-               Route::post('/list-penjualan/data/{awal}/{akhir}', [ListTransaksiPenjualanController::class, 'getData'])->name('list-transaksi.data');
-               Route::get('/list-penjualan/pdf/{awal}/{akhir}', [ListTransaksiPenjualanController::class, 'exportPDF'])->name('list-transaksi.export_pdf');
-               Route::get('/list-penjualan/nota/{id}', [ListTransaksiPenjualanController::class, 'printNota'])->name('list-transaksi.print_nota');
+                Route::resource('/transaksi-penjualan', TransaksiPenjualanController::class);
+                Route::get('/list-penjualan', [ListTransaksiPenjualanController::class, 'index'])->name('list-transaksi.index');
+                Route::post('/list-penjualan/data/{awal}/{akhir}', [ListTransaksiPenjualanController::class, 'getData'])->name('list-transaksi.data');
+                Route::get('/list-penjualan/pdf/{awal}/{akhir}', [ListTransaksiPenjualanController::class, 'exportPDF'])->name('list-transaksi.export_pdf');
+                Route::get('/list-penjualan/nota/{id}', [ListTransaksiPenjualanController::class, 'printNota'])->name('list-transaksi.print_nota');
 
-               // barcode
-               Route::post('/barcode/data', [TransaksiPenjualanController::class, 'data'])->name('barcode.data');
-               Route::post('/barcodePembelian/data', [PembelianController::class, 'data'])->name('barcodePembelian.data');
+                // barcode
+                Route::post('/barcode/data', [TransaksiPenjualanController::class, 'data'])->name('barcode.data');
+                Route::post('/barcodePembelian/data', [PembelianController::class, 'data'])->name('barcodePembelian.data');
 
                 Route::get('/profile', [UsersController::class, 'profile'])->name('profile');
                 Route::post('/profile', [UsersController::class, 'profileUpdate']);
@@ -321,11 +321,14 @@ Route::middleware(['auth'])->group(function () {
                 Route::get('/list-retur-penjualan/pdf/{awal}/{akhir}', [ListReturPenjualanController::class, 'exportPDF'])->name('list-retur-penjualan.export_pdf');
                 Route::get('/list-retur-penjualan/nota/{id}', [ListReturPenjualanController::class, 'printNota'])->name('list-retur-penjualan.print_nota');
 
-        // Laporan
-        //      Route::get('/list-pelanggan-terbaik', [LaporanController::class, 'indexBestPelanggan'])->name('list-b-pelanggan.index');
-        //      Route::post('/list-pelanggan-terbaik/data/{awal}/{akhir}', [LaporanController::class, 'getDataBestPelanggan'])->name('list-b-pelanggan.data');
-        //      Route::get('/list-pelanggan-terbaik/download/{awal}/{akhir}', [LaporanController::class, 'DownloadBestPelanggan'])->name('list-b-pelanggan.download');
-        //      Route::get('/list-pelanggan-terbaik/pdf/{awal}/{akhir}', [LaporanController::class, 'PrintPDFBestPelanggan'])->name('list-b-pelanggan.print');
+                Route::resource('/pelanggan', PelangganController::class);
+                Route::get('/pelanggan-tambah', [PelangganController::class, 'index2'])->name('pelanggan2');
+                Route::post('/pelanggan-tambah', [PelangganController::class, 'store']);
+                // Laporan
+                //      Route::get('/list-pelanggan-terbaik', [LaporanController::class, 'indexBestPelanggan'])->name('list-b-pelanggan.index');
+                //      Route::post('/list-pelanggan-terbaik/data/{awal}/{akhir}', [LaporanController::class, 'getDataBestPelanggan'])->name('list-b-pelanggan.data');
+                //      Route::get('/list-pelanggan-terbaik/download/{awal}/{akhir}', [LaporanController::class, 'DownloadBestPelanggan'])->name('list-b-pelanggan.download');
+                //      Route::get('/list-pelanggan-terbaik/pdf/{awal}/{akhir}', [LaporanController::class, 'PrintPDFBestPelanggan'])->name('list-b-pelanggan.print');
 
         });
 

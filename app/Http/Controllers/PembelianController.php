@@ -123,6 +123,7 @@ class PembelianController extends Controller
 
     public function store(StorePembelianRequest $request)
     {
+        // return $request;
         DB::statement('SET FOREIGN_KEY_CHECKS=0');
         // dd($request); die;
             $pembelianBaru = new Pembelian();
@@ -147,18 +148,18 @@ class PembelianController extends Controller
 
             $pembelianBaru->tgl = date('Y-m-d');
             $pembelianBaru->id_supplier = $request->id_supplier;
-            $pembelianBaru->total_pembelian = $this->checkPrice($request->total_pembelian);
+            $pembelianBaru->total_pembelian = $this->checkPrice($request->total_harga);
             $pembelianBaru->jenis_pembayaran = $request->jenis_pembayaran;
             if($request->jenis_pembayaran == 2){
-                $pembelianBaru->dp = $this->checkPrice($request->bayar_kredit);
-                $pembelianBaru->sisa = $request->total_pembelian - $this->checkPrice($request->bayar_kredit);
+                $pembelianBaru->dp = $this->checkPrice($request->dp);
+                $pembelianBaru->sisa = $request->total_pembelian - $this->checkPrice($request->dp);
                 $pembelianBaru->bayar = 0;
                 $pembelianBaru->kembali = 0;
             } else if($request->jenis_pembayaran == 1){
                 $pembelianBaru->dp = 0;
                 $pembelianBaru->sisa = 0;
-                $pembelianBaru->bayar = $this->checkPrice($request->uang_bayar);
-                $pembelianBaru->kembali = $this->checkPrice($request->uang_bayar) - $request->total_pembelian;
+                $pembelianBaru->bayar = $this->checkPrice($request->total_bayar);
+                $pembelianBaru->kembali = $this->checkPrice($request->total_bayar) - $this->checkPrice($request->total_harga);
             } else {
                 $pembelianBaru->dp = 0;
                 $pembelianBaru->sisa = 0;
@@ -197,7 +198,7 @@ class PembelianController extends Controller
                 $pembayaranBaru = new Hutang();
                 $pembayaranBaru->id_pembelian = $id;
                 $pembayaranBaru->tgl = date('Y-m-d');
-                $pembayaranBaru->total_bayar = $this->checkPrice($request->bayar_kredit);
+                $pembayaranBaru->total_bayar = $this->checkPrice($request->dp);
                 $pembayaranBaru->id_user = auth()->user()->id;
                 $pembayaranBaru->id_perusahaan = auth()->user()->id_perusahaan;
                 $pembayaranBaru->save();
@@ -205,7 +206,7 @@ class PembelianController extends Controller
 
                 $kasMasuk = new KasKeluar();
                 $kasMasuk->tgl = now();
-                $kasMasuk->jumlah = $this->checkPrice($request->bayar_kredit);
+                $kasMasuk->jumlah = $this->checkPrice($request->dp);
                 $kasMasuk->id_user = auth()->user()->id;
                 $kasMasuk->id_perusahaan = auth()->user()->id_perusahaan;
                 $kasMasuk->keperluan = 'DP Transaksi Pembelian Produk';
@@ -213,7 +214,7 @@ class PembelianController extends Controller
             } else {
                 $kasMasuk = new KasKeluar();
                 $kasMasuk->tgl = now();
-                $kasMasuk->jumlah = $request->total_pembelian;
+                $kasMasuk->jumlah = $this->checkPrice($request->total_harga);
                 $kasMasuk->id_user = auth()->user()->id;
                 $kasMasuk->id_perusahaan = auth()->user()->id_perusahaan;
                 $kasMasuk->keperluan = 'Transaksi Pembelian Produk';
