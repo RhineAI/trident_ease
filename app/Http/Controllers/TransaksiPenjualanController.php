@@ -127,7 +127,7 @@ class TransaksiPenjualanController extends Controller
             $penjualanBaru->id = $id;
             $penjualanBaru->tgl = date('Y-m-d');
             $penjualanBaru->id_pelanggan = $request->id_pelanggan;
-            $penjualanBaru->total_harga = $request->total_bayar;
+            $penjualanBaru->total_harga = $this->checkPrice($request->total_harga);
             if($request->jenis_pembayaran == '1') {
                 $penjualanBaru->total_bayar = $this->checkPrice($request->total_bayar);
                 $penjualanBaru->sisa = 0;
@@ -200,7 +200,7 @@ class TransaksiPenjualanController extends Controller
             if($request->jenis_pembayaran == 1){
                 $kasMasuk = new KasMasuk();
                 $kasMasuk->tgl = now();
-                $kasMasuk->jumlah = $request->total_bayar; 
+                $kasMasuk->jumlah = $this->checkPrice($request->total_bayar); 
                 $kasMasuk->id_user = auth()->user()->id;
                 $kasMasuk->id_perusahaan = auth()->user()->id_perusahaan;
                 $kasMasuk->keterangan = 'Transaksi Penjualan';

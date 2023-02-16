@@ -30,7 +30,7 @@ class ReturPenjualanController extends Controller
         $data['penjualan'] = TransaksiPenjualan::leftJoin('t_pelanggan AS P', 'P.id', 't_transaksi_penjualan.id_pelanggan')
         ->select('t_transaksi_penjualan.id AS id_penjualan', 't_transaksi_penjualan.tgl AS tanggal', 'P.nama AS nama_pelanggan', 'P.id AS id_pelanggan', 'P.tlp')
         ->where('t_transaksi_penjualan.id_perusahaan', auth()->user()->id_perusahaan)     
-        ->orderBy('t_transaksi_penjualan.id', 'desc')
+        ->orderBy('t_transaksi_penjualan.tgl', 'desc')
         ->get();
         // dd($data['penjualan']);
         return view('returPenjualan.index', $data);
@@ -85,7 +85,7 @@ class ReturPenjualanController extends Controller
             foreach ($detailPenjualan as $row) {
                 $i++;
                 $subtotal = ($row->jumlah_beli_barang * $row->harga_jual) - ($row->jumlah_beli_barang * $row->harga_jual * $row->diskon/100) ;
-                $disc = $row->harga_jual - $row->harga_jual * $row->diskon/100;
+                $disc = $row->harga_jual -( $row->harga_jual * $row->diskon/100);
                 $html.="<tr>";
                 $html.="<td style='text-align:center;'><input type='hidden' value='$row->id_barang' id='id_barang$i'> <input class='form-control' type='text' value='$row->kode' readonly='true' id='kode$i' style='width: 130px;'></td>";
                 $html.="<td style='text-align:center;'><input class='form-control' type='text' value='$row->nama_barang' readonly='true' id='nama_barang$i' style='width: 175px;'></td>";
@@ -135,7 +135,7 @@ class ReturPenjualanController extends Controller
                     $qtySekarang = $row->jumlah_beli_barang;
                     $hargaDisc = $row->harga_jual - ($row->harga_jual * $row->diskon/100);
                 }
-
+                return $hargaDisc;
                 $html.="<tr>";
                 $html.="<td style='text-align:center;'><input type='hidden' value='$row->id_barang' id='id_barang$i'> <input class='form-control' type='text' value='$row->kode' readonly='true' id='kode$i' style='width: 130px;'></td>";
                 $html.="<td style='text-align:center;'><input class='form-control' type='text' value='$row->nama_barang' readonly='true' id='nama_barang$i' style='width: 175px;'></td>";

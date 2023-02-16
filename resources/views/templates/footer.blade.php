@@ -1,9 +1,11 @@
 <footer class="main-footer">
   <div class="float-right d-none d-sm-block">
-    <a href="https://smkn1cianjur.sch.id/" class="text-warning" style="text-decoration: none;"><b>ZiePOS</b></a> v1.0.0
+    <a href="https://smkn1cianjur.sch.id/" class="text-warning" style="text-decoration: none;"><b>ZiePOS</b></a> v1.1.0
   </div>
   <strong>Copyright &copy; <script>document.write(/\d{4}/.exec(Date())[0])</script> TEAM SMAKZIE ( <a href="https://www.instagram.com/smooth_0702/" style="text-decoration: none;" target="_blank">Muhamad Fadhil Allifah</a> AND <a href="https://www.instagram.com/_syahid.lhs/?hl=id" style="text-decoration: none;">Luhung Lugina</a> ).</strong> All rights not reserved.
+  
 </footer>
+
 
 <!-- Control Sidebar -->
 <aside class="control-sidebar control-sidebar-dark">
@@ -56,6 +58,20 @@
 @endif
 </script>
 <script>
+  // let arrow = document.querySelectorAll(".arrow");
+  // for (var i = 0; i < arrow.length; i++) {
+  //   arrow[i].addEventListener("click", (e)=>{
+  //  let arrowParent = e.target.parentElement.parentElement;//selecting main parent of arrow
+  //  arrowParent.classList.toggle("showMenu");
+  //   });
+  // }
+  // let sidebar = document.querySelector(".sidebar");
+  // let sidebarBtn = document.querySelector(".bx-menu");
+  // console.log(sidebarBtn);
+  // sidebarBtn.addEventListener("click", ()=>{
+  //   sidebar.classList.toggle("close");
+  // });
+
   $(document).on('click', '.nav-item', function(e) {
     // console.log(this)
     $('.nav-item').removeClass('menu-is-opening menu-open');

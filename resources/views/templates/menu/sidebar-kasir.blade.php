@@ -20,17 +20,17 @@
     <ul class="nav nav-treeview ml-4 ml-4">
         <li class="nav-item">
             <a href="{{ route('kasir.transaksi-penjualan.index') }}" class="nav-link">
-                <p>Transaksi Baru</p>
+                <p class="smol">Transaksi Baru</p>
             </a>
         </li>
         <li class="nav-item">
             <a href="{{ route('kasir.list-transaksi.index') }}" class="nav-link">
-                <p>Data Transaksi</p>
+                <p class="smol">Data Transaksi</p>
             </a>
         </li>
         <li class="nav-item">
             <a href="{{ route('kasir.data-piutang.index') }}" class="nav-link">
-                <p>Tunggakan</p>
+                <p class="smol">Tunggakan</p>
             </a>
         </li>
     </ul>
@@ -48,12 +48,12 @@
     <ul class="nav nav-treeview ml-4 ml-4">
         <li class="nav-item">
             <a href="{{ route('kasir.retur-penjualan.index') }}" class="nav-link">
-                <p>Tambah Retur Penjualan</p>
+                <p class="smol">Tambah Retur Penjualan</p>
             </a>
         </li>
         <li class="nav-item">
             <a href="{{ route('kasir.list-retur-penjualan.index') }}" class="nav-link">
-                <p>Data Retur Penjualan</p>
+                <p class="smol">Data Retur Penjualan</p>
             </a>
         </li>
         </ul>
@@ -62,7 +62,7 @@
 {{-- PELANGGAN --}}
 <li class="nav-item">
     <a href="#" class="nav-link">
-        <i class="nav-icon fas fa-solid fa-user"></i>
+        <i class="nav-icon fas fa-solid fa-users"></i>
         <p>
             Pelanggan
             <i class="right fas fa-angle-right"></i>
@@ -72,13 +72,13 @@
         <li class="nav-item">
             <a href="{{ route('kasir.pelanggan2') }}" class="nav-link">
                 {{-- <i class="far fa-circle nav-icon"></i> --}}
-                <p>Tambah Pelanggan</p>
+                <p class="smol">Tambah Pelanggan</p>
             </a>
         </li>
         <li class="nav-item">
             <a href="{{ route('kasir.pelanggan.index') }}" class="nav-link">
                 {{-- <i class="far fa-circle nav-icon"></i> --}}
-                <p>Data Pelanggan</p>
+                <p class="smol">Data Pelanggan</p>
             </a>
         </li>
     </ul>

@@ -26,7 +26,7 @@ class ReturPembelianController extends Controller
         $data['pembelian'] = Pembelian::leftJoin('t_supplier AS S', 'S.id', 't_transaksi_pembelian.id_supplier')
         ->select('t_transaksi_pembelian.id AS id_pembelian', 't_transaksi_pembelian.tgl AS tanggal', 'S.nama AS nama_supplier', 'S.id AS id_pelanggan', 'S.tlp')
         ->where('t_transaksi_pembelian.id_perusahaan', auth()->user()->id_perusahaan)     
-        ->orderBy('t_transaksi_pembelian.id', 'desc')
+        ->orderBy('t_transaksi_pembelian.tgl', 'desc')
         ->get();
         // dd($data['pembelian']); die;
         return view('returPembelian.index', $data);

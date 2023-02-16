@@ -20,6 +20,74 @@
         font-size: 0.8rem;
         margin-top: 0.3rem;
       }
+
+      a {
+        animation: ease-in;
+      }
+
+      a:hover {
+        text-decoration: none;
+        transform: scale(1.05)
+      }
+
+      h6 {
+        text-align: center;
+      }
+
+      .cover-card {
+        box-shadow: 5px 10px 8px ;
+      }
+
+      .wrimagecard {
+          margin-top: 0;
+          margin-bottom: 1.5rem;
+          text-align: left;
+          position: relative;
+          background: #fff;
+          box-shadow: 12px 15px 20px 0px rgba(46, 61, 73, 0.15);
+          border-radius: 4px;
+          transition: all 0.3s ease;
+      }
+
+      .wrimagecard .fa {
+          position: relative;
+          font-size: 70px;
+      }
+
+      .wrimagecard-topimage_header {
+          padding: 20px;
+      }
+
+      a.wrimagecard:hover,
+      .wrimagecard-topimage:hover
+      .card-info {
+          box-shadow: 2px 4px 8px 0px rgba(46, 61, 73, 0.2);
+      }
+
+      .wrimagecard-topimage a {
+          width: 100%;
+          height: 100%;
+          display: block;
+      }
+
+      .wrimagecard-topimage_title {
+          padding: 20px 24px;
+          height: 80px;
+          padding-bottom: 0.75rem;
+          position: relative;
+      }
+
+      .wrimagecard-topimage a .card-info{
+          border-bottom: none;
+          text-decoration: none;
+          color: #525c65;
+          transition: color 0.3s ease;
+      }
+
+      --fa-animation-delay{
+        animation-delay: 1.5s;
+      }
+
       
     </style>
 @endpush
@@ -27,233 +95,145 @@
     
 <!-- Main content -->
 <div class="container-fluid">
-    <section>
-      {{-- <div class="card panels-card"> --}}
-          {{-- <div class="rounded-top" style="background-color: #4195D5;">
-              <ul class="list-inline float-end my-0 py-1 pe-3">
-                  <li class="list-inline-item">
-                      <i class="fab fa-facebook" aria-hidden="true"></i>
-                  </li>
-                  <li class="list-inline-item">
-                      <i class="fab fa-twitter" aria-hidden="true"></i>
-                  </li>
-                  <li class="list-inline-item">
-                      <i class="fab fa-instagram" aria-hidden="true"></i>
-                  </li>
-              </ul>
-          </div> --}}
-          {{-- <nav class="navbar navbar-expand-lg navbar-dark d-flex justify-content-between z-depth-1-bottom px-3"
-              style="background-color: #fafafa;">
-          </nav> --}}
-          <div class="card-body rounded-bottom text-dark">
-              <div class="row">
-                <div class="col-4 p-1">
-                    <a href="{{ route('kasir.transaksi-penjualan.index') }}" style="color:white;">
-                        <div class="card" style="background-color: #4195D5;">
-                            <div class="card-body pb-0">
-                                <i class="fas fa-solid fa-cart-plus fa-3x pb-4"></i>
-                                {{-- <div class="d-flex justify-content-between">
-                                    <p class="mb-0 h5">15&deg;</p>
-                                    <p class="mb-0 hour">12:15 PM</p>
-                                </div> --}}
-                            </div>
-                            <hr>
-                            <div class="card-body pt-0">
-                                <h6 class="font-weight-bold mb-1">Tambah Transaksi Baru</h6>
-                                {{-- <p class="mb-0">Cloudy</p> --}}
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-4 p-1">
-                    <a href="{{ route('kasir.pelanggan2') }}" style="color: #4195D5;">
-                        <div class="card" style="background-color: white">
-                            <div class="card-body pb-0">
-                                <i class="fas fa-user fa-3x pb-4"></i>
-                                {{-- <div class="d-flex justify-content-between">
-                                    <p class="mb-0 h5">23&deg;</p>
-                                    <p class="mb-0 hour">3:25 PM</p>
-                                </div> --}}
-                            </div>
-                            <hr>
-                            <div class="card-body pt-0">
-                                <h6 class="font-weight-bold mb-1">Tambah Pelanggan Baru</h6>
-                                {{-- <p class="mb-0">Sunny</p> --}}
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-4 p-1">
-                    <a href="{{ route('kasir.retur-penjualan.index') }}" style="color: white;">
-                        <div class="card" style="background-color: #4195D5;">
-                            <div class="card-body pb-0">
-                                <i class="fas fa-rotate-left fa-3x pb-4"></i>
-                                {{-- <div class="d-flex justify-content-between">
-                                    <p class="mb-0 h5">23&deg;</p>
-                                    <p class="mb-0 hour">3:25 PM</p>
-                                </div> --}}
-                            </div>
-                            <hr>
-                            <div class="card-body pt-0">
-                                <h6 class="font-weight-bold mb-1">Tambah Retur Baru</h6>
-                                {{-- <p class="mb-0">Sunny</p> --}}
-                            </div>
-                        </div>
-                    </a>
-                </div>
-              </div>
-
-              <div class="row">
-                <div class="col-4 p-1">
-                    <a href="{{ route('kasir.list-transaksi.index') }}" style="color:white;">
-                        <div class="card" style="background-color: #4195D5;">
-                            <div class="card-body pb-0">
-                                <i class="fas fa-solid fa-cart-plus fa-3x pb-4"></i>
-                                {{-- <div class="d-flex justify-content-between">
-                                    <p class="mb-0 h5">15&deg;</p>
-                                    <p class="mb-0 hour">12:15 PM</p>
-                                </div> --}}
-                            </div>
-                            <hr>
-                            <div class="card-body pt-0">
-                                <h6 class="font-weight-bold mb-1">Data Transaksi</h6>
-                                {{-- <p class="mb-0">Cloudy</p> --}}
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-4 p-1">
-                    <a href="{{ route('kasir.pelanggan.index') }}" style="color: #4195D5;">
-                        <div class="card" style="background-color: white">
-                            <div class="card-body pb-0">
-                                <i class="fas fa-user fa-3x pb-4"></i>
-                                {{-- <div class="d-flex justify-content-between">
-                                    <p class="mb-0 h5">23&deg;</p>
-                                    <p class="mb-0 hour">3:25 PM</p>
-                                </div> --}}
-                            </div>
-                            <hr>
-                            <div class="card-body pt-0">
-                                <h6 class="font-weight-bold mb-1">Data Pelanggan</h6>
-                                {{-- <p class="mb-0">Sunny</p> --}}
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-4 p-1">
-                    <a href="{{ route('kasir.list-retur-penjualan.index') }}" style="color: white;">
-                        <div class="card" style="background-color: #4195D5;">
-                            <div class="card-body pb-0">
-                                <i class="fas fa-rotate-left fa-3x pb-4"></i>
-                                {{-- <div class="d-flex justify-content-between">
-                                    <p class="mb-0 h5">23&deg;</p>
-                                    <p class="mb-0 hour">3:25 PM</p>
-                                </div> --}}
-                            </div>
-                            <hr>
-                            <div class="card-body pt-0">
-                                <h6 class="font-weight-bold mb-1">Data Retur</h6>
-                                {{-- <p class="mb-0">Sunny</p> --}}
-                            </div>
-                        </div>
-                    </a>
-                </div>
-              </div>
-          </div>
-      {{-- </div> --}}
-
-        {{-- <div class="row">
-            <div class="col-12 mt-3 mb-1">
-                <h5 class="text-uppercase">Statistics With Subtitle</h5>
-                <p>Statistics on minimal cards with Title &amp; Sub Title.</p>
-            </div>
-        </div> --}}
-        <div class="row">
-            <div class="col-xl-6 col-md-12 mb-4">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="d-flex justify-content-between p-md-1">
-                            <div class="d-flex flex-row">
-                                <div class="align-self-center">
-                                    <i class="fas fa-pencil-alt text-info fa-3x me-4"></i>
-                                </div>
-                                <div>
-                                    <h4>Total Posts</h4>
-                                    <p class="mb-0">Monthly blog posts</p>
-                                </div>
-                            </div>
-                            <div class="align-self-center">
-                                <h2 class="h1 mb-0">18,000</h2>
-                            </div>
-                        </div>
+    <div class="row">
+        <div class="col-md-4 col-sm-4">
+            <div class="wrimagecard wrimagecard-topimage">
+                <a href="#">
+                    <div class="wrimagecard-topimage_header" style="background-color:rgba(187, 120, 36, 0.1) ">
+                        <center><i class="fa-solid fa-cart-shopping fa-4x fa-fade" style="color:#BB7824;"></i></center>
                     </div>
-                </div>
+                    <div class="wrimagecard-topimage_title">
+                        <h4>Transaksi Baru
+                            <div class="pull-right badge"></div>
+                        </h4>
+                    </div>
+                </a>
             </div>
-            <div class="col-xl-6 col-md-12 mb-4">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="d-flex justify-content-between p-md-1">
-                            <div class="d-flex flex-row">
-                                <div class="align-self-center">
-                                    <i class="far fa-comment-alt text-warning fa-3x me-4"></i>
-                                </div>
-                                <div>
-                                    <h4>Total Comments</h4>
-                                    <p class="mb-0">Monthly blog posts</p>
-                                </div>
-                            </div>
+        </div>
+
+        <div class="col-md-4 col-sm-4">
+            <div class="wrimagecard wrimagecard-topimage">
+                <a href="#">
+                    <div class="wrimagecard-topimage_header" style="background-color: rgba(22, 160, 133, 0.1)">
+                        <center><i class="fa-solid fa-user fa-4x fa-fade" style="color:#16A085"></i></center>
+                    </div>
+                    <div class="wrimagecard-topimage_title">
+                        <h4>Tambah Pelanggan
+                            <div class="pull-right badge" id="WrControls"></div>
+                        </h4>
+                    </div>
+                </a>
+            </div>
+        </div>
+       
+        <div class="col-md-4 col-sm-4">
+            <div class="wrimagecard wrimagecard-topimage">
+                <a href="#">
+                    <div class="wrimagecard-topimage_header" style="background-color:  rgba(51, 105, 232, 0.1)">
+                        <center><i class="fa-solid fa-rotate-left fa-4x fa-fade" style="color:#3369e8"> </i></center>
+                    </div>
+                    <div class="wrimagecard-topimage_title">
+                        <h4>Retur Barang
+                            <div class="pull-right badge" id="WrGridSystem"></div>
+                        </h4>
+                    </div>
+
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xl-6 col-md-12 mb-4">
+            <div class="card info-card">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between p-md-1">
+                        <div class="d-flex flex-row">
                             <div class="align-self-center">
-                                <h2 class="h1 mb-0">84,695</h2>
+                                <i class="fas fa-pencil-alt text-info fa-3x me-4 mx-3"></i>
                             </div>
+                            <div>
+                                <h4>Total Transaksi</h4>
+                                <p class="mb-0">Bulan ini</p>
+                            </div>
+                        </div>
+                        <div class="align-self-center">
+                            <h2 class="h1 mb-0">{{ $transaksi }}</h2>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-xl-6 col-md-12 mb-4">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="d-flex justify-content-between p-md-1">
-                            <div class="d-flex flex-row">
-                                <div class="align-self-center">
-                                    <h2 class="h1 mb-0 me-4">$76,456.00</h2>
-                                </div>
-                                <div>
-                                    <h4>Total Sales</h4>
-                                    <p class="mb-0">Monthly Sales Amount</p>
-                                </div>
-                            </div>
+        <div class="col-xl-6 col-md-12 mb-4">
+            <div class="card info-card">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between p-md-1">
+                        <div class="d-flex flex-row">
                             <div class="align-self-center">
-                                <i class="far fa-heart text-danger fa-3x"></i>
+                                <i class="fas fa-users text-secondary fa-3x me-4 mx-3"></i>
+                            </div>
+                            <div>
+                                <h4>Total Pelanggan</h4>
+                                <p class="mb-0">&nbsp;</p>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xl-6 col-md-12 mb-4">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="d-flex justify-content-between p-md-1">
-                            <div class="d-flex flex-row">
-                                <div class="align-self-center">
-                                    <h2 class="h1 mb-0 me-4">$36,000.00</h2>
-                                </div>
-                                <div>
-                                    <h4>Total Cost</h4>
-                                    <p class="mb-0">Monthly Cost</p>
-                                </div>
-                            </div>
-                            <div class="align-self-center">
-                                <i class="fas fa-wallet text-success fa-3x"></i>
-                            </div>
+                        <div class="align-self-center">
+                            <h2 class="h1 mb-0">{{ $pelanggan }}</h2>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+
+    <div class="row">
+        <div class="col-xl-6 col-md-12 mb-4">
+            <div class="card info-card">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between p-md-1">
+                        <div class="d-flex flex-row">
+                            <div class="align-self-center">
+                                <h2 class="h1 mb-0 me-4 mx-3">Rp. {{ format_uang($total_harga) }}</h2>
+                            </div>
+                            <div>
+                                <h4>Total Penjualan</h4>
+                                <p class="mb-0">Bulan Ini</p>
+                            </div>
+                        </div>
+                        <div class="align-self-center">
+                            <i class="fas fa-cash-register text-success fa-3x"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-xl-6 col-md-12 mb-4">
+            <div class="card info-card">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between p-md-1">
+                        <div class="d-flex flex-row">
+                            <div class="align-self-center">
+                                <h2 class="h1 mb-0 me-4 mx-3">Rp. {{ $total_retur }}</h2>
+                            </div>
+                            <div>
+                                <h4>Total Retur</h4>
+                                <p class="mb-0">Bulan Ini</p>
+                            </div>
+                        </div>
+                        <div class="align-self-center">
+                            <i class="fas fa-wallet text-danger fa-3x"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+
+
+    
+{{-- </div> --}}
 {{-- <section class="content">
   
     <div class="row mb-3">

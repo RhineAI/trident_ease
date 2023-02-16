@@ -46,8 +46,8 @@ Data Penjualan
                                 <span class="help-block with-errors"></span>
                             </div>
 
-                            <div class="form-group row ml-3 mb-3 mt-3">
-                                <button type="" class="btn btn-xs btn-primary"><i class="fa fa-search"></i> Cari</button>
+                            <div class="form-group row ml-2 mb-3 mt-3">
+                                <button type="submit" id="simpan" class="btn btn-xs btn-primary"><i class="fa fa-search"></i> Cari</button>
                             </div>
                         </div>
                     </form>
@@ -129,6 +129,24 @@ Data Penjualan
             {data:'pegawai'},
             {data:'action', searchable: false, sortable: false},
         ]
+    });
+
+    $(document).on('click', '#simpan', function() {
+        let tanggal_awal = $('#tanggal_awal').val();
+        let tanggal_akhir = $('#tanggal_akhir').val();
+        if(tanggal_awal == "") {
+            Swal.fire('Silahkan Tentukan Tanggal Awal')
+            return false;
+        } else {
+            $('#tanggal_awal').val();
+        }
+
+        if(tanggal_akhir == "") {
+            Swal.fire('Silahkan Tentukan Tanggal Akhir')
+            return false;
+        } else {
+            $('#tanggal_akhir').val();
+        }
     });
 </script>
 @endpush

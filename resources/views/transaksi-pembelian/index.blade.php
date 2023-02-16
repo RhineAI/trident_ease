@@ -183,6 +183,7 @@
         border-radius: 3px;
         outline: 0;
         text-indent: ;
+        /* direction: ltr; */
         transition: all .3s ease-in-out;
     }
 
@@ -442,15 +443,14 @@
             
             let dp = $('#dp').val();
             let format_dp = String(dp).replaceAll(".", '');
-          
-
+            console.log(barang)
             // if (diskon == 0) {
             //     $('.discount').val(0);
             //     Swal.fire('Diskon ada')
             //     return false;
             // }
             
-            if(barang == null) {
+            if(barang == "") {
                 Swal.fire('Tambahkan produk terlebih dahulu')
                 return false;
             } else {
@@ -458,7 +458,7 @@
             }
             
             
-            if(supplier == null) {
+            if(supplier == "") {
                 Swal.fire('Isi data supplier terlebih dahulu')
                 return false;
             } else {
@@ -469,26 +469,22 @@
                 if(format_dp == 0) {
                     Swal.fire('Masukan jumlah uang dp terlebih dahulu')
                     return false;
+                } else if (format_total_harga > format_dp ) {
+                    Swal.fire('Jumlah dp melebihi total harga, Silahkan ubah jenis pembayaran')
+                    return false;
                 } else {
-                    if (format_dp > format_total_harga) {
-                        Swal.fire('Jumlah dp melebihi total harga, Silahkan ubah jenis pembayaran')
-                        return false;
-                    } else {
-                        $('#bayar_kredit').val();
-                    }
+                    $('#dp').val();
                 }
             } else if (jenis_pembayaran == 1) {
                 if(format_bayar == 0) {
                     Swal.fire('Masukan jumlah uang bayar')
                     return false;
                 } else {
-                    console.log(format_bayar)
-                    console.log(format_total_harga)
                     if (format_bayar < format_total_harga) {
                         Swal.fire('Masukan jumlah uang yang cukup')
                         return false;
                     } else {
-                        $('#bayar_kredit').val();
+                        $('#dp').val();
                     }
                 }
             } 
@@ -901,14 +897,14 @@
                 rowBarang+="<div class='1'>";
                 rowBarang+="<img src='https://bootstrapious.com/i/snippets/sn-cart/product-1.jpg' alt='' width='70' class='img-fluid rounded shadow-sm'>";
                 rowBarang+="<div class='ml-3 d-inline-block align-middle'>";
-                rowBarang+="<input type='hidden' name='item["+count+"][id_barang]' value='"+id_barang+"'>"
+                rowBarang+="<input type='hidden' name='item["+count+"][id_barang]' value='"+id_barang+"' id='id_barang'>"
                 rowBarang+="<h5 style='font-size:18.5px;' class='mb-0'><a class='text-dark d-inline-block align-middle'>"+nama_barang+"</a><input type='hidden' name='item["+count+"][nama_barang]' value='"+nama_barang+"' type='number'></h5>";
                 rowBarang+="<div class='def-number-input number-input safari_only'>";
                 rowBarang+="<h6 style='font-size:16px;'><input class='balloon mb-2 text-left align-left harga_beli' autocomplete='off' type='text' id='harga_beli"+count+"' name='item["+count+"][harga_beli]' placeholder='0' data-idbuffer='"+count+"'></h6>"
                 rowBarang+="<button data-idbuffer='"+count+"' id='minus' type='button' onclick='this.parentNode.querySelector";
                 rowBarang+='("input[type=number]")';
                 rowBarang+=".stepDown()' class='minus'></button>";
-                rowBarang+="<input class='quantity fw-bold text-black qty_pembelian' name='item["+count+"][qty]' max='"+stock+"' value='1' id='qty"+count+"' data-idbuffer='"+count+"' type='number'>";
+                rowBarang+="<input class='quantity fw-bold text-black qty_pembelian' name='item["+count+"][qty]' value='1' id='qty"+count+"' data-idbuffer='"+count+"' type='number'>";
                 rowBarang+="<button data-idbuffer='"+count+"' id='plus' type='button' onclick='this.parentNode.querySelector";
                 rowBarang+='("input[type=number]")';
                 rowBarang+=".stepUp()' class='plus'></button>";
@@ -916,7 +912,7 @@
                 rowBarang+="<td class='border-0 align-middle'><input type='hidden' class='subtotal' type='number' class='form-control subtotal' name='item["+count+"][subtotal]' readonly='true' id='subtotal"+count+"'>";
                 rowBarang+="<strong id='displayST"+count+"'>Rp. 0</strong></td>"
                 rowBarang+="<td class='border-0 align-middle'><div class='input-group text-center align-middle'>";
-                rowBarang+="<input style='direction:rtl;' class='balloon mb-2 text-center align-middle discount' onchange='cekDiscount(this)' max='100' type='number' class='form-control discount' name='item["+count+"][discount]' id='discount"+count+"' data-idbuffer='"+count+"' placeholder='0' style='max-width: 60%; direction:lrt; text-indent:0px;'/></div></td>";
+                rowBarang+="<input class='balloon mb-2 text-center align-middle discount' onchange='cekDiscount(this)' max='100' type='number' class='form-control discount' name='item["+count+"][discount]' id='discount"+count+"' data-idbuffer='"+count+"' placeholder='0' style='max-width: 60%; text-indent:0px;'/></div></td>";
                 rowBarang+="<td class='border-0 align-middle'><button type='button' class='text-dark hapus_pembelian' data-idbuffer='"+count+"'><i class='fa fa-trash' style='outline:none;'></i></a></td>";
                 $('#t_pembelian').append(rowBarang);
             }else{

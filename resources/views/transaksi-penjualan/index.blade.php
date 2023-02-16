@@ -179,7 +179,7 @@
         font-family: "Open Sans", sans;
         font-weight: 400;
         color: #111;
-        direction: rtl;
+        /* direction: rtl; */
         /* background: #ece9e9; */
         border: 0;
         border-radius: 3px;
@@ -380,28 +380,28 @@
                                                         <div class="d-flex justify-content-between " id="tampil_bayar" style="font-weight: 500;">
                                                           <p class="mb-3">Bayar</p>
                                                           <span>
-                                                            <input class="balloon bayar" id="bayar" name="total_bayar" autocomplete="off" type="text" placeholder="0" style="text-indent:4px;">
+                                                            <input class="balloon bayar" id="bayar" name="total_bayar" autocomplete="off" type="text" placeholder="0" style="text-indent:4px; direction: rtl;">
                                                           </span>
                                                         </div>
 
                                                         <div class="d-flex justify-content-between mb-4" id="tampil_kembali" style="font-weight: 500;">
                                                             <p class="mb-3">Kembalian</p>
                                                             <span>
-                                                                <input type="text" data-bv-trigger="blur" id="kembali" readonly name="kembali" class="balloon kembali" value="0">
+                                                                <input type="text" data-bv-trigger="blur" id="kembali" readonly name="kembali" class="balloon kembali" value="0" style="direction:rtl;">
                                                             </span>
                                                         </div>
 
                                                         <div class="d-none justify-content-between mb-1" id="tampil_dp" style="font-weight: 500;">
                                                             <p class="mb-2">DP</p>
                                                             <span>
-                                                              <input class="balloon dp" id="dp" name="dp" autocomplete="off" type="text" placeholder="0" />
+                                                              <input class="balloon dp" id="dp" name="dp" autocomplete="off" type="text" placeholder="0" style="direction: rtl;" >
                                                             </span>
                                                           </div>
   
                                                           <div class="d-none justify-content-between mb-4" id="tampil_sisa" style="font-weight: 500;">
                                                               <p class="mb-2">Sisa</p>
                                                               <span>
-                                                                  <input type="text" data-bv-trigger="blur" id="sisa" readonly name="sisa" class="balloon mb-2 sisa" value="0">
+                                                                  <input type="text" data-bv-trigger="blur" id="sisa" readonly name="sisa" class="balloon mb-2 sisa" value="0" style="direction:rtl;">
                                                               </span>
                                                           </div>
 
@@ -517,20 +517,18 @@
             // console.log(sisa)
             
             let diskon = $('.discount').val();
-            // if (diskon == 0) {
-            //     $('.discount').val(0);
-            //     Swal.fire('Diskon ada')
-            //     return false;
-            // }
+            if (diskon == 0) {
+                $('.discount').val(0);
+            }
 
-            if(id_pelanggan == null) {
+            if(id_pelanggan == "") {
                 Swal.fire('Isi data pelanggan terlebih dahulu')
                 return false;
             } else {
                 $('#id_pelanggan').val();
             }
 
-            if(barang == null) {
+            if(barang == "") {
                 Swal.fire('Tambahkan produk terlebih dahulu')
                 return false;
             } else {
@@ -568,8 +566,9 @@
             @elseif(auth()->user()->hak_akses == 'kasir')
                 var newPage = "{{ route('kasir.transaksi-penjualan.index') }}";
             @endif
-            window.open(newPage)
+            window.open(newPage);
             document.getElementById('form-transaksi').submit();
+            newPage.location.reload();
         });
 
         $('#barcode').on('keypress',function(e) {
@@ -627,7 +626,7 @@
                 var rowBarang="<tr class='barang' id='buffer"+count+"'>";
                 rowBarang+="<th scope='row' class='border-0'>";
                 rowBarang+="<div class='1'>";
-                rowBarang+="<img src='https://bootstrapious.com/i/snippets/sn-cart/product-1.jpg' alt='' width='70' class='img-fluid rounded shadow-sm'>";
+                // rowBarang+="<img src='1' alt='' width='70' class='img-fluid rounded shadow-sm'>";
                 rowBarang+="<div class='ml-3 d-inline-block align-middle'>";
                 rowBarang+="<input type='hidden' name='item["+count+"][id_barang]' id='id_barang' value='"+id_barang+"'>"
                 rowBarang+="<h5 style='font-size:18.5px;' class='mb-0'><a class='text-dark d-inline-block align-middle'>"+nama_barang+"</a><input type='hidden' name='item["+count+"][nama_barang]' value='"+nama_barang+"' type='number'></h5>";
