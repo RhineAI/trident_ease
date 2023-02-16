@@ -876,24 +876,30 @@
             $('#subtotal' + id).val(subtotal);
 
             let jenis_pembayaran = $('#jenis_pembayaran').val();
-
+            var sT = document.querySelectorAll('.subtotal');
+            var totalP = 0;
+            sT.forEach(function(item){
+                totalP += parseFloat(item.value);
+            });
             //Perhitungan Bayar Tunai
             if (jenis_pembayaran == '1') {
-                let bayar = $('#bayar').val().replaceAll(".", '');;
-                let kembali = bayar - subtotal;
-                let kembali_makerp = Math.round(Number(kembali)).toLocaleString("id-ID", {
-                                    style:"currency", 
-                                    currency:"IDR", 
-                                    maximumSignificantDigits: (kembali + '').replace('.', '').length
-                                    });
-    
-                $('#kembali').val(kembali_makerp.replace(/Rp/g, ''));   
+                let bayar = $('#bayar').val().replaceAll(".", '');
+                if(bayar > 0){
+                    let kembali = bayar - totalP;
+                    let kembali_makerp = Math.round(Number(kembali)).toLocaleString("id-ID", {
+                                        style:"currency", 
+                                        currency:"IDR", 
+                                        maximumSignificantDigits: (kembali + '').replace('.', '').length
+                                        });
+        
+                    $('#kembali').val(kembali_makerp.replace(/Rp/g, ''));   
+                }
                 
             //Perhitungan Bayar DP
             } else if (jenis_pembayaran == '2') {
                 let dp = $('#dp').val();
                 let format_dp = String(dp).replaceAll(".", '');
-                let sisa = subtotal - format_dp;
+                let sisa = totalP - format_dp;
                 let sisa_makerp = Number(sisa).toLocaleString("id-ID", {
                                     style:"currency",
                                     currency:"IDR",

@@ -145,14 +145,14 @@ class PembelianController extends Controller
             //     $kode = sprintf($date.'%04d', intval(substr($pembelianBaru->kode, 8)) + 1);
             //     $kode = strval($kode);
             // }
-
+            // return $request;
             $pembelianBaru->tgl = date('Y-m-d');
             $pembelianBaru->id_supplier = $request->id_supplier;
             $pembelianBaru->total_pembelian = $this->checkPrice($request->total_harga);
             $pembelianBaru->jenis_pembayaran = $request->jenis_pembayaran;
             if($request->jenis_pembayaran == 2){
                 $pembelianBaru->dp = $this->checkPrice($request->dp);
-                $pembelianBaru->sisa = $request->total_pembelian - $this->checkPrice($request->dp);
+                $pembelianBaru->sisa = $request->total_harga - $this->checkPrice($request->dp);
                 $pembelianBaru->bayar = 0;
                 $pembelianBaru->kembali = 0;
             } else if($request->jenis_pembayaran == 1){

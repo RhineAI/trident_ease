@@ -444,11 +444,11 @@
             let dp = $('#dp').val();
             let format_dp = String(dp).replaceAll(".", '');
             console.log(barang)
-            // if (diskon == 0) {
-            //     $('.discount').val(0);
-            //     Swal.fire('Diskon ada')
-            //     return false;
-            // }
+            if (diskon == 0) {
+                $('.discount').val(0);
+                // Swal.fire('Diskon ada')
+                // return false;
+            }
             
             if(barang == "") {
                 Swal.fire('Tambahkan produk terlebih dahulu')
@@ -469,7 +469,7 @@
                 if(format_dp == 0) {
                     Swal.fire('Masukan jumlah uang dp terlebih dahulu')
                     return false;
-                } else if (format_total_harga > format_dp ) {
+                } else if (format_bayar > format_dp ) {
                     Swal.fire('Jumlah dp melebihi total harga, Silahkan ubah jenis pembayaran')
                     return false;
                 } else {
