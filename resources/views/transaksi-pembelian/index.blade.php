@@ -633,25 +633,30 @@
             $('#displayST' + id).text(format_subtotal);
             
             let jenis_pembayaran = $('#jenis_pembayaran').val();
-
+            var sT = document.querySelectorAll('.subtotal');
+            var totalP = 0;
+            sT.forEach(function(item){
+                totalP += parseFloat(item.value);
+            });
             if (jenis_pembayaran == '1') {
                 // Perhitungan Bayar Tunai
-                let bayar = $('#bayar').val().replaceAll(".", '');;
-                let kembali = bayar - ((harga_beli * qty) - hasil);
-            
-                let kembali_makerp = Math.round(Number(kembali)).toLocaleString("id-ID", {
-                                    style:"currency", 
-                                    currency:"IDR", 
-                                    maximumSignificantDigits: (kembali + '').replace('.', '').length
-                                    });
-
-                $('#kembali').val(kembali_makerp.replace(/Rp/g, ''));   
+                let bayar = $('#bayar').val().replaceAll(".", '');
+                if(bayar > 0){
+                    let kembali = bayar - totalP;
+                    let kembali_makerp = Math.round(Number(kembali)).toLocaleString("id-ID", {
+                                        style:"currency", 
+                                        currency:"IDR", 
+                                        maximumSignificantDigits: (kembali + '').replace('.', '').length
+                                        });
+    
+                    $('#kembali').val(kembali_makerp.replace(/Rp/g, ''));   
+                }
                 
                 //Perhitungan Bayar DP
             } else if (jenis_pembayaran == '2') {
                 let dp = $('#dp').val();
                 let format_dp = String(dp).replaceAll(".", '');
-                let sisa = ((harga_beli * qty) - hasil) - format_dp;
+                let sisa = totalP - format_dp;
                 let sisa_makerp = Number(sisa).toLocaleString("id-ID", {
                                     style:"currency",
                                     currency:"IDR",
@@ -683,24 +688,30 @@
             $('#subtotal' + id).val(subtotal);
 
             let jenis_pembayaran = $('#jenis_pembayaran').val();
-
+            var sT = document.querySelectorAll('.subtotal');
+            var totalP = 0;
+            sT.forEach(function(item){
+                totalP += parseFloat(item.value);
+            });
             //Perhitungan Bayar Tunai
             if (jenis_pembayaran == '1') {
-                let bayar = $('#bayar').val().replaceAll(".", '');;
-                let kembali = bayar - subtotal;
-                let kembali_makerp = Math.round(Number(kembali)).toLocaleString("id-ID", {
-                                    style:"currency", 
-                                    currency:"IDR", 
-                                    maximumSignificantDigits: (kembali + '').replace('.', '').length
-                                    });
-    
-                $('#kembali').val(kembali_makerp.replace(/Rp/g, ''));   
+                let bayar = $('#bayar').val().replaceAll(".", '');
+                if(bayar > 0){
+                    let kembali = bayar - totalP;
+                    let kembali_makerp = Math.round(Number(kembali)).toLocaleString("id-ID", {
+                                        style:"currency", 
+                                        currency:"IDR", 
+                                        maximumSignificantDigits: (kembali + '').replace('.', '').length
+                                        });
+        
+                    $('#kembali').val(kembali_makerp.replace(/Rp/g, ''));   
+                }
                 
             //Perhitungan Bayar DP
             } else if (jenis_pembayaran == '2') {
                 let dp = $('#dp').val();
                 let format_dp = String(dp).replaceAll(".", '');
-                let sisa = subtotal - format_dp;
+                let sisa = totalP - format_dp;
                 let sisa_makerp = Number(sisa).toLocaleString("id-ID", {
                                     style:"currency",
                                     currency:"IDR",
@@ -730,24 +741,30 @@
             $('#subtotal' + id).val(subtotal);
 
             let jenis_pembayaran = $('#jenis_pembayaran').val();
-
+            var sT = document.querySelectorAll('.subtotal');
+            var totalP = 0;
+            sT.forEach(function(item){
+                totalP += parseFloat(item.value);
+            });
             //Perhitungan Bayar Tunai
             if (jenis_pembayaran == '1') {
-                let bayar = $('#bayar').val().replaceAll(".", '');;
-                let kembali = bayar - subtotal;
-                let kembali_makerp = Math.round(Number(kembali)).toLocaleString("id-ID", {
-                                    style:"currency", 
-                                    currency:"IDR", 
-                                    maximumSignificantDigits: (kembali + '').replace('.', '').length
-                                    });
-    
-                $('#kembali').val(kembali_makerp.replace(/Rp/g, ''));   
+                let bayar = $('#bayar').val().replaceAll(".", '');
+                if(bayar > 0){
+                    let kembali = bayar - totalP;
+                    let kembali_makerp = Math.round(Number(kembali)).toLocaleString("id-ID", {
+                                        style:"currency", 
+                                        currency:"IDR", 
+                                        maximumSignificantDigits: (kembali + '').replace('.', '').length
+                                        });
+        
+                    $('#kembali').val(kembali_makerp.replace(/Rp/g, ''));   
+                }
                 
             //Perhitungan Bayar DP
             } else if (jenis_pembayaran == '2') {
                 let dp = $('#dp').val();
                 let format_dp = String(dp).replaceAll(".", '');
-                let sisa = subtotal - format_dp;
+                let sisa = totalP - format_dp;
                 let sisa_makerp = Number(sisa).toLocaleString("id-ID", {
                                     style:"currency",
                                     currency:"IDR",
@@ -775,24 +792,30 @@
             $('#subtotal' + id).val(subtotal);
 
             let jenis_pembayaran = $('#jenis_pembayaran').val();
-
+            var sT = document.querySelectorAll('.subtotal');
+            var totalP = 0;
+            sT.forEach(function(item){
+                totalP += parseFloat(item.value);
+            });
             //Perhitungan Bayar Tunai
             if (jenis_pembayaran == '1') {
-                let bayar = $('#bayar').val().replaceAll(".", '');;
-                let kembali = bayar - subtotal;
-                let kembali_makerp = Math.round(Number(kembali)).toLocaleString("id-ID", {
-                                    style:"currency", 
-                                    currency:"IDR", 
-                                    maximumSignificantDigits: (kembali + '').replace('.', '').length
-                                    });
-    
-                $('#kembali').val(kembali_makerp.replace(/Rp/g, ''));   
+                let bayar = $('#bayar').val().replaceAll(".", '');
+                if(bayar > 0){
+                    let kembali = bayar - totalP;
+                    let kembali_makerp = Math.round(Number(kembali)).toLocaleString("id-ID", {
+                                        style:"currency", 
+                                        currency:"IDR", 
+                                        maximumSignificantDigits: (kembali + '').replace('.', '').length
+                                        });
+        
+                    $('#kembali').val(kembali_makerp.replace(/Rp/g, ''));   
+                }
                 
             //Perhitungan Bayar DP
             } else if (jenis_pembayaran == '2') {
                 let dp = $('#dp').val();
                 let format_dp = String(dp).replaceAll(".", '');
-                let sisa = subtotal - format_dp;
+                let sisa = totalP - format_dp;
                 let sisa_makerp = Number(sisa).toLocaleString("id-ID", {
                                     style:"currency",
                                     currency:"IDR",
@@ -833,6 +856,7 @@
             var stock = $(this).data("stock");
                       
             TambahDataPembelian(id,kode,nama,harga_beli,stock);
+            // GetTotalBayar();
         });
 
         $(document).on('click','.add_supplier',function(){
@@ -909,7 +933,7 @@
                 rowBarang+='("input[type=number]")';
                 rowBarang+=".stepUp()' class='plus'></button>";
                 rowBarang+="</div'></div'></div'></th'>";
-                rowBarang+="<td class='border-0 align-middle'><input type='hidden' class='subtotal' type='number' class='form-control subtotal' name='item["+count+"][subtotal]' readonly='true' id='subtotal"+count+"'>";
+                rowBarang+="<td class='border-0 align-middle'><input type='hidden' class='subtotal' type='number' class='form-control subtotal' name='item["+count+"][subtotal]' readonly='true' id='subtotal"+count+"' value='0'>";
                 rowBarang+="<strong id='displayST"+count+"'>Rp. 0</strong></td>"
                 rowBarang+="<td class='border-0 align-middle'><div class='input-group text-center align-middle'>";
                 rowBarang+="<input class='balloon mb-2 text-center align-middle discount' onchange='cekDiscount(this)' max='100' type='number' class='form-control discount' name='item["+count+"][discount]' id='discount"+count+"' data-idbuffer='"+count+"' placeholder='0' style='max-width: 60%; text-indent:0px;'/></div></td>";
@@ -921,7 +945,7 @@
                 $('#qty'+posisi).val(qty);
                 $('#subtotal'+posisi).val(harga_beli*qty);
             }
-                GetTotalBayar();
+            GetTotalBayar();
         }
 
 
@@ -1021,21 +1045,22 @@
 
         $(document).on('click','.hapus_pembelian',function(){
             var delete_row= $(this).data("idbuffer");
-            let deleted_sub = Number($('#subtotal'+delete_row).val());
-            let kurangiTotal = Number($('#total_pembelian').val());
-            kurangiTotal -= deleted_sub;
+            // let deleted_sub = parseFloat($('#subtotal'+delete_row).val());
+            // let kurangiTotal = parseFloat($('#total_pembelian').val());
+            // kurangiTotal -= deleted_sub;
             //    hapus pada table
             $('#buffer'+delete_row).remove(); 
+            GetTotalBayar();
             // count--;
 
-            $('#total_bayar').val(Number(kurangiTotal));
-                let total = Math.round(Number(kurangiTotal)).toLocaleString("id-ID", {
-                                style:"currency", 
-                                currency:"IDR", 
-                                maximumSignificantDigits: (kurangiTotal + '').replace('.', '').length
-                            });
-            $('#displayTotal').text(total);
-            $('#total_pembelian').val(Number(kurangiTotal));	
+            // $('#total_bayar').val(parseFloat(kurangiTotal));
+            //     let total = Math.round(parseFloat(kurangiTotal)).toLocaleString("id-ID", {
+            //                     style:"currency", 
+            //                     currency:"IDR", 
+            //                     maximumSignificantDigits: (kurangiTotal + '').replace('.', '').length
+            //                 });
+            // $('#displayTotal').text(total);
+            // $('#total_pembelian').val(parseFloat(kurangiTotal));	
         });
 
 
