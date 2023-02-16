@@ -496,6 +496,33 @@
         $('div#tampil_dp').hide();
         $('div#tampil_sisa').hide();
 
+        function GetTotalBayar(){
+            // var subtotal = $("[class='form-control subtotal']").val();
+            let subtotal = document.querySelectorAll('.subtotal');
+            let totalP = 0;
+            // console.log(totalP)
+            subtotal.forEach(function(item){
+                totalP += parseFloat(item.value);
+            });
+            // console.log(totalP)
+            // console.log(totalP)
+            // var total_penjualan = 0;
+            //HASILKAN TOTAL BAYAR
+            // for(x=1;x<=count;x++){
+            //     if($("input[name='item["+x+"][subtotal]']").val() != undefined){
+            //         total_penjualan += Number($("input[name='item["+x+"][subtotal]']").val());
+            //     }
+            // }
+            let total = Math.round(Number(totalP)).toLocaleString("id-ID", {
+                        style:"currency", 
+                        currency:"IDR", 
+                        maximumSignificantDigits: (totalP + '').replace('.', '').length
+                    });
+            $('#displayTotal').text(total)
+            $('#total_harga').val(totalP);
+            $('#total_penjualan').val(Number(totalP));	
+        }
+
         $('#simpan').on('click', function(){   
             let id_pelanggan = $('#id_pelanggan').val();
             let barang = $('#id_barang').val();
@@ -687,24 +714,32 @@
             
             let jenis_pembayaran = $('#jenis_pembayaran').val();
 
+            var subtotal = document.querySelectorAll('.subtotal');
+            var totalP = 0;
+            subtotal.forEach(function(item){
+                totalP += parseFloat(item.value);
+            });
+
             if (jenis_pembayaran == '1') {
                 // Perhitungan Bayar Tunai
-                let bayar = $('#bayar').val().replaceAll(".", '');;
-                let kembali = bayar - ((harga_jual * qty) - hasil);
-            
-                let kembali_makerp = Math.round(Number(kembali)).toLocaleString("id-ID", {
+                let bayar = $('#bayar').val().replaceAll(".", '');
+
+                if(bayar > 0){
+                    let kembali = bayar - totalP;
+                    let kembali_makerp = Math.round(Number(kembali)).toLocaleString("id-ID", {
                                     style:"currency", 
                                     currency:"IDR", 
                                     maximumSignificantDigits: (kembali + '').replace('.', '').length
                                     });
-
-                $('#kembali').val(kembali_makerp.replace(/Rp/g, ''));   
+                
+                    $('#kembali').val(kembali_makerp.replace(/Rp/g, ''));   
+                }
                 
                 //Perhitungan Bayar DP
             } else if (jenis_pembayaran == '2') {
                 let dp = $('#dp').val();
                 let format_dp = String(dp).replaceAll(".", '');
-                let sisa = ((harga_jual * qty) - hasil) - format_dp;
+                let sisa = totalP - format_dp;
                 let sisa_makerp = Number(sisa).toLocaleString("id-ID", {
                                     style:"currency",
                                     currency:"IDR",
@@ -736,24 +771,30 @@
             $('#subtotal' + id).val(subtotal);
 
             let jenis_pembayaran = $('#jenis_pembayaran').val();
-
+            var sT = document.querySelectorAll('.subtotal');
+            var totalP = 0;
+            sT.forEach(function(item){
+                totalP += parseFloat(item.value);
+            });
             //Perhitungan Bayar Tunai
             if (jenis_pembayaran == '1') {
-                let bayar = $('#bayar').val().replaceAll(".", '');;
-                let kembali = bayar - subtotal;
-                let kembali_makerp = Math.round(Number(kembali)).toLocaleString("id-ID", {
-                                    style:"currency", 
-                                    currency:"IDR", 
-                                    maximumSignificantDigits: (kembali + '').replace('.', '').length
-                                    });
-    
-                $('#kembali').val(kembali_makerp.replace(/Rp/g, ''));   
+                let bayar = $('#bayar').val().replaceAll(".", '');
+                if(bayar > 0){
+                    let kembali = bayar - totalP;
+                    let kembali_makerp = Math.round(Number(kembali)).toLocaleString("id-ID", {
+                                        style:"currency", 
+                                        currency:"IDR", 
+                                        maximumSignificantDigits: (kembali + '').replace('.', '').length
+                                        });
+        
+                    $('#kembali').val(kembali_makerp.replace(/Rp/g, ''));  
+                }
                 
             //Perhitungan Bayar DP
             } else if (jenis_pembayaran == '2') {
                 let dp = $('#dp').val();
                 let format_dp = String(dp).replaceAll(".", '');
-                let sisa = subtotal - format_dp;
+                let sisa = totalP - format_dp;
                 let sisa_makerp = Number(sisa).toLocaleString("id-ID", {
                                     style:"currency",
                                     currency:"IDR",
@@ -762,7 +803,6 @@
     
                 $('#sisa').val(sisa_makerp.replace(/Rp/g, ''));      
             }
-
             GetTotalBayar();
         });
 
@@ -784,23 +824,31 @@
 
             let jenis_pembayaran = $('#jenis_pembayaran').val();
 
+            var sT = document.querySelectorAll('.subtotal');
+            var totalP = 0;
+            sT.forEach(function(item){
+                totalP += parseFloat(item.value);
+            });
             //Perhitungan Bayar Tunai
             if (jenis_pembayaran == '1') {
-                let bayar = $('#bayar').val().replaceAll(".", '');;
-                let kembali = bayar - subtotal;
-                let kembali_makerp = Math.round(Number(kembali)).toLocaleString("id-ID", {
-                                    style:"currency", 
-                                    currency:"IDR", 
-                                    maximumSignificantDigits: (kembali + '').replace('.', '').length
-                                    });
-    
-                $('#kembali').val(kembali_makerp.replace(/Rp/g, ''));   
+                let bayar = $('#bayar').val().replaceAll(".", '');
+                if(bayar > 0){
+                    
+                    let kembali = bayar - totalP;
+                    let kembali_makerp = Math.round(Number(kembali)).toLocaleString("id-ID", {
+                                        style:"currency", 
+                                        currency:"IDR", 
+                                        maximumSignificantDigits: (kembali + '').replace('.', '').length
+                                        });
+        
+                    $('#kembali').val(kembali_makerp.replace(/Rp/g, ''));   
+                }
                 
             //Perhitungan Bayar DP
             } else if (jenis_pembayaran == '2') {
                 let dp = $('#dp').val();
                 let format_dp = String(dp).replaceAll(".", '');
-                let sisa = subtotal - format_dp;
+                let sisa = totalP - format_dp;
                 let sisa_makerp = Number(sisa).toLocaleString("id-ID", {
                                     style:"currency",
                                     currency:"IDR",
@@ -927,34 +975,6 @@
             $('#dp').val(0);
             $('#kembali').val(kembali_makerp.replace(/Rp/g, ''));      
         });
-
-
-        function GetTotalBayar(){
-            // var subtotal = $("[class='form-control subtotal']").val();
-            var subtotal = document.querySelectorAll('.subtotal');
-            var totalP = 0;
-            subtotal.forEach(function(item){
-                totalP += parseFloat(item.value);
-            });
-            // console.log(totalP)
-            // console.log(totalP)
-            // var total_penjualan = 0;
-            //HASILKAN TOTAL BAYAR
-            // for(x=1;x<=count;x++){
-            //     if($("input[name='item["+x+"][subtotal]']").val() != undefined){
-            //         total_penjualan += Number($("input[name='item["+x+"][subtotal]']").val());
-            //     }
-            // }
-            let total = Math.round(Number(totalP)).toLocaleString("id-ID", {
-                        style:"currency", 
-                        currency:"IDR", 
-                        maximumSignificantDigits: (totalP + '').replace('.', '').length
-                    });
-            $('#displayTotal').text(total)
-            $('#total_harga').val(totalP);
-            $('#total_penjualan').val(Number(totalP));	
-        }
-
 
         $(document).on('click','.hapus_penjualan',function(){
             var delete_row= $(this).data("idbuffer");
