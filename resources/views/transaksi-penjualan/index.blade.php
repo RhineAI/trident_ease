@@ -1122,7 +1122,7 @@
              if (total_stock <= min_stock) {
                 let data_stok = "!"; 
                 $('#alert_stock').addClass('position-absolute top-0 start-100 translate-middle badge rounded-circle bg-danger');       
-                $('#alert_stock').append(data_stok);       
+                $('#alert_stock').html(data_stok);       
             }
             
             $('#formModalBarangPenjualan').modal('show');

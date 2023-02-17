@@ -178,7 +178,11 @@ class PembelianController extends Controller
                 $detPembelianBaru->id_barang = $barang['id_barang'];
                 $detPembelianBaru->harga_beli = $this->checkPrice($barang['harga_beli']);
                 $detPembelianBaru->qty = $barang['qty'];
-                $detPembelianBaru->diskon = $barang['discount'];
+                if($barang['discount']){
+                    $detPembelianBaru->diskon = $barang['discount'];
+                } else {
+                    $detPembelianBaru->diskon = 0;
+                }
                 $detPembelianBaru->id_perusahaan = auth()->user()->id_perusahaan;
                 $detPembelianBaru->save();
                 

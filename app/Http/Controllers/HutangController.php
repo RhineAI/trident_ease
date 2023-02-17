@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\KasKeluar;
 use App\Models\Hutang;
+use App\Models\KasMasuk;
 use App\Models\Pembelian;
 use App\Models\Perusahaan;
 use Illuminate\Http\Request;
@@ -85,7 +86,7 @@ class HutangController extends Controller
 
         $kasMasuk = new KasKeluar();
         $kasMasuk->tgl = date('Y-m-d');
-        $kasMasuk->jumlah = $request->bayar;
+        $kasMasuk->jumlah = $this->checkPrice($request->bayar);
         $kasMasuk->keperluan = 'Pembayaran Utang Terhadap Supplier';
         $kasMasuk->id_perusahaan = auth()->user()->id_perusahaan;
         $kasMasuk->id_user = auth()->user()->id;

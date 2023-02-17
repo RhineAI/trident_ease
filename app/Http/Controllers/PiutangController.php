@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Piutang;
 use App\Http\Requests\StorePembayaranRequest;
 use App\Http\Requests\UpdatePembayaranRequest;
+use App\Models\KasKeluar;
 use App\Models\KasMasuk;
 use App\Models\Perusahaan;
 use App\Models\TransaksiPenjualan;
@@ -88,7 +89,7 @@ class PiutangController extends Controller
 
         $kasMasuk = new KasMasuk();
         $kasMasuk->tgl = date('Y-m-d');
-        $kasMasuk->jumlah = $request->bayar;
+        $kasMasuk->jumlah = $this->checkPrice($request->bayar);
         $kasMasuk->keterangan = 'Pembayaran Piutang Customer';
         $kasMasuk->id_perusahaan = auth()->user()->id_perusahaan;
         $kasMasuk->id_user = auth()->user()->id;

@@ -184,7 +184,11 @@ class TransaksiPenjualanController extends Controller
                 // return $detPenjualanBaru;
                 $detPenjualanBaru->id_barang = $barang['id_barang'];
                 $detPenjualanBaru->qty = $barang['qty'];
-                $detPenjualanBaru->diskon = $barang['discount'];
+                if($barang['discount']){
+                    $detPenjualanBaru->diskon = $barang['discount'];
+                } else {
+                    $detPenjualanBaru->diskon = 0;
+                }
                 $detPenjualanBaru->harga_beli = $barang['harga_beli'];
                 $detPenjualanBaru->harga_jual = $barang['harga_jual'];
                 $detPenjualanBaru->id_perusahaan =  $penjualanBaru->id_perusahaan;
