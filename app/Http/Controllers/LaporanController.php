@@ -1197,9 +1197,9 @@ class LaporanController extends Controller
         $no = 1;
         $data = array(); 
     
-        while (strtotime($awal) <= strtotime($akhir)) {
-            $tanggal = $awal;
-            $awal = date('Y-m-d', strtotime("+1day", strtotime($awal)));
+        // while (strtotime($awal) <= strtotime($akhir)) {
+            // $tanggal = $awal;
+            // $awal = date('Y-m-d', strtotime("+1day", strtotime($awal)));
             // $condition = '';
             // if($kategori == 'semua' && $merek == 'semua'){
             //     $condition = '';
@@ -1211,9 +1211,9 @@ class LaporanController extends Controller
             //     $condition = "b.kategori == $kategori AND b.merek == $merek";
             // }
             
-            $kesesuaianBarang = Penyesuaian::where('t_penyesuaian.tgl', 'LIKE', '%'.$tanggal.'%')
-                                            ->orWhere('id_merek', $merek)
-                                            ->orWhere('id_kategori', $kategori)
+            $kesesuaianBarang = Penyesuaian::whereBetween('t_penyesuaian.tgl', [$awal, $akhir])
+                                            ->where('id_merek', $merek)
+                                            ->where('id_kategori', $kategori)
                                             ->leftJoin('t_barang AS B', 'B.id', 't_penyesuaian.id_barang')
                                             ->leftJoin('t_kategori AS K', 'K.id', 'B.id_kategori')
                                             ->leftJoin('t_merek AS M', 'M.id', 'B.id_merek')
@@ -1236,7 +1236,7 @@ class LaporanController extends Controller
     
                 $data[] = $row;
             }             
-        }
+        // }
     
         return $data;
     

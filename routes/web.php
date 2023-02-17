@@ -123,7 +123,7 @@ Route::middleware(['auth'])->group(function () {
                 Route::get('/laporan-pembelian/download/{awal}/{akhir}', [LaporanController::class, 'DownloadPembelian'])->name('laporan-pembelian.download');
                 Route::get('/laporan-pembelian/pdf/{awal}/{akhir}', [LaporanController::class, 'PrintPDFPembelian'])->name('laporan-pembelian.print');
 
-                Route::get('/laporan-stok', [LaporanController::class, 'indexLaporanStok'])->name('laporan-stok.index');
+                Route::post('/laporan-stok', [LaporanController::class, 'indexLaporanStok'])->name('laporan-stok.index');
                 Route::post('/laporan-stok/data/{merek}/{kategori}', [LaporanController::class, 'dataLaporanStok'])->name('laporan-stok.data');
                 Route::get('/laporan-stok/download/{merek}/{kategori}', [LaporanController::class, 'DownloadStok'])->name('laporan-stok.download');
                 Route::get('/laporan-stok/pdf/{merek}/{kategori}', [LaporanController::class, 'PrintPDFStok'])->name('laporan-stok.print');
