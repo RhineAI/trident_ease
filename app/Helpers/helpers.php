@@ -81,7 +81,7 @@ function persentasePerbandingan($getDataYesterday, $getDataToday, $countDataNow)
     if($getDataYesterday == 0) {
         if($countDataNow != 0) {
             $cek = 100 / $countDataNow;
-            $percentage = round($hasilCheck * $cek, 2, PHP_ROUND_HALF_UP); 
+            $percentage = round($hasilCheck * $cek, 1, PHP_ROUND_HALF_UP); 
         } elseif($countDataNow == 0) {
             $percentage = 0;
         }
@@ -90,11 +90,11 @@ function persentasePerbandingan($getDataYesterday, $getDataToday, $countDataNow)
             $cek1 = 100 / $getDataYesterday;
             $cek2 = $getDataToday - $getDataYesterday;
             $cek3 = $cek2 - $getDataYesterday;
-            $percentage = round($cek1 * $cek3 , 2, PHP_ROUND_HALF_UP);
+            $percentage = round($cek1 * $cek3 , 1, PHP_ROUND_HALF_UP);
         } 
         elseif($getDataYesterday >= $hasilCheck) {
             $cek4 = 100/ $getDataYesterday;
-            $percentage = round($cek4 * $hasilCheck, 2, PHP_ROUND_HALF_UP);
+            $percentage = round($cek4 * $hasilCheck, 1, PHP_ROUND_HALF_UP);
             
         } 
     }elseif($hasilCheck == $getDataYesterday) {
@@ -103,7 +103,7 @@ function persentasePerbandingan($getDataYesterday, $getDataToday, $countDataNow)
     elseif($hasilCheck >= $getDataYesterday) {
         $cek1 = 100 / $getDataYesterday ;
         $cek2 = $getDataYesterday - $hasilCheck;
-        $percentage = 100 + round($cek1 * $cek2, 2, PHP_ROUND_HALF_UP);
+        $percentage = 100 + round($cek1 * $cek2, 1, PHP_ROUND_HALF_UP);
     }
     return $percentage;
 }
@@ -132,29 +132,29 @@ function persentasePerbandinganSemuaData($getDataToday, $getAllData) {
 function persentasePerbandinganHarga($getLatestTotal, $getNowTotal ) {
     if ($getLatestTotal == 0) {
         if($getNowTotal < 100) {
-            $percentage = round($getNowTotal, 2, PHP_ROUND_HALF_UP);
+            $percentage = round($getNowTotal, 1, PHP_ROUND_HALF_UP);
         } elseif ($getNowTotal < 1000) {
-            $percentage = round($getNowTotal / 10, 2, PHP_ROUND_HALF_UP);
+            $percentage = round($getNowTotal / 10, 1, PHP_ROUND_HALF_UP);
         } elseif ($getNowTotal < 10000) {
-            $percentage = round($getNowTotal / 10, 2, PHP_ROUND_HALF_UP);
+            $percentage = round($getNowTotal / 10, 1, PHP_ROUND_HALF_UP);
         } elseif ($getNowTotal < 100000) {
-            $percentage = round($getNowTotal / 100, 2, PHP_ROUND_HALF_UP);
+            $percentage = round($getNowTotal / 100, 1, PHP_ROUND_HALF_UP);
         } elseif ($getNowTotal < 1000000) {
-            $percentage = round($getNowTotal / 1000, 2, PHP_ROUND_HALF_UP);
+            $percentage = round($getNowTotal / 1000, 1, PHP_ROUND_HALF_UP);
         } elseif ($getNowTotal < 10000000) {
-            $percentage = round($getNowTotal / 10000, 2, PHP_ROUND_HALF_UP);
+            $percentage = round($getNowTotal / 10000, 1, PHP_ROUND_HALF_UP);
         } elseif ($getNowTotal < 100000000) {
-            $percentage = round($getNowTotal / 100000, 2, PHP_ROUND_HALF_UP);
+            $percentage = round($getNowTotal / 100000, 1, PHP_ROUND_HALF_UP);
         } elseif ($getNowTotal < 1000000000) {
-            $percentage = round($getNowTotal / 1000000, 2, PHP_ROUND_HALF_UP);
+            $percentage = round($getNowTotal / 1000000, 1, PHP_ROUND_HALF_UP);
         } elseif ($getNowTotal < 10000000000) {
-            $percentage = round($getNowTotal / 10000000, 2, PHP_ROUND_HALF_UP);
+            $percentage = round($getNowTotal / 10000000, 1, PHP_ROUND_HALF_UP);
         } elseif ($getNowTotal < 100000000000) {
-            $percentage = round($getNowTotal / 100000000, 2, PHP_ROUND_HALF_UP);
+            $percentage = round($getNowTotal / 100000000, 1, PHP_ROUND_HALF_UP);
         } elseif ($getNowTotal < 1000000000000) {
-            $percentage = round($getNowTotal / 1000000000, 2, PHP_ROUND_HALF_UP);
+            $percentage = round($getNowTotal / 1000000000, 1, PHP_ROUND_HALF_UP);
         } elseif ($getNowTotal < 10000000000000) {
-            $percentage = round($getNowTotal / 10000000000, 2, PHP_ROUND_HALF_UP);
+            $percentage = round($getNowTotal / 10000000000, 1, PHP_ROUND_HALF_UP);
         } 
     } else {
         $difference = $getNowTotal - $getLatestTotal;
@@ -165,12 +165,12 @@ function persentasePerbandinganHarga($getLatestTotal, $getNowTotal ) {
         if ($difference <= $getLatestTotal) { //-1000
             $makePositive = -1 * $difference; //1000 
             $divide = 100 / $getLatestTotal; //100 / 2000 = 0.05
-            $percentage = round($makePositive * $divide, 2, PHP_ROUND_HALF_UP); //1000 * 0.05 = 50
+            $percentage = round($makePositive * $divide, 1, PHP_ROUND_HALF_UP); //1000 * 0.05 = 50
         } elseif ($difference == $getLatestTotal) {
             $percentage = 100;
         } elseif ($difference >= $getLatestTotal) { //4000
             $divide = 100 / $getLatestTotal; //100 / 1000 = 0.1
-            $times = round($difference * $divide, 2, PHP_ROUND_HALF_UP); // 4000 * 0.1 = 500
+            $times = round($difference * $divide, 1, PHP_ROUND_HALF_UP); // 4000 * 0.1 = 500
             if ($times > 1000) {
                 $percentage = 1000 . '+';
             } else {

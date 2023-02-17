@@ -1776,7 +1776,15 @@ class LaporanController extends Controller
             $tanggal = $awal;
             $awal = date('Y-m-d', strtotime("+1day", strtotime($awal)));
 
-            $pelangganTerbaik = Pelanggan::where('TP.tgl', 'Like', '%'.$tanggal.'%')->leftJoin('t_transaksi_penjualan AS TP', 'TP.id_pelanggan', 't_pelanggan.id')->leftJoin('t_detail_penjualan AS DTP', 'DTP.id_penjualan', 'TP.id')->select('t_pelanggan.id AS id_pelanggan', 't_pelanggan.nama AS nama_pelanggan', 't_pelanggan.tlp AS tlp_pelanggan', 't_pelanggan.alamat AS alamat_pelanggan', DB::raw('sum(DTP.qty) as jumlahBeliBarang'), DB::raw('sum(DTP.qty*DTP.harga_jual) as jumlahBayarBarang'))->where('TP.id_perusahaan', auth()->user()->id_perusahaan)->groupBy('t_pelanggan.id')->orderBy('jumlahBayarBarang', 'DESC')->get();
+            $pelangganTerbaik = Pelanggan::where('TP.tgl', 'Like', '%'.$tanggal.'%')
+                                           ->leftJoin('t_transaksi_penjualan AS TP', 'TP.id_pelanggan', 't_pelanggan.id')
+                                           ->leftJoin('t_detail_penjualan AS DTP', 'DTP.id_penjualan', 'TP.id')
+                                           ->select('t_pelanggan.id AS id_pelanggan', 't_pelanggan.nama AS nama_pelanggan', 't_pelanggan.tlp AS tlp_pelanggan', 't_pelanggan.alamat AS alamat_pelanggan', DB::raw('sum(DTP.qty) as jumlahBeliBarang'), DB::raw('sum(DTP.qty*DTP.harga_jual) as jumlahBayarBarang'))
+                                           ->where('TP.id_perusahaan', auth()->user()->id_perusahaan)
+                                           ->where('TP.id', '!=', 1)
+                                           ->groupBy('t_pelanggan.id')
+                                           ->orderBy('jumlahBayarBarang', 'DESC')
+                                           ->get();
             // return $pelangganTerbaik;
 
             foreach($pelangganTerbaik as $item) {
