@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Piutang;
 use App\Http\Requests\StorePembayaranRequest;
 use App\Http\Requests\UpdatePembayaranRequest;
+use App\Models\KasKeluar;
 use App\Models\KasMasuk;
 use App\Models\Perusahaan;
 use App\Models\TransaksiPenjualan;
@@ -25,7 +26,7 @@ class PiutangController extends Controller
                                     ->select('P.nama AS nama_pelanggan', 'P.tlp', 'P.id as id_pelanggan', 't_data_piutang.*', 'TP.dp', 'TP.total_harga', 'TP.sisa', 'TP.jenis_pembayaran')
                                     ->where('TP.jenis_pembayaran', 2)
                                     ->where('TP.id_perusahaan', auth()->user()->id_perusahaan)    
-                                    ->orderBy('TP.id', 'desc')
+                                    ->orderBy('t_data_piutang.created_at', 'desc')
                                     ->get();
         // $data['total_bayar'] = Pembayaran::where('id_penjualan', 'id_penjualan')->sum('total_bayar');
         $data['cDate'] = date('d-m-Y');
@@ -81,14 +82,14 @@ class PiutangController extends Controller
             $updateSisa->sisa -= $this->checkPrice($request->bayar);
         } else {
             $updateSisa->sisa = 0;
-            $updateSisa->kembali = $this->checkPrice($request->kembalian);
+            $updateSisa->kembalian = $this->checkPrice($request->kembalian);
         }
         // return $updateSisa->sisa;
         $updateSisa->update();
 
         $kasMasuk = new KasMasuk();
         $kasMasuk->tgl = date('Y-m-d');
-        $kasMasuk->jumlah = $request->bayar;
+        $kasMasuk->jumlah = $this->checkPrice($request->bayar);
         $kasMasuk->keterangan = 'Pembayaran Piutang Customer';
         $kasMasuk->id_perusahaan = auth()->user()->id_perusahaan;
         $kasMasuk->id_user = auth()->user()->id;
@@ -170,7 +171,7 @@ class PiutangController extends Controller
         $data['cPerusahaan'] = Perusahaan::select('*')->where('id', auth()->user()->id_perusahaan)->first();
         $data['cPiutang'] = Piutang::leftJoin('t_transaksi_penjualan AS TP', 'TP.id', 't_data_piutang.id_penjualan')->leftJoin('t_pelanggan AS P', 'P.id', 'TP.id_pelanggan')->select('P.nama AS nama_pelanggan', 't_data_piutang.id AS id_piutang', 'TP.id as kode_invoice AS no_faktur', 't_data_piutang.tgl AS tgl_bayar', 't_data_piutang.total_bayar', 'TP.total_harga', 'TP.dp', 'TP.sisa')->where('t_data_piutang.id', $id)->where('t_data_piutang.id_perusahaan', auth()->user()->id_perusahaan)->first();
         $data['cDetailPiutang'] = Piutang::leftJoin('t_transaksi_penjualan AS TP', 'TP.id', 't_data_piutang.id_penjualan')
-        ->leftJoin('t_detail_penjualan AS DTP', 'DTP.id_penjualan', 'TP.id')->leftJoin('t_barang AS B', 'B.id', 'DTP.id_barang')->select('DTP.qty', 'DTP.harga_jual', 'B.nama AS nama_barang')->where('t_data_piutang.id', $id)->where('t_data_piutang.id_perusahaan', auth()->user()->id_perusahaan)->get();
+        ->leftJoin('t_detail_penjualan AS DTP', 'DTP.id_penjualan', 'TP.id')->leftJoin('t_barang AS B', 'B.id', 'DTP.id_barang')->select('DTP.qty', 'DTP.harga_jual', 'DTP.diskon', 'B.nama AS nama_barang')->where('t_data_piutang.id', $id)->where('t_data_piutang.id_perusahaan', auth()->user()->id_perusahaan)->get();
         // dd($data['cDetailPembelian']); die;
         return view('hutang-piutang.piutang.printNota', $data);
     }

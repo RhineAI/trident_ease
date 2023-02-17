@@ -85,7 +85,7 @@ class ReturPenjualanController extends Controller
             foreach ($detailPenjualan as $row) {
                 $i++;
                 $subtotal = ($row->jumlah_beli_barang * $row->harga_jual) - ($row->jumlah_beli_barang * $row->harga_jual * $row->diskon/100) ;
-                $disc = $row->harga_jual -( $row->harga_jual * $row->diskon/100);
+                $disc = $row->harga_jual - $row->harga_jual * $row->diskon/100;
                 $html.="<tr>";
                 $html.="<td style='text-align:center;'><input type='hidden' value='$row->id_barang' id='id_barang$i'> <input class='form-control' type='text' value='$row->kode' readonly='true' id='kode$i' style='width: 130px;'></td>";
                 $html.="<td style='text-align:center;'><input class='form-control' type='text' value='$row->nama_barang' readonly='true' id='nama_barang$i' style='width: 175px;'></td>";
@@ -135,7 +135,7 @@ class ReturPenjualanController extends Controller
                     $qtySekarang = $row->jumlah_beli_barang;
                     $hargaDisc = $row->harga_jual - ($row->harga_jual * $row->diskon/100);
                 }
-                return $hargaDisc;
+
                 $html.="<tr>";
                 $html.="<td style='text-align:center;'><input type='hidden' value='$row->id_barang' id='id_barang$i'> <input class='form-control' type='text' value='$row->kode' readonly='true' id='kode$i' style='width: 130px;'></td>";
                 $html.="<td style='text-align:center;'><input class='form-control' type='text' value='$row->nama_barang' readonly='true' id='nama_barang$i' style='width: 175px;'></td>";
