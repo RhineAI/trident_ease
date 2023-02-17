@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Perusahaan;
 use App\Models\User;
 use App\Models\Barang;
+use App\Models\Pelanggan;
 use App\Models\KasMasuk;
+use App\Models\ReturPenjualan;
 use App\Models\TransaksiPenjualan;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
@@ -168,6 +170,13 @@ class DashboardController extends Controller
             return view('dashboard', $data);
         } else {
             $data['cPerusahaan'] = Perusahaan::select('*')->where('id', auth()->user()->id_perusahaan)->first();
+            $data['transaksi'] = TransaksiPenjualan::where('id_perusahaan', auth()->user()->id_perusahaan)->where('id_user', auth()->user()->id)->whereMonth('created_at', date('m'))->count();
+            $data['pelanggan'] = Pelanggan::where('id_perusahaan', auth()->user()->id_perusahaan)->whereMonth('created_at', date('m'))->count();
+
+            
+            $data['total_retur'] = ReturPenjualan::where('id_perusahaan', auth()->user()->id_perusahaan)->where('id_user', auth()->user()->id)->whereMonth('created_at', date('m'))->sum('total_retur');
+            $data['total_harga'] = TransaksiPenjualan::where('id_perusahaan', auth()->user()->id_perusahaan)->where('id_user', auth()->user()->id)->whereMonth('created_at', date('m'))->sum('total_harga');
+
             return view('dashboardKasir', $data);
         }
         // return view('dashboard', $data);

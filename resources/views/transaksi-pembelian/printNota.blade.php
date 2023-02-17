@@ -102,21 +102,27 @@
                 <td colspan="3">{{ $item->nama_barang }}</td>
             </tr>
             <tr>
-                <td>{{ $item->qty }} x Rp.{{ format_uang($item->harga_beli) }}</td>
+                <td>{{ $item->qty }} x Rp.{{ format_uang($item->harga_beli) }} </td>
                 <td></td>
+            @if ($item->diskon == 0)
                 <td class="text-right"> &nbsp; Rp.{{ format_uang(($item->qty * $item->harga_beli)) }}</td>
             </tr>
+            @else 
+                <td class="text-right"></td>
+            </tr>
+            <tr>
+                <td>Disc. {{ $item->diskon }}%</td>
+                <td></td>
+                <td class="text-right"> &nbsp; Rp.{{ format_uang(($item->qty * $item->harga_beli) - $totalDiskon ) }}</td>
+            </tr>
+            @endif
         @endforeach
     </table>
     <p class="text-center">-------------------------------</p>
     <table width="100%" style="border: 0;">
         <tr>
             <td>Total :&nbsp;</td>
-            <td class="text-right" style="text-align: end"> Rp. {{ format_uang($cPembelian->total_harga + $totalDiskon) }}</td>
-        </tr>
-        <tr>
-            <td>Diskon :&nbsp;</td>
-            <td class="text-right" style="text-align: end"> Rp. {{ format_uang($totalDiskon) }}</td>
+            <td class="text-right" style="text-align: end"> Rp. {{ format_uang($cPembelian->total_pembelian) }}</td>
         </tr>
         @if ($cPembelian->jenis_pembayaran == 1)
             <tr>
@@ -137,10 +143,10 @@
                 <td class="text-right" style="text-align: end"> Rp. {{ format_uang($cPembelian->total_pembelian - $cPembelian->dp) }}</td>
             </tr>
         @else 
-            <tr>
-                <td>Total Transfer :</td>
-                <td class="text-right"> Rp. {{ format_uang($cPembelian->total_pembelian) }}</td>
-            </tr>
+        <tr>
+            <p class="text-center">Pembayaran Via Transfer</p>
+
+        </tr>
         @endif     
     </table>
     <p>&nbsp;</p>

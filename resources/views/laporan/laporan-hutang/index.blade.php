@@ -25,9 +25,9 @@ Laporan Hutang
             <div class="box mb-4">
                 <div class="box-body table-responsive ">
                     @if (auth()->user()->hak_akses == 'admin')
-                        <form action="{{ route('admin.laporan-hutang.index') }}" method="get">
+                        <form action="{{ route('admin.laporan-hutang.index') }}" method="get" id="form-search">
                     @elseif(auth()->user()->hak_akses == 'owner') 
-                        <form action="{{ route('owner.laporan-hutang.index') }}" method="get">
+                        <form action="{{ route('owner.laporan-hutang.index') }}" method="get" id="form-search">
                     @endif  
                         <div class="form-group row mt-4 ml-3 ">
                             <label for="tanggal_awal" class="col-lg-1 control-label mr-3">Tanggal Awal</label>
@@ -45,7 +45,7 @@ Laporan Hutang
                             </div>
 
                             <div class="form-group row ml-3 mb-3 mt-3">
-                                <button type="" class="btn btn-xs btn-primary"><i class="fa fa-search"></i> Cari</button>
+                                <button type="button" id="search" class="btn btn-xs btn-primary"><i class="fa fa-search"></i> Cari</button>
                             </div>
                         </div>
                     </form>
@@ -135,6 +135,25 @@ Laporan Hutang
         dateFormat: "d-m-Y",
         autoclose: true,
     });
+
+    $('#search').on('click', function(){   
+            let tanggal_awal = $('#tanggal_awal').val();
+            let tanggal_akhir = $('#tanggal_akhir').val();
+            if(tanggal_awal == "") {
+                Swal.fire('Isi Tanggal Awal!')
+                return false;
+            } else {
+                $('#tanggal_awal').val();
+            }
+
+            if(tanggal_akhir == "") {
+                Swal.fire('Isi Tanggal Akhir!')
+                return false;
+            } else {
+                $('#tanggal_akhir').val();
+            }
+            document.getElementById('form-search').submit();
+        });
 
     $('.table-hutang').DataTable({
         searching: false,

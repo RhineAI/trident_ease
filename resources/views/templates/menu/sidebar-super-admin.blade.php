@@ -11,7 +11,7 @@
 <li class="nav-item">
     <a href="{{ route('super_admin.manage-perusahaan.index') }}" class="nav-link">
         <i class="nav-icon fas fa-solid fa-people-roof"></i>
-        <p>
+        <p class="smol">
             Manage Perusahaan
         </p>
     </a>

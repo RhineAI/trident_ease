@@ -46,8 +46,8 @@ Data Penjualan
                                 <span class="help-block with-errors"></span>
                             </div>
 
-                            <div class="form-group row ml-3 mb-3 mt-3">
-                                <button type="" class="btn btn-xs btn-primary"><i class="fa fa-search"></i> Cari</button>
+                            <div class="form-group row ml-2 mb-3 mt-3">
+                                <button type="submit" id="simpan" class="btn btn-xs btn-primary"><i class="fa fa-search"></i> Cari</button>
                             </div>
                         </div>
                     </form>
@@ -58,9 +58,9 @@ Data Penjualan
                     <br>
                     <div class="button-group mb-1">          
                         @if (auth()->user()->hak_akses == 'admin')
-                            <a href="{{ route('admin.transaksi-penjualan.index') }}" class="mx-4 mb-3 btn btn-sm btn-info text-end"><i class="fa fa-plus"></i> Transaksi Penjualan</a>
+                            <a href="{{ route('admin.transaksi-penjualan.index') }}" class="mx-4 mb-3 btn btn-sm btn-info text-end"><i class="fa fa-plus"></i> Transaksi Baru</a>
                         @elseif(auth()->user()->hak_akses == 'kasir')
-                            <a href="{{ route('kasir.transaksi-penjualan.index') }}" class="mx-4 mb-3 btn btn-sm btn-info text-end"><i class="fa fa-plus"></i> Transaksi Penjualan</a>
+                            <a href="{{ route('kasir.transaksi-penjualan.index') }}" class="mx-4 mb-3 btn btn-sm btn-info text-end"><i class="fa fa-plus"></i> Transaksi Baru</a>
                         @endif
                     </div>
                 {{-- <a href="{{ route('admin.list-transaksi.export_pdf', [$tanggalAwal, $tanggalAkhir] ) }}" target="_blank" class="btn btn-danger btn-sm btn-flat" ><i class="bi bi-filetype-pdf"></i> Export PDF</a> --}}
@@ -129,6 +129,24 @@ Data Penjualan
             {data:'pegawai'},
             {data:'action', searchable: false, sortable: false},
         ]
+    });
+
+    $(document).on('click', '#simpan', function() {
+        let tanggal_awal = $('#tanggal_awal').val();
+        let tanggal_akhir = $('#tanggal_akhir').val();
+        if(tanggal_awal == "") {
+            Swal.fire('Silahkan Tentukan Tanggal Awal')
+            return false;
+        } else {
+            $('#tanggal_awal').val();
+        }
+
+        if(tanggal_akhir == "") {
+            Swal.fire('Silahkan Tentukan Tanggal Akhir')
+            return false;
+        } else {
+            $('#tanggal_akhir').val();
+        }
     });
 </script>
 @endpush

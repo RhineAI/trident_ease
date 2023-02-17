@@ -125,26 +125,11 @@ class TransaksiPenjualanController extends Controller
             // if(TransaksiPenjualan::select("id")->where('id_perusahaan', auth()->user()->id_perusahaan)->where('id', 'like', '%'. date('Ymd') . '%')->first() == null){
                 // $indexTransaksi = sprintf("%03d", 1);
             $penjualanBaru->id = $id;
-            // }
-                
-            // $penjualanBaru->kode_invoice = date('Ymd'). $indexTransaksi;
-
-        // $kode = '';
-        // $date = (date('Ymd'));
-        // // return $date;
-        // if($penjualanBaru == NULL) {
-        //     $kode = $date . '0001';
-        // } 
-        // else {
-        //     $kode = sprintf($date.'%04d', intval(substr($penjualanBaru->kode, 8)) + 1);
-        //     $kode = strval($kode);
-        // }
-
             $penjualanBaru->tgl = date('Y-m-d');
             $penjualanBaru->id_pelanggan = $request->id_pelanggan;
-            $penjualanBaru->total_harga = $request->total_bayar;
+            $penjualanBaru->total_harga = $this->checkPrice($request->total_harga);
             if($request->jenis_pembayaran == '1') {
-                $penjualanBaru->total_bayar = $this->checkPrice($request->bayar);
+                $penjualanBaru->total_bayar = $this->checkPrice($request->total_bayar);
                 $penjualanBaru->sisa = 0;
 
             } else {
@@ -199,7 +184,11 @@ class TransaksiPenjualanController extends Controller
                 // return $detPenjualanBaru;
                 $detPenjualanBaru->id_barang = $barang['id_barang'];
                 $detPenjualanBaru->qty = $barang['qty'];
-                $detPenjualanBaru->diskon = $barang['discount'];
+                if($barang['discount']){
+                    $detPenjualanBaru->diskon = $barang['discount'];
+                } else {
+                    $detPenjualanBaru->diskon = 0;
+                }
                 $detPenjualanBaru->harga_beli = $barang['harga_beli'];
                 $detPenjualanBaru->harga_jual = $barang['harga_jual'];
                 $detPenjualanBaru->id_perusahaan =  $penjualanBaru->id_perusahaan;
@@ -215,7 +204,7 @@ class TransaksiPenjualanController extends Controller
             if($request->jenis_pembayaran == 1){
                 $kasMasuk = new KasMasuk();
                 $kasMasuk->tgl = now();
-                $kasMasuk->jumlah = $request->total_bayar; 
+                $kasMasuk->jumlah = $this->checkPrice($request->total_bayar); 
                 $kasMasuk->id_user = auth()->user()->id;
                 $kasMasuk->id_perusahaan = auth()->user()->id_perusahaan;
                 $kasMasuk->keterangan = 'Transaksi Penjualan';

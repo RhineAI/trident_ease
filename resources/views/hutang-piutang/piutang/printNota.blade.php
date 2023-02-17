@@ -97,12 +97,23 @@
             <tr>
               	<td>{{ $item->qty }} x Rp. {{ format_uang($item->harga_jual) }}</td>
                 <td></td>
-                <td class="text-right">Rp. {{ format_uang($item->qty * $item->harga_jual) }}</td>
+            @if ($item->diskon == 0)
+                <td class="text-right"> &nbsp; Rp.{{ format_uang(($item->qty * $item->harga_jual)) }}</td>
+            </tr>
+            @else 
+                <td class="text-right"></td>
+            </tr>
+            <tr>
+                <td>Disc. {{ $item->diskon }}%</td>
+                <td></td>
+                <td class="text-right"> &nbsp; Rp.{{ format_uang(($item->qty * $item->harga_jual) - $totalDiskon ) }}</td>
+            </tr>
+            @endif
             </tr>
         @endforeach
     </table>
 
-    <p class="text-center">-------------------------------</p>8998009040290
+    <p class="text-center">-------------------------------</p>
 
     <table width="100%" style="border: 0;">
         <tr>

@@ -33,15 +33,32 @@
 </style>
 <nav class="main-header navbar navbar-expand navbar-white navbar-light">
     <!-- Left navbar links -->
-    <ul class="navbar-nav col-md-10">
+    
+    <ul class="navbar-nav col-md-9" style="margin-right: 4em;">
         <li class="nav-item">
             <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
         </li>
+    </ul>
+    <ul class="navbar-nav">
+        <li class="nav-item">
+            <a class="nav-link" data-widget="navbar-search" href="#" role="button">
+                <i class="fas fa-gears"></i>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-widget="fullscreen" href="#" role="button">
+              <i class="fas fa-expand-arrows-alt"></i>
+            </a>
+          </li>
+    </ul>
+    <ul class="navbar-nav">
+        
     </ul>
     <div class="dropdown show">
         {{-- <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           Dropdown link
         </a> --}}
+        
         <a class="btn nav-link dropdown-toggle" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <img class="img-profile rounded-circle" src="{{ asset('assets') }}/img/admin.png" style="max-width: 28px;">
             @if (auth()->user()->nama == NULL) 
@@ -50,6 +67,7 @@
                 <span class="ml-2 d-none d-lg-inline text-dark small" style="font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif"><strong>{{ ucFirst(auth()->user()->nama) }}</strong></span>
             @endif
         </a>
+        
 
         <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
             <a class="dropdown-item" href="{{ route(Auth::user()->hak_akses.'.profile') }}">

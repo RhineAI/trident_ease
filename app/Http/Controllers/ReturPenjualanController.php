@@ -30,7 +30,7 @@ class ReturPenjualanController extends Controller
         $data['penjualan'] = TransaksiPenjualan::leftJoin('t_pelanggan AS P', 'P.id', 't_transaksi_penjualan.id_pelanggan')
         ->select('t_transaksi_penjualan.id AS id_penjualan', 't_transaksi_penjualan.tgl AS tanggal', 'P.nama AS nama_pelanggan', 'P.id AS id_pelanggan', 'P.tlp')
         ->where('t_transaksi_penjualan.id_perusahaan', auth()->user()->id_perusahaan)     
-        ->orderBy('t_transaksi_penjualan.id', 'desc')
+        ->orderBy('t_transaksi_penjualan.tgl', 'desc')
         ->get();
         // dd($data['penjualan']);
         return view('returPenjualan.index', $data);

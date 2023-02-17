@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\KasKeluar;
 use App\Models\Hutang;
+use App\Models\KasMasuk;
 use App\Models\Pembelian;
 use App\Models\Perusahaan;
 use Illuminate\Http\Request;
@@ -23,7 +24,7 @@ class HutangController extends Controller
         ->select('S.nama AS nama_supplier', 'S.tlp', 'S.id as id_supplier', 't_data_hutang.*', 'TP.dp', 'TP.total_pembelian', 'TP.sisa', 'TP.jenis_pembayaran')
         ->where('TP.jenis_pembayaran', 2)
         ->where('TP.id_perusahaan', auth()->user()->id_perusahaan)    
-        ->orderBy('TP.id', 'desc')
+        ->orderBy('t_data_hutang.created_at', 'desc')
         ->get();
         // $data['total_bayar'] = Pembayaran::where('id_pembelian', 'id_pembelian')->sum('total_bayar');
         $data['cDate'] = date('d-m-Y');
@@ -85,7 +86,7 @@ class HutangController extends Controller
 
         $kasMasuk = new KasKeluar();
         $kasMasuk->tgl = date('Y-m-d');
-        $kasMasuk->jumlah = $request->bayar;
+        $kasMasuk->jumlah = $this->checkPrice($request->bayar);
         $kasMasuk->keperluan = 'Pembayaran Utang Terhadap Supplier';
         $kasMasuk->id_perusahaan = auth()->user()->id_perusahaan;
         $kasMasuk->id_user = auth()->user()->id;
@@ -144,7 +145,7 @@ class HutangController extends Controller
         $data['cPerusahaan'] = Perusahaan::select('*')->where('id', auth()->user()->id_perusahaan)->first();
         $data['cHutang'] = Hutang::leftJoin('t_transaksi_pembelian AS TP', 'TP.id', 't_data_hutang.id_pembelian')->leftJoin('t_supplier AS S', 'S.id', 'TP.id_supplier')->select('S.nama AS nama_supplier', 't_data_hutang.id AS id_hutang', 'TP.id AS no_faktur', 't_data_hutang.tgl AS tgl_bayar', 't_data_hutang.total_bayar', 'TP.total_pembelian', 'TP.dp', 'TP.sisa')->where('t_data_hutang.id', $id)->where('t_data_hutang.id_perusahaan', auth()->user()->id_perusahaan)->first();
         $data['cDetailHutang'] = Hutang::leftJoin('t_transaksi_pembelian AS TP', 'TP.id', 't_data_hutang.id_pembelian')
-        ->leftJoin('t_detail_pembelian AS DTP', 'DTP.id_pembelian', 'TP.id')->leftJoin('t_barang AS B', 'B.id', 'DTP.id_barang')->select('DTP.qty', 'DTP.harga_beli', 'B.nama AS nama_barang')->where('t_data_hutang.id', $id)->where('t_data_hutang.id_perusahaan', auth()->user()->id_perusahaan)->get();
+        ->leftJoin('t_detail_pembelian AS DTP', 'DTP.id_pembelian', 'TP.id')->leftJoin('t_barang AS B', 'B.id', 'DTP.id_barang')->select('DTP.qty', 'DTP.harga_beli', 'DTP.diskon', 'B.nama AS nama_barang')->where('t_data_hutang.id', $id)->where('t_data_hutang.id_perusahaan', auth()->user()->id_perusahaan)->get();
         // dd($data['cDetailPembelian']); die;
         return view('hutang-piutang.hutang.printNota', $data);
     }

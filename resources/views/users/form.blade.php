@@ -80,6 +80,8 @@
                     <span class="help-block with-errors"></span>
                 </div>
             </div>
+
+            @if (auth()->user()->hak_akses == 'owner')
             <div class="form-group row">
                 <label for="hak_akses" class="col-md-4 col-md-offset-1 control-label">
                     <h5 class="my-2">Hak Akses</h5>
@@ -87,13 +89,16 @@
                 <div class="col-md-8">
                     <select class="form-control" name="hak_akses" id="hak_akses" required>
                         <option value="" disabled="disabled" selected="true">Pilih Hak Akses User</option>
-                        <option value="admin">Administrator</option>
-                        <option value="kasir">Kasir</option>
+                            <option value="admin">Administrator</option>
+                            <option value="kasir">Kasir</option>
+                            
                         {{-- <option value="owner">Owner</option> --}}
                     </select>
                     <span class="help-block with-errors"></span>
                 </div>
             </div>
+            @endif
+
             <input type="hidden" name="id_perusahaan" value="{{ $cPerusahaan->id }}">
     </div>
     <div class="modal-footer">

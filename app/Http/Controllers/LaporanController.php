@@ -1197,9 +1197,9 @@ class LaporanController extends Controller
         $no = 1;
         $data = array(); 
     
-        while (strtotime($awal) <= strtotime($akhir)) {
-            $tanggal = $awal;
-            $awal = date('Y-m-d', strtotime("+1day", strtotime($awal)));
+        // while (strtotime($awal) <= strtotime($akhir)) {
+            // $tanggal = $awal;
+            // $awal = date('Y-m-d', strtotime("+1day", strtotime($awal)));
             // $condition = '';
             // if($kategori == 'semua' && $merek == 'semua'){
             //     $condition = '';
@@ -1211,9 +1211,9 @@ class LaporanController extends Controller
             //     $condition = "b.kategori == $kategori AND b.merek == $merek";
             // }
             
-            $kesesuaianBarang = Penyesuaian::where('t_penyesuaian.tgl', 'LIKE', '%'.$tanggal.'%')
-                                            ->orWhere('id_merek', $merek)
-                                            ->orWhere('id_kategori', $kategori)
+            $kesesuaianBarang = Penyesuaian::whereBetween('t_penyesuaian.tgl', [$awal, $akhir])
+                                            ->where('id_merek', $merek)
+                                            ->where('id_kategori', $kategori)
                                             ->leftJoin('t_barang AS B', 'B.id', 't_penyesuaian.id_barang')
                                             ->leftJoin('t_kategori AS K', 'K.id', 'B.id_kategori')
                                             ->leftJoin('t_merek AS M', 'M.id', 'B.id_merek')
@@ -1236,7 +1236,7 @@ class LaporanController extends Controller
     
                 $data[] = $row;
             }             
-        }
+        // }
     
         return $data;
     
@@ -1776,7 +1776,15 @@ class LaporanController extends Controller
             $tanggal = $awal;
             $awal = date('Y-m-d', strtotime("+1day", strtotime($awal)));
 
-            $pelangganTerbaik = Pelanggan::where('TP.tgl', 'Like', '%'.$tanggal.'%')->leftJoin('t_transaksi_penjualan AS TP', 'TP.id_pelanggan', 't_pelanggan.id')->leftJoin('t_detail_penjualan AS DTP', 'DTP.id_penjualan', 'TP.id')->select('t_pelanggan.id AS id_pelanggan', 't_pelanggan.nama AS nama_pelanggan', 't_pelanggan.tlp AS tlp_pelanggan', 't_pelanggan.alamat AS alamat_pelanggan', DB::raw('sum(DTP.qty) as jumlahBeliBarang'), DB::raw('sum(DTP.qty*DTP.harga_jual) as jumlahBayarBarang'))->where('TP.id_perusahaan', auth()->user()->id_perusahaan)->groupBy('t_pelanggan.id')->orderBy('jumlahBayarBarang', 'DESC')->get();
+            $pelangganTerbaik = Pelanggan::where('TP.tgl', 'Like', '%'.$tanggal.'%')
+                                           ->leftJoin('t_transaksi_penjualan AS TP', 'TP.id_pelanggan', 't_pelanggan.id')
+                                           ->leftJoin('t_detail_penjualan AS DTP', 'DTP.id_penjualan', 'TP.id')
+                                           ->select('t_pelanggan.id AS id_pelanggan', 't_pelanggan.nama AS nama_pelanggan', 't_pelanggan.tlp AS tlp_pelanggan', 't_pelanggan.alamat AS alamat_pelanggan', DB::raw('sum(DTP.qty) as jumlahBeliBarang'), DB::raw('sum(DTP.qty*DTP.harga_jual) as jumlahBayarBarang'))
+                                           ->where('TP.id_perusahaan', auth()->user()->id_perusahaan)
+                                           ->where('TP.id', '!=', 1)
+                                           ->groupBy('t_pelanggan.id')
+                                           ->orderBy('jumlahBayarBarang', 'DESC')
+                                           ->get();
             // return $pelangganTerbaik;
 
             foreach($pelangganTerbaik as $item) {
