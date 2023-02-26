@@ -41,7 +41,8 @@
   
                         <div class="form-group row ml-3">
                             {{-- <div class="file-upload-wrapper" data-text="Select your file!"> --}}
-                                <a class="file-upload-wrapper-download" data-text="Download Template" style="" download href="/assets/excel/Template Import Barang.xlsx"></a>
+                                {{-- <a class="file-upload-wrapper-download" data-text="Download Template" style="" download href="/assets/excel/Template Import Barang.xlsx"></a> --}}
+                                <a class="file-upload-wrapper-download" data-text="Download Template" href="{{ route('admin.download.template') }}" ></a>
                             {{-- </div> --}}
                             <div class="file-upload-wrapper-upload mt-3" data-text="Upload File!" style="">
                                 <input name="fileExcel" type="file" id="file1" onchange="uploadFile()" class="file-upload-field" value="">

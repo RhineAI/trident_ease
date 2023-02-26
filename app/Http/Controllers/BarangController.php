@@ -2,27 +2,35 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Merek;
 use App\Models\Barang;
+use App\Models\Satuan;
+use App\Models\Kategori;
+use App\Models\Supplier;
+use App\Models\Perusahaan;
+use Illuminate\Http\Request;
+use App\Exports\TemplateDownload;
+use Illuminate\Routing\Controller;
 use App\Http\Requests\StoreBarangRequest;
 use App\Http\Requests\UpdateBarangRequest;
-use App\Models\Kategori;
-use App\Models\Merek;
-use App\Models\Perusahaan;
-use App\Models\Satuan;
-use App\Models\Supplier;
-use Illuminate\Http\Request;
 
 
 class BarangController extends Controller
 {
+    // public function save(array $payload):: ?Ob
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
+
+    //  public __construct() {
+    //     $this->midleware->
+    //  }
     public function index()
     {
         $data['categories'] = Kategori::where('id_perusahaan', auth()->user()->id_perusahaan)->get();
+
         $data['supplier'] = Supplier::where('id_perusahaan', auth()->user()->id_perusahaan)->get();
         $data['merek'] = Merek::where('id_perusahaan', auth()->user()->id_perusahaan)->get();
         $data['satuan'] = Satuan::where('id_perusahaan', auth()->user()->id_perusahaan)->get();
@@ -46,6 +54,8 @@ class BarangController extends Controller
         // return $cek;
         
         // dd($data['barang']); die;
+
+        // return $barang;
         return view('barang.index', $data);
     }
 
@@ -236,6 +246,8 @@ class BarangController extends Controller
             ->make(true);
     }
 
+    
+    
     // <button onclick="editData(`'. route('barang.update', $barang->id).'`)" class="btn btn-xs btn-success"><i class="fa fa-edit"></i></button>
    
     /**
@@ -247,6 +259,7 @@ class BarangController extends Controller
     {
         //
     }
+    
 
     /**
      * Store a newly created resource in storage.
@@ -256,6 +269,7 @@ class BarangController extends Controller
      */
     public function store(Request $request)
     {
+        return $request->nama_barang;
         // return $request;
         // dd($request); die;
         // $input['harga_beli'] = $this->checkPrice($request->harga_beli);

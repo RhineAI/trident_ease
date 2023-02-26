@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Perusahaan;
 use App\Imports\BarangImport;
+use App\Exports\TemplateDownload;
 use Maatwebsite\Excel\Facades\Excel;
 
 class ImportController extends Controller
@@ -30,4 +31,10 @@ class ImportController extends Controller
         // Excel::toCollection(new BarangImport, $file->path, 'public/assets/excel')[0];
         // return back();
     }
+
+    public function downloadTemplate() 
+    {
+        return Excel::download(new TemplateDownload, 'template.xlsx');
+    }
+
 }

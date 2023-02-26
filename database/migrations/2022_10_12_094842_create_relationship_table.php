@@ -43,11 +43,11 @@ return new class extends Migration
         Schema::create('t_supplier', function (Blueprint $table) {
             $table->integer('id')->autoIncrement();
             $table->string('nama', 50);
-            $table->text('alamat');
-            $table->string('tlp', 50);
-            $table->string('salesman', 50);
-            $table->string('bank', 50);
-            $table->string('no_rekening', 50);
+            $table->text('alamat')->nullable();
+            $table->string('tlp', 50)->nullable();
+            $table->string('salesman', 50)->nullable();
+            $table->string('bank', 50)->nullable();
+            $table->string('no_rekening', 50)->nullable();
             $table->integer('id_perusahaan');
             $table->foreign('id_perusahaan')->references('id')->on('t_perusahaan')->onDelete('restrict')->onUpdate('restrict');
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));

@@ -8,6 +8,9 @@ use App\Models\Satuan;
 use App\Models\Kategori;
 use App\Models\Supplier;
 use Maatwebsite\Excel\Concerns\ToModel;
+use Maatwebsite\Excel\Concerns\WithHeadingRow;
+use PhpOffice\PhpSpreadsheet\Shared\Date;
+
 
 class BarangImport implements ToModel
 {
@@ -20,6 +23,7 @@ class BarangImport implements ToModel
     {
         $this->id_perusahaan = $id_perusahaan;
     }
+    
 
     public function model(array $row)
     {
@@ -56,17 +60,19 @@ class BarangImport implements ToModel
         ]);
         
         $supplier = Supplier::create([
-            'nama' => $row[18],
-            'alamat' => $row[19],
-            'tlp' => $row[20],
-            'salesman' => $row[21],
-            'bank' => $row[22],
-            'no_rekening' => $row[23],
+            'nama' => $row[7],
+            'alamat' => '',
+            'tlp' => '',
+            'salesman' => '',
+            'bank' => '',
+            'no_rekening' => '',
             'id_perusahaan' => $this->id_perusahaan
         ]);
 
-        if ($row[14] == 'aktif' or $row[14] == 'Aktif' or $row[14] == 'AKTIF' ) {
+        if ($row[13] == 'aktif' or $row[13] == 'Aktif' or $row[13] == 'AKTIF' ) {
             $status = 1;
+        } elseif($row[13] == 'Status' or $row[13] == 'status') {
+            $status = 3;
         } else {
             $status = 2;
         }
@@ -80,14 +86,17 @@ class BarangImport implements ToModel
             'id_satuan' => $satuan->id,
             'id_merek' => $merek->id,
             'id_perusahaan' => $this->id_perusahaan,
-            'tgl' => $row[8],
-            'stock' => $row[9],
-            'stock_minimal' => $row[10],
-            'harga_beli' => $row[11],
-            'keuntungan' => $row[12],
-            'keterangan' => $row[13],
+            'tgl' => 1,
+            'stock' => $row[8],
+            'stock_minimal' => $row[9],
+            'harga_beli' => $row[10],
+            'keuntungan' => $row[11],
+            'keterangan' => $row[12],
             'status' => $status,
         ]);
-        
+
+        $barang = Barang::where('status', 3)->delete();
+        // $delete = $barang->id;
+        // $delete->destroy();
     }
 }
