@@ -166,6 +166,7 @@ Route::middleware(['auth'])->group(function () {
                 Route::post('/barang-konsinyasi/data', [BarangController::class, 'dataKonsinyasi'])->name('barang.dataKonsinyasi');
                 Route::get('/import-barang', [ImportController::class, 'viewBarangImport'])->name('importBarang');
                 Route::post('/import-barang', [ImportController::class, 'barangImport'])->name('postImport');
+                Route::get('/download-template', [ImportController::class, 'downloadTemplate'])->name('download.template');
 
                 Route::resource('/supplier', SupplierController::class);
                 Route::get('/supplier-tambah', [SupplierController::class, 'index2'])->name('supplier2');
