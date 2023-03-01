@@ -87,11 +87,11 @@ class BarangImport implements ToModel
             'id_merek' => $merek->id,
             'id_perusahaan' => $this->id_perusahaan,
             'tgl' => 1,
-            'stock' => $row[8],
-            'stock_minimal' => $row[9],
-            'harga_beli' => $row[10],
-            'keuntungan' => $row[11],
-            'keterangan' => $row[12],
+            'stock' => $row[9],
+            'stock_minimal' => $row[10],
+            'harga_beli' => $row[11],
+            'keuntungan' => $row[12],
+            'keterangan' => $row[13],
             'status' => $status,
         ]);
 

@@ -62,7 +62,7 @@ class TemplateDownload implements WithColumnWidths, WithProperties, WithEvents, 
             'K' => 10,            
             'L' => 18,            
             'M' => 16,            
-            'N' => 13,            
+            'N' => 40,            
             'O' => 19,            
         ];
     }
@@ -84,7 +84,7 @@ class TemplateDownload implements WithColumnWidths, WithProperties, WithEvents, 
             'Min.Stok',
             'Harga Beli',
             'Keuntungan(%)',
-            'Keterangan',
+            'Keterangan Barang(Utama/Konsinyasi)',
             'Status(Aktif/Tidak)',
         ];
     }

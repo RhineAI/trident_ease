@@ -26,6 +26,7 @@ use App\Http\Controllers\KasKeluarController;
 use App\Http\Controllers\TransaksiPenjualanController;
 use App\Http\Controllers\ListTransaksiPenjualanController;
 use App\Http\Controllers\DetailPenjualanController;
+use App\Http\Controllers\ExcelLaporanController;
 use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\PDFController;
 use App\Http\Controllers\PembelianController;
@@ -167,6 +168,8 @@ Route::middleware(['auth'])->group(function () {
                 Route::get('/import-barang', [ImportController::class, 'viewBarangImport'])->name('importBarang');
                 Route::post('/import-barang', [ImportController::class, 'barangImport'])->name('postImport');
                 Route::get('/download-template', [ImportController::class, 'downloadTemplate'])->name('download.template');
+                Route::get('/download-laporan-kas/{awal}/{akhir}', [ExcelLaporanController::class, 'downloadLaporanKas'])->name('download.laporanKas');
+                Route::get('/download-laporan-penjualan/{awal}/{akhir}', [ExcelLaporanController::class, 'downloadLaporanPenjualan'])->name('download.laporanPenjualan');
 
                 Route::resource('/supplier', SupplierController::class);
                 Route::get('/supplier-tambah', [SupplierController::class, 'index2'])->name('supplier2');
