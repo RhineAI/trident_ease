@@ -20,12 +20,15 @@ class LaporanKasMasuk implements WithProperties, WithEvents, WithHeadings, FromC
     protected $id_perusahaan;
     protected $awal;
     protected $akhir;
+    protected $lastRow;
+    protected $totalKM;
 
-    public function  __construct($id_perusahaan, $awal, $akhir)
+    public function  __construct($id_perusahaan, $awal, $akhir, $model)
     {
         $this->id_perusahaan = $id_perusahaan;
         $this->awal = $awal;
         $this->akhir = $akhir;
+        $this->lastRow = count($model) + 4;
     }
 
     public function properties(): array
@@ -66,13 +69,11 @@ class LaporanKasMasuk implements WithProperties, WithEvents, WithHeadings, FromC
             ->select('t_kas_masuk.id', 't_kas_masuk.tgl', 't_kas_masuk.keterangan', 'U.nama AS nama_user', 't_kas_masuk.jumlah')  
             ->where('t_kas_masuk.id_perusahaan', auth()->user()->id_perusahaan)
             ->orderBy('id', 'asc')->get();
-        // $totalKasData = 0;
-        // foreach($kasKeluar as $item) {
-        //     $totalKasData += $item->jumlah;
-        // } 
+        
+        foreach($kasMasuk as $item) {
+            $this->totalKM += $item->jumlah;
+        } 
 
-        // $this->totalKasKeluar = $totalKasData;
-        // $this->countRow = count($kasKeluar);
         return $kasMasuk;
     }
 
@@ -92,11 +93,11 @@ class LaporanKasMasuk implements WithProperties, WithEvents, WithHeadings, FromC
                 $event->sheet->getStyle('A1')->getFont()->setBold(true);
                 $event->sheet->getStyle('A1:E1')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
 
-                // $event->sheet->insertNewRowBefore($this->countRow+1, $this->countRow+2);
-                // $event->sheet->mergeCells('A{{  }}:E1');
-                // $event->sheet->setCellValue('A1', 'Data Kas Keluar');
-                // $event->sheet->getStyle('A1')->getFont()->setBold(true);
-                // $event->sheet->getStyle('A1:E1')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+                $event->sheet->insertNewRowBefore($this->lastRow, 1);
+                $event->sheet->mergeCells(sprintf('A%s:E%s', $this->lastRow, $this->lastRow));
+                $event->sheet->setCellValue(sprintf('A%s', $this->lastRow), 'Total Kas Masuk : Rp. '. $this->totalKM);
+                $event->sheet->getStyle(sprintf('A%s', $this->lastRow))->getFont()->setBold(true);
+                $event->sheet->getStyle(sprintf('A%s:E%s', $this->lastRow, $this->lastRow))->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
                 
                 $event->sheet->getStyle('A3:E'.$event->sheet->getHighestRow())->applyFromArray([
                     'borders' => [

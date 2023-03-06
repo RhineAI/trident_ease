@@ -160,6 +160,7 @@ Route::middleware(['auth'])->group(function () {
                 Route::get('/download-laporan-stok-opname/{awal}/{akhir}/{merek}/{kategori}', [ExcelLaporanController::class, 'downloadLaporanStockOpname'])->name('download.laporanStockOpname');
                 Route::get('/download-laporan-hutang/{awal}/{akhir}', [ExcelLaporanController::class, 'downloadLaporanHutang'])->name('download.laporanHutang');
                 Route::get('/download-laporan-piutang/{awal}/{akhir}', [ExcelLaporanController::class, 'downloadLaporanPiutang'])->name('download.laporanPiutang');
+                Route::get('/download-laporan-harian/{awal}/{akhir}', [ExcelLaporanController::class, 'downloadLaporanHarian'])->name('download.laporanHarian');
         });
 
         Route::group(['prefix' => 'admin', 'middleware' => 'cek-hak-akses:admin', 'as' => 'admin.'], function () {
@@ -188,6 +189,7 @@ Route::middleware(['auth'])->group(function () {
                 Route::get('/download-laporan-stok-opname/{awal}/{akhir}/{merek}/{kategori}', [ExcelLaporanController::class, 'downloadLaporanStockOpname'])->name('download.laporanStockOpname');
                 Route::get('/download-laporan-hutang/{awal}/{akhir}', [ExcelLaporanController::class, 'downloadLaporanHutang'])->name('download.laporanHutang');
                 Route::get('/download-laporan-piutang/{awal}/{akhir}', [ExcelLaporanController::class, 'downloadLaporanPiutang'])->name('download.laporanPiutang');
+                Route::get('/download-laporan-harian/{awal}/{akhir}', [ExcelLaporanController::class, 'downloadLaporanHarian'])->name('download.laporanHarian');
 
                 Route::resource('/supplier', SupplierController::class);
                 Route::get('/supplier-tambah', [SupplierController::class, 'index2'])->name('supplier2');

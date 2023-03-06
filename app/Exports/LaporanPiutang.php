@@ -20,12 +20,15 @@ class LaporanPiutang implements WithProperties, WithEvents, WithHeadings, FromCo
     protected $id_perusahaan;
     protected $awal;
     protected $akhir;
+    protected $lastRow;
+    protected $totalP;
 
-    public function  __construct($id_perusahaan, $awal, $akhir)
+    public function  __construct($id_perusahaan, $awal, $akhir, $model)
     {
         $this->id_perusahaan = $id_perusahaan;
         $this->awal = $awal;
         $this->akhir = $akhir;
+        $this->lastRow = count($model) + 4;
     }
 
     public function properties(): array
@@ -51,7 +54,6 @@ class LaporanPiutang implements WithProperties, WithEvents, WithHeadings, FromCo
     public function headings() :array
     {
         return [
-            'No',
             'Kode Penjualan',
             'Tanggal',
             'Pelanggan',
@@ -65,9 +67,18 @@ class LaporanPiutang implements WithProperties, WithEvents, WithHeadings, FromCo
         $piutang = Piutang::whereBetween('t_data_piutang.tgl', [$this->awal, $this->akhir])
         ->leftJoin('t_transaksi_penjualan AS TP', 'TP.id', 't_data_piutang.id_penjualan')
         ->leftJoin('t_pelanggan AS P', 'P.id', 'TP.id_pelanggan')
-        ->select('t_data_piutang.*', 'TP.id as kode_invoice', 'TP.sisa', 'P.nama AS nama_pelanggan')  
+        ->select('t_data_piutang.id_penjualan', 't_data_piutang.tgl', 'P.nama AS nama_pelanggan', 'TP.sisa', 't_data_piutang.total_bayar')  
         ->where('t_data_piutang.id_perusahaan', auth()->user()->id_perusahaan)
         ->orderBy('TP.id', 'desc')->get();   
+
+        foreach($piutang as $item) {
+            $this->totalP += $item->total_bayar;
+            if($item->sisa == 0){
+                $item->sisa = 'Lunas';
+            } else {
+                $item->sisa = 'Belum Lunas';
+            }
+        } 
     
         return $piutang;
     }
@@ -81,15 +92,20 @@ class LaporanPiutang implements WithProperties, WithEvents, WithHeadings, FromCo
                 $event->sheet->getColumnDimension('C')->setAutoSize(true);
                 $event->sheet->getColumnDimension('D')->setAutoSize(true);
                 $event->sheet->getColumnDimension('E')->setAutoSize(true);
-                $event->sheet->getColumnDimension('F')->setAutoSize(true);
 
                 $event->sheet->insertNewRowBefore(1, 2);
-                $event->sheet->mergeCells('A1:F1');
+                $event->sheet->mergeCells('A1:E1');
                 $event->sheet->setCellValue('A1', 'Data Piutang');
                 $event->sheet->getStyle('A1')->getFont()->setBold(true);
-                $event->sheet->getStyle('A1:F1')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+                $event->sheet->getStyle('A1:E1')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+
+                $event->sheet->insertNewRowBefore($this->lastRow, 1);
+                $event->sheet->mergeCells(sprintf('A%s:E%s', $this->lastRow, $this->lastRow));
+                $event->sheet->setCellValue(sprintf('A%s', $this->lastRow), 'Total Piutang : Rp. '. $this->totalP);
+                $event->sheet->getStyle(sprintf('A%s', $this->lastRow))->getFont()->setBold(true);
+                $event->sheet->getStyle(sprintf('A%s:E%s', $this->lastRow, $this->lastRow))->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
                 
-                $event->sheet->getStyle('A3:F'.$event->sheet->getHighestRow())->applyFromArray([
+                $event->sheet->getStyle('A3:E'.$event->sheet->getHighestRow())->applyFromArray([
                     'borders' => [
                         'allBorders' => [
                             'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,

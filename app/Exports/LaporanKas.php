@@ -25,13 +25,17 @@ class LaporanKas implements FromArray, WithMultipleSheets
     protected $awal;
     protected $akhir;
     protected $sheets;
+    protected $kasMasuk;
+    protected $kasKeluar;
 
-    public function  __construct($id_perusahaan, $awal, $akhir)
+    public function  __construct($id_perusahaan, $awal, $akhir, $kasMasuk, $kasKeluar)
     {
         // return $id_perusahaan;
         $this->id_perusahaan = $id_perusahaan;
         $this->awal = $awal;
         $this->akhir = $akhir;
+        $this->kasMasuk = $kasMasuk;
+        $this->kasKeluar = $kasKeluar;
     }
 
     public function array(): array
@@ -42,8 +46,8 @@ class LaporanKas implements FromArray, WithMultipleSheets
     public function sheets(): array
     {
         $sheets = [
-            new LaporanKasMasuk($this->id_perusahaan, $this->awal, $this->akhir),
-            new LaporanKasKeluar($this->id_perusahaan, $this->awal, $this->akhir)
+            new LaporanKasMasuk($this->id_perusahaan, $this->awal, $this->akhir, $this->kasMasuk),
+            new LaporanKasKeluar($this->id_perusahaan, $this->awal, $this->akhir, $this->kasKeluar)
         ];
 
         return $sheets;
