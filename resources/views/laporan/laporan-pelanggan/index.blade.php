@@ -59,9 +59,11 @@ Data Pelanggan Terbaik
                         @if (auth()->user()->hak_akses == 'admin')
                             <a href="{{ route('admin.list-b-pelanggan.print', [$tanggalAwal, $tanggalAkhir]) }}" class="ml-2 mb-3 mt-3 btn btn-sm btn-danger text-end"><i class="fa fa-file-pdf"></i> Print PDF</a>
                             <a href="{{ route('admin.list-b-pelanggan.download', [$tanggalAwal, $tanggalAkhir] ) }}" class="mb-3 ml-2 mt-3 btn btn-sm btn-success text-end"><i class="fa fa-download"></i> Download PDF</a>           
+                            <a class="ml-2 mb-3 mt-3 btn btn-sm btn-success text-end" data-text="Download Template" href="{{ route('admin.download.laporanPelangganTerbaik', [$tanggalAwal, $tanggalAkhir]) }}" ><i class="fa fa-download"></i> Download Excel</a>        
                         @elseif(auth()->user()->hak_akses == 'owner') 
                             <a href="{{ route('owner.list-b-pelanggan.print', [$tanggalAwal, $tanggalAkhir]) }}" class="ml-2 mb-3 mt-3 btn btn-sm btn-danger text-end"><i class="fa fa-file-pdf"></i> Print PDF</a>
                             <a href="{{ route('owner.list-b-pelanggan.download', [$tanggalAwal, $tanggalAkhir] ) }}" class="mb-3 ml-2 mt-3 btn btn-sm btn-success text-end"><i class="fa fa-download"></i> Download PDF</a>               
+                            <a class="ml-2 mb-3 mt-3 btn btn-sm btn-success text-end" data-text="Download Template" href="{{ route('owner.download.laporanPelangganTerbaik', [$tanggalAwal, $tanggalAkhir]) }}" ><i class="fa fa-download"></i> Download Excel</a>        
                         @endif   
                     </div>
                 {{-- <a href="{{ route('admin.list-transaksi.export_pdf', [$tanggalAwal, $tanggalAkhir] ) }}" target="_blank" class="btn btn-danger btn-sm btn-flat" ><i class="bi bi-filetype-pdf"></i> Export PDF</a> --}}

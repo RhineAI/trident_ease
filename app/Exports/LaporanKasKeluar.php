@@ -105,11 +105,11 @@ class LaporanKasKeluar implements WithProperties, WithEvents, WithHeadings, From
         return [
             'creator'        => 'Muhamad Fadhil Allifah',
             'lastModifiedBy' => 'Muhamad Fadhil Allifah',
-            'title'          => 'Import Excel Laporan Kas',
-            'description'    => 'Import Excel Data Laporan Kas',
-            'subject'        => 'Import Excel Laporan Kas',
-            'keywords'       => 'templates,import,spreadsheet',
-            'category'       => 'Import',
+            'title'          => 'Export Excel Laporan Kas',
+            'description'    => 'Export Excel Data Laporan Kas',
+            'subject'        => 'Export Excel Laporan Kas',
+            'keywords'       => 'templates,export,spreadsheet',
+            'category'       => 'Export',
             'manager'        => 'Muhamad Fadhil Allifah',
             'company'        => 'SMKN 1 Cianjur',
         ];

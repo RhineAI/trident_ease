@@ -2,17 +2,17 @@
 
 namespace App\Exports;
 
-use App\Models\KasMasuk;
+use App\Models\DetailPembelian;
+use App\Models\Hutang;
+use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Concerns\FromCollection;
-use Maatwebsite\Excel\Concerns\WithColumnWidths;
-use Maatwebsite\Excel\Concerns\WithProperties;
 use Maatwebsite\Excel\Concerns\WithEvents;
-use Maatwebsite\Excel\Events\AfterSheet;
 use Maatwebsite\Excel\Concerns\WithHeadings;
-use Maatwebsite\Excel\Concerns\WithColumnFormatting;
+use Maatwebsite\Excel\Concerns\WithProperties;
 use Maatwebsite\Excel\Concerns\WithTitle;
+use Maatwebsite\Excel\Events\AfterSheet;
 
-class LaporanKasMasuk implements WithProperties, WithEvents, WithHeadings, FromCollection, WithTitle
+class LaporanHutang implements WithProperties, WithEvents, WithHeadings, FromCollection, WithTitle
 {
     /**
     * @return \Illuminate\Support\Collection
@@ -33,9 +33,9 @@ class LaporanKasMasuk implements WithProperties, WithEvents, WithHeadings, FromC
         return [
             'creator'        => 'Muhamad Fadhil Allifah',
             'lastModifiedBy' => 'Muhamad Fadhil Allifah',
-            'title'          => 'Export Excel Laporan Kas',
-            'description'    => 'Export Excel Data Laporan Kas',
-            'subject'        => 'Export Excel Laporan Kas',
+            'title'          => 'Export Excel Laporan Hutang',
+            'description'    => 'Export Excel Data Laporan Hutang',
+            'subject'        => 'Export Excel Laporan Hutang',
             'keywords'       => 'templates,export,spreadsheet',
             'category'       => 'Export',
             'manager'        => 'Muhamad Fadhil Allifah',
@@ -45,37 +45,33 @@ class LaporanKasMasuk implements WithProperties, WithEvents, WithHeadings, FromC
 
     public function title(): string
     {
-        return 'Kas Masuk';
+        return 'Laporan Hutang';
     }
 
     public function headings() :array
     {
         return [
             'No',
+            'Kode Pembelian',
             'Tanggal',
-            'Keterangan',
-            'Petugas',
-            'Jumlah',
+            'Supplier',
+            'Status',
+            'Dibayar',
         ];
     }
 
     public function collection()
     {
-        $kasMasuk = KasMasuk::whereBetween('tgl', [$this->awal, $this->akhir])
-            ->leftJoin('t_users AS U', 'U.id', 't_kas_masuk.id_user')
-            ->select('t_kas_masuk.id', 't_kas_masuk.tgl', 't_kas_masuk.keterangan', 'U.nama AS nama_user', 't_kas_masuk.jumlah')  
-            ->where('t_kas_masuk.id_perusahaan', auth()->user()->id_perusahaan)
-            ->orderBy('id', 'asc')->get();
-        // $totalKasData = 0;
-        // foreach($kasKeluar as $item) {
-        //     $totalKasData += $item->jumlah;
-        // } 
-
-        // $this->totalKasKeluar = $totalKasData;
-        // $this->countRow = count($kasKeluar);
-        return $kasMasuk;
+        $hutang = Hutang::whereBetween('t_data_hutang.tgl', [$this->awal, $this->akhir])
+        ->leftJoin('t_transaksi_pembelian AS TP', 'TP.id', 't_data_hutang.id_pembelian')
+        ->leftJoin('t_supplier AS S', 'S.id', 'TP.id_supplier')
+        ->select('t_data_hutang.*', 'TP.id as kode_invoice', 'TP.sisa', 'S.nama AS nama_supplier')  
+        ->where('t_data_hutang.id_perusahaan', auth()->user()->id_perusahaan)
+        ->orderBy('TP.id', 'desc')->get();
+    
+        return $hutang;
     }
-
+    
     public function registerEvents(): array
     {
         return [
@@ -85,20 +81,15 @@ class LaporanKasMasuk implements WithProperties, WithEvents, WithHeadings, FromC
                 $event->sheet->getColumnDimension('C')->setAutoSize(true);
                 $event->sheet->getColumnDimension('D')->setAutoSize(true);
                 $event->sheet->getColumnDimension('E')->setAutoSize(true);
+                $event->sheet->getColumnDimension('F')->setAutoSize(true);
 
                 $event->sheet->insertNewRowBefore(1, 2);
-                $event->sheet->mergeCells('A1:E1');
-                $event->sheet->setCellValue('A1', 'Data Kas Masuk');
+                $event->sheet->mergeCells('A1:F1');
+                $event->sheet->setCellValue('A1', 'Data Hutang');
                 $event->sheet->getStyle('A1')->getFont()->setBold(true);
-                $event->sheet->getStyle('A1:E1')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
-
-                // $event->sheet->insertNewRowBefore($this->countRow+1, $this->countRow+2);
-                // $event->sheet->mergeCells('A{{  }}:E1');
-                // $event->sheet->setCellValue('A1', 'Data Kas Keluar');
-                // $event->sheet->getStyle('A1')->getFont()->setBold(true);
-                // $event->sheet->getStyle('A1:E1')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
+                $event->sheet->getStyle('A1:F1')->getAlignment()->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
                 
-                $event->sheet->getStyle('A3:E'.$event->sheet->getHighestRow())->applyFromArray([
+                $event->sheet->getStyle('A3:F'.$event->sheet->getHighestRow())->applyFromArray([
                     'borders' => [
                         'allBorders' => [
                             'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,

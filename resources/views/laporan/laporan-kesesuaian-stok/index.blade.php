@@ -84,10 +84,12 @@ Laporan Kesesuaian Stok
                     <div class="button-group mb-2">   
                         @if (auth()->user()->hak_akses == 'admin')
                             <a href="{{ route('admin.laporan-kesesuaian-stok.print', [$tanggalAwal, $tanggalAkhir, $merk, $category]) }}" class="ml-2 mb-3 mt-3 btn btn-sm btn-danger text-end"><i class="fa fa-file-pdf"></i> Print PDF</a>
-                            <a href="{{ route('admin.laporan-kesesuaian-stok.download', [$tanggalAwal, $tanggalAkhir, $merk, $category] ) }}" class="ml-2 mb-3 mt-3 btn btn-sm btn-success text-end"><i class="fa fa-download"></i> Download PDF</a>           
+                            <a href="{{ route('admin.laporan-kesesuaian-stok.download', [$tanggalAwal, $tanggalAkhir, $merk, $category] ) }}" class="ml-2 mb-3 mt-3 btn btn-sm btn-success text-end"><i class="fa fa-download"></i> Download PDF</a>       
+                            <a class="ml-2 mb-3 mt-3 btn btn-sm btn-success text-end" data-text="Download Template" href="{{ route('admin.download.laporanStockOpname', [$tanggalAwal, $tanggalAkhir, $merk, $category]) }}" ><i class="fa fa-download"></i> Download Excel</a>        
                         @elseif(auth()->user()->hak_akses == 'owner') 
                             <a href="{{ route('owner.laporan-kesesuaian-stok.print', [$tanggalAwal, $tanggalAkhir, $merk, $category]) }}" class="ml-2 mb-3 mt-3 btn btn-sm btn-danger text-end"><i class="fa fa-file-pdf"></i> Print PDF</a>
                             <a href="{{ route('owner.laporan-kesesuaian-stok.download', [$tanggalAwal, $tanggalAkhir, $merk, $category] ) }}" class="ml-2 mb-3 mt-3 btn btn-sm btn-success text-end"><i class="fa fa-download"></i> Download PDF</a>                
+                            <a class="ml-2 mb-3 mt-3 btn btn-sm btn-success text-end" data-text="Download Template" href="{{ route('owner.download.laporanStockOpname', [$tanggalAwal, $tanggalAkhir, $merk, $category]) }}" ><i class="fa fa-download"></i> Download Excel</a>        
                         @endif            
                     </div>
 
