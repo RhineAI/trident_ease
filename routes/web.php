@@ -26,6 +26,7 @@ use App\Http\Controllers\KasKeluarController;
 use App\Http\Controllers\TransaksiPenjualanController;
 use App\Http\Controllers\ListTransaksiPenjualanController;
 use App\Http\Controllers\DetailPenjualanController;
+use App\Http\Controllers\ExcelLaporanController;
 use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\PDFController;
 use App\Http\Controllers\PembelianController;
@@ -148,7 +149,18 @@ Route::middleware(['auth'])->group(function () {
                 Route::get('/laporan-harian/download/{awal}/{akhir}', [LaporanController::class, 'DownloadHarian'])->name('laporan-harian.download');
                 Route::get('/laporan-harian/pdf/{awal}/{akhir}', [LaporanController::class, 'PrintPDFHarian'])->name('laporan-harian.print');
                 Route::post('/laporan-retur-penjualan/data/{awal}/{akhir}', [LaporanController::class, 'dataLaporanReturPenjualan'])->name('laporan-retur-penjualan.data');
-                Route::post('/laporan-retur-pembelian/data/{awal}/{akhir}', [LaporanController::class, 'dataLaporanReturPembelian'])->name('laporan-retur-pembelian.data');   
+                Route::post('/laporan-retur-pembelian/data/{awal}/{akhir}', [LaporanController::class, 'dataLaporanReturPembelian'])->name('laporan-retur-pembelian.data'); 
+                
+                // Export Excel LAPORAN 
+                Route::get('/download-laporan-kas/{awal}/{akhir}', [ExcelLaporanController::class, 'downloadLaporanKas'])->name('download.laporanKas');
+                Route::get('/download-laporan-penjualan/{awal}/{akhir}', [ExcelLaporanController::class, 'downloadLaporanPenjualan'])->name('download.laporanPenjualan');
+                Route::get('/download-laporan-pembelian/{awal}/{akhir}', [ExcelLaporanController::class, 'downloadLaporanPembelian'])->name('download.laporanPembelian');
+                Route::get('/download-laporan-stok/{merek}/{kategori}', [ExcelLaporanController::class, 'downloadLaporanStok'])->name('download.laporanStok');
+                Route::get('/download-laporan-pelanggan-terbaik/{awal}/{akhir}', [ExcelLaporanController::class, 'downloadLaporanPelangganTerbaik'])->name('download.laporanPelangganTerbaik');
+                Route::get('/download-laporan-stok-opname/{awal}/{akhir}/{merek}/{kategori}', [ExcelLaporanController::class, 'downloadLaporanStockOpname'])->name('download.laporanStockOpname');
+                Route::get('/download-laporan-hutang/{awal}/{akhir}', [ExcelLaporanController::class, 'downloadLaporanHutang'])->name('download.laporanHutang');
+                Route::get('/download-laporan-piutang/{awal}/{akhir}', [ExcelLaporanController::class, 'downloadLaporanPiutang'])->name('download.laporanPiutang');
+                Route::get('/download-laporan-harian/{awal}/{akhir}', [ExcelLaporanController::class, 'downloadLaporanHarian'])->name('download.laporanHarian');
         });
 
         Route::group(['prefix' => 'admin', 'middleware' => 'cek-hak-akses:admin', 'as' => 'admin.'], function () {
@@ -167,6 +179,17 @@ Route::middleware(['auth'])->group(function () {
                 Route::get('/import-barang', [ImportController::class, 'viewBarangImport'])->name('importBarang');
                 Route::post('/import-barang', [ImportController::class, 'barangImport'])->name('postImport');
                 Route::get('/download-template', [ImportController::class, 'downloadTemplate'])->name('download.template');
+
+                // Export Excel LAPORAN 
+                Route::get('/download-laporan-kas/{awal}/{akhir}', [ExcelLaporanController::class, 'downloadLaporanKas'])->name('download.laporanKas');
+                Route::get('/download-laporan-penjualan/{awal}/{akhir}', [ExcelLaporanController::class, 'downloadLaporanPenjualan'])->name('download.laporanPenjualan');
+                Route::get('/download-laporan-pembelian/{awal}/{akhir}', [ExcelLaporanController::class, 'downloadLaporanPembelian'])->name('download.laporanPembelian');
+                Route::get('/download-laporan-stok/{merek}/{kategori}', [ExcelLaporanController::class, 'downloadLaporanStok'])->name('download.laporanStok');
+                Route::get('/download-laporan-pelanggan-terbaik/{awal}/{akhir}', [ExcelLaporanController::class, 'downloadLaporanPelangganTerbaik'])->name('download.laporanPelangganTerbaik');
+                Route::get('/download-laporan-stok-opname/{awal}/{akhir}/{merek}/{kategori}', [ExcelLaporanController::class, 'downloadLaporanStockOpname'])->name('download.laporanStockOpname');
+                Route::get('/download-laporan-hutang/{awal}/{akhir}', [ExcelLaporanController::class, 'downloadLaporanHutang'])->name('download.laporanHutang');
+                Route::get('/download-laporan-piutang/{awal}/{akhir}', [ExcelLaporanController::class, 'downloadLaporanPiutang'])->name('download.laporanPiutang');
+                Route::get('/download-laporan-harian/{awal}/{akhir}', [ExcelLaporanController::class, 'downloadLaporanHarian'])->name('download.laporanHarian');
 
                 Route::resource('/supplier', SupplierController::class);
                 Route::get('/supplier-tambah', [SupplierController::class, 'index2'])->name('supplier2');
@@ -288,7 +311,7 @@ Route::middleware(['auth'])->group(function () {
                 Route::get('/laporan-harian/download/{awal}/{akhir}', [LaporanController::class, 'DownloadHarian'])->name('laporan-harian.download');
                 Route::get('/laporan-harian/pdf/{awal}/{akhir}', [LaporanController::class, 'PrintPDFHarian'])->name('laporan-harian.print');
                 Route::post('/laporan-retur-penjualan/data/{awal}/{akhir}', [LaporanController::class, 'dataLaporanReturPenjualan'])->name('laporan-retur-penjualan.data');
-                Route::post('/laporan-retur-pembelian/data/{awal}/{akhir}', [LaporanController::class, 'dataLaporanReturPembelian'])->name('laporan-retur-pembelian.data');                
+                Route::post('/laporan-retur-pembelian/data/{awal}/{akhir}', [LaporanController::class, 'dataLaporanReturPembelian'])->name('laporan-retur-pembelian.data');      
         });
 
         //Kasir
