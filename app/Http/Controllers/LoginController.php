@@ -34,7 +34,7 @@ class LoginController extends Controller
         if(Auth::attempt($user)){
             $request->session()->regenerate();
             // if (Auth::user()->hak_akses == 'super_admin') {
-                return redirect()->intended('/'.$getUser->hak_akses)->with('success', 'Login Success');
+                return redirect()->intended('/'.$getUser->hak_akses)->with('success', 'Anda telah login sebagai '.$getUser->hak_akses);
             // } elseif(Auth::user()->hak_akses == 'admin') {
                 // return redirect()->intended('/'.$getUser->hak_akses)->with('success', 'Login Success');
             // }

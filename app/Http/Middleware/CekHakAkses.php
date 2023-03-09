@@ -16,7 +16,7 @@ class CekHakAkses
      */
     public function handle(Request $request, Closure $next, $hak_akses)
     {   
-        // dd($hak_akses);
+        // dd($hak_akses); 
         $akses = explode('|', $hak_akses);
         if (checkPermission($akses)) {
             return $next($request);

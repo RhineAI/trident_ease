@@ -629,6 +629,20 @@
             } 
         });
 
+        function CariIdBarang(cari){
+            var found = false;
+            var x = 1;
+            while((x<=count) && ($("input[name='item["+x+"][id_barang]']").val()!=cari)){
+                x++
+            }
+
+            if($("input[name='item["+x+"][id_barang]']").val()==cari){
+                found=true;
+            }
+
+            return found;
+        }
+
         function TambahDataPenjualan(id,kode,nama,harga_beli,harga_jual,stock, keuntungan){
             var id_barang=id;
             var kode_barang=kode;
@@ -678,9 +692,9 @@
             } else{
                 var posisi = CariPosisi(id_barang);
                 var qty = Number($('#qty'+posisi).val())+1;
+                $('#qty'+posisi).val(qty);
                 var discount = $('#discount' + posisi).val();
                 const subtotal = harga_jual * qty - ((harga_jual * qty) * discount/100)
-                $('#qty'+posisi).val(qty);
                 $('#subtotal'+posisi).val(subtotal);
                 $('#displayST' + posisi).text(subtotal);
 
@@ -1003,19 +1017,6 @@
             $('#total_penjualan').val(parseFloat(total.replace(/Rp/g, '').substr(1)));	
         });
 
-        function CariIdBarang(cari){
-            var found = false;
-            var x = 1;
-            while((x<=count) && ($("input[name='item["+x+"][id_barang]']").val()!=cari)){
-                x++
-            }
-
-            if($("input[name='item["+x+"][id_barang]']").val()==cari){
-                found=true;
-            }
-
-            return found;
-        }
 
         function CariPosisi(cari){
             var found=false;
