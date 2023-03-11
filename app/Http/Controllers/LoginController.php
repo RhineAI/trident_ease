@@ -32,7 +32,17 @@ class LoginController extends Controller
         $getUser = User::where('username', $request->username)->first();
 
         if(Auth::attempt($user)){
-            $request->session()->regenerate();
+            if(strtotime($getUser->expiredDate) < strtotime(date('Y-m-d'))){
+                $data['perusahaan'] = Perusahaan::select('*')->where('id', auth()->user()->id_perusahaan)->first();
+
+                Auth::logout();
+
+                $request->session()->invalidate();
+
+                $request->session()->regenerateToken();
+                return $this->contactUs($data['perusahaan']);
+            }
+                $request->session()->regenerate();
             // if (Auth::user()->hak_akses == 'super_admin') {
                 return redirect()->intended('/'.$getUser->hak_akses)->with('success', 'Anda telah login sebagai '.$getUser->hak_akses);
             // } elseif(Auth::user()->hak_akses == 'admin') {
@@ -58,6 +68,9 @@ class LoginController extends Controller
         return redirect()->route('login')->with('success', 'Logout Berhasil');
    }
 
+   public function contactUs($perusahaan){
+    return view('auth.contactUs', compact('perusahaan'));
+   }
 
     // Register
     public function reg() {
@@ -110,6 +123,8 @@ class LoginController extends Controller
         $perusahaan->no_rekening = $request->no_rekening;
         $perusahaan->slogan = $request->slogan;
         $perusahaan->grade = 1;
+        $perusahaan->startDate = date('Y-m-d');
+        // $perusahaan->expiredDate = date('Y-m-d');
         $perusahaan->save();
         
         // $id = Perusahaan::latest()->first();

@@ -377,6 +377,7 @@ Route::post('/', [LoginController::class, 'login']);
 Route::get('/register', [LoginController::class, 'reg'])->name('reg');
 Route::post('/register', [LoginController::class, 'register'])->name('register');
 Route::get('/register/success/{id}/{token}', [LoginController::class, 'regSuccess'])->name('regSuccess');
+Route::get('/contact-us', [LoginController::class, 'contactUs']);
 
 Route::get('/route-clear', function() {
         Artisan::call('route:clear');

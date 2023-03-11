@@ -45,7 +45,7 @@
                                                 <td class="text-center">Phone</td>
                                                 <td class="text-center">Grade</td>
                                                 <td class="text-center">Dibuat</td>
-                                                <td class="text-center">Updated</td>
+                                                <td class="text-center">Tanggal Kadaluarsa</td>
                                                 <td class="text-center">Action</td>
                                             </tr>
                                         </thead>
@@ -65,7 +65,11 @@
                                                         <td><span class="badge badge-danger">Premium</span></td>
                                                     @endif
                                                     <td>{{ $item->created_at->diffForHumans() }}</td>
-                                                    <td>{{ $item->updated_at->diffForHumans() }}</td>
+                                                    @if ($item->grade == 1)
+                                                        <td>-</td>
+                                                    @else
+                                                        <td>{{ $item->expiredDate }}</td>
+                                                    @endif
                                                     <td><button data-mode ="edit"
                                                         data-nama="{{ $item->nama }}" 
                                                         data-pemilik="{{ $item->pemilik }}"

@@ -119,8 +119,16 @@ class SuperAdminController extends Controller
     }
     public function update(Request $request, $id)
     {
+        // return (strtotime($request->expiredDate) > strtotime(date('Y-m-d')));
+
         $perusahaan = Perusahaan::find($id);
         $perusahaan['grade'] = $request->grade;
+        $perusahaan['startDate'] = date('Y-m-d');
+        if(strtotime($request->expiredDate) > strtotime(date('Y-m-d'))){
+            $perusahaan['expiredDate'] = $request->expiredDate;
+        } else {
+            return back()->with(['error', 'Tanggal Kadaluarsa Sewa Perusahaan Harus Melebihi Hari Ini']);
+        }
         $perusahaan->update($request->all());
 
         // return response(null, 204);

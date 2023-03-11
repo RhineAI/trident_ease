@@ -76,6 +76,16 @@
                         </div>
                     </div>
 
+                    <div class="form-group row">
+                        <label for="expiredDate" class="col-md-2 col-md-offset-1 control-label">
+                            <h5 class="my-2">Tanggal Akhir Sewa</h5>
+                        </label>
+                        <div class="col-md-10">
+                            <input type="date" name="expiredDate" id="expiredDate" class="form-control">
+                            <span class="help-block with-errors"></span>
+                        </div>
+                    </div>
+
                     <input readonly type="text" name="id_perusahaan" value="{{ $cPerusahaan->id }}" style="display: none;">
             </div>
             <div class="modal-footer">
