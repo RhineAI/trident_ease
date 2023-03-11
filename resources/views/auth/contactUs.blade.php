@@ -1,151 +1,66 @@
 <!DOCTYPE html>
-<!-- Created By CodingNepal -->
-<html lang="en" dir="ltr">
-   <head>
-      <meta charset="utf-8">
-      <title>Thanks | ZiePOS</title>
-      <link rel="stylesheet" href="style.css">
-      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
-      <link rel="icon" href="{{ asset('assets') }}/img/ziepos.png" type="image/png">
+<html lang="en">
 
-      <style>
-          @import url('https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap');
-          *{
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
-          }
-          html,body{
-            display: grid;
-            height: 100%;
-            width: 100%;
-            place-items: center;
-            background: linear-gradient(375deg, #1cc7d0, #2ede98);
-          }
-          ::selection{
-            color: #fff;
-            background: #1cc7d0;
-          }
-          .wrapper{
-            height: 400px;
-            width: 320px;
-            position: relative;
-            transform-style: preserve-3d;
-          perspective: 1000px;
-          }
-          .wrapper .card{
-            position: absolute;
-            height: 100%;
-            width: 100%;
-            padding: 5px;
-            background: #fff;
-            border-radius: 10px;
-            transform: translateY(0deg);
-            transform-style: preserve-3d;
-            backface-visibility: hidden;
-            box-shadow: 0px 10px 15px rgba(0,0,0,0.1);
-            transition: transform 0.7s cubic-bezier(0.4,0.2,0.2,1);
-          }
-          .wrapper:hover > .front-face{
-            transform: rotateY(-180deg);
-          }
-          .wrapper .card img{
-            height: 100%;
-            width: 100%;
-            object-fit: cover;
-            border-radius: 10px;
-          }
-          .wrapper .back-face{
-            display: flex;
-            align-items: center;
-            justify-content: space-evenly;
-            flex-direction: column;
-            transform: rotateY(180deg);
-          }
-          .wrapper:hover > .back-face{
-            transform: rotateY(0deg);
-          }
-          .wrapper .back-face img{
-            height: 150px;
-            width: 150px;
-            padding: 5px;
-            border-radius: 50%;
-            background: linear-gradient(375deg, #1cc7d0, #2ede98);
-          }
-          .wrapper .back-face .info{
-            text-align: center;
-          }
-          .back-face .info .title{
-            font-size: 30px;
-            font-weight: 500;
-          }
-          .back-face ul{
-            display: flex;
-          }
-          .back-face ul a{
-            display: block;
-            height: 40px;
-            width: 40px;
-            color: #fff;
-            text-align: center;
-            margin: 0 5px;
-            line-height: 38px;
-            border: 2px solid transparent;
-            border-radius: 50%;
-            background: linear-gradient(375deg, #1cc7d0, #2ede98);
-            transition: all 0.5s ease;
-          }
-          .back-face ul a:hover{
-            color: #1cc7d0;
-            border-color: #1cc7d0;
-            background: linear-gradient(375deg, transparent, transparent);
-          }
-          a {
-            text-decoration: none;
-            color:#1cc7d0;
-          }
-          .hover {
-            margin : 0 auto;
-            font-size: 30px;
-            font-weight: 500;
-            display: flex;
-            position: relative;
-            top: 45%;
-            left: 25%;
-          }
-      </style>
-   </head>
-   <body>
-      <div class="wrapper">
-          <?php
-            $replace = array(' ', '.', ',', 'PT', 'Pt', 'pt', 'pT', 'CV', 'Cv', 'cv', 'cV');
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-          ?>
-          <div class="card front-face">
-              <div class="title text-center hover" style="margin: 0 auto;">
-                  Masa Waktu Sewa Perusahaan Anda Telah Habis <br><a href="https://wa.wizard.id/17fae7"> Hubungi Kami Untuk Memperbaharui Masa Sewa</a>
-              </div>
-          </div>
-          <div class="card back-face">
-              <div class="title">
-                  Terimakasih telah menggunakan ZIEPOS!
-              </div>
-              <img src="{{ $perusahaan->logo }}">
-              <div class="info mb-4">
-                  <div class="title mx-5">
-                      {{ $perusahaan->nama }}
-                  </div>
-              </div>
-              <div></div>
-              <p class="">
-                  Ada Masalah?<a href="https://wa.wizard.id/17fae7"> Hubungi Kami</a>
-              </p>
-              <p>
-                <a class="text-center" href="{{ route('login') }}">Login</a>
-              </p>
-          </div>
-      </div>
-   </body>
+  <title>Contact US | ZiePOS</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Favicons -->
+  <link href="/assets/img/ziepos.png" rel="icon">
+  <link href="/assets/img/ziepos.png" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Montserrat:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="/contactUS/vendor/aos/aos.css" rel="stylesheet">
+  <link href="/contactUS/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/contactUS/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="/contactUS/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+  <link href="/contactUS/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+  <link href="/contactUS/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link href="/contactUS/css/style.css" rel="stylesheet">
+
+  <!-- =======================================================
+  * Template Name: Knight
+  * Updated: Mar 10 2023 with Bootstrap v5.2.3
+  * Template URL: https://bootstrapmade.com/knight-free-bootstrap-theme/
+  * Author: BootstrapMade.com
+  * License: https://bootstrapmade.com/license/
+  ======================================================== -->
+</head>
+
+<body>
+
+  <!-- ======= Hero Section ======= -->
+  <section id="hero">
+    <div class="hero-container">
+      <a href="index.html" class="hero-logo" data-aos="zoom-in"><img width="250" height="200" src="/assets/img/ziepos_nobg.png" alt=""></a>
+      <h1 data-aos="zoom-in">Masa Waktu Sewa Aplikasi Untuk Perusahaan Anda Telah Habis</h1>
+      <h2 data-aos="fade-up">Hubungi Kami Untuk Memperbaharui Masa Sewa</h2>
+      <a data-aos="fade-up" data-aos-delay="200" target="_blank" href="https://wa.wizard.id/df5559" class="btn-get-started scrollto">Contact US</a>
+    </div>
+  </section><!-- End Hero -->
+
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+  <!-- Vendor JS Files -->
+  <script src="/contactUS/vendor/aos/aos.js"></script>
+  <script src="/contactUS/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="/contactUS/vendor/glightbox/js/glightbox.min.js"></script>
+  <script src="/contactUS/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+  <script src="/contactUS/vendor/swiper/swiper-bundle.min.js"></script>
+  <script src="/contactUS/vendor/php-email-form/validate.js"></script>
+
+  <!-- Template Main JS File -->
+  <script src="/contactUS/js/main.js"></script>
+
+</body>
+
 </html>
-

@@ -38,21 +38,21 @@
                                     <table class="table table-hover dt-responsive text-center">
                                         <thead class="table-success">
                                             <tr>
-                                                <td class="text-center" width="7.4%">No</td>
-                                                <td class="text-center">Perusahaan</td>
+                                                <td class="text-center" width="7.4%">ID</td>
+                                                <td class="text-center">Company</td>
                                                 <td class="text-center">Owner</td>
                                                 <td class="text-center">Email</td>
                                                 <td class="text-center">Phone</td>
                                                 <td class="text-center">Grade</td>
-                                                <td class="text-center">Dibuat</td>
-                                                <td class="text-center">Tanggal Kadaluarsa</td>
+                                                <td class="text-center">Created</td>
+                                                <td class="text-center">Expired</td>
                                                 <td class="text-center">Action</td>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             @foreach ($perusahaan as $item)
                                                 <tr>
-                                                    <td>{{ $no++ }}</td>
+                                                    <td>{{ $item->id }}</td>
                                                     <td>{{ $item->nama }}</td>
                                                     <td>{{ $item->pemilik }}</td>
                                                     <td>{{ $item->email }}</td>
@@ -61,11 +61,11 @@
                                                         <td><span class="badge badge-primary">Free</span></td>
                                                     @elseif($item->grade == 2) 
                                                         <td><span class="badge" style="background-color:#81d6b0;">Intermediate</span></td>
-                                                    @elseif($item->grade == 3) 
+                                                    @elseif($item->grade == 3)
                                                         <td><span class="badge badge-danger">Premium</span></td>
                                                     @endif
                                                     <td>{{ $item->created_at->diffForHumans() }}</td>
-                                                    @if ($item->grade == 1)
+                                                    @if ($item->grade == 1 || $item->expiredDate === '0000-00-00')
                                                         <td>-</td>
                                                     @else
                                                         <td>{{ $item->expiredDate }}</td>
@@ -97,6 +97,7 @@
     @push('scripts')
         <script>
             // $('.table').DataTable();
+            $('body').addClass('sidebar-collapse');
 
             $('.table').DataTable({
                 order: [[5, 'desc']]

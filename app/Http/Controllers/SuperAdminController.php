@@ -15,7 +15,7 @@ class SuperAdminController extends Controller
     public function index()
     {
         $data['no'] = 1;
-        $data['perusahaan'] = Perusahaan::orderBy('updated_at', 'ASC')->get();
+        $data['perusahaan'] = Perusahaan::orderBy('grade', 'ASC')->get();
         $data['cPerusahaan'] = Perusahaan::select('*')->where('id', auth()->user()->id_perusahaan)->first();
         return view('super-admin.perusahaan.index')->with($data);
     }

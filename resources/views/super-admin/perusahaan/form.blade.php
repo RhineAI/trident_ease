@@ -14,7 +14,7 @@
                     @method('patch')
                     <div class="form-group row">
                         <label for="nama" class="col-md-2 col-md-offset-1 control-label">
-                            <h5 class="my-2">Nama</h5>
+                            <h5 class="my-2">Company</h5>
                         </label>
                         <div class="col-md-10">
                             <input readonly type="text" name="nama" id="nama" class="form-control" required autofocus>
@@ -24,7 +24,7 @@
 
                     <div class="form-group row">
                         <label for="pemilik" class="col-md-2 col-md-offset-1 control-label">
-                            <h5 class="my-2">Pemilik</h5>
+                            <h5 class="my-2">Owner</h5>
                         </label>
                         <div class="col-md-10">
                             <input readonly type="text" name="pemilik" id="pemilik" class="form-control" required autofocus>
@@ -78,7 +78,7 @@
 
                     <div class="form-group row">
                         <label for="expiredDate" class="col-md-2 col-md-offset-1 control-label">
-                            <h5 class="my-2">Tanggal Akhir Sewa</h5>
+                            <h5 class="my-2">Expired</h5>
                         </label>
                         <div class="col-md-10">
                             <input type="date" name="expiredDate" id="expiredDate" class="form-control">

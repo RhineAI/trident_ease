@@ -30,21 +30,30 @@ class LoginController extends Controller
         ]);
 
         $getUser = User::where('username', $request->username)->first();
-
+        $getPerusahaan = Perusahaan::where('id', $getUser->id_perusahaan)->first();
+        // return (strtotime($getPerusahaan->expiredDate) < strtotime(date('Y-m-d')));
         if(Auth::attempt($user)){
-            if(strtotime($getUser->expiredDate) < strtotime(date('Y-m-d'))){
-                $data['perusahaan'] = Perusahaan::select('*')->where('id', auth()->user()->id_perusahaan)->first();
-
-                Auth::logout();
-
-                $request->session()->invalidate();
-
-                $request->session()->regenerateToken();
-                return $this->contactUs($data['perusahaan']);
-            }
+            if($getPerusahaan->expiredDate === '0000-00-00'){
                 $request->session()->regenerate();
-            // if (Auth::user()->hak_akses == 'super_admin') {
                 return redirect()->intended('/'.$getUser->hak_akses)->with('success', 'Anda telah login sebagai '.$getUser->hak_akses);
+            } elseif($getPerusahaan->expiredDate !== '0000-00-00') {
+                if(strtotime($getPerusahaan->expiredDate) < strtotime(date('Y-m-d'))){
+                    $data['perusahaan'] = Perusahaan::select('*')->where('id', auth()->user()->id_perusahaan)->first();
+    
+                    Auth::logout();
+    
+                    $request->session()->invalidate();
+    
+                    $request->session()->regenerateToken();
+                    return $this->contactUs($data['perusahaan']);
+                } else {
+                    $request->session()->regenerate();
+                    return redirect()->intended('/'.$getUser->hak_akses)->with('success', 'Anda telah login sebagai '.$getUser->hak_akses);
+                }
+            }
+
+            
+            // if (Auth::user()->hak_akses == 'super_admin') {
             // } elseif(Auth::user()->hak_akses == 'admin') {
                 // return redirect()->intended('/'.$getUser->hak_akses)->with('success', 'Login Success');
             // }
