@@ -3,17 +3,18 @@
 namespace App\Exports;
 
 use App\Models\Barang;
+use Maatwebsite\Excel\Events\AfterSheet;
+use PhpOffice\PhpSpreadsheet\Shared\Date;
+use Maatwebsite\Excel\Concerns\WithEvents;
+use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
-use Maatwebsite\Excel\Concerns\WithColumnWidths;
 use Maatwebsite\Excel\Concerns\WithProperties;
-use Maatwebsite\Excel\Concerns\WithEvents;
-use Maatwebsite\Excel\Events\AfterSheet;
-use Maatwebsite\Excel\Concerns\WithHeadings;
-use Maatwebsite\Excel\Concerns\WithColumnFormatting;
-use PhpOffice\PhpSpreadsheet\Shared\Date;
+use Maatwebsite\Excel\Concerns\WithColumnWidths;
 use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
+use Maatwebsite\Excel\Concerns\WithColumnFormatting;
 
+use PhpOffice\PhpSpreadsheet\Style\Alignment;
 
 class TemplateDownload implements WithColumnWidths, WithProperties, WithEvents, WithHeadings, WithColumnFormatting
 {
@@ -57,13 +58,12 @@ class TemplateDownload implements WithColumnWidths, WithProperties, WithEvents, 
             'F' => 18,            
             'G' => 18,            
             'H' => 18,            
-            'I' => 12,            
+            'I' => 10,            
             'J' => 10,            
-            'K' => 10,            
-            'L' => 18,            
-            'M' => 16,            
-            'N' => 13,            
-            'O' => 19,            
+            'K' => 18,            
+            'L' => 16,            
+            'M' => 36,            
+            'N' => 19,            
         ];
     }
 
@@ -76,15 +76,14 @@ class TemplateDownload implements WithColumnWidths, WithProperties, WithEvents, 
             'Produk',
             'Barcode',
             'Kategori',
-            'Supplier',
             'Satuan',
             'Merek',
-            'Tanggal',
+            'Supplier',
             'Stok',
             'Min.Stok',
             'Harga Beli',
             'Keuntungan(%)',
-            'Keterangan',
+            'Keterangan Barang(Utama/Konsinyasi)',
             'Status(Aktif/Tidak)',
         ];
     }
@@ -92,12 +91,11 @@ class TemplateDownload implements WithColumnWidths, WithProperties, WithEvents, 
     public function registerEvents(): array
     {
         return [
-            AfterSheet::class    => function(AfterSheet $event) {
+            AfterSheet::class=> function(AfterSheet $event) {
    
                 $event->sheet->getDelegate()->getStyle('A1:O1')
                                 ->getAlignment()
                                 ->setHorizontal(\PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER);
-   
             },
         ];
     }

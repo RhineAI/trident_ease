@@ -269,7 +269,7 @@ class BarangController extends Controller
      */
     public function store(Request $request)
     {
-        return $request->nama_barang;
+        // return $request->nama_barang;
         // return $request;
         // dd($request); die;
         // $input['harga_beli'] = $this->checkPrice($request->harga_beli);
@@ -296,11 +296,11 @@ class BarangController extends Controller
 
         // $now = now();
         // $tglBarang = Barang::all();
-        $now = date('Y-m-d');
+
         // return $tglBarang;
         // $perusahaan = Perusahaan::all()->where('id', auth()->user()->id_perusahaan);
         $perusahaan = Perusahaan::where('id', auth()->user()->id_perusahaan)->first();
-        $limit = Barang::whereDate('created_at', $now)->where('id_perusahaan', auth()->user()->id_perusahaan)->count();
+        $limit = Barang::whereDate('tgl', date('Y-m-d'))->where('id_perusahaan', auth()->user()->id_perusahaan)->count();
         
         // $c = Barang::all();
         // return $limit;

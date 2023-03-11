@@ -4,7 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\Merek;
 use App\Models\Perusahaan;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\DB;
+use PDOException;
 
 class MerekController extends Controller
 {
@@ -37,10 +41,17 @@ class MerekController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
-        $input = Merek::create($request->all());
+    {   
+        DB::beginTransaction();
+        try {
+            Merek::create(['nama' => $request->nama]);
+            return redirect()->back()->with(['success' => 'Data Berhasil Disimpan!']);
+        } catch(QueryException | Exception | PDOException $e) {
+            DB::rollBack();
+            return redirect()->back()->with(['error' => 'Terjadi Kesalahan Server']);
+        }
+        DB::commit();
         // return redirect('/merek')->with('success', 'Input data Merek berhasil!');
-        return redirect()->back()->with(['success' => 'Data Berhasil Disimpan!']);
     }
 
     /**
@@ -74,9 +85,12 @@ class MerekController extends Controller
      */
     public function update(Request $request, Merek $merek)
     {
-        $merek->update($request->all());
+        if($request->nama){
+            $merek->update(['nama' => $request->nama]);
+            return redirect()->back()->with(['success' => 'Data Berhasil Diupdate!']);
+        }
+        return redirect()->back()->with(['error' => 'Data Berhasil Gagal Diupdate!']);
         // return redirect('/merek')->with('success', 'Update Data berhasil');
-        return redirect()->back()->with(['success' => 'Data Berhasil Diupdate!']);
 
     }
 

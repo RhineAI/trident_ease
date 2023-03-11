@@ -30,11 +30,30 @@ class LoginController extends Controller
         ]);
 
         $getUser = User::where('username', $request->username)->first();
-
+        $getPerusahaan = Perusahaan::where('id', $getUser->id_perusahaan)->first();
+        // return (strtotime($getPerusahaan->expiredDate) < strtotime(date('Y-m-d')));
         if(Auth::attempt($user)){
-            $request->session()->regenerate();
+            if($getPerusahaan->expiredDate === '0000-00-00'){
+                $request->session()->regenerate();
+                return redirect()->intended('/'.$getUser->hak_akses)->with('success', 'Anda telah login sebagai '.$getUser->hak_akses);
+            } elseif($getPerusahaan->expiredDate !== '0000-00-00') {
+                if(strtotime($getPerusahaan->expiredDate) < strtotime(date('Y-m-d'))){
+                    $data['perusahaan'] = Perusahaan::select('*')->where('id', auth()->user()->id_perusahaan)->first();
+    
+                    Auth::logout();
+    
+                    $request->session()->invalidate();
+    
+                    $request->session()->regenerateToken();
+                    return $this->contactUs($data['perusahaan']);
+                } else {
+                    $request->session()->regenerate();
+                    return redirect()->intended('/'.$getUser->hak_akses)->with('success', 'Anda telah login sebagai '.$getUser->hak_akses);
+                }
+            }
+
+            
             // if (Auth::user()->hak_akses == 'super_admin') {
-                return redirect()->intended('/'.$getUser->hak_akses)->with('success', 'Login Success');
             // } elseif(Auth::user()->hak_akses == 'admin') {
                 // return redirect()->intended('/'.$getUser->hak_akses)->with('success', 'Login Success');
             // }
@@ -58,6 +77,9 @@ class LoginController extends Controller
         return redirect()->route('login')->with('success', 'Logout Berhasil');
    }
 
+   public function contactUs($perusahaan){
+    return view('auth.contactUs', compact('perusahaan'));
+   }
 
     // Register
     public function reg() {
@@ -110,6 +132,8 @@ class LoginController extends Controller
         $perusahaan->no_rekening = $request->no_rekening;
         $perusahaan->slogan = $request->slogan;
         $perusahaan->grade = 1;
+        $perusahaan->startDate = date('Y-m-d');
+        // $perusahaan->expiredDate = date('Y-m-d');
         $perusahaan->save();
         
         // $id = Perusahaan::latest()->first();

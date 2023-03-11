@@ -8,7 +8,10 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use App\Http\Requests\StorePelangganRequest;
 use App\Http\Requests\UpdatePelangganRequest;
-
+use Exception;
+use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\DB;
+use PDOException;
 
 class PelangganController extends Controller
 {
@@ -60,10 +63,18 @@ class PelangganController extends Controller
             'id_perusahaan' => 'required'
         ]);
 
-        $input = Pelanggan::create($request->all());
-        // return $request;
-        // return redirect('/pelanggan')->with('success', 'Input data Supplier berhasil!');
-        return redirect()->route('admin.pelanggan.index')->with(['success' => 'Data Berhasil Disimpan!']);
+        DB::beginTransaction();
+        try {
+            Pelanggan::create($request->all());
+            return redirect()->route('admin.pelanggan.index')->with(['success' => 'Data Berhasil Disimpan!']);
+        } catch(QueryException | Exception | PDOException $e) {
+            DB::rollBack();
+            return redirect()->route('admin.pelanggan.index')->with(['error' => 'Terjadi Kesalahan Server!']);
+        }
+        DB::commit();
+
+        // $input = Pelanggan::create($request->all());
+        // return redirect()->route('admin.pelanggan.index')->with(['success' => 'Data Berhasil Disimpan!']);
     }
 
     /**

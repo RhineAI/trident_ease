@@ -221,7 +221,7 @@ class ReturPembelianController extends Controller
                     $qtySekarang = $qtySisa->qtySisa;
                     $hargaDisc = $row->harga_beli - ($row->harga_beli * $row->diskon/100);
                 } else {
-                    $subtotal = ($row->jumlah_beli_barang * $row->harga_beli) - ($row->jumlah_beli_barang * $row->harga_beli * $row->diskon);
+                    $subtotal = ($row->jumlah_beli_barang * $row->harga_beli) - ($row->jumlah_beli_barang * $row->harga_beli * $row->diskon/100);
                     $qtySekarang = $row->jumlah_beli_barang;
                     $hargaDisc = $row->harga_beli - ($row->harga_beli * $row->diskon/100);
                 }
