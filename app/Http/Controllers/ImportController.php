@@ -26,25 +26,25 @@ class ImportController extends Controller
         $fileExcel = $request->file('fileExcel');
         // dd($request);
         // return $fileExcel;
-        // $namaFile = $fileExcel->getClientOriginalName();  
+        // $namaFile = $fileExcel->getClientOriginalName();
         // $request->file('fileExcel')->move('assets/excel', $namaFile);
-     
+
         $rollback = true;
         Excel::import(new BarangImport($request->id_perusahaan, $rollback), $request->file('fileExcel')->store('temp'));
-        if($rollback == false) {
-            return back()->with(['success' => 'Import Data Barang Berhasil']);
-        } else {
-            return redirect()->back()->with(['error' => 'Terdapat Kesalahan saat Import file!']);
-        }
-     
-        
+        // if($rollback == false) {
+        return back()->with(['success' => 'Import Data Barang Berhasil']);
+        // } else {
+        //     return redirect()->back()->with(['error' => 'Terdapat Kesalahan saat Import file!']);
+        // }
+
+
         // Excel::import(new BarangImport, storage_path('public/assets/excel/'.$namaFile));
         // Excel::import(new BarangImport, public_path('/assets/excel'.$namaFile));
         // Excel::toCollection(new BarangImport, $file->path, 'public/assets/excel')[0];
         // return back();
     }
 
-    public function downloadTemplate() 
+    public function downloadTemplate()
     {
         return Excel::download(new TemplateDownload, 'template.xlsx');
     }
