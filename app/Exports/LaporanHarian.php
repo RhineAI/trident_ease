@@ -17,12 +17,14 @@ class LaporanHarian implements FromArray, WithMultipleSheets
     protected $sheets;
     protected $penjualan;
     protected $pembelian;
+    protected $returPenjualan;
+    protected $returPembelian;
     protected $hutang;
     protected $piutang;
     protected $kasMasuk;
     protected $kasKeluar;
 
-    public function  __construct($id_perusahaan, $awal, $akhir, $penjualan, $pembelian, $hutang, $piutang, $kasMasuk, $kasKeluar)
+    public function  __construct($id_perusahaan, $awal, $akhir, $penjualan, $pembelian, $returPenjualan, $returPembelian, $hutang, $piutang, $kasMasuk, $kasKeluar)
     {
         // return $id_perusahaan;
         $this->id_perusahaan = $id_perusahaan;
@@ -30,6 +32,8 @@ class LaporanHarian implements FromArray, WithMultipleSheets
         $this->akhir = $akhir;
         $this->penjualan = $penjualan;
         $this->pembelian = $pembelian;
+        $this->returPenjualan = $returPenjualan;
+        $this->returPembelian = $returPembelian;
         $this->hutang = $hutang;
         $this->piutang = $piutang;
         $this->kasMasuk = $kasMasuk;
@@ -46,6 +50,8 @@ class LaporanHarian implements FromArray, WithMultipleSheets
         $sheets = [
             new LaporanPenjualan($this->id_perusahaan, $this->awal, $this->akhir, $this->penjualan),
             new LaporanPembelian($this->id_perusahaan, $this->awal, $this->akhir, $this->pembelian),
+            new LaporanReturPenjualan($this->id_perusahaan, $this->awal, $this->akhir, $this->returPenjualan),
+            new LaporanReturPembelian($this->id_perusahaan, $this->awal, $this->akhir, $this->returPembelian),
             new LaporanHutang($this->id_perusahaan, $this->awal, $this->akhir, $this->hutang),
             new LaporanPiutang($this->id_perusahaan, $this->awal, $this->akhir, $this->piutang),
             new LaporanKasMasuk($this->id_perusahaan, $this->awal, $this->akhir, $this->kasMasuk),

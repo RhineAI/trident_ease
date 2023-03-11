@@ -20,6 +20,8 @@ use App\Models\KasKeluar;
 use App\Models\KasMasuk;
 use App\Models\Pelanggan;
 use App\Models\Piutang;
+use App\Models\ReturPembelian;
+use App\Models\ReturPenjualan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
@@ -80,8 +82,20 @@ class ExcelLaporanController extends Controller
                         ->select('t_kas_keluar.*', 'U.nama AS nama_user')    
                         ->where('t_kas_keluar.id_perusahaan', auth()->user()->id_perusahaan)
                         ->orderBy('id', 'asc')->get();
+        $returPenjualan = ReturPenjualan::leftJoin('t_detail_retur_penjualan AS DRP', 'DRP.id_retur_penjualan', 't_retur_penjualan.id')
+                        ->leftJoin('t_barang AS B', 'B.id', 'DRP.id_barang')
+                        ->whereBetween('t_retur_penjualan.tgl', [$awal, $akhir])
+                        ->select('DRP.*' ,'B.nama AS nama_barang', 'B.kode')    
+                        ->where('DRP.id_perusahaan', auth()->user()->id_perusahaan)
+                        ->orderBy('id', 'desc')->get();
+        $returPembelian = ReturPembelian::leftJoin('t_detail_retur_pembelian AS DRP', 'DRP.id_retur_pembelian', 't_retur_pembelian.id')
+                        ->leftJoin('t_barang AS B', 'B.id', 'DRP.id_barang')
+                        ->whereBetween('t_retur_pembelian.tgl', [$awal, $akhir])
+                        ->select('DRP.*' ,'B.nama AS nama_barang', 'B.kode')    
+                        ->where('DRP.id_perusahaan', auth()->user()->id_perusahaan)
+                        ->orderBy('id', 'desc')->get();
                             
-        return Excel::download(new LaporanHarian($cPerusahaan, $awal, $akhir, $penjualan, $pembelian, $hutang, $piutang, $kasMasuk, $kasKeluar), date('d-m-Y') . '_Laporan Harian.xlsx');
+        return Excel::download(new LaporanHarian($cPerusahaan, $awal, $akhir, $penjualan, $pembelian, $returPenjualan, $returPembelian, $hutang, $piutang, $kasMasuk, $kasKeluar), date('d-m-Y') . '_Laporan Harian.xlsx');
         // return Excel::download(new LaporanKasKeluar($cPerusahaan, $awal, $akhir), date('d-m-Y') . '_Laporan Kas.xlsx');
     }
 

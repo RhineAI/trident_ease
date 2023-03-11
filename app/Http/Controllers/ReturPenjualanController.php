@@ -127,11 +127,13 @@ class ReturPenjualanController extends Controller
                 ->first(); 
 
                 if(isset($qtySisa->qtySisa)){
+                    // return $qtySisa;
                     $subtotal = ($qtySisa->qtySisa * $row->harga_jual) - ($qtySisa->qtySisa * $row->harga_jual * $row->diskon/100);
+                    // return $subtotal;
                     $qtySekarang = $qtySisa->qtySisa;
                     $hargaDisc = $row->harga_jual - ($row->harga_jual * $row->diskon/100);
                 } else {
-                    $subtotal = ($row->jumlah_beli_barang * $row->harga_jual) - ($row->jumlah_beli_barang * $row->harga_jual * $row->diskon);
+                    $subtotal = ($row->jumlah_beli_barang * $row->harga_jual) - ($row->jumlah_beli_barang * $row->harga_jual * $row->diskon/100);
                     $qtySekarang = $row->jumlah_beli_barang;
                     $hargaDisc = $row->harga_jual - ($row->harga_jual * $row->diskon/100);
                 }
