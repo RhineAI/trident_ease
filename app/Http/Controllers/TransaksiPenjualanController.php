@@ -109,6 +109,7 @@ class TransaksiPenjualanController extends Controller
 
     public function store(Request $request)
     {
+        // return $request;
         DB::statement('SET FOREIGN_KEY_CHECKS=0');
         // return $request;
         // dd($request); die;
@@ -166,7 +167,7 @@ class TransaksiPenjualanController extends Controller
                         return view('dashboard')->with(['error' => 'Sudah mencapai limit barang, Naikan levelmu terlebih dahulu!']);
                     }
                 } elseif($perusahaan->grade == 3) {
-                    if($limit < 10000 ) {
+                    if($limit < 10000) {
                         $penjualanBaru->save();
                     // return redirect()->route('list-transaksi.index')->with(['success' => 'Data Transaksi Penjualan Berhasil Disimpan']);
                     }else {
@@ -204,7 +205,7 @@ class TransaksiPenjualanController extends Controller
             if($request->jenis_pembayaran == 1){
                 $kasMasuk = new KasMasuk();
                 $kasMasuk->tgl = now();
-                $kasMasuk->jumlah = $this->checkPrice($request->total_bayar); 
+                $kasMasuk->jumlah = $this->checkPrice($request->total_harga); 
                 $kasMasuk->id_user = auth()->user()->id;
                 $kasMasuk->id_perusahaan = auth()->user()->id_perusahaan;
                 $kasMasuk->keterangan = 'Transaksi Penjualan';

@@ -98,7 +98,7 @@
     <div class="row">
         <div class="col-md-4 col-sm-4">
             <div class="wrimagecard wrimagecard-topimage">
-                <a href="#">
+                <a href="{{ route('kasir.transaksi-penjualan.index') }}">
                     <div class="wrimagecard-topimage_header" style="background-color:rgba(187, 120, 36, 0.1) ">
                         <center><i class="fa-solid fa-cart-shopping fa-4x fa-fade" style="color:#BB7824;"></i></center>
                     </div>
@@ -113,7 +113,7 @@
 
         <div class="col-md-4 col-sm-4">
             <div class="wrimagecard wrimagecard-topimage">
-                <a href="#">
+                <a href="{{ route('kasir.pelanggan.index') }}">
                     <div class="wrimagecard-topimage_header" style="background-color: rgba(22, 160, 133, 0.1)">
                         <center><i class="fa-solid fa-user fa-4x fa-fade" style="color:#16A085"></i></center>
                     </div>
@@ -128,7 +128,7 @@
        
         <div class="col-md-4 col-sm-4">
             <div class="wrimagecard wrimagecard-topimage">
-                <a href="#">
+                <a href="{{ route('kasir.retur-penjualan.index') }}">
                     <div class="wrimagecard-topimage_header" style="background-color:  rgba(51, 105, 232, 0.1)">
                         <center><i class="fa-solid fa-rotate-left fa-4x fa-fade" style="color:#3369e8"> </i></center>
                     </div>

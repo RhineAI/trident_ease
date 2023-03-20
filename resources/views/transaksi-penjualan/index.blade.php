@@ -174,7 +174,7 @@
     .balloon {
         display: inline-block;
         width: 100%;
-        margin-right: -120px;
+        margin-right: -15%;
         padding: 8px 0 2px 5px;
         font-family: "Open Sans", sans;
         font-weight: 400;
@@ -695,8 +695,13 @@
                 $('#qty'+posisi).val(qty);
                 var discount = $('#discount' + posisi).val();
                 const subtotal = harga_jual * qty - ((harga_jual * qty) * discount/100)
+                var format_subtotal =   Math.round(subtotal).toLocaleString("id-ID", {
+                                    style:"currency", 
+                                    currency:"IDR", 
+                                    maximumSignificantDigits: (subtotal + '').replace('.', '').length
+                                    });
                 $('#subtotal'+posisi).val(subtotal);
-                $('#displayST' + posisi).text(subtotal);
+                $('#displayST' + posisi).text(format_subtotal);
 
             }
                 GetTotalBayar();

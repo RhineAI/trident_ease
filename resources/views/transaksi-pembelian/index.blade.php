@@ -173,7 +173,7 @@
     .balloon {
         display: inline-block;
         width: 100%;
-        margin-right: -10%;
+        margin-right: -15%;
         padding: 8px 0 2px 5px;
         font-family: "Open Sans", sans;
         font-weight: 400;
@@ -286,13 +286,13 @@
                                                             <thead>
                                                                 <tr>
                                                                     <th scope="col" class="border-0 bg-light">
-                                                                        <div class="p-1 px-2 text-uppercase">Produk</div>
-                                                                    </th>
-                                                                    <th scope="col" class="border-0 bg-light">
-                                                                        <div class="py-1 px-2 text-uppercase">Subtotal</div>
+                                                                        <div class="py-1 text-uppercase">Produk</div>
                                                                     </th>
                                                                     <th scope="col" class="border-0 bg-light">
                                                                         <div class="py-1 text-uppercase">Diskon(%)</div>
+                                                                    </th>
+                                                                    <th scope="col" class="border-0 bg-light">
+                                                                        <div class="py-1 text-uppercase">Subtotal</div>
                                                                     </th>
                                                                     <th scope="col" class="border-0 bg-light">
                                                                         <div class="py-1 text-uppercase">Aksi</div>
@@ -919,7 +919,7 @@
                 var rowBarang="<tr class='barang' id='buffer"+count+"'>";
                 rowBarang+="<th scope='row' class='border-0'>";
                 rowBarang+="<div class='1'>";
-                rowBarang+="<img src='https://bootstrapious.com/i/snippets/sn-cart/product-1.jpg' alt='' width='70' class='img-fluid rounded shadow-sm'>";
+                // rowBarang+="<img src='https://bootstrapious.com/i/snippets/sn-cart/product-1.jpg' alt='' width='70' class='img-fluid rounded shadow-sm'>";
                 rowBarang+="<div class='ml-3 d-inline-block align-middle'>";
                 rowBarang+="<input type='hidden' name='item["+count+"][id_barang]' value='"+id_barang+"' id='id_barang'>"
                 rowBarang+="<h5 style='font-size:18.5px;' class='mb-0'><a class='text-dark d-inline-block align-middle'>"+nama_barang+"</a><input type='hidden' name='item["+count+"][nama_barang]' value='"+nama_barang+"' type='number'></h5>";
@@ -933,10 +933,10 @@
                 rowBarang+='("input[type=number]")';
                 rowBarang+=".stepUp()' class='plus'></button>";
                 rowBarang+="</div'></div'></div'></th'>";
+                rowBarang+="<td class='border-0 align-middle'><div class='input-group text-center align-middle'>";
+                rowBarang+="<input class='balloon mb-2 text-center align-middle discount' onchange='cekDiscount(this)' max='100' type='number' class='form-control discount' name='item["+count+"][discount]' id='discount"+count+"' onkeypress='cek_number()' data-idbuffer='"+count+"' placeholder='0' style='max-width: 60%; direction:lrt; text-indent:0px;'/></div></td>";
                 rowBarang+="<td class='border-0 align-middle'><input type='hidden' class='subtotal' type='number' class='form-control subtotal' name='item["+count+"][subtotal]' readonly='true' id='subtotal"+count+"' value='0'>";
                 rowBarang+="<strong id='displayST"+count+"'>Rp. 0</strong></td>"
-                rowBarang+="<td class='border-0 align-middle'><div class='input-group text-center align-middle'>";
-                rowBarang+="<input class='balloon mb-2 text-center align-middle discount' onchange='cekDiscount(this)' max='100' type='number' class='form-control discount' name='item["+count+"][discount]' id='discount"+count+"' data-idbuffer='"+count+"' placeholder='0' style='max-width: 60%; text-indent:0px;'/></div></td>";
                 rowBarang+="<td class='border-0 align-middle'><button type='button' class='text-dark hapus_pembelian' data-idbuffer='"+count+"'><i class='fa fa-trash' style='outline:none;'></i></a></td>";
                 $('#t_pembelian').append(rowBarang);
             }else{
