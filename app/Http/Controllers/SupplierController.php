@@ -55,7 +55,10 @@ class SupplierController extends Controller
             'bank' => 'required|string|max:50',
             'no_rekening' => 'required|string|max:50',
         ]);
-        
+        // return $request; 
+        if($request['bank'] == 'other') {
+            $request['bank'] = $request['other'];
+        }
         $input = Supplier::create($request->all());
         // return redirect('/supplier')->with('success', 'Input data Supplier berhasil!');
         return redirect()->route('admin.supplier.index')->with(['success' => 'Data Berhasil Disimpan!']);

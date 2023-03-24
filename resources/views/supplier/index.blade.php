@@ -47,6 +47,55 @@
         $('#tbl-data-supplier').DataTable();
 
         $('body').addClass('sidebar-collapse');
+
+        $('#formSupplier').on('submit', function(){
+            const nama = $('#nama').val()
+            const alamat = $('#alamat').val()
+            const tlp = $('#tlp').val()
+            const salesman = $('#salesman').val()
+            const bank = $('#bank').val()
+            const no_rekening = $('#no_rekening').val()
+            const other = $('#other').val()
+
+            if(nama == "") {
+                Swal.fire('Nama Supplier Harus Diisi!')
+                return false;
+            } else {
+                $('#nama').val();
+            }
+
+            if(alamat == "") {
+                Swal.fire('Alamat Supplier Harus Diisi!')
+                return false;
+            } else {
+                $('#alamat').val();
+            }
+
+            if(tlp == "") {
+                Swal.fire('Telepon Supplier Harus Diisi!')
+                return false;
+            } else {
+                $('#tlp').val();
+            }
+
+            if(bank == null) {
+                if(other !== ""){
+                    $('#other').val(other)
+                } else {
+                    Swal.fire('Jenis Kelamin Harus Diisi!')
+                    return false;
+                }
+            } else {
+                $('#bank').val();
+            }
+
+            if(no_rekening == "") {
+                Swal.fire('Jenis Kelamin Harus Diisi!')
+                return false;
+            } else {
+                $('#no_rekening').val();
+            }
+        })
     </script>
     <script>
         $(document).ready(function(){

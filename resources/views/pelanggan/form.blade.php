@@ -9,7 +9,7 @@
         </button>
     </div>
     <div class="modal-body">
-        <form action="" method="POST">
+        <form action="" method="POST" id="formPelanggan">
             @csrf
             <div id="method"></div>
             <div class="form-group row">
@@ -17,7 +17,7 @@
                     <h5 class="my-2">Nama</h5>
                 </label>
                 <div class="col-md-9">
-                    <input type="text" placeholder="Nama Pelanggan" name="nama" id="nama" class="form-control" aria-label="Username" aria-describedby="basic-addon1" required>
+                    <input type="text" placeholder="Nama Pelanggan" name="nama" id="nama" class="form-control" aria-label="Username" aria-describedby="basic-addon1">
                     <span class="help-block with-errors"></span>
                 </div>
             </div>
@@ -26,7 +26,7 @@
                     <h5 class="my-2">Alamat</h5>
                 </label>
                 <div class="col-md-9">
-                    <textarea placeholder="Alamat Pelanggan" name="alamat" class="form-control" id="alamat" cols="10" rows="3.5" required></textarea>
+                    <textarea placeholder="Alamat Pelanggan" name="alamat" class="form-control" id="alamat" cols="10" rows="3.5"></textarea>
                     <span class="help-block with-errors"></span>
                 </div>
             </div>
@@ -35,7 +35,7 @@
                     <h5 class="my-2">Telepon</h5>
                 </label>
                 <div class="col-md-9">
-                    <input type="number" minlength="11" maxlength="14" placeholder="Telepon / No Hp" name="tlp" id="tlp" class="form-control" aria-label="Username" aria-describedby="basic-addon1" required>
+                    <input type="number" minlength="11" maxlength="14" placeholder="Telepon / No Hp" name="tlp" id="tlp" class="form-control" aria-label="Username" aria-describedby="basic-addon1">
                     <span class="help-block with-errors"></span>
                 </div>
             </div>
@@ -44,7 +44,7 @@
                     <h5 class="my-2">Jenis Kelamin</h5>
                 </label>
                 <div class="col-md-9">
-                    <select placeholder="" name="jenis_kelamin" id="jenis_kelamin" class="form-control" required>
+                    <select placeholder="" name="jenis_kelamin" id="jenis_kelamin" class="form-control">
                         <option value="" disabled="disabled" selected="true">Pilih Jenis Kelamin</option>
                         <option value="L">Laki-Laki</option>
                         <option value="P">Perempuan</option>

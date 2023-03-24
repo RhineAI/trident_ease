@@ -224,6 +224,113 @@ Produk Utama
         scrollX: true,
     });
 
+    $('#formBarang').on('submit', function(){
+        const product_name = $('#product_name').val()
+        const barcode = $('#barcode').val()
+        const kode = $('#kode').val()
+        const id_kategori = $('#id_kategori').val()
+        const id_satuan = $('#id_satuan').val()
+        const id_supplier = $('#id_supplier').val()
+        const id_merek = $('#id_merek').val()
+        const stock = $('#stock').val()
+        const stock_minimal = $('#stock_minimal').val()
+        const harga_beli = $('#harga_beli').val()
+        const keuntungan = $('#keuntungan').val()
+        const status = $('#status').val()
+        const keterangan = $('#keterangan').val()
+
+        if(product_name == "") {
+            Swal.fire('Nama Produk Harus Diisi!')
+            return false;
+        } else {
+            $('#product_name').val();
+        }
+
+        if(barcode == "") {
+            Swal.fire('Barcode Barang Harus Diisi!')
+            return false;
+        } else {
+            $('#barcode').val();
+        }
+
+        if(kode == "") {
+            Swal.fire('Kode Barang Harus Diisi!')
+            return false;
+        } else {
+            $('#kode').val();
+        }
+
+        if(id_kategori == null) {
+            Swal.fire('Kategori Harus Diisi!')
+            return false;
+        } else {
+            $('#id_kategori').val();
+        }
+
+        if(id_satuan == null) {
+            Swal.fire('Satuan Harus Diisi!')
+            return false;
+        } else {
+            $('#id_satuan').val();
+        }
+
+        if(id_supplier == null) {
+            Swal.fire('Supplier Harus Diisi!')
+            return false;
+        } else {
+            $('#id_supplier').val();
+        }
+
+        if(id_merek == null) {
+            Swal.fire('Merek Harus Diisi!')
+            return false;
+        } else {
+            $('#id_merek').val();
+        }
+
+        if(stock == "") {
+            Swal.fire('Stock Harus Diisi!')
+            return false;
+        } else {
+            $('#stock').val();
+        }
+
+        if(stock_minimal == "") {
+            Swal.fire('Stock Minimal Harus Diisi!')
+            return false;
+        } else {
+            $('#stock_minimal').val();
+        }
+
+        if(harga_beli == "") {
+            Swal.fire('Harga Beli Harus Diisi!')
+            return false;
+        } else {
+            $('#harga_beli').val();
+        }
+
+        if(keuntungan == "") {
+            Swal.fire('Keuntungan Harus Diisi!')
+            return false;
+        } else {
+            $('#keuntungan').val();
+        }
+
+        if(status == null) {
+            Swal.fire('Status Harus Diisi!')
+            return false;
+        } else {
+            $('#status').val();
+        }
+
+        if(keterangan == null) {
+            Swal.fire('Keterangan Harus Diisi!')
+            return false;
+        } else {
+            $('#keterangan').val();
+        }
+    })
+
     $('body').addClass('sidebar-collapse');
 
     $(document).on('keyup', '#harga_beli', function (e) {
