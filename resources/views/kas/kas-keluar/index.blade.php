@@ -92,6 +92,7 @@
 
 
         function addForm(url) {
+            $('#modal-form').modal({backdrop: 'static', keyboard: false})
             $('#modal-form').modal('show')
             $('#modal-form .modal-title').text('Tambah Kas Keluar');
 
@@ -146,6 +147,7 @@
         })
         
         function editForm(data) {
+            $('#modal-form').modal({backdrop: 'static', keyboard: false})
             $('#modal-form').modal('show')
             $('#modal-form .modal-title').text('Edit Kas Keluar');
 

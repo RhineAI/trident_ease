@@ -386,6 +386,7 @@ Produk Utama
 
 
         function addForm(url) {
+            $('#modal-form').modal({backdrop: 'static', keyboard: false})
             $('#modal-form').modal('show')
             $('#modal-form .modal-title').text('Tambah Produk Baru');
 
@@ -463,6 +464,7 @@ Produk Utama
         })
         
         function editForm(data) {
+            $('#modal-form').modal({backdrop: 'static', keyboard: false})
             $('#modal-form').modal('show')
             $('#modal-form .modal-title').text('Edit Barang');
 

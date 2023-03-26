@@ -96,7 +96,9 @@
     </script>
     <script>
         $(document).ready(function(){
-          $('#formModalPelanggan').on("show.bs.modal", function(e){
+        $('#formModalPelanggan').on("show.bs.modal", function(e){
+            e.backdrop = 'static'
+            e.keyboard = false
             const btn = $(e.relatedTarget)
             const id_pelanggan = btn.data('id_pelanggan')
             const nama_pelanggan = btn.data('nama_pelanggan')
