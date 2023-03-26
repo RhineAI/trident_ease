@@ -12,11 +12,15 @@ use App\Models\DetailPenjualan;
 use Barryvdh\DomPDF\PDF as pdf;
 use App\Models\TransaksiPenjualan;
 use Illuminate\Routing\Controller;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 // use Symfony\Component\Console\Input\Input;
 use App\Http\Requests\StorePenjualanRequest;
 use App\Http\Requests\UpdatePenjualanRequest;
+
+use Illuminate\Support\Facades\DB;
+use Illuminate\Database\QueryException;
+use Exception;
+
 
 class TransaksiPenjualanController extends Controller
 {
@@ -109,133 +113,143 @@ class TransaksiPenjualanController extends Controller
 
     public function store(Request $request)
     {
-        // return $request;
+        // Set foreign key check menjadi 0 (tidak ada pengecekan)
         DB::statement('SET FOREIGN_KEY_CHECKS=0');
-        // return $request;
-        // dd($request); die;
-        if($request->kembali < 0){
-            // return back()->with('error', 'Uang bayar kurang');
-            return back()->withInput($request->only('id_pelanggan', 'bayar', 'kembali'))->with('error', 'Uang Bayar Kurang');
-        } else {
-            $penjualanBaru = new TransaksiPenjualan();
-            // "select max(id)+1 as nextid from t_pembayaran where id like '".$tgl."%'"
-            // dd(TransaksiPenjualan::select("id")->where('id', 'like', '%'. date('Ymd') . '%')->first()); die;
-
-            $id = $this->NextId(date('Y-m-d'));
-            // return $id;
-            // if(TransaksiPenjualan::select("id")->where('id_perusahaan', auth()->user()->id_perusahaan)->where('id', 'like', '%'. date('Ymd') . '%')->first() == null){
-                // $indexTransaksi = sprintf("%03d", 1);
-            $penjualanBaru->id = $id;
-            $penjualanBaru->tgl = date('Y-m-d');
-            $penjualanBaru->id_pelanggan = $request->id_pelanggan;
-            $penjualanBaru->total_harga = $this->checkPrice($request->total_harga);
-            if($request->jenis_pembayaran == '1') {
-                $penjualanBaru->total_bayar = $this->checkPrice($request->total_bayar);
-                $penjualanBaru->sisa = 0;
-
+        // try {
+         
+            // Pengecekan jika kembalian kurang dari 0
+            if($request->kembali < 0){
+                return back()->withInput($request->only('id_pelanggan', 'bayar', 'kembali'))->with('error', 'Uang Bayar Kurang');
             } else {
-                $penjualanBaru->total_bayar = $this->checkPrice($request->dp);
-                $penjualanBaru->sisa = $this->checkPrice($request->sisa);
+                // Membuat variabel baru yang diiisi dengan pembuatan object baru
+                $penjualanBaru = new TransaksiPenjualan();
 
-            }
-            $penjualanBaru->kembalian = $this->checkPrice($request->kembali);
-            $penjualanBaru->dp = $this->checkPrice($request->dp);
+                // "select max(id)+1 as nextid from t_pembayaran where id like '".$tgl."%'"
+                // dd(TransaksiPenjualan::select("id")->where('id', 'like', '%'. date('Ymd') . '%')->first()); die;
 
-            $penjualanBaru->jenis_pembayaran = $request->jenis_pembayaran;
-            $penjualanBaru->id_user = auth()->user()->id;
-            $penjualanBaru->id_perusahaan = auth()->user()->id_perusahaan;
+                // Set invoice transaksi penjualan agar sesuai dengan tanggal di hari transaksi dilakukan
+                $id = $this->NextId(date('Y-m-d'));
 
-            // $perusahaan = Perusahaan::select('level')->where('id', auth()->user()->id_perusahaan);
-            $perusahaan = Perusahaan::where('id', auth()->user()->id_perusahaan)->first();
-            $limit = TransaksiPenjualan::where('id_perusahaan', auth()->user()->id_perusahaan)->where('tgl', date('Y-m-d'))->count();
-            // dd($limit); die;
-            foreach($request->item as $barang){
-                // dd($barang['discount']); die;
-                $penjualanBaru->keuntungan += $barang['keuntungan'] * $barang['qty'];
-                if($perusahaan->grade == 1) {
-                    if($limit < 5 ) {
-                        $penjualanBaru->save();
-                        // return redirect()->route('list-transaksi.index')->with(['success' => 'Data Transaksi Penjualan Berhasil Disimpan']);
-                    }else {
-                        return view('dashboard')->with(['error' => 'Sudah mencapai limit barang, Naikan levelmu terlebih dahulu!']);
-                    }
-                } elseif($perusahaan->grade == 2) {
-                    if($limit < 50 ) {
-                        $penjualanBaru->save();
-                        // return redirect()->route('list-transaksi.index')->with(['success' => 'Data Transaksi Penjualan Berhasil Disimpan']);
-                    }else {
-                        return view('dashboard')->with(['error' => 'Sudah mencapai limit barang, Naikan levelmu terlebih dahulu!']);
-                    }
-                } elseif($perusahaan->grade == 3) {
-                    if($limit < 10000) {
-                        $penjualanBaru->save();
-                    // return redirect()->route('list-transaksi.index')->with(['success' => 'Data Transaksi Penjualan Berhasil Disimpan']);
-                    }else {
-                        return view('dashboard')->with(['error' => 'Sudah mencapai limit barang, Naikan levelmu terlebih dahulu!']);
-                    }
-                } 
-                else{
-                    return view('dashboard')->with(['error' => 'Laku kah?']);
-                }
-                // return $penjualanBaru;
-                
-                $detPenjualanBaru = new DetailPenjualan(); 
-                $detPenjualanBaru->tgl = date('Y-m-d');
-                $detPenjualanBaru->id_penjualan = $id;
-                // return $detPenjualanBaru;
-                $detPenjualanBaru->id_barang = $barang['id_barang'];
-                $detPenjualanBaru->qty = $barang['qty'];
-                if($barang['discount']){
-                    $detPenjualanBaru->diskon = $barang['discount'];
+                $penjualanBaru->id = $id;
+                $penjualanBaru->tgl = date('Y-m-d');
+                $penjualanBaru->id_pelanggan = $request->id_pelanggan;
+                $penjualanBaru->total_harga = $this->checkPrice($request->total_harga);
+                // Pengecekan apabila jenis pembayaran Cash / DP
+                if($request->jenis_pembayaran == '1') {
+                    $penjualanBaru->total_bayar = $this->checkPrice($request->total_bayar);
+                    $penjualanBaru->sisa = 0;
                 } else {
-                    $detPenjualanBaru->diskon = 0;
+                    $penjualanBaru->total_bayar = $this->checkPrice($request->dp);
+                    $penjualanBaru->sisa = $this->checkPrice($request->sisa);
                 }
-                $detPenjualanBaru->harga_beli = $barang['harga_beli'];
-                $detPenjualanBaru->harga_jual = $barang['harga_jual'];
-                $detPenjualanBaru->id_perusahaan =  $penjualanBaru->id_perusahaan;
-                // return $detPenjualanBaru;
-                $detPenjualanBaru->save();
-                
-                $barangUpdate = Barang::find($barang['id_barang']);
-                $barangUpdate->stock -= $barang['qty'];
-                $barangUpdate->update();
-            }
 
+                $penjualanBaru->kembalian = $this->checkPrice($request->kembali);
+                $penjualanBaru->dp = $this->checkPrice($request->dp);
+
+                $penjualanBaru->jenis_pembayaran = $request->jenis_pembayaran;
+                $penjualanBaru->id_user = auth()->user()->id;
+                $penjualanBaru->id_perusahaan = auth()->user()->id_perusahaan;
+
+                // Mengambil id perusahaan berdasarkan user yang sedang login
+                $perusahaan = Perusahaan::where('id', auth()->user()->id_perusahaan)->first();
+
+                // Menghitung semua transaksi penjualan pada hari itu berdasarkan perusahaan yang sedang login
+                $limit = TransaksiPenjualan::where('id_perusahaan', auth()->user()->id_perusahaan)->where('tgl', date('Y-m-d'))->count();
+
+                // Menyimpan data barang ke tabel detail barang
+                foreach($request->item as $barang){
+                    $penjualanBaru->keuntungan += $barang['keuntungan'] * $barang['qty'];
+
+                    // Mengecek level perusahaan yang sedang login 
+                    if($perusahaan->grade == 1) {
+                        // Mengecek apabila transaksi dari perusahaan tersebut sudah melebihi 5
+                        if($limit < 5 ) {
+                            $penjualanBaru->save();
+                        }else {
+                            return view('dashboard')->with(['error' => 'Sudah mencapai limit barang, Naikan levelmu terlebih dahulu!']);
+                        }
+                    } elseif($perusahaan->grade == 2) {
+                        // Mengecek apabila transaksi dari perusahaan tersebut sudah melebihi 50
+                        if($limit < 50 ) {
+                            $penjualanBaru->save();
+                        }else {
+                            return view('dashboard')->with(['error' => 'Sudah mencapai limit barang, Naikan levelmu terlebih dahulu!']);
+                        }
+                    } elseif($perusahaan->grade == 3) {
+                        $penjualanBaru->save();
+                    } else{
+                        return view('dashboard')->with(['error' => 'Laku kah?']);
+                    }
+
+
+                    // Mendeklarasikan variabel baru yang nantinya diisi oleh pembuatan objek baru
+                    $detPenjualanBaru = new DetailPenjualan(); 
+                    $detPenjualanBaru->tgl = date('Y-m-d');
+                    $detPenjualanBaru->id_penjualan = $id;
+                    $detPenjualanBaru->id_barang = $barang['id_barang'];
+                    $detPenjualanBaru->qty = $barang['qty'];
+                    // Mengecek apakah ada diskon dari barang 
+                    if($barang['discount']){
+                        $detPenjualanBaru->diskon = $barang['discount'];
+                    } else {
+                        $detPenjualanBaru->diskon = 0;
+                    }
+                    $detPenjualanBaru->harga_beli = $barang['harga_beli'];
+                    $detPenjualanBaru->harga_jual = $barang['harga_jual'];
+                    $detPenjualanBaru->id_perusahaan =  $penjualanBaru->id_perusahaan;
+                    // return $detPenjualanBaru;
+                    $detPenjualanBaru->save();
+                    
+                    // Update stok di sistem sesuai barang yang dibeli
+                    $barangUpdate = Barang::find($barang['id_barang']);
+                    $barangUpdate->stock -= $barang['qty'];
+                    $barangUpdate->update();
+                }
+
+                // Mengecek apakah jenis pembayaran merupakan Cash / DP
+                if($request->jenis_pembayaran == 1){
+                    // Jika Cash maka total uang pembayaran akan masuk ke Kas Masuk
+                    $kasMasuk = new KasMasuk();
+                    $kasMasuk->tgl = now();
+                    $kasMasuk->jumlah = $this->checkPrice($request->total_harga); 
+                    $kasMasuk->id_user = auth()->user()->id;
+                    $kasMasuk->id_perusahaan = auth()->user()->id_perusahaan;
+                    $kasMasuk->keterangan = 'Transaksi Penjualan';
+                    $kasMasuk->save();
+                } else if ($request->jenis_pembayaran == 2){
+                    // Jika DP maka total uang pembayaran masuk akan terlebih dahulu masuk ke data Piutang
+                    $pembayaranBaru = new Piutang();
+                    $pembayaranBaru->id_penjualan = $id;
+                    $pembayaranBaru->tgl = date('Ymd');
+                    $pembayaranBaru->total_bayar = $this->checkPrice($request->dp);
+                    $pembayaranBaru->id_user = auth()->user()->id;
+                    $pembayaranBaru->id_perusahaan = auth()->user()->id_perusahaan;
+                    $pembayaranBaru->save();
+
+                    // Lalu total DP masuk akan masuk ke Kas Masuk 
+                    $kasMasuk = new KasMasuk();
+                    $kasMasuk->tgl = now();
+                    $kasMasuk->jumlah = $this->checkPrice($request->dp); 
+                    $kasMasuk->id_user = auth()->user()->id;
+                    $kasMasuk->id_perusahaan = auth()->user()->id_perusahaan;
+                    $kasMasuk->keterangan = 'DP Transaksi Penjualan';
+                    $kasMasuk->save();
+                }
+                // dd($penjualanBaru->id); die;
+                if(auth()->user()->hak_akses == 'admin') {
+                    return redirect()->route('admin.list-transaksi.print_nota', $penjualanBaru->id)->with(['success' => 'Transaksi Berhasil!']);
+                    // return redirect()->route('admin.list-transaksi.index')->with(['success' => 'Transaksi Berhasil!']);
+                }elseif(auth()->user()->hak_akses == 'kasir') {
+                    // return redirect()->route('kasir.list-transaksi.index')->with(['success' => 'Transaksi Berhasil!']);
+                    return redirect()->route('kasir.list-transaksi.print_nota', $penjualanBaru->id)->with(['success' => 'Transaksi Berhasil!']);
+                }
+            }
             
-            if($request->jenis_pembayaran == 1){
-                $kasMasuk = new KasMasuk();
-                $kasMasuk->tgl = now();
-                $kasMasuk->jumlah = $this->checkPrice($request->total_harga); 
-                $kasMasuk->id_user = auth()->user()->id;
-                $kasMasuk->id_perusahaan = auth()->user()->id_perusahaan;
-                $kasMasuk->keterangan = 'Transaksi Penjualan';
-                $kasMasuk->save();
-            } else if ($request->jenis_pembayaran == 2){
-                $pembayaranBaru = new Piutang();
-                $pembayaranBaru->id_penjualan = $id;
-                $pembayaranBaru->tgl = date('Ymd');
-                $pembayaranBaru->total_bayar = $this->checkPrice($request->dp);
-                $pembayaranBaru->id_user = auth()->user()->id;
-                $pembayaranBaru->id_perusahaan = auth()->user()->id_perusahaan;
-                $pembayaranBaru->save();
-
-                $kasMasuk = new KasMasuk();
-                $kasMasuk->tgl = now();
-                $kasMasuk->jumlah = $this->checkPrice($request->dp); 
-                $kasMasuk->id_user = auth()->user()->id;
-                $kasMasuk->id_perusahaan = auth()->user()->id_perusahaan;
-                $kasMasuk->keterangan = 'DP Transaksi Penjualan';
-                $kasMasuk->save();
-            }
-            // dd($penjualanBaru->id); die;
-            if(auth()->user()->hak_akses == 'admin') {
-                return redirect()->route('admin.list-transaksi.print_nota', $penjualanBaru->id)->with(['success' => 'Transaksi Berhasil!']);
-                // return redirect()->route('admin.list-transaksi.index')->with(['success' => 'Transaksi Berhasil!']);
-            }elseif(auth()->user()->hak_akses == 'kasir') {
-                // return redirect()->route('kasir.list-transaksi.index')->with(['success' => 'Transaksi Berhasil!']);
-                return redirect()->route('kasir.list-transaksi.print_nota', $penjualanBaru->id)->with(['success' => 'Transaksi Berhasil!']);
-            }
-        }
+        // } catch(QueryException | Exception | PDOException $e) {
+        //     return redirect('/admin/list-pembelian')->with(['error' => ' data Transaksi ggagl!']);
+        //     DB::rollBack();
+        // }
+        // DB::commit();     
     }
 
     /**

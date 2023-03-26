@@ -2,18 +2,24 @@
 
 namespace App\Http\Controllers;
 
+use Exception;
+use App\Models\Barang;
+use App\Models\Hutang;
+use App\Models\Piutang;
+use App\Models\Supplier;
+use App\Models\KasKeluar;
 use App\Models\Pembelian;
+use App\Models\Perusahaan;
+use Illuminate\Http\Request;
+use App\Models\DetailPembelian;
+use App\Models\TransaksiPenjualan;
+
+use Illuminate\Routing\Controller;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Database\QueryException;
 use App\Http\Requests\StorePembelianRequest;
 use App\Http\Requests\UpdatePembelianRequest;
-use App\Models\Barang;
-use App\Models\DetailPembelian;
-use App\Models\KasKeluar;
-use App\Models\Piutang;
-use App\Models\Hutang;
-use App\Models\Perusahaan;
-use App\Models\Supplier;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+
 
 
 class PembelianController extends Controller
@@ -121,11 +127,13 @@ class PembelianController extends Controller
         return $barang;
     }
 
-    public function store(StorePembelianRequest $request)
+    public function store(Request $request)
     {
-        // return $request;
+        DB::beginTransaction();
         DB::statement('SET FOREIGN_KEY_CHECKS=0');
-        // dd($request); die;
+        try {
+            // return $request;
+            // dd($request); die;
             $pembelianBaru = new Pembelian();
             // "select max(id)+1 as nextid from t_pembayaran where id like '".$tgl."%'"
             // dd(Pembelian::select("id")->where('id', 'like', '%'. date('Ymd') . '%')->first()); die;
@@ -224,8 +232,11 @@ class PembelianController extends Controller
                 $kasMasuk->keperluan = 'Transaksi Pembelian Produk';
                 $kasMasuk->save();
             }
-            
             return redirect('/admin/list-pembelian')->with(['success' => 'Input data Transaksi Berhasil!']);
+        } catch (QueryException | Exception | PDOException $e) {    
+            DB::rollBack();
+        }
+        DB::commit();     
     }
 
 

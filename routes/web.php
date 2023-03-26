@@ -48,7 +48,6 @@ use App\Http\Controllers\ImportController;
 Route::middleware(['auth'])->group(function () {
         Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
         // Route::patch('/manage-perusahaan/perbarui/{id}', [SuperAdminController::class, 'perbarui'])->name('manage.perbarui');
-
         Route::group(['prefix' => 'super_admin', 'middleware' => 'cek-hak-akses:super_admin', 'as' => 'super_admin.'], function () {
                 Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
