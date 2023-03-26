@@ -129,9 +129,9 @@ class PembelianController extends Controller
 
     public function store(Request $request)
     {
-        DB::beginTransaction();
+        // DB::beginTransaction();
         DB::statement('SET FOREIGN_KEY_CHECKS=0');
-        try {
+        // try {
             // return $request;
             // dd($request); die;
             $pembelianBaru = new Pembelian();
@@ -233,10 +233,10 @@ class PembelianController extends Controller
                 $kasMasuk->save();
             }
             return redirect('/admin/list-pembelian')->with(['success' => 'Input data Transaksi Berhasil!']);
-        } catch (QueryException | Exception | PDOException $e) {    
-            DB::rollBack();
-        }
-        DB::commit();     
+        // } catch (QueryException | Exception | PDOException $e) {    
+        //     DB::rollBack();
+        // }
+        // DB::commit();     
     }
 
 
