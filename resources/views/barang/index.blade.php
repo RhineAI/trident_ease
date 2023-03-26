@@ -177,9 +177,7 @@ Produk Utama
                         Tambah</button>
                     <button class="btn btn-success mx-2 my-3" data-toggle="modal" data-target="#importBarang"><i class="fa fa-plus-circle"></i>
                         Import</button>
-                    {{-- <button type="button" class="btn btn-success mx-2 my-3" data-toggle="modal" data-target="#importBarang">
-                        Import Barang
-                    </button> --}}
+                    <a class="btn btn-success mx-2 my-3" data-text="Download Data Barang" href="{{ route('admin.download.data-barang') }}" ><i class="fa fa-download"></i> Download Excel</a>        
                 </div>
     
                 <div class="box-body table-responsive">
@@ -198,7 +196,6 @@ Produk Utama
                                             <th width="6%" class="text-center">Pemasok</th>
                                             <th width="6%" class="text-center">Stock</th>
                                             <th width="80%" class="text-center">Harga Beli</th>
-                                            {{-- <th width="8%" class="text-center">Jenis</th> --}}
                                             <th width="6%" class="text-center">Status</th>
                                             <th width="4%" class="text-center">Aksi</th>
                                         </tr>
@@ -238,7 +235,9 @@ Produk Utama
         const keuntungan = $('#keuntungan').val()
         const status = $('#status').val()
         const keterangan = $('#keterangan').val()
+        // tampung data input ke variabel javascript
 
+        // pengecekan jika ada salah satu input yang tidak diisi
         if(product_name == "") {
             Swal.fire('Nama Produk Harus Diisi!')
             return false;
