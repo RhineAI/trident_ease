@@ -467,9 +467,12 @@ Produk Utama
             $('#modal-form .modal-title').text('Edit Barang');
 
             $('#modal-form form')[0].reset();
+            // refresh form 
             $('#modal-form form').attr('action', data.url);
+            // ubah action form menjadi url berdasarkan object yang di pass melalui parameter
             $('#modal-form [name=_method]').val('put');
-            
+            // ubah method form menjadi put
+
             $('#modal-form [name=kode]').val(data.kode);
             $('#modal-form [name=nama]').val(data.nama);
             $('#modal-form [name=barcode]').val(data.barcode);
@@ -484,6 +487,7 @@ Produk Utama
             $('#modal-form [name=keuntungan]').val(data.keuntungan);
             $('#modal-form [name=keterangan]').val(data.keterangan);
             $('#modal-form [name=status]').val(data.status);
+            // ubah semua value input berdasarkan object yang di pass melalui parameter
         }
 
         function deleteForm(url) {
