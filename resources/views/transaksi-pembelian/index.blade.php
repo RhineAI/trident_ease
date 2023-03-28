@@ -446,8 +446,6 @@
             console.log(barang)
             if (diskon == 0) {
                 $('.discount').val(0);
-                // Swal.fire('Diskon ada')
-                // return false;
             }
 
             if(barang == "") {
@@ -469,7 +467,7 @@
                 if(format_dp == 0) {
                     Swal.fire('Masukan jumlah uang dp terlebih dahulu')
                     return false;
-                } else if (format_bayar > format_dp ) {
+                } else if (parseFloat(format_bayar) > format_dp ) {
                     Swal.fire('Jumlah dp melebihi total harga, Silahkan ubah jenis pembayaran')
                     return false;
                 } else {
@@ -480,7 +478,7 @@
                     Swal.fire('Masukan jumlah uang bayar')
                     return false;
                 } else {
-                    if (format_bayar < format_total_harga) {
+                    if (parseFloat(format_bayar) < format_total_harga) {
                         Swal.fire('Masukan jumlah uang yang cukup')
                         return false;
                     } else {

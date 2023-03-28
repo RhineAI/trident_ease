@@ -19,8 +19,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Database\QueryException;
 use App\Http\Requests\StorePembelianRequest;
 use App\Http\Requests\UpdatePembelianRequest;
-
-
+use PDOException;
 
 class PembelianController extends Controller
 {
@@ -129,31 +128,13 @@ class PembelianController extends Controller
 
     public function store(Request $request)
     {
-        // DB::beginTransaction();
         DB::statement('SET FOREIGN_KEY_CHECKS=0');
-        // try {
-            // return $request;
-            // dd($request); die;
+        DB::beginTransaction();
+        try {
             $pembelianBaru = new Pembelian();
-            // "select max(id)+1 as nextid from t_pembayaran where id like '".$tgl."%'"
-            // dd(Pembelian::select("id")->where('id', 'like', '%'. date('Ymd') . '%')->first()); die;
             $id = $this->NextId(date('Y-m-d'));
-            // return $id;
-            // if(TransaksiPenjualan::select("id")->where('id_perusahaan', auth()->user()->id_perusahaan)->where('id', 'like', '%'. date('Ymd') . '%')->first() == null){
-                // $indexTransaksi = sprintf("%03d", 1);
+            
             $pembelianBaru->id = $id;
-
-            // $kode = '';
-            // $date = (date('Ymd'));
-            // // return $date;
-            // if($pembelianBaru == NULL) {
-            //     $kode = $date . '0001';
-            // } 
-            // else {
-            //     $kode = sprintf($date.'%04d', intval(substr($pembelianBaru->kode, 8)) + 1);
-            //     $kode = strval($kode);
-            // }
-            // return $request;
             $pembelianBaru->tgl = date('Y-m-d');
             $pembelianBaru->id_supplier = $request->id_supplier;
             $pembelianBaru->total_pembelian = $this->checkPrice($request->total_harga);
@@ -232,11 +213,11 @@ class PembelianController extends Controller
                 $kasMasuk->keperluan = 'Transaksi Pembelian Produk';
                 $kasMasuk->save();
             }
+            DB::commit();     
             return redirect('/admin/list-pembelian')->with(['success' => 'Input data Transaksi Berhasil!']);
-        // } catch (QueryException | Exception | PDOException $e) {    
-        //     DB::rollBack();
-        // }
-        // DB::commit();     
+        } catch (QueryException | Exception | PDOException $e) {    
+            DB::rollBack();
+        }
     }
 
 
