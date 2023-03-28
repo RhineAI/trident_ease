@@ -124,9 +124,6 @@ class TransaksiPenjualanController extends Controller
                 // Membuat variabel baru yang diiisi dengan pembuatan object baru
                 $penjualanBaru = new TransaksiPenjualan();
 
-                // "select max(id)+1 as nextid from t_pembayaran where id like '".$tgl."%'"
-                // dd(TransaksiPenjualan::select("id")->where('id', 'like', '%'. date('Ymd') . '%')->first()); die;
-
                 // Set invoice transaksi penjualan agar sesuai dengan tanggal di hari transaksi dilakukan
                 $id = $this->NextId(date('Y-m-d'));
 
@@ -180,8 +177,6 @@ class TransaksiPenjualanController extends Controller
                     } else{
                         return view('dashboard')->with(['error' => 'Laku kah?']);
                     }
-
-
                     // Mendeklarasikan variabel baru yang nantinya diisi oleh pembuatan objek baru
                     $detPenjualanBaru = new DetailPenjualan(); 
                     $detPenjualanBaru->tgl = date('Y-m-d');
@@ -197,7 +192,6 @@ class TransaksiPenjualanController extends Controller
                     $detPenjualanBaru->harga_beli = $barang['harga_beli'];
                     $detPenjualanBaru->harga_jual = $barang['harga_jual'];
                     $detPenjualanBaru->id_perusahaan =  $penjualanBaru->id_perusahaan;
-                    // return $detPenjualanBaru;
                     $detPenjualanBaru->save();
                     
                     // Update stok di sistem sesuai barang yang dibeli

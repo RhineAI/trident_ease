@@ -1,6 +1,6 @@
 - ## Get Started
     - [Cuplikan](/{{route}}/{{version}}/overview)
-    - [Instalasi](/{{route}}/{{version}}/installation)
+    <!-- - [Instalasi](/{{route}}/{{version}}/installation) -->
 - ## Features
    - [Multi Perusahaan](/{{route}}/{{version}}/multiperusahaan)
    - [CRUD](/{{route}}/{{version}}/crud)

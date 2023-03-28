@@ -1,11 +1,48 @@
-# Overview
+# Transaksi
 
 ---
 
-- [First Section](#section-1)
+- [Halaman Transaksi](#transaksi-penjualan)
+- [Form Transaksi](#form-transaksi)
+- [Penyimpanan Transaksi](#simpan-transaksi)
 
-<a name="section-1"></a>
-## First Section
-Inline code is `cool`
+<larecipe-badge type="primary" circle icon="fa fa-user"></larecipe-badge>
+<larecipe-badge type="success" rounded>Luhung Lugina</larecipe-badge>
+<a name="transaksi-penjualan"></a>
+## Halaman Transaksi
+`Cuplikan Halaman Transaksi`
 
-Write something cool.. 🦊
+![image](/docs/images/transaksi.png)
+
+Pada halaman ini user dapat melakukan transaksi barang baik itu penjualan maupun pembelian. Adapun jenis pembayaran yang ada pada penjualan yaitu tunai dan kredit, sementara untuk pembelian jenis pembayarannya yaitu tunai, kredit, dan juga transfer
+
+<a name="form-transaksi"></a>
+## Modal Transaksi
+`Sintak Modal`
+
+![image](/docs/images/modal-transaksi.png)
+
+`Tampilan Untuk Memilih Barang`
+
+![image](/docs/images/select-barang.png)
+
+Ketika user klik tombol cari atau search pada pilih produk atau pilih pelanggan maka akan membuka modal 
+&nbsp;
+
+`Form Pemilihan Barang`
+
+![image](/docs/images/modal-open-transaksi.png)
+
+
+<a name="simpan-transaksi"></a>
+## Menyimpan Transaksi  
+
+Kemudian setelah user menginput pelanggan, barang yang akan dijual pada transaksi, serta pembayaran maka sistem akan menjalankan function `store()` pada controller
+
+`Sintak pada fungsi store() Transaksi`
+
+![image](/docs/images/store-transaksi-1.png)
+![image](/docs/images/store-transaksi-2.png)
+![image](/docs/images/store-transaksi-3.png)
+
+

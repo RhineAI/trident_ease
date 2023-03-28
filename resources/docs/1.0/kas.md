@@ -1,19 +1,13 @@
-# Laporan
+# Kas
 
 ---
 
-- [Laporan](#laporan)
+- [Kas](#kas)
 
 <larecipe-badge type="primary" circle icon="fa fa-user"></larecipe-badge>
 <larecipe-badge type="success" rounded>Luhung Lugina</larecipe-badge>
-<a name="laporan"></a>
+<a name="kas"></a>
 ## Halaman Laporan
-`Memilih tanggal dari laporan yang ingin ditampilkan`
-
-![image](/docs/images/select-tanggal-laporan.png)
-
-Disini user dapat menentukan kurun waktu tertentu berdasarkan tanggal dari laporan yang ingin ditampilkan
-
 `Cuplikan Halaman Laporan`
 
 ![image](/docs/images/laporan.png)

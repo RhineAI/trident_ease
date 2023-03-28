@@ -252,7 +252,6 @@ class BarangController extends Controller
         $barang->status = $request->status;
         $barang->keterangan = $request->keterangan;
         // isi properti kode, nama, barcode, id_kategori, id_satuan, id_supplier, id_merek, stock, stock_minimal, keuntungan, status, dan keterangan pada $barang berdasarkan input dari user
-
         $barang->id_perusahaan = auth()->user()->id_perusahaan;
         // isi properti id_perusahaan pada $barang berdasarkan id_perusahaan dari user yang sedang login
 
