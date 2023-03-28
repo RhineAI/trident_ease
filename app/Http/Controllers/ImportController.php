@@ -25,13 +25,6 @@ class ImportController extends Controller
     }
 
     public function barangImport(Request $request){
-        include app_path('Imports/BarangImport.php');
-        $fileExcel = $request->file('fileExcel');
-        // dd($request);
-        // return $fileExcel;
-        // $namaFile = $fileExcel->getClientOriginalName();
-        // $request->file('fileExcel')->move('assets/excel', $namaFile);
-
         $rollback = true;
         Excel::import(new BarangImport($request->id_perusahaan, $rollback), $request->file('fileExcel')->store('temp'));
         // Import request file excel ke database melalui class BarangImport dengan rollback true

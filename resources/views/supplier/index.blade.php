@@ -99,7 +99,9 @@
     </script>
     <script>
         $(document).ready(function(){
-          $('#formModalSupplier').on("show.bs.modal", function(e){
+        $('#formModalSupplier').on("show.bs.modal", function(e){
+            e.backdrop = 'static'
+            e.keyboard = false
             const btn = $(e.relatedTarget)
             const id_supplier = btn.data('id_supplier')
             const nama = btn.data('nama')

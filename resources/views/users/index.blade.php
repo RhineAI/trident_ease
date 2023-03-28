@@ -152,6 +152,7 @@
         $('[id=pass]').hide();
 
         function addForm(url) {
+            $('#modal-form').modal({backdrop: 'static', keyboard: false})
             $('#modal-form').modal('show');
             $('#modal-form .modal-title').text('Tambah Pegawai Baru');
 
@@ -191,6 +192,7 @@
 
 
         function editForm(data) {
+            $('#modal-form').modal({backdrop: 'static', keyboard: false})
             $('#modal-form').modal('show')
             $('#modal-form .modal-title').text('Edit Pegawai');
 

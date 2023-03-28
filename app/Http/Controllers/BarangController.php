@@ -14,8 +14,11 @@ use App\Exports\TemplateDownload;
 use Illuminate\Routing\Controller;
 use App\Http\Requests\StoreBarangRequest;
 use App\Http\Requests\UpdateBarangRequest;
+use Exception;
+use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
-
+use PDOException;
 
 class BarangController extends Controller
 {
@@ -236,8 +239,10 @@ class BarangController extends Controller
     
     public function store(Request $request)
     {
-        $barang = new Barang();
-        // Deklarasi variabel baru bernama barang yang akan diisi object baru
+        DB::beginTransaction();
+        try {
+            $barang = new Barang();
+            // Deklarasi variabel baru bernama barang yang akan diisi object baru
 
         $barang->kode = $request->kode;
         $barang->nama = $request->nama;
@@ -255,65 +260,72 @@ class BarangController extends Controller
         $barang->id_perusahaan = auth()->user()->id_perusahaan;
         // isi properti id_perusahaan pada $barang berdasarkan id_perusahaan dari user yang sedang login
 
-        $barang->tgl = date('Y-m-d');
-        // isi properti tgl pada $barang berdasarkan tanggal user melakukan submit
-        
-        $barang->harga_beli = $this->checkPrice($request->harga_beli);
-        // isi properti harga_beli pada $barang berdasarkan input harga_beli dari user yang telah diperiksa format harga nya 
-       
-        $perusahaan = Perusahaan::where('id', auth()->user()->id_perusahaan)->first();
-        // ambil data perusahaan yang sedang login
 
-        $limit = Barang::whereDate('tgl', date('Y-m-d'))->where('id_perusahaan', auth()->user()->id_perusahaan)->count();
-        // hitung jumlah input barang yang telah dilakukan oleh perusahaan yang sedang login
+            $barang->tgl = date('Y-m-d');
+            // isi properti tgl pada $barang berdasarkan tanggal user melakukan submit
+            
+            $barang->harga_beli = $this->checkPrice($request->harga_beli);
+            // isi properti harga_beli pada $barang berdasarkan input harga_beli dari user yang telah diperiksa format harga nya 
         
-        if($perusahaan->grade == 1) {
-            // pengecekan level akses perusahaan 
-            if($limit < 10 ) {
-            // cek jumlah input barang perusahaan yang login jika kurang dari 10 lakukan simpan ke database
-                $barang->save();
-                if ($barang->keterangan == 'utama' or $barang->keterangan == 'Utama') {
-                    return redirect()->route('admin.barang.index')->with(['success' => 'Berhasil Disimpan']);
-                } elseif ($barang->keterangan == 'konsinyasi' or $barang->keterangan == 'Konsinyasi') {
-                    return redirect()->route('admin.barang.indexKonsinyasi')->with(['success' => 'Berhasil Disimpan']);
+            $perusahaan = Perusahaan::where('id', auth()->user()->id_perusahaan)->first();
+            // ambil data perusahaan yang sedang login
+
+            $limit = Barang::whereDate('tgl', date('Y-m-d'))->where('id_perusahaan', auth()->user()->id_perusahaan)->count();
+            // hitung jumlah input barang yang telah dilakukan oleh perusahaan yang sedang login
+            
+            DB::commit();
+            if($perusahaan->grade == 1) {
+                // pengecekan level akses perusahaan 
+                if($limit < 10 ) {
+                // cek jumlah input barang perusahaan yang login jika kurang dari 10 lakukan simpan ke database
+                    $barang->save();
+                    if ($barang->keterangan == 'utama' or $barang->keterangan == 'Utama') {
+                        return redirect()->route('admin.barang.index')->with(['success' => 'Berhasil Disimpan']);
+                    } elseif ($barang->keterangan == 'konsinyasi' or $barang->keterangan == 'Konsinyasi') {
+                        return redirect()->route('admin.barang.indexKonsinyasi')->with(['success' => 'Berhasil Disimpan']);
+                    }
+                } else {
+                // jika sudah melebihi 10 makan return false
+                    return view('dashboard')->with(['error' => 'Sudah mencapai limit barang, Naikan levelmu terlebih dahulu!']);
                 }
-            } else {
-            // jika sudah melebihi 10 makan return false
-                return view('dashboard')->with(['error' => 'Sudah mencapai limit barang, Naikan levelmu terlebih dahulu!']);
-            }
-        } elseif($perusahaan->grade == 2) {
-            if($limit < 50 ) {
-            // cek jumlah input barang perusahaan yang login jika kurang dari 50 lakukan simpan ke database
-                $barang->save();
-                if ($barang->keterangan == 'utama' or $barang->keterangan == 'Utama') {
-                    return redirect()->route('admin.barang.index')->with(['success' => 'Berhasil Disimpan']);
-                } elseif ($barang->keterangan == 'konsinyasi' or $barang->keterangan == 'Konsinyasi') {
-                    return redirect()->route('admin.barang.indexKonsinyasi')->with(['success' => 'Berhasil Disimpan']);
+            } elseif($perusahaan->grade == 2) {
+                if($limit < 50 ) {
+                // cek jumlah input barang perusahaan yang login jika kurang dari 50 lakukan simpan ke database
+                    $barang->save();
+                    if ($barang->keterangan == 'utama' or $barang->keterangan == 'Utama') {
+                        return redirect()->route('admin.barang.index')->with(['success' => 'Berhasil Disimpan']);
+                    } elseif ($barang->keterangan == 'konsinyasi' or $barang->keterangan == 'Konsinyasi') {
+                        return redirect()->route('admin.barang.indexKonsinyasi')->with(['success' => 'Berhasil Disimpan']);
+                    }
+                }else {
+                // jika sudah melebihi 50 makan return false
+                    return view('dashboard')->with(['error' => 'Sudah mencapai limit barang, Naikan levelmu terlebih dahulu!']);
                 }
-            }else {
-            // jika sudah melebihi 50 makan return false
-                return view('dashboard')->with(['error' => 'Sudah mencapai limit barang, Naikan levelmu terlebih dahulu!']);
+            } elseif($perusahaan->grade == 3) {
+                if($limit < 10000 ) {
+                // cek jumlah input barang perusahaan yang login jika kurang dari 10000 lakukan simpan ke database
+                    $barang->save();
+                    if ($barang->keterangan == 'utama' or $barang->keterangan == 'Utama') {
+                        return redirect()->route('admin.barang.index')->with(['success' => 'Berhasil Disimpan']);
+                    } elseif ($barang->keterangan == 'konsinyasi' or $barang->keterangan == 'Konsinyasi') {
+                        return redirect()->route('admin.barang.indexKonsinyasi')->with(['success' => 'Berhasil Disimpan']);
+                    }                    
+                }else {
+                // jika sudah melebihi 10000 makan return false
+                    return view('dashboard')->with(['error' => 'Sudah mencapai limit barang, Naikan levelmu terlebih dahulu!']);
+                }
+            } else{
+                // cek jika ada level perusahaan berbeda dengan ketentuan
+                return redirect()->route('logout')->with(['error' => 'Anda tidak memiliki akses!']);
             }
-        } elseif($perusahaan->grade == 3) {
-            if($limit < 10000 ) {
-            // cek jumlah input barang perusahaan yang login jika kurang dari 10000 lakukan simpan ke database
-                $barang->save();
-                if ($barang->keterangan == 'utama' or $barang->keterangan == 'Utama') {
-                    return redirect()->route('admin.barang.index')->with(['success' => 'Berhasil Disimpan']);
-                } elseif ($barang->keterangan == 'konsinyasi' or $barang->keterangan == 'Konsinyasi') {
-                    return redirect()->route('admin.barang.indexKonsinyasi')->with(['success' => 'Berhasil Disimpan']);
-                }                    
-            }else {
-            // jika sudah melebihi 10000 makan return false
-                return view('dashboard')->with(['error' => 'Sudah mencapai limit barang, Naikan levelmu terlebih dahulu!']);
-            }
-        } else{
-            // cek jika ada level perusahaan berbeda dengan ketentuan
-            return redirect()->route('logout')->with(['error' => 'Anda tidak memiliki akses!']);
+
+            // Jika melewati pengecekan return true
+            return redirect()->route('admin.barang.index')->with(['success' => 'Berhasil Disimpan']);
+        } catch (QueryException | Exception | PDOException $e){
+            DB::rollBack();
+            return back()->with(['error', 'Terjadi Kesalahan Query']);
         }
-
-        // Jika melewati pengecekan return true
-        return redirect()->route('admin.barang.index')->with(['success' => 'Berhasil Disimpan']);
+        
     }
 
     public function show(Barang $barang)
@@ -328,38 +340,52 @@ class BarangController extends Controller
 
     public function update(Request $request, $id)
     {
-        $barang = Barang::find($id);
-        // cari data barang pada database berdasarkan parameter route
-        $barang->kode = $request->kode;
-        $barang->nama = $request->nama;
-        $barang->barcode = $request->barcode;
-        $barang->id_kategori = $request->id_kategori;
-        $barang->id_satuan = $request->id_satuan;
-        $barang->id_supplier = $request->id_supplier;
-        $barang->id_merek = $request->id_merek;
-        $barang->id_perusahaan = auth()->user()->id_perusahaan;
-        $barang->tgl = now();
-        $barang->stock = $request->stock;
-        $barang->stock_minimal = $request->stock_minimal;
-        $barang->harga_beli = $this->checkPrice($request->harga_beli);
-        $barang->keuntungan = $request->keuntungan;
-        $barang->status = $request->status;
-        $barang->keterangan = $request->keterangan;
-        // Update semua properti berdasarkan request
+        DB::beginTransaction();
+        try {
+            $barang = Barang::find($id);
+            // cari data barang pada database berdasarkan parameter route
+            $barang->kode = $request->kode;
+            $barang->nama = $request->nama;
+            $barang->barcode = $request->barcode;
+            $barang->id_kategori = $request->id_kategori;
+            $barang->id_satuan = $request->id_satuan;
+            $barang->id_supplier = $request->id_supplier;
+            $barang->id_merek = $request->id_merek;
+            $barang->id_perusahaan = auth()->user()->id_perusahaan;
+            $barang->tgl = now();
+            $barang->stock = $request->stock;
+            $barang->stock_minimal = $request->stock_minimal;
+            $barang->harga_beli = $this->checkPrice($request->harga_beli);
+            $barang->keuntungan = $request->keuntungan;
+            $barang->status = $request->status;
+            $barang->keterangan = $request->keterangan;
+            // Update semua properti berdasarkan request
 
-        $barang->update();
-        // Simpan perubahan ke database
+            $barang->update();
+            // Simpan perubahan ke database
 
-        return back()->with('success', 'Update Data berhasil');
-        // return true
+            DB::commit();
+            return back()->with('success', 'Update Data berhasil');
+            // return true
+        } catch (QueryException | Exception | PDOException $e) {   
+            DB::rollBack();
+            return back()->with(['error', 'Update Data Gagal Karena Masalah Query']);
+        }
     }
 
     public function destroy(Barang $barang)
     {
-        $barang->delete();
-        // Hapus row data parameter route dari dataabase
-        return back()->with('success', 'Update Data berhasil');
-        // return true
+        DB::beginTransaction();
+        try {
+            $barang->delete();
+            // Hapus row data parameter route dari dataabase
+            DB::commit();
+            return back()->with('success', 'Update Data berhasil');
+            // return true
+        } catch (QueryException | Exception | PDOException $e){
+            DB::rollBack();
+            return back()->with(['error', 'Delete Data Gagal Karena Masalah Query']);
+        }
     }
 
     public function downloadBarang(){

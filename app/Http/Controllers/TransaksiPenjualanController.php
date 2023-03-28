@@ -20,7 +20,7 @@ use App\Http\Requests\UpdatePenjualanRequest;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\QueryException;
 use Exception;
-
+use PDOException;
 
 class TransaksiPenjualanController extends Controller
 {
@@ -31,35 +31,44 @@ class TransaksiPenjualanController extends Controller
      */
     public function index()
     {
-         $data['barang'] = Barang::orderBy('nama')->where('id', auth()->user()->id_perusahaan)->get();
-        //  $diskon = TransaksiPenjualan::first()->diskon ?? 0;
- 
-        //  $detail = DetailPenjualan::orderBy('id_penjualan_detail', 'DESC');
+        // ambil semua data barang perusahaan yang sedang login dari database
+        $data['barang'] = Barang::orderBy('nama')->where('id', auth()->user()->id_perusahaan)->get();
 
-        $data['pelanggan'] = Pelanggan::where('id_perusahaan', auth()->user()->id_perusahaan)->get();    
+        // ambil semua data pelanggan perusahaan yang sedang login dari database
+        $data['pelanggan'] = Pelanggan::where('id_perusahaan', auth()->user()->id_perusahaan)->get();
+        
+        // ambil pelanggan pertama sebagai default customer 
         $data['pelangganUmum'] = Pelanggan::where('id_perusahaan', auth()->user()->id_perusahaan)->first();    
-        // $data['produk'] = Barang::where('stock', '>', 0)->where('status', '==', '1')->get();    
+        // ambil barang dengan stock lebih dari 0 dan sama dengan 1 untuk keperluan pengecekan   
         $data['produk'] = Barang::where('stock', '>', 0)->where('status', '=', '1')->where('id_perusahaan', auth()->user()->id_perusahaan)->get();    
+
+        // ambil data perusahaan yang sedang login
         $data['cPerusahaan'] = Perusahaan::select('*')->where('id', auth()->user()->id_perusahaan)->first();
    
+        // return tampilan halaman form transaksi
         return view('transaksi-penjualan.index', $data);
     }
 
-   
+    // function untuk menentukan id dari transaksi yang akan diinput
     public function NextId($tgl){
+        // Ubah format parameter tanggal menjadi tanpa tanda - 
         $pieces = explode("-",$tgl);
-        $yy=$pieces[0]; // piece1
-        $mm=$pieces[1]; //
+        $yy=$pieces[0]; 
+        $mm=$pieces[1]; 
         $dd=$pieces[2]; 
         $tgl=$yy.$mm.$dd;
         
+        // ambil id terakhir + 1 transaksi penjualan dari perusahaan yang sedang login
         $result= TransaksiPenjualan::select(DB::raw('max(id)+1 AS nextid'))->orderBy('id', 'DESC')->where('t_transaksi_penjualan.id_perusahaan', auth()->user()->id_perusahaan)->first();
-        // dd($result);
         if($tgl==substr($result->nextid,0,8)){
-            $nextid=$result->nextid;        
+            // jika tanggal parameter sama dengan tanggal yang ada pada id maka atur variabel nextid dengan properti nextid
+            $nextid=$result->nextid; 
         } else{
+            // jika tidak sama maka ubah digit terakhir id dengan 001
             $nextid=$tgl.'001';
         }
+
+        // kembalikan nextid
         return $nextid;
     }
     
@@ -96,15 +105,20 @@ class TransaksiPenjualanController extends Controller
     }
 
     public function data(Request $request){
+        // ambil data barang dari database dengan kondisi sama dengan input barcode dari user
         $barang = Barang::where('id_perusahaan', auth()->user()->id_perusahaan)->where('barcode', $request->barcode)->first();
         if($barang != null){
+            // hitung keuntungan abarang yang di input kemudian hitung harga_jual
             $margin=$barang->harga_beli*$barang->keuntungan/100;
             $harga_jual=$barang->harga_beli+$margin;
             if($harga_jual<10000){
+                // jika harga jual kurang dari 10000 bulatkan harga jual keatas sebanyak 2 digit terakhir angka
                 $harga_jual=round($harga_jual,-2);
             }else{
+                // jika harga jual >= 10000 bulatkan harga jual keatas sebanyak 3 digit terakhir angka
                 $harga_jual=round($harga_jual,-3);
             }
+            // atur properti harga jual dengan harga jual yang sudah dibulatkan 
             $barang['harga_jual'] = $harga_jual;
         }
         
@@ -112,11 +126,11 @@ class TransaksiPenjualanController extends Controller
     }
 
     public function store(Request $request)
-    {
+    {//
         // Set foreign key check menjadi 0 (tidak ada pengecekan)
         DB::statement('SET FOREIGN_KEY_CHECKS=0');
-        // try {
-         
+        DB::beginTransaction();
+        try {
             // Pengecekan jika kembalian kurang dari 0
             if($request->kembali < 0){
                 return back()->withInput($request->only('id_pelanggan', 'bayar', 'kembali'))->with('error', 'Uang Bayar Kurang');
@@ -229,21 +243,21 @@ class TransaksiPenjualanController extends Controller
                     $kasMasuk->keterangan = 'DP Transaksi Penjualan';
                     $kasMasuk->save();
                 }
-                // dd($penjualanBaru->id); die;
+                DB::commit();
+
+                // return sesuai hak akses admin ataupun kasir
                 if(auth()->user()->hak_akses == 'admin') {
                     return redirect()->route('admin.list-transaksi.print_nota', $penjualanBaru->id)->with(['success' => 'Transaksi Berhasil!']);
-                    // return redirect()->route('admin.list-transaksi.index')->with(['success' => 'Transaksi Berhasil!']);
                 }elseif(auth()->user()->hak_akses == 'kasir') {
-                    // return redirect()->route('kasir.list-transaksi.index')->with(['success' => 'Transaksi Berhasil!']);
                     return redirect()->route('kasir.list-transaksi.print_nota', $penjualanBaru->id)->with(['success' => 'Transaksi Berhasil!']);
                 }
-            }
+            }   
+        } catch (QueryException | PDOException | Exception){
+            DB::rollBack();
+            return back()->with('error', 'Terjadi Kesalahan Server!');
+        }
+         
             
-        // } catch(QueryException | Exception | PDOException $e) {
-        //     return redirect('/admin/list-pembelian')->with(['error' => ' data Transaksi ggagl!']);
-        //     DB::rollBack();
-        // }
-        // DB::commit();     
     }
 
     /**

@@ -88,6 +88,7 @@
 
         function addForm(url) {
             // $('#modal-form').trigger('reset');
+            $('#modal-form').modal({backdrop: 'static', keyboard: false})
             $('#modal-form').modal('show');
             $('#modal-form .modal-title').text('Tambah Kas Masuk');
 
@@ -142,6 +143,7 @@
         function editForm(data) {
            $('document').ready(function() {
                 if (data.mode == 'edit') {
+                    $('#modal-form').modal({backdrop: 'static', keyboard: false})
                     $('#modal-form').modal('show')
                     $('#modal-form .modal-title').text('Edit Kas Masuk');
 
