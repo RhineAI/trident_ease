@@ -87,11 +87,72 @@
 @push('scripts')
     <script>
         $('#tbl-data-pegawai').DataTable();
+
+        $('#formPegawai').on('submit', function(){
+            const nama = $('#nama').val()
+            const alamat = $('#alamat').val()
+            const tlp = $('#tlp').val()
+            const salesman = $('#salesman').val()
+            const jenis_kelamin = $('#jenis_kelamin').val()
+            const username = $('#username').val()
+            const password = $('#password').val()
+            const password_confirmation = $('#password_confirmation').val()
+            
+            if(nama == "") {
+                Swal.fire('Nama Pegawai Harus Diisi!')
+                return false;
+            } else {
+                $('#nama').val();
+            }
+
+            if(alamat == "") {
+                Swal.fire('Alamat Pegawai Harus Diisi!')
+                return false;
+            } else {
+                $('#alamat').val();
+            }
+
+            if(tlp == "") {
+                Swal.fire('Telepon Pegawai Harus Diisi!')
+                return false;
+            } else {
+                $('#tlp').val();
+            }
+
+            if(jenis_kelamin == null) {
+                Swal.fire('Jenis Kelamin Harus Diisi!')
+                return false;
+            } else {
+                $('#jenis_kelamin').val();
+            }
+
+            if(username == "") {
+                Swal.fire('Username Harus Diisi!')
+                return false;
+            } else {
+                $('#username').val();
+            }
+
+            if(password == "") {
+                Swal.fire('Password Harus Diisi!')
+                return false;
+            } else {
+                $('#password').val();
+            }
+
+            if(password_confirmation == "") {
+                Swal.fire('Konfirmasi Password Harus Diisi!')
+                return false;
+            } else {
+                $('#password_confirmation').val();
+            }
+        })
     </script>
     <script>
         $('[id=pass]').hide();
 
         function addForm(url) {
+            $('#modal-form').modal({backdrop: 'static', keyboard: false})
             $('#modal-form').modal('show');
             $('#modal-form .modal-title').text('Tambah Pegawai Baru');
 
@@ -131,6 +192,7 @@
 
 
         function editForm(data) {
+            $('#modal-form').modal({backdrop: 'static', keyboard: false})
             $('#modal-form').modal('show')
             $('#modal-form .modal-title').text('Edit Pegawai');
 

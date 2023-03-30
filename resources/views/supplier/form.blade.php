@@ -9,7 +9,7 @@
         </button>
     </div>
     <div class="modal-body">
-        <form action="" method="POST">
+        <form action="" method="POST" id="formSupplier">
             @csrf
             <div id="method"></div>
             <div class="form-group row">
@@ -17,7 +17,7 @@
                     <h5 class="my-2">Nama</h5>
                 </label>
                 <div class="col-md-9">
-                    <input type="text" placeholder="Nama Supplier" name="nama" id="nama" class="form-control" aria-label="Nama" aria-describedby="basic-addon1" required>
+                    <input type="text" placeholder="Nama Supplier" name="nama" id="nama" class="form-control" aria-label="Nama" aria-describedby="basic-addon1">
                     <span class="help-block with-errors"></span>
                 </div>
             </div>
@@ -26,7 +26,7 @@
                     <h5 class="my-2">Alamat</h5>
                 </label>
                 <div class="col-md-9">
-                    <textarea placeholder="Alamat Supplier" name="alamat" class="form-control" id="alamat" cols="10" rows="3.5" required></textarea>
+                    <textarea placeholder="Alamat Supplier" name="alamat" class="form-control" id="alamat" cols="10" rows="3.5"></textarea>
                     <span class="help-block with-errors"></span>
                 </div>
             </div>
@@ -35,7 +35,7 @@
                     <h5 class="my-2">Telepon</h5>
                 </label>
                 <div class="col-md-9">
-                    <input type="text" minlength="11" maxlength="14" placeholder="Telepon / No Hp" name="tlp" id="tlp" class="form-control" aria-label="Telepon" aria-describedby="basic-addon1" required>
+                    <input type="text" minlength="11" maxlength="14" placeholder="Telepon / No Hp" name="tlp" id="tlp" class="form-control" aria-label="Telepon" aria-describedby="basic-addon1">
                     <span class="help-block with-errors"></span>
                 </div>
             </div>
@@ -44,7 +44,7 @@
                     <h5 class="my-2">Salesman</h5>
                 </label>
                 <div class="col-md-9">
-                    <input type="text" placeholder="Salesman" name="salesman" id="salesman" class="form-control" aria-label="Telepon" aria-describedby="basic-addon1" required>
+                    <input type="text" placeholder="Salesman" name="salesman" id="salesman" class="form-control" aria-label="Telepon" aria-describedby="basic-addon1">
                     <span class="help-block with-errors"></span>
                 </div>
             </div>
@@ -53,7 +53,7 @@
                     <h5 class="my-2">Bank</h5>
                 </label>
                 <div class="col-md-9">
-                    <select name="bank" class="form-control" required id="bank">
+                    <select name="bank" class="form-control" id="bank">
                         <option disabled="disabled" selected="selected">BANK</option>
                         <option value="Bank BRI">Bank BRI</option>
                         <option value="Bank BNI">Bank BNI</option>
@@ -79,7 +79,7 @@
                     <h5 class="my-2">No Rekening</h5>
                 </label>
                 <div class="col-md-9">
-                    <input type="number" placeholder="No Rekening" name="no_rekening" id="no_rekening" class="form-control" aria-label="Telepon" aria-describedby="basic-addon1" required>
+                    <input type="number" placeholder="No Rekening" name="no_rekening" id="no_rekening" class="form-control" aria-label="Telepon" aria-describedby="basic-addon1">
                     <span class="help-block with-errors"></span>
                 </div>
             </div>

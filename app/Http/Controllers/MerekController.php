@@ -41,16 +41,16 @@ class MerekController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {   
-        DB::beginTransaction();
-        try {
-            Merek::create(['nama' => $request->nama]);
+    {
+        // DB::beginTransaction();
+        // try {
+            Merek::create($request->all());
             return redirect()->back()->with(['success' => 'Data Berhasil Disimpan!']);
-        } catch(QueryException | Exception | PDOException $e) {
-            DB::rollBack();
-            return redirect()->back()->with(['error' => 'Terjadi Kesalahan Server']);
-        }
-        DB::commit();
+        // } catch(QueryException | Exception | PDOException $e) {
+            // DB::rollBack();
+            // return redirect()->back()->with(['error' => 'Terjadi Kesalahan Server']);
+        // }
+        // DB::commit();
         // return redirect('/merek')->with('success', 'Input data Merek berhasil!');
     }
 

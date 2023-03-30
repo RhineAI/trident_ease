@@ -108,12 +108,12 @@ class KasKeluarController extends Controller
         // return $jumlah;
         $kasKeluar = new KasKeluar;
         $kasKeluar->tgl = now();
-        if( $this->checkPrice($request->jumlah) > $sisaKas ) {
+        // if( $this->checkPrice($request->jumlah) > $sisaKas ) {
             // return redirect()->back()->withInput(Input::all());
-            return redirect()->back()->withInput($request->only('keperluan'))->with(['errorKasKeluar' => 'Biaya melebihi Uang Kas!']);
-        } else {
+            // return redirect()->back()->withInput($request->only('keperluan'))->with(['errorKasKeluar' => 'Biaya melebihi Uang Kas!']);
+        // } else {
             $kasKeluar->jumlah = $this->checkPrice($jumlah);
-        }
+        // }
         $kasKeluar->keperluan = $request->keperluan;
         $kasKeluar->id_user = auth()->user()->id;
         $kasKeluar->id_perusahaan = auth()->user()->id_perusahaan;
@@ -164,12 +164,12 @@ class KasKeluarController extends Controller
         // return $sisaKas;
         $kasKeluar = KasKeluar::find($id);
         $kasKeluar->tgl = now();
-        if( $this->checkPrice($request->jumlah) > $sisaKas ) {
+        // if( $this->checkPrice($request->jumlah) > $sisaKas ) {
             // return back()->withInput(Input::all());
-            return back()->withInput($request->only('keperluan'))->with(['errorKasKeluar' => 'Biaya melebihi Uang Kas!']);
-        } else {
+            // return back()->withInput($request->only('keperluan'))->with(['errorKasKeluar' => 'Biaya melebihi Uang Kas!']);
+        // } else {
             $kasKeluar->jumlah = $this->checkPrice($jumlah);
-        }
+        // }
         $kasKeluar->keperluan = $request->keperluan;
         $kasKeluar->id_user = auth()->user()->id;
         $kasKeluar->id_perusahaan = auth()->user()->id_perusahaan;

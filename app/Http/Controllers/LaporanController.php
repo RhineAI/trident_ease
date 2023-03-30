@@ -1212,8 +1212,8 @@ class LaporanController extends Controller
             // }
             
             $kesesuaianBarang = Penyesuaian::whereBetween('t_penyesuaian.tgl', [$awal, $akhir])
-                                            ->where('id_merek', $merek)
-                                            ->where('id_kategori', $kategori)
+                                            ->orWhere('id_merek', $merek)
+                                            ->orWhere('id_kategori', $kategori)
                                             ->leftJoin('t_barang AS B', 'B.id', 't_penyesuaian.id_barang')
                                             ->leftJoin('t_kategori AS K', 'K.id', 'B.id_kategori')
                                             ->leftJoin('t_merek AS M', 'M.id', 'B.id_merek')

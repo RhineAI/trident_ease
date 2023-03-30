@@ -9,7 +9,7 @@
         </button>
     </div>
     <div class="modal-body">
-        <form action="" method="POST">
+        <form action="" method="POST" id="formPegawai">
             @csrf
             <div id="method"></div>
             <div class="form-group row">
@@ -17,7 +17,7 @@
                     <h5 class="my-2">Nama</h5>
                 </label>
                 <div class="col-md-8">
-                    <input type="text" placeholder="Nama Pegawai" name="nama" id="nama" class="form-control" aria-label="Username" aria-describedby="basic-addon1" required>
+                    <input type="text" placeholder="Nama Pegawai" name="nama" id="nama" class="form-control" aria-label="Username" aria-describedby="basic-addon1" >
                     <span class="help-block with-errors"></span>
                 </div>
             </div>
@@ -26,7 +26,7 @@
                     <h5 class="my-2">Alamat</h5>
                 </label>
                 <div class="col-md-8">
-                    <textarea placeholder="Alamat Pegawai" name="alamat" class="form-control" id="alamat" cols="10" rows="3.5" required></textarea>
+                    <textarea placeholder="Alamat Pegawai" name="alamat" class="form-control" id="alamat" cols="10" rows="3.5" ></textarea>
                     <span class="help-block with-errors"></span>
                 </div>
             </div>
@@ -35,7 +35,7 @@
                     <h5 class="my-2">Telepon</h5>
                 </label>
                 <div class="col-md-8">
-                    <input type="text" minlength="11" maxlength="14" placeholder="Telepon / No Hp" name="tlp" id="tlp" class="form-control" aria-label="Username" aria-describedby="basic-addon1" required>
+                    <input type="text" minlength="11" maxlength="14" placeholder="Telepon / No Hp" name="tlp" id="tlp" class="form-control" aria-label="Username" aria-describedby="basic-addon1" >
                     <span class="help-block with-errors"></span>
                 </div>
             </div>
@@ -44,7 +44,7 @@
                     <h5 class="my-2">Jenis Kelamin</h5>
                 </label>
                 <div class="col-md-8">
-                    <select placeholder="" name="jenis_kelamin" id="jenis_kelamin" class="form-control" required>
+                    <select placeholder="" name="jenis_kelamin" id="jenis_kelamin" class="form-control" >
                         <option value="" disabled="disabled" selected="true">Pilih Jenis Kelamin</option>
                         <option value="L">Laki-Laki</option>
                         <option value="P">Perempuan</option>
@@ -58,7 +58,7 @@
                     <h5 class="my-2">Username</h5>
                 </label>
                 <div class="col-md-8">
-                    <input type="text" placeholder="Username" name="username" id="username" class="form-control" aria-label="Username" aria-describedby="basic-addon1" required  autocomplete="off">
+                    <input type="text" placeholder="Username" name="username" id="username" class="form-control" aria-label="Username" aria-describedby="basic-addon1"   autocomplete="off">
                     <span class="help-block with-errors"></span>
                 </div>
             </div>
@@ -67,7 +67,7 @@
                     <h5 class="my-2">Password</h5>
                 </label>
                 <div class="col-md-8">
-                    <input type="password" minlength="6" placeholder="Ketik Password" name="password" id="password" class="form-control" aria-label="Username" aria-describedby="basic-addon1" required autocomplete="off">
+                    <input type="password" minlength="6" placeholder="Ketik Password" name="password" id="password" class="form-control" aria-label="Username" aria-describedby="basic-addon1"  autocomplete="off">
                     <span class="help-block with-errors"></span>
                 </div>
             </div>
@@ -76,7 +76,7 @@
                     <h5 class="my-2">Konfirmasi Password</h5>
                 </label>
                 <div class="col-md-8">
-                    <input type="password" minlengt="6" data-match="#password" placeholder="Ketik Ulang Password" name="password_confirmation" id="password_confirmation" class="form-control" aria-label="Username" aria-describedby="basic-addon1" required autocomplete="off">
+                    <input type="password" minlengt="6" data-match="#password" placeholder="Ketik Ulang Password" name="password_confirmation" id="password_confirmation" class="form-control" aria-label="Username" aria-describedby="basic-addon1"  autocomplete="off">
                     <span class="help-block with-errors"></span>
                 </div>
             </div>
@@ -87,7 +87,7 @@
                     <h5 class="my-2">Hak Akses</h5>
                 </label>
                 <div class="col-md-8">
-                    <select class="form-control" name="hak_akses" id="hak_akses" required>
+                    <select class="form-control" name="hak_akses" id="hak_akses" >
                         <option value="" disabled="disabled" selected="true">Pilih Hak Akses User</option>
                             <option value="admin">Administrator</option>
                             <option value="kasir">Kasir</option>

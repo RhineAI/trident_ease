@@ -38,8 +38,8 @@ class KategoriController extends Controller
      */
     public function store(Request $request)
     {
-        $request['nama'] = ucfirst($request->nama);
-        return $request;
+        // $request['nama'] = ucfirst($request->nama);
+        // return $request;
         $input = Kategori::create($request->all());
         // return redirect('/kategori')->with('success', 'Input data Kategori berhasil!');
         return redirect()->back()->with(['success' => 'Data Berhasil Disimpan!']);

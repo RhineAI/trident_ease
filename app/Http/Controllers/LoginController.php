@@ -10,6 +10,7 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
+use App\Http\Requests\AuthRequest;
 use App\Mail\NotifikasiRegisterPerusahaan;
 use Illuminate\Validation\ValidationException;
 

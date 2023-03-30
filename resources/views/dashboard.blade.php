@@ -172,6 +172,7 @@
                 </div>
             </div>
         </div>
+        
         <!-- Pie Chart -->
         <div class="col-xl-4 col-lg-5">
             <div class="card mb-4">

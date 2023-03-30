@@ -48,7 +48,6 @@ use App\Http\Controllers\ImportController;
 Route::middleware(['auth'])->group(function () {
         Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
         // Route::patch('/manage-perusahaan/perbarui/{id}', [SuperAdminController::class, 'perbarui'])->name('manage.perbarui');
-
         Route::group(['prefix' => 'super_admin', 'middleware' => 'cek-hak-akses:super_admin', 'as' => 'super_admin.'], function () {
                 Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
@@ -177,6 +176,7 @@ Route::middleware(['auth'])->group(function () {
                 Route::post('/barang/data', [BarangController::class, 'data'])->name('barang.data');
                 Route::post('/barang-konsinyasi/data', [BarangController::class, 'dataKonsinyasi'])->name('barang.dataKonsinyasi');
                 Route::get('/import-barang', [ImportController::class, 'viewBarangImport'])->name('importBarang');
+                Route::get('/download-data-barang', [BarangController::class, 'downloadBarang'])->name('download.data-barang');
                 Route::post('/import-barang', [ImportController::class, 'barangImport'])->name('postImport');
                 Route::get('/download-template', [ImportController::class, 'downloadTemplate'])->name('download.template');
 

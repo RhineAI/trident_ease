@@ -3,7 +3,7 @@
     aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
 
-        <form action="" method="post" class="form-horizontal">
+        <form action="" method="post" class="form-horizontal" id="formBarang">
             @csrf
             @method('post')
 
@@ -20,7 +20,7 @@
                             <h6 class="my-2">Nama</h6>
                         </label>
                         <div class="col-md-10">
-                            <input type="text" name="nama" id="product_name" class="form-control" required
+                            <input type="text" name="nama" id="product_name" class="form-control"
                                 autofocus>
                             <span class="help-block with-errors"></span>
                         </div>
@@ -31,7 +31,7 @@
                             <h6 class="my-2">Barcode</h6>
                         </label>
                         <div class="col-md-4">
-                            <input type="text" name="barcode" id="barcode" class="form-control" required>
+                            <input type="text" name="barcode" id="barcode" class="form-control">
                             <span class="help-block with-errors"></span>
                         </div>
 
@@ -39,7 +39,7 @@
                             <h6 class="my-2">Kode</h6>
                         </label>
                         <div class="col-md-4">
-                            <input type="text" name="kode" id="kode" class="form-control" required>
+                            <input type="text" name="kode" id="kode" class="form-control">
                             <span class="help-block with-errors"></span>
                         </div>
                     </div>
@@ -49,7 +49,7 @@
                             <h6 class="my-2">Kategori</h6>
                         </label>
                         <div class="col-md-4">
-                            <select name="id_kategori" id="id_kategori" class="form-control" required>
+                            <select name="id_kategori" id="id_kategori" class="form-control">
                                 <option value="" disabled selected>Pilih Kategori</option>
                                 @foreach ($categories as $item )
                                     <option value="{{ $item->id }}">{{ $item->nama }}</option>
@@ -62,7 +62,7 @@
                             <h6 class="my-2">Satuan</h6>
                         </label>
                         <div class="col-md-4">
-                            <select name="id_satuan" id="id_satuan" class="form-control" required>
+                            <select name="id_satuan" id="id_satuan" class="form-control">
                                 <option value="" disabled selected>Pilih Satuan</option>
                                 @foreach ($satuan as $item )
                                     <option value="{{ $item->id }}">{{ $item->nama }}</option>
@@ -78,7 +78,7 @@
                             <h6 class="my-2">Supplier</h6>
                         </label>
                         <div class="col-md-4">
-                            <select name="id_supplier" id="id_supplier" class="form-control" required>
+                            <select name="id_supplier" id="id_supplier" class="form-control">
                                 <option value=""  disabled selected>Pilih Supplier</option>
                                 @foreach ($supplier as $item )
                                     <option value="{{ $item->id }}">{{ $item->nama }}</option>
@@ -91,7 +91,7 @@
                             <h6 class="my-2">Merek </h6>
                         </label>
                         <div class="col-md-4">
-                            <select name="id_merek" id="id_merek" class="form-control" required>
+                            <select name="id_merek" id="id_merek" class="form-control">
                                 <option value="" disabled selected>Pilih Merek</option>
                                 @foreach ($merek as $item )
                                     <option value="{{ $item->id }}">{{ $item->nama }}</option>
@@ -106,7 +106,7 @@
                             <h6 class="my-2">Stok </h6>
                         </label>
                         <div class="col-md-4">
-                            <input type="number" name="stock" id="stock" class="form-control" required autofocus>
+                            <input type="number" name="stock" id="stock" class="form-control" autofocus>
                             <span class="help-block with-errors"></span>
                         </div>
 
@@ -114,7 +114,7 @@
                             <h6 class="my-2">Min. Stok</h6>
                         </label>
                         <div class="col-md-4">
-                            <input type="number" name="stock_minimal" id="stock_minimal" class="form-control" required autofocus>
+                            <input type="number" name="stock_minimal" id="stock_minimal" class="form-control" autofocus>
                             <span class="help-block with-errors"></span>
                         </div>
                     </div>
@@ -160,7 +160,7 @@
                             <h6 class="my-2">Status</h6>
                         </label>
                         <div class="col-md-3">
-                            <select name="status" id="status" class="form-control" required>
+                            <select name="status" id="status" class="form-control">
                                 <option value="1" selected>Aktif</option>
                                 <option value="2">Tidak Aktif</option>
                             </select>
@@ -171,8 +171,8 @@
                             <h6 class="my-2">Jenis</h6>
                         </label>
                         <div class="col-md-3">
-                            <select name="keterangan" id="keterangan" class="form-control" required>
-                                <option selected disabled>Pilih Produk</option>
+                            <select name="keterangan" id="keterangan" class="form-control">
+                                <option selected disabled value="">Pilih Produk</option>
                                 <option value="utama">Produk Utama</option>
                                 <option value="konsinyasi">Produk Konsinyasi</option>
                             </select>

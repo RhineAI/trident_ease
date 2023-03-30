@@ -46,8 +46,8 @@
         }
     }
 
-    /* input [aria_controls]    { 
-        width: 100px; 
+    /* input [aria_controls]    {
+        width: 100px;
     } */
     @media (min-width: 1025px) {
         .h-custom {
@@ -173,7 +173,7 @@
     .balloon {
         display: inline-block;
         width: 100%;
-        margin-right: -120px;
+        margin-right: -15%;
         padding: 8px 0 2px 5px;
         font-family: "Open Sans", sans;
         font-weight: 400;
@@ -262,13 +262,13 @@
 @endpush
 
 @section('contents')
-  
+
     <!-- Main content -->
 <section class="content" >
     <div class="row mx-4" >
         <div class="col-lg-12 rounded" style="background-color: white;">
             <div class="box-body">
-                
+
                 <form class="form-supplier mt-3" method="post" id="form-transaksi">
                     @csrf
                     <div class="container h-100 py-3">
@@ -276,7 +276,7 @@
                             <div class="col">
                                 <div class="card shopping-cart" style="border-radius: 15px;">
                                     <div class="card-body text-black">
-    
+
                                         <div class="row">
                                             <div class="col-lg-8 px-2 py-2">
                                                 {{-- <h3 class="mb-5 pt-2 text-center fw-bold text-uppercase">Your products</h3> --}}
@@ -286,13 +286,13 @@
                                                             <thead>
                                                                 <tr>
                                                                     <th scope="col" class="border-0 bg-light">
-                                                                        <div class="p-1 px-2 text-uppercase">Produk</div>
-                                                                    </th>
-                                                                    <th scope="col" class="border-0 bg-light">
-                                                                        <div class="py-1 px-2 text-uppercase">Subtotal</div>
+                                                                        <div class="py-1 text-uppercase">Produk</div>
                                                                     </th>
                                                                     <th scope="col" class="border-0 bg-light">
                                                                         <div class="py-1 text-uppercase">Diskon(%)</div>
+                                                                    </th>
+                                                                    <th scope="col" class="border-0 bg-light">
+                                                                        <div class="py-1 text-uppercase">Subtotal</div>
                                                                     </th>
                                                                     <th scope="col" class="border-0 bg-light">
                                                                         <div class="py-1 text-uppercase">Aksi</div>
@@ -308,13 +308,13 @@
                                                                 </tr>
                                                             </tbody>
                                                         </table>
-    
+
                                                       </div>
                                                 </div>
                                                 <hr class="mb-4" style="height: 2px; background-color: #1266f1; opacity: 1;">
                                                 <p class="text-center align-middle" style="font-size: 14px">List Produk</p>
                                             </div>
-                                            
+
                                             <div class="col-lg-4 py-2">
                                                 <div class="card mb-4">
                                                     <div class="card-header py-3">
@@ -332,7 +332,7 @@
                                                             </span>
                                                         </div>
                                                         <br>
-    
+
                                                         <h6>Pilih Supplier</h6>
                                                         <div class="input-group mb-2">
                                                             <input type="hidden" name="id_supplier" id="id_supplier">
@@ -341,27 +341,27 @@
                                                                 <button style="border-radius: 13px 0 0 13px;" onclick="tampilSupplier()" class="btn btn-info btn-flat" type="button" ><i class="fa-solid fa-magnifying-glass"></i></i></button>
                                                             </span>
                                                         </div>
-    
+
                                                         <div class="input-group mb-2">
                                                             <input type="text" style="border-radius: 13px;" name="tlp" id="tlp" class="form-control" required readonly>
                                                         </div>
                                                     </div>
                                                 </div>
-    
+
                                                 <div class="card mb-4">
                                                     <div class="card-header py-3">
                                                         <h5 class="mb-0">Pembayaran</h5>
                                                     </div>
                                                     <div class="card-body">
-                                                        <div class=""> 
+                                                        <div class="">
                                                             <div class="d-flex justify-content-between mb-4" style="font-weight: 500;">
-                                                                <select style="border-radius: 0 13px 13px 0; width:100%;"  class="form-control" name="jenis_pembayaran" data-bv-trigger="blur" id="jenis_pembayaran"> 
+                                                                <select style="border-radius: 0 13px 13px 0; width:100%;"  class="form-control" name="jenis_pembayaran" data-bv-trigger="blur" id="jenis_pembayaran">
                                                                     <option value="1" selected="selected">Tunai</option>
                                                                     <option value="2">Kredit</option>
                                                                     <option value="3">Transfer</option>
                                                                 </select>
                                                             </div>
-    
+
                                                             </div>
                                                             <div class="d-flex justify-content-between" style="font-weight: 500;">
                                                                 <p class="mb-2">Total</p>
@@ -369,37 +369,37 @@
                                                                 <input type="hidden" data-bv-trigger="blur" class="total_harga" id="total_harga" name="total_harga" class="form-control" readonly>
                                                                 <input class="form-control" type="hidden" name="total_pembelian" data-bv-trigger="blur" id="total_penjualan" readonly="true">
                                                             </div>
-    
+
                                                             <hr class="my-3">
-    
+
                                                             <div class="d-flex justify-content-between " id="tampil_bayar" style="font-weight: 500;">
                                                               <p class="mb-3">Bayar</p>
                                                               <span>
                                                                 <input class="balloon bayar" id="bayar" name="total_bayar" autocomplete="off" type="text" placeholder="0" style="direction:rtl; text-indent:5px;" >
                                                               </span>
                                                             </div>
-    
+
                                                             <div class="d-flex justify-content-between mb-4" id="tampil_kembali" style="font-weight: 500;">
                                                                 <p class="mb-3">Kembalian</p>
                                                                 <span>
                                                                     <input type="text" data-bv-trigger="blur" id="kembali" readonly name="kembali" style="direction:rtl;" class="balloon kembali" value="0">
                                                                 </span>
                                                             </div>
-    
+
                                                             <div class="d-none justify-content-between mb-1" id="tampil_dp" style="font-weight: 500;">
                                                                 <p class="mb-2">DP</p>
                                                                 <span>
                                                                   <input class="balloon dp" id="dp" name="dp" autocomplete="off" type="text" placeholder="0" style="text-indent:5px; direction:rtl;">
                                                                 </span>
                                                               </div>
-      
+
                                                               <div class="d-none justify-content-between mb-4" id="tampil_sisa" style="font-weight: 500;">
                                                                   <p class="mb-2">Sisa</p>
                                                                   <span>
                                                                       <input type="text" data-bv-trigger="blur" id="sisa" readonly name="sisa" style="direction:rtl;" class="balloon mb-2 sisa" value="0">
                                                                   </span>
                                                               </div>
-    
+
                                                             <button type="button" id="simpan" class="submit btn btn-primary btn-lg btn-block">Simpan</button>
                                                     </div>
                                                 </div>
@@ -411,7 +411,7 @@
                         </div>
                     </div>
                 </div>
-            </div>  
+            </div>
         </div>
     </form>
 @include('transaksi-pembelian.formBarang')
@@ -420,7 +420,7 @@
 <!-- /.content -->
 @endsection
 
-@push('scripts') 
+@push('scripts')
     <script>
         $('body').addClass('sidebar-collapse');
 
@@ -430,7 +430,7 @@
             }
         });
 
-        $('#simpan').on('click', function(){   
+        $('#simpan').on('click', function(){
             let supplier = $('#id_supplier').val();
             let diskon = $('.discount').val();
             let barang = $('#id_barang').val();
@@ -440,36 +440,34 @@
             let bayar = $('#bayar').val();
             let format_bayar = String(bayar).replaceAll(".", '');
             let format_total_harga = String(total_harga).replace(/Rp/g, '').replaceAll(".", '');
-            
+
             let dp = $('#dp').val();
             let format_dp = String(dp).replaceAll(".", '');
             console.log(barang)
             if (diskon == 0) {
                 $('.discount').val(0);
-                // Swal.fire('Diskon ada')
-                // return false;
             }
-            
+
             if(barang == "") {
                 Swal.fire('Tambahkan produk terlebih dahulu')
                 return false;
             } else {
                 $('#id_barang').val();
             }
-            
-            
+
+
             if(supplier == "") {
                 Swal.fire('Isi data supplier terlebih dahulu')
                 return false;
             } else {
                 $('#id_supplier').val();
             }
-            
+
             if(jenis_pembayaran == 2) {
                 if(format_dp == 0) {
                     Swal.fire('Masukan jumlah uang dp terlebih dahulu')
                     return false;
-                } else if (format_bayar > format_dp ) {
+                } else if (parseFloat(format_bayar) > format_dp ) {
                     Swal.fire('Jumlah dp melebihi total harga, Silahkan ubah jenis pembayaran')
                     return false;
                 } else {
@@ -480,15 +478,15 @@
                     Swal.fire('Masukan jumlah uang bayar')
                     return false;
                 } else {
-                    if (format_bayar < format_total_harga) {
+                    if (parseFloat(format_bayar) < format_total_harga) {
                         Swal.fire('Masukan jumlah uang yang cukup')
                         return false;
                     } else {
                         $('#dp').val();
                     }
                 }
-            } 
-             
+            }
+
             @if(auth()->user()->hak_akses == 'admin')
                 var newPage = "{{ route('admin.transaksi-pembelian.index') }}";
             @elseif(auth()->user()->hak_akses == 'kasir')
@@ -498,7 +496,7 @@
             document.getElementById('form-transaksi').submit();
         });
 
-        $(document).on('change', '#jenis_pembayaran', function () {  
+        $(document).on('change', '#jenis_pembayaran', function () {
             var isiJenis = $('#jenis_pembayaran').val();
             if (isiJenis == '1') {  // Tunai
                 $("#bayar").val('');
@@ -515,8 +513,8 @@
                 const bayar = $('#bayar').val().replaceAll('.', '');
                 const kembali = total_harga - bayar;
                 const format_kembali =   Math.round(Number(kembali)).toLocaleString("id-ID", {
-                                          style:"currency", 
-                                          currency:"IDR", 
+                                          style:"currency",
+                                          currency:"IDR",
                                           maximumSignificantDigits: (kembali + '').replace('.', '').length
                                         });
                 $('#kembali').text(format_kembali);
@@ -525,7 +523,7 @@
                 $("#sisa").val('');
                 $("#bayar").val(0);
                 $("#kembali").val(0);
-                
+
                 $('div#tampil_bayar').removeClass('d-flex').addClass('d-none');
                 $('div#tampil_kembali').removeClass('d-flex').addClass('d-none');
                 $('div#tampil_dp').removeClass('d-none').addClass('d-flex');
@@ -535,8 +533,8 @@
                 const dp = $('#dp').val().replaceAll('.', '');
                 const sisa = total_harga - dp;
                 const format_sisa =   Math.round(Number(sisa)).toLocaleString("id-ID", {
-                                          style:"currency", 
-                                          currency:"IDR", 
+                                          style:"currency",
+                                          currency:"IDR",
                                           maximumSignificantDigits: (sisa + '').replace('.', '').length
                                         });
                 $('#sisa').text(format_sisa);
@@ -545,7 +543,7 @@
                 $("#sisa").val(0);
                 $("#bayar").val(0);
                 $("#kembali").val(0);
-                
+
                 $('div#tampil_bayar').removeClass('d-flex').addClass('d-none');
                 $('div#tampil_kembali').removeClass('d-flex').addClass('d-none');
                 $('div#tampil_dp').removeClass('d-flex').addClass('d-none');
@@ -557,9 +555,9 @@
             // const min_stock = $('#stok_minimal').val();
             // const total_stock = $('#stok').val();
             //  if (total_stock <= min_stock) {
-            //     let data_stok = "!"; 
-            //     $('#alert_stock').addClass('position-absolute top-0 start-100 translate-middle badge rounded-circle bg-danger');       
-            //     $('#alert_stock').append(data_stok);       
+            //     let data_stok = "!";
+            //     $('#alert_stock').addClass('position-absolute top-0 start-100 translate-middle badge rounded-circle bg-danger');
+            //     $('#alert_stock').append(data_stok);
             // }
             $('#formModalBarangPembelian').modal('show');
             $('#tbl-data-barang-pembelian').DataTable();
@@ -586,7 +584,7 @@
 
         function cekDiscount(qty) {
             if(Number(qty.value) < 0){
-                qty.value = 0; 
+                qty.value = 0;
             } else if(Number(qty.value) > 100) {
                 qty.value = 100;
             } else {
@@ -598,7 +596,7 @@
             var discount = $('#discount' + id).val();
             var convert = String(harga_beli).replaceAll(".", '');
             // console.log(convert, discount, qty, harga_beli, id)
-            
+
             var hasil = (parseFloat(convert) * qty) * discount/100;
             $('#subtotal' + id).val((parseFloat(convert) * qty) - hasil);
             $('#displayST' + id).text((parseFloat(convert) * qty) - hasil);
@@ -613,7 +611,7 @@
         //UBAH DISCOUNT
         $(document).on('keyup change', '.discount', function () {
             var id = $(this).data("idbuffer");
-            // $(this).attr('value', '');  
+            // $(this).attr('value', '');
             var discount = $('#discount' + id).val();
             var harga_beli = $('#harga_beli' + id).val().replaceAll(".", '');
             var qty = $('#qty' + id).val();
@@ -621,17 +619,17 @@
             if(discount > 100) {
                 var hasil = (harga_beli *qty) * 100/100;
             } else {
-                var hasil = (harga_beli *qty) * discount/100;                
+                var hasil = (harga_beli *qty) * discount/100;
             }
             var format_subtotal =   Math.round(Number((harga_beli * qty) - hasil)).toLocaleString("id-ID", {
-                                    style:"currency", 
-                                    currency:"IDR", 
+                                    style:"currency",
+                                    currency:"IDR",
                                     maximumSignificantDigits: ((harga_beli * qty) - hasil + '').replace('.', '').length
                                     });
-        
+
             $('#subtotal' + id).val((harga_beli * qty) - hasil);
             $('#displayST' + id).text(format_subtotal);
-            
+
             let jenis_pembayaran = $('#jenis_pembayaran').val();
             var sT = document.querySelectorAll('.subtotal');
             var totalP = 0;
@@ -644,14 +642,14 @@
                 if(bayar > 0){
                     let kembali = bayar - totalP;
                     let kembali_makerp = Math.round(Number(kembali)).toLocaleString("id-ID", {
-                                        style:"currency", 
-                                        currency:"IDR", 
+                                        style:"currency",
+                                        currency:"IDR",
                                         maximumSignificantDigits: (kembali + '').replace('.', '').length
                                         });
-    
-                    $('#kembali').val(kembali_makerp.replace(/Rp/g, ''));   
+
+                    $('#kembali').val(kembali_makerp.replace(/Rp/g, ''));
                 }
-                
+
                 //Perhitungan Bayar DP
             } else if (jenis_pembayaran == '2') {
                 let dp = $('#dp').val();
@@ -662,13 +660,13 @@
                                     currency:"IDR",
                                     maximumSignificantDigits: (sisa + '').replace('.', '').length
                                 });
-    
-                $('#sisa').val(sisa_makerp.replace(/Rp/g, ''));      
+
+                $('#sisa').val(sisa_makerp.replace(/Rp/g, ''));
             }
 
             GetTotalBayar();
         });
-            
+
 
         //UBAH QTY
         $(document).on('click', '#plus', function () {
@@ -679,11 +677,11 @@
             var discount = $('#discount' + id).val();
             const subtotal = harga_beli * qty - ((harga_beli * qty) * discount/100)
             var format_subtotal =   Math.round(Number(subtotal)).toLocaleString("id-ID", {
-                                    style:"currency", 
-                                    currency:"IDR", 
+                                    style:"currency",
+                                    currency:"IDR",
                                     maximumSignificantDigits: (subtotal + '').replace('.', '').length
                                     });
-            
+
             $('#displayST' + id).text(format_subtotal);
             $('#subtotal' + id).val(subtotal);
 
@@ -699,14 +697,14 @@
                 if(bayar > 0){
                     let kembali = bayar - totalP;
                     let kembali_makerp = Math.round(Number(kembali)).toLocaleString("id-ID", {
-                                        style:"currency", 
-                                        currency:"IDR", 
+                                        style:"currency",
+                                        currency:"IDR",
                                         maximumSignificantDigits: (kembali + '').replace('.', '').length
                                         });
-        
-                    $('#kembali').val(kembali_makerp.replace(/Rp/g, ''));   
+
+                    $('#kembali').val(kembali_makerp.replace(/Rp/g, ''));
                 }
-                
+
             //Perhitungan Bayar DP
             } else if (jenis_pembayaran == '2') {
                 let dp = $('#dp').val();
@@ -717,8 +715,8 @@
                                     currency:"IDR",
                                     maximumSignificantDigits: (sisa + '').replace('.', '').length
                                 });
-    
-                $('#sisa').val(sisa_makerp.replace(/Rp/g, ''));      
+
+                $('#sisa').val(sisa_makerp.replace(/Rp/g, ''));
             }
 
             GetTotalBayar();
@@ -732,8 +730,8 @@
             var discount = $('#discount' + id).val();
             const subtotal = harga_beli * qty - ((harga_beli * qty) * discount/100)
             var format_subtotal =   Math.round(Number(subtotal)).toLocaleString("id-ID", {
-                                    style:"currency", 
-                                    currency:"IDR", 
+                                    style:"currency",
+                                    currency:"IDR",
                                     maximumSignificantDigits: (subtotal + '').replace('.', '').length
                                     });
 
@@ -752,14 +750,14 @@
                 if(bayar > 0){
                     let kembali = bayar - totalP;
                     let kembali_makerp = Math.round(Number(kembali)).toLocaleString("id-ID", {
-                                        style:"currency", 
-                                        currency:"IDR", 
+                                        style:"currency",
+                                        currency:"IDR",
                                         maximumSignificantDigits: (kembali + '').replace('.', '').length
                                         });
-        
-                    $('#kembali').val(kembali_makerp.replace(/Rp/g, ''));   
+
+                    $('#kembali').val(kembali_makerp.replace(/Rp/g, ''));
                 }
-                
+
             //Perhitungan Bayar DP
             } else if (jenis_pembayaran == '2') {
                 let dp = $('#dp').val();
@@ -770,8 +768,8 @@
                                     currency:"IDR",
                                     maximumSignificantDigits: (sisa + '').replace('.', '').length
                                 });
-    
-                $('#sisa').val(sisa_makerp.replace(/Rp/g, ''));      
+
+                $('#sisa').val(sisa_makerp.replace(/Rp/g, ''));
             }
 
             GetTotalBayar();
@@ -784,8 +782,8 @@
             var discount = $('#discount' + id).val();
             const subtotal = harga_beli * qty - ((harga_beli * qty) * discount/100)
             var format_subtotal =   Math.round(Number(subtotal)).toLocaleString("id-ID", {
-                                    style:"currency", 
-                                    currency:"IDR", 
+                                    style:"currency",
+                                    currency:"IDR",
                                     maximumSignificantDigits: (subtotal + '').replace('.', '').length
                                     });
             $('#displayST' + id).text(format_subtotal);
@@ -803,14 +801,14 @@
                 if(bayar > 0){
                     let kembali = bayar - totalP;
                     let kembali_makerp = Math.round(Number(kembali)).toLocaleString("id-ID", {
-                                        style:"currency", 
-                                        currency:"IDR", 
+                                        style:"currency",
+                                        currency:"IDR",
                                         maximumSignificantDigits: (kembali + '').replace('.', '').length
                                         });
-        
-                    $('#kembali').val(kembali_makerp.replace(/Rp/g, ''));   
+
+                    $('#kembali').val(kembali_makerp.replace(/Rp/g, ''));
                 }
-                
+
             //Perhitungan Bayar DP
             } else if (jenis_pembayaran == '2') {
                 let dp = $('#dp').val();
@@ -821,8 +819,8 @@
                                     currency:"IDR",
                                     maximumSignificantDigits: (sisa + '').replace('.', '').length
                                 });
-    
-                $('#sisa').val(sisa_makerp.replace(/Rp/g, ''));      
+
+                $('#sisa').val(sisa_makerp.replace(/Rp/g, ''));
             }
 
             GetTotalBayar();
@@ -854,7 +852,7 @@
             var nama = $(this).data("nama_barang");
             var harga_beli = $(this).data("harga_beli");
             var stock = $(this).data("stock");
-                      
+
             TambahDataPembelian(id,kode,nama,harga_beli,stock);
             // GetTotalBayar();
         });
@@ -873,9 +871,9 @@
             var barcode = $('#barcode').val();
             var enter = $('#enter').val(barcode);
 
-            @if(auth()->user()->hak_akses == 'admin') 
+            @if(auth()->user()->hak_akses == 'admin')
                 var routeM = "{{ route('admin.barcodePembelian.data') }}";
-            @elseif(auth()->user()->hak_akses == 'kasir') 
+            @elseif(auth()->user()->hak_akses == 'kasir')
                 var routeM = "{{ route('kasir.barcodePembelian.data') }}";
             @endif
 
@@ -888,7 +886,7 @@
                 },
                 cache: false,
                 success: function(response){
-                    if (!$.trim(response)){   
+                    if (!$.trim(response)){
                         Swal.fire('Data Produk Yang Anda Maksud Tidak Ada');
                     }
                     // console.log(response)
@@ -905,8 +903,8 @@
             var harga_beli=harga_beli;
             var stock=stock;
             var format_harga_beli = Math.round(Number(harga_beli)).toLocaleString("id-ID", {
-                                    style:"currency", 
-                                    currency:"IDR", 
+                                    style:"currency",
+                                    currency:"IDR",
                                     maximumSignificantDigits: (harga_beli + '').replace('.', '').length
                                     });
 
@@ -919,7 +917,7 @@
                 var rowBarang="<tr class='barang' id='buffer"+count+"'>";
                 rowBarang+="<th scope='row' class='border-0'>";
                 rowBarang+="<div class='1'>";
-                rowBarang+="<img src='https://bootstrapious.com/i/snippets/sn-cart/product-1.jpg' alt='' width='70' class='img-fluid rounded shadow-sm'>";
+                // rowBarang+="<img src='https://bootstrapious.com/i/snippets/sn-cart/product-1.jpg' alt='' width='70' class='img-fluid rounded shadow-sm'>";
                 rowBarang+="<div class='ml-3 d-inline-block align-middle'>";
                 rowBarang+="<input type='hidden' name='item["+count+"][id_barang]' value='"+id_barang+"' id='id_barang'>"
                 rowBarang+="<h5 style='font-size:18.5px;' class='mb-0'><a class='text-dark d-inline-block align-middle'>"+nama_barang+"</a><input type='hidden' name='item["+count+"][nama_barang]' value='"+nama_barang+"' type='number'></h5>";
@@ -933,10 +931,10 @@
                 rowBarang+='("input[type=number]")';
                 rowBarang+=".stepUp()' class='plus'></button>";
                 rowBarang+="</div'></div'></div'></th'>";
+                rowBarang+="<td class='border-0 align-middle'><div class='input-group text-center align-middle'>";
+                rowBarang+="<input class='balloon mb-2 text-center align-middle discount' onchange='cekDiscount(this)' max='100' type='number' class='form-control discount' name='item["+count+"][discount]' id='discount"+count+"' onkeypress='cek_number()' data-idbuffer='"+count+"' placeholder='0' style='max-width: 60%; direction:lrt; text-indent:0px;'/></div></td>";
                 rowBarang+="<td class='border-0 align-middle'><input type='hidden' class='subtotal' type='number' class='form-control subtotal' name='item["+count+"][subtotal]' readonly='true' id='subtotal"+count+"' value='0'>";
                 rowBarang+="<strong id='displayST"+count+"'>Rp. 0</strong></td>"
-                rowBarang+="<td class='border-0 align-middle'><div class='input-group text-center align-middle'>";
-                rowBarang+="<input class='balloon mb-2 text-center align-middle discount' onchange='cekDiscount(this)' max='100' type='number' class='form-control discount' name='item["+count+"][discount]' id='discount"+count+"' data-idbuffer='"+count+"' placeholder='0' style='max-width: 60%; text-indent:0px;'/></div></td>";
                 rowBarang+="<td class='border-0 align-middle'><button type='button' class='text-dark hapus_pembelian' data-idbuffer='"+count+"'><i class='fa fa-trash' style='outline:none;'></i></a></td>";
                 $('#t_pembelian').append(rowBarang);
             }else{
@@ -1023,7 +1021,7 @@
                                 maximumSignificantDigits: (sisa + '').replace('.', '').length
                             });
 
-            $('#sisa').val(sisa_makerp.replace(/Rp/g, ''));      
+            $('#sisa').val(sisa_makerp.replace(/Rp/g, ''));
         });
 
          //KEMBALIAN
@@ -1033,13 +1031,13 @@
 
             let kembali = bayar - total_harga;
             let kembali_makerp = Math.round(Number(kembali)).toLocaleString("id-ID", {
-                                style:"currency", 
-                                currency:"IDR", 
+                                style:"currency",
+                                currency:"IDR",
                                 maximumSignificantDigits: (kembali + '').replace('.', '').length
                                 });
 
             $('#dp').val(0);
-            $('#kembali').val(kembali_makerp.replace(/Rp/g, ''));      
+            $('#kembali').val(kembali_makerp.replace(/Rp/g, ''));
         });
 
 
@@ -1049,18 +1047,18 @@
             // let kurangiTotal = parseFloat($('#total_pembelian').val());
             // kurangiTotal -= deleted_sub;
             //    hapus pada table
-            $('#buffer'+delete_row).remove(); 
+            $('#buffer'+delete_row).remove();
             GetTotalBayar();
             // count--;
 
             // $('#total_bayar').val(parseFloat(kurangiTotal));
             //     let total = Math.round(parseFloat(kurangiTotal)).toLocaleString("id-ID", {
-            //                     style:"currency", 
-            //                     currency:"IDR", 
+            //                     style:"currency",
+            //                     currency:"IDR",
             //                     maximumSignificantDigits: (kurangiTotal + '').replace('.', '').length
             //                 });
             // $('#displayTotal').text(total);
-            // $('#total_pembelian').val(parseFloat(kurangiTotal));	
+            // $('#total_pembelian').val(parseFloat(kurangiTotal));
         });
 
 
@@ -1078,13 +1076,13 @@
                 // $('#total_bayar').val(Number(totalP));
                 // console.log(total_pembelian)
                 let total = Math.round(Number(totalP)).toLocaleString("id-ID", {
-                        style:"currency", 
-                        currency:"IDR", 
+                        style:"currency",
+                        currency:"IDR",
                         maximumSignificantDigits: (totalP + '').replace('.', '').length
                     });
             $('#displayTotal').text(total)
             $('#total_harga').val(totalP);
-            $('#total_pembelian').val(Number(totalP));	
+            $('#total_pembelian').val(Number(totalP));
         }
     </script>
 @endpush

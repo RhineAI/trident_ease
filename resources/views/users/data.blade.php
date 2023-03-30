@@ -14,7 +14,7 @@
             <small style="visibility: hidden">{{ $no = 1 }}</small>
             @foreach ($pegawai as $item)
             <tr>
-                <td class="text-center">{{ $item->id }}</td>
+                <td class="text-center">{{ $no++ }}</td>
                 <td>{{ ucfirst($item->nama) }}</td>
                 <td>{{ ucfirst($item->alamat) }}</td>
                 <td>{{ $item->tlp }}</td>
@@ -26,19 +26,19 @@
                     @endif
                 </td>
                 <td>
-                    <button class="btn btn-xs btn-success" id="edit" type="button" title="Edit" 
+                    <button class="btn btn-xs btn-success" id="edit" type="button" title="Edit"
                     @if (auth()->user()->hak_akses == 'admin')
-                        data-route="{{ route('admin.users.update', $item->id) }}" 
+                        data-route="{{ route('admin.users.update', $item->id) }}"
                     @elseif(auth()->user()->hak_akses == 'owner')
-                        data-route="{{ route('owner.users.update', $item->id) }}" 
+                        data-route="{{ route('owner.users.update', $item->id) }}"
                     @endif
                         data-id_pegawai="{{ $item->id }}"
-                        data-nama="{{ $item->nama }}" 
-                        data-alamat="{{ $item->alamat }}" 
+                        data-nama="{{ $item->nama }}"
+                        data-alamat="{{ $item->alamat }}"
                         data-tlp="{{ $item->tlp }}"
-                        data-jenis_kelamin="{{ $item->jenis_kelamin }}" 
+                        data-jenis_kelamin="{{ $item->jenis_kelamin }}"
                         data-hak_akses="{{ $item->hak_akses }}"
-                        data-username="{{ $item->username }}" 
+                        data-username="{{ $item->username }}"
                         data-password="{{ $item->password }}">
                         <i class="fas fa-edit"></i>
                     </button>

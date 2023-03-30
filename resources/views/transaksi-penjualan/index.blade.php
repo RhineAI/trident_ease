@@ -174,7 +174,7 @@
     .balloon {
         display: inline-block;
         width: 100%;
-        margin-right: -120px;
+        margin-right: -15%;
         padding: 8px 0 2px 5px;
         font-family: "Open Sans", sans;
         font-weight: 400;
@@ -524,26 +524,19 @@
         }
 
         $('#simpan').on('click', function(){   
+            // Mengambil value / isi dari tiap inputan
             let id_pelanggan = $('#id_pelanggan').val();
             let barang = $('#id_barang').val();
             let jenis_pembayaran = $('#jenis_pembayaran').val();
-
             let total_harga = $('#total_harga').val();
             let bayar = $('#bayar').val();
             let format_bayar = String(bayar).replaceAll(".", '');
             let format_total_harga = String(total_harga).replace(/Rp/g, '').replaceAll(".", '');
-            
             let dp = $('#dp').val();
-            // let sisa = $('#sisa').val();
-            // let kembali = $('#kembali').val();
             let format_dp = String(dp).replaceAll(".", '');
-            // console.log(format_harga)
-            // console.log(bayar)
-            // console.log(kembali)
-            // console.log(dp)
-            // console.log(sisa)
-            
             let diskon = $('.discount').val();
+
+            // Mengecek apakah ada inputan yang kosong apa tidak
             if (diskon == 0) {
                 $('.discount').val(0);
             }
@@ -695,8 +688,13 @@
                 $('#qty'+posisi).val(qty);
                 var discount = $('#discount' + posisi).val();
                 const subtotal = harga_jual * qty - ((harga_jual * qty) * discount/100)
+                var format_subtotal =   Math.round(subtotal).toLocaleString("id-ID", {
+                                    style:"currency", 
+                                    currency:"IDR", 
+                                    maximumSignificantDigits: (subtotal + '').replace('.', '').length
+                                    });
                 $('#subtotal'+posisi).val(subtotal);
-                $('#displayST' + posisi).text(subtotal);
+                $('#displayST' + posisi).text(format_subtotal);
 
             }
                 GetTotalBayar();

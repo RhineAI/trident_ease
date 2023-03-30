@@ -40,31 +40,31 @@
                     </button>
                 </div>
             @endif
-            <form action="" method="POST">
+            <form action="" method="POST" id="formPelanggan">
                 @csrf
                 <div id="method"></div>
                 <div class="form-group row">
                     <div class="form-group" style="width: 95%; margin: auto;">
                         <label for="nama">Nama Pelanggan</label>
-                        <input type="text" class="form-control" id="nama" placeholder="Nama Pelanggan" name="nama" required>
+                        <input type="text" class="form-control" id="nama" placeholder="Nama Pelanggan" name="nama">
                     </div>
                 </div>
                 <div class="form-group row">
                     <div class="form-group" style="width: 95%; margin: auto;">
                         <label for="alamat">Alamat Pelanggan</label>
-                        <textarea class="form-control" name="alamat" id="alamat" cols="3" rows="4" required></textarea>
+                        <textarea class="form-control" name="alamat" id="alamat" cols="3" rows="4"></textarea>
                     </div>
                 </div>
                 <div class="form-group row">
                     <div class="form-group" style="width: 95%; margin: auto;">
                         <label for="tlp">Telepon</label>
-                        <input type="text" class="form-control" id="tlp" placeholder="Telepon" name="tlp"  required>
+                        <input type="text" class="form-control" id="tlp" placeholder="Telepon" name="tlp" >
                     </div>
                 </div>
                 <div class="form-group row mb-4">
                     <div class="form-group" style="width: 95%; margin: auto;">
                         <label for="jenis_kelamin">Jenis Kelamin</label>
-                        <select class="form-control" name="jenis_kelamin" id="jenis_kelamin" required>
+                        <select class="form-control" name="jenis_kelamin" id="jenis_kelamin">
                             <option value="" disabled="disabled" selected="true">Pilih Jenis Kelamin</option>
                             <option value="L">Laki-Laki</option>
                             <option value="P">Perempuan</option>
@@ -95,5 +95,40 @@
         $('#tlp').on('keypress', function(e){
             restrictWord(e);
         });
+
+        $('#formPelanggan').on('submit', function(){
+            const nama = $('#nama').val()
+            const alamat = $('#alamat').val()
+            const tlp = $('#tlp').val()
+            const jenis_kelamin = $('#jenis_kelamin').val()
+
+            if(nama == "") {
+                Swal.fire('Nama Pelanggan Harus Diisi!')
+                return false;
+            } else {
+                $('#nama').val();
+            }
+
+            if(alamat == "") {
+                Swal.fire('Alamat Pelanggan Harus Diisi!')
+                return false;
+            } else {
+                $('#alamat').val();
+            }
+
+            if(tlp == "") {
+                Swal.fire('Telepon Pelanggan Harus Diisi!')
+                return false;
+            } else {
+                $('#tlp').val();
+            }
+
+            if(jenis_kelamin == null) {
+                Swal.fire('Jenis Kelamin Harus Diisi!')
+                return false;
+            } else {
+                $('#jenis_kelamin').val();
+            }
+        })
     </script>
 @endpush

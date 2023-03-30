@@ -58,10 +58,47 @@
 @push('scripts')
     <script>
         $('#tbl-data-pelanggan').DataTable();
+
+        $('#formPelanggan').on('submit', function(){
+            const nama = $('#nama').val()
+            const alamat = $('#alamat').val()
+            const tlp = $('#tlp').val()
+            const jenis_kelamin = $('#jenis_kelamin').val()
+
+            if(nama == "") {
+                Swal.fire('Nama Pelanggan Harus Diisi!')
+                return false;
+            } else {
+                $('#nama').val();
+            }
+
+            if(alamat == "") {
+                Swal.fire('Alamat Pelanggan Harus Diisi!')
+                return false;
+            } else {
+                $('#alamat').val();
+            }
+
+            if(tlp == "") {
+                Swal.fire('Telepon Pelanggan Harus Diisi!')
+                return false;
+            } else {
+                $('#tlp').val();
+            }
+
+            if(jenis_kelamin == null) {
+                Swal.fire('Jenis Kelamin Harus Diisi!')
+                return false;
+            } else {
+                $('#jenis_kelamin').val();
+            }
+        })
     </script>
     <script>
         $(document).ready(function(){
-          $('#formModalPelanggan').on("show.bs.modal", function(e){
+        $('#formModalPelanggan').on("show.bs.modal", function(e){
+            e.backdrop = 'static'
+            e.keyboard = false
             const btn = $(e.relatedTarget)
             const id_pelanggan = btn.data('id_pelanggan')
             const nama_pelanggan = btn.data('nama_pelanggan')

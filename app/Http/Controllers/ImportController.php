@@ -17,36 +17,25 @@ class ImportController extends Controller
 {
     public function viewBarangImport(){
         $data['cPerusahaan'] = Perusahaan::select('*')->where('id', auth()->user()->id_perusahaan)->first();
+        // ambil data perusahaan yang sedang login
         $data['perusahaan'] = Perusahaan::get();
+        // ambil semua data perusahaan dari database
         return view('admin.import', $data);
+        // return tampiln halaman barang 
     }
 
     public function barangImport(Request $request){
-        include app_path('Imports/BarangImport.php');
-        $fileExcel = $request->file('fileExcel');
-        // dd($request);
-        // return $fileExcel;
-        // $namaFile = $fileExcel->getClientOriginalName();  
-        // $request->file('fileExcel')->move('assets/excel', $namaFile);
-     
         $rollback = true;
         Excel::import(new BarangImport($request->id_perusahaan, $rollback), $request->file('fileExcel')->store('temp'));
-        if($rollback == false) {
-            return back()->with(['success' => 'Import Data Barang Berhasil']);
-        } else {
-            return redirect()->back()->with(['error' => 'Terdapat Kesalahan saat Import file!']);
-        }
-     
-        
-        // Excel::import(new BarangImport, storage_path('public/assets/excel/'.$namaFile));
-        // Excel::import(new BarangImport, public_path('/assets/excel'.$namaFile));
-        // Excel::toCollection(new BarangImport, $file->path, 'public/assets/excel')[0];
-        // return back();
+        // Import request file excel ke database melalui class BarangImport dengan rollback true
+        return back()->with(['success' => 'Import Data Barang Berhasil']);
+        // return kembali ke halaman barang
     }
 
-    public function downloadTemplate() 
+    public function downloadTemplate()
     {
         return Excel::download(new TemplateDownload, 'template.xlsx');
+        // return download file excel dari class TemplateDownload
     }
 
 }
