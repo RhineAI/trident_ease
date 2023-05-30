@@ -49,6 +49,9 @@
                                 <tbody>
                                     <small style="display: none; visibility:hidden;">{{ $terbayar = 0 }}</small>
                                     @foreach ($pembayaran as $item)
+                                    <small style="display: none; visibility:hidden;">
+                                        {{  $jumlahTerbayar = \App\Models\Hutang::where('id_pembelian', $item->id_pembelian)->sum('total_bayar'); }}
+                                    </small>
                                         <tr>
                                             {{-- <td>{{ $i = (isset($i)?++$i:$i=1) }}</td> --}}
                                             <td class="text-center"><span class="badge badge-info">{{ $item->id_pembelian }}</span></td>
@@ -100,9 +103,16 @@
 
 @push('scripts') 
 <script>
-    // var getSisa = $("#sisa").val();
-    // var sisa = Math.ceil(parseInt(getSisa));
-    // console.log(getSisa)
+    $('#button').on('click', function() {
+        @if(auth()->user()->hak_akses == 'admin')
+            var newPage = "{{ route('admin.data-hutang.index') }}";
+        @elseif(auth()->user()->hak_akses == 'kasir')
+            var newPage = "{{ route('kasir.data-hutang.index') }}";
+        @endif
+        window.open(newPage);
+        document.getElementById('formPembayaran').submit();
+        newPage.location.reload();
+    })
     $(document).on('keyup', '#bayar', function(e) {
         var tb = String($(this).val()).replaceAll(".", '');
         var sisa = String($("#sisaStatis").val()).replace(/Rp/g, '').replaceAll(".", '');
@@ -120,6 +130,7 @@
                             });
         
         if (sisa > 0) {
+            $('#kolom_kembalian').hide()
             $('#sisa').val(sisa_makerp)
         } else {
             $('#sisa').val('Lunas')

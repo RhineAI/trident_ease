@@ -9,7 +9,7 @@
             </button>
         </div>
         <div class="modal-body">
-            <form action="" method="POST">
+            <form action="" method="POST" id="formPembayaran">
                 @csrf
                 <div id="method"></div>
                 <div id="sisaStatis" style="display: none; visibility:hidden;"></div>
@@ -79,7 +79,7 @@
                         <h5 class="my-2">Bayar</h5>
                     </label>
                     <div class="col-md-9">
-                        <input type="text" name="bayar" id="bayar" class="form-control" autofocus autocomplete="off">
+                        <input type="text" name="bayar" required id="bayar" class="form-control" autofocus autocomplete="off">
                         <span class="help-block with-errors"></span>
                     </div>
                 </div>
@@ -109,7 +109,7 @@
     
         </div>
         <div class="modal-footer">
-            <button type="submit" class="btn btn-primary"><i class="fa fa-circle-check"></i>
+            <button type="button" id="button" class="btn btn-primary"><i class="fa fa-circle-check"></i>
                 Simpan</button>
         </div>
         </div>

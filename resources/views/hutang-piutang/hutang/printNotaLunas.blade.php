@@ -117,17 +117,16 @@
 
     <table width="100%" style="border: 0;">
         <tr>
-            <td class="text-right" colspan="8">Total Pembelian : Rp. {{ format_uang($cHutang->total_pembelian) }}</td>
+            <td class="text-right" colspan="8">Total : Rp. {{ format_uang($cHutang->total_pembelian) }}</td>
         </tr>
         <tr>
-         
-            <td class="text-right" colspan="8">Total Terbayar : Rp. {{ format_uang($jumlahTerbayar - $cHutang->totalBayar) }}</td>
+            <td class="text-right" colspan="8">DP : Rp. {{ format_uang($cHutang->dp) }}</td>
         </tr>
-        {{-- <tr>
+        <tr>
             <td class="text-right" colspan="8">Bayar : Rp. {{ format_uang($cHutang->total_bayar) }}</td>
-        </tr> --}}
+        </tr>
         <tr>
-            <td class="text-right" colspan="8">Sisa : Rp. {{ format_uang($cHutang->sisa) }}</td>
+            <td class="text-center" colspan="8" style="font-size: 19px;">Lunas</td>
         </tr>
         <tr>
             <td colspan="8"></td>

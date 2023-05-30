@@ -18,7 +18,6 @@ class HutangController extends Controller
      */
     public function index()
     {
-        $data['jumlahTerbayar'] = Hutang::sum('total_bayar');
         $data['cPerusahaan'] = Perusahaan::select('*')->where('id', auth()->user()->id_perusahaan)->first();
         $data['pembayaran'] = Hutang::leftJoin('t_transaksi_pembelian AS TP', 'TP.id', 't_data_hutang.id_pembelian')
         ->leftJoin('t_supplier as S', 'S.id', 'TP.id_supplier')
@@ -93,7 +92,20 @@ class HutangController extends Controller
         $kasMasuk->id_user = auth()->user()->id;
         $kasMasuk->save();
 
-        return back()->with(['success', 'Pembayaran berhasil']);
+        $cekSisa = Pembelian::select('sisa')->where('id', $hutang->id_pembelian)->first();
+        
+        if($cekSisa->sisa < 0) {
+            return back()->with(['success', 'Pembayaran berhasil']);
+        } else {
+            $data['cPerusahaan'] = Perusahaan::select('*')->where('id', auth()->user()->id_perusahaan)->first();
+            $data['cHutang'] = Hutang::leftJoin('t_transaksi_pembelian AS TP', 'TP.id', 't_data_hutang.id_pembelian')->leftJoin('t_supplier AS S', 'S.id', 'TP.id_supplier')->select('S.nama AS nama_supplier', 't_data_hutang.id AS id_hutang', 'TP.id AS no_faktur', 't_data_hutang.tgl AS tgl_bayar', 't_data_hutang.total_bayar', 'TP.total_pembelian', 'TP.dp', 'TP.sisa')->where('t_data_hutang.id', $hutang->id)->where('t_data_hutang.id_perusahaan', auth()->user()->id_perusahaan)->first();
+            $data['cDetailHutang'] = Hutang::leftJoin('t_transaksi_pembelian AS TP', 'TP.id', 't_data_hutang.id_pembelian')->leftJoin('t_detail_pembelian AS DTP', 'DTP.id_pembelian', 'TP.id')->leftJoin('t_barang AS B', 'B.id', 'DTP.id_barang')->select('DTP.qty', 'DTP.harga_beli', 'DTP.diskon', 'B.nama AS nama_barang')->where('t_data_hutang.id', $hutang->id)->where('t_data_hutang.id_perusahaan', auth()->user()->id_perusahaan)->get();
+            $data['hutang'] = $hutang;
+            $data['jumlahTerbayar']= Hutang::where('id_pembelian', $hutang->id_pembelian)->sum('total_bayar'); 
+            return view('hutang-piutang.hutang.printNota')->with($data);
+        }
+
+
         
     }
 
@@ -148,6 +160,6 @@ class HutangController extends Controller
         $data['cDetailHutang'] = Hutang::leftJoin('t_transaksi_pembelian AS TP', 'TP.id', 't_data_hutang.id_pembelian')
         ->leftJoin('t_detail_pembelian AS DTP', 'DTP.id_pembelian', 'TP.id')->leftJoin('t_barang AS B', 'B.id', 'DTP.id_barang')->select('DTP.qty', 'DTP.harga_beli', 'DTP.diskon', 'B.nama AS nama_barang')->where('t_data_hutang.id', $id)->where('t_data_hutang.id_perusahaan', auth()->user()->id_perusahaan)->get();
         // dd($data['cDetailPembelian']); die;
-        return view('hutang-piutang.hutang.printNota', $data);
+        return view('hutang-piutang.hutang.printNotaLunas', $data);
     }
 }
