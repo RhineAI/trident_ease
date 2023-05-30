@@ -18,6 +18,7 @@ class HutangController extends Controller
      */
     public function index()
     {
+        $data['jumlahTerbayar'] = Hutang::sum('total_bayar');
         $data['cPerusahaan'] = Perusahaan::select('*')->where('id', auth()->user()->id_perusahaan)->first();
         $data['pembayaran'] = Hutang::leftJoin('t_transaksi_pembelian AS TP', 'TP.id', 't_data_hutang.id_pembelian')
         ->leftJoin('t_supplier as S', 'S.id', 'TP.id_supplier')

@@ -361,183 +361,183 @@ Produk Utama
 
 
     function formatRupiah(angka, prefix){
-            var number_string   = angka.replace(/[^,\d]/g, '').toString(),
-            split               = number_string.split(','),
-            sisa                = split[0].length % 3,
-            rupiah              = split[0].substr(0, sisa),
-            ribuan              = split[0].substr(sisa).match(/\d{3}/gi);
+        var number_string   = angka.replace(/[^,\d]/g, '').toString(),
+        split               = number_string.split(','),
+        sisa                = split[0].length % 3,
+        rupiah              = split[0].substr(0, sisa),
+        ribuan              = split[0].substr(sisa).match(/\d{3}/gi);
 
-            if(ribuan){
-                separator = sisa ? '.' : '';
-                rupiah += separator + ribuan.join('.');
+        if(ribuan){
+            separator = sisa ? '.' : '';
+            rupiah += separator + ribuan.join('.');
+        }
+
+        rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
+        return prefix == undefined ? rupiah : (rupiah ? '' + rupiah : '');
+    }
+
+    function generateRupiah(elemValue) {
+        return $(elemValue).val(formatRupiah($(elemValue).val(), 'Rp. '))
+    }
+
+    $(document).on('keyup', '#harga_beli', function(e){
+        generateRupiah(this);
+    })
+
+
+    function addForm(url) {
+        $('#modal-form').modal({backdrop: 'static', keyboard: false})
+        $('#modal-form').modal('show')
+        $('#modal-form .modal-title').text('Tambah Produk Baru');
+
+        $('#modal-form form')[0].reset();
+        $('#modal-form form').attr('action', url);
+        $('#modal-form [name=_method]').val('post');
+        $('#modal-form [name=nama]').focus();
+    }
+
+    let table;
+        table = $('.table').DataTable({
+        processing: true,
+        responsive: true,
+        autoWidth: false,
+        serverSide: true,
+        ajax: {
+            url: "{{ route('admin.barang.data') }}",
+            type: "POST",
+            data: {  
+                _token: '{{ csrf_token() }}'
             }
+        },
+        columns: [
+            {data:'DT_RowIndex', searchable: false, sortable: false},
+            {data:'kode'},
+            {data:'nama'},
+            {data:'nama_kategori'},
+            {data:'nama_satuan'},
+            {data:'nama_merek'},
+            {data:'nama_supplier'},
+            {data:'stock'},
+            {data:'harga_beli'},
+            // {data:'keterangan'},
+            {data:'status'},
+            {data:'action', searchable: false, sortable: false},
+        ]
+    });
+    
+    $(document).on('click', '.edit', function (event) {
+        let kode = $(this).data('kode')
+        let nama = $(this).data('nama')
+        let barcode = $(this).data('barcode')
+        let id_kategori = $(this).data('id_kategori')
+        let id_satuan = $(this).data('id_satuan')
+        let id_supplier = $(this).data('id_supplier')
+        let id_merek = $(this).data('id_merek')
+        let id_perusahaan = $(this).data('id_perusahaan')
+        let stock = $(this).data('stock')
+        let stock_minimal = $(this).data('stock_minimal')
+        let harga_beli = $(this).data('harga_beli')
+        let keuntungan = $(this).data('keuntungan')
+        let keterangan = $(this).data('keterangan')
+        let status = $(this).data('status')
+        let url = $(this).data('route')
 
-            rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
-            return prefix == undefined ? rupiah : (rupiah ? '' + rupiah : '');
+        let data = {
+            kode : kode,
+            nama : nama,
+            barcode : barcode,
+            id_kategori : id_kategori,
+            id_satuan : id_satuan,
+            id_supplier : id_supplier,
+            id_merek : id_merek,
+            id_perusahaan : id_perusahaan,
+            stock : stock,
+            stock_minimal : stock_minimal,
+            harga_beli : harga_beli,
+            keuntungan : keuntungan,
+            keterangan : keterangan,
+            status : status,
+            url: url
         }
 
-        function generateRupiah(elemValue) {
-            return $(elemValue).val(formatRupiah($(elemValue).val(), 'Rp. '))
-        }
+        editForm(data)
+    })
+    
+    function editForm(data) {
+        $('#modal-form').modal({backdrop: 'static', keyboard: false})
+        $('#modal-form').modal('show')
+        $('#modal-form .modal-title').text('Edit Barang');
 
-        $(document).on('keyup', '#harga_beli', function(e){
-            generateRupiah(this);
-        })
+        $('#modal-form form')[0].reset();
+        // refresh form 
+        $('#modal-form form').attr('action', data.url);
+        // ubah action form menjadi url berdasarkan object yang di pass melalui parameter
+        $('#modal-form [name=_method]').val('put');
+        // ubah method form menjadi put
 
+        $('#modal-form [name=kode]').val(data.kode);
+        $('#modal-form [name=nama]').val(data.nama);
+        $('#modal-form [name=barcode]').val(data.barcode);
+        $('#modal-form [name=id_kategori]').val(data.id_kategori);
+        $('#modal-form [name=id_satuan]').val(data.id_satuan);
+        $('#modal-form [name=id_supplier]').val(data.id_supplier);
+        $('#modal-form [name=id_merek]').val(data.id_merek);
+        $('#modal-form [name=id_perusahaan]').val(data.id_perusahaan);
+        $('#modal-form [name=stock]').val(data.stock);
+        $('#modal-form [name=harga_beli]').val(data.harga_beli);
+        $('#modal-form [name=stock_minimal]').val(data.stock_minimal);
+        $('#modal-form [name=keuntungan]').val(data.keuntungan);
+        $('#modal-form [name=keterangan]').val(data.keterangan);
+        $('#modal-form [name=status]').val(data.status);
+        // ubah semua value input berdasarkan object yang di pass melalui parameter
+    }
 
-        function addForm(url) {
-            $('#modal-form').modal({backdrop: 'static', keyboard: false})
-            $('#modal-form').modal('show')
-            $('#modal-form .modal-title').text('Tambah Produk Baru');
-
-            $('#modal-form form')[0].reset();
-            $('#modal-form form').attr('action', url);
-            $('#modal-form [name=_method]').val('post');
-            $('#modal-form [name=nama]').focus();
-        }
-
-        let table;
-            table = $('.table').DataTable({
-            processing: true,
-            responsive: true,
-            autoWidth: false,
-            serverSide: true,
-            ajax: {
-                url: "{{ route('admin.barang.data') }}",
-                type: "POST",
-                data: {  
-                    _token: '{{ csrf_token() }}'
-                }
-            },
-            columns: [
-                {data:'DT_RowIndex', searchable: false, sortable: false},
-                {data:'kode'},
-                {data:'nama'},
-                {data:'nama_kategori'},
-                {data:'nama_satuan'},
-                {data:'nama_merek'},
-                {data:'nama_supplier'},
-                {data:'stock'},
-                {data:'harga_beli'},
-                // {data:'keterangan'},
-                {data:'status'},
-                {data:'action', searchable: false, sortable: false},
-            ]
-        });
-        
-        $(document).on('click', '.edit', function (event) {
-            let kode = $(this).data('kode')
-            let nama = $(this).data('nama')
-            let barcode = $(this).data('barcode')
-            let id_kategori = $(this).data('id_kategori')
-            let id_satuan = $(this).data('id_satuan')
-            let id_supplier = $(this).data('id_supplier')
-            let id_merek = $(this).data('id_merek')
-            let id_perusahaan = $(this).data('id_perusahaan')
-            let stock = $(this).data('stock')
-            let stock_minimal = $(this).data('stock_minimal')
-            let harga_beli = $(this).data('harga_beli')
-            let keuntungan = $(this).data('keuntungan')
-            let keterangan = $(this).data('keterangan')
-            let status = $(this).data('status')
-            let url = $(this).data('route')
-
-            let data = {
-                kode : kode,
-                nama : nama,
-                barcode : barcode,
-                id_kategori : id_kategori,
-                id_satuan : id_satuan,
-                id_supplier : id_supplier,
-                id_merek : id_merek,
-                id_perusahaan : id_perusahaan,
-                stock : stock,
-                stock_minimal : stock_minimal,
-                harga_beli : harga_beli,
-                keuntungan : keuntungan,
-                keterangan : keterangan,
-                status : status,
-                url: url
-            }
-
-            editForm(data)
-        })
-        
-        function editForm(data) {
-            $('#modal-form').modal({backdrop: 'static', keyboard: false})
-            $('#modal-form').modal('show')
-            $('#modal-form .modal-title').text('Edit Barang');
-
-            $('#modal-form form')[0].reset();
-            // refresh form 
-            $('#modal-form form').attr('action', data.url);
-            // ubah action form menjadi url berdasarkan object yang di pass melalui parameter
-            $('#modal-form [name=_method]').val('put');
-            // ubah method form menjadi put
-
-            $('#modal-form [name=kode]').val(data.kode);
-            $('#modal-form [name=nama]').val(data.nama);
-            $('#modal-form [name=barcode]').val(data.barcode);
-            $('#modal-form [name=id_kategori]').val(data.id_kategori);
-            $('#modal-form [name=id_satuan]').val(data.id_satuan);
-            $('#modal-form [name=id_supplier]').val(data.id_supplier);
-            $('#modal-form [name=id_merek]').val(data.id_merek);
-            $('#modal-form [name=id_perusahaan]').val(data.id_perusahaan);
-            $('#modal-form [name=stock]').val(data.stock);
-            $('#modal-form [name=harga_beli]').val(data.harga_beli);
-            $('#modal-form [name=stock_minimal]').val(data.stock_minimal);
-            $('#modal-form [name=keuntungan]').val(data.keuntungan);
-            $('#modal-form [name=keterangan]').val(data.keterangan);
-            $('#modal-form [name=status]').val(data.status);
-            // ubah semua value input berdasarkan object yang di pass melalui parameter
-        }
-
-        function deleteForm(url) {
-            let nama = $(this).data('nama_barang');
-            // console.log(nama);
-            Swal.fire({
-                title: 'Hapus Produk yang dipilih?',
-                icon: 'question',
-                iconColor: '#DC3545',
-                showDenyButton: true,
-                denyButtonColor: '#838383',
-                denyButtonText: 'Batal',
-                confirmButtonText: 'Hapus',
-                confirmButtonColor: '#DC3545'
-                }).then((result) => {
-                if (result.isConfirmed) {
-                    $.post(url, {
-                        '_token': $('[name=csrf-token]').attr('content'),
-                        '_method': 'delete'
-                    })
-                    .done((response) => {
-                        Swal.fire({
-                            title: 'Sukses!',
-                            text: 'Data Produk berhasil dihapus',
-                            icon: 'success',
-                            confirmButtonText: 'Lanjut',
-                            confirmButtonColor: '#28A745'
-                        }) 
-                        table.ajax.reload();
-                    })
-                    .fail((errors) => {
-                        Swal.fire({
-                            title: 'Gagal!',
-                            text: 'Data Produk gagal dihapus',
-                            icon: 'error',
-                            confirmButtonText: 'Kembali',
-                            confirmButtonColor: '#DC3545'
-                        })                       
-                        return;
-                    });
-                } else if (result.isDenied) {
+    function deleteForm(url) {
+        let nama = $(this).data('nama_barang');
+        // console.log(nama);
+        Swal.fire({
+            title: 'Hapus Produk yang dipilih?',
+            icon: 'question',
+            iconColor: '#DC3545',
+            showDenyButton: true,
+            denyButtonColor: '#838383',
+            denyButtonText: 'Batal',
+            confirmButtonText: 'Hapus',
+            confirmButtonColor: '#DC3545'
+            }).then((result) => {
+            if (result.isConfirmed) {
+                $.post(url, {
+                    '_token': $('[name=csrf-token]').attr('content'),
+                    '_method': 'delete'
+                })
+                .done((response) => {
                     Swal.fire({
-                        title: 'Produk batal dihapus',
-                        icon: 'warning',
-                    })
-                }
-            })
-        }
+                        title: 'Sukses!',
+                        text: 'Data Produk berhasil dihapus',
+                        icon: 'success',
+                        confirmButtonText: 'Lanjut',
+                        confirmButtonColor: '#28A745'
+                    }) 
+                    table.ajax.reload();
+                })
+                .fail((errors) => {
+                    Swal.fire({
+                        title: 'Gagal!',
+                        text: 'Data Produk gagal dihapus',
+                        icon: 'error',
+                        confirmButtonText: 'Kembali',
+                        confirmButtonColor: '#DC3545'
+                    })                       
+                    return;
+                });
+            } else if (result.isDenied) {
+                Swal.fire({
+                    title: 'Produk batal dihapus',
+                    icon: 'warning',
+                })
+            }
+        })
+    }
 
 </script>
 

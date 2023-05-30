@@ -94,10 +94,10 @@
     <p>Petugas : {{ strtoupper(auth()->user()->nama) }}</p>
     <p>Supplier : {{ $cPembelian->nama_supplier }}</p>
     <p class="text-center">================================</p>
-    <small style="visibility: hidden; display: none;">{{ $totalDiskon = 0 }}</small>
+    {{-- <small style="visibility: hidden; display: none;">{{ $totalDiskon = 0 }}</small> --}}
     <table width="100%" style="border: 0;">
         @foreach ($cDetailPembelian as $item)
-            <small style="visibility: hidden; display: none;">{{ $totalDiskon+= $item->qty * $item->harga_beli * $item->diskon/100 }}</small>
+            {{-- <small style="">{{ $item->qty * $item->harga_beli * $item->diskon/100 }}</small> --}}
             <tr>
                 <td colspan="3">{{ $item->nama_barang }}</td>
             </tr>
@@ -113,7 +113,7 @@
             <tr>
                 <td>Disc. {{ $item->diskon }}%</td>
                 <td></td>
-                <td class="text-right"> &nbsp; Rp.{{ format_uang(($item->qty * $item->harga_beli) - $totalDiskon ) }}</td>
+                <td class="text-right"> &nbsp; Rp.{{ format_uang(($item->qty * $item->harga_beli) - ($item->qty * $item->harga_beli * $item->diskon/100)  ) }}</td>
             </tr>
             @endif
         @endforeach

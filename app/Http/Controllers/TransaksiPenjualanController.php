@@ -126,7 +126,7 @@ class TransaksiPenjualanController extends Controller
     }
 
     public function store(Request $request)
-    {//
+    {
         // Set foreign key check menjadi 0 (tidak ada pengecekan)
         DB::statement('SET FOREIGN_KEY_CHECKS=0');
         DB::beginTransaction();
@@ -135,12 +135,13 @@ class TransaksiPenjualanController extends Controller
             if($request->kembali < 0){
                 return back()->withInput($request->only('id_pelanggan', 'bayar', 'kembali'))->with('error', 'Uang Bayar Kurang');
             } else {
-                // Membuat variabel baru yang diiisi dengan pembuatan object baru
+                // Membuat objek baru : TransaksiPenjualan
                 $penjualanBaru = new TransaksiPenjualan();
 
                 // Set invoice transaksi penjualan agar sesuai dengan tanggal di hari transaksi dilakukan
                 $id = $this->NextId(date('Y-m-d'));
 
+                // Isi dari objek Transaksi Penjualan
                 $penjualanBaru->id = $id;
                 $penjualanBaru->tgl = date('Y-m-d');
                 $penjualanBaru->id_pelanggan = $request->id_pelanggan;
