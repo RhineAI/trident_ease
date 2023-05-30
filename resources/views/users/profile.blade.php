@@ -51,6 +51,20 @@ Profile
         </div>
     </div>
 </section>
-
-
 @endsection
+
+@push('scripts')
+    <script>
+        $('#btn-submit').on('click', function(){   
+            // Mengambil value / isi dari tiap inputan
+            let password = $('#password').val();
+
+            if(password == "") {
+                Swal.fire('Isi password untuk mengubah profile')
+                return false;
+            } else {
+                $('#password').val();
+            }
+        })
+    </script>
+@endpush

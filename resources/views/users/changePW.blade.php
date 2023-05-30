@@ -59,3 +59,35 @@ Ganti Password
   </div>
 </section>
 @endsection
+
+@push('scripts')
+    <script>
+        $('#btn-submit').on('click', function(){   
+            // Mengambil value / isi dari tiap inputan
+            let password = $('#password').val();
+            let new_password = $('#new_password').val();
+            let new_password_confirmation = $('#new_password_confirmation').val();
+
+            if(password == "") {
+                Swal.fire('Isi password untuk mengubah profile')
+                return false;
+            } else {
+                $('#password').val();
+            }
+
+            if(new_password == "") {
+                Swal.fire('Isi password baru untuk mengubah profile')
+                return false;
+            } else {
+                $('#new_password').val();
+            }
+
+            if(new_password_confirmation == "") {
+                Swal.fire('Isi konfirmasi password baru untuk mengubah profile')
+                return false;
+            } else {
+                $('#new_password_confirmation').val();
+            }
+        })
+    </script>
+@endpush
