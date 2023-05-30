@@ -36,14 +36,14 @@
                                 <thead class="table-secondary">
                                     <tr>
                                         {{-- <td>No</td> --}}
-                                        <td class="text-center" style="vertical-align: middle;" width="6%">No Penjualan</td>
+                                        td class="text-center" style="vertical-align: middle;" width="6%">No Penjualan</td>
                                         <td class="text-center" style="vertical-align: middle;" width="6%">Tanggal</td>
-                                        <td class="text-center" style="vertical-align: middle;" width="5%">Pelanggan</td>
-                                        <td class="text-center" style="vertical-align: middle;" width="10%">Total Beli</td>
-                                        <td class="text-center" style="vertical-align: middle;" width="10%">Dibayar</td>
-                                        <td class="text-center" style="vertical-align: middle;" width="10%">Sisa</td>
+                                        <td class="text-center" style="vertical-align: middle;" width="10%">Pelanggan</td>
+                                        <td class="text-center" style="vertical-align: middle;" width="15%">Total Beli</td>
+                                        <td class="text-center" style="vertical-align: middle;" width="15%">Dibayar</td>
+                                        <td class="text-center" style="vertical-align: middle;" width="15%">Sisa</td>
                                         <td class="text-center" style="vertical-align: middle;" width="8%">Status</td>
-                                        <td class="text-center" style="vertical-align: middle;" width="1%">Action</td>
+                                        <td class="text-center" style="vertical-align: middle;" width="7%">Action</td>
                                     </tr>
                                 </thead>
                                 <tbody>
