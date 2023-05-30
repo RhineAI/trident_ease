@@ -19,12 +19,17 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
     {{-- <link rel="stylesheet" href="css/style.css"> --}}
+    <style>
+        #bgBlueLightWhiteColor {
+          background: #4178D5; 
+        }
+    </style>
 
 </head>
 
-<body class="img js-fullheight" style="background-image: url({{ asset('login') }}/bg.jpg); background-repeat:no-repeat;">
-    <section class="ftco-section">
-        <div class="container">
+<body style="height: 100%;" id="bgBlueLightWhiteColor">
+    <section class="ftco-section" id="bgBlueLightWhiteColor">
+        <div class="container" id="bgBlueLightWhiteColor">
             <div class="row justify-content-center">
                 <div class="col-md-6 text-center mb-3">
                     {{-- <h2 class="heading-section">ZIE POS</h2> --}}

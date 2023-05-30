@@ -33,7 +33,7 @@ class PembelianController extends Controller
         $data['cPerusahaan'] = Perusahaan::select('*')->where('id', auth()->user()->id_perusahaan)->first();
         $data['supplier'] = Supplier::where('id_perusahaan', auth()->user()->id_perusahaan)->get();    
         // $data['produk'] = Barang::where('stock', '>', 0)->where('status', '==', '1')->get();    
-        $data['produk'] = Barang::where('stock', '>', 0)->where('status', '=', '1')->where('id_perusahaan', auth()->user()->id_perusahaan)->get();    
+        $data['produk'] = Barang::where('status', '=', '1')->where('id_perusahaan', auth()->user()->id_perusahaan)->get();    
         return view('transaksi-pembelian.index', $data);
     }
 
