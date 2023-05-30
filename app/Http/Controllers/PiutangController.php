@@ -95,7 +95,17 @@ class PiutangController extends Controller
         $kasMasuk->id_user = auth()->user()->id;
         $kasMasuk->save();
 
-        return back()->with(['success', 'Pembayaran berhasil']);
+        $cekSisa = TransaksiPenjualan::select('sisa')->where('id', $piutang->id_penjualan)->first();
+        
+        if($cekSisa->sisa == 0) {
+            return back()->with(['success', 'Pembayaran berhasil']);
+        } else {
+            $data['cPerusahaan'] = Perusahaan::select('*')->where('id', auth()->user()->id_perusahaan)->first();
+            $data['cPiutang'] = Piutang::leftJoin('t_transaksi_penjualan AS TP', 'TP.id', 't_data_piutang.id_penjualan')->leftJoin('t_pelanggan AS P', 'P.id', 'TP.id_pelanggan')->select('P.nama AS nama_pelanggan', 't_data_piutang.id AS id_piutang', 'TP.id as kode_invoice AS no_faktur', 't_data_piutang.tgl AS tgl_bayar', 't_data_piutang.total_bayar', 'TP.total_harga', 'TP.dp', 'TP.sisa')->where('t_data_piutang.id', $piutang->id)->where('t_data_piutang.id_perusahaan', auth()->user()->id_perusahaan)->first();
+            $data['cDetailPiutang'] = Piutang::leftJoin('t_transaksi_penjualan AS TP', 'TP.id', 't_data_piutang.id_penjualan')->leftJoin('t_detail_penjualan AS DTP', 'DTP.id_penjualan', 'TP.id')->leftJoin('t_barang AS B', 'B.id', 'DTP.id_barang')->select('DTP.qty', 'DTP.harga_jual', 'DTP.diskon', 'B.nama AS nama_barang')->where('t_data_piutang.id', $piutang->id)->where('t_data_piutang.id_perusahaan', auth()->user()->id_perusahaan)->get();
+            $data['jumlahTerbayar']= Piutang::where('id_penjualan', $piutang->id_penjualan)->sum('total_bayar'); 
+            return view('hutang-piutang.piutang.printNota')->with($data);
+        }
     }
 
     /**
@@ -173,6 +183,6 @@ class PiutangController extends Controller
         $data['cDetailPiutang'] = Piutang::leftJoin('t_transaksi_penjualan AS TP', 'TP.id', 't_data_piutang.id_penjualan')
         ->leftJoin('t_detail_penjualan AS DTP', 'DTP.id_penjualan', 'TP.id')->leftJoin('t_barang AS B', 'B.id', 'DTP.id_barang')->select('DTP.qty', 'DTP.harga_jual', 'DTP.diskon', 'B.nama AS nama_barang')->where('t_data_piutang.id', $id)->where('t_data_piutang.id_perusahaan', auth()->user()->id_perusahaan)->get();
         // dd($data['cDetailPembelian']); die;
-        return view('hutang-piutang.piutang.printNota', $data);
+        return view('hutang-piutang.piutang.printNotaLunas', $data);
     }
 }

@@ -89,7 +89,7 @@
     <br>
     <table width="100%" style="border: 0;">
         @foreach ($cDetailPiutang as $item)
-        <small style="visibility: hidden; display: none;">{{ $totalDiskon = 0 }}</small>
+            <small style="visibility: hidden; display: none;">{{ $totalDiskon = 0 }}</small>
             <small style="visibility: hidden; display: none;">{{ $totalDiskon+= $item->qty * $item->harga_jual * $item->diskon/100 }}</small>
             <tr>
                 <td colspan="3">{{ $item->nama_barang }}</td>
@@ -117,17 +117,16 @@
 
     <table width="100%" style="border: 0;">
         <tr>
-            <td class="text-right" colspan="8">Total Penjualan : Rp. {{ format_uang($cPiutang->total_harga) }}</td>
+            <td class="text-right" colspan="8">Total : Rp. {{ format_uang($cPiutang->total_harga) }}</td>
         </tr>
         <tr>
-         
-            <td class="text-right" colspan="8">Total Terbayar : Rp. {{ format_uang($jumlahTerbayar) }}</td>
+            <td class="text-right" colspan="8">DP : Rp. {{ format_uang($cPiutang->dp) }}</td>
         </tr>
-        {{-- <tr>
+        <tr>
             <td class="text-right" colspan="8">Bayar : Rp. {{ format_uang($cPiutang->total_bayar) }}</td>
-        </tr> --}}
+        </tr>
         <tr>
-            <td class="text-right" colspan="8">Sisa : Rp. {{ format_uang($cPiutang->sisa) }}</td>
+            <td class="text-center" colspan="8" style="font-size: 19px;">Lunas</td>
         </tr>
         <tr>
             <td colspan="8"></td>

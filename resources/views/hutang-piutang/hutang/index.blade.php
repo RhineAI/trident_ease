@@ -25,13 +25,13 @@
             <div class="box mb-4">
                 <div class="box-body table-responsive ">
                     <!-- DataTable with Hover -->
-                    <div class="col-lg-12 table-responsive">
-                        <div class="button-group mb-5">          
-                            @if (auth()->user()->hak_akses == 'admin')
-                                <a href="{{ route('admin.transaksi-pembelian.index') }}" class="mx-4 mb-3 btn btn-sm btn-info text-end"><i class="fa fa-plus"></i> Transaksi Pembelian</a>
-                            @endif
-                        </div>
-                        <div class="table-responsive dt-responsive p-3">
+                    <div class="button-group mb-5">          
+                        @if (auth()->user()->hak_akses == 'admin')
+                            <a href="{{ route('admin.transaksi-pembelian.index') }}" class="mx-4 mb-3 btn btn-sm btn-info text-end"><i class="fa fa-plus"></i> Transaksi Pembelian</a>
+                        @endif
+                    </div>
+                    <div class="col-lg-12">
+                        <div class="table-responsive dt-responsive p-3" style="width: 100%">
                             <table class="table table-hover table-responsive dt-responsive table-flush" style="width: 100%z" id="tbl-data-pembayaran">
                                 <thead class="table-secondary">
                                     <tr>
@@ -136,9 +136,7 @@
             $('#sisa').val('Lunas')
             $('#kolom_kembalian').removeAttr('style')
             $('#kembalian').val(String(sisa_makerp).replaceAll('-', ''))
-        }
-
-       
+        }       
     })
 
     $(document).ready(function(){

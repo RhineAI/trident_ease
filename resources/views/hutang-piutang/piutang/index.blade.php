@@ -47,6 +47,9 @@
                                 </thead>
                                 <tbody>
                                     @foreach ($pembayaran as $item)
+                                    <small style="visibility:hidden; display:none;">
+                                        {{  $jumlahTerbayar = \App\Models\Piutang::where('id_penjualan', $item->id_penjualan)->sum('total_bayar') }}
+                                    </small>
                                         <tr>
                                             {{-- <td class="text-center">{{ $i = (isset($i)?++$i:$i=1) }}</td> --}}
                                             <td><span class="badge badge-info">{{ $item->id_penjualan }}</span></td> 
@@ -71,6 +74,7 @@
                                                     data-id_pelanggan="{{ $item->id_pelanggan }}" 
                                                     data-tlp="{{ $item->tlp }}" 
                                                     data-total_harga="{{ 'Rp. '. format_uang($item->total_harga) }}" 
+                                                    data-jumlah_terbayar="{{ 'Rp. '. format_uang($jumlahTerbayar) }}" 
                                                     data-dp="{{ 'Rp. '. format_uang($item->dp) }}" 
                                                     data-sisa="{{ 'Rp. '. format_uang($item->sisa) }}" 
                                                     @if (auth()->user()->hak_akses == 'admin')
@@ -106,21 +110,37 @@
 
 @push('scripts') 
 <script>
-    $(document).on('change', '#bayar', function(e) {
+    $('#button').on('click', function() {
+        @if(auth()->user()->hak_akses == 'admin')
+            var newPage = "{{ route('admin.data-piutang.index') }}";
+        @elseif(auth()->user()->hak_akses == 'kasir')
+            var newPage = "{{ route('kasir.data-piutang.index') }}";
+        @endif
+        window.open(newPage);
+        document.getElementById('formPembayaran').submit();
+        newPage.location.reload();
+    })
+
+    $(document).on('keyup', '#bayar', function(e) {
         var tb = String($(this).val()).replaceAll(".", '');
-        var sisa = String($("#sisa").val()).replaceAll(".", '').replace(/Rp /g, '');
+        var sisa = String($("#sisaStatis").val()).replaceAll(".", '').replace(/Rp /g, '');
         console.log(tb)
         console.log(sisa)
-        var dp = $("#dp").val();
-        // console.log(sisa, tb, sisa-tb)
-        var total_harga = $('#total_harga').val()
-        // var harga = String(dp).replaceAll(".", '');
-        // console.log(harga)
-        // tanpa memakai sisa dari table penjualan
-        // $('#kembalian').val(tb-(total_harga - dp));
-        // $('#sisa').val((total_harga - dp)-tb)
-        $('#kembalian').val(parseInt(tb)-parseInt(sisa));
-        $('#sisa').val(parseInt(sisa)-parseInt(tb))
+        sisa = parseInt(sisa-tb)
+        sisa_makerp = Number(sisa).toLocaleString("id-ID", {
+                                style:"currency",
+                                currency:"IDR",
+                                maximumSignificantDigits: (sisa + '').replace('.', '').length
+                            });
+        
+        if (sisa > 0) {
+            $('#kolom_kembalian').hide()
+            $('#sisa').val(sisa_makerp)
+        } else {
+            $('#sisa').val('Lunas')
+            $('#kolom_kembalian').removeAttr('style')
+            $('#kembalian').val(String(sisa_makerp).replaceAll('-', ''))
+        }
     })
 
     $(document).ready(function(){
@@ -145,6 +165,8 @@
                 let tgl = $(this).data('tgl')
                 let tlp = $(this).data('tlp')
                 let total_harga = $(this).data('total_harga')
+                let jumlahTerbayar = $(this).data('jumlah_terbayar')
+                // console.log(jumlahTerbayar);
                 let dp = $(this).data('dp')
                 let sisa = $(this).data('sisa')
                 let url = $(this).data('route')
@@ -163,9 +185,11 @@
                 $('.modal-body #nama_pelanggan').val(nama_pelanggan)
                 $('.modal-body #tlp').val(tlp)
                 $('.modal-body #total_harga').val(total_harga)
+                $('.modal-body #jumlahTerbayar').val(jumlahTerbayar)
                 $('.modal-body #dp').val(dp)
-                console.log(sisa)
+                // console.log(sisa)
                 $('.modal-body #sisa').val(sisa)
+                $('.modal-body #sisaStatis').val(sisa)
         });
     });
 
