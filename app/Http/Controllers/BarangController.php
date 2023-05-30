@@ -243,27 +243,22 @@ class BarangController extends Controller
         try {
             $barang = new Barang();
             // Deklarasi variabel baru bernama barang yang akan diisi object baru
-
-        $barang->kode = $request->kode;
-        $barang->nama = $request->nama;
-        $barang->barcode = $request->barcode;
-        $barang->id_kategori = $request->id_kategori;
-        $barang->id_satuan = $request->id_satuan;
-        $barang->id_supplier = $request->id_supplier;
-        $barang->id_merek = $request->id_merek;
-        $barang->stock = $request->stock;
-        $barang->stock_minimal = $request->stock_minimal;
-        $barang->keuntungan = $request->keuntungan;
-        $barang->status = $request->status;
-        $barang->keterangan = $request->keterangan;
-        // isi properti kode, nama, barcode, id_kategori, id_satuan, id_supplier, id_merek, stock, stock_minimal, keuntungan, status, dan keterangan pada $barang berdasarkan input dari user
-        $barang->id_perusahaan = auth()->user()->id_perusahaan;
-        // isi properti id_perusahaan pada $barang berdasarkan id_perusahaan dari user yang sedang login
-
-
+            $barang->kode = $request->kode;
+            $barang->nama = $request->nama;
+            $barang->barcode = $request->barcode;
+            $barang->id_kategori = $request->id_kategori;
+            $barang->id_satuan = $request->id_satuan;
+            $barang->id_supplier = $request->id_supplier;
+            $barang->id_merek = $request->id_merek;
+            $barang->stock = $request->stock;
+            $barang->stock_minimal = $request->stock_minimal;
+            $barang->keuntungan = $request->keuntungan;
+            $barang->status = $request->status;
+            $barang->keterangan = $request->keterangan;
+            $barang->id_perusahaan = auth()->user()->id_perusahaan;
+            // isi properti id_perusahaan pada $barang berdasarkan id_perusahaan dari user yang sedang login
             $barang->tgl = date('Y-m-d');
-            // isi properti tgl pada $barang berdasarkan tanggal user melakukan submit
-            
+            // isi properti tgl pada $barang berdasarkan tanggal user melakukan submit 
             $barang->harga_beli = $this->checkPrice($request->harga_beli);
             // isi properti harga_beli pada $barang berdasarkan input harga_beli dari user yang telah diperiksa format harga nya 
         

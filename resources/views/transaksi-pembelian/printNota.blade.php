@@ -94,7 +94,8 @@
     <p>Petugas : {{ strtoupper(auth()->user()->nama) }}</p>
     <p>Supplier : {{ $cPembelian->nama_supplier }}</p>
     <p class="text-center">================================</p>
-     {{-- <small style="visibility: hidden; display: none;">{{ $totalDiskon = 0 }}</small> --}}
+    {{-- <small style="visibility: hidden; display: none;">{{ $totalDiskon = 0 }}</small> --}}
+
     <table width="100%" style="border: 0;">
         @foreach ($cDetailPembelian as $item)
             {{-- <small style="">{{ $item->qty * $item->harga_beli * $item->diskon/100 }}</small> --}}

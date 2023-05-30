@@ -1,48 +1,53 @@
 <?php
 
 //SUPER ADMIN
-use App\Http\Controllers\SuperAdminController;
-
-
-use App\Http\Controllers\BarangController;
-use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\DetailPembelianController;
-use App\Http\Controllers\KategoriController;
-use App\Http\Controllers\KeuntunganController;
-use App\Http\Controllers\LoginController;
-use App\Http\Controllers\MerekController;
-use App\Http\Controllers\PelangganController;
-use App\Http\Controllers\PerusahaanController;
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\SatuanController;
-use App\Http\Controllers\SupplierController;
-use App\Http\Controllers\UsersController;
-
-// Informasi Kas
-use App\Http\Controllers\KasMasukController;
-use App\Http\Controllers\KasKeluarController;
-
-// Transaksi
-use App\Http\Controllers\TransaksiPenjualanController;
-use App\Http\Controllers\ListTransaksiPenjualanController;
-use App\Http\Controllers\DetailPenjualanController;
-use App\Http\Controllers\ExcelLaporanController;
-use App\Http\Controllers\LaporanController;
-use App\Http\Controllers\PDFController;
-use App\Http\Controllers\PembelianController;
-use App\Http\Controllers\ListTransaksiPembelianController;
-
-use App\Http\Controllers\HutangController;
-use App\Http\Controllers\ListReturPembelianController;
-use App\Http\Controllers\PiutangController;
-use App\Http\Controllers\ReturPenjualanController;
-use App\Http\Controllers\ListReturPenjualanController;
-use App\Http\Controllers\ReturPembelianController;
-use App\Http\Controllers\StokOpnameController;
 use Illuminate\Support\Facades\Route;
 
-// Import
+
+use App\Http\Controllers\PDFController;
+use Illuminate\Support\Facades\Artisan;
+use App\Http\Controllers\LoginController;
+use App\Http\Controllers\MerekController;
+use App\Http\Controllers\UsersController;
+use App\Http\Controllers\BarangController;
+use App\Http\Controllers\HutangController;
 use App\Http\Controllers\ImportController;
+use App\Http\Controllers\SatuanController;
+use App\Http\Controllers\LaporanController;
+use App\Http\Controllers\PiutangController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\KasMasukController;
+
+// Informasi Kas
+use App\Http\Controllers\KategoriController;
+use App\Http\Controllers\SupplierController;
+
+// Transaksi
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\KasKeluarController;
+use App\Http\Controllers\PelangganController;
+use App\Http\Controllers\PembelianController;
+use App\Http\Controllers\KeuntunganController;
+use App\Http\Controllers\LaporanBugController;
+use App\Http\Controllers\PerusahaanController;
+use App\Http\Controllers\StokOpnameController;
+
+use App\Http\Controllers\SuperAdminController;
+use App\Http\Controllers\ExcelLaporanController;
+use App\Http\Controllers\ReturPembelianController;
+use App\Http\Controllers\ReturPenjualanController;
+use App\Http\Controllers\DetailPembelianController;
+use App\Http\Controllers\DetailPenjualanController;
+use App\Http\Controllers\ListReturPembelianController;
+use App\Http\Controllers\ListReturPenjualanController;
+
+// Ujikom
+use App\Http\Controllers\PenjualanAksesorisController;
+
+// Import
+use App\Http\Controllers\TransaksiPenjualanController;
+use App\Http\Controllers\ListTransaksiPembelianController;
+use App\Http\Controllers\ListTransaksiPenjualanController;
 
 
 Route::middleware(['auth'])->group(function () {
@@ -164,6 +169,14 @@ Route::middleware(['auth'])->group(function () {
 
         Route::group(['prefix' => 'admin', 'middleware' => 'cek-hak-akses:admin', 'as' => 'admin.'], function () {
                 Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+                
+                // UJI KOM
+                Route::get('/penjualan-aksesoris', [PenjualanAksesorisController::class, 'index'])->name('penjualan-aksesoris');
+                Route::resource('/laporan-bug', LaporanBugController::class);
+                Route::get('/export-pdf', [LaporanBugController::class, 'pdf'])->name('export-bug.pdf');
+                Route::get('/export-excel', [LaporanBugController::class, 'excel'])->name('export-bug.excel');
+                Route::post('/laporan-bug/import', [LaporanBugController::class, 'importBug'])->name('import-bug');
+
                 Route::resource('/kategori', KategoriController::class);
                 Route::resource('/merek', MerekController::class);
                 Route::resource('/satuan', SatuanController::class);

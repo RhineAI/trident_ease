@@ -25,14 +25,14 @@
             <div class="box mb-4">
                 <div class="box-body table-responsive ">
                     <!-- DataTable with Hover -->
+                    <div class="button-group mb-5">          
+                        @if (auth()->user()->hak_akses == 'admin')
+                            <a href="{{ route('admin.transaksi-pembelian.index') }}" class="mx-4 mb-3 btn btn-sm btn-info text-end"><i class="fa fa-plus"></i> Transaksi Pembelian</a>
+                        @endif
+                    </div>
                     <div class="col-lg-12">
-                        <div class="table-responsive p-3">
-                            <div class="button-group mb-5">          
-                                @if (auth()->user()->hak_akses == 'admin')
-                                    <a href="{{ route('admin.transaksi-pembelian.index') }}" class="mx-4 mb-3 btn btn-sm btn-info text-end"><i class="fa fa-plus"></i> Transaksi Pembelian</a>
-                                @endif
-                            </div>
-                            <table class="table table-hover table-flush" id="tbl-data-pembayaran">
+                        <div class="table-responsive dt-responsive p-3" style="width: 100%">
+                            <table class="table table-hover table-responsive dt-responsive table-flush" style="width: 100%z" id="tbl-data-pembayaran">
                                 <thead class="table-secondary">
                                     <tr>
                                         {{-- <td>No</td> --}}
@@ -47,7 +47,11 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    <small style="display: none; visibility:hidden;">{{ $terbayar = 0 }}</small>
                                     @foreach ($pembayaran as $item)
+                                    <small style="display: none; visibility:hidden;">
+                                        {{  $jumlahTerbayar = \App\Models\Hutang::where('id_pembelian', $item->id_pembelian)->sum('total_bayar'); }}
+                                    </small>
                                         <tr>
                                             {{-- <td>{{ $i = (isset($i)?++$i:$i=1) }}</td> --}}
                                             <td class="text-center"><span class="badge badge-info">{{ $item->id_pembelian }}</span></td>
@@ -71,9 +75,9 @@
                                                     data-nama_supplier="{{ $item->nama_supplier }}" 
                                                     data-id_supplier="{{ $item->id_supplier }}" 
                                                     data-tlp="{{ $item->tlp }}" 
-                                                    data-total_bayar="{{ 'Rp. '. format_uang($item->total_bayar) }}" 
+                                                    data-total_bayar="{{ 'Rp. '. format_uang($jumlahTerbayar) }}" 
                                                     data-total_pembelian="{{ 'Rp. '. format_uang($item->total_pembelian) }}" 
-                                                    data-dp="{{ 'Rp. '. format_uang($item->dp) }}" 
+                                                    data-dp="{{ $item->dp }}" 
                                                     data-sisa="{{ 'Rp. '.format_uang($item->sisa) }}" 
                                                     data-route="{{ route('admin.data-hutang.store')}}"
                                                     data-toggle="modal" data-target="#formModalPembayaranPBL" data-mode="edit"> <i class="fa fa-pencil"></i>
@@ -99,22 +103,40 @@
 
 @push('scripts') 
 <script>
-    // var getSisa = $("#sisa").val();
-    // var sisa = Math.ceil(parseInt(getSisa));
-    // console.log(getSisa)
-    $(document).on('change', '#bayar', function(e) {
+    $('#button').on('click', function() {
+        @if(auth()->user()->hak_akses == 'admin')
+            var newPage = "{{ route('admin.data-hutang.index') }}";
+        @elseif(auth()->user()->hak_akses == 'kasir')
+            var newPage = "{{ route('kasir.data-hutang.index') }}";
+        @endif
+        window.open(newPage);
+        document.getElementById('formPembayaran').submit();
+        newPage.location.reload();
+    })
+    $(document).on('keyup', '#bayar', function(e) {
         var tb = String($(this).val()).replaceAll(".", '');
-        var sisa = String($("#sisa").val()).replaceAll(".", '');
+        var sisa = String($("#sisaStatis").val()).replace(/Rp/g, '').replaceAll(".", '');
+        // let dp = String($("#dp").val()).replace(/Rp/g, '').replaceAll(".", '');
         
-        var dp = $("#dp").val();
-        var total_harga = $('#total_harga').val()
-        // var harga = String(dp).replaceAll(".", '');
-        // console.log(harga)
-        // tanpa memakai sisa dari table penjualan
-        // $('#kembalian').val(tb-(total_harga - dp));
-        // $('#sisa').val((total_harga - dp)-tb)
-        $('#kembalian').val(parseInt(tb)-parseInt(sisa));
-        $('#sisa').val(parseInt(sisa)-parseInt(tb))
+        // let dp = getDp.replace(/Rp/g, '').replace('.', '');
+        // let total_harga = $('#total_harga').val()
+        // let total_harga = getTotal_harga.replace(/Rp/g, '').replaceAll('.', '');
+
+        sisa = parseInt(sisa-tb)
+        sisa_makerp = Number(sisa).toLocaleString("id-ID", {
+                                style:"currency",
+                                currency:"IDR",
+                                maximumSignificantDigits: (sisa + '').replace('.', '').length
+                            });
+        
+        if (sisa > 0) {
+            $('#kolom_kembalian').hide()
+            $('#sisa').val(sisa_makerp)
+        } else {
+            $('#sisa').val('Lunas')
+            $('#kolom_kembalian').removeAttr('style')
+            $('#kembalian').val(String(sisa_makerp).replaceAll('-', ''))
+        }       
     })
 
     $(document).ready(function(){
@@ -138,7 +160,7 @@
             let nama_supplier = $(this).data('nama_supplier')
             let tgl = $(this).data('tgl')
             let tlp = $(this).data('tlp')
-            let total_bayar = $(this).data('total_bayar')
+            let jumlahTerbayar = $(this).data('total_bayar')
             let total_pembelian = $(this).data('total_pembelian')
             let dp = $(this).data('dp')
             let sisa = $(this).data('sisa')
@@ -158,9 +180,10 @@
             $('.modal-body #nama_supplier').val(nama_supplier)
             $('.modal-body #tlp').val(tlp)
             $('.modal-body #total_pembelian').val(total_pembelian)
-            $('.modal-body #dp').val(dp)
-            console.log(sisa)
+            $('.modal-body #jumlahTerbayar').val(jumlahTerbayar)
+            // console.log(sisa)
             $('.modal-body #sisa').val(sisa)
+            $('.modal-body #sisaStatis').val(sisa)
         });
     });
 

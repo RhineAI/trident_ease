@@ -9,9 +9,10 @@
             </button>
         </div>
         <div class="modal-body">
-            <form action="" method="POST">
+            <form action="" method="POST" id="formPembayaran">
                 @csrf
                 <div id="method"></div>
+                <div id="sisaStatis" style="display: none; visibility:hidden;"></div>
                 <div class="form-group row">
                     <label for="tgl" class="col-md-3 col-md-offset-1 control-label">
                         <h5 class="my-2">Tanggal</h5>
@@ -65,10 +66,20 @@
 
                 <div class="form-group row">
                     <label for="dp" class="col-md-3 col-md-offset-1 control-label">
-                        <h5 class="my-2">DP</h5>
+                        <h5 class="my-2">Jumlah Terbayar</h5>
                     </label>
                     <div class="col-md-9">
-                        <input type="text" name="dp" id="dp" class="form-control" readonly>
+                        <input type="text" name="jumlahTerbayar" id="jumlahTerbayar" class="form-control" readonly>
+                        <span class="help-block with-errors"></span>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="bayar" class="col-md-3 col-md-offset-1 control-label">
+                        <h5 class="my-2">Bayar</h5>
+                    </label>
+                    <div class="col-md-9">
+                        <input type="text" name="bayar" required id="bayar" class="form-control" autofocus autocomplete="off">
                         <span class="help-block with-errors"></span>
                     </div>
                 </div>
@@ -83,17 +94,7 @@
                     </div>
                 </div>
 
-                <div class="form-group row">
-                    <label for="bayar" class="col-md-3 col-md-offset-1 control-label">
-                        <h5 class="my-2">Bayar</h5>
-                    </label>
-                    <div class="col-md-9">
-                        <input type="text" name="bayar" id="bayar" class="form-control" autofocus autocomplete="off">
-                        <span class="help-block with-errors"></span>
-                    </div>
-                </div>
-
-                <div class="form-group row">
+                <div class="form-group row" id="kolom_kembalian" style="display: none;">
                     <label for="kembalian" class="col-md-3 col-md-offset-1 control-label">
                         <h5 class="my-2">Kembalian</h5>
                     </label>
@@ -108,7 +109,7 @@
     
         </div>
         <div class="modal-footer">
-            <button type="submit" class="btn btn-primary"><i class="fa fa-circle-check"></i>
+            <button type="button" id="button" class="btn btn-primary"><i class="fa fa-circle-check"></i>
                 Simpan</button>
         </div>
         </div>
