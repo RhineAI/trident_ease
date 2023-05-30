@@ -375,7 +375,7 @@
                 for(x=1;x<=count;x++){
                     hargabeli=$("input[name='item["+x+"][harga_beli_retur]']").val();
                     qty=$("input[name='item["+x+"][qty_retur]']").val();
-                    keuntungan+= (hargajual-hargabeli)*qty;
+                    keuntungan+= hargabeli*qty;
                 }
                 $('#retur_keuntungan').val(keuntungan); 
             }

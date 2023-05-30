@@ -36,7 +36,7 @@
                                 <thead class="table-secondary">
                                     <tr>
                                         {{-- <td>No</td> --}}
-                                        <td class="text-center" style="vertical-align: middle;" width="6%">No Penjualan</td>
+                                        td class="text-center" style="vertical-align: middle;" width="6%">No Penjualan</td>
                                         <td class="text-center" style="vertical-align: middle;" width="6%">Tanggal</td>
                                         <td class="text-center" style="vertical-align: middle;" width="10%">Pelanggan</td>
                                         <td class="text-center" style="vertical-align: middle;" width="15%">Total Beli</td>

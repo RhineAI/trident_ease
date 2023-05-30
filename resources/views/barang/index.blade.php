@@ -323,7 +323,7 @@ Produk Utama
         }
 
         if(keterangan == null) {
-            Swal.fire('Keterangan Harus Diisi!')
+            Swal.fire('Pilih Jenis Barangnya!')
             return false;
         } else {
             $('#keterangan').val();
