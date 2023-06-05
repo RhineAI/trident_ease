@@ -43,25 +43,25 @@
                 <div class="form-group row">
                     <div class="form-group" style="width: 95%; margin: auto;">
                         <label for="nama">Nama Pegawai</label>
-                        <input type="text" class="form-control" id="nama" placeholder="Nama Pegawai" name="nama" required>
+                        <input type="text" class="form-control" id="nama" placeholder="Nama Pegawai" name="nama">
                     </div>
                 </div>
                 <div class="form-group row">
                     <div class="form-group" style="width: 95%; margin: auto;">
                         <label for="alamat">Alamat Pegawai</label>
-                        <textarea class="form-control" name="alamat" id="alamat" cols="3" rows="4" required></textarea>
+                        <textarea class="form-control" name="alamat" id="alamat" cols="3" rows="4"></textarea>
                     </div>
                 </div>
                 <div class="form-group row">
                     <div class="form-group" style="width: 95%; margin: auto;">
                         <label for="tlp">Telepon</label>
-                        <input type="text" class="form-control" id="tlp" placeholder="Telepon" name="tlp" required>
+                        <input type="text" class="form-control" id="tlp" placeholder="Telepon" name="tlp">
                     </div>
                 </div>
                 <div class="form-group row">
                     <div class="form-group" style="width: 95%; margin: auto;">
                         <label for="jenis_kelamin">Jenis Kelamin</label>
-                        <select class="form-control" name="jenis_kelamin" id="jenis_kelamin" required>
+                        <select class="form-control" name="jenis_kelamin" id="jenis_kelamin">
                             <option value="" disabled="disabled" selected="true">Pilih Jenis Kelamin</option>
                             <option value="L">Laki-Laki</option>
                             <option value="P">Perempuan</option>
@@ -72,25 +72,28 @@
                 <div class="form-group row">
                     <div class="form-group" style="width: 95%; margin: auto;">
                         <label for="username">Username</label>
-                        <input type="text" class="form-control" id="username" placeholder="Username" name="username" required>
+                        <input type="text" class="form-control" id="username" placeholder="Username" name="username">
+                        <small id="messageTrue" class="text-success">Username Tersedia</small>
+                        <small id="messageFalse" class="text-danger">Username Telah Digunakan</small>
+                        <input type="hidden" id="check">
                     </div>
                 </div>
                 <div class="form-group row" id="hpsPassword">
                   <div class="form-group" style="width: 95%; margin: auto;">
                       <label for="password">Password</label>
-                      <input type="password" minlength="6" class="form-control" id="password" placeholder="Password" name="password" required>
+                      <input type="password" minlength="6" class="form-control" id="password" placeholder="Password" name="password">
                   </div>
               </div>
               <div class="form-group row" id="hpsPassword2">
                   <div class="form-group" style="width: 95%; margin: auto;">
                       <label for="password_confirmation">Ketik Ulang Password</label>
-                      <input type="password" minlength="6" class="form-control" id="password_confirmation" placeholder="Password" name="password_confirmation" required>
+                      <input type="password" minlength="6" class="form-control" id="password_confirmation" placeholder="Password" name="password_confirmation">
                   </div>
               </div>
                 <div class="form-group row mb-4">
                   <div class="form-group" style="width: 95%; margin: auto;">
                       <label for="hak_akses">Hak Akses User</label>
-                      <select class="form-control" name="hak_akses" id="hak_akses" required>
+                      <select class="form-control" name="hak_akses" id="hak_akses">
                           <option value="" disabled="disabled" selected="true">Choose Hak Akses User</option>
                           <option value="admin">Administrator</option>
                           <option value="kasir">Kasir</option>
@@ -125,6 +128,40 @@
             restrictWord(e);
         });
 
+        @if(auth()->user()->hak_akses == 'admin') 
+            var routeM = "{{ route('admin.getUsername') }}";
+        @elseif(auth()->user()->hak_akses == 'kasir') 
+            var routeM = "{{ route('owner.getUsername') }}";
+        @endif
+        
+        $('#messageTrue').hide()
+        $('#messageFalse').hide()
+
+        $('#username').on('keyup', function(){
+            $.ajax({
+                type: 'POST',
+                url: routeM,
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    username: $('#username').val()
+                },
+                cache: false,
+                success: function(response){
+                    console.log(response)
+                    if(response === 'true'){
+                        $('#messageTrue').show()
+                        $('#messageFalse').hide()
+                        $('#check').val("true")
+                    } else {
+                        $('#messageFalse').show()
+                        $('#messageTrue').hide()
+                        $('#check').val("false")
+                    }
+                }
+            })
+        });
+
+
         $('#formPegawai').on('submit', function(){
             const nama = $('#nama').val()
             const alamat = $('#alamat').val()
@@ -134,6 +171,8 @@
             const username = $('#username').val()
             const password = $('#password').val()
             const password_confirmation = $('#password_confirmation').val()
+            const hak_akses = $('#hak_akses').val()
+            const check = $('#check').val()
             
             if(nama == "") {
                 Swal.fire('Nama Pegawai Harus Diisi!')
@@ -182,6 +221,20 @@
                 return false;
             } else {
                 $('#password_confirmation').val();
+            }
+
+            if(hak_akses == "") {
+                Swal.fire('Hak Akses Harus Diisi!')
+                return false;
+            } else {
+                $('#hak_akses').val();
+            }
+
+            if(check === "false") {
+                Swal.fire('Username telah digunakan!')
+                return false;
+            } else {
+                $('#check').val();
             }
         })
     </script>

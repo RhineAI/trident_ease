@@ -60,8 +60,13 @@
                 <div class="col-md-8">
                     <input type="text" placeholder="Username" name="username" id="username" class="form-control" aria-label="Username" aria-describedby="basic-addon1"   autocomplete="off">
                     <span class="help-block with-errors"></span>
+
+                    <small id="messageTrue" class="text-success">Username Tersedia</small>
+                    <small id="messageFalse" class="text-danger">Username Telah Digunakan</small>
+                    <input type="hidden" id="check">
                 </div>
             </div>
+
             <div class="form-group row" id="pass">
                 <label for="password" class="col-md-4 col-md-offset-1 control-label">
                     <h5 class="my-2">Password</h5>

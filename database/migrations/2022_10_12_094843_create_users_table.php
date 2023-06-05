@@ -20,7 +20,7 @@ return new class extends Migration
             $table->text('alamat')->nullable();
             $table->string('tlp', 20);
             $table->enum('jenis_kelamin', ['L', 'P', 'Other']);
-            $table->string('username', 100);
+            $table->string('username', 100)->unique();
             $table->string('password');
             $table->string('hak_akses')->comment('1:Super Admin, 2:Owner, 3:Admin, 4:Cashier');
             $table->integer('id_perusahaan');

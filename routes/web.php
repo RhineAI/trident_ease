@@ -95,6 +95,7 @@ Route::middleware(['auth'])->group(function () {
                 Route::get('/profile', [UsersController::class, 'profile'])->name('profile');
                 Route::post('/profile', [UsersController::class, 'profileUpdate']);
                 Route::get('/profile/cards', [UsersController::class, 'card'])->name('profile.cards');
+                Route::post('/username', [UsersController::class, 'getUsername'])->name('getUsername');
 
                 Route::get('/changePW', [UsersController::class, 'changePW'])->name('changePW');
                 Route::post('/changePW', [UsersController::class, 'changePWUpdate']);
@@ -218,6 +219,9 @@ Route::middleware(['auth'])->group(function () {
                 Route::get('/profile', [UsersController::class, 'profile'])->name('profile');
                 Route::post('/profile', [UsersController::class, 'profileUpdate']);
                 Route::get('/profile/cards', [UsersController::class, 'card'])->name('profile.cards');
+
+                Route::post('/username', [UsersController::class, 'getUsername'])->name('getUsername');
+
 
                 Route::get('/changePW', [UsersController::class, 'changePW'])->name('changePW');
                 Route::post('/changePW', [UsersController::class, 'changePWUpdate']);
@@ -385,6 +389,7 @@ Route::middleware(['auth'])->group(function () {
         });
 });
 
+Route::post('/getPerusahaan', [PerusahaanController::class, 'getPerusahaan'])->name('getPerusahaan');
 Route::get('/', [LoginController::class, 'index'])->name('login');
 Route::post('/', [LoginController::class, 'login']);
 Route::get('/register', [LoginController::class, 'reg'])->name('reg');
