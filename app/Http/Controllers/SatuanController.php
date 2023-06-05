@@ -38,7 +38,6 @@ class SatuanController extends Controller
      */
     public function store(Request $request)
     {
-        return $request;
         $input = Satuan::create($request->all());
         // return redirect('/satuan')->with('success', 'Input data Satuan berhasil!');
         return redirect()->back()->with(['success' => 'Data Berhasil Disimpan!']);

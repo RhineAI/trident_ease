@@ -29,14 +29,20 @@
 
     {{-- Toastr --}}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css" integrity="sha512-3pIirOrwegjM6erE5gPSwkUzO+3cTjpnV9lexlNZqvupR64iZBnOOTiiLPb9M36zpMScbmUNIcHUqKD47M719g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-
+    <style>
+        #bgBlueLightWhiteColor {
+          background: #4178D5; 
+        }
+    </style>
 </head>
 
-<body style="">
+<body id="bgBlueLightWhiteColor">
     <div class="page-wrapper bg-blue p-t-100 p-b-100 font-robo">
-        <div class="wrapper wrapper--w680">
+        <div class="wrapper wrapper--w500">
             <div class="card card-1">
-                <div class="card-heading"></div>
+                <div class="card-heading text-center">
+                    {{-- <img src="/assets/img/register.png" alt="" width="200" class="align-items-center"> --}}
+                </div>
                 <div class="card-body">
                     <h2 class="title">Form Registrasi</h2>
                     <form method="POST" id="form-register" enctype="multipart/form-data" action="{{ route('register') }}">
