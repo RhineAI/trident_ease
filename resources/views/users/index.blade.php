@@ -88,6 +88,63 @@
     <script>
         $('#tbl-data-pegawai').DataTable();
 
+        @if(auth()->user()->hak_akses == 'admin') 
+            var routeM = "{{ route('admin.getUsername') }}";
+        @elseif(auth()->user()->hak_akses == 'kasir') 
+            var routeM = "{{ route('owner.getUsername') }}";
+        @endif
+        
+        $('#messageTrue').hide()
+        $('#messageFalse').hide()
+
+        $('#username').on('keyup', function(){
+            $.ajax({
+                type: 'POST',
+                url: routeM,
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    username: $('#username').val()
+                },
+                cache: false,
+                success: function(response){
+                    console.log(response)
+                    if(response === 'true'){
+                        $('#messageTrue').show()
+                        $('#messageFalse').hide()
+                        $('#check').val("true")
+                    } else {
+                        $('#messageFalse').show()
+                        $('#messageTrue').hide()
+                        $('#check').val("false")
+                    }
+                }
+            })
+        });
+
+        $('#username').on('keyup', function(){
+            $.ajax({
+                type: 'POST',
+                url: routeM,
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    username: $('#username').val()
+                },
+                cache: false,
+                success: function(response){
+                    console.log(response)
+                    if(response === 'true'){
+                        $('#messageTrue').show()
+                        $('#messageFalse').hide()
+                        $('#check').val("true")
+                    } else {
+                        $('#messageFalse').show()
+                        $('#messageTrue').hide()
+                        $('#check').val("false")
+                    }
+                }
+            })
+        });
+
         $('#formPegawai').on('submit', function(){
             const nama = $('#nama').val()
             const alamat = $('#alamat').val()
@@ -145,6 +202,13 @@
                 return false;
             } else {
                 $('#password_confirmation').val();
+            }
+
+            if(check === "false") {
+                Swal.fire('Username telah digunakan!')
+                return false;
+            } else {
+                $('#check').val();
             }
         })
     </script>
@@ -208,6 +272,8 @@
             $('#modal-form [name=username]').val(data.username);
             
             $('[id=pass]').hide();
+            $('form #messageTrue').show()
+            $('form #messageFalse').hide()
             document.getElementById("password").required = false;
             document.getElementById("password_confirmation").required = false;
             // alert(password);

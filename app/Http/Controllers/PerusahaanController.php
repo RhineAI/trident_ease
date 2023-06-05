@@ -6,6 +6,7 @@ use App\Models\Perusahaan;
 use App\Http\Requests\StorePerusahaanRequest;
 use App\Http\Requests\UpdatePerusahaanRequest;
 use Illuminate\Support\Str;
+use Illuminate\Http\Request;
 
 class PerusahaanController extends Controller
 {
@@ -36,6 +37,18 @@ class PerusahaanController extends Controller
      * @param  \App\Http\Requests\StorePerusahaanRequest  $request
      * @return \Illuminate\Http\Response
      */
+
+    public function getPerusahaan(Request $request){
+        $user = Perusahaan::select('*')->where('nama', $request->nama)->first();
+
+        // return $user;
+        if($user === null){
+            return 'true';
+        } else {
+            return 'false';
+        }
+    }
+
     public function store(StorePerusahaanRequest $request)
     {
         // return $request;

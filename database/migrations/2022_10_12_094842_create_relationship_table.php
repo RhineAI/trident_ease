@@ -16,7 +16,7 @@ return new class extends Migration
     {
         Schema::create('t_perusahaan', function (Blueprint $table) {
             $table->integer('id')->autoIncrement();
-            $table->string('nama', 50);
+            $table->string('nama', 50)->unique();
             $table->text('alamat');
             $table->string('tlp', 50);
             $table->string('pemilik', 50);

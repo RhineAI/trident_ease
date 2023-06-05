@@ -54,6 +54,18 @@ class UsersController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+
+    public function getUsername(Request $request){
+        $user = User::select('*')->where('id_perusahaan', auth()->user()->id_perusahaan)->where('username', $request->username)->first();
+
+        // return $user;
+        if($user === null){
+            return 'true';
+        } else {
+            return 'false';
+        }
+    }
+
     public function store(Request $request)
     {
         // dd($request); die;

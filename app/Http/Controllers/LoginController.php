@@ -12,7 +12,10 @@ use Illuminate\Support\Facades\Auth;
 
 use App\Http\Requests\AuthRequest;
 use App\Mail\NotifikasiRegisterPerusahaan;
+use Exception;
+use Illuminate\Database\QueryException;
 use Illuminate\Validation\ValidationException;
+use PDOException;
 
 class LoginController extends Controller
 {
@@ -25,43 +28,47 @@ class LoginController extends Controller
     }
 
     public function login(Request $request){
-        // Memvalidasi inputan apakah sudah diisi apa belum
-        $user = $request->validate([
-            'username' => ['required'],
-            'password' => ['required'],
-        ]);
-        // Mengambil data User yang sedang login
-        $getUser = User::where('username', $request->username)->first();
-        // Mengambil data Perusahaan dari user yang sedang login
-        $getPerusahaan = Perusahaan::where('id', $getUser->id_perusahaan)->first();
-        // Pengecekan apakah validasi sudah lolos
-        if(Auth::attempt($user)){
-            // Pengecekan apakah masa waktu sewa sudah habis
-            if($getPerusahaan->expiredDate === '0000-00-00'){
-                $request->session()->regenerate();
-                return redirect()->intended('/'.$getUser->hak_akses)->with('success', 'Anda telah login sebagai '.$getUser->hak_akses);
-            } elseif($getPerusahaan->expiredDate !== '0000-00-00') {
-                if(strtotime($getPerusahaan->expiredDate) < strtotime(date('Y-m-d'))){
-                    $data['perusahaan'] = Perusahaan::select('*')->where('id', auth()->user()->id_perusahaan)->first();
-    
-                    Auth::logout();
-    
-                    $request->session()->invalidate();
-    
-                    $request->session()->regenerateToken();
-                    return $this->contactUs($data['perusahaan']);
-                } else {
+        try {
+            // Memvalidasi inputan apakah sudah diisi apa belum
+            $user = $request->validate([
+                'username' => ['required'],
+                'password' => ['required'],
+            ]);
+            // Mengambil data User yang sedang login
+            $getUser = User::where('username', $request->username)->first();
+            // Mengambil data Perusahaan dari user yang sedang login
+            $getPerusahaan = Perusahaan::where('id', $getUser->id_perusahaan)->first();
+            // Pengecekan apakah validasi sudah lolos
+            if(Auth::attempt($user)){
+                // Pengecekan apakah masa waktu sewa sudah habis
+                if($getPerusahaan->expiredDate === '0000-00-00'){
                     $request->session()->regenerate();
                     return redirect()->intended('/'.$getUser->hak_akses)->with('success', 'Anda telah login sebagai '.$getUser->hak_akses);
+                } elseif($getPerusahaan->expiredDate !== '0000-00-00') {
+                    if(strtotime($getPerusahaan->expiredDate) < strtotime(date('Y-m-d'))){
+                        $data['perusahaan'] = Perusahaan::select('*')->where('id', auth()->user()->id_perusahaan)->first();
+        
+                        Auth::logout();
+        
+                        $request->session()->invalidate();
+        
+                        $request->session()->regenerateToken();
+                        return $this->contactUs($data['perusahaan']);
+                    } else {
+                        $request->session()->regenerate();
+                        return redirect()->intended('/'.$getUser->hak_akses)->with('success', 'Anda telah login sebagai '.$getUser->hak_akses);
+                    }
                 }
+            } else {
+                return back()->with(['error' => 'Username atau Password tidak sesuai']);
             }
-        } else {
+            // Jika tidak lolos validasi akan dikembalikan ke halaman login
+            throw ValidationException::withMessages([
+                'username' => 'Your provide credentials does not match our records',
+            ]);
+        } catch(\Exception | PDOException | QueryException){
             return back()->with(['error' => 'Username atau Password tidak sesuai']);
         }
-        // Jika tidak lolos validasi akan dikembalikan ke halaman login
-        throw ValidationException::withMessages([
-            'username' => 'Your provide credentials does not match our records',
-        ]);
     }
 
     public function logout(Request $request) {

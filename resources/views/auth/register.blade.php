@@ -29,41 +29,50 @@
 
     {{-- Toastr --}}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css" integrity="sha512-3pIirOrwegjM6erE5gPSwkUzO+3cTjpnV9lexlNZqvupR64iZBnOOTiiLPb9M36zpMScbmUNIcHUqKD47M719g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-
+    <style>
+        #bgBlueLightWhiteColor {
+          background: #4178D5; 
+        }
+    </style>
 </head>
 
-<body style="">
+<body id="bgBlueLightWhiteColor">
     <div class="page-wrapper bg-blue p-t-100 p-b-100 font-robo">
-        <div class="wrapper wrapper--w680">
+        <div class="wrapper wrapper--w500">
             <div class="card card-1">
-                <div class="card-heading"></div>
+                <div class="card-heading text-center">
+                    {{-- <img src="/assets/img/register.png" alt="" width="200" class="align-items-center"> --}}
+                </div>
                 <div class="card-body">
                     <h2 class="title">Form Registrasi</h2>
-                    <form method="POST" enctype="multipart/form-data" action="{{ route('register') }}">
+                    <form method="POST" id="form-register" enctype="multipart/form-data" action="{{ route('register') }}">
                         @csrf
                         @method('post')
                         <div class="input-group">
-                            <input class="input--style-1" id="nama" required type="text" placeholder="NAMA PERUSAHAAN" name="nama">
+                            <input class="input--style-1" id="nama" type="text" placeholder="NAMA PERUSAHAAN" name="nama">
+                            {{-- <small id="messageTrue" style="color:green;">Nama Perusahaan Tersedia</small>
+                            <small id="messageFalse" style="color:red;">Nama Perusahaan Telah Digunakan, Coba Tambahkan Nama Daerah</small> --}}
+                            <input type="hidden" id="check">
                         </div>
                         <div class="input-group">
-                            <input class="input--style-1" id="alamat" required type="text" placeholder="ALAMAT PERUSAHAAN" name="alamat">
+                            <input class="input--style-1" id="alamat" type="text" placeholder="ALAMAT PERUSAHAAN" name="alamat">
                         </div>
                         <div class="input-group">
-                            <input class="input--style-1" id="email" required type="email" placeholder="EMAIL PERUSAHAAN" name="email">
+                            <input class="input--style-1" id="email" type="email" placeholder="EMAIL PERUSAHAAN" name="email">
                         </div>
                         <div class="input-group">
-                            <input class="input--style-1" id="npwp" minlength="6" required type="number" placeholder="NPWP" name="npwp">
+                            <input class="input--style-1" id="npwp" minlength="6" type="number" placeholder="NPWP" name="npwp">
                         </div>
              
                         <div class="row row-space">
                             <div class="col-2">
                                 <div class="input-group">
-                                    <input class="input--style-1" id="pemilik" required type="text" placeholder="NAMA PEMILIK" name="pemilik">
+                                    <input class="input--style-1" id="pemilik" type="text" placeholder="NAMA PEMILIK" name="pemilik">
                                 </div>
                             </div>
                             <div class="col-2">
                                 <div class="input-group">
-                                    <input class="input--style-1" id="telepon" required maxlength="13" type="number" placeholder="TELEPON" name="telepon">
+                                    <input class="input--style-1" id="telepon" maxlength="13" type="number" placeholder="TELEPON" name="telepon">
                                 </div>
                             </div>
                         </div>
@@ -72,7 +81,7 @@
                             <div class="col-2">
                                 <div class="input-group">
                                     <div class="rs-select2 js-select-simple select--no-search">
-                                        <select name="bank" required id="bank">
+                                        <select name="bank" id="bank">
                                             <option disabled="disabled" selected="selected">BANK</option>
                                             <option value="Bank BRI">Bank BRI</option>
                                             <option value="Bank BNI">Bank BNI</option>
@@ -88,7 +97,7 @@
                             </div>
                             <div class="col-2">
                                 <div class="input-group">
-                                    <input class="input--style-1" id="rekening" required type="number" placeholder="NO. REKENING" name="no_rekening">
+                                    <input class="input--style-1" id="rekening" type="number" placeholder="NO. REKENING" name="no_rekening">
                                 </div>
                             </div>
                         </div>
@@ -121,7 +130,7 @@
                             <img class="img-preview img-fluid my-3 col-sm-5" width="250" >
                             <br>
                         <div class="p-t-20">
-                            <button class="btn btn--radius btn--green" type="submit">Submit</button>
+                            <button class="btn btn--radius btn--green" type="submit" id="submit">Submit</button>
                         </div>
                     </form>
                 </div>
@@ -135,6 +144,7 @@
     <script src="{{ asset('templates') }}/vendor/select2/select2.min.js"></script>
     <script src="{{ asset('templates') }}/vendor/datepicker/moment.min.js"></script>
     <script src="{{ asset('templates') }}/vendor/datepicker/daterangepicker.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
     <!-- Main JS-->
     <script src="{{ asset('templates') }}/js/global.js"></script>
@@ -143,6 +153,87 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
     <script>
+        $('#form-register').on('submit', function(){
+            const check = $('#check').val()
+            const nama = $('#nama').val()
+            const alamat = $('#alamat').val()
+            const email = $('#email').val()
+            const npwp = $('#npwp').val()
+            const pemilik = $('#pemilik').val()
+            const telepon = $('#telepon').val()
+            const rekening = $('#rekening').val()
+            const bank = $('#bank').val()
+            const other = $('#other').val()
+            const slogan = $('#slogan').val()
+
+            if(check === "false") {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Nama Perusahaan telah digunakan!',
+                    text: 'Coba tambahkan karakter unik, seperti nama Daerah',
+                })
+                return false;
+            } else {
+                $('#nama').val();
+            }
+
+            if(nama == "") {
+                Swal.fire('Nama Perusahaan Harus Diisi!')
+                return false;
+            } else {
+                $('#nama').val();
+            }
+
+            if(alamat == "") {
+                Swal.fire('Alamat Perusahaan Harus Diisi!')
+                return false;
+            } else {
+                $('#alamat').val();
+            }
+
+            if(email == "") {
+                Swal.fire('Email Perusahaan Harus Diisi!')
+                return false;
+            } else {
+                $('#email').val();
+            }
+
+            if(telepon == "") {
+                Swal.fire('Telepon Perusahaan Harus Diisi!')
+                return false;
+            } else {
+                $('#telepon').val();
+            }
+
+            if(npwp == "") {
+                Swal.fire('NPWP Harus Diisi!')
+                return false;
+            } else {
+                $('#npwp').val();
+            }
+
+            if(pemilik == "") {
+                Swal.fire('Nama Owner Harus Diisi!')
+                return false;
+            } else {
+                $('#pemilik').val();
+            }
+
+            if(bank == null || other == "") {
+                Swal.fire('Kolom Bank Harus Diisi!')
+                return false;
+            } else {
+                $('#bank').val();
+            }
+
+            if(rekening == "") {
+                Swal.fire('No Rekening Harus Diisi!')
+                return false;
+            } else {
+                $('#rekening').val();
+            }
+        });
+
         $('div.other').hide();
         $(document).on('change', '#bank', function () {  
             var isiSelect = $("#bank").val();
@@ -154,6 +245,36 @@
             } else {
                 $('div.other').hide();
             }
+        });
+
+        $('#messageTrue').hide()
+        $('#messageFalse').hide()
+
+        $('#nama').on('change', function(){
+            $.ajax({
+                type: 'POST',
+                url:  '/getPerusahaan',
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    nama: $('#nama').val()
+                },
+                cache: false,
+                success: function(response){
+                    console.log(response)
+                    if(response === 'true'){
+                        $('#messageTrue').show()
+                        $('#messageFalse').hide()
+                        $('#check').val("true")
+                    } else {                       
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Nama Perusahaan telah digunakan!',
+                            text: 'Coba tambahkan karakter unik, seperti nama Daerah',
+                        })
+                        $('#check').val("false")
+                    }
+                }
+            })
         });
     </script>
 
