@@ -65,7 +65,7 @@
                                                         <td><span class="badge badge-danger">Premium</span></td>
                                                     @endif
                                                     <td>{{ $item->created_at->diffForHumans() }}</td>
-                                                    @if ($item->grade == 1 || $item->expiredDate === '0000-00-00')
+                                                    @if ($item->expiredDate === '0000-00-00')
                                                         <td>-</td>
                                                     @else
                                                         <td>{{ $item->expiredDate }}</td>
@@ -135,7 +135,7 @@
                 let tlp = $(this).data('tlp')
                 let npwp = $(this).data('npwp')
                 let url = $(this).data('route')
-            
+                console.log(url)
 
                 let data = {
                     nama : nama,

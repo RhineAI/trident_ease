@@ -86,7 +86,6 @@
                 </div>
             </div>
 
-            @if (auth()->user()->hak_akses == 'owner')
             <div class="form-group row">
                 <label for="hak_akses" class="col-md-4 col-md-offset-1 control-label">
                     <h5 class="my-2">Hak Akses</h5>
@@ -102,8 +101,8 @@
                     <span class="help-block with-errors"></span>
                 </div>
             </div>
-            @endif
 
+            <input type="hidden" id="mode" value="input">
             <input type="hidden" name="id_perusahaan" value="{{ $cPerusahaan->id }}">
     </div>
     <div class="modal-footer">

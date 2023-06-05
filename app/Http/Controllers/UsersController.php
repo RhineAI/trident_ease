@@ -95,11 +95,7 @@ class UsersController extends Controller
         $user->jenis_kelamin = $request->jenis_kelamin;
         $user->username = $request->username;
         $user->password = bcrypt($request->password); 
-        if (auth()->user()->hak_akses == 'admin') {
-            $user->hak_akses = 'kasir';
-        } else {
-            $user->hak_akses = $request->hak_akses;
-        }
+        $user->hak_akses = $request->hak_akses;
         $user->id_perusahaan = $request->id_perusahaan;
         // return $user;
         $user->save();
@@ -154,11 +150,7 @@ class UsersController extends Controller
         $user->jenis_kelamin = $request->jenis_kelamin;
         $user->username = $request->username;
         $user->password = bcrypt($request->password); 
-        if (auth()->user()->hak_akses == 'admin') {
-            $user->hak_akses = 'kasir';
-        } else {
-            $user->hak_akses = $request->hak_akses;
-        }
+        $user->hak_akses = $request->hak_akses;
         $user->id_perusahaan = $request->id_perusahaan;
         $user->update();
         // return redirect('/users')->with('success', 'Update Data berhasil');

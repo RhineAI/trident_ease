@@ -77,6 +77,7 @@ class SuperAdminController extends Controller
      */
     public function store(Request $request)
     {
+        return $request;
         //
     }
 
@@ -110,8 +111,10 @@ class SuperAdminController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function perbarui(Request $request, $id) {
+        return $request;
         $perusahaan = Perusahaan::find($id);
         $perusahaan['grade'] = $request->grade;
+        $perusahaan['expiredDate'] = $request->grade;
         $perusahaan->update($request->all());
 
         // return response(null, 204);

@@ -154,6 +154,9 @@
             const username = $('#username').val()
             const password = $('#password').val()
             const password_confirmation = $('#password_confirmation').val()
+            const hak_akses = $('#hak_akses').val()
+            const check = $('#check').val()
+            const mode = $('#mode').val()
             
             if(nama == "") {
                 Swal.fire('Nama Pegawai Harus Diisi!')
@@ -190,18 +193,28 @@
                 $('#username').val();
             }
 
-            if(password == "") {
-                Swal.fire('Password Harus Diisi!')
-                return false;
-            } else {
-                $('#password').val();
-            }
+            if(mode == "input"){
+                if(password == "") {
+                    Swal.fire('Password Harus Diisi!')
+                    return false;
+                } else {
+                    $('#password').val();
+                }
 
-            if(password_confirmation == "") {
-                Swal.fire('Konfirmasi Password Harus Diisi!')
+                if(password_confirmation == "") {
+                    Swal.fire('Konfirmasi Password Harus Diisi!')
+                    return false;
+                } else {
+                    $('#password_confirmation').val();
+                }
+            }
+            
+
+            if(hak_akses == "") {
+                Swal.fire('Hak Akses Harus Diisi!')
                 return false;
             } else {
-                $('#password_confirmation').val();
+                $('#hak_akses').val();
             }
 
             if(check === "false") {
@@ -219,6 +232,7 @@
             $('#modal-form').modal({backdrop: 'static', keyboard: false})
             $('#modal-form').modal('show');
             $('#modal-form .modal-title').text('Tambah Pegawai Baru');
+            $('#mode').val('input')
 
             
             $('.modal-body form')[0].reset();
@@ -259,6 +273,7 @@
             $('#modal-form').modal({backdrop: 'static', keyboard: false})
             $('#modal-form').modal('show')
             $('#modal-form .modal-title').text('Edit Pegawai');
+            $('#mode').val('edit')
 
             $('#modal-form form')[0].reset();
             $('.modal-body form').attr('action', data.url);

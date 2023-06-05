@@ -19,125 +19,162 @@
     <link href="{{ asset('templates') }}/vendor/font-awesome-4.7/css/font-awesome.min.css" rel="stylesheet" media="all">
     <!-- Font special for pages-->
     <link href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i" rel="stylesheet">
-
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet"/>
     <!-- Vendor CSS-->
     <link href="{{ asset('templates') }}/vendor/select2/select2.min.css" rel="stylesheet" media="all">
     <link href="{{ asset('templates') }}/vendor/datepicker/daterangepicker.css" rel="stylesheet" media="all">
 
     <!-- Main CSS-->
-    <link href="{{ asset('templates') }}/css/main.css" rel="stylesheet" media="all">
-
+    {{-- <link href="{{ asset('templates') }}/css/main.css" rel="stylesheet" media="all"> --}}
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.3.1/mdb.min.css" rel="stylesheet"/>
     {{-- Toastr --}}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css" integrity="sha512-3pIirOrwegjM6erE5gPSwkUzO+3cTjpnV9lexlNZqvupR64iZBnOOTiiLPb9M36zpMScbmUNIcHUqKD47M719g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <style>
+        @import '~mdb-ui-kit/css/mdb.min.css';
         #bgBlueLightWhiteColor {
           background: #4178D5; 
         }
     </style>
 </head>
 
-<body id="bgBlueLightWhiteColor">
-    <div class="page-wrapper bg-blue p-t-100 p-b-100 font-robo">
-        <div class="wrapper wrapper--w500">
-            <div class="card card-1">
-                <div class="card-heading text-center">
-                    {{-- <img src="/assets/img/register.png" alt="" width="200" class="align-items-center"> --}}
-                </div>
-                <div class="card-body">
-                    <h2 class="title">Form Registrasi</h2>
-                    <form method="POST" id="form-register" enctype="multipart/form-data" action="{{ route('register') }}">
+<body style="background-color: #4178D5;">
+    <section class="vh-100" style="background-color: #4178D5;">
+        <div class="container h-100">
+          <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-lg-12 col-xl-11">
+              <div class="card text-black" style="border-radius: 25px;">
+                <div class="card-body p-md-5">
+                  <div class="row justify-content-center">
+                    <div class="col-md-10 col-lg-6 col-xl-6 order-2 order-lg-1">
+                      <p class="text-center h1 fw-bold mb-4 mx-1 mx-md-4">Register</p>
+
+                      <form class="mx-1 mx-md-4" method="POST" id="form-register" enctype="multipart/form-data" action="{{ route('register') }}">
                         @csrf
-                        @method('post')
-                        <div class="input-group">
-                            <input class="input--style-1" id="nama" type="text" placeholder="NAMA PERUSAHAAN" name="nama">
-                            {{-- <small id="messageTrue" style="color:green;">Nama Perusahaan Tersedia</small>
-                            <small id="messageFalse" style="color:red;">Nama Perusahaan Telah Digunakan, Coba Tambahkan Nama Daerah</small> --}}
+                        <div class="d-flex flex-row align-items-center mb-4">
+                          <i class="fas fa-user fa-lg me-3 fa-fw"></i>
+                          <div class="form-outline flex-fill mb-0">
+                            <input type="text" class="form-control" id="nama" name="nama" />
+                            <label class="form-label" for="form3Example1c">Nama Perusahaan</label>
                             <input type="hidden" id="check">
+                          </div>
                         </div>
-                        <div class="input-group">
-                            <input class="input--style-1" id="alamat" type="text" placeholder="ALAMAT PERUSAHAAN" name="alamat">
+                        {{-- <small id="messageTrue" style="color:green; margin-top: -200px;">Nama Perusahaan Tersedia</small>
+                        <small id="messageFalse" style="color:red; margin-top: -200px;">Nama Perusahaan Telah Digunakan, Coba Tambahkan Nama Daerah</small> --}}
+
+                        <div class="d-flex flex-row align-items-center mb-4">
+                          <i class="fas fa-envelope fa-lg me-3 fa-fw"></i>
+                          <div class="form-outline flex-fill mb-0">
+                            <input type="text" class="form-control" id="alamat" name="alamat" />
+                            <label class="form-label" for="form3Example3c">Alamat</label>
+                          </div>
                         </div>
-                        <div class="input-group">
-                            <input class="input--style-1" id="email" type="email" placeholder="EMAIL PERUSAHAAN" name="email">
+      
+                        <div class="d-flex flex-row align-items-center mb-4">
+                          <i class="fas fa-lock fa-lg me-3 fa-fw"></i>
+                          <div class="form-outline flex-fill mb-0">
+                            <input type="email" class="form-control" id="email" name="email"/>
+                            <label class="form-label" for="form3Example4c">E-Mail</label>
+                          </div>
                         </div>
-                        <div class="input-group">
-                            <input class="input--style-1" id="npwp" minlength="6" type="number" placeholder="NPWP" name="npwp">
-                        </div>
-             
-                        <div class="row row-space">
-                            <div class="col-2">
-                                <div class="input-group">
-                                    <input class="input--style-1" id="pemilik" type="text" placeholder="NAMA PEMILIK" name="pemilik">
-                                </div>
-                            </div>
-                            <div class="col-2">
-                                <div class="input-group">
-                                    <input class="input--style-1" id="telepon" maxlength="13" type="number" placeholder="TELEPON" name="telepon">
-                                </div>
-                            </div>
+      
+                        <div class="d-flex flex-row align-items-center mb-4">
+                          <i class="fas fa-key fa-lg me-3 fa-fw"></i>
+                          <div class="form-outline flex-fill mb-0">
+                            <input type="text" id="npwp" name="npwp" class="form-control" />
+                            <label class="form-label" for="form3Example4cd">NPWP</label>
+                          </div>
                         </div>
 
-                        <div class="row row-space">
-                            <div class="col-2">
-                                <div class="input-group">
-                                    <div class="rs-select2 js-select-simple select--no-search">
-                                        <select name="bank" id="bank">
-                                            <option disabled="disabled" selected="selected">BANK</option>
-                                            <option value="Bank BRI">Bank BRI</option>
-                                            <option value="Bank BNI">Bank BNI</option>
-                                            <option value="Bank BJB">Bank BJB</option>
-                                            <option value="Bank BCA">Bank BCA</option>
-                                            <option value="Bank Permata">Bank Permata</option>
-                                            <option value="Bank Muamalat">Bank Muamalat</option>
-                                            <option value="Other">Other</option>
-                                        </select>
-                                        <div class="select-dropdown"></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-2">
-                                <div class="input-group">
-                                    <input class="input--style-1" id="rekening" type="number" placeholder="NO. REKENING" name="no_rekening">
-                                </div>
-                            </div>
+                        <div class="d-flex flex-row align-items-center mb-4">
+                          <i class="fas fa-key fa-lg me-3 fa-fw"></i>
+                          <div class="form-outline flex-fill mb-0">
+                            <input type="text" id="pemilik" name="pemilik" class="form-control" />
+                            <label class="form-label" for="form3Example4cd">Pemilik</label>
+                          </div>
+
+                          <i class="fas fa-key fa-lg me-3 mx-2 fa-fw"></i>
+                          <div class="form-outline flex-fill mb-0">
+                            <input type="text" id="telepon" name="telepon" class="form-control" />
+                            <label class="form-label" for="form3Example4cd">Telepon</label>
+                          </div>
                         </div>
-                        <div class="input-group other" style="padding-top:-50px;">
-                            <input type="text" name="other" id="other" placeholder="BANK PERUSAHAAN" class="input--style-1">
-                        </div>
-                        {{-- <div class="input-group">
-                            <div class="rs-select2 js-select-simple select--no-search">
-                                <select name="class">
-                                    <option disabled="disabled" selected="selected">CLASS</option>
-                                    <option>Class 1</option>
-                                    <option>Class 2</option>
-                                    <option>Class 3</option>
+
+                        <div class="d-flex flex-row align-items-center mb-4">
+                            <i class="fas fa-key fa-lg me-3 fa-fw"></i>
+                            <div class="form col-md-11 flex-fill mb-0">
+                                <select name="bank" id="bank" class="form-select">
+                                    <option disabled="disabled" selected="selected">BANK</option>
+                                    <option value="Bank BRI">BRI</option>
+                                    <option value="Bank BNI">BNI</option>
+                                    <option value="Bank BJB">BJB</option>
+                                    <option value="Bank BCA">BCA</option>
+                                    <option value="Bank Permata">Permata</option>
+                                    <option value="Bank Muamalat">Muamalat</option>
+                                    <option value="Other">Lainnya</option>
                                 </select>
                                 <div class="select-dropdown"></div>
                             </div>
-                        </div> --}}
-                            <div class="input-group" style="padding-top:-50px;">
-                                <input class="input--style-1" id="slogan" type="text" placeholder="SLOGAN (OPSIONAL)" name="slogan">
-                            </div>
 
-                            <div class="form-group row mb-2">
-                                <div class="mb-3">
-                                    <p style="color:#636060;">LOGO PERUSAHAAN</p><br>
-                                    <input class="form-control" type="file" id="image" name="logo" onchange="previewImage()">
-                                    <small style="color:grey; font-size:11px;" class="text-muted">Max 4mb</small>
+                            <i class="fas fa-key fa-lg me-3 mx-2 fa-fw"></i>
+                            <div class="form-outline flex-fill mb-0">
+                              <input type="text" id="rekening" name="no_rekening" class="form-control" />
+                              <label class="form-label" for="rekening">Rekening</label>
+                            </div>
+                        </div>
+
+                        <div id="displayOther">
+                            <div class="d-flex flex-row align-items-center mb-4">
+                                <i class="fas fa-key fa-lg me-3 fa-fw"></i>
+                                <div class="form-outline flex-fill mb-0">
+                                  <input type="text" id="other" name="other" class="form-control" placeholder="Bank Lainnya" />
+                                  <label class="form-label" for="form3Example4cd">Bank Lainnya</label>
                                 </div>
                             </div>
-                            <br>
-                            <img class="img-preview img-fluid my-3 col-sm-5" width="250" >
-                            <br>
-                        <div class="p-t-20">
-                            <button class="btn btn--radius btn--green" type="submit" id="submit">Submit</button>
                         </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
+                       
 
+                        <div class="d-flex flex-row align-items-center mb-4">
+                            <i class="fas fa-key fa-lg me-3 fa-fw"></i>
+                            <div class="form-outline flex-fill mb-0">
+                              <input type="text" id="slogan" name="slogan" class="form-control" />
+                              <label class="form-label" for="form3Example4cd">Slogan</label>
+                            </div>
+                        </div>
+
+                        <div class="d-flex flex-row align-items-center mb-1">
+                            <i class="fas fa-key fa-lg me-3 fa-fw"></i>
+                            <div class="form flex-fill mb-0">
+                                <input class="form-control" type="file" id="image" name="logo" onchange="previewImage()">
+                                <small style="color:grey; font-size:11px;" class="text-muted">Max 4mb</small>
+                            </div>
+                        </div>
+                        <div class="d-flex flex-row align-items-center mb-1">
+                            <i class="fas fa-ke fa-lg me-3 fa-fw"></i>
+                            <div class="form flex-fill mb-0">
+                                <img class="img-preview img-fluid my-3 col-sm-5" width="250" >
+                            </div>
+                        </div>
+      
+                        <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
+                          <button type="submit" class="btn btn-primary btn-lg">Daftar</button>
+                        </div>
+      
+                      </form>
+      
+                    </div>
+                    <div class="col-md-10 col-lg-6 col-xl-6 d-flex align-items-center order-1 order-lg-2">
+      
+                      <img src="assets/img/register.png"
+                        class="img-fluid" alt="Sample image">
+                    
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
     <!-- Jquery JS-->
     <script src="{{ asset('templates') }}/vendor/jquery/jquery.min.js"></script>
     <!-- Vendor JS-->
@@ -145,6 +182,8 @@
     <script src="{{ asset('templates') }}/vendor/datepicker/moment.min.js"></script>
     <script src="{{ asset('templates') }}/vendor/datepicker/daterangepicker.js"></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+   <!-- MDB -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.3.1/mdb.min.js"></script>
 
     <!-- Main JS-->
     <script src="{{ asset('templates') }}/js/global.js"></script>
@@ -162,7 +201,7 @@
             const pemilik = $('#pemilik').val()
             const telepon = $('#telepon').val()
             const rekening = $('#rekening').val()
-            const bank = $('#bank').val()
+            let bank = $('#bank').val()
             const other = $('#other').val()
             const slogan = $('#slogan').val()
 
@@ -219,9 +258,16 @@
                 $('#pemilik').val();
             }
 
-            if(bank == null || other == "") {
+            if(bank == null) {
                 Swal.fire('Kolom Bank Harus Diisi!')
                 return false;
+            } else if(bank == "Other") {
+                if(other == ""){
+                    Swal.fire('Kolom Bank Harus Diisi!')
+                    return false;
+                } else {
+                    $('#other').val()
+                }
             } else {
                 $('#bank').val();
             }
@@ -234,16 +280,16 @@
             }
         });
 
-        $('div.other').hide();
+        $('div#displayOther').hide();
         $(document).on('change', '#bank', function () {  
             var isiSelect = $("#bank").val();
 
             // console.log(isiSelect)
             if (isiSelect == 'Other') {
                 // console.log(isiSelect)
-                $('div.other').show();
+                $('div#displayOther').show();
             } else {
-                $('div.other').hide();
+                $('div#displayOther').hide();
             }
         });
 
@@ -347,7 +393,8 @@
         }
 
     </script>
-</body><!-- This templates was made by Colorlib (https://colorlib.com) -->
+</body>
+
 
 </html>
 <!-- end document-->

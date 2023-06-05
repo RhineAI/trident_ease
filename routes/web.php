@@ -52,7 +52,6 @@ use App\Http\Controllers\ListTransaksiPenjualanController;
 
 Route::middleware(['auth'])->group(function () {
         Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
-        // Route::patch('/manage-perusahaan/perbarui/{id}', [SuperAdminController::class, 'perbarui'])->name('manage.perbarui');
         Route::group(['prefix' => 'super_admin', 'middleware' => 'cek-hak-akses:super_admin', 'as' => 'super_admin.'], function () {
                 Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
@@ -67,6 +66,7 @@ Route::middleware(['auth'])->group(function () {
                 Route::post('/changePW', [UsersController::class, 'changePWUpdate']);
 
                 Route::resource('/manage-perusahaan', SuperAdminController::class);
+                Route::patch('/manage-perusahaan/perbarui/{id}', [SuperAdminController::class, 'perbarui'])->name('manage.perbarui');
                 Route::post('/manage-perusahaan/data', [SuperAdminController::class, 'table'])->name('manage.data');
                 Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 

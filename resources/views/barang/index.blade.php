@@ -86,6 +86,43 @@ Produk Utama
         cursor: pointer;
         width: 100%;
     }
+
+    @media screen and (min-width: 0px) and (max-width: 321px) {
+        #formImport {
+            width: 60%;
+            margin-left:-5%;
+        }
+
+        .modal-footer {
+            margin-left: -2%;
+        }
+    }
+
+    @media screen and (min-width: 322px) and (max-width: 376px) {
+        #formImport {
+            width: 70%;
+            margin-left:-5%;
+        }
+
+        .modal-footer {
+            margin-left: 5%;
+        }
+    }
+
+    @media screen and (min-width: 377px) and (max-width:426px) {
+        #formImport {
+            width: 81%;
+            margin-left:-5%;
+        }
+
+    }
+
+    @media screen and (min-width: 427px)  and (max-width: 1024px) {
+        #formImport {
+            width: 100%;
+            /* margin-left:-5%; */
+        }
+    }
 </style>
 
 <style>

@@ -14,7 +14,15 @@
 @endsection
 
 @push('styles')
+<style>
+    @media screen and (min-width: 481px) and (max-width:769px) {
 
+        .dataTables_filter input[type="search"] {
+            font-size: 10px; 
+            padding: 4px 8px;
+        }
+    }
+</style>
 @endpush
 
 @section('contents')
@@ -138,11 +146,11 @@
                     count++;
                     //alert(count);
                     var rowBarang="<tr id='buffer"+count+"'>";
-                    rowBarang+="<td style='text-align:center'><input type='hidden' name='item["+count+"][id_barang]' value='"+id_barang+"'> <input class='form-control' type='text' name='item["+count+"][kode]' value='"+kode_barang+"' readonly='true'></td>";
-                    rowBarang+="<td style='text-align:center'><input class='form-control' type='text' name='item["+count+"][nama_barang]' value='"+nama_barang+"' readonly='true'></td>";
-                    rowBarang+="<td style='text-align:center'><input class='form-control' type='text' name='item["+count+"][nama_kategori]' value='"+nama_kategori+"' readonly='true'></td>";
-                    rowBarang+="<td style='text-align:center'><input class='form-control' type='text' name='item["+count+"][nama_merek]' value='"+nama_merek+"' readonly='true'></td>";
-                    rowBarang+="<td style='text-align:center'><input class='form-control' type='hidden' name='item["+count+"][stock_awal]' value='"+stok_awal+"'><input class='form-control' type='number' name='item["+count+"][stock]'></td>";
+                    rowBarang+="<td style='text-align:center;'><input type='hidden' name='item["+count+"][id_barang]' value='"+id_barang+"'> <input class='form-control' type='text' name='item["+count+"][kode]' style='width: 130px;' value='"+kode_barang+"' readonly='true'></td>";
+                    rowBarang+="<td style='text-align:center;'><input  style='width: 200px;' class='form-control' type='text' name='item["+count+"][nama_barang]' value='"+nama_barang+"' readonly='true'></td>";
+                    rowBarang+="<td style='text-align:center;'><input  style='width: 130px;' class='form-control' type='text' name='item["+count+"][nama_kategori]' value='"+nama_kategori+"' readonly='true'></td>";
+                    rowBarang+="<td style='text-align:center;'><input  style='width: 130px;' class='form-control' type='text' name='item["+count+"][nama_merek]' value='"+nama_merek+"' readonly='true'></td>";
+                    rowBarang+="<td style='text-align:center;'><input class='form-control' type='hidden' name='item["+count+"][stock_awal]' value='"+stok_awal+"'><input  style='width: 130px;' class='form-control' type='number' name='item["+count+"][stock]'></td>";
                     rowBarang+="<td style='text-align:center;'><button type='button' class='btn btn-danger hapus_penjualan' data-idbuffer='"+count+"' ><i class='fa fa-trash'></i></button></td>";
                     rowBarang+="</tr>";
                     $('#t_penjualan').append(rowBarang);

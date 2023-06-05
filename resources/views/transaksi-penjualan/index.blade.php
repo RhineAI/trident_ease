@@ -259,16 +259,47 @@
 
     label { order: 1; }
     input { order: 2; }
+
+    @media screen and (min-width: 0px) and (max-width: 480px) {
+        .form-pelanggan {
+            width: 98%;
+            margin-left:-5%;
+        }
+
+        .dataTables_filter input[type="search"] {
+            /* font-size: 20px; */
+            /* padding: 4px 8px; */
+        }
+    }
+
+    @media screen and (min-width: 481px) and (max-width:769px) {
+        .form-pelanggan {
+            width: 98%;
+            margin-left:-5%;
+        }
+
+        .dataTables_filter input[type="search"] {
+            font-size: 10px; 
+            padding: 4px 8px;
+        }
+    }
+
+    @media screen and (min-width: 770px)  and (max-width: 1024px) {
+        .form-pelanggan {
+            width: 98%;
+            margin-left:-5%;
+        }
+    }
     
 </style>
 @endpush
 
 @section('contents')
   
-<section class="content" >
-    <div class="row mx-4" >
-        <div class="col-lg-12 rounded" style="background-color: white;">
-            <div class="box-body">
+<section class="content rounded col-lg-12" style="background-color: white;">
+    {{-- <div class="row mx-4" >
+        <div class="col-lg-12 rounded">
+            <div class="box-body"> --}}
 
                 @if (Auth::user()->hak_akses == 'admin')
                     <form class="form-pelanggan mt-3" method="post" id="form-transaksi" action="">
@@ -276,9 +307,9 @@
                     <form class="form-pelanggan mt-3" method="post" id="form-transaksi" action="{{ route('kasir.transaksi-penjualan.store') }}">
                 @endif
                     @csrf
-                <div class="container h-100 py-3">
+                {{-- <div class="container h-100 py-3">
                     <div class="row d-flex justify-content-center align-items-center h-100">
-                        <div class="col">
+                        <div class="col"> --}}
                             <div class="card shopping-cart" style="border-radius: 15px;">
                                 <div class="card-body text-black">
 
@@ -412,13 +443,13 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        {{-- </div>
                     </div>
-                </div>
-            </div>
-        </div>  
-    </div>
-</form>
+                </div> --}}
+            </form>
+        {{-- </div>
+    </div>  
+</div> --}}
 
 @include('transaksi-penjualan.formBarang')
 @include('transaksi-penjualan.formPelanggan')

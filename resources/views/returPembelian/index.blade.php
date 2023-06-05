@@ -15,6 +15,38 @@
 @endsection
 
 @push('styles')
+<style>
+    @media screen and (min-width: 0px) and (max-width: 480px) {
+        .form-supplier {
+            width: 98%;
+            margin-left:-5%;
+        }
+
+        .dataTables_filter input[type="search"] {
+            /* font-size: 20px; */
+            /* padding: 4px 8px; */
+        }
+    }
+
+    @media screen and (min-width: 481px) and (max-width:769px) {
+        .form-supplier {
+            width: 98%;
+            margin-left:-5%;
+        }
+
+        .dataTables_filter input[type="search"] {
+            font-size: 10px; 
+            padding: 4px 8px;
+        }
+    }
+
+    @media screen and (min-width: 770px)  and (max-width: 1024px) {
+        .form-supplier {
+            width: 98%;
+            margin-left:-5%;
+        }
+    }
+</style>
 @endpush
 
 @section('contents')

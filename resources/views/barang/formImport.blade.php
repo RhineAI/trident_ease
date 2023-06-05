@@ -9,7 +9,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-                <form action="{{ route('admin.postImport') }}" method="post" enctype="multipart/form-data">
+                <form id="formImport" action="{{ route('admin.postImport') }}" method="post" enctype="multipart/form-data">
                     @csrf
                     <!-- HTML !-->
                     <div class="modal-body">

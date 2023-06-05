@@ -140,7 +140,7 @@
     }
 
     .shopping-cart .def-number-input.number-input input[type=number] {
-        max-width: 4rem;
+        max-width: 4.5rem;
         border: none;
     }
 
@@ -256,6 +256,37 @@
         border-top: 4px solid #7ab893;
     }
 
+    @media screen and (min-width: 0px) and (max-width: 480px) {
+        .form-supplier {
+            width: 98%;
+            margin-left:-5%;
+        }
+
+        .dataTables_filter input[type="search"] {
+            /* font-size: 20px; */
+            /* padding: 4px 8px; */
+        }
+    }
+
+    @media screen and (min-width: 481px) and (max-width:769px) {
+        .form-supplier {
+            width: 98%;
+            margin-left:-5%;
+        }
+
+        .dataTables_filter input[type="search"] {
+            font-size: 10px; 
+            padding: 4px 8px;
+        }
+    }
+
+    @media screen and (min-width: 770px)  and (max-width: 1024px) {
+        .form-supplier {
+            width: 98%;
+            margin-left:-5%;
+        }
+    }
+
     label { order: 1; }
     input { order: 2; }
 </style>
@@ -264,16 +295,16 @@
 @section('contents')
 
     <!-- Main content -->
-<section class="content" >
-    <div class="row mx-4" >
-        <div class="col-lg-12 rounded" style="background-color: white;">
-            <div class="box-body">
+<section class="content col-lg-12" >
+    {{-- <div class="row mx-1" > --}}
+        {{-- <div class="col-lg-12 rounded" style="background-color: white;"> --}}
+            {{-- <div class="box-body"> --}}
 
                 <form class="form-supplier mt-3" method="post" id="form-transaksi">
                     @csrf
-                    <div class="container h-100 py-3">
-                        <div class="row d-flex justify-content-center align-items-center h-100">
-                            <div class="col">
+                    {{-- <div class="container h-150 py-1"> --}}
+                        {{-- <div class="row d-flex justify-content-center align-items-center h-100"> --}}
+                            {{-- <div class="col-lg-12"> --}}
                                 <div class="card shopping-cart" style="border-radius: 15px;">
                                     <div class="card-body text-black">
 
@@ -281,7 +312,7 @@
                                             <div class="col-lg-8 px-2 py-2">
                                                 {{-- <h3 class="mb-5 pt-2 text-center fw-bold text-uppercase">Your products</h3> --}}
                                                 <div class="d-flex align-items-center mb-2">
-                                                    <div class="table-responsive">
+                                                    <div class="table-responsive dt-responsive">
                                                         <table class="table" id="t_pembelian">
                                                             <thead>
                                                                 <tr>
@@ -407,13 +438,13 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </form>
+                            {{-- </div> --}}
+                        {{-- </div> --}}
+                    {{-- </div> --}}
+                </form> 
+            {{-- </div> --}}
+        {{-- </div> --}}
+    {{-- </div> --}}
 @include('transaksi-pembelian.formBarang')
 @include('transaksi-pembelian.formSupplier')
 </section>
@@ -922,7 +953,7 @@
                 rowBarang+="<input type='hidden' name='item["+count+"][id_barang]' value='"+id_barang+"' id='id_barang'>"
                 rowBarang+="<h5 style='font-size:18.5px;' class='mb-0'><a class='text-dark d-inline-block align-middle'>"+nama_barang+"</a><input type='hidden' name='item["+count+"][nama_barang]' value='"+nama_barang+"' type='number'></h5>";
                 rowBarang+="<div class='def-number-input number-input safari_only'>";
-                rowBarang+="<h6 style='font-size:16px;'><input class='balloon mb-2 text-left align-left harga_beli' autocomplete='off' type='text' id='harga_beli"+count+"' name='item["+count+"][harga_beli]' placeholder='0' data-idbuffer='"+count+"'></h6>"
+                rowBarang+="<h6 style='font-size:16px;'><input class='balloon mb-2 text-left align-left harga_beli' autocomplete='off' type='text' id='harga_beli"+count+"' name='item["+count+"][harga_beli]' placeholder='Rp. 0' data-idbuffer='"+count+"'></h6>"
                 rowBarang+="<button data-idbuffer='"+count+"' id='minus' type='button' onclick='this.parentNode.querySelector";
                 rowBarang+='("input[type=number]")';
                 rowBarang+=".stepDown()' class='minus'></button>";
