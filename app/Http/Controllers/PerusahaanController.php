@@ -7,6 +7,7 @@ use App\Http\Requests\StorePerusahaanRequest;
 use App\Http\Requests\UpdatePerusahaanRequest;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class PerusahaanController extends Controller
 {
@@ -51,109 +52,116 @@ class PerusahaanController extends Controller
 
     public function store(StorePerusahaanRequest $request)
     {
-        // return $request;
-        $perusahaan = Perusahaan::select('*')->where('id', auth()->user()->id_perusahaan)->first();
+        DB::beginTransaction();
+        try{
+            $perusahaan = Perusahaan::select('*')->where('id', auth()->user()->id_perusahaan)->first();
 
-        if($request->nama){
-            $request->validate([
-                'nama' => 'string',
-            ]);
-            $perusahaan->nama = $request->nama;
-        } else {
-            $perusahaan->nama = $perusahaan->nama;
+            if($request->nama){
+                $request->validate([
+                    'nama' => 'string',
+                ]);
+                $perusahaan->nama = $request->nama;
+            } else {
+                $perusahaan->nama = $perusahaan->nama;
+            }
+
+            if($request->alamat){
+                $request->validate([
+                    'alamat' => 'string',
+                ]);
+                $perusahaan->alamat = $request->alamat;
+            } else {
+                $perusahaan->alamat = $perusahaan->alamat;
+            }
+
+            if($request->tlp){
+                $request->validate([
+                    'tlp' => 'string',
+                ]);
+                $perusahaan->tlp = $request->tlp;
+            } else {
+                $perusahaan->tlp = $perusahaan->tlp;
+            }
+
+            if($request->pemilik){
+                $request->validate([
+                    'pemilik' => 'string',
+                ]);
+                $perusahaan->pemilik = $request->pemilik;
+            } else {
+                $perusahaan->pemilik = $perusahaan->pemilik;
+            }
+
+            if($request->bank){
+                $request->validate([
+                    'bank' => 'string',
+                ]);
+                $perusahaan->bank = $request->bank;
+            } else {
+                $perusahaan->bank = $perusahaan->bank;
+            }
+
+            if($request->no_rekening){
+                $request->validate([
+                    'no_rekening' => 'string',
+                ]);
+                $perusahaan->no_rekening = $request->no_rekening;
+            } else {
+                $perusahaan->no_rekening = $perusahaan->no_rekening;
+            }
+
+            if($request->npwp){
+                $request->validate([
+                    'npwp' => 'string',
+                ]);
+                $perusahaan->npwp = $request->npwp;
+            } else {
+                $perusahaan->npwp = $perusahaan->npwp;
+            }
+
+            if($request->slogan){
+                $request->validate([
+                    'slogan' => 'string',
+                ]);
+                $perusahaan->slogan = $request->slogan;
+            } else {
+                $perusahaan->slogan = $perusahaan->slogan;
+            }
+
+            if($request->email){
+                $request->validate([
+                    'email' => 'string|email',
+                ]);
+                $perusahaan->email = $request->email;
+            } else {
+                $perusahaan->email = $perusahaan->email;
+            }
+
+            if($request->logo){
+                $request->validate([
+                    'image' => 'image|mimes:jpg,png,jpeg,gif,svg',
+                ]);
+
+                $getMime = $request->file('logo')->getMimeType(); 
+                $explodedMime = explode('/' ,$getMime);
+                $mime = end($explodedMime);
+                $name = Str::random(25) . '.' . $mime;
+                $request->logo->move('assets/img', $name);
+
+                $perusahaan->logo = ('/assets/img/' . $name);
+            } else {
+                $perusahaan->logo = $perusahaan->logo;
+            }
+            $perusahaan->save();
+
+            // return redirect('/perusahaan')->with('success', 'Ubah Data Perusahan berhasil!');
+            DB::commit();
+            return redirect()->back()->with(['success' => 'Update data Perusahaan berhasil!']);
+        }catch(\Exception $error){
+            DB::rollBack();
+            return redirect()->back()->with(['error' => 'Update data Perusahaan gagal!']);
         }
-
-        if($request->alamat){
-            $request->validate([
-                'alamat' => 'string',
-            ]);
-            $perusahaan->alamat = $request->alamat;
-        } else {
-            $perusahaan->alamat = $perusahaan->alamat;
-        }
-
-        if($request->tlp){
-            $request->validate([
-                'tlp' => 'string',
-            ]);
-            $perusahaan->tlp = $request->tlp;
-        } else {
-            $perusahaan->tlp = $perusahaan->tlp;
-        }
-
-        if($request->pemilik){
-            $request->validate([
-                'pemilik' => 'string',
-            ]);
-            $perusahaan->pemilik = $request->pemilik;
-        } else {
-            $perusahaan->pemilik = $perusahaan->pemilik;
-        }
-
-        if($request->bank){
-            $request->validate([
-                'bank' => 'string',
-            ]);
-            $perusahaan->bank = $request->bank;
-        } else {
-            $perusahaan->bank = $perusahaan->bank;
-        }
-
-        if($request->no_rekening){
-            $request->validate([
-                'no_rekening' => 'string',
-            ]);
-            $perusahaan->no_rekening = $request->no_rekening;
-        } else {
-            $perusahaan->no_rekening = $perusahaan->no_rekening;
-        }
-
-        if($request->npwp){
-            $request->validate([
-                'npwp' => 'string',
-            ]);
-            $perusahaan->npwp = $request->npwp;
-        } else {
-            $perusahaan->npwp = $perusahaan->npwp;
-        }
-
-        if($request->slogan){
-            $request->validate([
-                'slogan' => 'string',
-            ]);
-            $perusahaan->slogan = $request->slogan;
-        } else {
-            $perusahaan->slogan = $perusahaan->slogan;
-        }
-
-        if($request->email){
-            $request->validate([
-                'email' => 'string|email',
-            ]);
-            $perusahaan->email = $request->email;
-        } else {
-            $perusahaan->email = $perusahaan->email;
-        }
-
-        if($request->logo){
-            $request->validate([
-                'image' => 'image|mimes:jpg,png,jpeg,gif,svg',
-            ]);
-
-            $getMime = $request->file('logo')->getMimeType(); 
-            $explodedMime = explode('/' ,$getMime);
-            $mime = end($explodedMime);
-            $name = Str::random(25) . '.' . $mime;
-            $request->logo->move('assets/img', $name);
-
-            $perusahaan->logo = ('/assets/img/' . $name);
-        } else {
-            $perusahaan->logo = $perusahaan->logo;
-        }
-        $perusahaan->save();
-
-        // return redirect('/perusahaan')->with('success', 'Ubah Data Perusahan berhasil!');
-        return redirect()->bacK()->with(['success' => 'Update data Perusahaan berhasil!']);
+        
     }
 
     /**
