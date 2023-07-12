@@ -500,9 +500,9 @@ Laporan Harian
         columns: [
             {data:'DT_RowIndex', searchable: false, sortable: false},
             {data:'tgl'},
-            {data:'jumlah'},
             {data:'keterangan'},
             {data:'oleh'},
+            {data:'jumlah'},
         ]
     });
 
@@ -532,9 +532,9 @@ Laporan Harian
         columns: [
             {data:'DT_RowIndex', searchable: false, sortable: false},
             {data:'tgl'},
-            {data:'jumlah'},
             {data:'keperluan'},
             {data:'oleh'},
+            {data:'jumlah'},
         ]
     });
 

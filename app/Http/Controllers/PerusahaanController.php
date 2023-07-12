@@ -161,7 +161,6 @@ class PerusahaanController extends Controller
             DB::rollBack();
             return redirect()->back()->with(['error' => 'Update data Perusahaan gagal!']);
         }
-        
     }
 
     /**

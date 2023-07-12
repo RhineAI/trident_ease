@@ -8,6 +8,16 @@
     </a>
 </li>
 
+{{-- Stock Opname --}}
+<li class="nav-item">
+    <a href="{{ route('owner.stockOpname') }}" class="nav-link">
+        <i class="nav-icon fas fa-solid fa-gear"></i>
+        <p>
+            Stock Opname
+        </p>
+    </a>
+</li>
+
 {{-- LAPORAN --}}
 <li class="nav-item">
     <a href="#" class="nav-link">
@@ -18,11 +28,6 @@
         </p>
     </a>
     <ul class="nav nav-treeview ml-4 ml-4">
-        <li class="nav-item">
-            <a href="{{ route('owner.stockOpname') }}" class="nav-link">
-                <p class="smol">Stock Opname</p>
-            </a>
-        </li>
         <li class="nav-item">
             <a href="{{ route('owner.laporan-harian.index') }}" class="nav-link">
                 <p class="smol">Laporan Harian</p>
