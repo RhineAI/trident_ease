@@ -272,7 +272,7 @@ class BarangController extends Controller
             DB::commit();
             if($perusahaan->grade == 1) {
                 // pengecekan level akses perusahaan 
-                if($limit < 10 ) {
+                if($limit < 5 ) {
                 // cek jumlah input barang perusahaan yang login jika kurang dari 10 lakukan simpan ke database
                     $barang->save();
                     if ($barang->keterangan == 'utama' or $barang->keterangan == 'Utama') {
@@ -282,7 +282,7 @@ class BarangController extends Controller
                     }
                 } else {
                 // jika sudah melebihi 10 makan return false
-                    return view('dashboard')->with(['error' => 'Sudah mencapai limit barang, Naikan levelmu terlebih dahulu!']);
+                    return redirect()->route('admin.dashboard')->with(['error' => 'Sudah mencapai limit barang, Naikan levelmu terlebih dahulu!']);
                 }
             } elseif($perusahaan->grade == 2) {
                 if($limit < 50 ) {
@@ -295,7 +295,7 @@ class BarangController extends Controller
                     }
                 }else {
                 // jika sudah melebihi 50 makan return false
-                    return view('dashboard')->with(['error' => 'Sudah mencapai limit barang, Naikan levelmu terlebih dahulu!']);
+                    return redirect()->route('admin.dashboard')->with(['error' => 'Sudah mencapai limit barang, Naikan levelmu terlebih dahulu!']);
                 }
             } elseif($perusahaan->grade == 3) {
                 if($limit < 10000 ) {
@@ -308,7 +308,7 @@ class BarangController extends Controller
                     }                    
                 }else {
                 // jika sudah melebihi 10000 makan return false
-                    return view('dashboard')->with(['error' => 'Sudah mencapai limit barang, Naikan levelmu terlebih dahulu!']);
+                    return redirect()->route('admin.dashboard')->with(['error' => 'Sudah mencapai limit barang, Naikan levelmu terlebih dahulu!']);
                 }
             } else{
                 // cek jika ada level perusahaan berbeda dengan ketentuan

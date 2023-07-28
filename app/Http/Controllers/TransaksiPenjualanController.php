@@ -178,19 +178,19 @@ class TransaksiPenjualanController extends Controller
                         if($limit < 5 ) {
                             $penjualanBaru->save();
                         }else {
-                            return view('dashboard')->with(['error' => 'Sudah mencapai limit barang, Naikan levelmu terlebih dahulu!']);
+                            return redirect()->route('admin.dashboard')->with(['error' => 'Sudah mencapai limit barang, Naikan levelmu terlebih dahulu!']);
                         }
                     } elseif($perusahaan->grade == 2) {
                         // Mengecek apabila transaksi dari perusahaan tersebut sudah melebihi 50
                         if($limit < 50 ) {
                             $penjualanBaru->save();
                         }else {
-                            return view('dashboard')->with(['error' => 'Sudah mencapai limit barang, Naikan levelmu terlebih dahulu!']);
+                            return redirect()->route('admin.dashboard')->with(['error' => 'Sudah mencapai limit barang, Naikan levelmu terlebih dahulu!']);
                         }
                     } elseif($perusahaan->grade == 3) {
                         $penjualanBaru->save();
                     } else{
-                        return view('dashboard')->with(['error' => 'Laku kah?']);
+                        return redirect()->route('admin.dashboard')->with(['error' => 'Laku kah?']);
                     }
                     // Mendeklarasikan variabel baru yang nantinya diisi oleh pembuatan objek baru
                     $detPenjualanBaru = new DetailPenjualan(); 

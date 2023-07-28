@@ -116,21 +116,21 @@ class DashboardController extends Controller
 
         $penjualan = TransaksiPenjualan::where('id_perusahaan', auth()->user()->id_perusahaan)->where('tgl', date('Y-m-d'))->count();
         // return $penjualan;
-        if($data['check']->grade == 1) {
+        if($data['check']->grade == 3) {
             $data['penjualanHarian'] = $penjualan * 20;
         } elseif($data['check']->grade == 2) {
             $data['penjualanHarian'] = $penjualan * 2;
-        } elseif($data['check']->grade == 3) {
+        } elseif($data['check']->grade == 1) {
             $data['penjualanHarian'] = $penjualan ;
         }
 
         $barang = Barang::where('id_perusahaan', auth()->user()->id_perusahaan)->whereDate('created_at', $now)->count();
         // return $barang;
-        if($data['check']->grade == 1) {
+        if($data['check']->grade == 3) {
             $data['barangHarian'] = $barang * 20;
         } elseif($data['check']->grade == 2) {
             $data['barangHarian'] = $barang * 2;
-        } elseif($data['check']->grade == 3) {
+        } elseif($data['check']->grade == 1) {
             $data['barangHarian'] = $barang ;
         }
         
