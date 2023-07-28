@@ -28,6 +28,7 @@ class DashboardController extends Controller
         $data['pegawai'] = User::count();
         $data['check'] = Perusahaan::where('id', auth()->user()->id_perusahaan)->first();
         $data['cardBarang'] = Barang::where('id_perusahaan', auth()->user()->id_perusahaan)->count();
+        $data['informasi_penambahan'] = Barang::where('id_perusahaan', auth()->user()->id_perusahaan)->whereDate('created_at', date('Y-m-d', strtotime('-1 day')))->count();
         $data['cardPenjualan'] = TransaksiPenjualan::where('id_perusahaan', auth()->user()->id_perusahaan)->count();
 
         // return $limit;

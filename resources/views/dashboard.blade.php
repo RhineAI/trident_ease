@@ -38,16 +38,16 @@
                             <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800 count" id="count" data-val="{{ $cardBarang }}">{{ $cardBarang }}</div>
                             <div class="mt-2 mb-0 text-muted text-xs">
                                 @if($todaybarang >= $cekupordownbarang) 
-                                    <span class="text-success mr-2"><i class="fas fa-arrow-up"></i>{{ $percentage_barang }}%</span>
-                                    <span>Since last Added </span>
+                                    <span class="text-success mr-2"><i class="fas fa-arrow-up"></i>+{{ $informasi_penambahan }}</span>
+                                    <span>Dibanding Kemarin </span>
                                         {{-- (+{{ $totalBarangYesterday }}) --}}
                                 @elseif($todaybarang <= $cekupordownbarang)
-                                    <span class="text-danger mr-2"><i class="fas fa-arrow-down"></i>{{ $percentage_barang }}%</span>
-                                    <span>Since last Added </span>
+                                    <span class="text-danger mr-2"><i class="fas fa-arrow-down"></i>-{{ $informasi_penambahan }}</span>
+                                    <span>Dibanding Kemarin </span>
                                     {{-- (-{{ $cekupordownbarang - $totalBarangYesterday }}) --}}
                                 @else
-                                    <span class="text-success mr-2"><i class="fas fa-arrow-up"></i>{{ $percentage_barang }}%</span>
-                                    <span>Since last Added</span>
+                                    <span class="text-success mr-2"><i class="fas fa-arrow-up"></i>+{{ $informasi_penambahan }}</span>
+                                    <span>Dibanding Kemarin</span>
                                     {{-- (+{{ $totalBarangYesterday }}) --}}
                                 @endif
                             </div>
@@ -70,13 +70,13 @@
                             <div class="mt-2 mb-0 text-muted text-xs">
                                 @if($upordownpenghasilan >= $cekupordownpenghasilan) 
                                     <span class="text-success mr-2"><i class="fas fa-arrow-up"></i>{{ $percentage_penghasilan }}%</span>
-                                    <span>Since last Month</span>
+                                    <span>Dibanding Bulan Lalu</span>
                                 @elseif($upordownpenghasilan <= $cekupordownpenghasilan)
                                     <span class="text-danger mr-2"><i class="fas fa-arrow-down"></i>{{ $percentage_penghasilan }}%</span>
-                                    <span>Since last Month</span>
+                                    <span>Dibanding Bulan Lalu</span>
                                 @else
                                     <span class="text-success mr-2"><i class="fas fa-arrow-up"></i>{{ $percentage_penghasilan }}%</span>
-                                    <span>Since last Month</span>
+                                    <span>Dibanding Bulan Lalu</span>
                                 @endif
                             </div>
                         </div>
@@ -98,15 +98,15 @@
                             <div class="mt-2 mb-0 text-muted text-xs">
                                 @if($upordowntransaksi >= $cekupordowntransaksi) 
                                     <span class="text-success mr-2"><i class="fas fa-arrow-up" ></i>{{ $percentage_transaksi }}%</span>
-                                    <span>Since last transaction</span>
+                                    <span>Dibanding Transaksi Kemarin</span>
                                      {{-- (+{{ $totalTransaksiYesterday }}) --}}
                                 @elseif($upordowntransaksi <= $cekupordowntransaksi)
                                     <span class="text-danger mr-2"><i class="fas fa-arrow-down"></i>{{ $percentage_transaksi }}%</span>
-                                    <span>Since last transaction </span>
+                                    <span>Dibanding Transaksi Kemarin </span>
                                     {{-- (-{{ $cekupordowntransaksi - $totalTransaksiYesterday }}) --}}
                                 @else
                                     <span class="text-success mr-2"><i class="fas fa-arrow-up"></i>{{ $percentage_transaksi }}%</span>
-                                    <span>Since last transaction</span>
+                                    <span>Dibanding Transaksi Kemarin</span>
                                      {{-- (+{{ $totalTransaksiYesterday }}) --}}
                                 @endif
                             </div>
@@ -129,13 +129,13 @@
                             <div class="mt-2 mb-0 text-muted text-xs">
                                 @if($upordownkasmasuk >= $cekupordownkasmasuk) 
                                     <span class="text-success mr-2"><i class="fas fa-arrow-up"></i>{{ $percentage_kas_masuk }}%</span>
-                                    <span>Since last Month</span>
+                                    <span>Dibanding Bulan Kemarin</span>
                                 @elseif($upordownkasmasuk <= $cekupordownkasmasuk)
                                     <span class="text-danger mr-2"><i class="fas fa-arrow-down"></i>{{ $percentage_kas_masuk }}%</span>
-                                    <span>Since last Month</span>
+                                    <span>Dibanding Bulan Kemarin</span>
                                 @else
                                     <span class="text-success mr-2"><i class="fas fa-arrow-up"></i>{{ $percentage_kas_masuk }}%</span>
-                                    <span>Since last Month</span>
+                                    <span>Dibanding Bulan Kemarin</span>
                                 @endif
                             </div>
                         </div>
