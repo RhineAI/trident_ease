@@ -93,7 +93,7 @@
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-uppercase mb-1">Penjualan</div>
+                            <div class="text-xs font-weight-bold text-uppercase mb-1">Penjualan (Hari Ini)</div>
                             <div class="h5 mb-0 font-weight-bold text-gray-800 count" id="count" data-val="{{ $cardPenjualan }}">0</div>
                             <div class="mt-2 mb-0 text-muted text-xs">
                                 @if($upordowntransaksi >= $cekupordowntransaksi) 

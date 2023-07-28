@@ -27,8 +27,8 @@ class DashboardController extends Controller
         $data['kas'] = KasMasuk::whereMonth('created_at', $month)->whereYear('created_at', $year)->where('id_perusahaan', auth()->user()->id_perusahaan)->sum('jumlah');
         $data['pegawai'] = User::count();
         $data['check'] = Perusahaan::where('id', auth()->user()->id_perusahaan)->first();
-        $data['cardBarang'] = Barang::whereDate('created_at', date('Y-m-d'))->where('id_perusahaan', auth()->user()->id_perusahaan)->count();
-        $data['cardPenjualan'] = TransaksiPenjualan::whereDate('created_at', date('Y-m-d'))->where('id_perusahaan', auth()->user()->id_perusahaan)->count();
+        $data['cardBarang'] = Barang::count();
+        $data['cardPenjualan'] = TransaksiPenjualan::count();
 
         // return $limit;
 

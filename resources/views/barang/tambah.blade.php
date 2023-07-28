@@ -119,7 +119,7 @@
                         <label for="harga_beli">Harga Beli Barang</label>
                         <div class="input-group-prepend input-primary"> 
                             <span class="input-group-text">RP.</span> 
-                            <input type="number" class="form-control" id="harga_beli" placeholder="Harga Beli Barang" name="harga_beli">
+                            <input type="text" class="form-control" id="harga_beli" placeholder="Harga Beli Barang" name="harga_beli">
                         </div>
                     </div>
                 </div>
