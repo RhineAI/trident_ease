@@ -39,7 +39,7 @@ class KasMasukController extends Controller
 
     public function data()
     {
-        $kasMasuk = KasMasuk::leftJoin('t_users AS U', 'U.id', 't_kas_masuk.id_user')
+        $kasMasuk = KasMasuk::where('id_perusahaan', auth()->user()->id_perusahaan)->leftJoin('t_users AS U', 'U.id', 't_kas_masuk.id_user')
                             ->select('t_kas_masuk.*', 'U.nama AS nama_user')
                             ->orderBy('id', 'DESC')->get();
 

@@ -54,7 +54,8 @@ class KasKeluarController extends Controller
 
     public function data()
     {
-        $kasKeluar = KasKeluar::leftJoin('t_users AS U', 'U.id', 't_kas_keluar.id_user')
+        $kasKeluar = KasKeluar::where('id_perusahaan', auth()->user()->id_perusahaan)
+                            ->leftJoin('t_users AS U', 'U.id', 't_kas_keluar.id_user')
                             ->select('t_kas_keluar.*', 'U.nama AS nama_user')
                             ->orderBy('id', 'DESC')->get();
         $sisaKas = KasMasuk::where('id_perusahaan', auth()->user()->id_perusahaan);
