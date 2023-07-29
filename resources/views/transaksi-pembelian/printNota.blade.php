@@ -88,7 +88,7 @@
     </div>
     <br> <br>
     <div>
-        <p>{{ date('d-m-Y') }}</p>
+        <p>Tgl Transaksi{{ $cPembelian->tgl }}</p>
         <p>No Faktur : {{ $cPembelian->id_transaksi }}</p>
     </div>
     <p>Petugas : {{ strtoupper(auth()->user()->nama) }}</p>

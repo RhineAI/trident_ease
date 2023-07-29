@@ -79,7 +79,7 @@
     </div>
     <br>
     <div>
-        <p>{{ $cPiutang->tgl_bayar }}</p>
+        <p>Tgl Bayar : {{ $cPiutang->tgl_bayar }}</p>
         <p>No Faktur: {{$cPiutang->no_faktur}}</p>
     </div>
     <div class="clear-both" style="clear: both;"></div>
