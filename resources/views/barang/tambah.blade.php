@@ -320,6 +320,10 @@
         return prefix == undefined ? rupiah : (rupiah ? '' + rupiah : '');
         }
 
+        function roundToThousands(value) {
+    	    return Math.ceil(value / 1000) * 1000;
+	    }
+
         function generateRupiah(elemValue) {
             return $(elemValue).val(formatRupiah($(elemValue).val(), 'Rp. '))
         }
@@ -338,7 +342,7 @@
                 } else if(keuntungan > 0){
                     hj = parseFloat(hb) + parseFloat(hb) * keuntungan/100;
                 }
-                $("#harga_jual").val(hj)
+                $("#harga_jual").val(roundToThousands(hj))
         });
 
         $(document).on('keyup', '#keuntungan', function (e) {
@@ -352,7 +356,7 @@
                 } else if(hb > 0){
                     hj = parseFloat(hb) + parseFloat(hb) * keuntungan/100;
                 }
-                $("#harga_jual").val(hj)
+                $("#harga_jual").val(roundToThousands(hj))
         });
     </script>
 @endpush
