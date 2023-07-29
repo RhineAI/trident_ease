@@ -258,6 +258,10 @@ Produk Utama
         scrollX: true,
     });
 
+    function roundToThousands(value) {
+        return Math.ceil(value / 1000) * 1000;
+    }
+
     $('#formBarang').on('submit', function(){
         const product_name = $('#product_name').val()
         const barcode = $('#barcode').val()
@@ -379,7 +383,7 @@ Produk Utama
             } else if(keuntungan > 0){
                 hj = parseFloat(hb) + parseFloat(hb) * keuntungan/100;
             }
-            $("#harga_jual").val(hj)
+            $("#harga_jual").val(roundToThousands(hj))
     });
 
     $(document).on('keyup', '#keuntungan', function (e) {
@@ -393,7 +397,7 @@ Produk Utama
             } else if(hb > 0){
                 hj = parseFloat(hb) + parseFloat(hb) * keuntungan/100;
             }
-            $("#harga_jual").val(hj)
+            $("#harga_jual").val(roundToThousands(hj))
     });
 
 
