@@ -187,7 +187,7 @@
         transition: all .3s ease-in-out;
     }
 
-    /*Wide Version - can be applied to more elements*/
+    /Wide Version - can be applied to more elements/
     .balloon.wide {
         text-indent: 200px;
     }
@@ -232,7 +232,7 @@
     .balloon:focus,
     .balloon:active {
         color: #377D6A;
-        /*Note !important*/
+        /Note !important/
         text-indent: 0 !important;
         background: #fff;
     }
@@ -376,6 +376,12 @@
                                                         <div class="input-group mb-2">
                                                             <input type="text" style="border-radius: 13px;" name="tlp" id="tlp" class="form-control" required readonly>
                                                         </div>
+
+							<br>
+							<h6>Tanggal Transaksi</h6>
+                                                    	<div class="input-group mb-2">
+                                                        	<input type="date" style="border-radius: 0 13px 13px 0;" name="tgl_transaksi" required id="tgl_transaksi" value="{{ date('Y-m-d') }}" class="form-control" required>
+                                                    	</div>
                                                     </div>
                                                 </div>
 

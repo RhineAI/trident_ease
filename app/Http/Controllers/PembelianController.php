@@ -72,12 +72,14 @@ class PembelianController extends Controller
         $dd=$pieces[2]; 
         $tgl=$yy.$mm.$dd;
         
-        $result= Pembelian::select(DB::raw('max(id)+1 AS nextid'))->orderBy('id', 'DESC')->where('t_transaksi_pembelian.id_perusahaan', auth()->user()->id_perusahaan)->first();
+        $result= Pembelian::where('tgl', $tgl)->select(DB::raw('max(id)+1 AS nextid'))->orderBy('id', 'DESC')->where('t_transaksi_pembelian.id_perusahaan', auth()->user()->id_perusahaan)->first();
+        dd($result);
+
         // dd($result);
         if($tgl==substr($result->nextid,0,8)){
             $nextid=$result->nextid;        
         } else{
-            $nextid=$tgl.'001';
+            $nextid=$tgl.auth()->user()->id_perusahaan.'001';
         }
         return $nextid;
     }
@@ -132,10 +134,11 @@ class PembelianController extends Controller
         DB::beginTransaction();
         try {
             $pembelianBaru = new Pembelian();
-            $id = $this->NextId(date('Y-m-d'));
+            $id = $this->NextId($request->tgl_transaksi);
             
             $pembelianBaru->id = $id;
-            $pembelianBaru->tgl = date('Y-m-d');
+            // $pembelianBaru->tgl = date('Y-m-d');
+	        $pembelianBaru->tgl = $request->tgl_transaksi;
             $pembelianBaru->id_supplier = $request->id_supplier;
             $pembelianBaru->total_pembelian = $this->checkPrice($request->total_harga);
             $pembelianBaru->jenis_pembayaran = $request->jenis_pembayaran;
@@ -163,7 +166,8 @@ class PembelianController extends Controller
                 // dd($barang['discount']); die;
                 $detPembelianBaru = new DetailPembelian(); 
                 $detPembelianBaru->id_pembelian = $pembelianBaru->id;
-                $detPembelianBaru->tgl = date('Y-m-d');
+                // $detPembelianBaru->tgl = date('Y-m-d');
+	    	    $detPembelianBaru->tgl = $request->tgl_transaksi;
                 $detPembelianBaru->id_barang = $barang['id_barang'];
                 $detPembelianBaru->harga_beli = $this->checkPrice($barang['harga_beli']);
                 $detPembelianBaru->qty = $barang['qty'];
@@ -190,33 +194,37 @@ class PembelianController extends Controller
             if($request->jenis_pembayaran == 2){
                 $pembayaranBaru = new Hutang();
                 $pembayaranBaru->id_pembelian = $id;
-                $pembayaranBaru->tgl = date('Y-m-d');
+                // $pembayaranBaru->tgl = date('Y-m-d');
+	    	    $pembayaranBaru->tgl = $request->tgl_transaksi;
                 $pembayaranBaru->total_bayar = $this->checkPrice($request->dp);
                 $pembayaranBaru->id_user = auth()->user()->id;
                 $pembayaranBaru->id_perusahaan = auth()->user()->id_perusahaan;
                 $pembayaranBaru->save();
                 // dd($pembelianBaru->id); die;
 
-                $kasMasuk = new KasKeluar();
-                $kasMasuk->tgl = now();
-                $kasMasuk->jumlah = $this->checkPrice($request->dp);
-                $kasMasuk->id_user = auth()->user()->id;
-                $kasMasuk->id_perusahaan = auth()->user()->id_perusahaan;
-                $kasMasuk->keperluan = 'DP Transaksi Pembelian Produk';
-                $kasMasuk->save();
+                $kasKeluar = new KasKeluar();
+                // $kasKeluar->tgl = now();
+	    	    $kasKeluar->tgl = $request->tgl_transaksi;
+                $kasKeluar->jumlah = $this->checkPrice($request->dp);
+                $kasKeluar->id_user = auth()->user()->id;
+                $kasKeluar->id_perusahaan = auth()->user()->id_perusahaan;
+                $kasKeluar->keperluan = 'DP Transaksi Pembelian Produk';
+                $kasKeluar->save();
             } else {
-                $kasMasuk = new KasKeluar();
-                $kasMasuk->tgl = now();
-                $kasMasuk->jumlah = $this->checkPrice($request->total_harga);
-                $kasMasuk->id_user = auth()->user()->id;
-                $kasMasuk->id_perusahaan = auth()->user()->id_perusahaan;
-                $kasMasuk->keperluan = 'Transaksi Pembelian Produk';
-                $kasMasuk->save();
+                $kasKeluar = new KasKeluar();
+                // $kasKeluar->tgl = now();
+	    	    $kasKeluar->tgl = $request->tgl_transaksi;
+                $kasKeluar->jumlah = $this->checkPrice($request->total_harga);
+                $kasKeluar->id_user = auth()->user()->id;
+                $kasKeluar->id_perusahaan = auth()->user()->id_perusahaan;
+                $kasKeluar->keperluan = 'Transaksi Pembelian Produk';
+                $kasKeluar->save();
             }
             DB::commit();     
             return redirect('/admin/list-pembelian')->with(['success' => 'Input data Transaksi Berhasil!']);
         } catch (QueryException | Exception | PDOException $e) {    
             DB::rollBack();
+	    return back()->with(['error' => 'Kesalahan Server Atau Input']);
         }
     }
 

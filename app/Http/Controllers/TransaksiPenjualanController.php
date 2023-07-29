@@ -59,13 +59,19 @@ class TransaksiPenjualanController extends Controller
         $tgl=$yy.$mm.$dd;
         
         // ambil id terakhir + 1 transaksi penjualan dari perusahaan yang sedang login
-        $result= TransaksiPenjualan::select(DB::raw('max(id)+1 AS nextid'))->orderBy('id', 'DESC')->where('t_transaksi_penjualan.id_perusahaan', auth()->user()->id_perusahaan)->first();
+        $result= TransaksiPenjualan::where('tgl', $tgl)->select(DB::raw('max(id)+1 AS nextid'))->orderBy('id', 'DESC')->where('t_transaksi_penjualan.id_perusahaan', auth()->user()->id_perusahaan)->first();
+        // return $result;
+        // dd($tgl, substr($result->nextid, 0, 8));
         if($tgl==substr($result->nextid,0,8)){
             // jika tanggal parameter sama dengan tanggal yang ada pada id maka atur variabel nextid dengan properti nextid
             $nextid=$result->nextid; 
         } else{
-            // jika tidak sama maka ubah digit terakhir id dengan 001
-            $nextid=$tgl.'001';
+            // if($tgl == $result->nextid) {
+
+            // } else {
+                // jika tidak sama maka ubah digit terakhir id dengan 001
+                $nextid=$tgl.auth()->user()->id_perusahaan.'001';
+            // }
         }
 
         // kembalikan nextid
@@ -139,11 +145,12 @@ class TransaksiPenjualanController extends Controller
                 $penjualanBaru = new TransaksiPenjualan();
 
                 // Set invoice transaksi penjualan agar sesuai dengan tanggal di hari transaksi dilakukan
-                $id = $this->NextId(date('Y-m-d'));
+                $id = $this->NextId($request->tgl_transaksi);
 
                 // Isi dari objek Transaksi Penjualan
                 $penjualanBaru->id = $id;
-                $penjualanBaru->tgl = date('Y-m-d');
+                // $penjualanBaru->tgl = date('Y-m-d');
+		        $penjualanBaru->tgl = $request->tgl_transaksi;
                 $penjualanBaru->id_pelanggan = $request->id_pelanggan;
                 $penjualanBaru->total_harga = $this->checkPrice($request->total_harga);
                 // Pengecekan apabila jenis pembayaran Cash / DP
@@ -175,26 +182,27 @@ class TransaksiPenjualanController extends Controller
                     // Mengecek level perusahaan yang sedang login 
                     if($perusahaan->grade == 1) {
                         // Mengecek apabila transaksi dari perusahaan tersebut sudah melebihi 5
-                        if($limit < 1 ) {
+                        if($limit < 5 ) {
                             $penjualanBaru->save();
                         }else {
-                            return redirect()->route('admin.dashboard')->with(['error' => 'Sudah mencapai limit Transaksi, Naikan levelmu terlebih dahulu!']);
+                            return view('dashboard')->with(['error' => 'Sudah mencapai limit barang, Hubungi 08987554567']);
                         }
                     } elseif($perusahaan->grade == 2) {
                         // Mengecek apabila transaksi dari perusahaan tersebut sudah melebihi 50
                         if($limit < 50 ) {
                             $penjualanBaru->save();
                         }else {
-                            return redirect()->route('admin.dashboard')->with(['error' => 'Sudah mencapai limit Transaksi, Naikan levelmu terlebih dahulu!']);
+                            return view('dashboard')->with(['error' => 'Sudah mencapai limit barang, Hubungi 08987554567']);
                         }
                     } elseif($perusahaan->grade == 3) {
                         $penjualanBaru->save();
                     } else{
-                        return redirect()->route('admin.dashboard')->with(['error' => 'Laku kah?']);
+                        return view('dashboard')->with(['error' => 'Laku kah?']);
                     }
                     // Mendeklarasikan variabel baru yang nantinya diisi oleh pembuatan objek baru
                     $detPenjualanBaru = new DetailPenjualan(); 
-                    $detPenjualanBaru->tgl = date('Y-m-d');
+                    // $detPenjualanBaru->tgl = date('Y-m-d');
+		            $detPenjualanBaru->tgl = $request->tgl_transaksi;
                     $detPenjualanBaru->id_penjualan = $id;
                     $detPenjualanBaru->id_barang = $barang['id_barang'];
                     $detPenjualanBaru->qty = $barang['qty'];
@@ -219,7 +227,8 @@ class TransaksiPenjualanController extends Controller
                 if($request->jenis_pembayaran == 1){
                     // Jika Cash maka total uang pembayaran akan masuk ke Kas Masuk
                     $kasMasuk = new KasMasuk();
-                    $kasMasuk->tgl = now();
+                    // $kasMasuk->tgl = now();
+		            $kasMasuk->tgl = $request->tgl_transaksi;
                     $kasMasuk->jumlah = $this->checkPrice($request->total_harga); 
                     $kasMasuk->id_user = auth()->user()->id;
                     $kasMasuk->id_perusahaan = auth()->user()->id_perusahaan;
@@ -229,7 +238,8 @@ class TransaksiPenjualanController extends Controller
                     // Jika DP maka total uang pembayaran masuk akan terlebih dahulu masuk ke data Piutang
                     $pembayaranBaru = new Piutang();
                     $pembayaranBaru->id_penjualan = $id;
-                    $pembayaranBaru->tgl = date('Ymd');
+                    // $pembayaranBaru->tgl = date('Ymd');
+		            $pembayaranBaru->tgl = $request->tgl_transaksi;
                     $pembayaranBaru->total_bayar = $this->checkPrice($request->dp);
                     $pembayaranBaru->id_user = auth()->user()->id;
                     $pembayaranBaru->id_perusahaan = auth()->user()->id_perusahaan;
@@ -237,7 +247,8 @@ class TransaksiPenjualanController extends Controller
 
                     // Lalu total DP masuk akan masuk ke Kas Masuk 
                     $kasMasuk = new KasMasuk();
-                    $kasMasuk->tgl = now();
+                    // $kasMasuk->tgl = now();
+		            $kasMasuk->tgl = $request->tgl_transaksi;
                     $kasMasuk->jumlah = $this->checkPrice($request->dp); 
                     $kasMasuk->id_user = auth()->user()->id;
                     $kasMasuk->id_perusahaan = auth()->user()->id_perusahaan;
@@ -253,9 +264,9 @@ class TransaksiPenjualanController extends Controller
                     return redirect()->route('kasir.list-transaksi.print_nota', $penjualanBaru->id)->with(['success' => 'Transaksi Berhasil!']);
                 }
             }   
-        } catch (QueryException | PDOException | Exception){
+        } catch (QueryException | PDOException | Exception $error){
             DB::rollBack();
-            return back()->with('error', 'Terjadi Kesalahan Server!');
+            return back()->with('error', 'Terjadi Kesalahan Server!'. $error->getMessage());
         }
          
             

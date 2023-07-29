@@ -381,6 +381,12 @@
                                                     <div class="input-group mb-2">
                                                         <input type="text" style="border-radius: 13px;" name="tlp" id="tlp" class="form-control" required readonly value="Telepon : {{ $pelangganUmum->tlp }}">
                                                     </div>
+
+						    <br>
+                                                    <h6>Tanggal Transaksi</h6>
+                                                    <div class="input-group mb-2">
+                                                        <input type="date" style="border-radius: 0 13px 13px 0;" value="{{ date('Y-m-d') }}" name="tgl_transaksi" required id="tgl_transaksi" class="form-control" required>
+                                                    </div>
                                                 </div>
                                             </div>
                                             
