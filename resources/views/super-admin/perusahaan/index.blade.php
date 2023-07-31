@@ -19,6 +19,49 @@
             .tn {
                 visibility: hidden;
             }
+            .switch {
+            position: relative;
+            display: inline-block;
+            width: 40px;
+            height: 24px;
+            }
+
+            /* Style untuk slider */
+            .slider {
+                position: absolute;
+                cursor: pointer;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background-color: #ccc;
+                border-radius: 24px;
+                transition: .4s;
+            }
+
+            /* Style untuk menggeser slider saat toggle aktif */
+            .slider:before {
+                position: absolute;
+                content: "";
+                height: 16px;
+                width: 16px;
+                left: 4px;
+                bottom: 4px;
+                background-color: white;
+                border-radius: 50%;
+                transition: .4s;
+            }
+
+            /* Style saat toggle aktif */
+            input:checked + .slider {
+                background-color: #2196F3;
+            }
+
+            /* Style saat toggle aktif dan slider digeser ke kanan */
+            input:checked + .slider:before {
+                    transform: translateX(16px);
+            }
+
         </style>
     @endpush
 
@@ -27,6 +70,13 @@
         <div class="row mx-3">
             <div class="col-md-12 p-2 mb-3" style="background-color: white">
                 <div class="box mb-4">
+                    <div class="d-flex mr-3" style="float: right;">
+                        <small class="my-1">Destroy Mode &nbsp;</small>
+                        <label class="switch"> 
+                            <input type="checkbox" id="toggleSwitch" onchange="showingDelete()" style="visibility: hidden;">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
                     <div class="box-body table-responsive ">
                         <h2 class="text-center mt-3 mb-4">Perusahaan</h2>
                         {{-- <button type="button" class="btn btn-primary ml-4 mb-4 mt-3 tn" data-toggle="modal" data-target="#formModalSatuan">
@@ -39,14 +89,14 @@
                                         <thead class="table-success">
                                             <tr>
                                                 <td class="text-center" width="7.4%">ID</td>
-                                                <td class="text-center">Company</td>
-                                                <td class="text-center">Owner</td>
+                                                <td class="text-center">Perusahaan</td>
+                                                <td class="text-center">Pemilik</td>
                                                 <td class="text-center">Email</td>
-                                                <td class="text-center">Phone</td>
+                                                <td class="text-center">Telepon</td>
                                                 <td class="text-center">Grade</td>
-                                                <td class="text-center">Created</td>
-                                                <td class="text-center">Expired</td>
-                                                <td class="text-center">Action</td>
+                                                <td class="text-center">Dibuat</td>
+                                                <td class="text-center">Masa Berlaku</td>
+                                                <td class="text-center">Aksi</td>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -70,14 +120,22 @@
                                                     @else
                                                         <td>{{ $item->expiredDate }}</td>
                                                     @endif
-                                                    <td><button data-mode ="edit"
-                                                        data-nama="{{ $item->nama }}" 
-                                                        data-pemilik="{{ $item->pemilik }}"
-                                                        data-tlp="{{ $item->tlp }}"
-                                                        data-npwp="{{ $item->npwp }}"
-                                                        data-email="{{ $item->email }}"
-                                                        data-grade="{{ $item->grade }}"
-                                                        data-route="{{ route('super_admin.manage-perusahaan.update', $item->id) }}" class="edit btn btn-xs btn-warning"><i class="fas fa-light fa-pencil-square"></i></button>
+                                                    <td>
+                                                        <div class="btn-group">
+                                                            <button data-mode ="edit"
+                                                                    data-nama="{{ $item->nama }}" 
+                                                                    data-pemilik="{{ $item->pemilik }}"
+                                                                    data-tlp="{{ $item->tlp }}"
+                                                                    data-npwp="{{ $item->npwp }}"
+                                                                    data-email="{{ $item->email }}"
+                                                                    data-grade="{{ $item->grade }}"
+                                                                    data-expired_date="{{ $item->expiredDate }}"
+                                                                    data-route="{{ route('super_admin.manage-perusahaan.update', $item->id) }}" class="mx-1 edit btn btn-xs btn-warning"><i class="fas fa-light fa-pencil-square"></i>
+                                                            </button>
+                                                            <button type="button" class="d-none btn btn-xs btn-danger delete" id="deleteButton" data-route="{{ route('super_admin.manage-perusahaan.destroy', $item->id) }}" data-nama="{{ $item->nama }}" data-id="{{ $item->id }}">
+                                                                <i class="fas fa-trash"></i>
+                                                            </button>
+                                                        </div>
                                                     </td>
                                                 </tr>
                                             @endforeach
@@ -96,6 +154,88 @@
 
     @push('scripts')
         <script>
+            function showingDelete() {
+                var slider = document.getElementById('toggleSwitch');
+
+                if (slider.checked) {
+                    $('#deleteButton').fadeIn(300)
+                    $('#deleteButton').removeClass('d-none'); 
+                } else {
+                    $('#deleteButton').fadeOut(300)
+                }
+            }
+           $('#expiredDate').on('change', function() {
+                var inputDate = Date.parse($(this).val());
+                var todayDate = Date.parse(new Date());
+
+                if (inputDate <= todayDate) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Tanggal tidak valid!',
+                        text: 'Tanggal Kadaluwarsa tidak boleh melebihi tanggal hari ini.',
+                    }).then(function() {
+                        var tomorrowDate = new Date(todayDate);
+                        tomorrowDate.setDate(tomorrowDate.getDate() + 1);
+
+                        var formattedDate = tomorrowDate.toISOString().slice(0, 10);
+                        $('#expiredDate').val(formattedDate);
+                    });
+                }
+            });
+
+            const deleteData = async function(id, nama, route) {
+                Swal.fire({
+                    title: 'Hapus Perusahaan '+nama+'?',
+                    icon: 'question',
+                    iconColor: '#DC3545',
+                    showDenyButton: true,
+                    denyButtonColor: '#838383',
+                    denyButtonText: 'Batal',
+                    confirmButtonText: 'Hapus',
+                    confirmButtonColor: '#DC3545'
+                    }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.post(route, {
+                            '_token': $('[name=csrf-token]').attr('content'),
+                            '_method': 'delete',
+                            'id' : id
+                        })
+                        .done((response) => {
+                            Swal.fire({
+                                title: 'Sukses!',
+                                text: 'Perusahaan '+nama+' berhasil dihapus',
+                                icon: 'success',
+                                confirmButtonText: 'Lanjut',
+                                confirmButtonColor: '#28A745'
+                            }) 
+                            location.reload();
+                        })
+                        .fail((errors) => {
+                            Swal.fire({
+                                title: 'Gagal!',
+                                text: 'Terjadi Kesalahan Server',
+                                icon: 'error',
+                                confirmButtonText: 'Kembali',
+                                confirmButtonColor: '#DC3545'
+                            })                       
+                            return;
+                        });
+                    } else if (result.isDenied) {
+                        Swal.fire({
+                            title: 'Perusahaan '+nama+' batal dihapus',
+                            icon: 'warning',
+                        })
+                    }
+                })
+            }
+
+            $(document).on('click', '.delete', function (e) {
+                let id = $(this).data('id')
+                let nama = $(this).data('nama')
+                let route = $(this).data('route')
+                deleteData(id, nama, route)
+            })
+
             // $('.table').DataTable();
             $('body').addClass('sidebar-collapse');
 
@@ -134,6 +274,7 @@
                 let email = $(this).data('email')
                 let tlp = $(this).data('tlp')
                 let npwp = $(this).data('npwp')
+                let expired_date = $(this).data('expired_date')
                 let url = $(this).data('route')
                 console.log(url)
 
@@ -153,64 +294,15 @@
                 // $('#modal-form form')[0].reset();
                 $('#modal-form form').attr('action', data.url);
                 $('#modal-form [name=_method]').val('patch');
-                
+                console.log(expired_date);
+
                 $('#modal-form [name=nama]').val(data.nama);
                 $('#modal-form [name=pemilik]').val(data.pemilik);
                 $('#modal-form [name=grade]').val(data.grade);
                 $('#modal-form [name=email]').val(data.email);
                 $('#modal-form [name=tlp]').val(data.tlp);
-                // $('#modal-form [name=npwp]').val(data.npwp);
-                // console.log(data)
-                // deleteData(url)
+                $('#modal-form [name=expiredDate]').val(data.expired_date);
             })
-        
-            function editForm(data) {
-            }
-
-            // function deleteData(url) {
-            //     Swal.fire({
-            //         title: 'Hapus Satuan yang dipilih?',
-            //         icon: 'question',
-            //         iconColor: '#DC3545',
-            //         showDenyButton: true,
-            //         denyButtonColor: '#838383',
-            //         denyButtonText: 'Batal',
-            //         confirmButtonText: 'Hapus',
-            //         confirmButtonColor: '#DC3545'
-            //         }).then((result) => {
-            //         if (result.isConfirmed) {
-            //             $.post(url, {
-            //                 '_token': $('[name=csrf-token]').attr('content'),
-            //                 '_method': 'delete'
-            //             })
-            //             .done((response) => {
-            //                 Swal.fire({
-            //                     title: 'Sukses!',
-            //                     text: 'Satuan berhasil dihapus',
-            //                     icon: 'success',
-            //                     confirmButtonText: 'Lanjut',
-            //                     confirmButtonColor: '#28A745'
-            //                 }) 
-            //                 location.reload();
-            //             })
-            //             .fail((errors) => {
-            //                 Swal.fire({
-            //                     title: 'Gagal!',
-            //                     text: 'Satuan tidak bisa dihapus karena masih digunakan oleh produk',
-            //                     icon: 'error',
-            //                     confirmButtonText: 'Kembali',
-            //                     confirmButtonColor: '#DC3545'
-            //                 })                       
-            //                 return;
-            //             });
-            //         } else if (result.isDenied) {
-            //             Swal.fire({
-            //                 title: 'Satuan batal dihapus',
-            //                 icon: 'warning',
-            //             })
-            //         }
-            //     })
-            // }
         </script>
     @endpush
 @else

@@ -15,7 +15,7 @@ class SuperAdminController extends Controller
     public function index()
     {
         $data['no'] = 1;
-        $data['perusahaan'] = Perusahaan::orderBy('grade', 'ASC')->get();
+        $data['perusahaan'] = Perusahaan::where('nama', '!=', 'ZiePOS')->orderBy('grade', 'ASC')->get();
         $data['cPerusahaan'] = Perusahaan::select('*')->where('id', auth()->user()->id_perusahaan)->first();
         return view('super-admin.perusahaan.index')->with($data);
     }
@@ -44,16 +44,25 @@ class SuperAdminController extends Controller
                 return tanggal_indonesia($perusahaan->updated_at);
             })
             ->addColumn('action', function ($perusahaan) {
-                return '
-                    <button data-mode ="edit"
-                            data-nama="'.$perusahaan->nama.'" 
-                            data-pemilik="'.$perusahaan->pemilik.'"
-                            data-tlp="'.$perusahaan->tlp.'"
-                            data-npwp="'.$perusahaan->npwp.'"
-                            data-email="'.$perusahaan->email.'"
-                            data-grade="'.$perusahaan->grade.'"
-                            data-route="' . route('super_admin.manage-perusahaan.update', $perusahaan->id) . '" class="edit btn btn-xs btn-warning"><i class="fas fa-light fa-pencil-square"></i></button>
-                ';
+                $button = '<div class="input-group">
+                                <button data-mode ="edit"
+                                    data-nama="'.$perusahaan->nama.'" 
+                                    data-pemilik="'.$perusahaan->pemilik.'"
+                                    data-tlp="'.$perusahaan->tlp.'"
+                                    data-npwp="'.$perusahaan->npwp.'"
+                                    data-email="'.$perusahaan->email.'"
+                                    data-grade="'.$perusahaan->grade.'"
+                                    data-route="' . route('super_admin.manage-perusahaan.update', $perusahaan->id) . '" 
+                                    class="edit btn btn-xs btn-warning">
+                                    <i class="fas fa-light fa-pencil-square"></i>
+                                </button>';      
+                $button .= '    <button data-mode = "delete"
+                                    data-route = "'. route('super_admin.manage-perusahaan.destroy', $perusahaan->id) .'" 
+                                    class="delete btn btn-xs btn-danger">
+                                    <i class="fas fa-light fa-trash"></i>
+                                </button>         
+                            </div>';
+                return $button;
             })
             ->rawColumns(['action', 'grade'])
             ->make(true);
@@ -122,17 +131,23 @@ class SuperAdminController extends Controller
     }
     public function update(Request $request, $id)
     {
+        // return $request;
         // return (strtotime($request->expiredDate) > strtotime(date('Y-m-d')));
 
         $perusahaan = Perusahaan::find($id);
-        $perusahaan['grade'] = $request->grade;
-        $perusahaan['startDate'] = date('Y-m-d');
+        $perusahaan->grade = $request->grade;
+        $perusahaan->startDate = date('Y-m-d');
         if(strtotime($request->expiredDate) > strtotime(date('Y-m-d'))){
-            $perusahaan['expiredDate'] = $request->expiredDate;
+            if($request->expiredDate != null) {
+                $perusahaan->expiredDate = $request->expiredDate;
+            } else {
+                $perusahaan->expiredDate = '0000-00-00';
+            }
         } else {
             return back()->with(['error', 'Tanggal Kadaluarsa Sewa Perusahaan Harus Melebihi Hari Ini']);
         }
-        $perusahaan->update($request->all());
+        // return $perusahaan;
+        $perusahaan->update();
 
         // return response(null, 204);
         return redirect()->route('super_admin.manage-perusahaan.index')->with(['success' => 'Perusahaan Berhasil Diupdate!']);
@@ -146,6 +161,8 @@ class SuperAdminController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $perusahaan = Perusahaan::find($id);
+        $perusahaan->delete();
+        return redirect()->route('super_admin.manage-perusahaan.index')->with(['success' => 'Perusahaan Berhasil Dihapus!']);
     }
 }
