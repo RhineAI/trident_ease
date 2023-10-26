@@ -2,9 +2,9 @@
 <aside class="main-sidebar sidebar-primary elevation-4" id="bgBlueLightWhiteColor" style="position:fixed; overflow:auto; height:30em">
     <!-- Brand Logo -->
     <a href="#" class="brand-link ">
-        <img src="{{ asset('assets') }}/img/ziepos.png" alt="AdminLTE Logo"
+        <img src="{{ asset('assets') }}/img/tepos_logo/tepos bg.png" alt="AdminLTE Logo"
             class="brand-image img-circle elevation-3 border border-white">
-        <span class="brand-text">ZiePOS</span>
+        <span class="brand-text">Tepos</span>
     </a>
    
 
@@ -14,8 +14,8 @@
         <!-- Sidebar user (optional) -->
         <div class="user-panel mt-1 pb-3 mb-1 d-flex divider">
             <div class="image">
-                @if ($cPerusahaan->logo == null)
-                    <img src="{{ asset('assets') }}/img/admin.png" class="img-circle elevation-3 border border-white" style="opacity: .9;"
+                @if ($cPerusahaan->logo != null)
+                    <img src="{{ asset('assets') }}/img/trident_tech_logo/trident gradient  bg.png" class="img-circle elevation-3 border border-white" style="opacity: .9;"
                         alt="User Image">
                 @else
                     <img src="{{ $cPerusahaan->logo }}" alt="AdminLTE Logo"
