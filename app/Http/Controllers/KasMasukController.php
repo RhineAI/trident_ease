@@ -39,8 +39,7 @@ class KasMasukController extends Controller
 
     public function data()
     {
-        $kasMasuk = KasMasuk::where('id_perusahaan', auth()->user()->id_perusahaan)->leftJoin('t_users AS U', 'U.id', 't_kas_masuk.id_user')
-                            ->select('t_kas_masuk.*', 'U.nama AS nama_user')
+        $kasMasuk = KasMasuk::where('id_perusahaan', auth()->user()->id_perusahaan)->with(['user'])
                             ->orderBy('id', 'DESC')->get();
 
         return datatables()
@@ -49,6 +48,9 @@ class KasMasukController extends Controller
             ->addColumn('jumlah', function($kasMasuk){
                 return 'Rp. '. format_uang($kasMasuk->jumlah) ;
             })
+            ->addColumn('nama_user', function($kasMasuk) {
+                return $kasMasuk->user->nama;
+            }) 
             ->addColumn('action', function ($kasMasuk) {
                 return '
                     <button data-mode ="edit"

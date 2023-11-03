@@ -12,4 +12,9 @@ class KasKeluar extends Model
     protected $table = 't_kas_keluar';
     protected $primaryKey = 'id';
     protected $guarded = [];
+
+    public function user()
+    {
+        return $this->hasOne(User::class, 'id', 'id_user');
+    }
 }

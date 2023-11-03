@@ -55,8 +55,7 @@ class KasKeluarController extends Controller
     public function data()
     {
         $kasKeluar = KasKeluar::where('id_perusahaan', auth()->user()->id_perusahaan)
-                            ->leftJoin('t_users AS U', 'U.id', 't_kas_keluar.id_user')
-                            ->select('t_kas_keluar.*', 'U.nama AS nama_user')
+                            ->with(['user'])
                             ->orderBy('id', 'DESC')->get();
         $sisaKas = KasMasuk::where('id_perusahaan', auth()->user()->id_perusahaan);
 
@@ -67,9 +66,9 @@ class KasKeluarController extends Controller
             ->addColumn('jumlah', function($kasKeluar){
                 return 'Rp. '. format_uang($kasKeluar->jumlah) ;
             })
-            // ->addColumn('keperluan', function($kasKeluar) {
-            //     return $kasKeluar->keperluan;
-            // })
+            ->addColumn('nama_user', function($kasMasuk) {
+                return $kasMasuk->user->nama;
+            }) x
             ->addColumn('action', function ($kasKeluar) {
                 return '
                     <button data-keperluan="'.$kasKeluar->keperluan.'" 
