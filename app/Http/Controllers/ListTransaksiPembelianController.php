@@ -10,6 +10,18 @@ use Illuminate\Http\Request;
 
 class ListTransaksiPembelianController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(function ($request, $next) {
+            if (auth()->user()->perusahaan->grade === 3) {
+                // User has super access, allow all actions
+                return $next($request);
+            } else {
+                return redirect()->back()->with('error', 'Anda tidak memiliki akses');
+            }
+        });
+    }
+    
     public function index(Request $request)
     {  
         $tanggalAwal = date('Y-m-d', mktime(0, 0, 0, date('m'), 1, date('Y')));

@@ -272,7 +272,7 @@ class BarangController extends Controller
             DB::commit();
             if($perusahaan->grade == 1) {
                 // pengecekan level akses perusahaan 
-                if($limit < 5 ) {
+                if($limit < 10 ) {
                 // cek jumlah input barang perusahaan yang login jika kurang dari 10 lakukan simpan ke database
                     $barang->save();
                     if ($barang->keterangan == 'utama' or $barang->keterangan == 'Utama') {
@@ -285,7 +285,7 @@ class BarangController extends Controller
                     return redirect()->route('admin.dashboard')->with(['error' => 'Sudah mencapai limit barang, Naikan levelmu terlebih dahulu!']);
                 }
             } elseif($perusahaan->grade == 2) {
-                if($limit < 50 ) {
+                if($limit < 200 ) {
                 // cek jumlah input barang perusahaan yang login jika kurang dari 50 lakukan simpan ke database
                     $barang->save();
                     if ($barang->keterangan == 'utama' or $barang->keterangan == 'Utama') {

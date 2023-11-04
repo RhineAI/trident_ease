@@ -9,6 +9,18 @@ use Illuminate\Http\Request;
 
 class StokOpnameController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(function ($request, $next) {
+            if (auth()->user()->perusahaan->grade === 3) {
+                // User has super access, allow all actions
+                return $next($request);
+            } else {
+                return redirect()->back()->with('error', 'Anda tidak memiliki akses');
+            }
+        });
+    }
+    
     public function index(){
         $data['cPerusahaan'] = Perusahaan::select('*')->where('id', auth()->user()->id_perusahaan)->first();
         $data['produk'] = Barang::leftJoin('t_kategori AS K', 'K.id', 't_barang.id_kategori')->leftJoin('t_merek AS M', 'M.id', 't_barang.id_merek')->select('t_barang.*', 'K.nama AS nama_kategori', 'M.nama AS nama_merek')->where('stock', '>', 0)->where('status', '=', '1')->where('t_barang.id_perusahaan', auth()->user()->id_perusahaan)->get();    

@@ -2,20 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use Exception;
+use PDOException;
 use App\Models\User;
-use App\Models\Perusahaan;
 use App\Models\Pelanggan;
+
+use App\Models\Perusahaan;
 use Illuminate\Support\Str;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-
+use Illuminate\Support\Carbon;
 use App\Http\Requests\AuthRequest;
-use App\Mail\NotifikasiRegisterPerusahaan;
-use Exception;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\QueryException;
+use App\Mail\NotifikasiRegisterPerusahaan;
 use Illuminate\Validation\ValidationException;
-use PDOException;
 
 class LoginController extends Controller
 {
@@ -45,7 +46,7 @@ class LoginController extends Controller
                     $request->session()->regenerate();
                     return redirect()->intended('/'.$getUser->hak_akses)->with('success', 'Anda telah login sebagai '.$getUser->hak_akses);
                 } elseif($getPerusahaan->expiredDate !== '0000-00-00') {
-                    if(strtotime($getPerusahaan->expiredDate) < strtotime(date('Y-m-d'))){
+                    if(strtotime($getPerusahaan->expiredDate) <= strtotime(date('Y-m-d'))){
                         $data['perusahaan'] = Perusahaan::select('*')->where('id', auth()->user()->id_perusahaan)->first();
         
                         Auth::logout();
@@ -109,13 +110,17 @@ class LoginController extends Controller
             $request->validate([
                 'image' => 'image|mimes:jpg,png,jpeg,gif,svg|max:4096',
             ]);
-            $getMime = $request->file('logo')->getMimeType(); 
-            $explodedMime = explode('/' ,$getMime);
-            $mime = end($explodedMime);
-            $name = Str::random(25) . '.' . $mime;
-            $request->logo->move('assets/img', $name);
 
-            $perusahaan->logo = ('/assets/img/' . $name);
+            $logoFile = $request->file('logo');
+            $convertion = Image::make($logoFile->getRealPath())->resize(750, null, function ($constraint) {
+                            $constraint->aspectRatio();
+            });
+
+            $logoFileName = $logoFile->hashName();
+            $oriPath = storage_path('app/public/img/'. $logoFileName);
+            $saveLogo = Image::make($convertion)->save($oriPath);
+
+            $perusahaan->logo = $logoFileName;
         } else {
             $perusahaan->logo = $perusahaan->logo;
         }
@@ -135,7 +140,9 @@ class LoginController extends Controller
         $perusahaan->no_rekening = $request->no_rekening;
         $perusahaan->slogan = $request->slogan;
         $perusahaan->grade = 1;
-        $perusahaan->startDate = date('Y-m-d');
+        $perusahaan->startDate = date('Y-m-d');// Calculate the expiredDate by adding 7 days to the startDate
+        $perusahaan->expiredDate = Carbon::parse($perusahaan->startDate)->addDays(8)->format('Y-m-d');
+
         // Menyimpan objek Perusahaan kedalam database
         $perusahaan->save();
         
@@ -168,7 +175,7 @@ class LoginController extends Controller
         $data['user'] = $user;
         $random = Str::random(20);
         $random2 = Str::random(20);
-        $randomToken = $random . 'ZiePOS?' . $perusahaan->nama . '?kN7l' . $random2;
+        $randomToken = $random . 'TridentTech.Id?' . $perusahaan->nama . '?kN7l' . $random2;
         return redirect()->route('regSuccess', ['id' => $perusahaan->id, 'token' => $randomToken])->with(['success' => 'Registrasi Berhasil!']);
     }
 }

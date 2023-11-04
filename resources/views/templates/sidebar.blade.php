@@ -18,7 +18,7 @@
                     <img src="{{ asset('assets') }}/img/trident_tech_logo/trident gradient  bg.png" class="img-circle elevation-3 border border-white" style="opacity: .9;"
                         alt="User Image">
                 @else
-                    <img src="{{ $cPerusahaan->logo }}" alt="AdminLTE Logo"
+                    <img src="{{ url('storage/img/'. $cPerusahaan->logo) }}" alt="AdminLTE Logo"
                     class="brand-image img-circle elevation-3 border border-white" style="opacity: .9">
                 @endif
             </div>

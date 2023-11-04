@@ -182,14 +182,14 @@ class TransaksiPenjualanController extends Controller
                     // Mengecek level perusahaan yang sedang login 
                     if($perusahaan->grade == 1) {
                         // Mengecek apabila transaksi dari perusahaan tersebut sudah melebihi 5
-                        if($limit < 5 ) {
+                        if($limit < 10 ) {
                             $penjualanBaru->save();
                         }else {
                             return view('dashboard')->with(['error' => 'Sudah mencapai limit barang, Hubungi 08987554567']);
                         }
                     } elseif($perusahaan->grade == 2) {
                         // Mengecek apabila transaksi dari perusahaan tersebut sudah melebihi 50
-                        if($limit < 50 ) {
+                        if($limit < 200 ) {
                             $penjualanBaru->save();
                         }else {
                             return view('dashboard')->with(['error' => 'Sudah mencapai limit barang, Hubungi 08987554567']);

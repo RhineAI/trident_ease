@@ -8,15 +8,17 @@
     </a>
 </li>
 
-{{-- Stock Opname --}}
-<li class="nav-item">
-    <a href="{{ route('owner.stockOpname') }}" class="nav-link">
-        <i class="nav-icon fas fa-solid fa-gear"></i>
-        <p>
-            Stock Opname
-        </p>
-    </a>
-</li>
+@if (auth()->user()->perusahaan->grade === 3)
+    {{-- Stock Opname --}}
+    <li class="nav-item">
+        <a href="{{ route('owner.stockOpname') }}" class="nav-link">
+            <i class="nav-icon fas fa-solid fa-gear"></i>
+            <p>
+                Stock Opname
+            </p>
+        </a>
+    </li>
+@endif
 
 {{-- LAPORAN --}}
 <li class="nav-item">
@@ -28,56 +30,62 @@
         </p>
     </a>
     <ul class="nav nav-treeview ml-4 ml-4">
+        @if ($grade !== 1)
+            <li class="nav-item">
+                <a href="{{ route('admin.laporan-harian.index') }}" class="nav-link">
+                    <p id="smol">Laporan Harian</p>
+                </a>
+            </li>
+        @endif
         <li class="nav-item">
-            <a href="{{ route('owner.laporan-harian.index') }}" class="nav-link">
-                <p class="smol">Laporan Harian</p>
+            <a href="{{ route('admin.laporan-penjualan.index') }}" class="nav-link">
+                <p id="smol">Laporan Penjualan</p>
             </a>
         </li>
-        <li class="nav-item">
-            <a href="{{ route('owner.laporan-kas.index') }}" class="nav-link">
-                <p class="smol">Laporan Kas</p>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a href="{{ route('owner.laporan-penjualan.index') }}" class="nav-link">
-                <p class="smol">Laporan Penjualan</p>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a href="{{ route('owner.laporan-pembelian.index') }}" class="nav-link">
-                <p class="smol">Laporan Pembelian</p>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a href="{{ route('owner.laporan-hutang.index') }}" class="nav-link">
-                <p class="smol">Laporan Hutang</p>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a href="{{ route('owner.laporan-piutang.index') }}" class="nav-link">
-                <p class="smol">Laporan Piutang</p>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a href="{{ route('owner.laporan-stok.index') }}" class="nav-link">
-                <p class="smol">Laporan Stok</p>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a href="{{ route('owner.laporan-kesesuaian-stok.index') }}" class="nav-link">
-                <p class="smol">Laporan Kesesuaian Stok</p>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a href="{{ route('owner.list-b-pelanggan.index') }}" class="nav-link">
-                <p class="smol">Laporan Pelanggan Terbaik</p>
-            </a>
-        </li>
+        @if ($grade !== 1)
+            <li class="nav-item">
+                <a href="{{ route('admin.laporan-pembelian.index') }}" class="nav-link">
+                    <p id="smol">Laporan Pembelian</p>
+                </a>
+            </li>   
+            <li class="nav-item">
+                <a href="{{ route('admin.list-b-pelanggan.index') }}" class="nav-link">
+                    <p id="smol">Laporan Pelanggan Terbaik</p>
+                </a>
+            </li>
+        @endif
+        @if ($grade === 3)
+            <li class="nav-item">
+                <a href="{{ route('admin.laporan-kas.index') }}" class="nav-link">
+                    <p class="smol">Laporan Kas</p>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ route('admin.laporan-hutang.index') }}" class="nav-link">
+                    <p class="smol">Laporan Hutang</p>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ route('admin.laporan-piutang.index') }}" class="nav-link">
+                    <p class="smol">Laporan Piutang</p>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ route('admin.laporan-stok.index') }}" class="nav-link">
+                    <p class="smol">Laporan Stok</p>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="{{ route('admin.laporan-kesesuaian-stok.index') }}" class="nav-link">
+                    <p class="smol">Laporan Kesesuaian Stok</p>
+                </a>
+            </li>
+        @endif
     </ul>
 </li>
 
  {{-- PEGAWAI --}}
- <li class="nav-item">
+<li class="nav-item">
     <a href="#" class="nav-link">
         <i class="nav-icon fas fa-solid fa-user"></i>
         <p>
@@ -111,12 +119,14 @@
         </p>
     </a>
     <ul class="nav nav-treeview ml-4">
-        <li class="nav-item">
-            <a href="{{ route('owner.perusahaan.index') }}" class="nav-link">
-                {{-- <i class="far fa-circle nav-icon"></i> --}}
-                <p class="smol">Set Perusahaan</p>
-            </a>
-        </li>
+        @if (auth()->user()->perusahaan->grade !== 1)
+            <li class="nav-item">
+                <a href="{{ route('owner.perusahaan.index') }}" class="nav-link">
+                    {{-- <i class="far fa-circle nav-icon"></i> --}}
+                    <p class="smol">Set Perusahaan</p>
+                </a>
+            </li>
+        @endif
         <li class="nav-item">
             <a href="{{ route('owner.keuntungan') }}" class="nav-link">
                 {{-- <i class="far fa-circle nav-icon"></i> --}}
