@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Helpers\ApiFormatter;
+use App\Http\Controllers\Controller;
 use App\Models\Kategori;
 use App\Models\Perusahaan;
 use Illuminate\Http\Request;
