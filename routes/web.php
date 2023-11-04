@@ -172,11 +172,11 @@ Route::middleware(['auth'])->group(function () {
                 Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
                 
                 // UJI KOM
-                Route::get('/penjualan-aksesoris', [PenjualanAksesorisController::class, 'index'])->name('penjualan-aksesoris');
-                Route::resource('/laporan-bug', LaporanBugController::class);
-                Route::get('/export-pdf', [LaporanBugController::class, 'pdf'])->name('export-bug.pdf');
-                Route::get('/export-excel', [LaporanBugController::class, 'excel'])->name('export-bug.excel');
-                Route::post('/laporan-bug/import', [LaporanBugController::class, 'importBug'])->name('import-bug');
+                // Route::get('/penjualan-aksesoris', [PenjualanAksesorisController::class, 'index'])->name('penjualan-aksesoris');
+                // Route::resource('/laporan-bug', LaporanBugController::class);
+                // Route::get('/export-pdf', [LaporanBugController::class, 'pdf'])->name('export-bug.pdf');
+                // Route::get('/export-excel', [LaporanBugController::class, 'excel'])->name('export-bug.excel');
+                // Route::post('/laporan-bug/import', [LaporanBugController::class, 'importBug'])->name('import-bug');
 
                 Route::resource('/kategori', KategoriController::class);
                 Route::resource('/merek', MerekController::class);

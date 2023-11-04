@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 use App\Helpers\ApiFormatter;
+use App\Http\Controllers\Controller;
 use App\Models\Perusahaan;
 use App\Models\Satuan;
 use App\Http\Requests\StoreSatuanRequest;

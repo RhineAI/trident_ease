@@ -286,12 +286,12 @@ Produk Utama
             $('#product_name').val();
         }
 
-        if(barcode == "") {
-            Swal.fire('Barcode Barang Harus Diisi!')
-            return false;
-        } else {
-            $('#barcode').val();
-        }
+        // if(barcode == "") {
+        //     Swal.fire('Barcode Barang Harus Diisi!')
+        //     return false;
+        // } else {
+        //     $('#barcode').val();
+        // }
 
         if(kode == "") {
             Swal.fire('Kode Barang Harus Diisi!')

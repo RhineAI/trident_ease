@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\Controller;
 use App\Models\kasMasuk;
 use App\Http\Requests\StoreKasMasukControllerRequest;
 use App\Http\Requests\UpdateKasMasukControllerRequest;
