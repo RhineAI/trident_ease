@@ -2,9 +2,9 @@
 <aside class="main-sidebar sidebar-primary elevation-4" id="bgBlueLightWhiteColor" style="position:fixed; overflow:auto; height:30em">
     <!-- Brand Logo -->
     <a href="#" class="brand-link ">
-        <img src="{{ asset('assets') }}/img/tepos_logo/tepos bg.png" alt="AdminLTE Logo"
+        <img src="{{ asset('assets') }}/img/tepos_logo/tepos_bg.png" alt="AdminLTE Logo"
             class="brand-image img-circle elevation-3 border border-white">
-        <span class="brand-text">Tepos</span>
+        <span class="brand-text"><i>Trident Tech.id</i></span>
     </a>
    
 
@@ -40,7 +40,7 @@
 
         <!-- Sidebar Menu -->
         <nav class="mt-2">
-            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+            <ul class="mb-5 nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                 {{-- @yield('templates.menu.sidebar-admin') --}}
                 @if(auth()->user()->hak_akses == 'super_admin')
                   @include('templates.menu.sidebar-super-admin')
@@ -61,56 +61,7 @@
                 @if(auth()->user()->hak_akses == 'kasir') 
                    @include('templates.menu.sidebar-kasir')
                 @endif
-                <li class="nav-item">
-                    <a class="nav-link">
-                        <p></p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link">
-                        <p></p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link">
-                        <p></p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link">
-                        <p></p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link">
-                        <p></p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link">
-                        <p></p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link">
-                        <p></p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link">
-                        <p></p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link">
-                        <p></p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link">
-                        <p></p>
-                    </a>
-                </li>
+
             </ul>
         </nav>
         <!-- /.sidebar-menu -->

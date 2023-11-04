@@ -131,7 +131,7 @@ Perusahaan
                                 <div class="col-md-6">
                                     <label for="file">Logo Sebelumnya</label>
                                     <br>
-                                    <img src="{{ $cPerusahaan->logo }}" alt="{{ $cPerusahaan->nama }}" width="200">
+                                    <img src="{{ url('storage/img/'. $cPerusahaan->logo) }}" alt="{{ $cPerusahaan->nama }}" width="200">
                                     <input type="file" name="logo" id="file" style="display: none;" class="form-control">
             
                                 </div>

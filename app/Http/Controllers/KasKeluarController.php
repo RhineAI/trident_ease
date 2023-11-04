@@ -68,7 +68,7 @@ class KasKeluarController extends Controller
             })
             ->addColumn('nama_user', function($kasMasuk) {
                 return $kasMasuk->user->nama;
-            }) x
+            })
             ->addColumn('action', function ($kasKeluar) {
                 return '
                     <button data-keperluan="'.$kasKeluar->keperluan.'" 

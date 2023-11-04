@@ -3,11 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\Perusahaan;
-use App\Http\Requests\StorePerusahaanRequest;
-use App\Http\Requests\UpdatePerusahaanRequest;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
+use App\Http\Requests\StorePerusahaanRequest;
+use App\Http\Requests\UpdatePerusahaanRequest;
+use Intervention\Image\ImageManagerStatic as Image;
 
 class PerusahaanController extends Controller
 {
@@ -142,13 +145,18 @@ class PerusahaanController extends Controller
                     'image' => 'image|mimes:jpg,png,jpeg,gif,svg',
                 ]);
 
-                $getMime = $request->file('logo')->getMimeType(); 
-                $explodedMime = explode('/' ,$getMime);
-                $mime = end($explodedMime);
-                $name = Str::random(25) . '.' . $mime;
-                $request->logo->move('assets/img', $name);
+                Storage::disk('public')->delete('img/'. $perusahaan->logo);
 
-                $perusahaan->logo = ('/assets/img/' . $name);
+                $logoFile = $request->file('logo');
+                $convertion = Image::make($logoFile->getRealPath())->resize(750, null, function ($constraint) {
+                              $constraint->aspectRatio();
+                });
+
+                $logoFileName = $logoFile->hashName();
+                $oriPath = storage_path('app/public/img/'. $logoFileName);
+                $saveLogo = Image::make($convertion)->save($oriPath);
+
+                $perusahaan->logo = $logoFileName;
             } else {
                 $perusahaan->logo = $perusahaan->logo;
             }
