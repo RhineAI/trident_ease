@@ -20,6 +20,18 @@ class PelangganController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    public function __construct()
+    {
+        $this->middleware(function ($request, $next) {
+            if (auth()->user()->perusahaan->grade >= 2) {
+                // User has super access, allow all actions
+                return $next($request);
+            } else {
+                return redirect()->back()->with('error', 'Anda tidak memiliki akses');
+            }
+        });
+    }
     public function index()
     {
         $data['pelanggan'] = Pelanggan::leftJoin('t_perusahaan AS P', 'P.id', 't_pelanggan.id_perusahaan')
@@ -63,6 +75,7 @@ class PelangganController extends Controller
             'id_perusahaan' => 'required'
         ]);
 
+        // return $request;
         DB::beginTransaction();
         try {
             Pelanggan::create($request->all());

@@ -61,7 +61,7 @@
                         <label for="id_satuan" class=" control-label ml-3" style="margin-right:58px">
                             <h6 class="my-2">Satuan</h6>
                         </label>
-                        <div class="col-md-4">
+                        <div class="col-md-4 ml-1">
                             <select name="id_satuan" id="id_satuan" class="form-control">
                                 <option value="" disabled selected>Pilih Satuan</option>
                                 @foreach ($satuan as $item )

@@ -31,13 +31,15 @@
                         data-route="{{ route('admin.pelanggan.update', $item->id) }}"
                         ><i class="fas fa-edit"></i>
                     </button>
-                    <form action="{{ route('admin.pelanggan.destroy', $item->id) }}" method="post" class="d-inline">
-                        @csrf
-                        @method('DELETE')
-                        <button class="btn btn-xs btn-danger delete-data" type="button" title="Delete">
-                            <i class="fas fa-trash"></i>
-                        </button>
-                    </form>
+                    @if ($item->nama != "Pelanggan Umum")
+                        <form action="{{ route('admin.pelanggan.destroy', $item->id) }}" method="post" class="d-inline">
+                            @csrf
+                            @method('DELETE')
+                            <button class="btn btn-xs btn-danger delete-data" type="button" title="Delete">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </form>
+                    @endif
                 </td>
             </tr>
             @endforeach

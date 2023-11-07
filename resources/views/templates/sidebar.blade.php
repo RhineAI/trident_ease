@@ -4,7 +4,7 @@
     <a href="#" class="brand-link ">
         <img src="{{ asset('assets') }}/img/tepos_logo/tepos_bg.png" alt="AdminLTE Logo"
             class="brand-image img-circle elevation-3 border border-white">
-        <span class="brand-text"><i>Trident Tech.id</i></span>
+        <span class="brand-text">Trident POS</span>
     </a>
    
 

@@ -10,7 +10,7 @@
 
 @section('breadcrumb')
 @parent
-    Pemasok
+    Dashboard
 @endsection
 
 @push('styles')
@@ -92,7 +92,9 @@
     </style>
 @endpush
 @section('contents')
-    
+@php
+    $grade = auth()->user()->perusahaan->grade;
+@endphp
 <!-- Main content -->
 <div class="container-fluid">
     <div class="row">
@@ -113,7 +115,11 @@
 
         <div class="col-md-4 col-sm-4">
             <div class="wrimagecard wrimagecard-topimage">
-                <a href="{{ route('kasir.pelanggan.index') }}">
+                @if ($grade >= 2)
+                    <a href="{{ route('kasir.pelanggan.index') }}">
+                @else 
+                    <a href="#" onclick="featureNotAvailable()">    
+                @endif
                     <div class="wrimagecard-topimage_header" style="background-color: rgba(22, 160, 133, 0.1)">
                         <center><i class="fa-solid fa-user fa-4x fa-fade" style="color:#16A085"></i></center>
                     </div>
@@ -128,7 +134,11 @@
        
         <div class="col-md-4 col-sm-4">
             <div class="wrimagecard wrimagecard-topimage">
-                <a href="{{ route('kasir.retur-penjualan.index') }}">
+                @if ($grade >= 2)
+                    <a href="{{ route('kasir.retur-penjualan.index') }}">
+                @else 
+                    <a href="#" onclick="featureNotAvailable()">    
+                @endif
                     <div class="wrimagecard-topimage_header" style="background-color:  rgba(51, 105, 232, 0.1)">
                         <center><i class="fa-solid fa-rotate-left fa-4x fa-fade" style="color:#3369e8"> </i></center>
                     </div>
@@ -271,6 +281,35 @@
         card.addEventListener('click', () => {
           cardBody.classList.toggle('closed')
         })
+
+        function featureNotAvailable() {
+            Swal.fire({
+                title: "Fitur Tidak Dapat Diakses",
+                text: "Silahkan untuk tingkatkan level akses anda terlebih dahulu!",
+                icon : "warning",
+                showDenyButton: true,
+                confirmButtonText: "Upgrade!",
+                denyButtonText: "Ok",
+                showClass: {
+                    popup: `
+                        animate__animated
+                        animate__fadeInUp
+                        animate__faster
+                    `
+                },
+                hideClass: {
+                    popup: `
+                        animate__animated
+                        animate__fadeOutDown
+                        animate__faster
+                    `
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href("https://wa.wizard.id/8fd751");
+                } 
+            });
+        }
     </script>
     {{-- <script src="{{ asset('assets') }}/vendor/chart.js/Chart.min.js"></script> --}}
     {{-- <script src="{{ asset('assets') }}/js/chart-area-demo.js"></script>  --}}

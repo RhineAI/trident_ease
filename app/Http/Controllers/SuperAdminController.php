@@ -12,6 +12,18 @@ class SuperAdminController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function __construct()
+    {
+        $this->middleware(function ($request, $next) {
+            if (auth()->user()->perusahaan->grade >= 3) {
+                // User has super access, allow all actions
+                return $next($request);
+            } else {
+                return redirect()->back()->with('error', 'Anda tidak memiliki akses');
+            }
+        });
+    }
+
     public function index()
     {
         $data['no'] = 1;
