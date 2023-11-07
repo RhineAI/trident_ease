@@ -62,7 +62,7 @@
                         <small id="messageFalse" style="color:red; margin-top: -200px;">Nama Perusahaan Telah Digunakan, Coba Tambahkan Nama Daerah</small> --}}
 
                         <div class="d-flex flex-row align-items-center mb-4">
-                          <i class="fas fa-envelope fa-lg me-3 fa-fw"></i>
+                          <i class="fas fa-map fa-lg me-3 fa-fw"></i>
                           <div class="form-outline flex-fill mb-0">
                             <input type="text" class="form-control" id="alamat" name="alamat" />
                             <label class="form-label" for="form3Example3c">Alamat</label>
@@ -70,7 +70,7 @@
                         </div>
       
                         <div class="d-flex flex-row align-items-center mb-4">
-                          <i class="fas fa-lock fa-lg me-3 fa-fw"></i>
+                          <i class="fas fa-envelope fa-lg me-3 fa-fw"></i>
                           <div class="form-outline flex-fill mb-0">
                             <input type="email" class="form-control" id="email" name="email"/>
                             <label class="form-label" for="form3Example4c">E-Mail</label>
@@ -78,21 +78,21 @@
                         </div>
       
                         <div class="d-flex flex-row align-items-center mb-4">
-                          <i class="fas fa-key fa-lg me-3 fa-fw"></i>
+                          <i class="fas fa-id-card fa-lg me-3 fa-fw"></i>
                           <div class="form-outline flex-fill mb-0">
                             <input type="text" id="npwp" name="npwp" class="form-control" />
-                            <label class="form-label" for="form3Example4cd">NPWP</label>
+                        <label class="form-label" for="form3Example4cd">NPWP (Opsional)</label>
                           </div>
                         </div>
 
                         <div class="d-flex flex-row align-items-center mb-4">
-                          <i class="fas fa-key fa-lg me-3 fa-fw"></i>
+                          <i class="fas fa-user fa-lg me-3 mx-1 fa-fw"></i>
                           <div class="form-outline flex-fill mb-0">
                             <input type="text" id="pemilik" name="pemilik" class="form-control" />
                             <label class="form-label" for="form3Example4cd">Pemilik</label>
                           </div>
 
-                          <i class="fas fa-key fa-lg me-3 mx-2 fa-fw"></i>
+                          <i class="fas fa-phone fa-lg me-3 mx-2 fa-fw"></i>
                           <div class="form-outline flex-fill mb-0">
                             <input type="text" id="telepon" name="telepon" class="form-control" />
                             <label class="form-label" for="form3Example4cd">Telepon</label>
@@ -100,10 +100,10 @@
                         </div>
 
                         <div class="d-flex flex-row align-items-center mb-4">
-                            <i class="fas fa-key fa-lg me-3 fa-fw"></i>
-                            <div class="form col-md-11 flex-fill mb-0">
+                            <i class="fas fa-building-columns mx-1 fa-lg me-3 fa-fw"></i>
+                            <div class="form col-md-12 flex-fill mb-0">
                                 <select name="bank" id="bank" class="form-select">
-                                    <option disabled="disabled" selected="selected">BANK</option>
+                                    <option disabled="disabled" selected="selected">Bank (Opsional)</option>
                                     <option value="Bank BRI">BRI</option>
                                     <option value="Bank BNI">BNI</option>
                                     <option value="Bank BJB">BJB</option>
@@ -118,40 +118,40 @@
                             <i class="fas fa-key fa-lg me-3 mx-2 fa-fw"></i>
                             <div class="form-outline flex-fill mb-0">
                               <input type="text" id="rekening" name="no_rekening" class="form-control" />
-                              <label class="form-label" for="rekening">Rekening</label>
+                              <label class="form-label" for="rekening">Rekening (Opsional)</label>
                             </div>
                         </div>
 
                         <div id="displayOther">
                             <div class="d-flex flex-row align-items-center mb-4">
-                                <i class="fas fa-key fa-lg me-3 fa-fw"></i>
+                                <i class="fas fa-building-columns mx-1 fa-lg me-3 fa-fw"></i>
                                 <div class="form-outline flex-fill mb-0">
                                   <input type="text" id="other" name="other" class="form-control" placeholder="Bank Lainnya" />
-                                  <label class="form-label" for="form3Example4cd">Bank Lainnya</label>
+                                  <label class="form-label" for="form3Example4cd">Bank Lainnya (Opsional)</label>
                                 </div>
                             </div>
                         </div>
                        
 
                         <div class="d-flex flex-row align-items-center mb-4">
-                            <i class="fas fa-key fa-lg me-3 fa-fw"></i>
+                            <i class="fas fa-quote-left fa-lg me-3 fa-fw"></i>
                             <div class="form-outline flex-fill mb-0">
                               <input type="text" id="slogan" name="slogan" class="form-control" />
-                              <label class="form-label" for="form3Example4cd">Slogan</label>
+                              <label class="form-label" for="form3Example4cd">Slogan (Opsional)</label>
                             </div>
                         </div>
 
                         <div class="d-flex flex-row align-items-center mb-1">
-                            <i class="fas fa-key fa-lg me-3 fa-fw"></i>
+                            <i class="fas fa-image fa-lg me-3 mx fa-fw"></i>
                             <div class="form flex-fill mb-0">
                                 <input class="form-control" type="file" id="image" name="logo" onchange="previewImage()">
                                 <small style="color:grey; font-size:11px;" class="text-muted">Max 4mb</small>
                             </div>
                         </div>
                         <div class="d-flex flex-row align-items-center mb-1">
-                            <i class="fas fa-ke fa-lg me-3 fa-fw"></i>
+                            <i class="fas fa-ke fa-lg me-3 mx-3 fa-fw"></i>
                             <div class="form flex-fill mb-0">
-                                <img class="img-preview img-fluid my-3 col-sm-5" width="250" >
+                                <img class="img-preview img-fluid my-3 col-sm-5" width="300" >
                             </div>
                         </div>
       
@@ -197,12 +197,8 @@
             const nama = $('#nama').val()
             const alamat = $('#alamat').val()
             const email = $('#email').val()
-            const npwp = $('#npwp').val()
             const pemilik = $('#pemilik').val()
             const telepon = $('#telepon').val()
-            const rekening = $('#rekening').val()
-            let bank = $('#bank').val()
-            const other = $('#other').val()
             const slogan = $('#slogan').val()
 
             if(check === "false") {
@@ -244,39 +240,11 @@
                 $('#telepon').val();
             }
 
-            if(npwp == "") {
-                Swal.fire('NPWP Harus Diisi!')
-                return false;
-            } else {
-                $('#npwp').val();
-            }
-
             if(pemilik == "") {
                 Swal.fire('Nama Owner Harus Diisi!')
                 return false;
             } else {
                 $('#pemilik').val();
-            }
-
-            if(bank == null) {
-                Swal.fire('Kolom Bank Harus Diisi!')
-                return false;
-            } else if(bank == "Other") {
-                if(other == ""){
-                    Swal.fire('Kolom Bank Harus Diisi!')
-                    return false;
-                } else {
-                    $('#other').val()
-                }
-            } else {
-                $('#bank').val();
-            }
-
-            if(rekening == "") {
-                Swal.fire('No Rekening Harus Diisi!')
-                return false;
-            } else {
-                $('#rekening').val();
             }
         });
 

@@ -149,8 +149,8 @@
                     <p id="smol">Riwayat Hutang</p>
                 </a>
             </li>
+            <hr>
         @endif
-        <hr>
         <li class="nav-item">
             <a href="{{ route('admin.transaksi-penjualan.index') }}" class="nav-link">
                 {{-- <i class="far fa-circle nav-icon"></i> --}}
@@ -187,21 +187,23 @@
         <ul class="nav nav-treeview ml-4 ml-4">
             <li class="nav-item">
                 <a href="{{ route('admin.retur-pembelian.index') }}" class="nav-link">
-                    <p id="smol">Tambah Retur Pembelian</p>
+                    <p id="smol">Retur Pembelian</p>
                 </a>
             </li>
-            <li class="nav-item">
-                <a href="{{ route('admin.retur-penjualan.index') }}" class="nav-link">
-                    <p>Tambah Retur Penjualan</p>
-                </a id="smol">
-            </li>
             @if ($grade === 3)
-                <hr>
                 <li class="nav-item">
                     <a href="{{ route('admin.list-retur-pembelian.index') }}" class="nav-link">
                         <p id="smol" >Riwayat Retur Pembelian</p>
                     </a>
                 </li>
+                <hr>
+            @endif
+            <li class="nav-item">
+                <a href="{{ route('admin.retur-penjualan.index') }}" class="nav-link">
+                    <p>Retur Penjualan</p>
+                </a id="smol">
+            </li>
+            @if ($grade === 3)
                 <li class="nav-item">
                     <a href="{{ route('admin.list-retur-penjualan.index') }}" class="nav-link">
                         <p id="smol">Riwayat Retur Penjualan</p>

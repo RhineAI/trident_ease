@@ -132,7 +132,7 @@
               <div class="title">
                   Thanks For Register!
               </div>
-              <img src="{{ $perusahaan->logo }}">
+              <img src="{{ url('storage/img/'. $perusahaan->logo) }}">
               <div class="info mb-4">
                   <div class="title mx-5">
                       {{ $perusahaan->nama }}

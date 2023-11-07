@@ -78,27 +78,38 @@ class UsersController extends Controller
             'password' => 'required',
         ]);
 
-        // $user = User::create([
-        //     'nama' => $request->nama,
-        //     'alamat' => $request->alamat,
-        //     'tlp' => $request->tlp,
-        //     'username' => $request->username,
-        //     'password' => bcrypt($request->password),
-        //     'hak_akses' => $request->hak_akses,
-        //     'id_perusahaan' => $request->id_perusahaan
-        // ]);
+        $perusahaan = Perusahaan::select('grade')->first(); // Assuming you want to retrieve a single record.
 
-        $user = new User();
-        $user->nama = $request->nama;
-        $user->alamat = $request->alamat;
-        $user->tlp = $request->tlp;
-        $user->jenis_kelamin = $request->jenis_kelamin;
-        $user->username = $request->username;
-        $user->password = bcrypt($request->password); 
-        $user->hak_akses = $request->hak_akses;
-        $user->id_perusahaan = $request->id_perusahaan;
-        // return $user;
-        $user->save();
+        $checkingAdmin = User::where('hak_akses', 'admin')->count();
+        $checkingCashier = User::where('hak_akses', 'kasir')->count();
+        
+        if ($perusahaan) {
+            $grade = $perusahaan->grade;
+        
+            if (($grade === 1 && $checkingAdmin <= 1) || ($grade === 2 && $checkingAdmin <= 4)) {
+                if ($checkingCashier <= ($grade === 1 ? 1 : 8)) {
+                    $user = new User([
+                        'nama' => $request->nama,
+                        'alamat' => $request->alamat,
+                        'tlp' => $request->tlp,
+                        'jenis_kelamin' => $request->jenis_kelamin,
+                        'username' => $request->username,
+                        'password' => bcrypt($request->password),
+                        'hak_akses' => $request->hak_akses,
+                        'id_perusahaan' => $request->id_perusahaan,
+                    ]);
+        
+                    $user->save();
+                } else {
+                    $errorMessage = 'Sudah melebihi limit pegawai untuk level saat ini!';
+                    $redirectRoute = auth()->user()->hak_akses == 'admin' ? 'admin.users.index' : 'owner.users.index';
+                    return redirect()->route($redirectRoute)->with(['error' => $errorMessage]);
+                }
+            } else {
+                // Handle other cases if needed
+            }
+        }
+        
 
 
         // dd($user);

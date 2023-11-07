@@ -30,7 +30,7 @@
         </p>
     </a>
     <ul class="nav nav-treeview ml-4 ml-4">
-        @if ($grade !== 1)
+        @if (auth()->user()->perusahaan->grade !== 1)
             <li class="nav-item">
                 <a href="{{ route('admin.laporan-harian.index') }}" class="nav-link">
                     <p id="smol">Laporan Harian</p>
@@ -42,7 +42,7 @@
                 <p id="smol">Laporan Penjualan</p>
             </a>
         </li>
-        @if ($grade !== 1)
+        @if (auth()->user()->perusahaan->grade !== 1)
             <li class="nav-item">
                 <a href="{{ route('admin.laporan-pembelian.index') }}" class="nav-link">
                     <p id="smol">Laporan Pembelian</p>
@@ -54,7 +54,7 @@
                 </a>
             </li>
         @endif
-        @if ($grade === 3)
+        @if (auth()->user()->perusahaan->grade === 3)
             <li class="nav-item">
                 <a href="{{ route('admin.laporan-kas.index') }}" class="nav-link">
                     <p class="smol">Laporan Kas</p>

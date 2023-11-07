@@ -38,7 +38,7 @@
             <div class="row justify-content-center">
                 <div class="col-md-6 col-lg-4">
                     <div class="login-wrap p-0">
-                        <img src="{{ asset('assets') }}/img/tepos_logo/tepos bg.png" alt="" class="text-center mb-4 rounded-circle" style="width: 5.5em; height:5em; display: block; margin-left: auto; margin-right: auto;">
+                        <img src="{{ asset('assets') }}/img/tepos_logo/tepos_bg.png" alt="" class="text-center mb-4 rounded-circle" style="width: 5.5em; height:5em; display: block; margin-left: auto; margin-right: auto;">
                         <form action="{{ route('login') }}" method="POST" class="signin-form">
                             @csrf
                             <div class="form-group">
