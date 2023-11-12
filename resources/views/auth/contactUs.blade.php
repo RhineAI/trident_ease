@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>Contact US | ZiePOS</title>
+  <title>Contact US | Trident Ease</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
@@ -44,7 +44,7 @@
       <a href="index.html" class="hero-logo" data-aos="zoom-in"><img width="250" height="200" src="/assets/img/ziepos_nobg.png" alt=""></a>
       <h1 data-aos="zoom-in">Masa Waktu Sewa Aplikasi Untuk Perusahaan Anda Telah Habis</h1>
       <h2 data-aos="fade-up">Hubungi Kami Untuk Memperbaharui Masa Sewa</h2>
-      <a data-aos="fade-up" data-aos-delay="200" target="_blank" href="https://wa.wizard.id/df5559" class="btn-get-started scrollto">Contact US</a>
+      <a data-aos="fade-up" data-aos-delay="200" target="_blank" href="https://wa.wizard.id/df5559" class="btn-get-started scrollto">Hubungi Kami</a>
     </div>
   </section><!-- End Hero -->
 

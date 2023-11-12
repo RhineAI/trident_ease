@@ -48,7 +48,11 @@ class LoginController extends Controller
                     $request->session()->regenerate();
                     return redirect()->intended('/'.$getUser->hak_akses)->with('success', 'Anda telah login sebagai '.$getUser->hak_akses);
                 } elseif($getPerusahaan->expiredDate !== '0000-00-00') {
-                    if(strtotime($getPerusahaan->expiredDate) <= strtotime(date('Y-m-d'))){
+                    $expiredDate = strtotime($getPerusahaan->expiredDate);
+                    $oneDayBeforeExpired = strtotime('-1 day', $expiredDate);
+                    $currentDate = strtotime(date('Y-m-d'));
+
+                    if($currentDate >= $expiredDate){
                         $data['perusahaan'] = Perusahaan::select('*')->where('id', auth()->user()->id_perusahaan)->first();
         
                         Auth::logout();
@@ -57,6 +61,10 @@ class LoginController extends Controller
         
                         $request->session()->regenerateToken();
                         return $this->contactUs($data['perusahaan']);
+                    } else if($currentDate >= $oneDayBeforeExpired && $currentDate < $expiredDate){
+                        // return 'tes';
+                        $request->session()->regenerate();
+                        return redirect()->intended('/'.$getUser->hak_akses)->with('warning', 'Masa sewa akan berakhir besok, Silahkan Hubungi Kami Untuk Memperpanjang Masa Sewa');
                     } else {
                         $request->session()->regenerate();
                         return redirect()->intended('/'.$getUser->hak_akses)->with('success', 'Anda telah login sebagai '.$getUser->hak_akses);

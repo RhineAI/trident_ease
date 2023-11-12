@@ -46,15 +46,17 @@
 @if(session()->has('success'))
     toastr.success('{{ session('success') }}', 'TERIMA KASIH!'); 
 
-    @elseif(session()->has('error'))
+@elseif(session()->has('error'))
 
     toastr.error('{{ session('error') }}', 'GAGAL!'); 
 
-    @elseif(session()->has('errorKasKeluar'))
+@elseif(session()->has('errorKasKeluar'))
 
     toastr.error('{{ session('errorKasKeluar') }}', 'Peringatan!'); 
     $('#modal-form').modal('show')
     $('#modal-form .modal-title').text('Kas Masuk');
+@elseif(session()->has('warning'))
+    toastr.error('{{ session('warning') }}', 'Peringatan!'); 
 @endif
 </script>
 <script>
