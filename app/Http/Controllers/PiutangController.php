@@ -13,15 +13,10 @@ use Illuminate\Support\Facades\DB;
 
 class PiutangController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function __construct()
     {
         $this->middleware(function ($request, $next) {
-            if (auth()->user()->perusahaan->grade >= 2) {
+            if (auth()->user()->perusahaan->grade !== 1) {
                 // User has super access, allow all actions
                 return $next($request);
             } else {

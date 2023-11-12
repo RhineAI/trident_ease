@@ -143,6 +143,8 @@
                     <p id="smol">Riwayat Pembelian</p>
                 </a>
             </li>
+        @endif
+        @if ($grade !== 1)
             <li class="nav-item">
                 <a href="{{ route('admin.data-hutang.index') }}" class="nav-link">
                     {{-- <i class="far fa-circle nav-icon"></i> --}}
@@ -164,6 +166,8 @@
                     <p id="smol">Riwayat Penjualan</p>
                 </a>
             </li>
+        @endif
+        @if ($grade !== 1)
             <li class="nav-item">
                 <a href="{{ route('admin.data-piutang.index') }}" class="nav-link">
                     {{-- <i class="far fa-circle nav-icon"></i> --}}
@@ -272,12 +276,12 @@
                 <p id="smol">Laporan Penjualan</p>
             </a>
         </li>
-        @if ($grade !== 1)
-            <li class="nav-item">
-                <a href="{{ route('admin.laporan-pembelian.index') }}" class="nav-link">
-                    <p id="smol">Laporan Pembelian</p>
-                </a>
-            </li>   
+        <li class="nav-item">
+            <a href="{{ route('admin.laporan-pembelian.index') }}" class="nav-link">
+                <p id="smol">Laporan Pembelian</p>
+            </a>
+        </li> 
+        @if ($grade !== 1)  
             <li class="nav-item">
                 <a href="{{ route('admin.list-b-pelanggan.index') }}" class="nav-link">
                     <p id="smol">Laporan Pelanggan Terbaik</p>

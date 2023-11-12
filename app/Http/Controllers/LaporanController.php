@@ -25,6 +25,34 @@ use Barryvdh\DomPDF\Facade\Pdf as PDF;
 
 class LaporanController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(function ($request, $next) {
+            if (auth()->user()->perusahaan->grade === 1) {
+                $allowedActions = ['penjualan','indexLaporanPenjualan', 'dataLaporanPenjualan', 'DownloadPenjualan', 'PrintPDFPenjualan', 'pembelian','indexLaporanPembelian', 'dataLaporanPembelian', 'DownloadPembelian', 'PrintPDFPembelian']; // Add the allowed actions here
+                $currentAction = $request->route()->getActionMethod();
+
+                if (in_array($currentAction, $allowedActions)) {
+                    // User is allowed for this specific action
+                    return $next($request);
+                } else {
+                    return redirect()->back()->with('error', 'Anda tidak memiliki akses');
+                }
+            } else if(auth()->user()->perusahaan->grade === 2){
+                $allowedActions = ['indexLaporanKas', 'kasMasuk', 'dataLaporanKasMasuk', 'kasKeluar', 'dataLaporanKasKeluar', 'DownloadKas', 'PrintPDFKas', 'indexLaporanStok', 'stok', 'dataLaporanStok', 'DownloadStok', 'PrintPDFStok', 'indexLaporanKesesuaianStok', 'kesesuaianStok', 'dataLaporanKesesuaianStok', 'DownloadKesesuaianStok', 'PrintPDFKesesuaianStok', 'indexLaporanHutang', 'hutang', 'dataLaporanHutang', 'indexLaporanPiutang', 'piutang', 'dataLaporanPiutang', 'DownloadHutang', 'DownloadPiutang', 'PrintPDFHutang', 'PrintPDFPiutang']; // Add the allowed actions here
+                $currentAction = $request->route()->getActionMethod();
+
+                if (!in_array($currentAction, $allowedActions)) {
+                    // User is allowed for this specific action
+                    return $next($request);
+                } else {
+                    return redirect()->back()->with('error', 'Anda tidak memiliki akses');
+                }
+            } else {
+                return $next($request);
+            }
+        });
+    }
 
     // LAPORAN Harian
     public function indexLaporanHarian(Request $request)
@@ -1008,9 +1036,6 @@ class LaporanController extends Controller
         return view('laporan.laporan-kas.print', compact('tglAwal' ,'awal', 'akhir', 'totalKasMasuk', 'totalKasKeluar', 'kasMasuk','kasKeluar', 'cPerusahaan'));
     }
 
-
-
-
      // LAPORAN STOK
     public function indexLaporanStok(Request $request)
     {   
@@ -1151,9 +1176,7 @@ class LaporanController extends Controller
         $cPerusahaan = Perusahaan::select('*')->where('id', auth()->user()->id_perusahaan)->first();
         return view('laporan.laporan-stok.print', compact('stok', 'merk', 'category', 'cPerusahaan'));
     }
-     
-
-    
+         
 
      // LAPORAN KESESUAIAN STOK
     public function indexLaporanKesesuaianStok(Request $request)
@@ -1354,9 +1377,6 @@ class LaporanController extends Controller
 
         return view('laporan.laporan-kesesuaian-stok.print', compact('tglAwal' ,'awal', 'akhir', 'kesesuaian_stok', 'merk', 'category', 'cPerusahaan'));
     }
-
-
-
 
     // LAPORAN HUTANG PIUTANG
     public function indexLaporanHutang(Request $request)

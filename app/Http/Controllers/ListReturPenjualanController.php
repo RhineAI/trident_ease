@@ -11,7 +11,7 @@ class ListReturPenjualanController extends Controller
     public function __construct()
     {
         $this->middleware(function ($request, $next) {
-            if (auth()->user()->perusahaan->grade === 3) {
+            if (auth()->user()->perusahaan->grade !== 1) {
                 // User has super access, allow all actions
                 return $next($request);
             } else {
