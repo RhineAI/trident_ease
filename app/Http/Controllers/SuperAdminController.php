@@ -132,7 +132,7 @@ class SuperAdminController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function perbarui(Request $request, $id) {
-        return $request;
+        // return $request;
         $perusahaan = Perusahaan::find($id);
         $perusahaan['grade'] = $request->grade;
         $perusahaan['expiredDate'] = $request->grade;
@@ -143,6 +143,10 @@ class SuperAdminController extends Controller
     }
     public function update(Request $request, $id)
     {
+        $request->validate([
+            'grade' => 'required',
+            'expiredDate' => 'required',
+        ]);
         // return $request;
         // return (strtotime($request->expiredDate) > strtotime(date('Y-m-d')));
 

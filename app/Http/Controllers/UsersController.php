@@ -7,6 +7,7 @@ use App\Models\Perusahaan;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 class UsersController extends Controller
@@ -68,26 +69,45 @@ class UsersController extends Controller
 
     public function store(Request $request)
     {
-        // dd($request); die;
-        // return $request;
-        $request->validate([
-            'nama' => 'required',
-            'alamat' => 'required',
-            'tlp' => 'required',
-            'username' => 'required',
-            'password' => 'required',
-        ]);
-
-        $perusahaan = Perusahaan::select('grade')->first(); // Assuming you want to retrieve a single record.
-
-        $checkingAdmin = User::where('hak_akses', 'admin')->count();
-        $checkingCashier = User::where('hak_akses', 'kasir')->count();
-        
-        if ($perusahaan) {
-            $grade = $perusahaan->grade;
-        
-            if (($grade === 1 && $checkingAdmin <= 1) || ($grade === 2 && $checkingAdmin <= 4)) {
-                if ($checkingCashier <= ($grade === 1 ? 1 : 8)) {
+        DB::beginTransaction();
+        try {
+            $request->validate([
+                'nama' => 'required',
+                'alamat' => 'required',
+                'tlp' => 'required',
+                'username' => 'required',
+                'password' => 'required',
+            ]);
+    
+            $perusahaan = Perusahaan::select('grade')->first(); // Assuming you want to retrieve a single record.
+    
+            $checkingAdmin = User::where('hak_akses', 'admin')->count();
+            $checkingCashier = User::where('hak_akses', 'kasir')->count();
+            
+            if ($perusahaan) {
+                $grade = $perusahaan->grade;
+            
+                if (($grade === 1 && $checkingAdmin <= 1) || ($grade === 2 && $checkingAdmin <= 4)) {
+                    if ($checkingCashier <= ($grade === 1 ? 1 : 8)) {
+                        $user = new User([
+                            'nama' => $request->nama,
+                            'alamat' => $request->alamat,
+                            'tlp' => $request->tlp,
+                            'jenis_kelamin' => $request->jenis_kelamin,
+                            'username' => $request->username,
+                            'password' => bcrypt($request->password),
+                            'hak_akses' => $request->hak_akses,
+                            'id_perusahaan' => $request->id_perusahaan,
+                        ]);
+            
+                        $user->save();
+                    } else {
+                        $errorMessage = 'Sudah melebihi limit pegawai untuk level saat ini!';
+                        $redirectRoute = auth()->user()->hak_akses == 'admin' ? 'admin.users.index' : 'owner.users.index';
+                        DB::rollBack();
+                        return redirect()->route($redirectRoute)->with(['error' => $errorMessage]);
+                    }
+                } else {
                     $user = new User([
                         'nama' => $request->nama,
                         'alamat' => $request->alamat,
@@ -100,26 +120,25 @@ class UsersController extends Controller
                     ]);
         
                     $user->save();
-                } else {
-                    $errorMessage = 'Sudah melebihi limit pegawai untuk level saat ini!';
-                    $redirectRoute = auth()->user()->hak_akses == 'admin' ? 'admin.users.index' : 'owner.users.index';
-                    return redirect()->route($redirectRoute)->with(['error' => $errorMessage]);
                 }
-            } else {
-                // Handle other cases if needed
+            }
+
+            DB::commit();
+            if(auth()->user()->hak_akses == 'admin'){
+                return redirect()->route('admin.users.index')->with(['success' => 'Input data Pegawai berhasil!']);
+            } elseif(auth()->user()->hak_akses == 'owner') {
+                return redirect()->route('owner.users.index')->with(['success' => 'Input data Pegawai berhasil!']);
+            }
+        } catch(\Exception $e) {
+            DB::rollBack();
+            if(auth()->user()->hak_akses == 'admin'){
+                return redirect()->route('admin.users.index')->with(['error' => 'Terjadi Kesalahan: '. $e->getMessage()]);
+            } elseif(auth()->user()->hak_akses == 'owner') {
+                return redirect()->route('owner.users.index')->with(['success' => 'Terjadi Kesalahan: '. $e->getMessage()]);
             }
         }
         
-
-
-        // dd($user);
         
-        // return redirect('/users')->with('success', 'Input data Pegawai berhasil!');
-        if(auth()->user()->hak_akses == 'admin'){
-            return redirect()->route('admin.users.index')->with(['success' => 'Input data Pegawai berhasil!']);
-        } elseif(auth()->user()->hak_akses == 'owner') {
-            return redirect()->route('owner.users.index')->with(['success' => 'Input data Pegawai berhasil!']);
-        }
     }
 
     /**
@@ -153,19 +172,27 @@ class UsersController extends Controller
      */
     public function update(Request $request, User $user)
     {
+        DB::beginTransaction();
+        try {
+            $user = User::find($user->id);
+            $user->nama = $request->nama;
+            $user->alamat = $request->alamat;
+            $user->tlp = $request->tlp;
+            $user->jenis_kelamin = $request->jenis_kelamin;
+            $user->username = $request->username;
+            $user->password = bcrypt($request->password); 
+            $user->hak_akses = $request->hak_akses;
+            $user->id_perusahaan = $request->id_perusahaan;
+            $user->update();
+
+            DB::commit();
+            // return redirect('/users')->with('success', 'Update Data berhasil');
+            return redirect()->back()->with(['success' => 'Update data Pegawai berhasil!']);
+        } catch(\Exception $e) {
+            DB::rollBack();
+            return redirect()->back()->with(['error' => 'Terjadi Kesalahan Server: '. $e->getMessage()]);
+        }
         // return $user;
-        $user = User::find($user->id);
-        $user->nama = $request->nama;
-        $user->alamat = $request->alamat;
-        $user->tlp = $request->tlp;
-        $user->jenis_kelamin = $request->jenis_kelamin;
-        $user->username = $request->username;
-        $user->password = bcrypt($request->password); 
-        $user->hak_akses = $request->hak_akses;
-        $user->id_perusahaan = $request->id_perusahaan;
-        $user->update();
-        // return redirect('/users')->with('success', 'Update Data berhasil');
-        return redirect()->back()->with(['success' => 'Update data Pegawai berhasil!']);
     }
 
     /**
@@ -176,9 +203,17 @@ class UsersController extends Controller
      */
     public function destroy(User $user)
     {
-        $user->delete();
-        // return redirect('/users')->with('delete', 'Delete Data berhasil');
-        return redirect()->back()->with(['success' => 'Delete data Pegawai berhasil!']);
+        DB::beginTransaction();
+        try {
+            $user->delete();
+            
+            DB::commit();
+            // return redirect('/users')->with('delete', 'Delete Data berhasil');
+            return redirect()->back()->with(['success' => 'Delete data Pegawai berhasil!']);
+        } catch(\Exception $e) {
+            DB::rollBack();
+            return redirect()->back()->with(['error' => 'Terjadi Kesalahan Server: '. $e->getMessage()]);
+        }
     }
 
 
