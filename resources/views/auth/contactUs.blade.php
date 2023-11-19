@@ -41,10 +41,10 @@
   <!-- ======= Hero Section ======= -->
   <section id="hero">
     <div class="hero-container">
-      <a href="index.html" class="hero-logo" data-aos="zoom-in"><img width="250" height="200" src="/assets/img/ziepos_nobg.png" alt=""></a>
+      <a href="index.html" class="hero-logo" data-aos="zoom-in"><img width="250" height="200" src="/assets/img/easepos_logo/ease6.png" alt=""></a>
       <h1 data-aos="zoom-in">Masa Waktu Sewa Aplikasi Untuk Perusahaan Anda Telah Habis</h1>
       <h2 data-aos="fade-up">Hubungi Kami Untuk Memperbaharui Masa Sewa</h2>
-      <a data-aos="fade-up" data-aos-delay="200" target="_blank" href="https://wa.wizard.id/df5559" class="btn-get-started scrollto">Hubungi Kami</a>
+      <a data-aos="fade-up" data-aos-delay="200" target="_blank" href="https://wa.wizard.id/aa64fb" class="btn-get-started scrollto">Hubungi Kami</a>
     </div>
   </section><!-- End Hero -->
 

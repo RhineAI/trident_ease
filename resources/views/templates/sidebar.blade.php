@@ -15,7 +15,7 @@
         <div class="user-panel mt-1 pb-3 mb-1 d-flex divider">
             <div class="image">
                 @if ($cPerusahaan->logo != null)
-                    <img src="{{ asset('assets') }}/img/trident_tech_logo/trident gradient  bg.png" class="img-circle elevation-3 border border-white" style="opacity: .9;"
+                    <img src="{{ asset('assets') }}/img/easepos_logo/ease6 .png" class="img-circle elevation-3 border border-white" style="opacity: .9;"
                         alt="User Image">
                 @else
                     <img src="{{ url('storage/img/'. $cPerusahaan->logo) }}" alt="AdminLTE Logo"

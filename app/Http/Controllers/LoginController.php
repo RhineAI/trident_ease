@@ -183,7 +183,7 @@ class LoginController extends Controller
         // Membuat Link/Excerpt Random
         $data['perusahaan'] = $perusahaan;
         $data['user'] = $user;
-        $random = Str::random(20);
+        $random = Str::random(19);
         $random2 = Str::random(20);
         $randomToken = $random . 'TridentTech.Id?' . $perusahaan->nama . '?kN7l' . $random2;
         return redirect()->route('regSuccess', ['id' => $perusahaan->id, 'token' => $randomToken])->with(['success' => 'Registrasi Berhasil!']);
