@@ -28,60 +28,28 @@
 <!-- Main content -->
 <section class="content">
     <div class="row mb-3">
+        <div class="col-xl-12"></div>
         <!-- New User Card Example -->
         <div class="col-xl-3 col-md-6 mb-4">
             <div class="card h-80">
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-uppercase mb-1">Produk Ditambahkan</div>
+                            <div class="text-xs font-weight-bold text-uppercase mb-1">Total Produk</div>
                             <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800 count" id="count" data-val="{{ $cardBarang }}">{{ $cardBarang }}</div>
                             <div class="mt-2 mb-0 text-muted text-xs">
                                 @if($todaybarang >= $cekupordownbarang) 
                                     <span class="text-success mr-2"><i class="fas fa-arrow-up"></i>+{{ $informasi_penambahan_barang }}</span>
-                                    <span>Dibanding Hari Kemarin </span>
-                                        {{-- (+{{ $totalBarangYesterday }}) --}}
                                 @elseif($todaybarang <= $cekupordownbarang)
                                     <span class="text-danger mr-2"><i class="fas fa-arrow-down"></i>-{{ $informasi_penambahan_barang }}</span>
-                                    <span>Dibanding Hari Kemarin </span>
-                                    {{-- (-{{ $cekupordownbarang - $totalBarangYesterday }}) --}}
                                 @else
                                     <span class="text-success mr-2"><i class="fas fa-arrow-up"></i>+{{ $informasi_penambahan_barang }}</span>
-                                    <span>Dibanding Hari Kemarin</span>
-                                    {{-- (+{{ $totalBarangYesterday }}) --}}
                                 @endif
+                                <span>Dibanding Kemarin</span>
                             </div>
                         </div>
                         <div class="col-auto">
                             <i class="fas fa-database fa-2x text-secondary"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Earnings (Monthly) Card Example -->
-        <div class="col-xl-3 col-md-6 mb-4">
-            <div class="card h-80">
-                <div class="card-body">
-                    <div class="row align-items-center">
-                        <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-uppercase mb-1">Pendapatan (Bulanan)</div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">RP. {{ format_uang($penjualan) }}</div>
-                            <div class="mt-2 mb-0 text-muted text-xs">
-                                @if($upordownpenghasilan >= $cekupordownpenghasilan) 
-                                    <span class="text-success mr-2"><i class="fas fa-arrow-up"></i>{{ $percentage_penghasilan }}%</span>
-                                    <span>Dibanding Bulan Lalu</span>
-                                @elseif($upordownpenghasilan <= $cekupordownpenghasilan)
-                                    <span class="text-danger mr-2"><i class="fas fa-arrow-down"></i>{{ $percentage_penghasilan }}%</span>
-                                    <span>Dibanding Bulan Lalu</span>
-                                @else
-                                    <span class="text-success mr-2"><i class="fas fa-arrow-up"></i>{{ $percentage_penghasilan }}%</span>
-                                    <span>Dibanding Bulan Lalu</span>
-                                @endif
-                            </div>
-                        </div>
-                        <div class="col-auto">
-                            <i class="fas fa-calendar fa-2x text-primary"></i>
                         </div>
                     </div>
                 </div>
@@ -93,22 +61,17 @@
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-uppercase mb-1">Penjualan (Hari Ini)</div>
+                            <div class="text-xs font-weight-bold text-uppercase mb-1">Total Penjualan (Hari Ini)</div>
                             <div class="h5 mb-0 font-weight-bold text-gray-800 count" id="count" data-val="{{ $cardPenjualan }}">0</div>
                             <div class="mt-2 mb-0 text-muted text-xs">
                                 @if($upordowntransaksi >= $cekupordowntransaksi) 
                                     <span class="text-success mr-2"><i class="fas fa-arrow-up" ></i>+{{ $informasi_penambahan_transaksi }}</span>
-                                    <span>Dibanding Kemarin</span>
-                                     {{-- (+{{ $totalTransaksiYesterday }}) --}}
                                 @elseif($upordowntransaksi <= $cekupordowntransaksi)
                                     <span class="text-danger mr-2"><i class="fas fa-arrow-down"></i>+{{ $informasi_penambahan_transaksi }}</span>
-                                    <span>Dibanding Kemarin </span>
-                                    {{-- (-{{ $cekupordowntransaksi - $totalTransaksiYesterday }}) --}}
                                 @else
                                     <span class="text-success mr-2"><i class="fas fa-arrow-up"></i>+{{ $informasi_penambahan_transaksi }}</span>
-                                    <span>Dibanding Kemarin</span>
-                                     {{-- (+{{ $totalTransaksiYesterday }}) --}}
                                 @endif
+                                <span>Dibanding Kemarin</span>
                             </div>
                         </div>
                         <div class="col-auto">
@@ -118,7 +81,117 @@
                 </div>
             </div>
         </div>
-        <!-- Pending Requests Card Example -->
+        {{-- Omset Penjualan --}}
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card h-80">
+                <div class="card-body">
+                    <div class="row align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-uppercase mb-1">Omset Penjualan</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">RP. {{ format_uang($penjualan) }}</div>
+                            <div class="mt-2 mb-0 text-muted text-xs">
+                                @if($upordownpenghasilan >= $cekupordownpenghasilan) 
+                                    <span class="text-success mr-2"><i class="fas fa-arrow-up"></i>{{ $percentage_penghasilan }}%</span>
+                                @elseif($upordownpenghasilan <= $cekupordownpenghasilan)
+                                    <span class="text-danger mr-2"><i class="fas fa-arrow-down"></i>{{ $percentage_penghasilan }}%</span>
+                                @else
+                                    <span class="text-success mr-2"><i class="fas fa-arrow-up"></i>{{ $percentage_penghasilan }}%</span>
+                                @endif
+                                <span>Sejak Bulan Lalu</span>
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-wallet fa-2x text-danger"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{-- Laba Penjualan --}}
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card h-80">
+                <div class="card-body">
+                    <div class="row align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-uppercase mb-1">Laba Penjualan</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">RP. {{ format_uang($penjualan) }}</div>
+                            <div class="mt-2 mb-0 text-muted text-xs">
+                                @if($upordownpenghasilan >= $cekupordownpenghasilan) 
+                                    <span class="text-success mr-2"><i class="fas fa-arrow-up"></i>{{ $percentage_penghasilan }}%</span>
+                                @elseif($upordownpenghasilan <= $cekupordownpenghasilan)
+                                    <span class="text-danger mr-2"><i class="fas fa-arrow-down"></i>{{ $percentage_penghasilan }}%</span>
+                                @else
+                                    <span class="text-success mr-2"><i class="fas fa-arrow-up"></i>{{ $percentage_penghasilan }}%</span>
+                                @endif
+                                <span>Sejak Bulan Lalu</span>
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-calendar fa-2x text-primary"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {{-- Total Pegawai --}}
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card h-80">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-uppercase mb-1">Pegawai</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $total_pegawai }}</div>          
+                            <div class="mt-2 mb-0 text-muted text-xs">
+                                
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-sharp fa-users fa-2x text-secondary"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{-- Total Retur Penjualan --}}
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card h-80">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-uppercase mb-1">Total Retur Penjualan</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">Rp. {{ format_uang($total_retur_penjualan) }}</div>          
+                            <div class="mt-2 mb-0 text-muted text-xs">
+                                
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-sharp fa-truck-ramp-box fa-2x text-dark"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{-- Total Retur Pembelian --}}
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card h-80">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-uppercase mb-1">Total Retur Pembelian</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">Rp. {{ format_uang($total_retur_pembelian) }}</div>          
+                            <div class="mt-2 mb-0 text-muted text-xs">
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-sharp fa-truck-ramp-box fa-2x text-dark"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {{-- Kas Masuk Perusahaan --}}
         <div class="col-xl-3 col-md-6 mb-4">
             <div class="card h-80">
                 <div class="card-body">
@@ -127,7 +200,7 @@
                             <div class="text-xs font-weight-bold text-uppercase mb-1">Kas Masuk (Bulanan)</div>
                             <div class="h5 mb-0 font-weight-bold text-gray-800">Rp. {{ format_uang($kas) }}</div>          
                             <div class="mt-2 mb-0 text-muted text-xs">
-                                @if($upordownkasmasuk >= $cekupordownkasmasuk) 
+                                {{-- @if($upordownkasmasuk >= $cekupordownkasmasuk) 
                                     <span class="text-success mr-2"><i class="fas fa-arrow-up"></i>{{ $percentage_kas_masuk }}%</span>
                                     <span>Dibanding Bulan Lalu</span>
                                 @elseif($upordownkasmasuk <= $cekupordownkasmasuk)
@@ -136,7 +209,7 @@
                                 @else
                                     <span class="text-success mr-2"><i class="fas fa-arrow-up"></i>{{ $percentage_kas_masuk }}%</span>
                                     <span>Dibanding Bulan Lalu</span>
-                                @endif
+                                @endif --}}
                             </div>
                         </div>
                         <div class="col-auto">
@@ -146,6 +219,8 @@
                 </div>
             </div>
         </div>
+        
+        
 
         <!-- Area Chart -->
         <div class="col-xl-8 col-lg-7">
@@ -155,18 +230,9 @@
                 </div>
                 <div class="card-body">
                     <div class="chart-area">
-                        <input type="hidden" id="bulan1" value="{{ $bulan1 }}">
-                        <input type="hidden" id="bulan2" value="{{ $bulan2 }}">
-                        <input type="hidden" id="bulan3" value="{{ $bulan3 }}">
-                        <input type="hidden" id="bulan4" value="{{ $bulan4 }}">
-                        <input type="hidden" id="bulan5" value="{{ $bulan5 }}">
-                        <input type="hidden" id="bulan6" value="{{ $bulan6 }}">
-                        <input type="hidden" id="bulan7" value="{{ $bulan7 }}">
-                        <input type="hidden" id="bulan8" value="{{ $bulan8 }}">
-                        <input type="hidden" id="bulan9" value="{{ $bulan9 }}">
-                        <input type="hidden" id="bulan10" value="{{ $bulan10 }}">
-                        <input type="hidden" id="bulan11" value="{{ $bulan11 }}">
-                        <input type="hidden" id="bulan12" value="{{ $bulan12 }}">
+                        @for ($i = 1; $i < 12; $i++)
+                            <input type="hidden" id="bulan{{ $i }}" value="{{ 'bulan'.$i }}">
+                        @endfor
                         <canvas id="myAreaChart"></canvas>
                     </div>
                 </div>

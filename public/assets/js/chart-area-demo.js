@@ -28,18 +28,12 @@ function number_format(number, decimals, dec_point, thousands_sep) {
 }
 
 // Get Earnings Data
-var bulan1 = $('#bulan1').val();
-var bulan2 = $('#bulan2').val();
-var bulan3 = $('#bulan3').val();
-var bulan4 = $('#bulan4').val();
-var bulan5 = $('#bulan5').val();
-var bulan6 = $('#bulan6').val();
-var bulan7 = $('#bulan7').val();
-var bulan8 = $('#bulan8').val();
-var bulan9 = $('#bulan9').val();
-var bulan10 = $('#bulan10').val();
-var bulan11 = $('#bulan11').val();
-var bulan12 = $('#bulan12').val();
+var bulan = [];
+
+for (var i = 1; i <= 12; i++) {
+    bulan[i] = $('#bulan' + i).val();
+}
+
 
 
 // Area Chart Example

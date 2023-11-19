@@ -2,15 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Perusahaan;
+use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Barang;
-use App\Models\Pelanggan;
 use App\Models\KasMasuk;
+use App\Models\Pelanggan;
+use App\Models\Perusahaan;
+use Illuminate\Http\Request;
+use App\Models\ReturPembelian;
 use App\Models\ReturPenjualan;
 use App\Models\TransaksiPenjualan;
-use Illuminate\Http\Request;
-use Carbon\Carbon;
+use Illuminate\Routing\Controller;
 
 
 class DashboardController extends Controller
@@ -51,12 +53,11 @@ class DashboardController extends Controller
         //PENGHASILAN TRANSAKSI
         $LatestTotalTransaksi = TransaksiPenjualan::whereYear('tgl', $year)->whereMonth('tgl', $lastMonth)->where('id_perusahaan', auth()->user()->id_perusahaan)->sum('total_harga');
         $NowTotalTransaksi = TransaksiPenjualan::whereYear('created_at', $year)->whereMonth('created_at', $month)->where('id_perusahaan', auth()->user()->id_perusahaan)->sum('total_harga');
-        // return $NowTotalTransaksi;
+
         //KAS MASUK
         $LatestTotalKasMasuk = KasMasuk::whereYear('tgl', $year)->whereMonth('tgl', $lastMonth)->where('id_perusahaan',  auth()->user()->id_perusahaan)->sum('jumlah');
         $NowTotalKasMasuk = KasMasuk::whereYear('created_at', $year)->whereMonth('created_at', $month)->where('id_perusahaan', auth()->user()->id_perusahaan)->sum('jumlah');
         
-        // $data['percentage_barang'] = persentasePerbandingan($getDataBarangYesterday, $getDataBarangToday, $countDataBarang);
         $data['percentage_penghasilan'] = persentasePerbandinganHarga($LatestTotalTransaksi, $NowTotalTransaksi);
         $data['percentage_transaksi'] = persentasePerbandingan($getDataTransaksiYesterday, $getDataTransaksiToday, $countDataTransaksi);
         $data['percentage_kas_masuk'] = persentasePerbandinganHarga($LatestTotalKasMasuk, $NowTotalKasMasuk);
@@ -151,24 +152,24 @@ class DashboardController extends Controller
         // $data['rekapBulanan'] = TransaksiPenjualan::whereYear('created_at', $year)->whereMonth('created_at', $month)->sum('total_harga');
 
 
+        $data['total_pegawai'] = User::where('id_perusahaan', auth()->user()->id_perusahaan)->count();
+        $data['total_retur_penjualan'] = ReturPenjualan::where('id_perusahaan', auth()->user()->id_perusahaan)->where('id_user', auth()->user()->id)->whereMonth('created_at', date('m'))->sum('total_retur');
+        $data['total_retur_pembelian'] = ReturPembelian::where('id_perusahaan', auth()->user()->id_perusahaan)->where('id_user', auth()->user()->id)->whereMonth('created_at', date('m'))->sum('total_retur');
         $data['cPerusahaan'] = Perusahaan::select('*')->where('id', auth()->user()->id_perusahaan)->first();
 
         // return $data;
 
-        if(auth()->user()->hak_akses == 'admin' or auth()->user()->hak_akses == 'super_admin'){
-            return view('dashboard', $data);
-        } elseif(auth()->user()->hak_akses == 'owner') {
+        if(auth()->user()->hak_akses != 'kasir'){
             return view('dashboard', $data);
         } else {
-            $data['cPerusahaan'] = Perusahaan::select('*')->where('id', auth()->user()->id_perusahaan)->first();
-            $data['transaksi'] = TransaksiPenjualan::where('id_perusahaan', auth()->user()->id_perusahaan)->where('id_user', auth()->user()->id)->whereMonth('created_at', date('m'))->count();
-            $data['pelanggan'] = Pelanggan::where('id_perusahaan', auth()->user()->id_perusahaan)->whereMonth('created_at', date('m'))->count();
+            $dataKasir['cPerusahaan'] = Perusahaan::select('*')->where('id', auth()->user()->id_perusahaan)->first();
+            $dataKasir['transaksi'] = TransaksiPenjualan::where('id_perusahaan', auth()->user()->id_perusahaan)->where('id_user', auth()->user()->id)->whereMonth('created_at', date('m'))->count();
+            $dataKasir['pelanggan'] = Pelanggan::where('id_perusahaan', auth()->user()->id_perusahaan)->whereMonth('created_at', date('m'))->count();
 
-            
-            $data['total_retur'] = ReturPenjualan::where('id_perusahaan', auth()->user()->id_perusahaan)->where('id_user', auth()->user()->id)->whereMonth('created_at', date('m'))->sum('total_retur');
-            $data['total_harga'] = TransaksiPenjualan::where('id_perusahaan', auth()->user()->id_perusahaan)->where('id_user', auth()->user()->id)->whereMonth('created_at', date('m'))->sum('total_harga');
+            $dataKasir['total_retur'] = ReturPenjualan::where('id_perusahaan', auth()->user()->id_perusahaan)->where('id_user', auth()->user()->id)->whereMonth('created_at', date('m'))->sum('total_retur');
+            $dataKasir['total_harga'] = TransaksiPenjualan::where('id_perusahaan', auth()->user()->id_perusahaan)->where('id_user', auth()->user()->id)->whereMonth('created_at', date('m'))->sum('total_harga');
 
-            return view('dashboardKasir', $data);
+            return view('dashboardKasir', $dataKasir);
         }
         // return view('dashboard', $data);
     }

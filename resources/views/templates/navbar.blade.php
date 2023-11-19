@@ -34,17 +34,15 @@
 <nav class="main-header navbar navbar-expand navbar-white navbar-light">
     <!-- Left navbar links -->
     
-    <ul class="navbar-nav col-md-9" style="margin-right: 4em;">
+    <ul class="navbar-nav col-md-7" style="margin-right: 4em;">
         <li class="nav-item">
             <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
         </li>
     </ul>
+    <span class="mr-2 badge badge badge-danger">Premium</span>
+    <span class="mr-2">{{ date('d-m-Y', strtotime(auth()->user()->perusahaan->expiredDate)) }}</span>
+
     <ul class="navbar-nav">
-        <li class="nav-item">
-            <a class="nav-link" data-widget="navbar-search" href="#" role="button">
-                <i class="fas fa-gears"></i>
-            </a>
-        </li>
         <li class="nav-item">
             <a class="nav-link" data-widget="fullscreen" href="#" role="button">
               <i class="fas fa-expand-arrows-alt"></i>
@@ -88,35 +86,6 @@
             </div>
         </div>
     </div>
-    {{-- <div class="nav-item dropdowns" id="dropdowns">
-        <button class="btn nav-link dropdown-toggle" id="dropdowns-toggle" style="margin-top:-20px;" type="button">
-            <img class="img-profile rounded-circle" src="{{ asset('assets') }}/img/admin.png"
-            style="max-width: 35px;">
-            @if (auth()->user()->nama == NULL) 
-                <span class="ml-2 d-none d-lg-inline text-dark small" style="font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif">User</span>
-            @else 
-                <span class="ml-2 d-none d-lg-inline text-dark small" style="font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif">{{ ucFirst(auth()->user()->nama) }}</span>
-            @endif
-        </button>
-    </div>
-    <div class="dropdowns-content shadow animated--grow-in" id="dropdowns-content" aria-labelledby="userDropdown">
-        <a class="dropdown-item" href="{{ route(Auth::user()->hak_akses.'.profile') }}">
-            <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-            Profile
-        </a>
-        <a class="dropdown-item" href="{{ route(Auth::user()->hak_akses.'.changePW') }}">
-            <i class="fas fa-key fa-sm fa-fw mr-2 text-gray-400"></i>
-             Ganti Password
-        </a>
-        <div class="dropdown-divider"></div>
-        <form action="{{ route('logout') }}">
-            <button class="dropdown-item" data-toggle="modal">
-                <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                Logout
-            </button>
-        </form>
-        
-    </div> --}}
 </nav>
 <!-- /.navbar -->
 
