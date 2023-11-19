@@ -69,8 +69,8 @@
                         <div class="col-md-10">
                             <select class="form-control" name="grade" id="grade" required>
                                 <option value="1">Free</option>
-                                <option value="2">Intermediate</option>
-                                <option value="3">Premium</option>
+                                <option value="2">Plus</option>
+                                <option value="3">Pro</option>
                             </select>
                             <span class="help-block with-errors"></span>
                         </div>

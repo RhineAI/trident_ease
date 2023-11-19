@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Perusahaan;
 use App\Models\Supplier;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class SupplierController extends Controller
 {
@@ -55,13 +56,22 @@ class SupplierController extends Controller
             'bank' => 'required|string|max:50',
             'no_rekening' => 'required|string|max:50',
         ]);
-        // return $request; 
-        if($request['bank'] == 'other') {
-            $request['bank'] = $request['other'];
+
+        DB::beginTransaction();
+        try {
+            // return $request; 
+            if($request['bank'] == 'other') {
+                $request['bank'] = $request['other'];
+            }
+            $input = Supplier::create($request->all());
+            // return redirect('/supplier')->with('success', 'Input data Supplier berhasil!');
+            
+            DB::commit();
+            return redirect()->route('admin.supplier.index')->with(['success' => 'Data Berhasil Disimpan!']);
+        } catch(\Exception) {
+            DB::rollBack();
+            return redirect()->route('admin.supplier.index')->with(['Error' => 'Terjadi Kesalahan Server!']);
         }
-        $input = Supplier::create($request->all());
-        // return redirect('/supplier')->with('success', 'Input data Supplier berhasil!');
-        return redirect()->route('admin.supplier.index')->with(['success' => 'Data Berhasil Disimpan!']);
     }
 
     /**
@@ -104,9 +114,17 @@ class SupplierController extends Controller
             'no_rekening' => 'string|max:50',
         ]);
 
-        $supplier->update($request->all());
-        // return redirect('/supplier')->with('success', 'Update Data berhasil');
-        return redirect()->route('admin.supplier.index')->with(['success' => 'Data Berhasil Diupdate!']);
+        DB::beginTransaction();
+        try {
+            $supplier->update($request->all());
+            
+            DB::commit();
+            // return redirect('/supplier')->with('success', 'Update Data berhasil');
+            return redirect()->route('admin.supplier.index')->with(['success' => 'Data Berhasil Diupdate!']);
+        } catch(\Exception) {
+            DB::rollBack();
+            return redirect()->route('admin.supplier.index')->with(['error' => 'Terjadi Kesalahan Server!']);
+        }
     }
 
     /**
@@ -117,8 +135,16 @@ class SupplierController extends Controller
      */
     public function destroy(Supplier $supplier)
     {
-        $supplier->delete();
-        // return redirect('/supplier')->with('delete', 'Delete Data berhasil');
-        return redirect()->route('admin.supplier.index')->with(['success' => 'Data Berhasil Dihapus!']);
+        DB::beginTransaction();
+        try {
+            $supplier->delete();
+            
+            DB::commit();
+            // return redirect('/supplier')->with('delete', 'Delete Data berhasil');
+            return redirect()->route('admin.supplier.index')->with(['success' => 'Data Berhasil Dihapus!']);
+        } catch(\Exception) {
+            DB::rollBack();
+            return redirect()->route('admin.supplier.index')->with(['error' => 'Terjadi Kesalahan Server!']);
+        }
     }
 }

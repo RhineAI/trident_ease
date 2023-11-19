@@ -269,48 +269,54 @@ class BarangController extends Controller
             $limit = Barang::whereDate('tgl', date('Y-m-d'))->where('id_perusahaan', auth()->user()->id_perusahaan)->count();
             // hitung jumlah input barang yang telah dilakukan oleh perusahaan yang sedang login
             
-            DB::commit();
             if($perusahaan->grade == 1) {
                 // pengecekan level akses perusahaan 
                 if($limit < 10 ) {
                 // cek jumlah input barang perusahaan yang login jika kurang dari 10 lakukan simpan ke database
                     $barang->save();
+                    DB::commit();
                     if ($barang->keterangan == 'utama' or $barang->keterangan == 'Utama') {
                         return redirect()->route('admin.barang.index')->with(['success' => 'Berhasil Disimpan']);
                     } elseif ($barang->keterangan == 'konsinyasi' or $barang->keterangan == 'Konsinyasi') {
                         return redirect()->route('admin.barang.indexKonsinyasi')->with(['success' => 'Berhasil Disimpan']);
                     }
                 } else {
-                // jika sudah melebihi 10 makan return false
+                    // jika sudah melebihi 10 makan return false
+                    DB::rollBack();
                     return redirect()->route('admin.dashboard')->with(['error' => 'Sudah mencapai limit barang, Naikan levelmu terlebih dahulu!']);
                 }
             } elseif($perusahaan->grade == 2) {
                 if($limit < 200 ) {
                 // cek jumlah input barang perusahaan yang login jika kurang dari 50 lakukan simpan ke database
                     $barang->save();
+                    DB::commit();
                     if ($barang->keterangan == 'utama' or $barang->keterangan == 'Utama') {
                         return redirect()->route('admin.barang.index')->with(['success' => 'Berhasil Disimpan']);
                     } elseif ($barang->keterangan == 'konsinyasi' or $barang->keterangan == 'Konsinyasi') {
                         return redirect()->route('admin.barang.indexKonsinyasi')->with(['success' => 'Berhasil Disimpan']);
                     }
                 }else {
-                // jika sudah melebihi 50 makan return false
+                    DB::rollBack();
+                    // jika sudah melebihi 50 makan return false
                     return redirect()->route('admin.dashboard')->with(['error' => 'Sudah mencapai limit barang, Naikan levelmu terlebih dahulu!']);
                 }
             } elseif($perusahaan->grade == 3) {
                 if($limit < 10000 ) {
                 // cek jumlah input barang perusahaan yang login jika kurang dari 10000 lakukan simpan ke database
                     $barang->save();
+                    DB::commit();
                     if ($barang->keterangan == 'utama' or $barang->keterangan == 'Utama') {
                         return redirect()->route('admin.barang.index')->with(['success' => 'Berhasil Disimpan']);
                     } elseif ($barang->keterangan == 'konsinyasi' or $barang->keterangan == 'Konsinyasi') {
                         return redirect()->route('admin.barang.indexKonsinyasi')->with(['success' => 'Berhasil Disimpan']);
                     }                    
                 }else {
-                // jika sudah melebihi 10000 makan return false
+                    DB::rollBack();
+                    // jika sudah melebihi 10000 makan return false
                     return redirect()->route('admin.dashboard')->with(['error' => 'Sudah mencapai limit barang, Naikan levelmu terlebih dahulu!']);
                 }
             } else{
+                DB::rollBack();
                 // cek jika ada level perusahaan berbeda dengan ketentuan
                 return redirect()->route('logout')->with(['error' => 'Anda tidak memiliki akses!']);
             }

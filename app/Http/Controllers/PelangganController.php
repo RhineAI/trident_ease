@@ -79,12 +79,12 @@ class PelangganController extends Controller
         DB::beginTransaction();
         try {
             Pelanggan::create($request->all());
+            DB::commit();
             return redirect()->route('admin.pelanggan.index')->with(['success' => 'Data Berhasil Disimpan!']);
         } catch(QueryException | Exception | PDOException $e) {
             DB::rollBack();
             return redirect()->route('admin.pelanggan.index')->with(['error' => 'Terjadi Kesalahan Server!']);
         }
-        DB::commit();
 
         // $input = Pelanggan::create($request->all());
         // return redirect()->route('admin.pelanggan.index')->with(['success' => 'Data Berhasil Disimpan!']);
@@ -121,9 +121,16 @@ class PelangganController extends Controller
      */
     public function update(UpdatePelangganRequest $request, Pelanggan $pelanggan)
     {
-        $pelanggan->update($request->all());
-        // return redirect('/pelanggan')->with('success', 'Update Data berhasil');
-        return redirect()->route('admin.pelanggan.index')->with(['success' => 'Data Berhasil Diupdate!']);
+        DB::beginTransaction();
+        try {
+            $pelanggan->update($request->all());
+            // return redirect('/pelanggan')->with('success', 'Update Data berhasil');
+            DB::commit();
+            return redirect()->route('admin.pelanggan.index')->with(['success' => 'Data Berhasil Diupdate!']);
+        } catch(QueryException | Exception | PDOException $e) {
+            DB::rollBack();
+            return redirect()->route('admin.pelanggan.index')->with(['error' => 'Terjadi Kesalahan Server!']);
+        }
     }
 
     /**
@@ -134,8 +141,15 @@ class PelangganController extends Controller
      */
     public function destroy(Pelanggan $pelanggan)
     {
-        $pelanggan->delete();
-        // return redirect('/pelanggan')->with('delete', 'Delete Data berhasil');
-        return redirect()->route('admin.pelanggan.index')->with(['success' => 'Data Berhasil Dihapus!']);
+        DB::beginTransaction();
+        try {
+            $pelanggan->delete();
+            // return redirect('/pelanggan')->with('delete', 'Delete Data berhasil');
+            DB::commit();
+            return redirect()->route('admin.pelanggan.index')->with(['success' => 'Data Berhasil Dihapus!']);
+        } catch(QueryException | Exception | PDOException $e) {
+            DB::rollBack();
+            return redirect()->route('admin.pelanggan.index')->with(['error' => 'Terjadi Kesalahan Server!']);
+        }
     }
 }
