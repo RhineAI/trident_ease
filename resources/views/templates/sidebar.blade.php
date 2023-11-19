@@ -2,7 +2,7 @@
 <aside class="main-sidebar sidebar-primary elevation-4" id="bgBlueLightWhiteColor" style="position:fixed; overflow:auto; height:30em">
     <!-- Brand Logo -->
     <a href="#" class="brand-link ">
-        <img src="{{ asset('assets') }}/img/tepos_logo/tepos_bg.png" alt="AdminLTE Logo"
+        <img src="{{ asset('assets') }}/img/easepos_logo/tepos_bg.png" alt="AdminLTE Logo"
             class="brand-image img-circle elevation-3 border border-white">
         <span class="brand-text">Trident POS</span>
     </a>
@@ -15,7 +15,7 @@
         <div class="user-panel mt-1 pb-3 mb-1 d-flex divider">
             <div class="image">
                 @if ($cPerusahaan->logo != null)
-                    <img src="{{ asset('assets') }}/img/easepos_logo/ease6 .png" class="img-circle elevation-3 border border-white" style="opacity: .9;"
+                    <img src="{{ asset('assets') }}/img/easepos_logo/ease6.png" class="img-circle elevation-3 border border-white" style="opacity: .9;"
                         alt="User Image">
                 @else
                     <img src="{{ url('storage/img/'. $cPerusahaan->logo) }}" alt="AdminLTE Logo"

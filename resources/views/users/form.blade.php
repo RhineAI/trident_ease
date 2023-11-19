@@ -93,7 +93,9 @@
                 <div class="col-md-8">
                     <select class="form-control" name="hak_akses" id="hak_akses" >
                         <option value="" disabled="disabled" selected="true">Pilih Hak Akses User</option>
-                            <option value="admin">Administrator</option>
+                            @if (auth()->user()->hak_akses == "owner")
+                                <option value="admin">Administrator</option>
+                            @endif
                             <option value="kasir">Kasir</option>
                             
                         {{-- <option value="owner">Owner</option> --}}
