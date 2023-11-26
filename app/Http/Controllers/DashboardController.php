@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Barang;
 use App\Models\KasMasuk;
+use App\Models\KasKeluar;
 use App\Models\Pelanggan;
 use App\Models\Perusahaan;
 use Illuminate\Http\Request;
@@ -25,8 +26,10 @@ class DashboardController extends Controller
         $month = date('m');
         $year = date('Y');
 
-        $data['penjualan'] = TransaksiPenjualan::whereMonth('created_at', $month)->whereYear('created_at', $year)->where('id_perusahaan', auth()->user()->id_perusahaan)->sum('total_harga');
-        $data['kas'] = KasMasuk::whereMonth('created_at', $month)->whereYear('created_at', $year)->where('id_perusahaan', auth()->user()->id_perusahaan)->sum('jumlah');
+        $data['laba'] = TransaksiPenjualan::whereMonth('created_at', $month)->whereYear('created_at', $year)->where('id_perusahaan', auth()->user()->id_perusahaan)->sum('keuntungan');
+        $data['omset'] = TransaksiPenjualan::whereMonth('created_at', $month)->whereYear('created_at', $year)->where('id_perusahaan', auth()->user()->id_perusahaan)->sum('total_harga');
+        $totalKasMasuk = KasMasuk::whereMonth('created_at', $month)->whereYear('created_at', $year)->where('id_perusahaan', auth()->user()->id_perusahaan)->sum('jumlah');
+        $totalKasKeluar = KasKeluar::whereMonth('created_at', $month)->whereYear('created_at', $year)->where('id_perusahaan', auth()->user()->id_perusahaan)->sum('jumlah');
         $data['pegawai'] = User::where('id_perusahaan', auth()->user()->id_perusahaan)->count();
         $data['check'] = Perusahaan::where('id', auth()->user()->id_perusahaan)->first();
         $data['cardBarang'] = Barang::where('id_perusahaan', auth()->user()->id_perusahaan)->count();
@@ -55,12 +58,12 @@ class DashboardController extends Controller
         $NowTotalTransaksi = TransaksiPenjualan::whereYear('created_at', $year)->whereMonth('created_at', $month)->where('id_perusahaan', auth()->user()->id_perusahaan)->sum('total_harga');
 
         //KAS MASUK
-        $LatestTotalKasMasuk = KasMasuk::whereYear('tgl', $year)->whereMonth('tgl', $lastMonth)->where('id_perusahaan',  auth()->user()->id_perusahaan)->sum('jumlah');
-        $NowTotalKasMasuk = KasMasuk::whereYear('created_at', $year)->whereMonth('created_at', $month)->where('id_perusahaan', auth()->user()->id_perusahaan)->sum('jumlah');
+        // $LatestTotalKasMasuk = KasMasuk::whereYear('tgl', $year)->whereMonth('tgl', $lastMonth)->where('id_perusahaan',  auth()->user()->id_perusahaan)->sum('jumlah');
+        // $NowTotalKasMasuk = KasMasuk::whereYear('created_at', $year)->whereMonth('created_at', $month)->where('id_perusahaan', auth()->user()->id_perusahaan)->sum('jumlah');
         
         $data['percentage_penghasilan'] = persentasePerbandinganHarga($LatestTotalTransaksi, $NowTotalTransaksi);
         $data['percentage_transaksi'] = persentasePerbandingan($getDataTransaksiYesterday, $getDataTransaksiToday, $countDataTransaksi);
-        $data['percentage_kas_masuk'] = persentasePerbandinganHarga($LatestTotalKasMasuk, $NowTotalKasMasuk);
+        // $data['percentage_kas_masuk'] = persentasePerbandinganHarga($LatestTotalKasMasuk, $NowTotalKasMasuk);
 
         // PERCENTAGE UP OR DOWN BARANG
         $checkJumlahBarang = $getDataBarangYesterday - $getDataBarangToday;
@@ -99,16 +102,16 @@ class DashboardController extends Controller
         $data['todaytransaksi'] = $getDataBarangToday;
         $data['totalTransaksiYesterday'] = $hasilT;
 
-        //PERCENTAGE UP OR DOWN INCOME KAS
-        $checkJumlahKasMasuk = $LatestTotalTransaksi - $NowTotalTransaksi;
-        if($checkJumlahKasMasuk < 0) {
-            $hasilKM = $checkJumlahKasMasuk + -($checkJumlahKasMasuk*2);
-        } elseif($checkJumlahKasMasuk >= 0) {
-            $hasilKM = $checkJumlahKasMasuk;
-        }
-        $data['upordownkasmasuk'] = $hasilKM;
-        $data['cekupordownkasmasuk'] = $LatestTotalKasMasuk;
-        $data['todaykasmasuk'] = $NowTotalKasMasuk;
+        // //PERCENTAGE UP OR DOWN INCOME KAS
+        // $checkJumlahKasMasuk = $LatestTotalTransaksi - $NowTotalTransaksi;
+        // if($checkJumlahKasMasuk < 0) {
+        //     $hasilKM = $checkJumlahKasMasuk + -($checkJumlahKasMasuk*2);
+        // } elseif($checkJumlahKasMasuk >= 0) {
+        //     $hasilKM = $checkJumlahKasMasuk;
+        // }
+        // $data['upordownkasmasuk'] = $hasilKM;
+        // $data['cekupordownkasmasuk'] = $LatestTotalKasMasuk;
+        // $data['todaykasmasuk'] = $NowTotalKasMasuk;
 
 
        
@@ -151,7 +154,7 @@ class DashboardController extends Controller
         // d($data_tanggal, $data_pendapatan);
         // $data['rekapBulanan'] = TransaksiPenjualan::whereYear('created_at', $year)->whereMonth('created_at', $month)->sum('total_harga');
 
-
+        $data['kas'] = $totalKasMasuk - $totalKasKeluar;
         $data['total_pegawai'] = User::where('id_perusahaan', auth()->user()->id_perusahaan)->count();
         $data['total_retur_penjualan'] = ReturPenjualan::where('id_perusahaan', auth()->user()->id_perusahaan)->where('id_user', auth()->user()->id)->whereMonth('created_at', date('m'))->sum('total_retur');
         $data['total_retur_pembelian'] = ReturPembelian::where('id_perusahaan', auth()->user()->id_perusahaan)->where('id_user', auth()->user()->id)->whereMonth('created_at', date('m'))->sum('total_retur');

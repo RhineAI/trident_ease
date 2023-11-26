@@ -178,7 +178,7 @@ class LaporanController extends Controller
         // pemasukan kas menurut arurang
         $data['pemasukanKas'] = $data['totalKasMasuk'] - $data['totalKasKeluar'];
         // kalkulasi bapak (total kas masuk +  transaksi penjualan + retur pembelian) - (total kas keluar +  transaksi pembelian + retur penjualan)
-        $data['cadangan'] = ($data['totalKasMasuk'] + data['totalO'] + data['totalReturPembelian']) - ($data['totalKasKeluar'] + data['totalBeli'] + data['totalReturPenjualan']);
+        // $data['cadangan'] = ($data['totalKasMasuk'] + data['totalO'] + data['totalReturPembelian']) - ($data['totalKasKeluar'] + data['totalBeli'] + data['totalReturPenjualan']);
 
         return view('laporan.laporan-harian.index', compact('tanggalAwal', 'tanggalAkhir', 'now'))->with($data);
     }
