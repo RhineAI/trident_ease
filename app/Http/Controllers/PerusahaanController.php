@@ -160,14 +160,16 @@ class PerusahaanController extends Controller
                 Storage::disk('public')->delete('img/'. $perusahaan->logo);
 
                 $logoFile = $request->file('logo');
-                $convertion = Image::make($logoFile->getRealPath())->resize(750, null, function ($constraint) {
-                              $constraint->aspectRatio();
+                
+                $logoFileName = $logoFile->hashName();
+                $path = $logoFile->storeAs('public/img', $logoFileName);
+                $fullPath = storage_path("app/{$path}");
+
+                $convertedImage = Image::make($fullPath)->resize(750, null, function ($constraint) {
+                    $constraint->aspectRatio();
                 });
 
-                $logoFileName = $logoFile->hashName();
-                $oriPath = storage_path('app/public/img/'. $logoFileName);
-                $saveLogo = Image::make($convertion)->save($oriPath);
-
+                $saveLogo = Image::make($convertedImage)->save($fullPath);
                 $perusahaan->logo = $logoFileName;
             } else {
                 $perusahaan->logo = $perusahaan->logo;
@@ -179,7 +181,7 @@ class PerusahaanController extends Controller
             return redirect()->back()->with(['success' => 'Update data Perusahaan berhasil!']);
         }catch(\Exception $error){
             DB::rollBack();
-            return redirect()->back()->with(['error' => 'Update data Perusahaan gagal!']);
+            return redirect()->back()->with(['error' => $error->getMessage()]);
         }
     }
 

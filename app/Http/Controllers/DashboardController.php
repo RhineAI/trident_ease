@@ -171,7 +171,7 @@ class DashboardController extends Controller
 
             $dataKasir['total_retur'] = ReturPenjualan::where('id_perusahaan', auth()->user()->id_perusahaan)->where('id_user', auth()->user()->id)->whereMonth('created_at', date('m'))->sum('total_retur');
             $dataKasir['total_harga'] = TransaksiPenjualan::where('id_perusahaan', auth()->user()->id_perusahaan)->where('id_user', auth()->user()->id)->whereMonth('created_at', date('m'))->sum('total_harga');
-
+            
             return view('dashboardKasir', $dataKasir);
         }
         // return view('dashboard', $data);

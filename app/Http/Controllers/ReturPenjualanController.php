@@ -39,11 +39,16 @@ class ReturPenjualanController extends Controller
     public function index()
     {
         $data['cPerusahaan'] = Perusahaan::select('*')->where('id', auth()->user()->id_perusahaan)->first();
-        $data['penjualan'] = TransaksiPenjualan::leftJoin('t_pelanggan AS P', 'P.id', 't_transaksi_penjualan.id_pelanggan')
+        $query = TransaksiPenjualan::leftJoin('t_pelanggan AS P', 'P.id', 't_transaksi_penjualan.id_pelanggan')
         ->select('t_transaksi_penjualan.id AS id_penjualan', 't_transaksi_penjualan.tgl AS tanggal', 'P.nama AS nama_pelanggan', 'P.id AS id_pelanggan', 'P.tlp')
         ->where('t_transaksi_penjualan.id_perusahaan', auth()->user()->id_perusahaan)     
-        ->orderBy('t_transaksi_penjualan.tgl', 'desc')
-        ->get();
+        ->orderBy('t_transaksi_penjualan.tgl', 'desc');
+
+        if(auth()->user()->hak_akses == 'kasir') {
+            $data['penjualan'] = $query->where('id_user', auth()->user()->id)->get();
+        } else {
+            $data['penjualan'] = $query->get();
+        }
         // dd($data['penjualan']);
         return view('returPenjualan.index', $data);
     }

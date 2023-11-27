@@ -161,7 +161,7 @@
 
 @push('scripts') 
     <script>
-        // $('body').addClass('sidebar-collapse');
+        $('body').addClass('sidebar-collapse');
 
         function preventEnter(e){
             if(e.keyCode === 13){

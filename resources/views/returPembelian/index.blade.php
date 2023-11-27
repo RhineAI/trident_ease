@@ -73,7 +73,7 @@
                         <form class="form-supplier" method="post">
                             @csrf
 
-                            <div class="form-group row">
+                            <div class="form-group row mb-1">
                                 <label for="id_pembelian" class="col-lg-2 control-label">Retur Pembelian</label>
                                 <div class="col-lg-4">
                                     <div class="input-group">
@@ -97,7 +97,7 @@
                                 </div>
                             </div>
 
-                            <div class="form-group row">
+                            <div class="form-group row mb-1">
                                 <label for="tgl" class="col-lg-2 control-label">Tanggal</label>
                                 <div class="col-lg-4">
                                     <input type="date" class="form-control" name="tgl" id="tgl" readonly>
@@ -206,7 +206,7 @@
 
 @push('scripts') 
     <script>
-        // $('body').addClass('sidebar-collapse');
+        $('body').addClass('sidebar-collapse');
 
         $(document).on('click', '#submit', function(){
                 let total_retur = $('#total_retur').val();

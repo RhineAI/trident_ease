@@ -38,14 +38,14 @@
                             <div class="text-xs font-weight-bold text-uppercase mb-1">Total Keseluruhan Produk</div>
                             <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800 count" id="count" data-val="{{ $cardBarang }}">{{ $cardBarang }}</div>
                             <div class="mt-2 mb-0 text-muted text-xs">
+                                <span>Peningkatan</span>
                                 @if($todaybarang >= $cekupordownbarang) 
-                                    <span class="text-success mr-2"><i class="fas fa-arrow-up"></i>+{{ $informasi_penambahan_barang }}</span>
+                                    <span class="text-success mr-1">+{{ $informasi_penambahan_barang }} <i class="fas fa-arrow-up"></i></span>
                                 @elseif($todaybarang <= $cekupordownbarang)
-                                    <span class="text-danger mr-2"><i class="fas fa-arrow-down"></i>-{{ $informasi_penambahan_barang }}</span>
+                                    <span class="text-danger mr-1">-{{ $informasi_penambahan_barang }} <i class="fas fa-arrow-down"></i></span>
                                 @else
-                                    <span class="text-success mr-2"><i class="fas fa-arrow-up"></i>+{{ $informasi_penambahan_barang }}</span>
+                                    <span class="text-success mr-1">+{{ $informasi_penambahan_barang }} <i class="fas fa-arrow-up"></i></span>
                                 @endif
-                                <span>Dibanding Kemarin</span>
                             </div>
                         </div>
                         <div class="col-auto">
@@ -64,14 +64,14 @@
                             <div class="text-xs font-weight-bold text-uppercase mb-1">Total Penjualan (Hari Ini)</div>
                             <div class="h5 mb-0 font-weight-bold text-gray-800 count" id="count" data-val="{{ $cardPenjualan }}">0</div>
                             <div class="mt-2 mb-0 text-muted text-xs">
+                                <span>Peningkatan</span>
                                 @if($upordowntransaksi >= $cekupordowntransaksi) 
-                                    <span class="text-success mr-2"><i class="fas fa-arrow-up" ></i>+{{ $informasi_penambahan_transaksi }}</span>
+                                    <span class="text-success mr-1">+{{ $informasi_penambahan_transaksi }} <i class="fas fa-arrow-up" ></i></span>
                                 @elseif($upordowntransaksi <= $cekupordowntransaksi)
-                                    <span class="text-danger mr-2"><i class="fas fa-arrow-down"></i>+{{ $informasi_penambahan_transaksi }}</span>
+                                    <span class="text-danger mr-1"></i>+{{ $informasi_penambahan_transaksi }} <i class="fas fa-arrow-down"></span>
                                 @else
-                                    <span class="text-success mr-2"><i class="fas fa-arrow-up"></i>+{{ $informasi_penambahan_transaksi }}</span>
+                                    <span class="text-success mr-1"></i>+{{ $informasi_penambahan_transaksi }} <i class="fas fa-arrow-up"></span>
                                 @endif
-                                <span>Dibanding Kemarin</span>
                             </div>
                         </div>
                         <div class="col-auto">
@@ -87,17 +87,19 @@
                 <div class="card-body">
                     <div class="row align-items-center">
                         <div class="col mr-2">
+                            
                             <div class="text-xs font-weight-bold text-uppercase mb-1">Omset Penjualan (Bulanan)</div>
                             <div class="h5 mb-0 font-weight-bold text-gray-800">RP. {{ format_uang($omset) }}</div>
                             <div class="mt-2 mb-0 text-muted text-xs">
+                                <span>Peningkatan</span>
+
                                 @if($upordownpenghasilan >= $cekupordownpenghasilan) 
-                                    <span class="text-success mr-2"><i class="fas fa-arrow-up"></i>{{ $percentage_penghasilan }}%</span>
+                                    <span class="text-success mr-1">{{ $percentage_penghasilan }}% <i class="fas fa-arrow-up"></i></span>
                                 @elseif($upordownpenghasilan <= $cekupordownpenghasilan)
-                                    <span class="text-danger mr-2"><i class="fas fa-arrow-down"></i>{{ $percentage_penghasilan }}%</span>
+                                    <span class="text-danger mr-1"></i>{{ $percentage_penghasilan }}% <i class="fas fa-arrow-down"></span>
                                 @else
-                                    <span class="text-success mr-2"><i class="fas fa-arrow-up"></i>{{ $percentage_penghasilan }}%</span>
+                                    <span class="text-success mr-1"></i>{{ $percentage_penghasilan }}% <i class="fas fa-arrow-up"></span>
                                 @endif
-                                <span>Sejak Bulan Lalu</span>
                             </div>
                         </div>
                         <div class="col-auto">
@@ -116,14 +118,14 @@
                             <div class="text-xs font-weight-bold text-uppercase mb-1">Laba Penjualan (Bulanan)</div>
                             <div class="h5 mb-0 font-weight-bold text-gray-800">RP. {{ format_uang($laba) }}</div>
                             <div class="mt-2 mb-0 text-muted text-xs">
+                                <span>Peningkatan</span>
                                 @if($upordownpenghasilan >= $cekupordownpenghasilan) 
-                                    <span class="text-success mr-2"><i class="fas fa-arrow-up"></i>{{ $percentage_penghasilan }}%</span>
+                                    <span class="text-success mr-1">{{ $percentage_penghasilan }}% <i class="fas fa-arrow-up"></i></span>
                                 @elseif($upordownpenghasilan <= $cekupordownpenghasilan)
-                                    <span class="text-danger mr-2"><i class="fas fa-arrow-down"></i>{{ $percentage_penghasilan }}%</span>
+                                    <span class="text-danger mr-1">{{ $percentage_penghasilan }}% <i class="fas fa-arrow-down"></i></span>
                                 @else
-                                    <span class="text-success mr-2"><i class="fas fa-arrow-up"></i>{{ $percentage_penghasilan }}%</span>
+                                    <span class="text-success mr-1">{{ $percentage_penghasilan }}% <i class="fas fa-arrow-up"></i></span>
                                 @endif
-                                <span>Sejak Bulan Lalu</span>
                             </div>
                         </div>
                         <div class="col-auto">

@@ -8,15 +8,15 @@
             <span aria-hidden="true">&times;</span>
             </button>
         </div>
-        <div class="modal-body table-responsive dt-responsive ">
-            <table id="tbl-data-retur-pembelian" class="table table-striped table-bordered table-hover table-compact table-responsive dt-responsive" style="width: 100%;">
+        <div class="modal-body">
+            <table id="tbl-data-retur-pembelian" class="table table-striped table-bordered table-hover table-responsive dt-responsive" style="width: 100%;">
                 <thead>
                     <tr>
-                        <td>No</td>
-                        <td>Tanggal</td>
-                        <td>No Pembelian</td>
-                        <td>Supplier</td>
-                        <td>Action</td>
+                        <th>No</th>
+                        <th>Tanggal</th>
+                        <th>No Pembelian</th>
+                        <th>Supplier</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
