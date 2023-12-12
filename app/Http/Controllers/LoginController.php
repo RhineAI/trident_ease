@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Auth;
 use Intervention\Image\Facades\Image as Image;
 use Illuminate\Database\QueryException;
 use App\Mail\NotifikasiRegisterPerusahaan;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\ValidationException;
 
@@ -110,105 +111,118 @@ class LoginController extends Controller
     }
 
     public function register(Request $request) {
-        // Memvalidasi inputan apakah sudah diisi apa belum
-        $validate = $request->validate([
-            'email' => 'required|max:50|email:dns',
-        ]);
-        // Pembuatan Objek Baru : Perusahaan
-        $perusahaan = new Perusahaan();
-        // Jika ada inputan berupa img maka akan terlebih dahulu di cek dan img akan dimasukan kedalam aplikasi
-        if($request->logo){
-            $request->validate([
-                'image' => 'image|mimes:jpg,png,jpeg,gif,svg|max:4096',
+        DB::beginTransaction();
+        try {
+            // Memvalidasi inputan apakah sudah diisi apa belum
+            $validate = $request->validate([
+                'email' => 'required|max:50|email:dns',
             ]);
+            $check = Perusahaan::where('nama', $request->nama)->first();
+            if(!empty($check)){
+                return redirect()->back()->with(['error' => 'Nama Perusahaan Sudah Digunakan, Silahkan Tambahkan Karakter Unik']);
+            }
 
-            $logoFile = $request->file('logo');
+            // Pembuatan Objek Baru : Perusahaan
+            $perusahaan = new Perusahaan();
+            // Jika ada inputan berupa img maka akan terlebih dahulu di cek dan img akan dimasukan kedalam aplikasi
+            if($request->logo){
+                $request->validate([
+                    'image' => 'image|mimes:jpg,png,jpeg,gif,svg|max:4096',
+                ]);
 
-            // Create an instance of the Intervention Image class
-            $convertion = Image::make($logoFile->getRealPath())->resize(750, null, function ($constraint) {
-                $constraint->aspectRatio();
-            });
+                $logoFile = $request->file('logo');
 
-            // Generate a unique filename
-            $logoFileName = uniqid() . '_' . time() . '.' . $logoFile->getClientOriginalExtension();
+                // Create an instance of the Intervention Image class
+                $convertion = Image::make($logoFile->getRealPath())->resize(750, null, function ($constraint) {
+                    $constraint->aspectRatio();
+                });
 
-            // Save the image to the storage directory
-            Storage::put('public/img/' . $logoFileName, (string)$convertion->encode());
+                // Generate a unique filename
+                $logoFileName = uniqid() . '_' . time() . '.' . $logoFile->getClientOriginalExtension();
 
-            // Get the full path to the saved image
-            $imagePath = 'public/img/' . $logoFileName;
+                // Save the image to the storage directory
+                Storage::put('public/img/' . $logoFileName, (string)$convertion->encode());
 
-            // Optionally, you can create a symbolic link to make the image accessible from the public directory
-            // Note: Run php artisan storage:link if the symbolic link doesn't exist yet
-            // This creates a symbolic link from public/storage to storage/app/public
-            // Only needed once or whenever the storage structure changes
-            $linkPath = storage_path('app/public/img/' . $logoFileName);
+                // Get the full path to the saved image
+                $imagePath = 'public/img/' . $logoFileName;
 
-            // $logoFile = $request->file('logo');
-            // $convertion = Image::make($logoFile->getRealPath())->resize(750, null, function ($constraint) {
-            //                 $constraint->aspectRatio();
-            // });
+                // Optionally, you can create a symbolic link to make the image accessible from the public directory
+                // Note: Run php artisan storage:link if the symbolic link doesn't exist yet
+                // This creates a symbolic link from public/storage to storage/app/public
+                // Only needed once or whenever the storage structure changes
+                $linkPath = storage_path('app/public/img/' . $logoFileName);
 
-            // $logoFileName = $logoFile->hashName();
-            // $oriPath = storage_patsh('app/public/img/'. $logoFileName);
-            Image::make($convertion)->save($linkPath);
+                // $logoFile = $request->file('logo');
+                // $convertion = Image::make($logoFile->getRealPath())->resize(750, null, function ($constraint) {
+                //                 $constraint->aspectRatio();
+                // });
 
-            $perusahaan->logo = $logoFileName;
-        } else {
-            $perusahaan->logo = $perusahaan->logo;
+                // $logoFileName = $logoFile->hashName();
+                // $oriPath = storage_patsh('app/public/img/'. $logoFileName);
+                Image::make($convertion)->save($linkPath);
+
+                $perusahaan->logo = $logoFileName;
+            } else {
+                $perusahaan->logo = $perusahaan->logo;
+            }
+            // Isi dari Objek Perusahaan
+            $perusahaan->nama = $request->nama;
+            $perusahaan->alamat = $request->alamat;
+            $perusahaan->email = $request->email;
+            $perusahaan->npwp = $request->npwp;
+            $perusahaan->pemilik = $request->pemilik;
+            $perusahaan->tlp = $request->telepon;
+            // Pengecekan jika user memilih bank yang tidak ada dalam aplikasi
+            if($request->bank == 'Other'){
+                $perusahaan->bank = $request->other;
+            } else {
+                $perusahaan->bank = $request->bank;
+            }
+            $perusahaan->no_rekening = $request->no_rekening;
+            $perusahaan->slogan = $request->slogan;
+            $perusahaan->grade = 1;
+            $perusahaan->startDate = date('Y-m-d');// Calculate the expiredDate by adding 7 days to the startDate
+            $perusahaan->expiredDate = Carbon::parse($perusahaan->startDate)->addDays(8)->format('Y-m-d');
+
+            // Menyimpan objek Perusahaan kedalam database
+            $perusahaan->save();
+            
+            // Array dari beberapa string
+            $replace = array(' ', '.', ',', 'PT', 'Pt', 'pt', 'pT', 'CV', 'Cv', 'cv', 'cV');
+            // Pembuatan objek baru : User
+            $user = new User();
+            // Isi dari objek User
+            $user->id_perusahaan = $perusahaan->id;
+            $user->nama = $perusahaan->pemilik;
+            $user->username = str_replace($replace, '', $perusahaan->nama);
+            $user->password = bcrypt(str_replace(' ', '', strtolower($perusahaan->pemilik).'123'));
+            $user->tlp = $perusahaan->tlp;
+            $user->hak_akses = 'owner';
+            // Menyimpan objek User kedalam database
+            $user->save();
+
+            // Pembuatan objek baru : Pelanggan
+            $pelangganUmum = new Pelanggan();
+            // Isi dari objek Pelanggan
+            $pelangganUmum->nama = 'Pelanggan Umum';
+            $pelangganUmum->alamat = '-';
+            $pelangganUmum->jenis_kelamin = 'L';
+            $pelangganUmum->id_perusahaan = $perusahaan->id;
+            // Menyimpan objek Pelanggan kedalam database
+            $pelangganUmum->save();
+
+            // Membuat Link/Excerpt Random
+            $data['perusahaan'] = $perusahaan;
+            $data['user'] = $user;
+            $random = Str::random(19);
+            $random2 = Str::random(20);
+            $randomToken = $random . 'TridentTech.Id?' . $perusahaan->nama . '?kN7l' . $random2;
+            
+            DB::commit();
+            return redirect()->route('regSuccess', ['id' => $perusahaan->id, 'token' => $randomToken])->with(['success' => 'Registrasi Berhasil!']);
+        } catch(\Exception $e) {
+            DB::rollBack();
+            return redirect()->back()->with(['error' => 'Terjadi Kesalahan Server: '. $e->getMessage()]);
         }
-        // Isi dari Objek Perusahaan
-        $perusahaan->nama = $request->nama;
-        $perusahaan->alamat = $request->alamat;
-        $perusahaan->email = $request->email;
-        $perusahaan->npwp = $request->npwp;
-        $perusahaan->pemilik = $request->pemilik;
-        $perusahaan->tlp = $request->telepon;
-        // Pengecekan jika user memilih bank yang tidak ada dalam aplikasi
-        if($request->bank == 'Other'){
-            $perusahaan->bank = $request->other;
-        } else {
-            $perusahaan->bank = $request->bank;
-        }
-        $perusahaan->no_rekening = $request->no_rekening;
-        $perusahaan->slogan = $request->slogan;
-        $perusahaan->grade = 1;
-        $perusahaan->startDate = date('Y-m-d');// Calculate the expiredDate by adding 7 days to the startDate
-        $perusahaan->expiredDate = Carbon::parse($perusahaan->startDate)->addDays(8)->format('Y-m-d');
-
-        // Menyimpan objek Perusahaan kedalam database
-        $perusahaan->save();
-        
-        // Array dari beberapa string
-        $replace = array(' ', '.', ',', 'PT', 'Pt', 'pt', 'pT', 'CV', 'Cv', 'cv', 'cV');
-        // Pembuatan objek baru : User
-        $user = new User();
-        // Isi dari objek User
-        $user->id_perusahaan = $perusahaan->id;
-        $user->nama = $perusahaan->pemilik;
-        $user->username = str_replace($replace, '', $perusahaan->nama);
-        $user->password = bcrypt(str_replace(' ', '', strtolower($perusahaan->pemilik).'123'));
-        $user->tlp = $perusahaan->tlp;
-        $user->hak_akses = 'owner';
-        // Menyimpan objek User kedalam database
-        $user->save();
-
-        // Pembuatan objek baru : Pelanggan
-        $pelangganUmum = new Pelanggan();
-        // Isi dari objek Pelanggan
-        $pelangganUmum->nama = 'Pelanggan Umum';
-        $pelangganUmum->alamat = '-';
-        $pelangganUmum->jenis_kelamin = 'L';
-        $pelangganUmum->id_perusahaan = $perusahaan->id;
-        // Menyimpan objek Pelanggan kedalam database
-        $pelangganUmum->save();
-
-        // Membuat Link/Excerpt Random
-        $data['perusahaan'] = $perusahaan;
-        $data['user'] = $user;
-        $random = Str::random(19);
-        $random2 = Str::random(20);
-        $randomToken = $random . 'TridentTech.Id?' . $perusahaan->nama . '?kN7l' . $random2;
-        return redirect()->route('regSuccess', ['id' => $perusahaan->id, 'token' => $randomToken])->with(['success' => 'Registrasi Berhasil!']);
     }
 }
