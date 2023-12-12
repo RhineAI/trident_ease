@@ -286,9 +286,10 @@
                         reserved.</small>
                     <div class="social-contact ml-4 ml-sm-auto d-flex">
                         <p class="mr-5 pb-1">Hubungi kami</p>
-
+                        <a href="https://www.instagram.com/trident.startup/?utm_source=ig_web_button_share_sheet&igshid=OGQ5ZDc2ODk2ZA==">
                         <span class="fa fa-instagram mr-4 text-md mt-2"></span>
-                        <a href="">
+                        </a>
+                        <a href="https://wa.me/6285174067863">
                             <span class="fa fa-whatsapp mr-4 mr-sm-5 text-md mt-2"></span>
                         </a>
                     </div>
