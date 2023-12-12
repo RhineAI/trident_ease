@@ -160,13 +160,35 @@ class PerusahaanController extends Controller
                 Storage::disk('public')->delete('img/'. $perusahaan->logo);
 
                 $logoFile = $request->file('logo');
+
+                // Create an instance of the Intervention Image class
                 $convertion = Image::make($logoFile->getRealPath())->resize(750, null, function ($constraint) {
-                              $constraint->aspectRatio();
+                    $constraint->aspectRatio();
                 });
 
-                $logoFileName = $logoFile->hashName();
-                $oriPath = storage_path('app/public/img/'. $logoFileName);
-                $saveLogo = Image::make($convertion)->save($oriPath);
+                // Generate a unique filename
+                $logoFileName = uniqid() . '_' . time() . '.' . $logoFile->getClientOriginalExtension();
+
+                // Save the image to the storage directory
+                Storage::put('public/img/' . $logoFileName, (string)$convertion->encode());
+
+                // Get the full path to the saved image
+                $imagePath = 'public/img/' . $logoFileName;
+
+                // Optionally, you can create a symbolic link to make the image accessible from the public directory
+                // Note: Run php artisan storage:link if the symbolic link doesn't exist yet
+                // This creates a symbolic link from public/storage to storage/app/public
+                // Only needed once or whenever the storage structure changes
+                $linkPath = storage_path('app/public/img/' . $logoFileName);
+
+                // $logoFile = $request->file('logo');
+                // $convertion = Image::make($logoFile->getRealPath())->resize(750, null, function ($constraint) {
+                //                 $constraint->aspectRatio();
+                // });
+
+                // $logoFileName = $logoFile->hashName();
+                // $oriPath = storage_patsh('app/public/img/'. $logoFileName);
+                Image::make($convertion)->save($linkPath);
 
                 $perusahaan->logo = $logoFileName;
             } else {
