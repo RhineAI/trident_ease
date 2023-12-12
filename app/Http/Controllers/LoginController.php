@@ -182,7 +182,7 @@ class LoginController extends Controller
             $perusahaan->slogan = $request->slogan;
             $perusahaan->grade = 1;
             $perusahaan->startDate = date('Y-m-d');// Calculate the expiredDate by adding 7 days to the startDate
-            $perusahaan->expiredDate = Carbon::parse($perusahaan->startDate)->addDays(8)->format('Y-m-d');
+            $perusahaan->expiredDate = Carbon::parse($perusahaan->startDate)->addDays(30)->format('Y-m-d');
 
             // Menyimpan objek Perusahaan kedalam database
             $perusahaan->save();
