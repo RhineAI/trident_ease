@@ -16,38 +16,48 @@ class PublishSeeder extends Seeder
     public function run()
     {
         DB::table('t_perusahaan')->insert([
-            'nama' => 'ZiePOS',
+            'nama' => 'Big Think',
             'alamat' => 'Jl. Siliwangi No.41, Sawah Gede, Kec. Cianjur, Kabupaten Cianjur, Jawa Barat 43212',
             'tlp' => '(0263) 261265',
-            'pemilik' => 'SMAKZIE',
+            'pemilik' => 'BT.Corp',
             'bank' => 'Syariah',
             'no_rekening' => '213123',
             'npwp' => '20203872',
-            'slogan' => 'The Right Place to Get Success for the Future',
-            'email' => 'info@smkn1cianjur.sch.id',
+            'slogan' => 'Big success start from a small think',
+            'email' => 'info@bigthink.corp',
             'logo' => '/assets/img/logo.png',
             'grade' => 3
         ]);
 
         DB::table('t_users')->insert([
-            'nama' => 'Zieadmin',
+            'nama' => 'Test admin',
             'alamat' => 'Jl.Kh Shaleh',
             'tlp' => '082118356193',
             'jenis_kelamin' => 'L',
             'username' => 'Admin',
-            'password' => bcrypt('zieadmin2022'),
+            'password' => bcrypt('testadmin2023'),
             'hak_akses' => 'admin',
             'id_perusahaan' => 1,
         ]);
 
         DB::table('t_users')->insert([
-            'nama' => 'ZiePOS',
+            'nama' => 'BigThink',
             'alamat' => 'Jl.Kh Shaleh',
             'tlp' => '082118356193',
             'jenis_kelamin' => 'L',
-            'username' => 'SuperAdmin',
-            'password' => bcrypt('ziepos2022'),
+            'username' => 'SuperThink',
+            'password' => bcrypt('bigthink2023'),
             'hak_akses' => 'super_admin',
+            'id_perusahaan' => 1,
+        ]);
+        DB::table('t_users')->insert([
+            'nama' => 'pengguna',
+            'alamat' => 'Jl.Kh Shaleh',
+            'tlp' => '082118356193',
+            'jenis_kelamin' => 'L',
+            'username' => 'pengguna',
+            'password' => bcrypt('pengguna2023'),
+            'hak_akses' => 'kasir',
             'id_perusahaan' => 1,
         ]);
 

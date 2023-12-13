@@ -8,11 +8,11 @@
     <meta name="description" content="ZiePOS">
     <meta name="author" content="ZiePOS">
     <meta name="keywords" content="ZiePOS">
-    <link rel="icon" href="{{ asset('assets') }}/img/ziepos.png" type="image/png">
+    <link rel="icon" href="{{ asset('assets') }}/img/easepos_logo/ease8.png" type="image/png">
 
 
     <!-- Title Page-->
-    <title>Register | Aplikasi POS</title>
+    <title>Register | EASE</title>
 
     <!-- Icons font CSS-->
     <link href="{{ asset('templates') }}/vendor/mdi-font/css/material-design-iconic-font.min.css" rel="stylesheet" media="all">
@@ -164,10 +164,12 @@
                     </div>
                     <div class="col-md-10 col-lg-6 col-xl-6 d-flex align-items-center order-1 order-lg-2">
       
-                      <img src="assets/img/register.png"
+                      <img  style="width: 300px; margin-left:80px" src="assets/img/easepos_logo/ease8.png"
                         class="img-fluid" alt="Sample image">
+                        
                     
                     </div>
+                            
                   </div>
                 </div>
               </div>

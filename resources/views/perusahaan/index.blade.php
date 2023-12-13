@@ -268,12 +268,12 @@ Perusahaan
                 $('#telepon').val();
             }
 
-            if(npwp == "") {
-                Swal.fire('NPWP Harus Diisi!')
-                return false;
-            } else {
-                $('#npwp').val();
-            }
+            // if(npwp == "") {
+            //     Swal.fire('NPWP Harus Diisi!')
+            //     return false;
+            // } else {
+            //     $('#npwp').val();
+            // }
 
             if(pemilik == "") {
                 Swal.fire('Nama Owner Harus Diisi!')
@@ -282,26 +282,26 @@ Perusahaan
                 $('#pemilik').val();
             }
 
-            if(bank == null) {
-                Swal.fire('Kolom Bank Harus Diisi!')
-                return false;
-            } else if(bank == "Other") {
-                if(other == ""){
-                    Swal.fire('Kolom Bank Harus Diisi!')
-                    return false;
-                } else {
-                    $('#other').val()
-                }
-            } else {
-                $('#bank').val();
-            }
+            // if(bank == null) {
+            //     Swal.fire('Kolom Bank Harus Diisi!')
+            //     return false;
+            // } else if(bank == "Other") {
+            //     if(other == ""){
+            //         Swal.fire('Kolom Bank Harus Diisi!')
+            //         return false;
+            //     } else {
+            //         $('#other').val()
+            //     }
+            // } else {
+            //     $('#bank').val();
+            // }
 
-            if(rekening == "") {
-                Swal.fire('No Rekening Harus Diisi!')
-                return false;
-            } else {
-                $('#rekening').val();
-            }
+            // if(rekening == "") {
+            //     Swal.fire('No Rekening Harus Diisi!')
+            //     return false;
+            // } else {
+            //     $('#rekening').val();
+            // }
         });
 
     $('#nama').on('keypress', function(e){

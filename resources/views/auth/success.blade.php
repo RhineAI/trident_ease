@@ -130,7 +130,7 @@
           </div>
           <div class="card back-face">
               <div class="title">
-                  Thanks For Register!
+                  Terima kasih telah mendaftar!
               </div>
               <img src="{{ url('storage/img/'. $perusahaan->logo) }}">
               <div class="info mb-4">
@@ -149,7 +149,7 @@
               </div>
               <div></div>
               <p class="">
-                  Ada Masalah?<a href="https://wa.wizard.id/17fae7"> Hubungi Kami</a>
+                  Ada Masalah?<a href="https://wa.me/6285174067863"> Hubungi Kami</a>
               </p>
               <p>
                 <a class="text-center" href="{{ route('login') }}">Login </a>

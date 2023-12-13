@@ -39,7 +39,13 @@
             <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
         </li>
     </ul>
-    <span class="mr-2 badge badge badge-danger">Premium</span>
+    @if (auth()->user()->perusahaan->grade == 3)
+        <span class="mr-2 badge badge badge-success">Pro</span>
+    @elseif (auth()->user()->perusahaan->grade == 2)
+        <span class="mr-2 badge badge badge-warning">Plus</span>
+    @else    
+        <span class="mr-2 badge badge badge-danger">Gratis</span>
+    @endif
     <span class="mr-2">{{ date('d-m-Y', strtotime(auth()->user()->perusahaan->expiredDate)) }}</span>
 
     <ul class="navbar-nav">
