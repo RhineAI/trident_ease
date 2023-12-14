@@ -2,8 +2,7 @@
 <aside class="main-sidebar sidebar-primary elevation-4" id="bgBlueLightWhiteColor" style="position:fixed; overflow:auto; height:30em">
     <!-- Brand Logo -->
     <a href="#" class="brand-link ">
-        <img src="{{ asset('assets') }}/img/easepos_logo/ease8.png" alt="AdminLTE Logo"
-            class="brand-image  ">
+        <img src="{{ asset('assets') }}/img/easepos_logo/ease8.png" alt="AdminLTE Logo" class="brand-image  ">
         <span class="brand-text">EASE</span>
     </a>
    
@@ -14,7 +13,7 @@
         <!-- Sidebar user (optional) -->
         <div class="user-panel mt-1 pb-3 mb-1 d-flex divider">
             <div class="image">
-                @if ($cPerusahaan->logo != null)
+                @if ($cPerusahaan->logo == null)
                     <img src="{{ asset('assets') }}/img/easepos_logo/ease6.png" class="img-circle elevation-3 border border-white" style="opacity: .9;"
                         alt="User Image">
                 @else

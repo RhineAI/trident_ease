@@ -16,7 +16,7 @@
 @if ($cPerusahaan->logo == null)
   <link rel="icon" href="{{ asset('assets') }}/img/buildings.png" type="image/png">
 @else
-  <link rel="icon" href="{{ $cPerusahaan->logo }}" type="image/png">
+  <link rel="icon" href="{{ url('storage/img/'. $cPerusahaan->logo) }}" type="image/png">
 @endif
 {{-- Bootstrap v5.2 --}}
 <!-- CSS only -->
