@@ -130,14 +130,16 @@
 
         @if(auth()->user()->hak_akses == 'admin') 
             var routeM = "{{ route('admin.getUsername') }}";
-        @elseif(auth()->user()->hak_akses == 'kasir') 
+        @elseif(auth()->user()->hak_akses == 'owner') 
             var routeM = "{{ route('owner.getUsername') }}";
         @endif
         
         $('#messageTrue').hide()
         $('#messageFalse').hide()
 
-        $('#username').on('keyup', function(){
+        $('#username').on('change', function(){
+            $('#btn-submit').attr('disabled', 'disabled')
+
             $.ajax({
                 type: 'POST',
                 url: routeM,
@@ -147,11 +149,13 @@
                 },
                 cache: false,
                 success: function(response){
-                    console.log(response)
+                    // $('#btn-submit').removeAttr('disabled')
+                    // console.log(response)
                     if(response === 'true'){
                         $('#messageTrue').show()
                         $('#messageFalse').hide()
                         $('#check').val("true")
+                        $('#btn-submit').removeAttr('disabled')
                     } else {
                         $('#messageFalse').show()
                         $('#messageTrue').hide()
