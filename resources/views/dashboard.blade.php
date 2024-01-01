@@ -21,6 +21,15 @@
             -webkit-transition: all 0.2s linear;
             transition: all 0.2s linear; 
         }
+
+        a {
+            animation: ease-in;
+        }
+
+        a:hover {
+            text-decoration: none;
+            transform: scale(1.05)
+        }
     </style>
 @endpush
 @section('contents')
@@ -35,7 +44,7 @@
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-uppercase mb-1">Total Keseluruhan Produk</div>
+                            <div class="text-xs font-weight-bold text-uppercase mb-1">Total Seluruh Produk</div>
                             <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800 count" id="count" data-val="{{ $cardBarang }}">{{ $cardBarang }}</div>
                             <div class="mt-2 mb-0 text-muted text-xs">
                                 <span>Peningkatan</span>
@@ -61,7 +70,7 @@
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-uppercase mb-1">Total Penjualan (Hari Ini)</div>
+                            <div class="text-xs font-weight-bold text-uppercase mb-1">Total Penjualan (Hari)</div>
                             <div class="h5 mb-0 font-weight-bold text-gray-800 count" id="count" data-val="{{ $cardPenjualan }}">0</div>
                             <div class="mt-2 mb-0 text-muted text-xs">
                                 <span>Peningkatan</span>
@@ -88,7 +97,7 @@
                     <div class="row align-items-center">
                         <div class="col mr-2">
                             
-                            <div class="text-xs font-weight-bold text-uppercase mb-1">Omset Penjualan (Bulanan)</div>
+                            <div class="text-xs font-weight-bold text-uppercase mb-1">Omset Penjualan (Bulan)</div>
                             <div class="h5 mb-0 font-weight-bold text-gray-800">RP. {{ format_uang($omset) }}</div>
                             <div class="mt-2 mb-0 text-muted text-xs">
                                 <span>Peningkatan</span>
@@ -115,7 +124,7 @@
                 <div class="card-body">
                     <div class="row align-items-center">
                         <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-uppercase mb-1">Laba Penjualan (Bulanan)</div>
+                            <div class="text-xs font-weight-bold text-uppercase mb-1">Laba Penjualan (Bulan)</div>
                             <div class="h5 mb-0 font-weight-bold text-gray-800">RP. {{ format_uang($laba) }}</div>
                             <div class="mt-2 mb-0 text-muted text-xs">
                                 <span>Peningkatan</span>
@@ -142,7 +151,7 @@
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
-                            <div class="text-xs font-weight-bold text-uppercase mb-1">Pegawai</div>
+                            <div class="text-xs font-weight-bold text-uppercase mb-1">Total Pegawai</div>
                             <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $total_pegawai }}</div>          
                             <div class="mt-2 mb-0 text-muted text-xs">
                                 
@@ -255,83 +264,88 @@
             <div class="card mb-4">
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                     <h6 class="m-0 font-weight-bold text-primary">Level Saat Ini</h6>
-                    @if ($check->grade == 1) 
-                        <span class="badge badge-primary">Gratis</span>
-                </div>
-                <div class="card-body">
-                    <div class="mb-3">
-                        <div class="small text-gray-500">Barang
-                            <div class="small float-right"><b>{{ $barangHarian }} of 5 Items</b></div>
+                    @if (auth()->user()->perusahaan->grade == 1) 
+                            <span class="badge badge-primary">Gratis</span>
                         </div>
-                        <div class="progress" style="height: 12px;">
-                            <div class="progress-bar bg-warning" role="progressbar" style="width: {{ $barangHarian*20 }}%" aria-valuenow="{{ $barangHarian }}"
-                                aria-valuemin="0" aria-valuemax="5"></div>
+                        <div class="card-body">
+                            <div class="mb-3">
+                                <div class="small text-gray-500">Barang
+                                    <div class="small float-right"><b>{{ $barangHarian }} of 5 Items</b></div>
+                                </div>
+                                <div class="progress" style="height: 12px;">
+                                    <div class="progress-bar bg-warning" role="progressbar" style="width: {{ $barangHarian*20 }}%" aria-valuenow="{{ $barangHarian }}"
+                                        aria-valuemin="0" aria-valuemax="5"></div>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <div class="small text-gray-500">Transaksi 
+                                    <div class="small float-right"><b>{{ $penjualanHarian }} of 5 Items</b></div>
+                                </div>
+                                <div class="progress" style="height: 12px;">
+                                    <div class="progress-bar bg-success" role="progressbar" style="width: {{ $penjualanHarian*20 }}%" aria-valuenow="{{ $penjualanHarian }}"
+                                        aria-valuemin="0" aria-valuemax="5"></div>
+                                </div>
+                            </div>                    
                         </div>
-                    </div>
-                    <div class="mb-3">
-                        <div class="small text-gray-500">Transaksi 
-                            <div class="small float-right"><b>{{ $penjualanHarian }} of 5 Items</b></div>
-                        </div>
-                        <div class="progress" style="height: 12px;">
-                            <div class="progress-bar bg-success" role="progressbar" style="width: {{ $penjualanHarian*20 }}%" aria-valuenow="{{ $penjualanHarian }}"
-                                aria-valuemin="0" aria-valuemax="5"></div>
-                        </div>
-                    </div>                    
-                </div>
 
 
-                    @elseif ($check->grade == 2)
-                        <span class="badge badge-warning">Plus</span>
-                </div>
-                <div class="card-body">
-                    <div class="mb-3">
-                        <div class="small text-gray-500">Barang
-                            <div class="small float-right"><b>{{ $barangHarian }} of 50 Items</b></div>
+                    @elseif (auth()->user()->perusahaan->grade == 2)
+                            <span class="badge badge-warning">Plus</span>
                         </div>
-                        <div class="progress" style="height: 12px;">
-                            <div class="progress-bar bg-warning" role="progressbar" style="width: {{ $barangHarian*2 }}%" aria-valuenow="{{ $barangHarian }}"
-                                aria-valuemin="0" aria-valuemax="50"></div>
+                        <div class="card-body">
+                            <div class="mb-3">
+                                <div class="small text-gray-500">Barang
+                                    <div class="small float-right"><b>{{ $barangHarian }} of 50 Items</b></div>
+                                </div>
+                                <div class="progress" style="height: 12px;">
+                                    <div class="progress-bar bg-warning" role="progressbar" style="width: {{ $barangHarian*2 }}%" aria-valuenow="{{ $barangHarian }}"
+                                        aria-valuemin="0" aria-valuemax="50"></div>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <div class="small text-gray-500">Transaksi 
+                                    <div class="small float-right"><b>{{ $penjualanHarian }} of 50 Items</b></div>
+                                </div>
+                                <div class="progress" style="height: 12px;">
+                                    <div class="progress-bar bg-success" role="progressbar" style="width: {{ $penjualanHarian*2 }}%" aria-valuenow="{{ $penjualanHarian }}"
+                                        aria-valuemin="0" aria-valuemax="50"></div>
+                                </div>
+                            </div>                    
                         </div>
-                    </div>
-                    <div class="mb-3">
-                        <div class="small text-gray-500">Transaksi 
-                            <div class="small float-right"><b>{{ $penjualanHarian }} of 50 Items</b></div>
-                        </div>
-                        <div class="progress" style="height: 12px;">
-                            <div class="progress-bar bg-success" role="progressbar" style="width: {{ $penjualanHarian*2 }}%" aria-valuenow="{{ $penjualanHarian }}"
-                                aria-valuemin="0" aria-valuemax="50"></div>
-                        </div>
-                    </div>                    
-                </div>
 
                         
-                    @elseif ($check->grade == 3)
-                        <span class="badge badge-danger">Pro</span>
-                </div>
-                <div class="card-body">
-                    <div class="mb-3">
-                        <div class="small text-gray-500">Barang
-                            <div class="small float-right"><b>{{ $barangHarian }} of 10000 Items</b></div>
+                    @elseif (auth()->user()->perusahaan->grade == 3 )
+                            <span class="badge badge-danger">Pro</span>
                         </div>
-                        <div class="progress" style="height: 12px;">
-                            <div class="progress-bar bg-warning" role="progressbar" style="width: {{ $barangHarian/100 }}%" aria-valuenow="{{ $barangHarian }}"
-                                aria-valuemin="0" aria-valuemax="10000"></div>
+                        <div class="card-body">
+                            <div class="mb-3">
+                                <div class="small text-gray-500">Barang
+                                    <div class="small float-right"><b>{{ $barangHarian }} of 10000 Items</b></div>
+                                </div>
+                                <div class="progress" style="height: 12px;">
+                                    <div class="progress-bar bg-warning" role="progressbar" style="width: {{ $barangHarian/100 }}%" aria-valuenow="{{ $barangHarian }}"
+                                        aria-valuemin="0" aria-valuemax="10000"></div>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <div class="small text-gray-500">Transaksi 
+                                    <div class="small float-right"><b>{{ $penjualanHarian }} of 10000 Items</b></div>
+                                </div>
+                                <div class="progress" style="height: 12px;">
+                                    <div class="progress-bar bg-success" role="progressbar" style="width: {{ $penjualanHarian/100 }}%" aria-valuenow="{{ $penjualanHarian }}"
+                                        aria-valuemin="0" aria-valuemax="10000"></div>
+                                </div>
+                            </div>                    
                         </div>
-                    </div>
-                    <div class="mb-3">
-                        <div class="small text-gray-500">Transaksi 
-                            <div class="small float-right"><b>{{ $penjualanHarian }} of 10000 Items</b></div>
+                    @endif
+
+                    @if(auth()->user()->perusahaan->grade == 4)
+                        <span class="badge badge-secondary text-white">Trident Tech</span>
+                    @else
+                        <div class="card-footer text-center">
+                            <a class="m-0 small text-primary card-link" href="#">&nbsp</a>
                         </div>
-                        <div class="progress" style="height: 12px;">
-                            <div class="progress-bar bg-success" role="progressbar" style="width: {{ $penjualanHarian/100 }}%" aria-valuenow="{{ $penjualanHarian }}"
-                                aria-valuemin="0" aria-valuemax="10000"></div>
-                        </div>
-                    </div>                    
-                </div>
-                @endif
-                <div class="card-footer text-center">
-                    <a class="m-0 small text-primary card-link" href="#">&nbsp</a>
-                </div>
+                    @endif
             </div>
         </div>
        

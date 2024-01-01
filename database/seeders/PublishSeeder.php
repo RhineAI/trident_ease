@@ -79,22 +79,22 @@ class PublishSeeder extends Seeder
         ]);
 
         DB::table('t_users')->insert([
-            'nama' => 'BigThink',
+            'nama' => 'SuperThink',
             'alamat' => 'Jl.Kh Shaleh',
             'tlp' => '082118356193',
             'jenis_kelamin' => 'L',
-            'username' => 'SuperThink',
-            'password' => bcrypt('bigthink2023'),
-            'hak_akses' => 'super_admin',
+            'username' => 'Admin',
+            'password' => bcrypt('admin123'),
+            'hak_akses' => 'admin',
             'id_perusahaan' => 1,
         ]);
         DB::table('t_users')->insert([
-            'nama' => 'pengguna',
+            'nama' => 'Cashier',
             'alamat' => 'Jl.Kh Shaleh',
             'tlp' => '082118356193',
             'jenis_kelamin' => 'L',
-            'username' => 'pengguna',
-            'password' => bcrypt('pengguna2023'),
+            'username' => 'kasir',
+            'password' => bcrypt('kasir123'),
             'hak_akses' => 'kasir',
             'id_perusahaan' => 1,
         ]);

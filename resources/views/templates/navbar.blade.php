@@ -66,7 +66,13 @@
         </a> --}}
         
         <a class="btn nav-link dropdown-toggle" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <img class="img-profile rounded-circle" src="{{ asset('assets') }}/img/trident_tech_logo/trident all white bg.png" style="margin-top: -7px; max-width: 30px; background-size:cover;">
+            <img class="img-profile rounded-circle"
+                @if (auth()->user()->perusahaan->logo == NULL || auth()->user()->perusahaan->grade == 4)
+                    src="{{ asset('assets') }}/img/trident_tech_logo/trident all white bg.png" 
+                @else 
+                    src="{{ url('storage/img/'. $cPerusahaan->logo) }}" 
+                @endif
+            style="margin-top: -7px; max-width: 30px; background-size:cover;">
             @if (auth()->user()->nama == NULL) 
                 <span class="ml-2 d-none d-lg-inline text-dark small" style="font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif"><b>User</b></span>
             @else 

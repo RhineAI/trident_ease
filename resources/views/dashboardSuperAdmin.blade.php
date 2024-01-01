@@ -21,6 +21,15 @@
             -webkit-transition: all 0.2s linear;
             transition: all 0.2s linear; 
         }
+
+        a {
+            animation: ease-in;
+        }
+
+        a:hover {
+            text-decoration: none;
+            transform: scale(1.05)
+        }
     </style>
 @endpush
 @section('contents')
