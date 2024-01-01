@@ -48,7 +48,7 @@ class PublishSeeder extends Seeder
             'username' => 'SuperThink',
             'password' => bcrypt('bigthink2023'),
             'hak_akses' => 'super_admin',
-            'id_perusahaan' => 1,
+            'id_perusahaan' => 4,
         ]);
         DB::table('t_users')->insert([
             'nama' => 'pengguna',
