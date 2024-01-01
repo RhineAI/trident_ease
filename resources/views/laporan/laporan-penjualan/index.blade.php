@@ -215,7 +215,7 @@ Laporan Penjualan
     // $('.total_omset').text(make_num);
 
     @if(auth()->user()->hak_akses == 'owner') 
-        var penjualan = "{{ route('owner.laporan-penjualan.data', [$tanggalAwal, $tanggaltanggalAkhir]) }}";
+        var penjualan = "{{ route('owner.laporan-penjualan.data', [$tanggalAwal, $tanggalAkhir]) }}";
     @elseif(auth()->user()->hak_akses == 'admin') 
         var penjualan = "{{ route('admin.laporan-penjualan.data', [$tanggalAwal, $tanggalAkhir]) }}";
     @endif
