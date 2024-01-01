@@ -26,6 +26,45 @@ class PublishSeeder extends Seeder
             'slogan' => 'Big success start from a small think',
             'email' => 'info@bigthink.corp',
             'logo' => '/assets/img/easepos_logo/ease6.png',
+            'grade' => 4
+        ]);
+        DB::table('t_perusahaan')->insert([
+            'nama' => 'Big Think3',
+            'alamat' => 'Jl. Siliwangi No.41, Sawah Gede, Kec. Cianjur, Kabupaten Cianjur, Jawa Barat 43212',
+            'tlp' => '(0263) 261265',
+            'pemilik' => 'BT.Corp',
+            'bank' => 'Syariah',
+            'no_rekening' => '213123',
+            'npwp' => '20203872',
+            'slogan' => 'Big success start from a small think',
+            'email' => 'info@bigthink.corp',
+            'logo' => '/assets/img/easepos_logo/ease6.png',
+            'grade' => 2
+        ]);
+        DB::table('t_perusahaan')->insert([
+            'nama' => 'Big Think2',
+            'alamat' => 'Jl. Siliwangi No.41, Sawah Gede, Kec. Cianjur, Kabupaten Cianjur, Jawa Barat 43212',
+            'tlp' => '(0263) 261265',
+            'pemilik' => 'BT.Corp',
+            'bank' => 'Syariah',
+            'no_rekening' => '213123',
+            'npwp' => '20203872',
+            'slogan' => 'Big success start from a small think',
+            'email' => 'info@bigthink.corp',
+            'logo' => '/assets/img/easepos_logo/ease6.png',
+            'grade' => 2
+        ]);
+        DB::table('t_perusahaan')->insert([
+            'nama' => 'Big Think4',
+            'alamat' => 'Jl. Siliwangi No.41, Sawah Gede, Kec. Cianjur, Kabupaten Cianjur, Jawa Barat 43212',
+            'tlp' => '(0263) 261265',
+            'pemilik' => 'BT.Corp',
+            'bank' => 'Syariah',
+            'no_rekening' => '213123',
+            'npwp' => '20203872',
+            'slogan' => 'Big success start from a small think',
+            'email' => 'info@bigthink.corp',
+            'logo' => '/assets/img/easepos_logo/ease6.png',
             'grade' => 3
         ]);
 

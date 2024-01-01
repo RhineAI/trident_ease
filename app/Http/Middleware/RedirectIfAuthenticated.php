@@ -30,7 +30,7 @@ class RedirectIfAuthenticated
                 } elseif(auth()->user()->hak_akses == 'owner'){
                     return redirect()->route('owner.dashboard');
                 } elseif(auth()->user()->hak_akses == 'super_admin'){
-                    return redirect()->route('super_admin.dashboard');
+                    return redirect()->route('super_admin.dashboardSuperAdmin');
                 }
             }
         }

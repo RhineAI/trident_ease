@@ -43,8 +43,10 @@
         <span class="mr-2 badge badge badge-danger">Pro</span>
     @elseif (auth()->user()->perusahaan->grade == 2)
         <span class="mr-2 badge badge badge-warning">Plus</span>
-    @else    
+    @elseif (auth()->user()->perusahaan->grade == 1)    
         <span class="mr-2 badge badge badge-primary">Gratis</span>
+    @else 
+        <span class="mr-2 badge badge badge-secondary">Trident Tech</span>
     @endif
     <span class="mr-2">{{ date('d-m-Y', strtotime(auth()->user()->perusahaan->expiredDate)) }}</span>
 
