@@ -273,8 +273,7 @@
                                 <button type="submit" class="btn btn-blue text-center">Login</button>
                             </div>
                             <div class="row mb-4 px-3">
-                                <small class="font-weight-bold">Belum Punya Akun? <a class="text-danger"
-                                        href="{{ route('register') }}">Register</a></small>
+                                <small class="font-weight-bold">Belum Punya Akun? <a class="text-danger"href="{{ route('register') }}">Register</a></small>
                             </div>
                         </form>
                     </div>

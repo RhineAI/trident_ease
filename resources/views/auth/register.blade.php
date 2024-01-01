@@ -34,149 +34,155 @@
         #bgBlueLightWhiteColor {
           background: #4178D5; 
         }
+
+        a {
+            color:#11529f;
+        }
+
+        a:hover {
+            color: #f6b132;
+        }
     </style>
 </head>
 
-<body style="background-color: #4178D5;">
-    <section class="vh-100" style="background-color: #4178D5;">
-        <div class="container h-100">
-          <div class="row d-flex justify-content-center align-items-center h-100">
-            <div class="col-lg-12 col-xl-11">
-              <div class="card text-black" style="border-radius: 25px;">
-                <div class="card-body p-md-5">
-                  <div class="row justify-content-center">
-                    <div class="col-md-10 col-lg-6 col-xl-6 order-2 order-lg-1">
-                      <p class="text-center h1 fw-bold mb-4 mx-1 mx-md-4">Register</p>
+<body style="background-color: #4178D5;" class="">
+    <section class="container p-3" style="background-color: #4178D5;">
+        <div class="container h-100 my-2">
+            <div class="row d-flex justify-content-center align-items-center h-100">
+                <div class="col-lg-12 col-xl-11">
+                    <div class="card text-black" style="border-radius: 25px;">
+                        <div class="card-body p-md-5">
+                            <div class="row justify-content-center">
+                                <div class="col-md-10 col-lg-6 col-xl-6 order-2 order-lg-1">
+                                    <p class="text-center h1 fw-bold mb-4 mx-1 mx-md-4">Register</p>
 
-                      <form class="mx-1 mx-md-4" method="POST" id="form-register" enctype="multipart/form-data" action="{{ route('register') }}">
-                        @csrf
-                        <div class="d-flex flex-row align-items-center mb-4">
-                          <i class="fas fa-user fa-lg me-3 fa-fw"></i>
-                          <div class="form-outline flex-fill mb-0">
-                            <input type="text" class="form-control" id="nama" name="nama" />
-                            <label class="form-label" for="form3Example1c">Nama Perusahaan</label>
-                            <input type="hidden" id="check">
-                          </div>
-                        </div>
-                        {{-- <small id="messageTrue" style="color:green; margin-top: -200px;">Nama Perusahaan Tersedia</small>
-                        <small id="messageFalse" style="color:red; margin-top: -200px;">Nama Perusahaan Telah Digunakan, Coba Tambahkan Nama Daerah</small> --}}
+                                    <form class="mx-1 mx-md-4" method="POST" id="form-register" enctype="multipart/form-data" action="{{ route('register') }}">
+                                        @csrf
+                                        <div class="d-flex flex-row align-items-center mb-4">
+                                        <i class="fas fa-user fa-lg me-3 fa-fw"></i>
+                                        <div class="form-outline flex-fill mb-0">
+                                            <input type="text" class="form-control" id="nama" name="nama" />
+                                            <label class="form-label" for="form3Example1c">Nama Perusahaan</label>
+                                            <input type="hidden" id="check">
+                                        </div>
+                                        </div>
+                                        {{-- <small id="messageTrue" style="color:green; margin-top: -200px;">Nama Perusahaan Tersedia</small>
+                                        <small id="messageFalse" style="color:red; margin-top: -200px;">Nama Perusahaan Telah Digunakan, Coba Tambahkan Nama Daerah</small> --}}
 
-                        <div class="d-flex flex-row align-items-center mb-4">
-                          <i class="fas fa-map fa-lg me-3 fa-fw"></i>
-                          <div class="form-outline flex-fill mb-0">
-                            <input type="text" class="form-control" id="alamat" name="alamat" />
-                            <label class="form-label" for="form3Example3c">Alamat</label>
-                          </div>
-                        </div>
-      
-                        <div class="d-flex flex-row align-items-center mb-4">
-                          <i class="fas fa-envelope fa-lg me-3 fa-fw"></i>
-                          <div class="form-outline flex-fill mb-0">
-                            <input type="email" class="form-control" id="email" name="email"/>
-                            <label class="form-label" for="form3Example4c">E-Mail</label>
-                          </div>
-                        </div>
-      
-                        <div class="d-flex flex-row align-items-center mb-4">
-                          <i class="fas fa-id-card fa-lg me-3 fa-fw"></i>
-                          <div class="form-outline flex-fill mb-0">
-                            <input type="text" id="npwp" name="npwp" class="form-control" />
-                        <label class="form-label" for="form3Example4cd">NPWP (Opsional)</label>
-                          </div>
-                        </div>
-
-                        <div class="d-flex flex-row align-items-center mb-4">
-                          <i class="fas fa-user fa-lg me-3 mx-1 fa-fw"></i>
-                          <div class="form-outline flex-fill mb-0">
-                            <input type="text" id="pemilik" name="pemilik" class="form-control" />
-                            <label class="form-label" for="form3Example4cd">Pemilik</label>
-                          </div>
-
-                          <i class="fas fa-phone fa-lg me-3 mx-2 fa-fw"></i>
-                          <div class="form-outline flex-fill mb-0">
-                            <input type="text" id="telepon" name="telepon" class="form-control" />
-                            <label class="form-label" for="form3Example4cd">Telepon</label>
-                          </div>
-                        </div>
-
-                        <div class="d-flex flex-row align-items-center mb-4">
-                            <i class="fas fa-building-columns mx-1 fa-lg me-3 fa-fw"></i>
-                            <div class="form col-md-12 flex-fill mb-0">
-                                <select name="bank" id="bank" class="form-select">
-                                    <option disabled="disabled" selected="selected">Bank (Opsional)</option>
-                                    <option value="Bank BRI">BRI</option>
-                                    <option value="Bank BNI">BNI</option>
-                                    <option value="Bank BJB">BJB</option>
-                                    <option value="Bank BCA">BCA</option>
-                                    <option value="Bank Permata">Permata</option>
-                                    <option value="Bank Muamalat">Muamalat</option>
-                                    <option value="Other">Lainnya</option>
-                                </select>
-                                <div class="select-dropdown"></div>
-                            </div>
-
-                            <i class="fas fa-key fa-lg me-3 mx-2 fa-fw"></i>
-                            <div class="form-outline flex-fill mb-0">
-                              <input type="text" id="rekening" name="no_rekening" class="form-control" />
-                              <label class="form-label" for="rekening">Rekening (Opsional)</label>
-                            </div>
-                        </div>
-
-                        <div id="displayOther">
-                            <div class="d-flex flex-row align-items-center mb-4">
-                                <i class="fas fa-building-columns mx-1 fa-lg me-3 fa-fw"></i>
-                                <div class="form-outline flex-fill mb-0">
-                                  <input type="text" id="other" name="other" class="form-control" placeholder="Bank Lainnya" />
-                                  <label class="form-label" for="form3Example4cd">Bank Lainnya (Opsional)</label>
-                                </div>
-                            </div>
-                        </div>
-                       
-
-                        <div class="d-flex flex-row align-items-center mb-4">
-                            <i class="fas fa-quote-left fa-lg me-3 fa-fw"></i>
-                            <div class="form-outline flex-fill mb-0">
-                              <input type="text" id="slogan" name="slogan" class="form-control" />
-                              <label class="form-label" for="form3Example4cd">Slogan (Opsional)</label>
-                            </div>
-                        </div>
-
-                        <div class="d-flex flex-row align-items-center mb-1">
-                            <i class="fas fa-image fa-lg me-3 mx fa-fw"></i>
-                            <div class="form flex-fill mb-0">
-                                <input class="form-control" type="file" id="image" name="logo" onchange="previewImage()">
-                                <small style="color:grey; font-size:11px;" class="text-muted">Max 4mb</small>
-                            </div>
-                        </div>
-                        <div class="d-flex flex-row align-items-center mb-1">
-                            <i class="fas fa-ke fa-lg me-3 mx-3 fa-fw"></i>
-                            <div class="form flex-fill mb-0">
-                                <img class="img-preview img-fluid my-3 col-sm-5" width="300" >
-                            </div>
-                        </div>
-      
-                        <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
-                          <button type="submit" class="btn btn-primary btn-lg">Daftar</button>
-                        </div>
-      
-                      </form>
-      
-                    </div>
-                    <div class="col-md-10 col-lg-6 col-xl-6 d-flex align-items-center order-1 order-lg-2">
-      
-                      <img  style="width: 300px; margin-left:80px" src="assets/img/easepos_logo/ease8.png"
-                        class="img-fluid" alt="Sample image">
-                        
+                                        <div class="d-flex flex-row align-items-center mb-4">
+                                        <i class="fas fa-map fa-lg me-3 fa-fw"></i>
+                                        <div class="form-outline flex-fill mb-0">
+                                            <input type="text" class="form-control" id="alamat" name="alamat" />
+                                            <label class="form-label" for="form3Example3c">Alamat</label>
+                                        </div>
+                                        </div>
                     
+                                        <div class="d-flex flex-row align-items-center mb-4">
+                                        <i class="fas fa-envelope fa-lg me-3 fa-fw"></i>
+                                        <div class="form-outline flex-fill mb-0">
+                                            <input type="email" class="form-control" id="email" name="email"/>
+                                            <label class="form-label" for="form3Example4c">E-Mail</label>
+                                        </div>
+                                        </div>
+                    
+                                        <div class="d-flex flex-row align-items-center mb-4">
+                                        <i class="fas fa-id-card fa-lg me-3 fa-fw"></i>
+                                        <div class="form-outline flex-fill mb-0">
+                                            <input type="text" id="npwp" name="npwp" class="form-control" />
+                                        <label class="form-label" for="form3Example4cd">NPWP (Opsional)</label>
+                                        </div>
+                                        </div>
+
+                                        <div class="d-flex flex-row align-items-center mb-4">
+                                        <i class="fas fa-user fa-lg me-3 mx-1 fa-fw"></i>
+                                        <div class="form-outline flex-fill mb-0">
+                                            <input type="text" id="pemilik" name="pemilik" class="form-control" />
+                                            <label class="form-label" for="form3Example4cd">Pemilik</label>
+                                        </div>
+
+                                        <i class="fas fa-phone fa-lg me-3 mx-2 fa-fw"></i>
+                                        <div class="form-outline flex-fill mb-0">
+                                            <input type="text" id="telepon" name="telepon" class="form-control" />
+                                            <label class="form-label" for="form3Example4cd">Telepon</label>
+                                        </div>
+                                        </div>
+
+                                        <div class="d-flex flex-row align-items-center mb-4">
+                                            <i class="fas fa-building-columns mx-1 fa-lg me-3 fa-fw"></i>
+                                            <div class="form col-md-12 flex-fill mb-0">
+                                                <select name="bank" id="bank" class="form-select">
+                                                    <option disabled="disabled" selected="selected">Bank (Opsional)</option>
+                                                    <option value="Bank BRI">BRI</option>
+                                                    <option value="Bank BNI">BNI</option>
+                                                    <option value="Bank BJB">BJB</option>
+                                                    <option value="Bank BCA">BCA</option>
+                                                    <option value="Bank Permata">Permata</option>
+                                                    <option value="Bank Muamalat">Muamalat</option>
+                                                    <option value="Other">Lainnya</option>
+                                                </select>
+                                                <div class="select-dropdown"></div>
+                                            </div>
+
+                                            <i class="fas fa-key fa-lg me-3 mx-2 fa-fw"></i>
+                                            <div class="form-outline flex-fill mb-0">
+                                            <input type="text" id="rekening" name="no_rekening" class="form-control" />
+                                            <label class="form-label" for="rekening">Rekening (Opsional)</label>
+                                            </div>
+                                        </div>
+
+                                        <div id="displayOther">
+                                            <div class="d-flex flex-row align-items-center mb-4">
+                                                <i class="fas fa-building-columns mx-1 fa-lg me-3 fa-fw"></i>
+                                                <div class="form-outline flex-fill mb-0">
+                                                <input type="text" id="other" name="other" class="form-control" placeholder="Bank Lainnya" />
+                                                <label class="form-label" for="form3Example4cd">Bank Lainnya (Opsional)</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    
+
+                                        <div class="d-flex flex-row align-items-center mb-4">
+                                            <i class="fas fa-quote-left fa-lg me-3 fa-fw"></i>
+                                            <div class="form-outline flex-fill mb-0">
+                                            <input type="text" id="slogan" name="slogan" class="form-control" />
+                                            <label class="form-label" for="form3Example4cd">Slogan (Opsional)</label>
+                                            </div>
+                                        </div>
+
+                                        <div class="d-flex flex-row align-items-center mb-1">
+                                            <i class="fas fa-image fa-lg me-3 mx fa-fw"></i>
+                                            <div class="form flex-fill mb-0">
+                                                <input class="form-control" type="file" id="image" name="logo" onchange="previewImage()">
+                                                <small style="color:grey; font-size:11px;" class="text-muted">Max 4mb</small>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex flex-row align-items-center mb-1">
+                                            <i class="fas fa-ke fa-lg me-3 mx-3 fa-fw"></i>
+                                            <div class="form flex-fill mb-0">
+                                                <img class="img-preview img-fluid my-3 col-sm-5" width="300" >
+                                            </div>
+                                        </div>
+                    
+                                        <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
+                                            <button type="submit" class="btn btn-primary btn-lg">Daftar</button>
+                                        </div>
+                                        <div class="justify-content-center d-flex">
+                                            Sudah Punya akun? <a class="login" href="{{ route('login') }}">&nbsp; Login!</a>
+                                        </div>
+                                    </form>
+                
+                                </div>
+                                <div class="col-md-10 col-lg-6 col-xl-6 d-flex align-items-center order-1 order-lg-2">
+                                    <img style="width: 300px; margin-left:80px" src="assets/img/easepos_logo/ease8.png" class="img-fluid" alt="Sample image">
+                                </div>
+                                        
+                            </div>
+                        </div>
                     </div>
-                            
-                  </div>
                 </div>
-              </div>
             </div>
-          </div>
         </div>
-      </section>
+    </section>
     <!-- Jquery JS-->
     <script src="{{ asset('templates') }}/vendor/jquery/jquery.min.js"></script>
     <!-- Vendor JS-->

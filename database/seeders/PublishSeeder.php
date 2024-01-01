@@ -25,19 +25,18 @@ class PublishSeeder extends Seeder
             'npwp' => '20203872',
             'slogan' => 'Big success start from a small think',
             'email' => 'info@bigthink.corp',
-            'logo' => '/assets/img/logo.png',
+            'logo' => '/assets/img/easepos_logo/ease6.png',
             'grade' => 3
         ]);
 
         DB::table('t_users')->insert([
-            'nama' => 'Test admin',
-            'alamat' => 'Jl.Kh Shaleh',
-            'tlp' => '082118356193',
-            'jenis_kelamin' => 'L',
-            'username' => 'Admin',
-            'password' => bcrypt('testadmin2023'),
-            'hak_akses' => 'admin',
-            'id_perusahaan' => 1,
+            'nama' => 'Super Admin',
+            'alamat' => 'Cianjur',
+            'tlp' => '01293912',
+            'username' => 'SuperAdmin',
+            'password' => bcrypt('SuperAdmin123'),
+            'hak_akses' => 'super_admin',
+            'id_perusahaan' => 1
         ]);
 
         DB::table('t_users')->insert([

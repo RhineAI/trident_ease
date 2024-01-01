@@ -17,7 +17,7 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $this->call(PublishSeeder::class);
-
+        
         // Perusahaan::Create([
         //     'nama' => 'Nur',
         //     'alamat' => 'asdsadsadf',
@@ -28,8 +28,8 @@ class DatabaseSeeder extends Seeder
         //     'npwp' => '23321321321',
         //     'slogan' => '213123',
         //     'email' => 'asdsakdjkasjdsakh@gmail.com',
-        //     'grade' => 1,
-        //     'logo' => '/assets/img/buildings.png'
+        //     'grade' => 3,
+        //     'logo' => '/assets/img/easepos_logo/ease6.png'
         // ]);
 
         DB::table('t_kategori')->insert([
@@ -71,16 +71,6 @@ class DatabaseSeeder extends Seeder
             'no_rekening' => '213123',
             'id_perusahaan' => '1'
         ]);
-
-        // DB::table('t_users')->insert([
-        //     'nama' => 'fadhil',
-        //     'alamat' => 'cianjur',
-        //     'tlp' => '01293912',
-        //     'username' => 'SuperAdmin',
-        //     'password' => bcrypt('SuperAdmin123'),
-        //     'hak_akses' => 1,
-        //     'id_perusahaan' => '1'
-        // ]);
 
         DB::table('t_pelanggan')->insert([
             'nama' => 'Udin',

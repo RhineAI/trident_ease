@@ -256,7 +256,7 @@
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                     <h6 class="m-0 font-weight-bold text-primary">Level Saat Ini</h6>
                     @if ($check->grade == 1) 
-                        <span class="badge badge-primary">Free</span>
+                        <span class="badge badge-primary">Gratis</span>
                 </div>
                 <div class="card-body">
                     <div class="mb-3">
@@ -281,7 +281,7 @@
 
 
                     @elseif ($check->grade == 2)
-                        <span class="badge" style="background-color:#81d6b0;">Intermediate</span>
+                        <span class="badge badge-warning">Plus</span>
                 </div>
                 <div class="card-body">
                     <div class="mb-3">
@@ -306,7 +306,7 @@
 
                         
                     @elseif ($check->grade == 3)
-                        <span class="badge badge-danger">Premium</span>
+                        <span class="badge badge-danger">Pro</span>
                 </div>
                 <div class="card-body">
                     <div class="mb-3">

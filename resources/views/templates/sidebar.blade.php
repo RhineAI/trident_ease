@@ -1,5 +1,18 @@
 <!-- Main Sidebar Container -->
-<aside class="main-sidebar sidebar-primary elevation-4" id="bgBlueLightWhiteColor" style="position:fixed; overflow:auto; height:30em">
+<style>
+ .bgDarkWhiteColor {
+    background: #0e0e0e;
+  }
+
+  .bgDarkWhiteColor a, .bgDarkWhiteColor span, .bgDarkWhiteColor p {
+    color: white; 
+  }
+
+  .bgDarkWhiteColor a:hover, .bgDarkWhiteColor span:hover, .bgDarkWhiteColor p:hover {
+    background: grey;
+  }
+</style>
+<aside class="main-sidebar sidebar-primary elevation-4 bgDarkWhiteColor" id="@if($cPerusahaan->id != 1) bgBlueLightWhiteColor @endif" style="position:fixed; overflow:auto; height:30em">
     <!-- Brand Logo -->
     <a href="#" class="brand-link ">
         <img src="{{ asset('assets') }}/img/easepos_logo/ease8.png" alt="AdminLTE Logo" class="brand-image  ">
@@ -13,13 +26,15 @@
         <!-- Sidebar user (optional) -->
         <div class="user-panel mt-1 pb-3 mb-1 d-flex divider">
             <div class="image">
-                @if ($cPerusahaan->logo == null)
-                    <img src="{{ asset('assets') }}/img/easepos_logo/ease6.png" class="img-circle elevation-3 border border-white" style="opacity: .9;"
-                        alt="User Image">
-                @else
-                    <img src="{{ url('storage/img/'. $cPerusahaan->logo) }}" alt="AdminLTE Logo"
-                    class="brand-image img-circle elevation-3 border border-white" style="opacity: .9">
-                @endif
+                <img 
+                    @if ($cPerusahaan->logo == null)
+                        src="{{ asset('assets') }}/img/easepos_logo/ease6.png" 
+                    @elseif ($cPerusahaan->id == 1)
+                        src="{{ asset('assets') }}/img/trident_tech_logo/blue trident black bg.png" 
+                    @else
+                        src="{{ url('storage/img/'. $cPerusahaan->logo) }}" alt="AdminLTE Logo"
+                    @endif
+                class="brand-image img-circle elevation-3 border border-white" style="opacity: .9">
             </div>
             <div class="info">
                 <a href="{{ route(Auth::user()->hak_akses.'.profile.cards') }}" class="d-block" style="text-decoration: none;">{{ $cPerusahaan->nama }}</a>
