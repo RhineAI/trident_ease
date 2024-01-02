@@ -133,7 +133,7 @@
         <li class="nav-item">
             <a href="{{ route('admin.transaksi-pembelian.index') }}" class="nav-link">
                 {{-- <i class="far fa-circle nav-icon"></i> --}}
-                <p id="smol">Transaksi Pembelian</p>
+                <p id="smol">Pembelian Barang (Restock)</p>
             </a>
         </li>
         @if ($grade === 3)

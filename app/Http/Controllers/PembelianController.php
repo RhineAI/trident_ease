@@ -73,7 +73,7 @@ class PembelianController extends Controller
         $tgl=$yy.$mm.$dd;
         
         $result= Pembelian::where('tgl', $tgl)->select(DB::raw('max(id)+1 AS nextid'))->orderBy('id', 'DESC')->where('t_transaksi_pembelian.id_perusahaan', auth()->user()->id_perusahaan)->first();
-        dd($result);
+        // dd($result);
 
         // dd($result);
         if($tgl==substr($result->nextid,0,8)){

@@ -589,13 +589,6 @@
         });
 
         function tampilProduk() {
-            // const min_stock = $('#stok_minimal').val();
-            // const total_stock = $('#stok').val();
-            //  if (total_stock <= min_stock) {
-            //     let data_stok = "!";
-            //     $('#alert_stock').addClass('position-absolute top-0 start-100 translate-middle badge rounded-circle bg-danger');
-            //     $('#alert_stock').append(data_stok);
-            // }
             $('#formModalBarangPembelian').modal('show');
             $('#tbl-data-barang-pembelian').DataTable();
         }

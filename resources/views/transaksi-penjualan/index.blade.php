@@ -405,7 +405,7 @@
                                                         </div>
 
                                                         </div>
-                                                        <div class="d-flex justify-content-between" style="font-weight: 500;">
+                                                        <div class="d-flex justify-content-between" style="font-weight: 500; font-size: 1.1rem">
                                                             <p class="mb-2">Total</p>
                                                             <p class="mb-2" id="displayTotal">Rp. 0</p>
                                                             <input type="hidden" data-bv-trigger="blur" class="total_harga" id="total_harga" name="total_harga" class="form-control" readonly>
@@ -414,35 +414,35 @@
 
                                                         <hr class="my-3">
 
-                                                        <div class="d-flex justify-content-between " id="tampil_bayar" style="font-weight: 500;">
+                                                        <div class="d-flex justify-content-between " id="tampil_bayar" style="font-weight: 500; font-size: 1.15rem">
                                                           <p class="mb-3">Bayar</p>
                                                           <span>
                                                             <input class="balloon bayar" id="bayar" name="total_bayar" autocomplete="off" type="text" placeholder="0" style="text-indent:4px; direction: rtl;">
                                                           </span>
                                                         </div>
 
-                                                        <div class="d-flex justify-content-between mb-4" id="tampil_kembali" style="font-weight: 500;">
+                                                        <div class="d-flex justify-content-between mb-4" id="tampil_kembali" style="font-weight: 500; font-size: 1.15rem">
                                                             <p class="mb-3">Kembalian</p>
                                                             <span>
                                                                 <input type="text" data-bv-trigger="blur" id="kembali" readonly name="kembali" class="balloon kembali" value="0" style="direction:rtl;">
                                                             </span>
                                                         </div>
 
-                                                        <div class="d-none justify-content-between mb-1" id="tampil_dp" style="font-weight: 500;">
+                                                        <div class="d-none justify-content-between mb-1" id="tampil_dp" style="font-weight: 500; font-size: 1.15rem">
                                                             <p class="mb-2">DP</p>
                                                             <span>
                                                               <input class="balloon dp" id="dp" name="dp" autocomplete="off" type="text" placeholder="0" style="direction: rtl;" >
                                                             </span>
-                                                          </div>
+                                                        </div>
   
-                                                          <div class="d-none justify-content-between mb-4" id="tampil_sisa" style="font-weight: 500;">
-                                                              <p class="mb-2">Sisa</p>
-                                                              <span>
-                                                                  <input type="text" data-bv-trigger="blur" id="sisa" readonly name="sisa" class="balloon mb-2 sisa" value="0" style="direction:rtl;">
-                                                              </span>
-                                                          </div>
+                                                        <div class="d-none justify-content-between mb-4" id="tampil_sisa" style="font-weight: 500; font-size: 1.15rem">
+                                                            <p class="mb-2">Sisa</p>
+                                                            <span>
+                                                                <input type="text" data-bv-trigger="blur" id="sisa" readonly name="sisa" class="balloon mb-2 sisa" value="0" style="direction:rtl;">
+                                                            </span>
+                                                        </div>
 
-                                                        <button type="button" id="simpan" class="submit btn btn-primary btn-lg btn-block">Simpan</button>
+                                                    <button type="button" id="simpan" class="submit btn btn-primary btn-lg btn-block">Simpan</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -464,67 +464,8 @@
 @includeIf('transaksi-penjualan.barang')
 @endsection
 
-@push('scripts')
-    {{-- <script>
-        //Generate custom message
-        $(document).ready(function(){
-            ('#form-transaksi').bootstrapValidator({
-                message: 'Data yang di input tidak sesuai ketentuan',
-                feedbackIcons: {
-                    valid: 'fa-sollid fa-success',
-                    invalid: 'fa-solid fa-x',
-                    validating: 'fa-solid fa-arrows-rotate'
-                },
-                fields: {
-                    nama_pelanggan: {
-                        validators: {
-                            notEmpty: {
-                                message: 'Data harus diisi',
-                            },						
-                        },
-                    },
-                    id_pelanggan: {
-                        validators: {
-                            notEmpty: {
-                                message: 'Data harus diisi'
-                            }
-                        }
-                    },
-                    bayar: {
-                        validators: {
-                            notEmpty: {
-                                message: 'Masukan jumlah uang terlebih dahulu'
-                            },
-                            regexp: {
-                                regexp: /^[0-9 ()-]+$/i,
-                                message: 'Data harus diisi angka',
-                            }
-                        }
-                    },
-                    dp: {
-                        validators: {
-                            notEmpty: {
-                                message: 'Masukan jumlah dp terlebih dahulu'
-                            },
-                            regexp: {
-                                regexp: /^[0-9 ()-]+$/i,
-                                message: 'Data harus diisi angka',
-                            }
-                        }
-                    }
-                }
-            });
-        });
-    </script> --}}
-   
-
+@push('scripts')   
     <script>
-        // $(document).ready(function(){  
-        // });
-        // $(document).ready(function(){
-        //     $('#datatable-buttons_filter').css({"position":"relative","left":"-100px"});
-        // });
-        
         var subtotal=0;
         var discount=0;
         var total=0;
@@ -534,22 +475,12 @@
         $('div#tampil_sisa').hide();
 
         function GetTotalBayar(){
-            // var subtotal = $("[class='form-control subtotal']").val();
             let subtotal = document.querySelectorAll('.subtotal');
             let totalP = 0;
-            // console.log(totalP)
             subtotal.forEach(function(item){
                 totalP += parseFloat(item.value);
             });
-            // console.log(totalP)
-            // console.log(totalP)
-            // var total_penjualan = 0;
-            //HASILKAN TOTAL BAYAR
-            // for(x=1;x<=count;x++){
-            //     if($("input[name='item["+x+"][subtotal]']").val() != undefined){
-            //         total_penjualan += Number($("input[name='item["+x+"][subtotal]']").val());
-            //     }
-            // }
+
             let total = Math.round(Number(totalP)).toLocaleString("id-ID", {
                         style:"currency", 
                         currency:"IDR", 
@@ -578,13 +509,6 @@
                 $('.discount').val(0);
             }
 
-            if(id_pelanggan == "") {
-                Swal.fire('Isi data pelanggan terlebih dahulu')
-                return false;
-            } else {
-                $('#id_pelanggan').val();
-            }
-
             if(barang == "") {
                 Swal.fire('Tambahkan produk terlebih dahulu')
                 return false;
@@ -604,7 +528,7 @@
                         $('#bayar').val();
                     }    
                 }
-            }else if(jenis_pembayaran == '2'){
+            } else if(jenis_pembayaran == '2'){
                 if(dp == 0) {
                     Swal.fire('Masukan jumlah uang dp terlebih dahulu')
                     return false;
@@ -682,7 +606,6 @@
             var stock=stock;
             var keuntungan=keuntungan;
             var item_row = 1;
-            // console.log(id_barang, kode_barang, nama_barang, harga_beli, harga_jual, stock, keuntungan, item_row)
             var barang=CariIdBarang(id_barang);
             var format_harga_jual = Math.round(Number(harga_jual)).toLocaleString("id-ID", {
                                     style:"currency", 
@@ -1036,9 +959,7 @@
             let deleted_sub = Number($('#subtotal'+delete_row).val());
             let kurangiTotal = Number($('#total_harga').val().replace(/Rp/g, '').replace('.', ''));
             kurangiTotal -= deleted_sub;
-            //hapus pada table
             $('#buffer'+delete_row).remove(); 
-            // count--;
 
             console.log(kurangiTotal)
             let total = Math.round(Number(kurangiTotal)).toLocaleString("id-ID", {
@@ -1146,21 +1067,9 @@
             })
         }
 
-        // $(document).on('click', '#submit', function(){    
-        // });
-      
-
         $('body').addClass('sidebar-collapse');
 
         function tampilProduk() {
-            const min_stock = $('#stok_minimal').val();
-            const total_stock = $('#stok').val();
-             if (total_stock <= min_stock) {
-                let data_stok = "!"; 
-                $('#alert_stock').addClass('position-absolute top-0 start-100 translate-middle badge rounded-circle bg-danger');       
-                $('#alert_stock').html(data_stok);       
-            }
-            
             $('#formModalBarangPenjualan').modal('show');
             $('#tbl-data-barang-penjualan').DataTable();
         }
@@ -1185,7 +1094,6 @@
         }
 
         //Validasi Submit
-
         function cekDiscount(qty) {
             if(Number(qty.value) < 0){
                 qty.value = 0; 
@@ -1197,17 +1105,10 @@
         }
 
         function cekQty(stock) {
-            // console.log(stock)
             let id = stock.getAttribute("data-idbuffer");
-            // let qty = $('#qty' + id).val();
             let discount = $('#discount' + id).val();
             let harga_jual = $('#harga_jual' + id).val();
-            // console.log(harga_jual)
-            // console.log(discount)
-            
-
-
-            // console.log(cek)
+      
             if(Number(stock.value) < 0){
                 stock.value = 1;
             } else if (Number(stock.value) > Number(stock.max)){

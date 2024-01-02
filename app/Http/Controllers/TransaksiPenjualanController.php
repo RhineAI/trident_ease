@@ -151,7 +151,7 @@ class TransaksiPenjualanController extends Controller
                 $penjualanBaru->id = $id;
                 // $penjualanBaru->tgl = date('Y-m-d');
 		        $penjualanBaru->tgl = $request->tgl_transaksi;
-                $penjualanBaru->id_pelanggan = $request->id_pelanggan;
+                $penjualanBaru->id_pelanggan = $request->id_pelanggan ? $request->id_pelanggan : 1;
                 $penjualanBaru->total_harga = $this->checkPrice($request->total_harga);
                 // Pengecekan apabila jenis pembayaran Cash / DP
                 if($request->jenis_pembayaran == '1') {

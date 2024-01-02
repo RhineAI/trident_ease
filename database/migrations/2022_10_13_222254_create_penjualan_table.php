@@ -17,7 +17,7 @@ return new class extends Migration
         Schema::create('t_transaksi_penjualan', function (Blueprint $table) {
             $table->bigInteger('id')->autoIncrement();
             $table->date('tgl');
-            $table->integer('id_pelanggan');
+            $table->integer('id_pelanggan')->nullable();
             // $table->string('kode_invoice');
             $table->integer('total_harga');
             // $table->float('diskon')->default(0);
