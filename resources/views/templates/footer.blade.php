@@ -2,7 +2,7 @@
   <div class="float-right d-none d-sm-block">
     <a href="https://instagram.com/trident.startup" class="text-warning" style="text-decoration: none;"><b>TridentPOS</b></a> v1.2.0
   </div>
-  <strong>Copyright &copy; <script>document.write(/\d{4}/.exec(Date())[0])</script> Trident Tech ( <a href="https://www.instagram.com/smooth_0702/" style="text-decoration: none;" target="_blank">Muhammad Fadhil Allifah</a> & <a href="https://www.instagram.com/_syahid.lhs/?hl=id" style="text-decoration: none;">Luhung Lugina</a> ). </strong> All rights reserved.
+  <strong>Copyright &copy; <script>document.write(/\d{4}/.exec(Date())[0])</script><a href="https://www.instagram.com/trident.startup/" style="text-decoration: none;"> Trident Tech</a></strong> All rights reserved.
   
 </footer>
 
