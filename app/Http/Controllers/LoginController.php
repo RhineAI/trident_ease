@@ -215,7 +215,7 @@ class LoginController extends Controller
             $data['perusahaan'] = $perusahaan;
             $data['user'] = $user;
             $random = Str::random(19);
-            $random2 = Str::random(20);
+            $random2 = Str::random(10);
             $randomToken = $random . 'TridentTech.Id?' . $perusahaan->nama . '?kN7l' . $random2;
             
             DB::commit();

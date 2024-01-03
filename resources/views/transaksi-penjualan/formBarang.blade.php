@@ -30,14 +30,11 @@
                             <td id="cek_stok">
                                 <span class="btn btn-outline-dark position-relative">
                                     {{ $item->stock }}
-                                    <span id="alert_stock" class="">
-                                      {{-- 99+ --}}
-                                      {{-- <span class="visually-hidden">unread messages</span> --}}
-                                    </span>
-                                  </span>
+                                    @if ($item->stock <= $item->stock_minimal)
+                                        <span id="alert" class="alert_stock position-absolute top-0 start-100 translate-middle badge rounded-circle bg-danger">!</span>
+                                    @endif
+                                </span>
                             </td>
-                            <input type="hidden" value="{{ $item->stock }}" id="stok">
-                            <input type="hidden" value="{{ $item->stock_minimal }}" id="stok_minimal">
                             <td width="6%">
                                 <button type="button" class="btn btn-info add_barang" 
                                 data-id_barang="{{ $item->id }}" 
