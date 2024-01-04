@@ -13,31 +13,6 @@
                     @csrf
                     <!-- HTML !-->
                     <div class="modal-body">
-                        {{-- <div class="container">
-                            <div class="card">
-                                <h3>Download Files</h3>
-                                <div class="drop_box">
-                                    <a class="btnChoose">Download File</a>
-                                </div>
-
-                                <h3>Upload Files</h3>
-                                <div class="drop_box2">
-                                    <header>
-                                        <h4>Select File here</h4>
-                                    </header>
-                                    <p>Files Supported: PDF, TEXT, DOC , DOCX</p>
-                                    <input hidden style="display: none;" type="file" accept=".doc,.docx,.pdf" id="fileID" >
-                                    <button class="btnChoose">Choose File</button>
-                                </div>
-
-                            </div>
-                        </div> --}}
-                        {{-- <div class="form-group row ml-3">
-                            <a class="btn text-white" download style="background-color: #55acee;" href="/assets/excel/TemplateImportBarang.xlsx" role="button" target="_blank">
-                                <i class="fab fa-twitter me-2"></i>
-                                Download
-                            </a>
-                        </div> --}}
   
                         <div class="form-group row ml-3">
                             {{-- <div class="file-upload-wrapper" data-text="Select your file!"> --}}

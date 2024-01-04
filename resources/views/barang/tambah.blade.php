@@ -71,7 +71,7 @@
                     </select>
                 </div>
                 <br>
-                <div class="form-group" style="width: 97%; margin: auto;">
+                {{-- <div class="form-group" style="width: 97%; margin: auto;">
                     <label for="id_supplier">Supplier Barang</label>
                     <select class="form-control" name="id_supplier" id="id_supplier">
                         <option value="" disabled="disabled" selected="true">Choose Supplier</option>
@@ -79,8 +79,8 @@
                         <option value="{{$item->id}}">{{$item->nama}}</option>
                         @endforeach
                     </select>
-                </div>
-                <br>
+                </div> --}}
+                {{-- <br> --}}
                 <div class="form-group" style="width: 97%; margin: auto;">
                     <label for="id_satuan">Satuan Barang</label>
                     <select class="form-control" name="id_satuan" id="id_satuan">
@@ -180,7 +180,7 @@
             const kode = $('#kode').val()
             const id_kategori = $('#id_kategori').val()
             const id_satuan = $('#id_satuan').val()
-            const id_supplier = $('#id_supplier').val()
+            // const id_supplier = $('#id_supplier').val()
             const id_merek = $('#id_merek').val()
             const stock = $('#stock').val()
             const stock_minimal = $('#stock_minimal').val()
@@ -222,13 +222,6 @@
                 return false;
             } else {
                 $('#id_satuan').val();
-            }
-
-            if(id_supplier == null) {
-                Swal.fire('Supplier Harus Diisi!')
-                return false;
-            } else {
-                $('#id_supplier').val();
             }
 
             if(id_merek == null) {

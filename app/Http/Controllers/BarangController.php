@@ -28,7 +28,6 @@ class BarangController extends Controller
         $data['supplier'] = Supplier::where('id_perusahaan', auth()->user()->id_perusahaan)->get();
         $data['merek'] = Merek::where('id_perusahaan', auth()->user()->id_perusahaan)->get();
         $data['satuan'] = Satuan::where('id_perusahaan', auth()->user()->id_perusahaan)->get();
-        $data['perusahaan'] = Perusahaan::where('id', auth()->user()->id_perusahaan)->get();
         $data['cPerusahaan'] = Perusahaan::select('*')->where('id', auth()->user()->id_perusahaan)->first();
         // ambil data kategori, supplier, merek, perusahaan dari perusahaan yang sedang login
         return view('barang.index', $data);
@@ -40,7 +39,6 @@ class BarangController extends Controller
         $data['supplier'] = Supplier::where('id_perusahaan', auth()->user()->id_perusahaan)->get();
         $data['merek'] = Merek::where('id_perusahaan', auth()->user()->id_perusahaan)->get();
         $data['satuan'] = Satuan::where('id_perusahaan', auth()->user()->id_perusahaan)->get();
-        $data['perusahaan'] = Perusahaan::where('id', auth()->user()->id_perusahaan)->get();
         // $data['produk'] = Barang::get();
         $data['cPerusahaan'] = Perusahaan::select('*')->where('id', auth()->user()->id_perusahaan)->first();
         // $data['barang'] = Barang::leftJoin('t_kategori AS K', 'K.id', 't_barang.id_kategori')
@@ -94,15 +92,17 @@ class BarangController extends Controller
         }
     }
 
+    public function calculateSellPrice($price, $profit)
+    {
+        $gain = ($price * $profit) / 100;
+        $sellPrice = $price + $gain;
+        return $sellPrice;
+    }
+
     public function data()
     {
-        $barang = Barang::leftJoin('t_kategori AS K', 'K.id', 't_barang.id_kategori')
-                    ->leftJoin('t_supplier AS SP', 'SP.id', 't_barang.id_supplier')
-                    ->leftJoin('t_satuan AS ST', 'ST.id', 't_barang.id_satuan')
-                    ->leftJoin('t_merek AS M', 'M.id', 't_barang.id_merek')
-                    ->select('t_barang.*', 'K.nama AS nama_kategori', 'SP.nama AS nama_supplier', 'ST.nama AS nama_satuan', 'M.nama AS nama_merek')     
-                    ->where('t_barang.id_perusahaan', auth()->user()->id_perusahaan) 
-                    ->where('t_barang.keterangan', 'LIKE' ,'%utama%')    
+        $barang = Barang::where('id_perusahaan', auth()->user()->id_perusahaan) 
+                    ->where('keterangan', 'LIKE' ,'%utama%')    
                     ->orderBy('id', 'desc')
                     ->get();
         // Ambil data dari tabel barang yang di join kan dengan tabel supplier, satuan, dan merek dari perusahaan yang sedang login dan dengan kondisi jenis barang = utama
@@ -115,8 +115,20 @@ class BarangController extends Controller
             ->addColumn('kode', function ($barang) {
                 return '<span class="badge" style="background-color:#2f3d57; color:white;">'. $barang->kode .'</span>';
             })
+            ->addColumn('nama_merek', function ($barang) {
+                return $barang->merek->nama;
+            })
+            ->addColumn('nama_kategori', function ($barang) {
+                return $barang->kategori->nama;
+            })
+            ->addColumn('nama_satuan', function ($barang) {
+                return $barang->satuan->nama;
+            })
             ->addColumn('harga_beli', function ($barang) {
                 return 'Rp. '. format_uang($barang->harga_beli);
+            })
+            ->addColumn('harga_jual', function ($barang) {
+                return 'Rp. '. format_uang($this->calculateSellPrice($barang->harga_beli, $barang->keuntungan));
             })
             ->addColumn('stock', function ($barang) {
                 if($barang->stock == 0)
@@ -140,7 +152,6 @@ class BarangController extends Controller
                                 data-kode="'.$barang->kode.'"
                                 data-barcode="'.$barang->barcode.'"
                                 data-id_kategori="'.$barang->id_kategori.'"
-                                data-id_supplier="'.$barang->id_supplier.'"
                                 data-id_satuan="'.$barang->id_satuan.'"
                                 data-id_merek="'.$barang->id_merek.'"
                                 data-id_perusahaan="'.$barang->id_perusahaan.'"
@@ -152,7 +163,7 @@ class BarangController extends Controller
                                 data-keterangan="'.$barang->keterangan.'"
                                 data-status="'.$barang->status.'"
                                 data-route="'. route('admin.barang.update', $barang->id) .'" 
-                        class="edit btn btn-xs btn-success"><i class="fa fa-pencil"></i></button>     
+                        class="edit btn btn-xs btn-success mb-1"><i class="fa fa-pencil"></i></button>     
                         <button onclick="deleteForm(`'. route('admin.barang.destroy', $barang->id) .'`)" class="btn btn-xs btn-danger"><i class="fa fa-trash"></i></button>
                     '; 
                 })
@@ -167,16 +178,10 @@ class BarangController extends Controller
 
     public function dataKonsinyasi()
     {
-        $barang = Barang::leftJoin('t_kategori AS K', 'K.id', 't_barang.id_kategori')
-                    ->leftJoin('t_supplier AS SP', 'SP.id', 't_barang.id_supplier')
-                    ->leftJoin('t_satuan AS ST', 'ST.id', 't_barang.id_satuan')
-                    ->leftJoin('t_merek AS M', 'M.id', 't_barang.id_merek')
-                    ->select('t_barang.*', 'K.nama AS nama_kategori', 'SP.nama AS nama_supplier', 'ST.nama AS nama_satuan', 'M.nama AS nama_merek')     
-                    ->where('t_barang.id_perusahaan', auth()->user()->id_perusahaan) 
-                    ->where('t_barang.keterangan', 'konsinyasi')    
+        $barang = Barang::where('id_perusahaan', auth()->user()->id_perusahaan) 
+                    ->where('keterangan', 'konsinyasi')    
                     ->orderBy('id', 'desc')
                     ->get();
-
 
         return datatables()
             ->of($barang)
@@ -184,8 +189,20 @@ class BarangController extends Controller
             ->addColumn('kode', function ($barang) {
                 return '<span class="badge" style="background-color:#2f3d57; color:white;">'. $barang->kode .'</span>';
             })
+            ->addColumn('nama_merek', function ($barang) {
+                return $barang->merek->nama;
+            })
+            ->addColumn('nama_kategori', function ($barang) {
+                return $barang->kategori->nama;
+            })
+            ->addColumn('nama_satuan', function ($barang) {
+                return $barang->satuan->nama;
+            })
             ->addColumn('harga_beli', function ($barang) {
                 return 'Rp. '. format_uang($barang->harga_beli);
+            })
+            ->addColumn('harga_jual', function ($barang) {
+                return 'Rp. '. format_uang($this->calculateSellPrice($barang->harga_beli, $barang->keuntungan));
             })
             ->addColumn('stock', function ($barang) {
                 if($barang->stock == 0)
@@ -209,7 +226,6 @@ class BarangController extends Controller
                                 data-kode="'.$barang->kode.'"
                                 data-barcode="'.$barang->barcode.'"
                                 data-id_kategori="'.$barang->id_kategori.'"
-                                data-id_supplier="'.$barang->id_supplier.'"
                                 data-id_satuan="'.$barang->id_satuan.'"
                                 data-id_merek="'.$barang->id_merek.'"
                                 data-id_perusahaan="'.$barang->id_perusahaan.'"
@@ -221,7 +237,7 @@ class BarangController extends Controller
                                 data-keterangan="'.$barang->keterangan.'"
                                 data-status="'.$barang->status.'"
                                 data-route="'. route('admin.barang.update', $barang->id) .'" 
-                        class="edit btn btn-xs btn-success"><i class="fa fa-pencil"></i></button>     
+                        class="edit btn btn-xs btn-success mb-1"><i class="fa fa-pencil"></i></button>     
                         <button onclick="deleteForm(`'. route('admin.barang.destroy', $barang->id) .'`)" class="btn btn-xs btn-danger"><i class="fa fa-trash"></i></button>
                     '; 
                 })
@@ -249,7 +265,6 @@ class BarangController extends Controller
             $barang->barcode = $request->barcode;
             $barang->id_kategori = $request->id_kategori;
             $barang->id_satuan = $request->id_satuan;
-            $barang->id_supplier = $request->id_supplier;
             $barang->id_merek = $request->id_merek;
             $barang->stock = $request->stock;
             $barang->stock_minimal = $request->stock_minimal;
@@ -269,55 +284,25 @@ class BarangController extends Controller
             $limit = Barang::whereDate('tgl', date('Y-m-d'))->where('id_perusahaan', auth()->user()->id_perusahaan)->count();
             // hitung jumlah input barang yang telah dilakukan oleh perusahaan yang sedang login
             
-            if($perusahaan->grade == 1) {
-                // pengecekan level akses perusahaan 
-                if($limit < 10 ) {
-                // cek jumlah input barang perusahaan yang login jika kurang dari 10 lakukan simpan ke database
-                    $barang->save();
-                    DB::commit();
-                    if ($barang->keterangan == 'utama' or $barang->keterangan == 'Utama') {
-                        return redirect()->route('admin.barang.index')->with(['success' => 'Berhasil Disimpan']);
-                    } elseif ($barang->keterangan == 'konsinyasi' or $barang->keterangan == 'Konsinyasi') {
-                        return redirect()->route('admin.barang.indexKonsinyasi')->with(['success' => 'Berhasil Disimpan']);
-                    }
-                } else {
-                    // jika sudah melebihi 10 makan return false
-                    DB::rollBack();
-                    return redirect()->route('admin.dashboard')->with(['error' => 'Sudah mencapai limit barang, Naikan levelmu terlebih dahulu!']);
-                }
-            } elseif($perusahaan->grade == 2) {
-                if($limit < 200 ) {
-                // cek jumlah input barang perusahaan yang login jika kurang dari 50 lakukan simpan ke database
-                    $barang->save();
-                    DB::commit();
-                    if ($barang->keterangan == 'utama' or $barang->keterangan == 'Utama') {
-                        return redirect()->route('admin.barang.index')->with(['success' => 'Berhasil Disimpan']);
-                    } elseif ($barang->keterangan == 'konsinyasi' or $barang->keterangan == 'Konsinyasi') {
-                        return redirect()->route('admin.barang.indexKonsinyasi')->with(['success' => 'Berhasil Disimpan']);
-                    }
-                }else {
-                    DB::rollBack();
-                    // jika sudah melebihi 50 makan return false
-                    return redirect()->route('admin.dashboard')->with(['error' => 'Sudah mencapai limit barang, Naikan levelmu terlebih dahulu!']);
-                }
-            } elseif($perusahaan->grade == 3) {
-                if($limit < 10000 ) {
-                // cek jumlah input barang perusahaan yang login jika kurang dari 10000 lakukan simpan ke database
-                    $barang->save();
-                    DB::commit();
-                    if ($barang->keterangan == 'utama' or $barang->keterangan == 'Utama') {
-                        return redirect()->route('admin.barang.index')->with(['success' => 'Berhasil Disimpan']);
-                    } elseif ($barang->keterangan == 'konsinyasi' or $barang->keterangan == 'Konsinyasi') {
-                        return redirect()->route('admin.barang.indexKonsinyasi')->with(['success' => 'Berhasil Disimpan']);
-                    }                    
-                }else {
-                    DB::rollBack();
-                    // jika sudah melebihi 10000 makan return false
-                    return redirect()->route('admin.dashboard')->with(['error' => 'Sudah mencapai limit barang, Naikan levelmu terlebih dahulu!']);
-                }
-            } else{
+            // pengecekan level akses perusahaan 
+            if ($perusahaan->grade == 1 && $limit < 10) {
+                $barang->save();
+                DB::commit();
+                $this->redirectToIndex($request->keterangan);
+            } elseif ($perusahaan->grade == 2 && $limit < 200) {
+                $barang->save();
+                DB::commit();
+                $this->redirectToIndex($request->keterangan);
+            } elseif ($perusahaan->grade == 3 && $limit < 10000) {
+                $barang->save();
+                DB::commit();
+                $this->redirectToIndex($request->keterangan);                   
+            } elseif ($perusahaan->grade == 4)  {
+                $barang->save();
+                DB::commit();
+                $this->redirectToIndex($request->keterangan);  
+            } else {
                 DB::rollBack();
-                // cek jika ada level perusahaan berbeda dengan ketentuan
                 return redirect()->route('logout')->with(['error' => 'Anda tidak memiliki akses!']);
             }
 
@@ -328,6 +313,15 @@ class BarangController extends Controller
             return back()->with(['error', 'Terjadi Kesalahan Query']);
         }
         
+    }
+
+    private function returnToIndex($keterangan)
+    {
+        $route = ($keterangan == 'konsinyasi' || $keterangan == 'Konsinyasi')
+                ? 'admin.barang.indexKonsinyasi'
+                : 'admin.barang.index';
+
+        return redirect()->route($route)->with(['success' => 'Berhasil Disimpan']);
     }
 
     public function show(Barang $barang)
