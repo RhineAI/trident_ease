@@ -315,12 +315,13 @@ class BarangController extends Controller
         
     }
 
-    private function returnToIndex($keterangan)
+    private function redirectToIndex($keterangan)
     {
-        $route = ($keterangan == 'konsinyasi' || $keterangan == 'Konsinyasi')
+        $route = (strtolower($keterangan) == 'konsinyasi')
                 ? 'admin.barang.indexKonsinyasi'
                 : 'admin.barang.index';
 
+        return $route;
         return redirect()->route($route)->with(['success' => 'Berhasil Disimpan']);
     }
 

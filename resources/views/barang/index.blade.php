@@ -374,8 +374,13 @@ Produk Utama
         return value.replaceAll(".", '');
     }
 
-    $(document).on('keyup', '#keuntungan', function (e) {
+    $(document).on('keyup change', '#keuntungan', function (e) {
         var keuntungan = $(this).val();
+
+        if (keuntungan > 100) {
+            keuntungan = 100
+            $(this).val(100)
+        }
         var hb = removeThousandsSeparator($("#harga_beli").val());
         var hj;
 
