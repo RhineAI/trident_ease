@@ -80,7 +80,7 @@ return new class extends Migration
             $table->string('nama', 50);
             $table->string('barcode', 50)->nullable();
             $table->integer('id_kategori');
-            $table->integer('id_supplier');
+            // $table->integer('id_supplier');
             $table->integer('id_satuan');
             $table->integer('id_merek');
             $table->integer('id_perusahaan');
@@ -91,7 +91,7 @@ return new class extends Migration
             $table->integer('keuntungan');
             $table->string('keterangan');
             $table->integer('status');
-            $table->foreign('id_supplier')->references('id')->on('t_supplier')->onDelete('restrict')->onUpdate('restrict');
+            // $table->foreign('id_supplier')->references('id')->on('t_supplier')->onDelete('restrict')->onUpdate('restrict');
             $table->foreign('id_kategori')->references('id')->on('t_kategori')->onDelete('restrict')->onUpdate('restrict');
             $table->foreign('id_satuan')->references('id')->on('t_satuan')->onDelete('restrict')->onUpdate('restrict');
             $table->foreign('id_merek')->references('id')->on('t_merek')->onDelete('restrict')->onUpdate('restrict');

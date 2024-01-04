@@ -15,13 +15,22 @@
                     </button>
                 </div>
                 <div class="modal-body">
+                    {{-- <h4 class="text-center mb-4">Informasi Barang</h4> --}}
                     <div class="form-group row">
                         <label for="nama" class="col-md-2 col-md-offset-1 control-label">
                             <h6 class="my-2">Nama</h6>
                         </label>
-                        <div class="col-md-10">
+                        <div class="col-md-4">
                             <input type="text" name="nama" id="product_name" class="form-control"
                                 autofocus>
+                            <span class="help-block with-errors"></span>
+                        </div>
+
+                        <label for="kode" class="col-md-2 col-md-offset-1 control-label">
+                            <h6 class="my-2">Kode</h6>
+                        </label>
+                        <div class="col-md-4">
+                            <input type="text" name="kode" id="kode" class="form-control" placeholder="Contoh : 001 ">
                             <span class="help-block with-errors"></span>
                         </div>
                     </div>
@@ -35,16 +44,6 @@
                             <span class="help-block with-errors"></span>
                         </div>
 
-                        <label for="kode" class="col-md-2 col-md-offset-1 control-label">
-                            <h6 class="my-2">Kode</h6>
-                        </label>
-                        <div class="col-md-4">
-                            <input type="text" name="kode" id="kode" class="form-control">
-                            <span class="help-block with-errors"></span>
-                        </div>
-                    </div>
-
-                    <div class="form-group row">
                         <label for="id_kategori" class="col-md-2 col-md-offset-1 control-label">
                             <h6 class="my-2">Kategori</h6>
                         </label>
@@ -57,11 +56,13 @@
                             </select>
                             <span class="help-block with-errors"></span>
                         </div>
+                    </div>
 
-                        <label for="id_satuan" class=" control-label ml-3" style="margin-right:58px">
+                    <div class="form-group row">
+                        <label for="id_satuan" class="col-md-2 col-md-offset-1 control-label">
                             <h6 class="my-2">Satuan</h6>
                         </label>
-                        <div class="col-md-4 ml-1">
+                        <div class="col-md-4">
                             <select name="id_satuan" id="id_satuan" class="form-control">
                                 <option value="" disabled selected>Pilih Satuan</option>
                                 @foreach ($satuan as $item )
@@ -70,24 +71,8 @@
                             </select>
                             <span class="help-block with-errors"></span>
                         </div>
-                    </div>
 
-
-                    <div class="form-group row">
-                        <label for="id_supplier" class="col-md-2 col-md-offset-1 control-label">
-                            <h6 class="my-2">Supplier</h6>
-                        </label>
-                        <div class="col-md-4">
-                            <select name="id_supplier" id="id_supplier" class="form-control">
-                                <option value=""  disabled selected>Pilih Supplier</option>
-                                @foreach ($supplier as $item )
-                                    <option value="{{ $item->id }}">{{ $item->nama }}</option>
-                                @endforeach
-                            </select>
-                            <span class="help-block with-errors"></span>
-                        </div>
-
-                        <label for="id_merek" class="control-label ml-3" style="margin-right: 68px;">
+                        <label for="id_merek" class="col-md-2 col-md-offset-1 control-label">
                             <h6 class="my-2">Merek </h6>
                         </label>
                         <div class="col-md-4">
@@ -101,37 +86,20 @@
                         </div>
                     </div>
 
-                    <div class="form-group row">
-                        <label for="stock" class="col-md-2 col-md-offset-1 control-label">
-                            <h6 class="my-2">Stok </h6>
-                        </label>
-                        <div class="col-md-4">
-                            <input type="number" name="stock" id="stock" class="form-control" autofocus>
-                            <span class="help-block with-errors"></span>
-                        </div>
-
-                        <label for="stock_minimal" class="col-md-2 col-md-offset-1 control-label">
-                            <h6 class="my-2">Min. Stok</h6>
-                        </label>
-                        <div class="col-md-4">
-                            <input type="number" name="stock_minimal" id="stock_minimal" class="form-control" autofocus>
-                            <span class="help-block with-errors"></span>
-                        </div>
-                    </div>
+                    <hr>
+                    <h5 class="text-center my-2 mt-2 mb-5">Informasi Harga dan Stok</h5>
 
                     <div class="form-group row">
                         <label for="harga_beli" class="col-md-2 col-md-offset-1 control-label">
                             <h6 class="my-2">Harga Beli</h6>
                         </label>
-                        <div class="input-group mb-3 col-md-6">
+                        <div class="input-group mb-3 col-md-5">
                             <div class="input-group-prepend">
-                              <span class="input-group-text" id="basic-addon1">Rp.</span>
+                                <span class="input-group-text" id="basic-addon1">Rp.</span>
                             </div>
                             <input type="text" name="harga_beli" autocomplete="off" id="harga_beli" class="form-control" aria-label="Username" aria-describedby="basic-addon1">
                         </div>
-                    </div>
 
-                    <div class="form-group row">
                         <label for="keuntungan" class="col-md-2 col-md-offset-1 control-label">
                             <h6 class="my-2">Keuntungan</h6>
                         </label>
@@ -147,15 +115,13 @@
                         <label for="harga_jual" class="col-md-2 col-md-offset-1 control-label">
                             <h6 class="my-2">Harga Jual</h6>
                         </label>
-                        <div class="input-group mb-3 col-md-6">
+                        <div class="input-group mb-3 col-md-5">
                             <div class="input-group-prepend">
-                              <span class="input-group-text" id="basic-addon1">Rp.</span>
+                                <span class="input-group-text" id="basic-addon1">Rp.</span>
                             </div>
                             <input type="text" autocomplete="off" id="harga_jual" class="form-control" aria-label="Username" readonly aria-describedby="basic-addon1">
                         </div>
-                    </div>
 
-                    <div class="form-group row">
                         <label for="status" class="col-md-2 col-md-offset-1 control-label">
                             <h6 class="my-2">Status</h6>
                         </label>
@@ -166,8 +132,26 @@
                             </select>
                             <span class="help-block with-errors"></span>
                         </div>
+                    </div>
 
-                        <label for="keterangan" class="control-label ml-5 mr-4">
+                    <div class="form-group row">
+                        <label for="stock" class="col-md-1 control-label">
+                            <h6 class="my-2">Stok </h6>
+                        </label>
+                        <div class="col-md-3">
+                            <input type="number" name="stock" id="stock" class="form-control" autofocus>
+                            <span class="help-block with-errors"></span>
+                        </div>
+
+                        <label for="stock_minimal" class="col-md-1 control-label" style="width: 12.19%; flex: 0 0 12.19%;max-width: 12.19%;">
+                            <h6 class="my-2">Min. Stok</h6>
+                        </label>
+                        <div class="col-md-2" style="width: 21%; flex: 0 0 21%;max-width: 21%;">
+                            <input type="number" name="stock_minimal" id="stock_minimal" class="form-control" autofocus>
+                            <span class="help-block with-errors"></span>
+                        </div>
+
+                        <label for="keterangan" class="col-md-1 control-label">
                             <h6 class="my-2">Jenis</h6>
                         </label>
                         <div class="col-md-3">

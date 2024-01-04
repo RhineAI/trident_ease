@@ -225,14 +225,15 @@ Produk Utama
                                     <thead class="thead-light">
                                         <tr>
                                             <th width="6%" class="text-center">No</th>
-                                            <th width="6%" class="text-center">Kode</th>
-                                            <th width="15%" class="text-center">Nama</th>
+                                            <th width="6%" class="">Kode</th>
+                                            <th width="15%" class="">Nama</th>
                                             <th width="6%" class="text-center">Kategori</th>
                                             <th width="6%" class="text-center">Satuan</th>
                                             <th width="6%" class="text-center">Merek</th>
-                                            <th width="6%" class="text-center">Pemasok</th>
+                                            {{-- <th width="6%" class="text-center">Pemasok</th> --}}
                                             <th width="6%" class="text-center">Stock</th>
-                                            <th width="80%" class="text-center">Harga Beli</th>
+                                            <th width="14%" class="text-center">Harga Beli</th>
+                                            <th width="14%" class="text-center">Harga Jual</th>
                                             <th width="6%" class="text-center">Status</th>
                                             <th width="4%" class="text-center">Aksi</th>
                                         </tr>
@@ -268,7 +269,7 @@ Produk Utama
         const kode = $('#kode').val()
         const id_kategori = $('#id_kategori').val()
         const id_satuan = $('#id_satuan').val()
-        const id_supplier = $('#id_supplier').val()
+        // const id_supplier = $('#id_supplier').val()
         const id_merek = $('#id_merek').val()
         const stock = $('#stock').val()
         const stock_minimal = $('#stock_minimal').val()
@@ -285,13 +286,6 @@ Produk Utama
         } else {
             $('#product_name').val();
         }
-
-        // if(barcode == "") {
-        //     Swal.fire('Barcode Barang Harus Diisi!')
-        //     return false;
-        // } else {
-        //     $('#barcode').val();
-        // }
 
         if(kode == "") {
             Swal.fire('Kode Barang Harus Diisi!')
@@ -312,13 +306,6 @@ Produk Utama
             return false;
         } else {
             $('#id_satuan').val();
-        }
-
-        if(id_supplier == null) {
-            Swal.fire('Supplier Harus Diisi!')
-            return false;
-        } else {
-            $('#id_supplier').val();
         }
 
         if(id_merek == null) {
@@ -357,10 +344,7 @@ Produk Utama
         }
 
         if(status == null) {
-            Swal.fire('Status Harus Diisi!')
-            return false;
-        } else {
-            $('#status').val();
+            $('#status').val(1)
         }
 
         if(keterangan == null) {
@@ -374,30 +358,39 @@ Produk Utama
     $('body').addClass('sidebar-collapse');
 
     $(document).on('keyup', '#harga_beli', function (e) {
-            var keuntungan = $("#keuntungan").val();
-            var hj;
-            var hb = String($(this).val()).replaceAll(".", '');
+        var keuntungan = $("#keuntungan").val();
+        var hb = $(this).val().replaceAll(".", '');
+        var hargaBeli = parseFloat(hb);
 
-            if(keuntungan == 0){
-                hj = hb;
-            } else if(keuntungan > 0){
-                hj = parseFloat(hb) + parseFloat(hb) * keuntungan/100;
-            }
-            $("#harga_jual").val(roundToThousands(hj))
+        if (keuntungan > 0) {
+            var hargaJual = hargaBeli + (hargaBeli * keuntungan / 100);
+            $("#harga_jual").val(hargaJual.toLocaleString());
+        } else {
+            $("#harga_jual").val(hargaBeli.toLocaleString());
+        }
     });
 
-    $(document).on('keyup', '#keuntungan', function (e) {
-            var keuntungan = $(this).val();
-            var hb = String($("#harga_beli").val()).replaceAll(".", '');
-            var hj;
-            console.log(hb)
+    function removeThousandsSeparator(value) {
+        return value.replaceAll(".", '');
+    }
 
-            if(hb == 0){
-                hj = 0 * keuntungan;
-            } else if(hb > 0){
-                hj = parseFloat(hb) + parseFloat(hb) * keuntungan/100;
-            }
-            $("#harga_jual").val(roundToThousands(hj))
+    $(document).on('keyup change', '#keuntungan', function (e) {
+        var keuntungan = $(this).val();
+
+        if (keuntungan > 100) {
+            keuntungan = 100
+            $(this).val(100)
+        }
+        var hb = removeThousandsSeparator($("#harga_beli").val());
+        var hj;
+
+        if (hb == 0) {
+            hj = 0 * keuntungan;
+        } else if (hb > 0) {
+            hj = parseFloat(hb) + parseFloat(hb) * keuntungan / 100;
+        }
+
+        $("#harga_jual").val(hj.toLocaleString());
     });
 
 
@@ -457,10 +450,10 @@ Produk Utama
             {data:'nama_kategori'},
             {data:'nama_satuan'},
             {data:'nama_merek'},
-            {data:'nama_supplier'},
+            // {data:'nama_supplier'},
             {data:'stock'},
             {data:'harga_beli'},
-            // {data:'keterangan'},
+            {data:'harga_jual'},
             {data:'status'},
             {data:'action', searchable: false, sortable: false},
         ]
@@ -472,7 +465,7 @@ Produk Utama
         let barcode = $(this).data('barcode')
         let id_kategori = $(this).data('id_kategori')
         let id_satuan = $(this).data('id_satuan')
-        let id_supplier = $(this).data('id_supplier')
+        // let id_supplier = $(this).data('id_supplier')
         let id_merek = $(this).data('id_merek')
         let id_perusahaan = $(this).data('id_perusahaan')
         let stock = $(this).data('stock')
@@ -489,7 +482,7 @@ Produk Utama
             barcode : barcode,
             id_kategori : id_kategori,
             id_satuan : id_satuan,
-            id_supplier : id_supplier,
+            // id_supplier : id_supplier,
             id_merek : id_merek,
             id_perusahaan : id_perusahaan,
             stock : stock,
@@ -521,7 +514,7 @@ Produk Utama
         $('#modal-form [name=barcode]').val(data.barcode);
         $('#modal-form [name=id_kategori]').val(data.id_kategori);
         $('#modal-form [name=id_satuan]').val(data.id_satuan);
-        $('#modal-form [name=id_supplier]').val(data.id_supplier);
+        // $('#modal-form [name=id_supplier]').val(data.id_supplier);
         $('#modal-form [name=id_merek]').val(data.id_merek);
         $('#modal-form [name=id_perusahaan]').val(data.id_perusahaan);
         $('#modal-form [name=stock]').val(data.stock);
@@ -651,91 +644,5 @@ Produk Utama
         _("status").innerHTML = "Upload Aborted";
     }
 </script>
-
-{{-- <script>
-    const dropArea = document.querySelector(".drop_box"),
-            button = dropArea.querySelector("button"),
-            dragText = dropArea.querySelector("header"),
-            input = dropArea.querySelector("input");
-    let file;
-    var filename;
-
-    button.onclick = () => {
-        input.click();
-    };
-
-    input.addEventListener("change", function (e) {
-    var fileName = e.target.files[0].name;
-    let filedata = `
-        <form action="" method="post">
-        <div class="form">
-        <h4>${fileName}</h4>
-        <input type="email" placeholder="Enter email upload file">
-        <button class="btn">Upload</button>
-        </div>
-        </form>`;
-    dropArea.innerHTML = filedata;
-    });
-
-</script> --}}
-
-{{-- <script>
-
-    
-
-    $(document).ready(function () {
-        $('#formModalBarang').on("show.bs.modal", function (e) {
-            const btn = $(e.relatedTarget)
-            const id_barang = btn.data('id_barang')
-            const kode = btn.data('kode')
-            const nama_barang = btn.data('nama_barang')
-            const barcode = btn.data('barcode')
-            const id_kategori = btn.data('id_kategori')
-            const id_supplier = btn.data('id_supplier')
-            const id_satuan = btn.data('id_satuan')
-            const id_merek = btn.data('id_merek')
-            const id_perusahaan = btn.data('id_perusahaan')
-            const stock = btn.data('stock')
-            const stock_minimal = btn.data('stock_minimal')
-            const harga_beli = btn.data('harga_beli')
-            const keuntungan = btn.data('keuntungan')
-            const keterangan = btn.data('keterangan')
-            const status = btn.data('status')
-            const mode = btn.data('mode')
-            const route = btn.data('route')
-            const modal = $(this)
-
-            if (mode === 'edit') {
-                modal.find('#modal-title').text("Edit Data barang")
-                modal.find('.modal-body #kode').val(kode)
-                modal.find('.modal-body #nama').val(nama_barang)
-                modal.find('.modal-body #barcode').val(barcode)
-                modal.find('.modal-body #id_kategori').val(id_kategori)
-                modal.find('.modal-body #id_supplier').val(id_supplier)
-                modal.find('.modal-body #id_satuan').val(id_satuan)
-                modal.find('.modal-body #id_merek').val(id_merek)
-                modal.find('.modal-body #id_perusahaan').val(id_perusahaan)
-                modal.find('.modal-body #stock').val(stock)
-                modal.find('.modal-body #stock_minimal').val(stock_minimal)
-                modal.find('.modal-body #harga_beli').val(harga_beli)
-                modal.find('.modal-body #keuntungan').val(keuntungan)
-                modal.find('.modal-body #keterangan').val(keterangan)
-                modal.find('.modal-body #status').val(status)
-                modal.find('.modal-footer #btn-submit').text('Update')
-                modal.find('.modal-body form').attr('action', '/barang/' + id_barang)
-                modal.find('.modal-body #method').html('{{ method_field('PATCH') }}')
-                // $('#modal-form form')[0].reset();
-                // $('#modal-form form').attr('action', data.route);
-                // $('#modal-form [name=_method]').val('put');
-            } else {
-                modal.find('.modal-title').text("Tambah Data barang")
-                modal.find('.modal-body #id_barang').val('')
-                modal.find('.modal-body #nama_barang').val('')
-                modal.find('.modal-footer #btn-submit').text('Submit')
-                modal.find('.modal-body #method').html('')
-            }
-        });
-    });
-</script> --}}
 
 @endpush

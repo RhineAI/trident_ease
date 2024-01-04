@@ -1,4 +1,4 @@
-<table id="tbl-data-barang" class="table table-bordered table-striped table-hover table-compact" style="width: 100%;">
+<table id="tbl-data-barang" class="table table-bordered text-center table-striped table-hover table-compact" style="width: 100%;">
     <thead>
         <tr>
             <th>No</th>
@@ -21,7 +21,7 @@
     </thead>
     <tbody>
         @foreach ($barang as $item)
-            <tr>
+            <tr class="text-center">
                 <td>{{ $item->id }}</td>
                 <td>{{ $item->kode }}</td>
                 <td id="nama_barang">{{ $item->nama }}</td>
@@ -45,24 +45,24 @@
                 </td>
                 <td>
                     <button class="btn btn-xs edit" type="button" style="color: green;" title="Edit" 
-                    data-mode="edit" 
-                    data-route="{{ route('barang.update', $item->id) }}" 
-                    data-toggle="modal" data-target="#formModalBarang" 
-                    data-id_barang="{{ $item->id }}" 
-                    data-kode="{{ $item->kode }}" 
-                    data-nama_barang="{{ $item->nama }}" 
-                    data-barcode="{{ $item->barcode }}" 
-                    data-id_kategori="{{ $item->id_kategori }}" 
-                    data-id_supplier="{{ $item->id_supplier }}" 
-                    data-id_satuan="{{ $item->id_satuan }}" 
-                    data-id_merek="{{ $item->id_merek }}" 
-                    data-id_perusahaan="{{ $item->id_perusahaan }}" 
-                    data-stock="{{ $item->stock }}" 
-                    data-stock_minimal="{{ $item->stock_minimal }}" 
-                    data-harga_beli="{{ $item->harga_beli }}" 
-                    data-keuntungan="{{ $item->keuntungan }}" 
-                    data-keterangan="{{ $item->keterangan }}" 
-                    data-status="{{ $item->status }}">
+                            data-mode="edit" 
+                            data-route="{{ route('barang.update', $item->id) }}" 
+                            data-toggle="modal" data-target="#formModalBarang" 
+                            data-id_barang="{{ $item->id }}" 
+                            data-kode="{{ $item->kode }}" 
+                            data-nama_barang="{{ $item->nama }}" 
+                            data-barcode="{{ $item->barcode }}" 
+                            data-id_kategori="{{ $item->id_kategori }}" 
+                            {{-- data-id_supplier="{{ $item->id_supplier }}"  --}}
+                            data-id_satuan="{{ $item->id_satuan }}" 
+                            data-id_merek="{{ $item->id_merek }}" 
+                            data-id_perusahaan="{{ $item->id_perusahaan }}" 
+                            data-stock="{{ $item->stock }}" 
+                            data-stock_minimal="{{ $item->stock_minimal }}" 
+                            data-harga_beli="{{ $item->harga_beli }}" 
+                            data-keuntungan="{{ $item->keuntungan }}" 
+                            data-keterangan="{{ $item->keterangan }}" 
+                            data-status="{{ $item->status }}">
                         <i class="fas fa-edit"></i>
                     </button>
                     <form action="{{ route('barang.destroy', $item->id) }}" style="display: inline;" method="post">
