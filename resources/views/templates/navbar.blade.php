@@ -48,7 +48,7 @@
     @else 
         <span class="mr-2 badge badge badge-secondary">Trident Tech</span>
     @endif
-    <span class="mr-2">{{ date('d-m-Y', strtotime(auth()->user()->perusahaan->expiredDate)) }}</span>
+    <span class="mr-2" id="countdown-expired">{{ date('d-m-Y', strtotime(auth()->user()->perusahaan->expiredDate)) }}</span>
 
     <ul class="navbar-nav">
         <li class="nav-item">
@@ -175,4 +175,25 @@
     //         content.style.display = "none";
     //     }
     // })
+</script>
+<script>
+    // Set the target date from Laravel variable
+    var targetDate = "{{ auth()->user()->perusahaan->expiredDate }}";
+
+    // Convert the target date to a JavaScript Date object
+    var targetDateObj = new Date(targetDate);
+
+    // Update the countdown every second
+    setInterval(function () {
+        var currentDate = new Date();
+        var timeDifference = targetDateObj - currentDate;
+
+        var days = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+        var hours = Math.floor((timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        var minutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
+        var seconds = Math.floor((timeDifference % (1000 * 60)) / 1000);
+
+        // Display the countdown in the #countdown div
+        $('#countdown-expired').html(days + ' Hari, ' + hours + ' Jam, ' + minutes + ' Menit, ' + seconds + ' Detik');
+    }, 1000);
 </script>

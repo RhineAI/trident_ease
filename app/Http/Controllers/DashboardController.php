@@ -166,6 +166,25 @@ class DashboardController extends Controller
             $data['total_retur_pembelian'] = ReturPembelian::where('id_perusahaan', auth()->user()->id_perusahaan)->where('id_user', auth()->user()->id)->whereMonth('created_at', date('m'))->sum('total_retur');
             return view('dashboard', $data);
             
+        } elseif(auth()->user()->hak_akses == 'owner') {
+            $data['free'] = Perusahaan::whereMonth('created_at', $month)->where('grade', 1)->count();
+            $data['plus'] = Perusahaan::whereMonth('created_at', $month)->where('grade', 2)->count();
+            $data['pro'] = Perusahaan::whereMonth('created_at', $month)->where('grade', 3)->count();
+
+            $data['omsetBulanan'] = ($data['plus'] * 180000) + ($data['pro'] * 300000);
+            $data['omsetTahunan'] = 0;
+            
+            for($monthIndex = 1; $monthIndex <= 12; $monthIndex++) {
+                $plus = Perusahaan::whereMonth('created_at', $monthIndex)->where('grade', 2)->count();
+                $pro = Perusahaan::whereMonth('created_at', $monthIndex)->where('grade', 3)->count();
+                $data['bulan'.$monthIndex] = ($plus * 180000) + ($pro * 300000);
+                $data['omsetTahunan'] += $data['bulan'. $monthIndex];
+            }
+
+            $server = 800000;
+            $data['keuntungan'] = $data['omsetTahunan'] - $server;
+            
+            return view('dashboardSuperAdmin', $data);
         } else {
             $data['transaksi'] = TransaksiPenjualan::where('id_perusahaan', auth()->user()->id_perusahaan)->where('id_user', auth()->user()->id)->whereMonth('created_at', date('m'))->count();
             $data['pelanggan'] = Pelanggan::where('id_perusahaan', auth()->user()->id_perusahaan)->whereMonth('created_at', date('m'))->count();
