@@ -57,7 +57,7 @@ class UsersController extends Controller
      */
 
     public function getUsername(Request $request){
-        $user = User::select('*')->where('id_perusahaan', auth()->user()->id_perusahaan)->where('username', $request->username)->first();
+        $user = User::select('*')->where('username', $request->username)->first();
 
         // return $user;
         if($user === null){
