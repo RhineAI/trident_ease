@@ -67,15 +67,12 @@ class PembelianController extends Controller
 
     public function NextId($tgl){
         $pieces = explode("-",$tgl);
-        $yy=$pieces[0]; // piece1
-        $mm=$pieces[1]; //
+        $yy=$pieces[0]; 
+        $mm=$pieces[1];
         $dd=$pieces[2]; 
         $tgl=$yy.$mm.$dd;
         
         $result= Pembelian::where('tgl', $tgl)->select(DB::raw('max(id)+1 AS nextid'))->orderBy('id', 'DESC')->where('t_transaksi_pembelian.id_perusahaan', auth()->user()->id_perusahaan)->first();
-        // dd($result);
-
-        // dd($result);
         if($tgl==substr($result->nextid,0,8)){
             $nextid=$result->nextid;        
         } else{
@@ -83,45 +80,6 @@ class PembelianController extends Controller
         }
         return $nextid;
     }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \App\Http\Requests\StorePembelianRequest  $request
-     * @return \Illuminate\Http\Response
-     */
-    // old store (mungkin masih berguna)
-    // public function store(StorePembelianRequest $request)
-    // {
-    //     $pembelian = new Pembelian();
-    //     $generateKode = Pembelian::select('kode_invoice')->orderBy('created_at', 'DESC')->first();
-
-    //     $kode = '';
-
-    //     if($generateKode == NULL) {
-    //         $kode = 'INV-202205001';
-    //     } else {
-    //         $kode = sprintf('INV-202205%03d', substr($generateKode->kode_pembelian, 10) + 1);
-    //         // $kode = sprintf('BRC-202205%03d' + 1);
-    //     }
-
-    //     $pembelian->tgl = now();
-    //     $pembelian->kode_invoice = $kode;
-    //     $pembelian->id_supplier = $request->id_supplier;
-    //     $pembelian->total_pembelian = $request->total_pembelian;
-    //     $pembelian->jenis_pembayaran = $request->jenis_pembayaran;
-    //     $pembelian->id_user = $request->id_user;
-    //     $pembelian->save();
-
-    //     $detail = DetailPembelian::Where('id_pembelian', $pembelian->id)->get();
-    //     foreach ($detail as $item) {
-    //         $produk = Barang::find($item->id_produk);
-    //         $produk->stok += $item->jumlah;
-    //         $produk->update();
-    //     }
-
-    //     return redirect()->route('admin.pembelian.index');
-    // }
 
     public function data(Request $request){
         $barang = Barang::where('id_perusahaan', auth()->user()->id_perusahaan)->where('barcode', $request->barcode)->first();
@@ -181,6 +139,7 @@ class PembelianController extends Controller
                 
                 $barangUpdate = Barang::find($barang['id_barang']);
                 $barangUpdate->stock += $barang['qty'];
+                $barangUpdate->id_supplier = $request->id_supplier;
                 $barangUpdate->harga_beli = $this->checkPrice($barang['harga_beli']);
                 $barangUpdate->update();
                 

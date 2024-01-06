@@ -39,25 +39,8 @@ class BarangController extends Controller
         $data['supplier'] = Supplier::where('id_perusahaan', auth()->user()->id_perusahaan)->get();
         $data['merek'] = Merek::where('id_perusahaan', auth()->user()->id_perusahaan)->get();
         $data['satuan'] = Satuan::where('id_perusahaan', auth()->user()->id_perusahaan)->get();
-        // $data['produk'] = Barang::get();
         $data['cPerusahaan'] = Perusahaan::select('*')->where('id', auth()->user()->id_perusahaan)->first();
-        // $data['barang'] = Barang::leftJoin('t_kategori AS K', 'K.id', 't_barang.id_kategori')
-        // ->leftJoin('t_supplier AS SP', 'SP.id', 't_barang.id_supplier')
-        // ->leftJoin('t_satuan AS ST', 'ST.id', 't_barang.id_satuan')
-        // ->leftJoin('t_merek AS M', 'M.id', 't_barang.id_merek')
-        // ->leftJoin('t_perusahaan AS P', 'P.id', 't_barang.id_perusahaan')
-        // ->select('t_barang.*', 'K.nama AS nama_kategori', 'SP.nama AS nama_supplier', 'ST.nama AS nama_satuan', 'M.nama AS nama_merek', 'P.nama AS nama_perusahaan')
-        // ->where('t_barang.id_perusahaan', auth()->user()->id_perusahaan)     
-        // ->where('t_barang.keterangan', konsinyasi)
-        // ->orderBy('t_barang.id', 'desc')
-        // ->get();
-
-        // $brg = Barang::all();
-        // return $brg;
-        // $cek = Merek::where('id', $brg->id_merek)->get();
-        // return $cek;
-        
-        // dd($data['barang']); die;
+      
         return view('barang.barang-konsinyasi', $data);
     }
 
@@ -151,6 +134,7 @@ class BarangController extends Controller
                         <button data-nama="'.$barang->nama.'"
                                 data-kode="'.$barang->kode.'"
                                 data-barcode="'.$barang->barcode.'"
+                                data-id_supplier="'.$barang->id_supplier.'"
                                 data-id_kategori="'.$barang->id_kategori.'"
                                 data-id_satuan="'.$barang->id_satuan.'"
                                 data-id_merek="'.$barang->id_merek.'"
@@ -225,6 +209,7 @@ class BarangController extends Controller
                         <button data-nama="'.$barang->nama.'"
                                 data-kode="'.$barang->kode.'"
                                 data-barcode="'.$barang->barcode.'"
+                                data-id_supplier="'.$barang->id_supplier.'"
                                 data-id_kategori="'.$barang->id_kategori.'"
                                 data-id_satuan="'.$barang->id_satuan.'"
                                 data-id_merek="'.$barang->id_merek.'"
@@ -255,7 +240,6 @@ class BarangController extends Controller
     
     public function store(Request $request)
     {
-        // return $request;
         DB::beginTransaction();
         try {
             $barang = new Barang();
@@ -263,6 +247,7 @@ class BarangController extends Controller
             $barang->kode = $request->kode;
             $barang->nama = $request->nama;
             $barang->barcode = $request->barcode;
+            $barang->id_supplier = $request->id_supplier;
             $barang->id_kategori = $request->id_kategori;
             $barang->id_satuan = $request->id_satuan;
             $barang->id_merek = $request->id_merek;

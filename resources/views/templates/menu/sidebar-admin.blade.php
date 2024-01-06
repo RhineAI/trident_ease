@@ -136,7 +136,7 @@
                 <p id="smol">Pembelian Barang (Restock)</p>
             </a>
         </li>
-        @if ($grade === 3)
+        @if ($grade >= 3)
             <li class="nav-item">
                 <a href="{{ route('admin.list-pembelian.index') }}" class="nav-link">
                     {{-- <i class="far fa-circle nav-icon"></i> --}}
@@ -159,7 +159,7 @@
                 <p id="smol">Transaksi Penjualan</p>
             </a>
         </li>
-        @if ($grade === 3)
+        @if ($grade >= 3)
             <li class="nav-item">
                 <a href="{{ route('admin.list-transaksi.index') }}" class="nav-link">
                     {{-- <i class="far fa-circle nav-icon"></i> --}}
@@ -194,7 +194,7 @@
                     <p id="smol">Retur Pembelian</p>
                 </a>
             </li>
-            @if ($grade === 3)
+            @if ($grade >= 3)
                 <li class="nav-item">
                     <a href="{{ route('admin.list-retur-pembelian.index') }}" class="nav-link">
                         <p id="smol" >Riwayat Retur Pembelian</p>
@@ -207,7 +207,7 @@
                     <p>Retur Penjualan</p>
                 </a id="smol">
             </li>
-            @if ($grade === 3)
+            @if ($grade >= 3)
                 <li class="nav-item">
                     <a href="{{ route('admin.list-retur-penjualan.index') }}" class="nav-link">
                         <p id="smol">Riwayat Retur Penjualan</p>
@@ -219,7 +219,7 @@
 @endif
 
 
-@if ($grade === 3)
+@if ($grade >= 3)
     {{-- KAS --}}
     <li class="nav-item">
         <a href="#" class="nav-link">
@@ -288,7 +288,7 @@
                 </a>
             </li>
         @endif
-        @if ($grade === 3)
+        @if ($grade >= 3)
             <li class="nav-item">
                 <a href="{{ route('admin.laporan-kas.index') }}" class="nav-link">
                     <p class="smol">Laporan Kas</p>

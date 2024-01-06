@@ -316,17 +316,11 @@ Produk Utama
         }
 
         if(stock == "") {
-            Swal.fire('Stock Harus Diisi!')
-            return false;
-        } else {
-            $('#stock').val();
+            $('#stock').val(0);
         }
 
         if(stock_minimal == "") {
-            Swal.fire('Stock Minimal Harus Diisi!')
-            return false;
-        } else {
-            $('#stock_minimal').val();
+            $('#stock_minimal').val(0);
         }
 
         if(harga_beli == "") {
@@ -465,7 +459,7 @@ Produk Utama
         let barcode = $(this).data('barcode')
         let id_kategori = $(this).data('id_kategori')
         let id_satuan = $(this).data('id_satuan')
-        // let id_supplier = $(this).data('id_supplier')
+        let id_supplier = $(this).data('id_supplier')
         let id_merek = $(this).data('id_merek')
         let id_perusahaan = $(this).data('id_perusahaan')
         let stock = $(this).data('stock')
@@ -482,7 +476,7 @@ Produk Utama
             barcode : barcode,
             id_kategori : id_kategori,
             id_satuan : id_satuan,
-            // id_supplier : id_supplier,
+            id_supplier : id_supplier,
             id_merek : id_merek,
             id_perusahaan : id_perusahaan,
             stock : stock,
@@ -508,13 +502,12 @@ Produk Utama
         // ubah action form menjadi url berdasarkan object yang di pass melalui parameter
         $('#modal-form [name=_method]').val('put');
         // ubah method form menjadi put
-
         $('#modal-form [name=kode]').val(data.kode);
         $('#modal-form [name=nama]').val(data.nama);
         $('#modal-form [name=barcode]').val(data.barcode);
         $('#modal-form [name=id_kategori]').val(data.id_kategori);
         $('#modal-form [name=id_satuan]').val(data.id_satuan);
-        // $('#modal-form [name=id_supplier]').val(data.id_supplier);
+        $('#modal-form [name=id_supplier]').val(data.id_supplier);
         $('#modal-form [name=id_merek]').val(data.id_merek);
         $('#modal-form [name=id_perusahaan]').val(data.id_perusahaan);
         $('#modal-form [name=stock]').val(data.stock);
