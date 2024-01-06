@@ -169,7 +169,7 @@ Produk Konsinyasi
 
     $('body').addClass('sidebar-collapse');
 
-    $(document).on('keyup', '#harga_beli', function (e) {
+    $(document).on('keyup change', '#harga_beli', function (e) {
         var keuntungan = $("#keuntungan").val();
         var hb = $(this).val().replaceAll(".", '');
         var hargaBeli = parseFloat(hb);
@@ -186,7 +186,7 @@ Produk Konsinyasi
         return value.replaceAll(".", '');
     }
 
-    $(document).on('keyup', '#keuntungan', function (e) {
+    $(document).on('keyup change', '#keuntungan', function (e) {
         var keuntungan = $(this).val();
         var hb = removeThousandsSeparator($("#harga_beli").val());
         var hj;
@@ -270,7 +270,7 @@ Produk Konsinyasi
             let barcode = $(this).data('barcode')
             let id_kategori = $(this).data('id_kategori')
             let id_satuan = $(this).data('id_satuan')
-            // let id_supplier = $(this).data('id_supplier')
+            let id_supplier = $(this).data('id_supplier')
             let id_merek = $(this).data('id_merek')
             let id_perusahaan = $(this).data('id_perusahaan')
             let stock = $(this).data('stock')
@@ -287,7 +287,7 @@ Produk Konsinyasi
                 barcode : barcode,
                 id_kategori : id_kategori,
                 id_satuan : id_satuan,
-                // id_supplier : id_supplier,
+                id_supplier : id_supplier,
                 id_merek : id_merek,
                 id_perusahaan : id_perusahaan,
                 stock : stock,
@@ -315,7 +315,7 @@ Produk Konsinyasi
             $('#modal-form [name=barcode]').val(data.barcode);
             $('#modal-form [name=id_kategori]').val(data.id_kategori);
             $('#modal-form [name=id_satuan]').val(data.id_satuan);
-            // $('#modal-form [name=id_supplier]').val(data.id_supplier);
+            $('#modal-form [name=id_supplier]').val(data.id_supplier);
             $('#modal-form [name=id_merek]').val(data.id_merek);
             $('#modal-form [name=id_perusahaan]').val(data.id_perusahaan);
             $('#modal-form [name=stock]').val(data.stock);

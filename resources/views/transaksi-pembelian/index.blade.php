@@ -950,9 +950,9 @@
                 // rowBarang+="<img src='https://bootstrapious.com/i/snippets/sn-cart/product-1.jpg' alt='' width='70' class='img-fluid rounded shadow-sm'>";
                 rowBarang+="<div class='ml-3 d-inline-block align-middle'>";
                 rowBarang+="<input type='hidden' name='item["+count+"][id_barang]' value='"+id_barang+"' id='id_barang'>"
-                rowBarang+="<h5 style='font-size:18.5px;' class='mb-0'><a class='text-dark d-inline-block align-middle'>"+nama_barang+"</a><input type='hidden' name='item["+count+"][nama_barang]' value='"+nama_barang+"' type='number'></h5>";
+                rowBarang+="<h5 style='font-size:19.5px;' class='mb-0'><a class='text-dark d-inline-block align-middle'>"+nama_barang+"</a><input type='hidden' name='item["+count+"][nama_barang]' value='"+nama_barang+"' type='number'></h5>";
                 rowBarang+="<div class='def-number-input number-input safari_only'>";
-                rowBarang+="<h6 style='font-size:16px;'><input class='balloon mb-2 text-left align-left harga_beli' autocomplete='off' type='text' id='harga_beli"+count+"' name='item["+count+"][harga_beli]' placeholder='Rp. 0' data-idbuffer='"+count+"'></h6>"
+                rowBarang+="<h6 style='font-size:18px;'><input class='balloon mb-2 text-left align-left harga_beli' autocomplete='off' type='text' id='harga_beli"+count+"' name='item["+count+"][harga_beli]' placeholder='Rp. 0' data-idbuffer='"+count+"'></h6>"
                 rowBarang+="<button data-idbuffer='"+count+"' id='minus' type='button' onclick='this.parentNode.querySelector";
                 rowBarang+='("input[type=number]")';
                 rowBarang+=".stepDown()' class='minus'></button>";

@@ -16,75 +16,160 @@
                 </div>
                 <div class="modal-body">
                     {{-- <h4 class="text-center mb-4">Informasi Barang</h4> --}}
-                    <div class="form-group row">
-                        <label for="nama" class="col-md-2 col-md-offset-1 control-label">
-                            <h6 class="my-2">Nama</h6>
-                        </label>
-                        <div class="col-md-4">
-                            <input type="text" name="nama" id="product_name" class="form-control"
-                                autofocus>
-                            <span class="help-block with-errors"></span>
+                    @if ($cPerusahaan->grade == 1)
+                        <div class="form-group row">
+                            <label for="nama" class="col-md-2 col-md-offset-1 control-label">
+                                <h6 class="my-2">Nama</h6>
+                            </label>
+                            <div class="col-md-4">
+                                <input type="text" name="nama" id="nama" class="form-control"autofocus>
+                                <span class="help-block with-errors"></span>
+                            </div>
+
+                            <label for="kode" class="col-md-2 col-md-offset-1 control-label">
+                                <h6 class="my-2">Kode</h6>
+                            </label>
+                            <div class="col-md-4">
+                                <input type="text" name="kode" id="kode" class="form-control" placeholder="Contoh : 001 ">
+                                <span class="help-block with-errors"></span>
+                            </div>
                         </div>
 
-                        <label for="kode" class="col-md-2 col-md-offset-1 control-label">
-                            <h6 class="my-2">Kode</h6>
-                        </label>
-                        <div class="col-md-4">
-                            <input type="text" name="kode" id="kode" class="form-control" placeholder="Contoh : 001 ">
-                            <span class="help-block with-errors"></span>
-                        </div>
-                    </div>
+                        <div class="form-group row">
+                            <label for="barcode" class="col-md-2 col-md-offset-1 control-label">
+                                <h6 class="my-2">Barcode</h6>
+                            </label>
+                            <div class="col-md-4">
+                                <input type="text" name="barcode" id="barcode" class="form-control">
+                                <span class="help-block with-errors"></span>
+                            </div>
 
-                    <div class="form-group row">
-                        <label for="barcode" class="col-md-2 col-md-offset-1 control-label">
-                            <h6 class="my-2">Barcode</h6>
-                        </label>
-                        <div class="col-md-4">
-                            <input type="text" name="barcode" id="barcode" class="form-control">
-                            <span class="help-block with-errors"></span>
-                        </div>
-
-                        <label for="id_kategori" class="col-md-2 col-md-offset-1 control-label">
-                            <h6 class="my-2">Kategori</h6>
-                        </label>
-                        <div class="col-md-4">
-                            <select name="id_kategori" id="id_kategori" class="form-control">
-                                <option value="" disabled selected>Pilih Kategori</option>
-                                @foreach ($categories as $item )
-                                    <option value="{{ $item->id }}">{{ $item->nama }}</option>
-                                @endforeach
-                            </select>
-                            <span class="help-block with-errors"></span>
-                        </div>
-                    </div>
-
-                    <div class="form-group row">
-                        <label for="id_satuan" class="col-md-2 col-md-offset-1 control-label">
-                            <h6 class="my-2">Satuan</h6>
-                        </label>
-                        <div class="col-md-4">
-                            <select name="id_satuan" id="id_satuan" class="form-control">
-                                <option value="" disabled selected>Pilih Satuan</option>
-                                @foreach ($satuan as $item )
-                                    <option value="{{ $item->id }}">{{ $item->nama }}</option>
-                                @endforeach
-                            </select>
-                            <span class="help-block with-errors"></span>
+                            <label for="id_kategori" class="col-md-2 col-md-offset-1 control-label">
+                                <h6 class="my-2">Kategori</h6>
+                            </label>
+                            <div class="col-md-4">
+                                <select name="id_kategori" id="id_kategori" class="form-control">
+                                    <option value="" disabled selected>Pilih Kategori</option>
+                                    @foreach ($categories as $item )
+                                        <option value="{{ $item->id }}">{{ $item->nama }}</option>
+                                    @endforeach
+                                </select>
+                                <span class="help-block with-errors"></span>
+                            </div>
                         </div>
 
-                        <label for="id_merek" class="col-md-2 col-md-offset-1 control-label">
-                            <h6 class="my-2">Merek </h6>
-                        </label>
-                        <div class="col-md-4">
-                            <select name="id_merek" id="id_merek" class="form-control">
-                                <option value="" disabled selected>Pilih Merek</option>
-                                @foreach ($merek as $item )
-                                    <option value="{{ $item->id }}">{{ $item->nama }}</option>
-                                @endforeach
-                            </select>
-                            <span class="help-block with-errors"></span>
+                        <div class="form-group row">
+                            <label for="id_satuan" class="col-md-2 col-md-offset-1 control-label">
+                                <h6 class="my-2">Satuan</h6>
+                            </label>
+                            <div class="col-md-4">
+                                <select name="id_satuan" id="id_satuan" class="form-control">
+                                    <option value="" disabled selected>Pilih Satuan</option>
+                                    @foreach ($satuan as $item )
+                                        <option value="{{ $item->id }}">{{ $item->nama }}</option>
+                                    @endforeach
+                                </select>
+                                <span class="help-block with-errors"></span>
+                            </div>
+
+                            <label for="id_merek" class="col-md-2 col-md-offset-1 control-label">
+                                <h6 class="my-2">Merek </h6>
+                            </label>
+                            <div class="col-md-4">
+                                <select name="id_merek" id="id_merek" class="form-control">
+                                    <option value="" disabled selected>Pilih Merek</option>
+                                    @foreach ($merek as $item )
+                                        <option value="{{ $item->id }}">{{ $item->nama }}</option>
+                                    @endforeach
+                                </select>
+                                <span class="help-block with-errors"></span>
+                            </div>
                         </div>
-                    </div>
+                    @else 
+                        <div class="form-group row">
+                            <label for="nama" class="col-md-2 col-md-offset-1 control-label">
+                                <h6 class="my-2">Nama</h6>
+                            </label>
+                            <div class="col-md-10">
+                                <input type="text" name="nama" id="nama" class="form-control"autofocus>
+                                <span class="help-block with-errors"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="kode" class="col-md-2 col-md-offset-1 control-label">
+                                <h6 class="my-2">Kode</h6>
+                            </label>
+                            <div class="col-md-4">
+                                <input type="text" name="kode" id="kode" class="form-control" placeholder="Contoh : 001 ">
+                                <span class="help-block with-errors"></span>
+                            </div>
+
+                            <label for="barcode" class="col-md-2 col-md-offset-1 control-label">
+                                <h6 class="my-2">Barcode</h6>
+                            </label>
+                            <div class="col-md-4">
+                                <input type="text" name="barcode" id="barcode" class="form-control">
+                                <span class="help-block with-errors"></span>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group row">
+                            <label for="id_supplier" class="col-md-2 col-md-offset-1 control-label">
+                                <h6 class="my-2">Supplier</h6>
+                            </label>
+                            <div class="col-md-4">
+                                <select name="id_supplier" id="id_supplier" class="form-control">
+                                    <option value="" disabled selected>Pilih Supplier</option>
+                                    @foreach ($supplier as $item )
+                                        <option value="{{ $item->id }}">{{ $item->nama }}</option>
+                                    @endforeach
+                                </select>
+                                <span class="help-block with-errors"></span>
+                            </div>
+
+                            <label for="id_kategori" class="col-md-2 col-md-offset-1 control-label">
+                                <h6 class="my-2">Kategori</h6>
+                            </label>
+                            <div class="col-md-4">
+                                <select name="id_kategori" id="id_kategori" class="form-control">
+                                    <option value="" disabled selected>Pilih Kategori</option>
+                                    @foreach ($categories as $item )
+                                        <option value="{{ $item->id }}">{{ $item->nama }}</option>
+                                    @endforeach
+                                </select>
+                                <span class="help-block with-errors"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="id_satuan" class="col-md-2 col-md-offset-1 control-label">
+                                <h6 class="my-2">Satuan</h6>
+                            </label>
+                            <div class="col-md-4">
+                                <select name="id_satuan" id="id_satuan" class="form-control">
+                                    <option value="" disabled selected>Pilih Satuan</option>
+                                    @foreach ($satuan as $item )
+                                        <option value="{{ $item->id }}">{{ $item->nama }}</option>
+                                    @endforeach
+                                </select>
+                                <span class="help-block with-errors"></span>
+                            </div>
+
+                            <label for="id_merek" class="col-md-2 col-md-offset-1 control-label">
+                                <h6 class="my-2">Merek </h6>
+                            </label>
+                            <div class="col-md-4">
+                                <select name="id_merek" id="id_merek" class="form-control">
+                                    <option value="" disabled selected>Pilih Merek</option>
+                                    @foreach ($merek as $item )
+                                        <option value="{{ $item->id }}">{{ $item->nama }}</option>
+                                    @endforeach
+                                </select>
+                                <span class="help-block with-errors"></span>
+                            </div>
+                        </div>
+                    @endif
 
                     <hr>
                     <h5 class="text-center my-2 mt-2 mb-5">Informasi Harga dan Stok</h5>

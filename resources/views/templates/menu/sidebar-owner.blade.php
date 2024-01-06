@@ -8,7 +8,7 @@
     </a>
 </li>
 
-@if (auth()->user()->perusahaan->grade === 3)
+@if (auth()->user()->perusahaan->grade >= 3)
     {{-- Stock Opname --}}
     <li class="nav-item">
         <a href="{{ route('owner.stockOpname') }}" class="nav-link">
@@ -54,7 +54,7 @@
                 </a>
             </li>
         @endif
-        @if (auth()->user()->perusahaan->grade === 3)
+        @if (auth()->user()->perusahaan->grade >= 3)
             <li class="nav-item">
                 <a href="{{ route('owner.laporan-kas.index') }}" class="nav-link">
                     <p class="smol">Laporan Kas</p>
