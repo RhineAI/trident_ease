@@ -160,7 +160,7 @@ class SuperAdminController extends Controller
                 $perusahaan->expiredDate = '0000-00-00';
             }
         } else {
-            return back()->with(['error', 'Tanggal Kadaluarsa Sewa Perusahaan Harus Melebihi Hari Ini']);
+            return back()->with(['error' => 'Tanggal Kadaluarsa Sewa Perusahaan Harus Melebihi Hari Ini']);
         }
         // return $perusahaan;
         $perusahaan->update();

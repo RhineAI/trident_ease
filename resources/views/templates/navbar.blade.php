@@ -22,23 +22,44 @@
         outline: none;
         box-shadow: 0 0 0 0.125rem white;
     }
+    .main-header .upgrade-button {
+        background: linear-gradient(70deg, rgba(33,33,207,0.9920343137254902) 35%, rgba(0,212,255,1) 100%);
+      border: none;
+      color: #fff;
+      padding: 5px 10px;
+      font-size: 12px;
+      font-weight : bold;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
 
+    .main-header .upgrade-button:hover {
+      background: linear-gradient(75deg,  rgba(0,212,255,1) 100%,rgba(33,33,207,0.9920343137254902) 35%);
+    }
     /* .dropdowns:onclick .dropdowns-content {
         display: block;
     } */
 /* 
     input[type=button]:onclick .dropdowns-content {
         display: block;
-    } */
+    } */'
+    
 </style>
 <nav class="main-header navbar navbar-expand navbar-white navbar-light">
-    <!-- Left navbar links -->
-    
+    <!-- Left navbar links -->    
     <ul class="navbar-nav col-md-7" style="margin-right: 4em;">
         <li class="nav-item">
             <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
         </li>
+        @if(auth()->user()->perusahaan->grade == 1 || auth()->user()->perusahaan->grade == 2)
+            <li>
+               <a href="https://wa.me/6285174067863?text=Saya%20ingin%20upgrade%20level%20untuk%20EASE%20saya"> <button class="upgrade-button mt-1">Upgrade</button></a>
+            </li>
+        @endif
     </ul>
+    
+
     @if (auth()->user()->perusahaan->grade == 3)
         <span class="mr-2 badge badge badge-danger">Pro</span>
     @elseif (auth()->user()->perusahaan->grade == 2)
@@ -57,6 +78,7 @@
             </a>
           </li>
     </ul>
+    
     <ul class="navbar-nav">
         
     </ul>
@@ -105,7 +127,7 @@
 
 {{-- <nav class="main-header navbar navbar-expand navbar-white navbar-light">
     <!-- Left navbar links -->
-    <div class="col-md-10">
+    <div class="col-md-8">
         <ul class="navbar-nav">
             <li class="nav-item my-2">
                 <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>

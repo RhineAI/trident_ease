@@ -8,6 +8,77 @@
     </a>
 </li>
 
+
+{{-- SETUP PERUSAHAAN --}}
+<li class="nav-item">
+    <a href="#" class="nav-link">
+        <i class="nav-icon fas fa-solid fa-gears"></i>
+        <p>
+            Setup Perusahaan
+            <i class="right fas fa-angle-right"></i>
+        </p>
+    </a>
+    <ul class="nav nav-treeview ml-4">
+        @if (auth()->user()->perusahaan->grade !== 1)
+            <li class="nav-item">
+                <a href="{{ route('owner.perusahaan.index') }}" class="nav-link">
+                    {{-- <i class="far fa-circle nav-icon"></i> --}}
+                    <p class="smol">Set Perusahaan</p>
+                </a>
+            </li>
+        @endif
+        <li class="nav-item">
+            <a href="{{ route('owner.keuntungan') }}" class="nav-link">
+                {{-- <i class="far fa-circle nav-icon"></i> --}}
+                <p class="smol">Set Keuntungan</p>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="{{ route('owner.kategori.index') }}" class="nav-link">
+                {{-- <i class="far fa-circle nav-icon"></i> --}}
+                <p class="smol">Set Kategori</p>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="{{ route('owner.merek.index') }}" class="nav-link">
+                {{-- <i class="far fa-circle nav-icon"></i> --}}
+                <p class="smol">Set Merek</p>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="{{ route('owner.satuan.index') }}" class="nav-link">
+                {{-- <i class="far fa-circle nav-icon"></i> --}}
+                <p class="smol">Set Satuan</p>
+            </a>
+        </li>
+    </ul>
+</li>
+
+{{-- PEGAWAI --}}
+<li class="nav-item">
+    <a href="#" class="nav-link">
+        <i class="nav-icon fas fa-solid fa-user"></i>
+        <p>
+            Pegawai
+            <i class="right fas fa-angle-right"></i>
+        </p>
+    </a>
+    <ul class="nav nav-treeview ml-4">
+        <li class="nav-item">
+            <a href="{{ route('owner.pegawai2') }}" class="nav-link">
+                {{-- <i class="far fa-circle nav-icon"></i> --}}
+                <p class="smol">Tambah Pegawai</p>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="{{ route('owner.users.index') }}" class="nav-link">
+                {{-- <i class="far fa-circle nav-icon"></i> --}}
+                <p class="smol">Data Pegawai</p>
+            </a>
+        </li>
+    </ul>
+</li>
+
 @if (auth()->user()->perusahaan->grade >= 3)
     {{-- Stock Opname --}}
     <li class="nav-item">
@@ -83,77 +154,6 @@
         @endif
     </ul>
 </li>
-
- {{-- PEGAWAI --}}
-<li class="nav-item">
-    <a href="#" class="nav-link">
-        <i class="nav-icon fas fa-solid fa-user"></i>
-        <p>
-            Pegawai
-            <i class="right fas fa-angle-right"></i>
-        </p>
-    </a>
-    <ul class="nav nav-treeview ml-4">
-        <li class="nav-item">
-            <a href="{{ route('owner.pegawai2') }}" class="nav-link">
-                {{-- <i class="far fa-circle nav-icon"></i> --}}
-                <p class="smol">Tambah Pegawai</p>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a href="{{ route('owner.users.index') }}" class="nav-link">
-                {{-- <i class="far fa-circle nav-icon"></i> --}}
-                <p class="smol">Data Pegawai</p>
-            </a>
-        </li>
-    </ul>
-</li>
-
-{{-- SETUP PERUSAHAAN --}}
-<li class="nav-item">
-    <a href="#" class="nav-link">
-        <i class="nav-icon fas fa-solid fa-gears"></i>
-        <p>
-            Setup Perusahaan
-            <i class="right fas fa-angle-right"></i>
-        </p>
-    </a>
-    <ul class="nav nav-treeview ml-4">
-        @if (auth()->user()->perusahaan->grade !== 1)
-            <li class="nav-item">
-                <a href="{{ route('owner.perusahaan.index') }}" class="nav-link">
-                    {{-- <i class="far fa-circle nav-icon"></i> --}}
-                    <p class="smol">Set Perusahaan</p>
-                </a>
-            </li>
-        @endif
-        <li class="nav-item">
-            <a href="{{ route('owner.keuntungan') }}" class="nav-link">
-                {{-- <i class="far fa-circle nav-icon"></i> --}}
-                <p class="smol">Set Keuntungan</p>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a href="{{ route('owner.kategori.index') }}" class="nav-link">
-                {{-- <i class="far fa-circle nav-icon"></i> --}}
-                <p class="smol">Set Kategori</p>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a href="{{ route('owner.merek.index') }}" class="nav-link">
-                {{-- <i class="far fa-circle nav-icon"></i> --}}
-                <p class="smol">Set Merek</p>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a href="{{ route('owner.satuan.index') }}" class="nav-link">
-                {{-- <i class="far fa-circle nav-icon"></i> --}}
-                <p class="smol">Set Satuan</p>
-            </a>
-        </li>
-    </ul>
-</li>
-
 
 <li class="nav-item">
     <a href="{{ route('logout') }}" class="nav-link">
