@@ -9,10 +9,10 @@
   }
 
   .bgDarkWhiteColor a:hover, .bgDarkWhiteColor span:hover, .bgDarkWhiteColor p:hover {
-    background: grey;
+    background: black;
   }
 </style>
-<aside class="main-sidebar sidebar-primary elevation-4 @if($cPerusahaan->id == 1) bgDarkWhiteColor @endif" id="@if($cPerusahaan->id != 1) bgBlueLightWhiteColor @endif" style="position:fixed; overflow:auto; height:30em">
+<aside class="main-sidebar sidebar-primary elevation-4" id="bgBlueLightWhiteColor" style="position:fixed; overflow:auto; height:30em">
     <!-- Brand Logo -->
     <a href="#" class="brand-link ">
         <img src="{{ asset('assets') }}/img/easepos_logo/ease8.png" alt="AdminLTE Logo" class="brand-image  ">

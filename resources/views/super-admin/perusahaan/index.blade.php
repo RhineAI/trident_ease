@@ -113,6 +113,8 @@
                                                         <td><span class="badge" style="background-color:#81d6b0;">Plus</span></td>
                                                     @elseif($item->grade == 3)
                                                         <td><span class="badge badge-danger">Pro</span></td>
+                                                    @else
+                                                        <td><span class="badge badge-info">Trident</span></td>
                                                     @endif
                                                     <td>{{ $item->created_at->diffForHumans() }}</td>
                                                     @if ($item->expiredDate === '0000-00-00')
