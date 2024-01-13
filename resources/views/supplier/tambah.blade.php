@@ -18,10 +18,7 @@
 @endpush
 
 @section('contents')
-      <!-- Main content -->
       <section class="content">
-  
-        <!-- Default box -->
         <div class="card">
           <div class="card-header">
             <h3 class="card-title">Form Supplier</h3>
@@ -39,42 +36,35 @@
                     </button>
                 </div>
             @endif
-            <form action="" method="POST" id="formSupplier">
+            <form action="" method="POST" id="formSupplier" class="mx-2">
                 @csrf
                 <div id="method"></div>
                 <div class="form-group row">
-                    <div class="form-group" style="width: 95%; margin: auto;">
-                        <label for="nama">Nama Supplier</label>
+                    <div class="col-md-4">
+                        <label for="nama">PT Supplier / Distributor</label>
                         <input type="text" class="form-control" id="nama" placeholder="Nama Supplier" name="nama" required>
                     </div>
-                </div>
-                <div class="form-group row">
-                    <div class="form-group" style="width: 95%; margin: auto;">
-                        <label for="alamat">Alamat Supplier</label>
-                        <textarea class="form-control" name="alamat" id="alamat" cols="3" rows="4" required></textarea>
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <div class="form-group" style="width: 95%; margin: auto;">
-                        <label for="tlp">Telepon</label>
+
+                    <div class="col-md-4">
+                        <label for="tlp">Telepon Supplier</label>
                         <input type="text" class="form-control" id="tlp" placeholder="Telepon" name="tlp" required>
                     </div>
-                </div>
-                <div class="form-group row">
-                    <div class="form-group" style="width: 95%; margin: auto;">
+
+                    <div class="col-md-4">
                         <label for="salesman">Salesman</label>
                         <input type="text" class="form-control" id="salesman" placeholder="Salesman" name="salesman" required>
                     </div>
                 </div>
-                {{-- <div class="form-group row">
-                    <div class="form-group" style="width: 95%; margin: auto;">
-                        <label for="bank">Bank</label>
-                        <input type="text" class="form-control" id="bank" placeholder="Bank" name="bank">
+                <div class="form-group row">
+                    <div class="col-md-12">
+                        <label for="alamat">Alamat Supplier</label>
+                        <textarea class="form-control" name="alamat" id="alamat" cols="3" rows="4" required></textarea>
                     </div>
-                </div> --}}
-                <div class="form-group row mb-3" style="width: 98%; margin: auto;">
+                </div>
+
+                <div class="form-group row mb-3 col-md-12">
                     <label for="salesman">Bank</label>
-                    <select name="bank" required id="bank" class="form-control">
+                    <select name="bank" required id="bank" class="form-control col-md-12">
                         <option disabled="disabled" selected="selected">BANK</option>
                         <option value="Bank BRI">Bank BRI</option>
                         <option value="Bank BNI">Bank BNI</option>
@@ -82,25 +72,26 @@
                         <option value="Bank BCA">Bank BCA</option>
                         <option value="Bank Permata">Bank Permata</option>
                         <option value="Bank Muamalat">Bank Muamalat</option>
-                        <option value="Other">Other</option>
+                        <option value="Other">Lainnya</option>
                     </select>
                     <div class="select-dropdown"></div>
                 </div>
 
                 <div class="form-group row mb-4 other">
-                    <div class="form-group" style="width: 95%; margin: auto;">
+                    <div class="col-md-12">
                         <input type="text" name="other" id="other" placeholder="BANK PERUSAHAAN" class="form-control">
                     </div>
                 </div>
 
                 <div class="form-group row mb-4">
-                    <div class="form-group" style="width: 95%; margin: auto;">
+                    <div class="col-md-12">
                         <label for="no_rekening">No Rekening</label>
                         <input type="number" class="form-control" id="no_rekening" placeholder="No Rekening" name="no_rekening">
                     </div>
                 </div>
+
                 <input type="text" name="id_perusahaan" value="{{ $cPerusahaan->id }}" style="display: none;">
-                <button type="submit" class="btn btn-primary mt-2" id="btn-submit" style="margin-left: 0.25rem;">Simpan Data</button>
+                <button type="submit" class="btn btn-primary mt-2 mr-1" id="btn-submit" style="float: right;">Simpan Data</button>
             </form>
           </div>
           <!-- /.card-footer-->
