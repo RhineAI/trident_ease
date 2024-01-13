@@ -65,7 +65,7 @@
             align-items: center;
             justify-content: space-evenly;
             flex-direction: column;
-            transform: rotateY(180deg);
+            /* transform: rotateY(180deg); */
           }
           .wrapper:hover > .back-face{
             transform: rotateY(0deg);
@@ -97,7 +97,7 @@
             line-height: 38px;
             border: 2px solid transparent;
             border-radius: 50%;
-            background: linear-gradient(375deg, #1cc7d0, #2ede98);
+            /* background: linear-gradient(375deg, #1cc7d0, #2ede98); */
             transition: all 0.5s ease;
           }
           .back-face ul a:hover{
@@ -122,12 +122,11 @@
    </head>
    <body>
       <div class="wrapper">
-          <div class="card front-face">
-            {{-- <img height="90%" src="{{ $cPerusahaan->logo }}"> --}}
+          {{-- <div class="card front-face">
               <div class="title text-center hover" style="margin: 0 auto;">
                   Hover me!
               </div>
-          </div>
+          </div> --}}
           <div class="card back-face">
               <div class="title">
                 <h3>
@@ -154,7 +153,7 @@
               <div></div>
               <p class="">
                   {{-- Any Problem?<a href="https://wa.wizard.id/31a293"> Contact us</a> --}}
-                  Any Problem?<a href="https://wa.wizard.id/17fae7"> Contact us</a>
+                  Any Problem?<a href="https://wa.me/6285174067863"> Contact us</a>
               </p>
               <p>
                 {{-- <a class="text-center" href="{{ route('login') }}">Click to Login </a> --}}

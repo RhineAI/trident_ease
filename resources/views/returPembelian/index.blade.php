@@ -108,6 +108,7 @@
                                     <input type="text" class="form-control" name="tlp" id="tlp" readonly>
                                 </div>
                             </div>
+                            <br><br>
 
                             <div class="table-responsive">
                                 <table cellpaddong="0" cellspacing="0" class="table table-striped table-bordered"
