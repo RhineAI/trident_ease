@@ -14,10 +14,7 @@
 @endpush
 
 @section('contents')
-      <!-- Main content -->
-      <section class="content">
-  
-        <!-- Default box -->
+      <section class="content">  
         <div class="card">
           <div class="card-header">
             <h3 class="card-title">Form Pegawai</h3>
@@ -36,30 +33,21 @@
             </div>
         @endif
           <div class="card-body">
-
-            <form action="" method="POST" id="formPegawai">
+            <form action="" method="POST" id="formPegawai" class="mx-2">
                 @csrf
                 <div id="method"></div>
                 <div class="form-group row">
-                    <div class="form-group" style="width: 95%; margin: auto;">
-                        <label for="nama">Nama Pegawai</label>
+                    <div class="col-md-5 col-md-offset-1" >
+                        <label class="form-label" for="nama">Nama Pegawai</label>
                         <input type="text" class="form-control" id="nama" placeholder="Nama Pegawai" name="nama">
                     </div>
-                </div>
-                <div class="form-group row">
-                    <div class="form-group" style="width: 95%; margin: auto;">
-                        <label for="alamat">Alamat Pegawai</label>
-                        <textarea class="form-control" name="alamat" id="alamat" cols="3" rows="4"></textarea>
+
+                    <div class="col-md-4">
+                        <label class="form-label" for="tlp">Telepon</label>
+                        <input type="text" class="form-control" id="tlp" placeholder="Telepon" name="tlp" maxlength="14">
                     </div>
-                </div>
-                <div class="form-group row">
-                    <div class="form-group" style="width: 95%; margin: auto;">
-                        <label for="tlp">Telepon</label>
-                        <input type="text" class="form-control" id="tlp" placeholder="Telepon" name="tlp">
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <div class="form-group" style="width: 95%; margin: auto;">
+
+                    <div class="col-md-3">
                         <label for="jenis_kelamin">Jenis Kelamin</label>
                         <select class="form-control" name="jenis_kelamin" id="jenis_kelamin">
                             <option value="" disabled="disabled" selected="true">Pilih Jenis Kelamin</option>
@@ -69,40 +57,47 @@
                         </select>
                     </div>
                 </div>
+
                 <div class="form-group row">
-                    <div class="form-group" style="width: 95%; margin: auto;">
+                    <div class="col-md-12">
+                        <label for="alamat">Alamat Pegawai</label>
+                        <textarea class="form-control" name="alamat" id="alamat" cols="3" rows="4"></textarea>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-md-6">
                         <label for="username">Username</label>
                         <input type="text" class="form-control" id="username" placeholder="Username" name="username">
                         <small id="messageTrue" class="text-success">Username Tersedia</small>
                         <small id="messageFalse" class="text-danger">Username Telah Digunakan</small>
                         <input type="hidden" id="check">
                     </div>
+
+                    <div class="col-md-6">
+                        <label for="hak_akses">Hak Akses User</label>
+                        <select class="form-control" name="hak_akses" id="hak_akses">
+                            <option value="" disabled="disabled" selected="true">Pilih Hak Akses User</option>
+                            <option value="admin">Administrator</option>
+                            <option value="kasir">Kasir</option>
+                            {{-- <option value="owner">Owner</option> --}}
+                        </select>
+                    </div>
                 </div>
+
                 <div class="form-group row" id="hpsPassword">
-                  <div class="form-group" style="width: 95%; margin: auto;">
-                      <label for="password">Password</label>
-                      <input type="password" minlength="6" class="form-control" id="password" placeholder="Password" name="password">
-                  </div>
-              </div>
-              <div class="form-group row" id="hpsPassword2">
-                  <div class="form-group" style="width: 95%; margin: auto;">
-                      <label for="password_confirmation">Ketik Ulang Password</label>
-                      <input type="password" minlength="6" class="form-control" id="password_confirmation" placeholder="Password" name="password_confirmation">
-                  </div>
-              </div>
-                <div class="form-group row mb-4">
-                  <div class="form-group" style="width: 95%; margin: auto;">
-                      <label for="hak_akses">Hak Akses User</label>
-                      <select class="form-control" name="hak_akses" id="hak_akses">
-                          <option value="" disabled="disabled" selected="true">Choose Hak Akses User</option>
-                          <option value="admin">Administrator</option>
-                          <option value="kasir">Kasir</option>
-                          {{-- <option value="owner">Owner</option> --}}
-                      </select>
-                  </div>
+                    <div class="col-md-6">
+                        <label for="password">Password</label>
+                        <input type="password" minlength="6" class="form-control" id="password" placeholder="Password" name="password">
+                    </div>
+
+                    <div class="col-md-6">
+                        <label for="password_confirmation">Ketik Ulang Password</label>
+                        <input type="password" minlength="6" class="form-control" id="password_confirmation" placeholder="Password" name="password_confirmation">
+                    </div>
                 </div>
                 <input type="hidden" name="id_perusahaan" value="{{ $cPerusahaan->id }}">
-                <button type="submit" class="btn btn-primary mt-2" id="btn-submit" style="margin-left: 1rem;">Simpan Data</button>
+                <button type="submit" class="btn btn-primary mt-2 mr-1" id="btn-submit" style="float:right">Simpan Data</button>
             </form>
           </div>
           <!-- /.card-footer-->

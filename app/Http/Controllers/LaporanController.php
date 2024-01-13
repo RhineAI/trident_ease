@@ -112,7 +112,7 @@ class LaporanController extends Controller
                                     ->select('DRP.*' ,'B.nama AS nama_barang', 'B.kode')    
                                     ->where('DRP.id_perusahaan', auth()->user()->id_perusahaan)
                                     ->orderBy('id', 'desc')->get();
-        // return $returPenjualan;
+
         $data['totalReturPenjualan'] = 0;
         foreach($returPenjualan as $item) {
             $countReturJual = $item->harga_jual * $item->qty;
@@ -178,7 +178,6 @@ class LaporanController extends Controller
         // pemasukan kas menurut arurang
         $data['pemasukanKas'] = $data['totalKasMasuk'] - $data['totalKasKeluar'];
         // kalkulasi bapak (total kas masuk +  transaksi penjualan + retur pembelian) - (total kas keluar +  transaksi pembelian + retur penjualan)
-        // $data['cadangan'] = ($data['totalKasMasuk'] + data['totalO'] + data['totalReturPembelian']) - ($data['totalKasKeluar'] + data['totalBeli'] + data['totalReturPenjualan']);
 
         return view('laporan.laporan-harian.index', compact('tanggalAwal', 'tanggalAkhir', 'now'))->with($data);
     }
@@ -1754,8 +1753,6 @@ class LaporanController extends Controller
     }
 
 
-
-
     // LAPORAN PELANGGAN TERBAIK
     public function indexBestPelanggan(Request $request)
     {
@@ -1847,7 +1844,6 @@ class LaporanController extends Controller
 
         $cPerusahaan = Perusahaan::select('*')->where('id', auth()->user()->id_perusahaan)->first();
 
-        // return $data;
         // return view('laporan.laporan-pelanggan.pdf', compact('tglAwal' ,'awal', 'akhir', 'pelanggan', 'cPerusahaan'));
         $pdf = PDF::loadView('laporan.laporan-pelanggan.pdf', compact('awal', 'akhir', 'pelanggan', 'tglAwal', 'cPerusahaan'));
         $pdf->setPaper('a4', 'potrait');

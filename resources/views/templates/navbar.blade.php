@@ -34,17 +34,6 @@
       transition: background 0.3s;
     }
 
-    .main-header .upgrade-button:hover {
-      background: linear-gradient(75deg,  rgba(0,212,255,1) 100%,rgba(33,33,207,0.9920343137254902) 35%);
-    }
-    /* .dropdowns:onclick .dropdowns-content {
-        display: block;
-    } */
-/* 
-    input[type=button]:onclick .dropdowns-content {
-        display: block;
-    } */'
-    
 </style>
 <nav class="main-header navbar navbar-expand navbar-white navbar-light">
     <!-- Left navbar links -->    
@@ -69,7 +58,10 @@
     @else 
         <span class="mr-2 badge badge badge-secondary">Trident Tech</span>
     @endif
-    <span class="mr-2" id="countdown-expired">{{ date('d-m-Y', strtotime(auth()->user()->perusahaan->expiredDate)) }}</span>
+
+    @if (auth()->user()->perusahaan->grade != 4)
+        <span class="mr-2" id="countdown-expired">{{ date('d-m-Y', strtotime(auth()->user()->perusahaan->expiredDate)) }}</span>
+    @endif
 
     <ul class="navbar-nav">
         <li class="nav-item">
