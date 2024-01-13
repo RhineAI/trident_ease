@@ -23,13 +23,6 @@
         box-shadow: 0 0 0 0.125rem white;
     }
 
-    /* .dropdowns:onclick .dropdowns-content {
-        display: block;
-    } */
-/* 
-    input[type=button]:onclick .dropdowns-content {
-        display: block;
-    } */
 </style>
 <nav class="main-header navbar navbar-expand navbar-white navbar-light">
     <!-- Left navbar links -->
@@ -48,7 +41,10 @@
     @else 
         <span class="mr-2 badge badge badge-secondary">Trident Tech</span>
     @endif
-    <span class="mr-2" id="countdown-expired">{{ date('d-m-Y', strtotime(auth()->user()->perusahaan->expiredDate)) }}</span>
+
+    @if (auth()->user()->perusahaan->grade != 4)
+        <span class="mr-2" id="countdown-expired">{{ date('d-m-Y', strtotime(auth()->user()->perusahaan->expiredDate)) }}</span>
+    @endif
 
     <ul class="navbar-nav">
         <li class="nav-item">
