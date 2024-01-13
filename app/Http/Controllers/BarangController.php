@@ -295,7 +295,7 @@ class BarangController extends Controller
             return redirect()->route('admin.barang.index')->with(['success' => 'Berhasil Disimpan']);
         } catch (QueryException | Exception | PDOException $e){
             DB::rollBack();
-            return back()->with(['error', 'Terjadi Kesalahan Query']);
+            return back()->with(['error' => 'Terjadi Kesalahan Query']);
         }
         
     }
