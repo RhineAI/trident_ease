@@ -94,6 +94,8 @@ Data Penjualan
 
 @push('scripts')
 <script>
+    $('body').addClass('sidebar-collapse');
+
     $(".flatpickr").flatpickr({
         enableTime: false,
         dateFormat: "d-m-Y",

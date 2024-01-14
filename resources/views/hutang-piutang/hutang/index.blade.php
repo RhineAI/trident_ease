@@ -32,16 +32,16 @@
                     </div>
                     <div class="col-lg-12">
                         <div class="table-responsive dt-responsive p-3" style="width: 100%">
-                            <table class="table table-hover table-responsive dt-responsive table-flush" style="width: 100%z" id="tbl-data-pembayaran">
+                            <table class="table table-hover table-responsive dt-responsive table-flush" style="width: 100%" id="tbl-data-pembayaran">
                                 <thead class="table-secondary">
                                     <tr>
                                         {{-- <td>No</td> --}}
-                                        <td class="text-center" style="vertical-align: middle;" width="6%">No Penjualan</td>
-                                        <td class="text-center" style="vertical-align: middle;" width="6%">Tanggal</td>
-                                        <td class="text-center" style="vertical-align: middle;" width="10%">Pelanggan</td>
-                                        <td class="text-center" style="vertical-align: middle;" width="15%">Total Beli</td>
-                                        <td class="text-center" style="vertical-align: middle;" width="15%">Dibayar</td>
-                                        <td class="text-center" style="vertical-align: middle;" width="15%">Sisa</td>
+                                        <td class="text-center" style="vertical-align: middle;" width="8%">Invoice</td>
+                                        <td class="text-center" style="vertical-align: middle;" width="14%">Tanggal</td>
+                                        <td class="text-center" style="vertical-align: middle;" width="15%">Supplier</td>
+                                        <td class="text-center" style="vertical-align: middle;" width="16%">Total Beli</td>
+                                        <td class="text-center" style="vertical-align: middle;" width="16%">Dibayar</td>
+                                        <td class="text-center" style="vertical-align: middle;" width="14.5%">Sisa</td>
                                         <td class="text-center" style="vertical-align: middle;" width="8%">Status</td>
                                         <td class="text-center" style="vertical-align: middle;" width="7%">Action</td>
                                     </tr>
@@ -54,20 +54,20 @@
                                     </small>
                                         <tr>
                                             {{-- <td>{{ $i = (isset($i)?++$i:$i=1) }}</td> --}}
-                                            <td class="text-center"><span class="badge badge-info">{{ $item->id_pembelian }}</span></td>
-                                            <td>{{ $item->tgl }}</td>
-                                            <td class="text-center">{{ $item->nama_supplier }}</td>
-                                            <td>{{ 'Rp. '. format_uang($item->total_pembelian) }}</td>
-                                            <td>{{ 'Rp. '. format_uang($item->total_bayar) }}</td>
-                                            <td>{{ 'Rp. '. format_uang($item->sisa)  }}</td>
-                                            <td class="text-center">
+                                            <td width="8%" class="text-center"><span class="badge badge-info">{{ $item->id_pembelian }}</span></td>
+                                            <td width="14%" class="text-center">{{ date('d/m/Y', strtotime($item->tgl)) }}</td>
+                                            <td width="15%" class="text-center">{{ $item->nama_supplier }}</td>
+                                            <td width="16%" class="text-center">{{ 'Rp. '. format_uang($item->total_pembelian) }}</td>
+                                            <td width="16%" class="text-center">{{ 'Rp. '. format_uang($item->total_bayar) }}</td>
+                                            <td width="14.5%" class="text-center">{{ 'Rp. '. format_uang($item->sisa)  }}</td>
+                                            <td width="8%" class="text-center">
                                                 @if ($item->sisa <= 0)
                                                     <span class="badge badge-success">Lunas</span>
                                                 @else
                                                     <span class="badge badge-danger">Belum Lunas</span>
                                                 @endif
                                             </td>
-                                            <td class="text-center">
+                                            <td width="7%" class="text-center">
                                                 @if ($item->sisa > 0 && $item->jenis_pembayaran === 2)
                                                     <button type="button" class="btn btn-info edit_pembayaran" 
                                                     data-id_pembelian="{{ $item->id_pembelian }}" 
@@ -103,6 +103,7 @@
 
 @push('scripts') 
 <script>
+    $('body').addClass('sidebar-collapse');
     $('#button').on('click', function() {
         @if(auth()->user()->hak_akses == 'admin')
             var newPage = "{{ route('admin.data-hutang.index') }}";
