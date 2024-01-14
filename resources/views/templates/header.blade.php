@@ -39,7 +39,7 @@
 
 <style>
   #bgBlueLightWhiteColor {
-    background: #4195D5; 
+    background: #6f727e; 
   }
 
   #bgBlueLightWhiteColor a, #bgBlueLightWhiteColor span, #bgBlueLightWhiteColor p {
@@ -47,8 +47,9 @@
   }
   
   #bgBlueLightWhiteColor a:hover, #bgBlueLightWhiteColor span:hover, #bgBlueLightWhiteColor p:hover {
-    background:  #4178D5;
+    background:  #5C6484;
   }
+
 
  
 

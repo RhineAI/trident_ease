@@ -13,6 +13,7 @@ class KasMasuk extends Model
     protected $table = 't_kas_masuk';
     protected $primaryKey = 'id';
     protected $guarded = [];
+    public $with = ['user'];
 
     public function user()
     {
