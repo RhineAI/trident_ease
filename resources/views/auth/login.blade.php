@@ -253,7 +253,7 @@
                                 <label class="mb-1">
                                     <h6 class="mb-0 text-sm">Username</h6>
                                 </label>
-                                <input class="mb-4" type="text" name="username" placeholder="username" required>
+                                <input class="mb-4" type="text" name="username" placeholder="Username" required>
                             </div>
                             <div class="row px-3">
                                 <label class="mb-1">
