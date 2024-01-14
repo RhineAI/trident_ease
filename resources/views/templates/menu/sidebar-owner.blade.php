@@ -96,7 +96,7 @@
     <a href="#" class="nav-link">
         <i class="nav-icon fas fa-solid fa-list-check"></i>
         <p>
-            Laporan
+            Rekapitulasi Data
             <i class="right fas fa-angle-right"></i>
         </p>
     </a>
@@ -104,51 +104,51 @@
         @if (auth()->user()->perusahaan->grade !== 1)
             <li class="nav-item">
                 <a href="{{ route('owner.laporan-harian.index') }}" class="nav-link">
-                    <p id="smol">Laporan Harian</p>
+                    <p id="smol">Harian</p>
                 </a>
             </li>
         @endif
         <li class="nav-item">
             <a href="{{ route('owner.laporan-penjualan.index') }}" class="nav-link">
-                <p id="smol">Laporan Penjualan</p>
+                <p id="smol">Penjualan</p>
             </a>
         </li>
         @if (auth()->user()->perusahaan->grade !== 1)
             <li class="nav-item">
                 <a href="{{ route('owner.laporan-pembelian.index') }}" class="nav-link">
-                    <p id="smol">Laporan Pembelian</p>
+                    <p id="smol">Pembelian</p>
                 </a>
             </li>   
             <li class="nav-item">
                 <a href="{{ route('owner.list-b-pelanggan.index') }}" class="nav-link">
-                    <p id="smol">Laporan Pelanggan Terbaik</p>
+                    <p id="smol">Pelanggan Terbaik</p>
                 </a>
             </li>
         @endif
         @if (auth()->user()->perusahaan->grade >= 3)
             <li class="nav-item">
                 <a href="{{ route('owner.laporan-kas.index') }}" class="nav-link">
-                    <p class="smol">Laporan Kas</p>
+                    <p class="smol">Kas</p>
                 </a>
             </li>
             <li class="nav-item">
                 <a href="{{ route('owner.laporan-hutang.index') }}" class="nav-link">
-                    <p class="smol">Laporan Hutang</p>
+                    <p class="smol">Hutang</p>
                 </a>
             </li>
             <li class="nav-item">
                 <a href="{{ route('owner.laporan-piutang.index') }}" class="nav-link">
-                    <p class="smol">Laporan Piutang</p>
+                    <p class="smol">Piutang</p>
                 </a>
             </li>
             <li class="nav-item">
                 <a href="{{ route('owner.laporan-stok.index') }}" class="nav-link">
-                    <p class="smol">Laporan Stok</p>
+                    <p class="smol">Stok</p>
                 </a>
             </li>
             <li class="nav-item">
                 <a href="{{ route('owner.laporan-kesesuaian-stok.index') }}" class="nav-link">
-                    <p class="smol">Laporan Kesesuaian Stok</p>
+                    <p class="smol">Kesesuaian Stok</p>
                 </a>
             </li>
         @endif
