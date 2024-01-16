@@ -137,6 +137,7 @@ class TransaksiPenjualanController extends Controller
         DB::statement('SET FOREIGN_KEY_CHECKS=0');
         DB::beginTransaction();
         try {
+            $cPerusahaan = Perusahaan::where('id', auth()->user()->id_perusahaan)->first();
             // Pengecekan jika kembalian kurang dari 0
             if($request->kembali < 0){
                 return back()->withInput($request->only('id_pelanggan', 'bayar', 'kembali'))->with('error', 'Uang Bayar Kurang');
@@ -168,6 +169,7 @@ class TransaksiPenjualanController extends Controller
                 $penjualanBaru->jenis_pembayaran = $request->jenis_pembayaran;
                 $penjualanBaru->id_user = auth()->user()->id;
                 $penjualanBaru->id_perusahaan = auth()->user()->id_perusahaan;
+                // return $penjualanBaru;
 
                 // Mengambil id perusahaan berdasarkan user yang sedang login
                 $perusahaan = Perusahaan::where('id', auth()->user()->id_perusahaan)->first();
@@ -175,6 +177,7 @@ class TransaksiPenjualanController extends Controller
                 // Menghitung semua transaksi penjualan pada hari itu berdasarkan perusahaan yang sedang login
                 $limit = TransaksiPenjualan::where('id_perusahaan', auth()->user()->id_perusahaan)->where('tgl', date('Y-m-d'))->count();
 
+                // return [$limit, $perusahaan->grade];
                 // Menyimpan data barang ke tabel detail barang
                 foreach($request->item as $barang){
                     $penjualanBaru->keuntungan += $barang['keuntungan'] * $barang['qty'];
@@ -182,22 +185,22 @@ class TransaksiPenjualanController extends Controller
                     // Mengecek level perusahaan yang sedang login 
                     if($perusahaan->grade == 1) {
                         // Mengecek apabila transaksi dari perusahaan tersebut sudah melebihi 5
-                        if($limit < 10 ) {
+                        if($limit <= 10 ) {
                             $penjualanBaru->save();
                         }else {
-                            return view('dashboard')->with(['error' => 'Sudah mencapai limit barang, Hubungi 08987554567']);
+                            return view('dashboard')->with(['error' => 'Sudah mencapai limit barang, Hubungi 08987554567', 'cPerusahaan' => $cPerusahaan]);
                         }
                     } elseif($perusahaan->grade == 2) {
                         // Mengecek apabila transaksi dari perusahaan tersebut sudah melebihi 50
-                        if($limit < 200 ) {
+                        if($limit <= 100 ) {
                             $penjualanBaru->save();
                         }else {
-                            return view('dashboard')->with(['error' => 'Sudah mencapai limit barang, Hubungi 08987554567']);
+                            return view('dashboard')->with(['error' => 'Sudah mencapai limit barang, Hubungi 08987554567', 'cPerusahaan' => $cPerusahaan]);
                         }
                     } elseif($perusahaan->grade == 3) {
                         $penjualanBaru->save();
                     } else{
-                        return view('dashboard')->with(['error' => 'Laku kah?']);
+                        $penjualanBaru->save();
                     }
                     // Mendeklarasikan variabel baru yang nantinya diisi oleh pembuatan objek baru
                     $detPenjualanBaru = new DetailPenjualan(); 

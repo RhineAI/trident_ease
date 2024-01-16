@@ -14,7 +14,7 @@ class HutangController extends Controller
     public function __construct()
     {
         $this->middleware(function ($request, $next) {
-            if (auth()->user()->perusahaan->grade !== 1) {
+            if (auth()->user()->perusahaan->grade > 1) {
                 // User has super access, allow all actions
                 return $next($request);
             } else {
@@ -27,17 +27,6 @@ class HutangController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function __construct()
-    {
-        $this->middleware(function ($request, $next) {
-            if (auth()->user()->perusahaan->grade >= 2) {
-                // User has super access, allow all actions
-                return $next($request);
-            } else {
-                return redirect()->back()->with('error', 'Anda tidak memiliki akses');
-            }
-        });
-    }
     
     public function index()
     {

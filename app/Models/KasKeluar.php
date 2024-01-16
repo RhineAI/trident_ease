@@ -12,6 +12,7 @@ class KasKeluar extends Model
     protected $table = 't_kas_keluar';
     protected $primaryKey = 'id';
     protected $guarded = [];
+    public $with = ['user'];
 
     public function user()
     {

@@ -35,7 +35,7 @@
                                 <thead class="table-secondary">
                                     <tr>
                                         {{-- <td class="text-center" style="vertical-align: middle;" width="4%">No</td> --}}
-                                        <td class="text-center" style="vertical-align: middle;" width="6%">No Penjualan</td>
+                                        <td class="text-center" style="vertical-align: middle;" width="6%">Invoice</td>
                                         <td class="text-center" style="vertical-align: middle;" width="6%">Tanggal</td>
                                         <td class="text-center" style="vertical-align: middle;" width="5%">Pelanggan</td>
                                         <td class="text-center" style="vertical-align: middle;" width="10%">Total Harga</td>
@@ -53,11 +53,11 @@
                                         <tr>
                                             {{-- <td class="text-center">{{ $i = (isset($i)?++$i:$i=1) }}</td> --}}
                                             <td><span class="badge badge-info">{{ $item->id_penjualan }}</span></td> 
-                                            <td>{{ $item->tgl }}</td>
+                                            <td class="text-center">{{ date('d/m/Y', strtotime($item->tgl)) }}</td>
                                             <td class="text-center">{{ $item->nama_pelanggan }}</td>
-                                            <td>{{ 'Rp. '. format_uang($item->total_harga) }}</td>
-                                            <td>{{ 'Rp. '. format_uang($item->total_bayar) }}</td>
-                                            <td>{{ 'Rp. '. format_uang($item->sisa)  }}</td>
+                                            <td class="text-center">{{ 'Rp. '. format_uang($item->total_harga) }}</td>
+                                            <td class="text-center">{{ 'Rp. '. format_uang($item->total_bayar) }}</td>
+                                            <td class="text-center">{{ 'Rp. '. format_uang($item->sisa)  }}</td>
                                             <td class="text-center">
                                                 @if ($item->sisa <= 0)
                                                     <span class="badge badge-success">Lunas</span>
@@ -110,6 +110,7 @@
 
 @push('scripts') 
 <script>
+    $('body').addClass('sidebar-collapse');
     $('#button').on('click', function() {
         @if(auth()->user()->hak_akses == 'admin')
             var newPage = "{{ route('admin.data-piutang.index') }}";

@@ -16,8 +16,6 @@
         z-index: 1;
     }
 
-    
-
     #dropdowns-toggle {
         outline: none;
         box-shadow: 0 0 0 0.125rem white;
@@ -81,7 +79,7 @@
         
         <a class="btn nav-link dropdown-toggle" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <img class="img-profile rounded-circle"
-                @if (auth()->user()->perusahaan->logo == NULL || auth()->user()->perusahaan->grade == 4)
+                @if (auth()->user()->perusahaan->logo == NULL || auth()->user()->perusahaan->grade == 4 || auth()->user()->perusahaan->nama = 'Tweni_FLN')
                     src="{{ asset('assets') }}/img/trident_tech_logo/trident all white bg.png" 
                 @else 
                     src="{{ url('storage/img/'. $cPerusahaan->logo) }}" 
