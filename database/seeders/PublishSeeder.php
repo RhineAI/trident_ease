@@ -76,7 +76,7 @@ class PublishSeeder extends Seeder
             'alamat' => 'Cianjur',
             'tlp' => '01293912',
             'username' => 'SuperAdmin',
-            'password' => bcrypt('SuperAdmin123'),
+            'password' => bcrypt('L29ksChFSEaW'),
             'hak_akses' => 'super_admin',
             'id_perusahaan' => 1
         ]);
@@ -87,7 +87,7 @@ class PublishSeeder extends Seeder
             'tlp' => '082118356193',
             'jenis_kelamin' => 'L',
             'username' => 'Admin',
-            'password' => bcrypt('admin123'),
+            'password' => bcrypt('Ef8HRcyL3x2Uadmin'),
             'hak_akses' => 'admin',
             'id_perusahaan' => 1,
         ]);
@@ -97,7 +97,7 @@ class PublishSeeder extends Seeder
             'tlp' => '082118356193',
             'jenis_kelamin' => 'L',
             'username' => 'kasir',
-            'password' => bcrypt('kasir123'),
+            'password' => bcrypt('tH9p8akBxYLCkasir'),
             'hak_akses' => 'kasir',
             'id_perusahaan' => 1,
         ]);
