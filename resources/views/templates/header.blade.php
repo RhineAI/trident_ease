@@ -13,8 +13,8 @@
 <link rel="stylesheet" href="{{ asset('assets') }}/plugins/datatables-bs4/css/dataTables.bootstrap4.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/4.5.6/css/ionicons.min.css">
 
-@if ($cPerusahaan->logo == null)
-  <link rel="icon" href="{{ asset('assets') }}/img/buildings.png" type="image/png">
+@if ($cPerusahaan->logo == null || $cPerusahaan->id == 1)
+  <link rel="icon" href="{{ asset('assets') }}/img/trident_tech_logo/main_logo_trident.png" type="image/png">
 @else
   <link rel="icon" href="{{ url('storage/img/'. $cPerusahaan->logo) }}" type="image/png">
 @endif
