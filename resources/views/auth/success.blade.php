@@ -3,10 +3,10 @@
 <html lang="en" dir="ltr">
    <head>
       <meta charset="utf-8">
-      <title>Thanks | ZiePOS</title>
+      <title>Thanks | EASE</title>
       <link rel="stylesheet" href="style.css">
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
-      <link rel="icon" href="{{ asset('assets') }}/img/ziepos.png" type="image/png">
+      <link rel="icon" href="{{ asset('assets') }}/img/easepos_logo/ease8.png" type="image/png">
 
       <style>
           @import url('https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap');
