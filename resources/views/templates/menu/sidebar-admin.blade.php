@@ -268,7 +268,7 @@
 
 @if ($grade >= 3)
     {{-- KAS --}}
-    <li class="nav-item">
+    {{-- <li class="nav-item">
         <a href="#" class="nav-link">
             <i class="nav-icon fas fa-solid fa-money-bill-wave"></i>
             <p>
@@ -288,7 +288,7 @@
                 </a>
             </li>
         </ul>
-    </li>
+    </li> --}}
 
     {{-- Stock Opname --}}
     <li class="nav-item">

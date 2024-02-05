@@ -118,14 +118,12 @@ class DashboardController extends Controller
             $data['peningkatanLaba'] = $data['jumlahTransaksiKemarin'] - $data['jumlahTransaksiSaatIni'];
 
         
-            // BAR LIMIT
+            // BAR PROGRESS LIMIT
             $data['penjualanHarian'] = $transaksiPenjualan->where('tgl', date('Y-m-d'))->count();
             if(auth()->user()->perusahaan->grade == 1) {
                 $data['penjualanHarian'] *= 20;
             } elseif(auth()->user()->perusahaan->grade == 2) {
                 $data['penjualanHarian'] *= 2;
-            } elseif(auth()->user()->perusahaan->grade == 3) {
-                $data['penjualanHarian'] = $penjualan ;
             }
 
             $data['barangHarian'] = $barang->whereDate('created_at', $now)->count();
@@ -133,9 +131,7 @@ class DashboardController extends Controller
                 $data['barangHarian'] *= 20;
             } elseif(auth()->user()->perusahaan->grade == 2) {
                 $data['barangHarian'] *= 2;
-            } elseif(auth()->user()->perusahaan->grade == 3) {
-                $data['barangHarian'] ;
-            }
+            } 
 
             return view('dashboard', $data);
         } else {
