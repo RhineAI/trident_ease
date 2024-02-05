@@ -20,7 +20,14 @@ class UsersController extends Controller
     public function index()
     {
         $data['cPerusahaan'] = Perusahaan::select('*')->where('id', auth()->user()->id_perusahaan)->first();
-        $data['pegawai'] = User::orderBy('id', 'DESC')->where('id_perusahaan', auth()->user()->id_perusahaan)->where('id', '!=', auth()->user()->id)->where('hak_akses', '!=', 'super_admin')->where('hak_akses', '!=', 'owner')->get();
+        $data['pegawai'] = User::orderBy('id', 'DESC')->where('id_perusahaan', auth()->user()->id_perusahaan);
+        if(auth()->user()->hak_akses == 'admin') {
+            $data['pegawai'] = $data['pegawai']->where('id', '!=', auth()->user()->id)->where('hak_akses', 'kasir')->get();
+        } elseif(auth()->user()->hak_akses == 'owner') {
+            $data['pegawai'] = $data['pegawai']->where('id', '!=', auth()->user()->id)->where('hak_akses', 'admin')->orWhere('hak_akses', 'kasir')->get();
+        } else {
+            $data['pegawai'] = $data['pegawai']->where('id', '!=', auth()->user()->id)->get();
+        }
 
         // return $data;
         return view('users.index', $data);
