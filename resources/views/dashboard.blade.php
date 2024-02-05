@@ -48,12 +48,10 @@
                             <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800 count" id="count" data-val="{{ $cardBarang }}">{{ $cardBarang }}</div>
                             <div class="mt-2 mb-0 text-muted text-xs">
                                 <span>Peningkatan</span>
-                                @if($todaybarang >= $cekupordownbarang) 
-                                    <span class="text-success mr-1">+{{ $informasi_penambahan_barang }} <i class="fas fa-arrow-up"></i></span>
-                                @elseif($todaybarang <= $cekupordownbarang)
-                                    <span class="text-danger mr-1">-{{ $informasi_penambahan_barang }} <i class="fas fa-arrow-down"></i></span>
+                                @if($jumlahBarangSaatIni >= $jumlahBarangKemarin) 
+                                    <span class="text-success mr-1">+{{ $informasi_peningkatan_barang }} <i class="fas fa-arrow-up"></i></span>
                                 @else
-                                    <span class="text-success mr-1">+{{ $informasi_penambahan_barang }} <i class="fas fa-arrow-up"></i></span>
+                                    <span class="text-danger mr-1">-{{ $informasi_peningkatan_barang }} <i class="fas fa-arrow-down"></i></span>
                                 @endif
                             </div>
                         </div>
@@ -74,12 +72,12 @@
                             <div class="h5 mb-0 font-weight-bold text-gray-800 count" id="count" data-val="{{ $cardPenjualan }}">0</div>
                             <div class="mt-2 mb-0 text-muted text-xs">
                                 <span>Peningkatan</span>
-                                @if($upordowntransaksi >= $cekupordowntransaksi) 
-                                    <span class="text-success mr-1">+{{ $informasi_penambahan_transaksi }} <i class="fas fa-arrow-up" ></i></span>
-                                @elseif($upordowntransaksi <= $cekupordowntransaksi)
-                                    <span class="text-danger mr-1"></i>+{{ $informasi_penambahan_transaksi }} <i class="fas fa-arrow-down"></span>
+                                @if($peningkatanTransaksi >= $jumlahTransaksiKemarin) 
+                                    <span class="text-success mr-1">+{{ $informasi_peningkatan_transaksi }} <i class="fas fa-arrow-up" ></i></span>
+                                @elseif($peningkatanTransaksi < $jumlahTransaksiKemarin)
+                                    <span class="text-danger mr-1"></i>+{{ $informasi_peningkatan_transaksi }} <i class="fas fa-arrow-down"></span>
                                 @else
-                                    <span class="text-success mr-1"></i>+{{ $informasi_penambahan_transaksi }} <i class="fas fa-arrow-up"></span>
+                                    <span class="text-success mr-1"></i>+{{ $informasi_peningkatan_transaksi }} <i class="fas fa-arrow-up"></span>
                                 @endif
                             </div>
                         </div>
@@ -98,16 +96,16 @@
                         <div class="col mr-2">
                             
                             <div class="text-xs font-weight-bold text-uppercase mb-1">Omset Penjualan (Bulan)</div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">RP. {{ format_uang($omset) }}</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">RP. {{ format_uang($cardOmset) }}</div>
                             <div class="mt-2 mb-0 text-muted text-xs">
                                 <span>Peningkatan</span>
 
-                                @if($upordownpenghasilan >= $cekupordownpenghasilan) 
-                                    <span class="text-success mr-1">{{ $percentage_penghasilan }}% <i class="fas fa-arrow-up"></i></span>
-                                @elseif($upordownpenghasilan <= $cekupordownpenghasilan)
-                                    <span class="text-danger mr-1"></i>{{ $percentage_penghasilan }}% <i class="fas fa-arrow-down"></span>
+                                @if($peningkatanOmset >= $totalOmsetKemarin) 
+                                    <span class="text-success mr-1">{{ $persentaseOmset }}% <i class="fas fa-arrow-up"></i></span>
+                                @elseif($peningkatanOmset < $totalOmsetKemarin)
+                                    <span class="text-danger mr-1"></i>{{ $persentaseOmset }}% <i class="fas fa-arrow-down"></span>
                                 @else
-                                    <span class="text-success mr-1"></i>{{ $percentage_penghasilan }}% <i class="fas fa-arrow-up"></span>
+                                    <span class="text-success mr-1"></i>{{ $persentaseOmset }}% <i class="fas fa-arrow-up"></span>
                                 @endif
                             </div>
                         </div>
@@ -118,6 +116,7 @@
                 </div>
             </div>
         </div>
+
         {{-- Laba Penjualan --}}
         <div class="col-xl-3 col-md-6 mb-4">
             <div class="card h-80">
@@ -125,15 +124,15 @@
                     <div class="row align-items-center">
                         <div class="col mr-2">
                             <div class="text-xs font-weight-bold text-uppercase mb-1">Laba Penjualan (Bulan)</div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">RP. {{ format_uang($laba) }}</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">RP. {{ format_uang($cardLaba) }}</div>
                             <div class="mt-2 mb-0 text-muted text-xs">
                                 <span>Peningkatan</span>
-                                @if($upordownpenghasilan >= $cekupordownpenghasilan) 
-                                    <span class="text-success mr-1">{{ $percentage_penghasilan }}% <i class="fas fa-arrow-up"></i></span>
-                                @elseif($upordownpenghasilan <= $cekupordownpenghasilan)
-                                    <span class="text-danger mr-1">{{ $percentage_penghasilan }}% <i class="fas fa-arrow-down"></i></span>
+                                @if($peningkatanLaba >= $totalLabaKemarin) 
+                                    <span class="text-success mr-1">{{ $persentaseLaba }}% <i class="fas fa-arrow-up"></i></span>
+                                @elseif($peningkatanLaba < $totalLabaKemarin)
+                                    <span class="text-danger mr-1">{{ $persentaseLaba }}% <i class="fas fa-arrow-down"></i></span>
                                 @else
-                                    <span class="text-success mr-1">{{ $percentage_penghasilan }}% <i class="fas fa-arrow-up"></i></span>
+                                    <span class="text-success mr-1">{{ $persentaseLaba }}% <i class="fas fa-arrow-up"></i></span>
                                 @endif
                             </div>
                         </div>
@@ -152,7 +151,7 @@
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
                             <div class="text-xs font-weight-bold text-uppercase mb-1">Total Pegawai</div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $total_pegawai }}</div>          
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $cardTotalPegawai }}</div>          
                             <div class="mt-2 mb-0 text-muted text-xs">
                                 
                             </div>
@@ -164,6 +163,7 @@
                 </div>
             </div>
         </div>
+
         {{-- Total Retur Penjualan --}}
         <div class="col-xl-3 col-md-6 mb-4">
             <div class="card h-80">
@@ -171,7 +171,7 @@
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
                             <div class="text-xs font-weight-bold text-uppercase mb-1">Total Retur Penjualan</div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">Rp. {{ format_uang($total_retur_penjualan) }}</div>          
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">Rp. {{ format_uang($cardTotalReturPenjualan) }}</div>          
                             <div class="mt-2 mb-0 text-muted text-xs">
                                 
                             </div>
@@ -183,6 +183,7 @@
                 </div>
             </div>
         </div>
+        
         {{-- Total Retur Pembelian --}}
         <div class="col-xl-3 col-md-6 mb-4">
             <div class="card h-80">
@@ -190,7 +191,7 @@
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
                             <div class="text-xs font-weight-bold text-uppercase mb-1">Total Retur Pembelian</div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">Rp. {{ format_uang($total_retur_pembelian) }}</div>          
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">Rp. {{ format_uang($cardTotalReturPembelian) }}</div>          
                             <div class="mt-2 mb-0 text-muted text-xs">
                             </div>
                         </div>
@@ -209,7 +210,7 @@
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
                             <div class="text-xs font-weight-bold text-uppercase mb-1">Kas Perusahaan</div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">Rp. {{ format_uang($kas) }}</div>          
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">Rp. {{ format_uang($cardKas) }}</div>          
                             <div class="mt-2 mb-0 text-muted text-xs">
                                 {{-- @if($upordownkasmasuk >= $cekupordownkasmasuk) 
                                     <span class="text-success mr-2"><i class="fas fa-arrow-up"></i>{{ $percentage_kas_masuk }}%</span>

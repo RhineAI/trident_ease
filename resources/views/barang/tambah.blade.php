@@ -447,7 +447,7 @@
             } else if(keuntungan > 0){
                 hj = parseFloat(hb) + parseFloat(hb) * keuntungan/100;
             }
-            $("#harga_jual").val(roundToThousands(hj))
+            $("#harga_jual").val(hj)
         });
 
         $(document).on('keyup change', '#keuntungan', function (e) {
@@ -465,7 +465,7 @@
             } else if(hb > 0){
                 hj = parseFloat(hb) + parseFloat(hb) * keuntungan/100;
             }
-            $("#harga_jual").val(roundToThousands(hj))
+            $("#harga_jual").val(hj)
         });
     </script>
 @endpush
