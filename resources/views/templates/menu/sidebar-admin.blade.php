@@ -29,12 +29,11 @@
                 </a>
             </li>
         @endif
-        <li class="nav-item">
+        {{-- <li class="nav-item">
             <a href="{{ route('admin.keuntungan') }}" class="nav-link">
-                {{-- <i class="far fa-circle nav-icon"></i> --}}
                 <p id="smol">Set Keuntungan</p>
             </a>
-        </li>
+        </li> --}}
         <li class="nav-item">
             <a href="{{ route('admin.kategori.index') }}" class="nav-link">
                 {{-- <i class="far fa-circle nav-icon"></i> --}}

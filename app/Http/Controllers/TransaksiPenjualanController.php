@@ -188,14 +188,14 @@ class TransaksiPenjualanController extends Controller
                         if($limit <= 10 ) {
                             $penjualanBaru->save();
                         }else {
-                            return view('dashboard')->with(['error' => 'Sudah mencapai limit barang, Hubungi 08987554567', 'cPerusahaan' => $cPerusahaan]);
+                            return redirect()->route('admin.dashboard')->with(['error' => 'Sudah mencapai limit barang, Hubungi 08987554567', 'cPerusahaan' => $cPerusahaan]);
                         }
                     } elseif($perusahaan->grade == 2) {
                         // Mengecek apabila transaksi dari perusahaan tersebut sudah melebihi 50
                         if($limit <= 100 ) {
                             $penjualanBaru->save();
                         }else {
-                            return view('dashboard')->with(['error' => 'Sudah mencapai limit barang, Hubungi 08987554567', 'cPerusahaan' => $cPerusahaan]);
+                            return redirect()->route('admin.dashboard')->with(['error' => 'Sudah mencapai limit barang, Hubungi 08987554567', 'cPerusahaan' => $cPerusahaan]);
                         }
                     } elseif($perusahaan->grade == 3) {
                         $penjualanBaru->save();

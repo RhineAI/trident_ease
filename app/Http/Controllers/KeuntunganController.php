@@ -15,7 +15,11 @@ class KeuntunganController extends Controller
         $data['kategori'] = Kategori::where('id_perusahaan', auth()->user()->id_perusahaan)->get();
         $data['merek'] = Merek::where('id_perusahaan', auth()->user()->id_perusahaan)->get();
         $data['cPerusahaan'] = Perusahaan::select('*')->where('id', auth()->user()->id_perusahaan)->first();
-        return view('keuntungan.index', $data);
+        if (auth()->user()->hak_akses == 'owner' || auth()->user()->hak_akses == 'super_admin') {
+            return view('keuntungan.index', $data);
+        } else {
+            return redirect()->route('admin.dashboard')->with(['error' => 'Anda Tidak Memiliki Akses']);
+        }
     }
 
     public function store(Request $request){
