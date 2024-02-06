@@ -49,12 +49,10 @@ class SupplierController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'nama' => 'required|string|max:50',
+            'nama' => 'required|string|max:100',
             'alamat' => 'required|string',
-            'tlp' => 'required|string|max:50',
-            'salesman' => 'required|string|max:50',
-            'bank' => 'required|string|max:50',
-            'no_rekening' => 'required|string|max:50',
+            'tlp' => 'required|string|max:14',
+            'salesman' => 'required|string|max:100',
         ]);
 
         DB::beginTransaction();
@@ -62,7 +60,7 @@ class SupplierController extends Controller
             // return $request; 
             if($request['bank'] == 'other') {
                 $request['bank'] = $request['other'];
-            }
+            } 
             $input = Supplier::create($request->all());
             // return redirect('/supplier')->with('success', 'Input data Supplier berhasil!');
             
@@ -106,12 +104,10 @@ class SupplierController extends Controller
     public function update(Request $request, Supplier $supplier)
     {
         $request->validate([
-            'nama' => 'string|max:50',
+            'nama' => 'string|max:100',
             'alamat' => 'string',
-            'tlp' => 'string|max:50',
-            'salesman' => 'string|max:50',
-            'bank' => 'string|max:50',
-            'no_rekening' => 'string|max:50',
+            'tlp' => 'string|max:14',
+            'salesman' => 'string|max:100',
         ]);
 
         DB::beginTransaction();

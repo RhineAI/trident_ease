@@ -19,10 +19,10 @@
                 <td class="text-center">{{ $item->id }}</td>
                 <td>{{ $item->nama }}</td>
                 <td>{{ $item->alamat }}</td>
-                <td>{{ $item->tlp }}</td>
-                <td>{{ $item->salesman }}</td>
-                <td>{{ $item->bank }}</td>
-                <td>{{ $item->no_rekening }}</td>
+                <td class="text-center">{{ $item->tlp }}</td>
+                <td class="text-center">{{ $item->salesman }}</td>
+                <td class="text-center">{{ ($item->bank != NULL) ? $item->bank : '-' }}</td>
+                <td class="text-center">{{ ($item->no_rekening != NULL) ? $item->bank : '-' }}</td>
                 {{-- <td>{{ $item->nama_perusahaan }}</td> --}}
                 <td>
                     <button class="btn btn-xs btn-success" type="button" title="Edit" data-mode="edit" data-toggle="modal" data-target="#formModalSupplier" data-id_supplier="{{ $item->id }}" data-nama="{{ $item->nama }}" data-alamat="{{ $item->alamat }}" data-tlp="{{ $item->tlp }}" data-salesman="{{ $item->salesman }}" data-bank="{{ $item->bank }}" data-no_rekening="{{ $item->no_rekening }}" data-id_perusahaan="{{ $item->id_perusahaan }}" data-route="{{ route('admin.supplier.update', $item->id) }}">

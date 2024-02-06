@@ -42,12 +42,12 @@
                 <div class="form-group row">
                     <div class="col-md-4">
                         <label for="nama">PT Supplier / Distributor</label>
-                        <input type="text" class="form-control" id="nama" placeholder="Nama Supplier" name="nama" required>
+                        <input type="text" class="form-control" id="nama" placeholder="Nama PT/Distributor" name="nama" required>
                     </div>
 
                     <div class="col-md-4">
                         <label for="tlp">Telepon Supplier</label>
-                        <input type="text" class="form-control" id="tlp" placeholder="Telepon" name="tlp" required>
+                        <input type="text" class="form-control" id="tlp" placeholder="Telepon / No Hp." name="tlp" required>
                     </div>
 
                     <div class="col-md-4">
@@ -58,14 +58,14 @@
                 <div class="form-group row">
                     <div class="col-md-12">
                         <label for="alamat">Alamat Supplier</label>
-                        <textarea class="form-control" name="alamat" id="alamat" cols="3" rows="4" required></textarea>
+                        <textarea class="form-control" placeholder="Alamat PT/Distributor" name="alamat" id="alamat" cols="3" rows="4" required></textarea>
                     </div>
                 </div>
 
                 <div class="form-group row mb-3 col-md-12">
                     <label for="salesman">Bank</label>
                     <select name="bank" required id="bank" class="form-control col-md-12">
-                        <option disabled="disabled" selected="selected">BANK</option>
+                        <option disabled="disabled" selected="selected">Bank(Opsional)</option>
                         <option value="Bank BRI">Bank BRI</option>
                         <option value="Bank BNI">Bank BNI</option>
                         <option value="Bank BJB">Bank BJB</option>
@@ -79,14 +79,14 @@
 
                 <div class="form-group row mb-4 other">
                     <div class="col-md-12">
-                        <input type="text" name="other" id="other" placeholder="BANK PERUSAHAAN" class="form-control">
+                        <input type="text" name="other" id="other" placeholder="Bank Lainnya..." class="form-control">
                     </div>
                 </div>
 
                 <div class="form-group row mb-4">
                     <div class="col-md-12">
                         <label for="no_rekening">No Rekening</label>
-                        <input type="number" class="form-control" id="no_rekening" placeholder="No Rekening" name="no_rekening">
+                        <input type="number" class="form-control" id="no_rekening" placeholder="No Rekening(Opsional)" name="no_rekening">
                     </div>
                 </div>
 

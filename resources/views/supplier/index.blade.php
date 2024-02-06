@@ -58,42 +58,31 @@
             const other = $('#other').val()
 
             if(nama == "") {
-                Swal.fire('Nama Supplier Harus Diisi!')
+                Swal.fire('Nama PT/Distributor Harus Diisi!')
                 return false;
             } else {
                 $('#nama').val();
             }
 
             if(alamat == "") {
-                Swal.fire('Alamat Supplier Harus Diisi!')
+                Swal.fire('Alamat PT/Distributor Harus Diisi!')
                 return false;
             } else {
                 $('#alamat').val();
             }
 
             if(tlp == "") {
-                Swal.fire('Telepon Supplier Harus Diisi!')
+                Swal.fire('Telepon / No HP. Harus Diisi!')
                 return false;
             } else {
                 $('#tlp').val();
             }
 
-            if(bank == null) {
-                if(other !== ""){
-                    $('#other').val(other)
-                } else {
-                    Swal.fire('Jenis Kelamin Harus Diisi!')
-                    return false;
-                }
-            } else {
-                $('#bank').val();
-            }
-
-            if(no_rekening == "") {
-                Swal.fire('Jenis Kelamin Harus Diisi!')
+            if(salesman == "") {
+                Swal.fire('Salesman Harus Diisi!')
                 return false;
             } else {
-                $('#no_rekening').val();
+                $('#tlp').val();
             }
         })
     </script>
@@ -132,7 +121,7 @@
                 $('#formModalSupplier form')[0].reset();
                 // $('#formModalSupplier form').attr('action', url);
                 $('#formModalSupplier [name=_method]').val('post');
-                modal.find('#modal-title').text("Tambah Data supplier")
+                modal.find('#modal-title').text("Tambah Data Supplier Baru")
                 modal.find('.modal-body #id_supplier').val('')
                 modal.find('.modal-body #nama_supplier').val('')
                 modal.find('.modal-footer #btn-submit').text('Submit')
